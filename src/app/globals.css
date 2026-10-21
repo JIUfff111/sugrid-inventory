@@ -1,0 +1,690 @@
+@import "tailwindcss" source("../");
+
+/* ============================================
+   设计系统 v4 —— DeepSeek 官网落地页质感
+   玻璃拟态 + 雾蓝顶光 + 全圆胶囊 + 海军蓝文字
+   取证自 deepseek.com：ds-glass-card / rgba(255,255,255,.45)
+   + 2px 白描边 + blur 24px / #9CC1E7→透明 顶光 / #4176E6
+   ============================================ */
+@theme {
+  /* 底与墨（取证值） */
+  --color-paper: #f9f8f8;
+  --color-card: #ffffff;
+  --color-ink: #1e232c;            /* 正文 rgb(30,35,44) */
+  --color-ink-deep: #152443;       /* 标题 深海军蓝 rgb(21,36,67) */
+  --color-ink-soft: #7c8493;
+  --color-line: #eceef2;
+  --color-line-strong: #dfe2ea;
+
+  /* 品牌（官网取证 rgb(65,118,230)） */
+  --color-primary: #4176e6;
+  --color-primary-deep: #3160d0;
+  --color-primary-soft: #e8edff;
+  --color-primary-hover: color-mix(in srgb, #4176e6 90%, black);
+  --color-primary-alpha-08: color-mix(in srgb, #4176e6 8%, transparent);
+  --color-primary-alpha-12: color-mix(in srgb, #4176e6 12%, transparent);
+  --color-primary-alpha-18: color-mix(in srgb, #4176e6 18%, transparent);
+  --color-accent: #4176e6;
+  --color-accent-deep: #3160d0;
+
+  /* 状态 */
+  --color-ok: #12b76a;
+  --color-warn: #f59e0b;
+  --color-danger: #ef4444;
+  --color-success: #12b76a;
+  --color-warning: #f59e0b;
+  --color-ink-medium: #7c8493;
+
+  /* 字体：DM Sans（拉丁 数字） Noto Sans SC（中文） */
+  --font-sans: "DM Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+
+  /* 阴影层级（DeepSeek 取证） */
+  --shadow-xs: 0 1px 2px rgb(21 36 67 / 0.05);
+  --shadow-sm: 0 1px 3px rgb(21 36 67 / 0.06), 0 4px 14px rgb(21 36 67 / 0.05);
+  --shadow-md: 0 2px 6px rgb(21 36 67 / 0.05), 0 12px 32px rgb(21 36 67 / 0.08);
+  --shadow-lg: 0 8px 24px rgb(21 36 67 / 0.12), 0 2px 8px rgb(21 36 67 / 0.08);
+  --shadow-xl: 0 16px 48px rgb(21 36 67 / 0.16);
+  --shadow-inner: inset 0 2px 4px rgb(21 36 67 / 0.06);
+  --shadow-primary: 0 4px 14px rgb(65 118 230 / 0.35);
+
+  /* 圆角系统 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-card: 18px;
+  --radius-lg: 24px;
+  --radius-full: 100px;
+
+  /* Z-index 层级 */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 1000;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* ---------- 页面氛围：DeepSeek 式深邃渐变光晕 ---------- */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* 细密网格纹理（44px 高 DPI） */
+    linear-gradient(rgb(21 36 67 / 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(21 36 67 / 0.028) 1px, transparent 1px),
+    /* DeepSeek 式多层光晕：蓝/青/紫叠加 */
+    radial-gradient(ellipse 80rem 45rem at 50% -20%, rgb(65 118 230 / 0.22), transparent 65%),
+    radial-gradient(ellipse 70rem 50rem at 85% 10%, rgb(88 166 255 / 0.18), transparent 68%),
+    radial-gradient(ellipse 65rem 42rem at 12% 28%, rgb(139 92 246 / 0.14), transparent 70%),
+    radial-gradient(ellipse 55rem 38rem at 75% 75%, rgb(34 211 238 / 0.12), transparent 72%),
+    /* 顶部雾蓝顶光（官网 hero 渐变取证值） */
+    linear-gradient(180deg, rgb(156 193 231 / 0.35) 0%, rgb(156 193 231 / 0.12) 34%, transparent 62%),
+    var(--color-paper);
+  background-size: 44px 44px, 44px 44px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, auto;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 193, 231, 0.4);
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { 
+  background: rgba(156, 193, 231, 0.6); 
+  background-clip: content-box; 
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- 玻璃卡（DeepSeek 对标：提升对比度 + 加强边框） ---------- */
+.glass {
+  background: rgb(255 255 255 / 0.45);
+  border: 2px solid rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius-card);
+  box-shadow: 
+    0 0 1px 0 rgba(0, 0, 0, 0.2),
+    0 0 4px 0 rgba(0, 0, 0, 0.02),
+    0 12px 32px 0 rgba(0, 0, 0, 0.08);
+}
+
+.glass-strong {
+  background: rgb(255 255 255 / 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 嵌套玻璃（解决多层玻璃边界消失问题） */
+.glass-nested {
+  background: rgb(255 255 255 / 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-inner);
+}
+
+/* 下拉菜单保持玻璃质感，同时提高不透明度，避免底层内容穿透造成文字重叠。 */
+.dropdown-surface {
+  background: rgb(255 255 255 / 0.98);
+  border: 1px solid rgb(21 36 67 / 0.1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* 面单卡：品牌色虚线裁切边（签名元素保留） */
+.tag-card {
+  position: relative;
+  background: rgb(255 255 255 / 0.45);
+  border: 2px solid rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius-card);
+  box-shadow: 
+    0 0 1px 0 rgba(0, 0, 0, 0.2),
+    0 0 4px 0 rgba(0, 0, 0, 0.02),
+    0 12px 32px 0 rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+.tag-card:hover {
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+.tag-card::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1.5px dashed color-mix(in srgb, var(--color-primary) 40%, transparent);
+  border-radius: calc(var(--radius-card) - 6px);
+  pointer-events: none;
+}
+
+/* ---------- 条码（纯 CSS 条纹） ---------- */
+.barcode-stripes {
+  height: 30px;
+  border-radius: 4px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-ink-deep) 0 2px,
+    transparent 2px 5px,
+    var(--color-ink-deep) 5px 6px,
+    transparent 6px 8px,
+    var(--color-ink-deep) 8px 11px,
+    transparent 11px 14px,
+    var(--color-ink-deep) 14px 15px,
+    transparent 15px 17px,
+    var(--color-ink-deep) 17px 20px,
+    transparent 20px 24px
+  );
+  opacity: 0.92;
+}
+
+/* ---------- 按钮：全圆胶囊（官网 radius 100px） ---------- */
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 100px;
+  padding: 9px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: var(--shadow-primary);
+  transition: background 0.15s ease, transform 0.06s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover { background: var(--color-primary-deep); }
+.btn-primary:active { transform: translateY(1px); }
+
+.btn-ghost, .btn-secondary {
+  /* 官网次级按钮：白 40% 透明底 + 0.8px 深蓝 18% 描边 + 全圆 */
+  background: rgb(255 255 255 / 0.4);
+  border: 0.8px solid rgb(9 45 78 / 0.18);
+  color: var(--color-ink-deep);
+  border-radius: 100px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn-ghost:hover, .btn-secondary:hover {
+  background: rgb(255 255 255 / 0.7);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  color: var(--color-primary);
+}
+.btn-ghost:active, .btn-secondary:active { transform: scale(.98); }
+.btn-primary:disabled, .btn-ghost:disabled, .btn-secondary:disabled { cursor: not-allowed; opacity: .5; }
+
+/* ---------- 输入框 ---------- */
+@layer components {
+  .field {
+    background: rgb(255 255 255 / 0.7);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 12px;
+    padding: 9px 12px;
+    font-size: 14px;
+    width: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: #fff;
+    box-shadow: 0 0 0 3.5px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  }
+  .field::placeholder { color: #a6abb8; }
+
+}
+
+/* ---------- 表格 ---------- */
+.data-table th {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  letter-spacing: 0.06em;
+  background: rgb(255 255 255 / 0.5);
+  border-bottom: 1px solid var(--color-line-strong);
+  padding: 11px 14px;
+  text-align: left;
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
+  vertical-align: middle;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr { transition: background 0.12s ease; }
+.data-table tbody tr:hover td {
+  background: color-mix(in srgb, var(--color-primary) 4%, transparent);
+}
+
+/* ---------- 侧栏（玻璃） ---------- */
+.side-link { position: relative; display: flex; align-items: center; }
+.side-link.active {
+  color: var(--color-primary);
+  font-weight: 500;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+.side-link.active::before {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: 18%;
+  height: 64%;
+  width: 3.5px;
+  border-radius: 0 3px 3px 0;
+  background: var(--color-primary);
+}
+
+/* 折叠动画 */
+.collapse-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.22s ease;
+}
+.collapse-wrap.open { grid-template-rows: 1fr; }
+.collapse-inner { overflow: hidden; }
+
+/* 顶部导航下拉菜单：使用 CSS 悬浮状态，避免鼠标跨越间隙时被 React 事件提前关闭。 */
+.nav-dropdown {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+}
+.nav-item.is-open .nav-dropdown {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+@media (max-width: 1023px) {
+  .nav-dropdown {
+    position: fixed;
+    top: var(--nav-menu-top, 56px);
+    min-width: 0;
+    max-width: calc(100% - 24px);
+  }
+  .nav-dropdown {
+    left: clamp(12px, var(--nav-menu-left, 12px), calc(100% - 252px));
+    right: auto;
+    width: 240px;
+  }
+}
+
+.chevron { transition: transform 0.22s ease; }
+.chevron.open { transform: rotate(90deg); }
+
+.side-scroll::-webkit-scrollbar { width: 6px; }
+
+/* ---------- DeepSeek 涟漪悬停效果（按钮/链接通用） ---------- */
+@keyframes ripple-out {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+.ripple-hover {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--color-primary-alpha-18) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.ripple-hover:hover::after {
+  animation: ripple-out 0.8s ease-out;
+}
+
+/* ---------- Drawer 和遮罩层动画 ---------- */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* ---------- Modal 缩放动画 ---------- */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- 标签页系统（TabBar 浏览器式多页签） ---------- */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  background: rgb(255 255 255 / 0.28);
+  border: 1px solid rgb(255 255 255 / 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  box-shadow: var(--shadow-xs);
+}
+
+.tab-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--color-ink-soft);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.tab-item:hover {
+  background: rgb(255 255 255 / 0.6);
+  color: var(--color-ink);
+}
+
+.tab-item.active {
+  background: rgb(255 255 255 / 0.9);
+  color: var(--color-ink-deep);
+  font-weight: 500;
+  box-shadow: 
+    0 1px 3px rgba(21, 36, 67, 0.08),
+    0 0 0 0.5px rgba(255, 255, 255, 0.8);
+}
+
+.tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.tab-item:hover .tab-close,
+.tab-item.active .tab-close {
+  opacity: 0.6;
+}
+
+.tab-close:hover {
+  opacity: 1 !important;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.tab-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 状态胶囊（DeepSeek 对标：柔和配色 + 脉动动画） ---------- */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.status-pill.ok {
+  color: #059669;
+  background: color-mix(in srgb, #10b981 8%, white);
+  border-color: color-mix(in srgb, #10b981 20%, transparent);
+}
+
+.status-pill.warn {
+  color: #d97706;
+  background: color-mix(in srgb, #f59e0b 10%, white);
+  border-color: color-mix(in srgb, #f59e0b 22%, transparent);
+}
+
+.status-pill.danger {
+  color: #dc2626;
+  background: color-mix(in srgb, #ef4444 9%, white);
+  border-color: color-mix(in srgb, #ef4444 20%, transparent);
+}
+
+.status-pill.info {
+  color: #2563eb;
+  background: color-mix(in srgb, #4178e6 8%, white);
+  border-color: color-mix(in srgb, #4178e6 18%, transparent);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-dot.pulse {
+  animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ---------- 交互微动效（焦点 + 禁用） ---------- */
+button:disabled,
+input:disabled,
+select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary:active,
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+
+/* ---------- 加载骨架屏 ---------- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.4) 25%,
+    rgb(255 255 255 / 0.65) 50%,
+    rgb(255 255 255 / 0.4) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ============================================
+   抽屉组件动画 - 从右侧滑入
+   遮罩淡入 + 面板滑入 + 流畅过渡
+   ============================================ */
+.drawer-overlay {
+  animation: drawer-overlay-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drawer-backdrop {
+  animation: drawer-backdrop-in 0.25s ease-out;
+}
+
+.drawer-panel {
+  animation: drawer-slide-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -8px 0 32px rgba(21, 36, 67, 0.12);
+}
+
+@keyframes drawer-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drawer-backdrop-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(2px);
+  }
+}
+
+@keyframes drawer-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   页面级过渡动画系统
+   微妙淡入 + 轻微上移，避免突兀跳转
+   ============================================ */
+.page-transition-enter {
+  animation: page-fade-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 内容区域过渡 */
+main {
+  animation: page-fade-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 下拉菜单动画 */
+.animate-dropdown-in {
+  animation: dropdown-fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Business dialogs leave application tabs reachable while preserving their draft. */
+@media screen {
+  section[data-workspace-id] .fixed.inset-0 { top: 100px; }
+}
+@media screen {
+  section[data-workspace-id] .fixed.inset-0 > [class*="max-h-"] { max-height: calc(100dvh - 124px); }
+}

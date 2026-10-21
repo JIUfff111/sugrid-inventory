@@ -1,0 +1,121 @@
+.sugrid-auth-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 17% 34%, rgb(214 230 255 / 0.4), transparent 58%),
+    radial-gradient(ellipse at 80% 70%, rgb(233 244 255 / 0.35), transparent 64%);
+  animation: sugrid-auth-reveal 1.2s ease-out both;
+}
+
+.sugrid-auth-blue-halo,
+.sugrid-auth-ice-halo,
+.sugrid-auth-light-ribbon {
+  position: absolute;
+  will-change: transform;
+}
+
+.sugrid-auth-blue-halo {
+  top: -6%;
+  left: -16%;
+  width: 88%;
+  height: 110%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(109 162 248 / 0.4), rgb(154 192 251 / 0.18) 38%, transparent 69%);
+  filter: blur(42px);
+  animation: sugrid-auth-blue-drift 21s ease-in-out infinite alternate;
+}
+
+.sugrid-auth-ice-halo {
+  right: 0;
+  bottom: -26%;
+  width: 84%;
+  height: 110%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(190 228 255 / 0.34), rgb(234 248 255 / 0.24) 44%, transparent 70%);
+  filter: blur(50px);
+  animation: sugrid-auth-ice-drift 25s ease-in-out infinite alternate;
+}
+
+.sugrid-auth-light-ribbon {
+  top: -14%;
+  left: 15%;
+  width: 32%;
+  height: 128%;
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.76) 48%, rgb(230 242 255 / 0.34) 66%, transparent);
+  filter: blur(26px);
+  transform: rotate(29deg);
+  animation: sugrid-auth-ribbon-drift 22.5s ease-in-out infinite alternate;
+}
+
+.sugrid-auth-emblem {
+  position: absolute;
+  z-index: -1;
+  top: 80px;
+  right: -36px;
+  width: 196px;
+  color: rgb(61 112 217 / 0.07);
+  pointer-events: none;
+  user-select: none;
+}
+
+.sugrid-auth-emblem svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.sugrid-auth-emblem path {
+  stroke-width: 1.05;
+}
+
+@media (min-width: 1024px) {
+  .sugrid-auth-emblem {
+    top: 50%;
+    right: auto;
+    left: 30px;
+    width: min(360px, 100%);
+    color: rgb(61 112 217 / 0.2);
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes sugrid-auth-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sugrid-auth-blue-drift {
+  from { transform: translate(-3%, -2%) scale(0.97); }
+  to { transform: translate(9%, 7%) scale(1.08); }
+}
+
+@keyframes sugrid-auth-ice-drift {
+  from { transform: translate(6%, 4%) scale(1.04); }
+  to { transform: translate(-7%, -6%) scale(0.97); }
+}
+
+@keyframes sugrid-auth-ribbon-drift {
+  from { transform: translateX(-6%) rotate(29deg); opacity: 0.7; }
+  to { transform: translateX(15%) rotate(36deg); opacity: 1; }
+}
+
+@media (max-width: 639px) {
+  .sugrid-auth-blue-halo { top: -8%; left: -44%; width: 150%; height: 90%; }
+  .sugrid-auth-ice-halo { right: -36%; bottom: -16%; width: 140%; height: 80%; }
+  .sugrid-auth-light-ribbon { left: 18%; width: 52%; opacity: 0.65; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sugrid-auth-ambient,
+  .sugrid-auth-blue-halo,
+  .sugrid-auth-ice-halo,
+  .sugrid-auth-light-ribbon {
+    animation: none;
+    will-change: auto;
+  }
+}

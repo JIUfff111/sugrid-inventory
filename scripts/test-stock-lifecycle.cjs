@@ -1,0 +1,137 @@
+/** Real routes + real session authorization + disposable SQLite; only Next cookie context is supplied. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const Module = require('node:module');
+const ts = require('typescript');
+const { NextRequest } = require('next/server');
+const root = path.resolve(__dirname, '..');
+function load(relative, deps = {}) {
+  const filename = path.join(root, relative);
+  const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true }, fileName: filename }).outputText;
+  const m = new Module(filename, module); m.filename = filename; m.paths = Module._nodeModulePaths(path.dirname(filename));
+  const ordinary = m.require.bind(m); m.require = (name) => Object.hasOwn(deps, name) ? deps[name] : ordinary(name);
+  m._compile(code, filename); return m.exports;
+}
+async function main() {
+  const scratchParent = path.join(root, '.tmp'); fs.mkdirSync(scratchParent, { recursive: true });
+  const scratch = fs.mkdtempSync(path.join(scratchParent, 'stock-lifecycle-'));
+  const oldPath = process.env.INVENTORY_DB_PATH; process.env.INVENTORY_DB_PATH = path.join(scratch, 'inventory.db');
+  let db;
+  try {
+    const database = load('src/lib/db.ts'); db = database.default;
+    let token = null;
+    const auth = load('src/lib/auth.ts', { '@/lib/db': database, '@/lib/api-helpers': load('src/lib/api-helpers.ts'), 'next/headers': { cookies: async () => ({ get: () => token ? { value: token } : undefined }) } });
+    const deps = { '@/lib/db': database, '@/lib/auth': auth, '@/lib/api-helpers': load('src/lib/api-helpers.ts') };
+    deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
+    const routes = Object.fromEntries(['sales', 'purchase-orders', 'returns', 'sales-returns', 'after-sales'].map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));
+    async function call(name, method, body, expected = 200, query = '') {
+      const request = new NextRequest(`http://localhost/api/${name}${query}`, { method, ...(body === undefined ? {} : { headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }) });
+      const oldError = console.error; if (expected >= 400) console.error = () => {};
+      let response; try { response = await routes[name][method](request); } finally { console.error = oldError; }
+      const payload = await response.json(); assert.equal(response.status, expected, `${name} ${method}: ${JSON.stringify(payload)}`); return payload.data;
+    }
+    for (const [name, route] of Object.entries(routes)) for (const method of ['GET', 'POST', 'PATCH', 'DELETE'].filter((m) => route[m])) await call(name, method, method === 'GET' || method === 'DELETE' ? undefined : {}, 401);
+    db.prepare("INSERT INTO users(id, username, password, role, status) VALUES ('lifecycle-admin', 'lifecycle-admin', 'test', 'admin', 'active'), ('lifecycle-viewer', 'lifecycle-viewer', 'test', 'warehouse_manager', 'active')").run();
+    token = auth.createSession('lifecycle-viewer');
+    for (const [name, route] of Object.entries(routes)) for (const method of ['GET', 'POST', 'PATCH', 'DELETE'].filter((m) => route[m])) await call(name, method, method === 'GET' || method === 'DELETE' ? undefined : {}, 403);
+    token = auth.createSession('lifecycle-admin');
+    db.prepare("INSERT INTO suppliers(id,supplierName) VALUES ('supplier-life','链路供应商')").run();
+    db.prepare("INSERT INTO sales_channels(id,channelName) VALUES ('channel-life','链路渠道')").run();
+    const warehouse = db.prepare("SELECT id FROM warehouses WHERE status = 'active' ORDER BY isDefault DESC LIMIT 1").get().id;
+    const item = (sn) => ({ brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'i5', ram: '16GB', storage: '512GB', sn, purchasePrice: 1000 });
+    const purchase = (items, status = 'completed') => ({ supplierId: 'supplier-life', supplierOrderNo: 'EXT', purchaseDate: '2026-10-20', purchasedBy: '当前用户', status, warehouseId: warehouse, items });
+    const order = await call('purchase-orders', 'POST', purchase([item('LIFE-A'), item('LIFE-B'), item('LIFE-C'), item('LIFE-E')]), 201);
+    assert.equal(order.inventoryIds.length, 4);
+    for (const id of order.inventoryIds) assert.equal(db.prepare('SELECT warehouseId FROM inventory WHERE id=?').get(id).warehouseId, warehouse);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='purchase_in' AND actorId='lifecycle-admin'").get().n, 4);
+    assert.equal(db.prepare('SELECT createdBy,purchasedBy FROM purchase_orders WHERE id=?').get(order.id).createdBy, 'lifecycle-admin');
+    const bySn = (sn) => db.prepare('SELECT * FROM inventory WHERE sn=?').get(sn);
+    const saleBody = (sn, price = 1500) => ({ saleChannelId: 'channel-life', saleOrderNo: `SALE-${sn}`, saleDate: '2026-10-20', trackingNo: 'SF-LIFE', items: [{ inventoryId: bySn(sn).id, sellingPrice: price }], actorId: 'user_admin' });
+    const sale = await call('sales', 'POST', saleBody('LIFE-A'), 201);
+    assert.equal(db.prepare('SELECT createdBy FROM sales_records WHERE id=?').get(sale.id).createdBy, 'lifecycle-admin');
+    const originalSnapshot = db.prepare('SELECT items FROM sales_records WHERE id=?').get(sale.id).items;
+    assert.equal(JSON.parse(db.prepare('SELECT snapshot FROM sales_record_items WHERE salesRecordId=?').get(sale.id).snapshot).year, 2020);
+    await call('sales', 'POST', saleBody('LIFE-A'), 400);
+    await call('sales', 'PATCH', { id: sale.id, action: 'cancel', actorId: 'user_admin', cancelReason: '测试取消' });
+    assert.equal(bySn('LIFE-A').status, 'in_stock');
+    assert.equal(db.prepare('SELECT cancelledBy FROM sales_records WHERE id=?').get(sale.id).cancelledBy, 'lifecycle-admin');
+    await call('sales', 'PATCH', { id: sale.id, action: 'cancel' });
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='sale_cancel' AND referenceId=?").get(sale.id).n, 1);
+    const sale2 = await call('sales', 'POST', saleBody('LIFE-A', 1600), 201);
+    const receipt = await call('sales-returns', 'POST', { sn: 'LIFE-A', warehouseId: warehouse, purchasePrice: 1100, reason: '不适用', remark: '原箱退回' }, 201);
+    assert.equal(bySn('LIFE-A').status, 'in_stock');
+    assert.equal(bySn('LIFE-A').purchasePrice, 1100);
+    const receiptRow = db.prepare('SELECT * FROM return_receipts WHERE id=?').get(receipt.id);
+    assert.equal(receiptRow.salesRecordId, sale2.id); assert.equal(receiptRow.receivedBy, 'lifecycle-admin');
+    assert.equal(JSON.parse(receiptRow.snapshot).purchasePrice, 1000);
+    assert.equal((await call('sales-returns', 'GET')).items[0].reason, '不适用');
+    await call('sales-returns', 'POST', { sn: 'LIFE-A', warehouseId: warehouse }, 400);
+    const sale3 = await call('sales', 'POST', saleBody('LIFE-A', 1700), 201);
+    await call('sales', 'PATCH', { id: sale2.id, action: 'cancel' }, 400);
+    assert.equal(bySn('LIFE-A').status, 'sold'); assert.equal(bySn('LIFE-A').sellingPrice, 1700);
+    assert.equal(db.prepare('SELECT items FROM sales_records WHERE id=?').get(sale.id).items, originalSnapshot);
+    await call('sales', 'PATCH', { id: sale3.id, action: 'cancel' });
+    const returnSale = await call('sales', 'POST', saleBody('LIFE-B', 1900), 201);
+    const soldItems = await call('after-sales', 'GET', undefined, 200, '?resource=sold-inventory&search=SALE-LIFE-B');
+    assert.equal(soldItems.items[0].salesRecordId, returnSale.id);
+    assert.equal(soldItems.items[0].originalSellingPrice, 1900);
+    assert.equal(soldItems.items[0].originalPurchasePrice, 1000);
+    const refund = await call('after-sales', 'POST', { inventoryId: bySn('LIFE-B').id, issueType: '客户退货退款', resolutionType: 'customer_return', customerName: 'must not be required', refundAmount: 1 }, 201);
+    assert.equal(refund.status, 'resolved'); assert.equal(refund.inventoryId, bySn('LIFE-B').id);
+    assert.equal(refund.salesRecordId, returnSale.id); assert.equal(refund.saleChannel, '链路渠道'); assert.equal(refund.sellingPrice, 1900);
+    assert.equal(bySn('LIFE-B').status, 'in_stock'); assert.equal(bySn('LIFE-B').purchasePrice, 1000);
+    assert.equal(bySn('LIFE-B').saleChannel, null); assert.equal(bySn('LIFE-B').saleOrderNo, null);
+    const refundRecord = db.prepare('SELECT * FROM after_sale_records WHERE id=?').get(refund.id);
+    assert.equal(refundRecord.customerName, ''); assert.equal(refundRecord.customerPhone, ''); assert.equal(refundRecord.refundAmount, 1900);
+    const refundReceipt = db.prepare('SELECT * FROM return_receipts WHERE id=?').get(refund.receiptId);
+    assert.equal(refundReceipt.salesRecordId, returnSale.id); assert.equal(refundReceipt.purchasePrice, 1000);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='sales_return' AND referenceType='after_sale' AND referenceId=?").get(refund.id).n, 1);
+    const refundDetails = await call('after-sales', 'GET', undefined, 200, '?search=链路渠道');
+    assert(refundDetails.items.some((record) => record.id === refund.id && record.saleChannel === '链路渠道' && record.sellingPrice === 1900));
+    await call('after-sales', 'POST', { inventoryId: bySn('LIFE-B').id, issueType: '重复退货', resolutionType: 'customer_return' }, 404);
+    const repairSale = await call('sales', 'POST', saleBody('LIFE-C', 1800), 201);
+    const repair = await call('after-sales', 'POST', { inventoryId: bySn('LIFE-C').id, issueType: '维修', resolutionType: 'repair' }, 201);
+    assert.equal(repair.salesRecordId, repairSale.id); assert.equal(repair.saleChannel, '链路渠道'); assert.equal(repair.sellingPrice, 1800);
+    assert.equal(bySn('LIFE-C').status, 'after_sale');
+    await call('after-sales', 'PATCH', { id: repair.id, action: 'receive', condition: '外观完好' });
+    assert.equal(db.prepare('SELECT stockStatus FROM after_sale_stock WHERE afterSaleId=?').get(repair.id).stockStatus, 'stored');
+    await call('after-sales', 'PATCH', { id: repair.id, action: 'start_processing' });
+    await call('after-sales', 'PATCH', { id: repair.id, action: 'repair_complete', resolutionNote: '维修完成' });
+    assert.equal(bySn('LIFE-C').status, 'sold');
+    const returnOrder = await call('returns', 'POST', { inventoryIds: [bySn('LIFE-B').id], returnReason: '质量问题', refundAmount: 1000 }, 201);
+    assert.equal(bySn('LIFE-B').status, 'returning');
+    await call('returns', 'PATCH', { id: returnOrder.id, action: 'complete' });
+    assert.equal(bySn('LIFE-B').status, 'returned');
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='supplier_return' AND referenceId=? AND actorId='lifecycle-admin'").get(returnOrder.id).n, 1);
+    // A movement failure must roll back inventory and its sale record together.
+    db.exec("CREATE TRIGGER lifecycle_fail BEFORE INSERT ON inventory_movements WHEN NEW.movementType='sale' BEGIN SELECT RAISE(ABORT, 'forced lifecycle movement failure'); END");
+    const before = db.prepare('SELECT COUNT(*) n FROM sales_records').get().n;
+    await call('sales', 'POST', saleBody('LIFE-E'), 500);
+    assert.equal(bySn('LIFE-E').status, 'in_stock'); assert.equal(db.prepare('SELECT COUNT(*) n FROM sales_records').get().n, before);
+    db.exec('DROP TRIGGER lifecycle_fail');
+    const draft = await call('purchase-orders', 'POST', purchase([item('LIFE-D')], 'draft'), 201);
+    const draftDetail = await call('purchase-orders', 'GET', undefined, 200, `?id=${draft.id}`);
+    await call('purchase-orders', 'PATCH', { ...purchase(draftDetail.items), id: draft.id, action: 'inbound' });
+    assert.equal(bySn('LIFE-D').status, 'in_stock');
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE referenceId=? AND movementType='purchase_in'").get(draft.id).n, 1);
+    const exchangeSale = await call('sales', 'POST', saleBody('LIFE-E', 2100), 201);
+    const exchange = await call('after-sales', 'POST', { inventoryId: bySn('LIFE-E').id, issueType: '换货', resolutionType: 'exchange' }, 201);
+    await call('after-sales', 'PATCH', { id: exchange.id, action: 'receive' });
+    await call('after-sales', 'PATCH', { id: exchange.id, action: 'start_processing' });
+    const exchangeResult = await call('after-sales', 'PATCH', { id: exchange.id, action: 'exchange', replacementInventoryId: bySn('LIFE-D').id, warehouseId: warehouse, purchasePrice: 99999, resolutionNote: '按原单换货' });
+    assert.equal(exchangeResult.status, 'resolved');
+    assert.equal(bySn('LIFE-E').status, 'in_stock'); assert.equal(bySn('LIFE-E').purchasePrice, 1000);
+    assert.equal(bySn('LIFE-D').status, 'sold'); assert.equal(bySn('LIFE-D').sellingPrice, 2100); assert.equal(bySn('LIFE-D').saleChannel, '链路渠道');
+    assert.equal(db.prepare('SELECT stockStatus FROM after_sale_stock WHERE afterSaleId=?').get(exchange.id).stockStatus, 'exchanged_out');
+    const exchangeItem = db.prepare("SELECT * FROM sales_record_items WHERE salesRecordId=? AND itemType='exchange'").get(exchangeSale.id);
+    assert.equal(exchangeItem.inventoryId, bySn('LIFE-D').id); assert.equal(exchangeItem.sellingPrice, 2100); assert.equal(exchangeItem.afterSaleId, exchange.id);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE referenceId=? AND movementType='exchange_out'").get(exchange.id).n, 1);
+    assert.equal(db.pragma('integrity_check', { simple: true }), 'ok'); assert.deepEqual(db.pragma('foreign_key_check'), []);
+    console.log('PASS real SQLite lifecycle: route authorization, warehouse purchase/draft inbound, sale snapshots/cancel, customer refund return and receipt/movement, after-sales repair and exchange, supplier return preservation, rollback, FK/integrity');
+  } finally {
+    if (db?.open) db.close(); if (oldPath === undefined) delete process.env.INVENTORY_DB_PATH; else process.env.INVENTORY_DB_PATH = oldPath;
+    assert(path.resolve(scratch).startsWith(path.resolve(scratchParent) + path.sep)); fs.rmSync(scratch, { recursive: true, force: true });
+  }
+}
+main().catch((error) => { console.error(error); process.exitCode = 1; });
