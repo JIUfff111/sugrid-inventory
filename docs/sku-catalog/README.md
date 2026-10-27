@@ -2,7 +2,23 @@
 
 本目录集中存放「溯格」采购系统 SKU 选择器所需的笔记本型号资料。按 **说明 → 交付 → 调研 → 脚本** 分类，不再把所有文件堆在 `docs/` 根目录。
 
+库存 SKU 型号和配置的录入/展示规则见 [`00-brief/inventory-sku-entry-standard.md`](00-brief/inventory-sku-entry-standard.md)。
+
 **当前规模**：11 个品牌批次、530 个型号、969 条配置组合，年份覆盖 2016–2026，每条型号均有可追溯来源（无 404 死链）。
+
+## 克隆项目后可直接使用的内置 SKU
+
+研究交付目录和采购页运行时的内置 SKU 是两个统计口径。当前采购页内置目录共有 **970 条有效 SKU 记录**，按品牌、型号和年份区分；克隆仓库即可获得完整目录，无需另行导入 Excel，也无需连接原项目数据库。
+
+目录快照位于 `scripts/sku-catalog/builtin-sku-catalog.json`，只包含产品类型、品牌、型号、年份及 CPU、内存、显卡、存储和屏幕选项，不包含数据库 ID、价格、创建人、库存和采购/销售数据。首次初始化空数据库时，`npm run db:init` 和应用服务会自动加载；已有 SKU 的数据库不会被覆盖或合并，重复初始化也不会重复导入。
+
+维护内置目录时，可从当前正式数据库**只读导出**有效 SKU 字段并更新跟踪文件：
+
+```powershell
+node scripts/export-builtin-skus.cjs --write
+```
+
+导出脚本只读取 `skus` 表的公开目录字段。更新后应在空白测试数据库运行 `node scripts/test-builtin-sku-seed.cjs`，确认记录数及幂等行为。
 
 ## 目录结构
 
@@ -104,6 +120,17 @@ web/scripts/sku-catalog/
 4. 验链接：`python web/scripts/sku-catalog/check_urls.py "<中文品牌名>" <brand>`。
 5. 出交付：`python web/scripts/sku-catalog/build_deliverable.py "<中文品牌名>" "" <brand>`，输出到 `01-deliverables/<brand>/<日期>/`。
 6. 写该品牌的 `README-sku-catalog-<brand>-<日期>.md`，并更新本文件的「当前进度」。
+
+## 导入交付 SKU
+
+所有品牌交付完成后，可先对现有数据库执行只读预览，再导入缺失型号：
+
+```powershell
+python scripts/import-sku-deliverables.py --database data/inventory.db
+python scripts/import-sku-deliverables.py --database data/inventory.db --apply
+```
+
+导入器会验证型号、配置组合和别名的关联；空配置选项会保留为空，不补造配置。预览按品牌显示新增量，并指出与现有 SKU 配置不同的记录。执行导入时先备份数据库，然后仅新增缺失型号到 `skus` 表，不改已有 SKU、库存或采购记录。完成后可重复运行，已存在型号会被跳过。
 
 ## 注意事项
 
