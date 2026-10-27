@@ -1,0 +1,439 @@
+{
+ "https://baike.baidu.com/item/rog%20%E5%B9%BB16/59980534": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/rog%20%E5%B9%BB16/59980534",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/rog%E9%AD%94%E9%9C%B86/59804629": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/rog%E9%AD%94%E9%9C%B86/59804629",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083",
+  "error": "HTTP 403"
+ },
+ "http://lcd.intozgc.com/300/30083562.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://lcd.intozgc.com/300/30083562.html"
+ },
+ "http://www.cctime.com/html/2024-8-21/1690189.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.cctime.com/html/2024-8-21/1690189.htm"
+ },
+ "https://detail.zol.com.cn/series/16/41373/param_10702143_0_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/41373/param_10702143_0_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/29470_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/29470_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/37546_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/37546_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/10736308_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10736308_1.html"
+ },
+ "https://detail.zol.com.cn/digital_tv/index1982530.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1982530.shtml"
+ },
+ "https://finance.sina.com.cn/tech/digi/2025-01-20/doc-inefraiz9603397.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.com.cn/tech/digi/2025-01-20/doc-inefraiz9603397.shtml"
+ },
+ "https://detail.zol.com.cn/digital_camcorder/index1272834.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1272834.shtml"
+ },
+ "https://finance.sina.com.cn/tech/mobile/n/n/2024-02-19/doc-inaiqsth1897167.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.com.cn/tech/mobile/n/n/2024-02-19/doc-inaiqsth1897167.shtml"
+ },
+ "https://g.pconline.com.cn/x/1711/17117908.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/x/1711/17117908.html"
+ },
+ "https://detail.zol.com.cn/tablepc/index1218113.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1218113.shtml"
+ },
+ "https://m.ithome.com/html/490187.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/490187.htm"
+ },
+ "https://m.expreview.com/88093.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/88093.html"
+ },
+ "https://m.expreview.com/104379.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/104379.html"
+ },
+ "https://m.ithome.com/html/691533.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/691533.htm"
+ },
+ "https://m.ithome.com/html/824326.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/824326.htm"
+ },
+ "https://m.ithome.com/html/852566.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/852566.htm"
+ },
+ "https://detail.zol.com.cn/notebook/index1977457.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1977457.shtml"
+ },
+ "https://m.pchome.net/article/content-2195345.html": {
+  "status": 521,
+  "ok": false,
+  "final": "https://m.pchome.net/article/content-2195345.html",
+  "error": "HTTP 521"
+ },
+ "https://detail.zol.com.cn/notebook/index1384329.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1384329.shtml"
+ },
+ "https://m.tech.china.com/digi/digi/20210506/20210506769416.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.tech.china.com/digi/digi/20210506/20210506769416.html"
+ },
+ "https://nb.zol.com.cn/640/6407720.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/640/6407720.html"
+ },
+ "https://nb.zol.com.cn/740/7403076.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/740/7403076.html"
+ },
+ "https://m.toutiao.com/a7480018508756173375": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7480018508756173375/?&source=m_redirect"
+ },
+ "https://nb.zol.com.cn/772/7727698.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/772/7727698.html"
+ },
+ "https://nb.zol.com.cn/761/7616990.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/761/7616990.html"
+ },
+ "https://nb.zol.com.cn/813/8138399.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/813/8138399.html"
+ },
+ "https://news.qq.com/rain/a/20230313A03DM900": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20230313A03DM900"
+ },
+ "https://news.qq.com/rain/a/20210607A02CUB00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20210607A02CUB00"
+ },
+ "https://news.my399.com/service/content/2026-02/10/content_2882158.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.my399.com/service/content/2026-02/10/content_2882158.htm"
+ },
+ "https://news.qq.com/rain/a/20230527A075WS00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20230527A075WS00"
+ },
+ "https://news.qq.com/rain/a/20230313A04HYH00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20230313A04HYH00"
+ },
+ "https://news.qq.com/rain/a/20240115A08S6H00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20240115A08S6H00"
+ },
+ "https://news.qq.com/rain/a/20250114A02MGV00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20250114A02MGV00"
+ },
+ "https://detail.zol.com.cn/notebook/index1270668.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1270668.shtml"
+ },
+ "https://product.yesky.com/product/1155/1155626/param.shtml": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1155/1155626/param.shtml",
+  "error": "HTTP 405"
+ },
+ "https://product.yesky.com/product/1155/1155624/": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1155/1155624/",
+  "error": "HTTP 405"
+ },
+ "https://product.yesky.com/product/1111/1111546/": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1111/1111546/",
+  "error": "HTTP 405"
+ },
+ "https://detail.zol.com.cn/wireless_router/index1356087.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1356087.shtml"
+ },
+ "https://tech.qudong.com/2018/1129/534671.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.qudong.com/article/348552.html"
+ },
+ "https://tech.sina.cn/2026-02-26/detail-inhpckam0568589.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.cn/tech/2026-02-26/detail-inhpckam0568589.d.html?fromtech=1"
+ },
+ "https://nb.zol.com.cn/717/7170046.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/717/7170046.html"
+ },
+ "https://wap.zol.com.cn/1547/1546794/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1547/1546794/index.html"
+ },
+ "https://www.163.com/dy/article/GMKFHLA305118A8E.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/GMKFHLA305118A8E.html"
+ },
+ "https://www.163.com/digi/article/JLSHP61M001680P9.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/digi/article/JLSHP61M001680P9.html"
+ },
+ "https://www.163.com/digi/article/C1EJNVE6001680N3.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/digi/article/C1EJNVE6001680N3.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1975420.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1975420.shtml"
+ },
+ "https://www.163.com/dy/article/J7PB233005118EDB.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/J7PB233005118EDB.html"
+ },
+ "https://notebook.yesky.com/276/725752776.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.yesky.com/276/725752776.shtml"
+ },
+ "https://m.zol.com.cn/article/7864572.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7864572.html"
+ },
+ "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html"
+ },
+ "https://www.163.com/dy/article/HV9TAEEG0511B8LM.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/HV9TAEEG0511B8LM.html"
+ },
+ "https://www.163.com/dy/article/IRAB7H2T05118EDB.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/IRAB7H2T05118EDB.html"
+ },
+ "https://www.asus.com.cn/store/goods/detail?productId=42277967782289": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/store/goods/detail?productId=42277967782289"
+ },
+ "https://www.expreview.com/88502.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/88502.html"
+ },
+ "https://rog.asus.com.cn/laptops/rog-zephyrus/rog-zephyrus-g14-2024/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://rog.asus.com.cn/laptops/rog-zephyrus/rog-zephyrus-g14-2024/"
+ },
+ "https://www.ithome.com/0/602/253.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/602/253.htm"
+ },
+ "https://www.asus.com.cn/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/"
+ },
+ "https://www.ithome.com/0/418/426.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/418/426.htm"
+ },
+ "https://www.ithome.com/0/620/069.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/620/069.htm"
+ },
+ "https://www.ithome.com/0/674/929.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/674/929.htm"
+ },
+ "https://www.ithome.com/0/688/682.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/688/682.htm"
+ },
+ "https://www.ithome.com/0/680/218.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/680/218.htm"
+ },
+ "https://www.ithome.com/0/743/090.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/743/090.htm"
+ },
+ "https://wap.zol.com.cn/1481/1480278/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1481/1480278/index.html"
+ },
+ "https://www.ithome.com/0/782/475.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/782/475.htm"
+ },
+ "https://www.toutiao.com/article/7101135227476541990/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7101135227476541990/"
+ },
+ "https://rog.asus.com.cn/laptops/rog-strix/rog-strix-g15-2022-series/spec": {
+  "status": 200,
+  "ok": true,
+  "final": "https://rog.asus.com.cn/laptops/rog-strix/rog-strix-g15-2022-series/spec/"
+ },
+ "https://www.sohu.com/a/466828065_223764": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/466828065_223764"
+ },
+ "https://www.toutiao.com/article/7332007038874108431": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7332007038874108431"
+ },
+ "https://www.toutiao.com/article/7226549243991949876/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7226549243991949876/"
+ },
+ "https://www.toutiao.com/article/7262217270598844943": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7262217270598844943"
+ },
+ "https://www.pcpop.com/article/6746803.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pcpop.com/article/6746803.shtml"
+ },
+ "https://www.pconline.com.cn/zhizao/article/492130.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/492130.html"
+ },
+ "https://www.peopleapp.com/rmharticle/30024281160": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30024281160"
+ },
+ "https://znyj.ofweek.com/news/2021-02/ART-23001-8220-30484893.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://znyj.ofweek.com/news/2021-02/ART-23001-8220-30484893.html"
+ },
+ "https://www.asus.com.cn/laptops/for-home/adolbooks/adol14ya/techspec": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-home/adolbooks/adol14ya/techspec/"
+ },
+ "https://ezone.hk/article/2620674/%E7%A0%B4%E6%A0%BC%E9%9B%99%E5%B1%8F-ASUS-ZenBook-Duo-UX481FL-%E5%A4%9A%E9%BB%9E%E8%A7%B8%E6%8E%A7-ScreenPad-Plus-%E5%89%AF%E5%B1%8F": {
+  "status": 200,
+  "ok": true,
+  "final": "https://ezone.hk/article/2620674/%E7%A0%B4%E6%A0%BC%E9%9B%99%E5%B1%8F-ASUS-ZenBook-Duo-UX481FL-%E5%A4%9A%E9%BB%9E%E8%A7%B8%E6%8E%A7-ScreenPad-Plus-%E5%89%AF%E5%B1%8F"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/"
+ },
+ "https://wap.zol.com.cn/1467/1466071/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1467/1466071/index.html"
+ },
+ "https://astig.ph/?p=54482": {
+  "status": 200,
+  "ok": true,
+  "final": "https://astig.ph/zenbook-duo-unboxing-dual-screen-laptops-review/"
+ },
+ "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html"
+ }
+}

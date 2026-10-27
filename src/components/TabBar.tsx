@@ -7,6 +7,7 @@ export interface Tab {
   id: string;
   label: string;
   href: string;
+  pinned?: boolean;
 }
 
 interface TabBarProps {
@@ -44,7 +45,7 @@ export function TabBar({ tabs = [], activeTabId, onTabClose, dirtyIds, className
                 <span>{tab.label}</span>
                 {dirtyIds?.has(tab.id) && <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-label="有未保存内容" />}
               </Link>
-              {onTabClose && (
+              {onTabClose && !tab.pinned && (
                 <button
                   onClick={(e) => {
                     e.preventDefault();

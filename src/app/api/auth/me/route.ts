@@ -6,7 +6,10 @@ export async function GET() {
   try {
     const user = await getCurrentUser();
     if (!user) return NextResponse.json(errorResponse(ErrorCode.UNAUTHORIZED, '登录已失效，请重新登录'), { status: 401, headers: { 'Cache-Control': 'no-store' } });
-    return NextResponse.json(successResponse({ user: publicUser(user) }), { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json(successResponse({
+      user: publicUser(user),
+      testMode: process.env.INVENTORY_TEST_MODE === '1',
+    }), { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     // A temporary database/server failure must never look like an expired
     // session: clients preserve their workspaces and offer a retry for 5xx.

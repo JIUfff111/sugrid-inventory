@@ -8,7 +8,7 @@ export type NavPage = {
 };
 
 export const NAV_PAGES: NavPage[] = [
-  { path: "/", title: "在库清单", pinned: true },
+  { path: "/", title: "首页", pinned: true },
   { path: "/orders", title: "采购订单" },
   { path: "/orders/new", title: "新增采购单" },
 ];

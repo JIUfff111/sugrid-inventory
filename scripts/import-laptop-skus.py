@@ -130,7 +130,7 @@ def read_xiaomi(workbook: Path) -> list[ModelRecord]:
     for number, cells in data_rows(workbook, MAIN_SHEET):
         # Year, brand, family, model, status, CPU, GPU, RAM, ZOL count, note, URL.
         year, source_brand, _, model, _, cpu, gpu, ram, *_ = cells
-        brand = {"小米": "小米", "红米": "Redmi"}.get(source_brand)
+        brand = {"小米": "小米", "红米": "小米"}.get(source_brand)
         if not brand:
             raise ValueError(f"Xiaomi row {number}: unexpected brand {source_brand!r}")
         records.append(ModelRecord("xiaomi", MAIN_SHEET, number, normalize_year(year), brand,
@@ -201,7 +201,10 @@ def apply_records(connection: sqlite3.Connection, records: list[ModelRecord],
                                 ramOptions, storageOptions FROM skus
                                 WHERE deleted = 0 AND productType = ?""",
                                  (PRODUCT_TYPE,)).fetchall()
-    by_name = {(row["brand"], row["model"], row["year"]): row for row in current}
+    def grouped_brand(value: str) -> str:
+        return "小米" if value.strip().casefold() in {"redmi", "红米"} else value.strip()
+
+    by_name = {(grouped_brand(row["brand"]), row["model"], row["year"]): row for row in current}
     # Existing starter SKUs with a known one-to-one match in the source table.
     known_aliases = {
         ("ThinkPad", "X1 Carbon Gen 9"): ("ThinkPad", "X1 Carbon Gen9"),
@@ -224,7 +227,7 @@ def apply_records(connection: sqlite3.Connection, records: list[ModelRecord],
             # Use a NULL-year row as a one-time backfill candidate, but never
             # merge two explicitly different model years.
             previous = next((row for row in current
-                             if row["brand"] == record.brand
+                             if grouped_brand(row["brand"]) == record.brand
                              and row["model"] == record.model
                              and row["year"] is None), None)
         if previous is None:
@@ -245,7 +248,8 @@ def apply_records(connection: sqlite3.Connection, records: list[ModelRecord],
             options_unchanged = (cpu, gpu, ram, storage) == (previous["cpuOptions"], previous["gpuOptions"],
                                                              previous["ramOptions"], previous["storageOptions"])
             year_needs_backfill = previous["year"] is None and record.year is not None
-            if options_unchanged and not year_needs_backfill:
+            brand_needs_normalization = previous["brand"] != record.brand
+            if options_unchanged and not year_needs_backfill and not brand_needs_normalization:
                 result["unchanged"] += 1
             else:
                 if options_unchanged:
@@ -255,12 +259,12 @@ def apply_records(connection: sqlite3.Connection, records: list[ModelRecord],
                     result["mergedModels"].append({"source": record.model,
                                                    "existing": previous["model"]})
                 if apply:
-                    connection.execute("""UPDATE skus SET year=?, cpuOptions=?, gpuOptions=?,
+                    connection.execute("""UPDATE skus SET brand=?, year=?, cpuOptions=?, gpuOptions=?,
                         ramOptions=?, storageOptions=?, updatedAt=? WHERE id=?""",
-                                       (record.year, cpu, gpu, ram, storage, now, previous["id"]))
+                                       (record.brand, record.year, cpu, gpu, ram, storage, now, previous["id"]))
             continue
 
-        if key[:2] in {("Redmi", "Redmi Book 14"), ("Redmi", "Redmi Book Pro 15"),
+        if key[:2] in {("小米", "Redmi Book 14"), ("小米", "Redmi Book Pro 15"),
                        ("小米", "Xiaomi Book Air 13")}:
             result["nearMatchesKeptSeparate"].append(record.model)
         result["inserted"] += 1

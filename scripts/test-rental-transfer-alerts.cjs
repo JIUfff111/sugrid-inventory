@@ -39,7 +39,8 @@ async function main() {
       '@/lib/api-helpers': helpers,
       'next/headers': { cookies: async () => ({ get: () => token ? { value: token } : undefined }) },
     });
-    const deps = { '@/lib/db': database, '@/lib/auth': auth, '@/lib/api-helpers': helpers };
+    const deps = { '@/lib/db': database, '@/lib/auth': auth, '@/lib/api-helpers': helpers, '@/lib/sku-brand': load('src/lib/sku-brand.ts'), '@/lib/sku-display': load('src/lib/sku-display.ts') };
+    deps['@/lib/product-name'] = load('src/lib/product-name.ts', deps);
     deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
     const routes = Object.fromEntries(['purchase-orders', 'sales', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses']
       .map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));

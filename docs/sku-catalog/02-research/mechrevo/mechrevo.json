@@ -1,0 +1,1609 @@
+{
+  "scope": "机械革命 轻薄本+游戏本 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14|2022",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 14",
+      "displayName": "机械革命 无界 14 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i5-12450H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7111649908326728230/",
+      "sourceTitle": "12代酷睿、14寸高色域屏、3999元：机械革命无界14这价格没短板（数评时代）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "无界 14 首代，2022 年 5 月前后上市，沿用自家 S3/S3 Pro 模具（铝合金、16.8mm、约 1.4kg），i5-12500H 版到手 3999 元。16GB DDR4-3200 双插槽、512GB PCIe3.0 SSD、额外 1 个 M.2 位、50Wh 电池、90W 适配器。屏幕为 14 英寸 16:9 1920x1080 60Hz 100%sRGB；同期部分渠道/评测称另有 2.5K 屏版本，未取得官方配置表，故按 FHD 记录。i5-12450H 低配见电商规格页（什么值得买百科收录「无界14 2022新款」）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 14",
+      "displayName": "机械革命 无界 14 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7735H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 120Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7232860607744213562",
+      "sourceTitle": "聊一款超高性价比的轻薄本（笔吧评测室，机械革命 无界14 2023 实测）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 款锐龙版，首发价 3699 元。R7-7735H + 16GB LPDDR5-6400 板载（不可更换）+ 512GB（Intel 670P，QLC）+ 14 英寸 2560x1600 120Hz 100%sRGB IPS；60Wh 电池、1.39kg、17.6~17.8mm，双 M.2 2280 硬盘位，支持 100W PD。2023 年是该系列走量机型，价格随促销波动较大。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14|2026",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 14",
+      "displayName": "机械革命 无界 14 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 226V"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://www.mechrevo.com/cn/news/detail/0JsQMg",
+      "sourceTitle": "精彩，一步到位！机械革命耀世 18 Pro暨全系列新品发布会杭州启幕（机械革命官网，2026-03-19）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026 年 3 月 18 日发布会首发、3 月 25 日全渠道开售。二代酷睿 Ultra 5 226V（Lunar Lake，8 核 8 线程，3nm）+ 16GB LPDDR5X-8533 + 1TB，14 英寸 2880x1800 120Hz 雾面防眩光 500nits 100%sRGB，60Wh 电池、19 小时以上综合续航、约 1.0kg/15.5mm，镁合金机身，2×雷电4 + 3×USB-A + HDMI 2.1。京东自营标价 5199 元、到手约 4495~4589 元（2026-10 抓取）；能效网型号 无界14IL-5BC4U。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 14 Pro",
+      "displayName": "机械革命 无界 14 Pro 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12650H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://article.pchome.net/content-2164525.html",
+      "sourceTitle": "机械革命上架新款无界14 Pro轻薄本 首发价3799元（电脑之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 6 月 15 日开售，首发 3799 元（i7-12650H/16GB/1TB）。新模具、立轴 180° 开合，1.5kg/16.95mm，16GB DDR5-4800 双插槽（最高 64GB）、1TB PCIe4.0、额外 M.2 位，60Wh + 100W 氮化镓，14 英寸 2880x1800 120Hz 100%sRGB。太平洋产品库记 i7-12650H/16GB/1TB 版整机 1.47kg。同年 9 月另有 R7-7840HS 锐龙版，未取得官方规格页，未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2024",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 14 Pro",
+      "displayName": "机械革命 无界 14 Pro 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H",
+        "AMD 锐龙 7 8845HS"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://m.ithome.com/html/750299.htm",
+      "sourceTitle": "机械革命无界 14 Pro 笔记本开售：Ultra 5 125H、双热管，3999 元起（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 2 月 14 日开售：16GB+1TB 3999 元、32GB+2TB 4999 元。Ultra 5 125H（14 核 18 线程，Arc 核显）+ DDR5-5600 双插槽 + 双 M.2 2280，54W 性能释放，1.47kg/16.95mm，60Wh，雷电4 + 全功能 USB-C + 2×USB-A + HDMI 2.0。锐龙版 R7-8845HS 于 2024 年 2 月 23 日亮相、到手 4199 元（快懂百科收录），与酷睿版同模具，故并入同一机型年份。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 16|2022",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 16",
+      "displayName": "机械革命 无界 16 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H",
+        "英特尔酷睿 i5-12500H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7056734706653676035/",
+      "sourceTitle": "机械革命无界 16 大屏轻薄本上架：i7-12700H + 2K 120Hz 屏（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 1 月 24 日上架、2 月 1 日秒杀，i7-12700H 核显版首发/到手 5299 元。镁铝合金 1.7kg，16 英寸 2560x1600 120Hz（部分低配为 60Hz）100%sRGB 350nits，16GB DDR4-3200 双插槽（最高 64GB）、512GB/1TB PCIe3.0、双 M.2，70Wh。2022 年 5 月新增 i5-12500H 核显版。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 16 Pro|2022",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 16 Pro",
+      "displayName": "机械革命 无界 16 Pro 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H",
+        "英特尔酷睿 i5-12450H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 2050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1401812.html",
+      "sourceTitle": "机械革命无界16 Pro(i7 12700H/16GB/512GB/RTX2050/120Hz) 参数（中关村在线产品库）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 2 月 24 日发布、3 月 9 日开卖，首发 RTX 2050 轻薄本，i7 版首发 6199 元；2022 年 11 月 1 日新增 i5-12450H 版，首发 5499 元。RTX 2050 4GB GDDR6、45W；DDR4-3200 双插槽（最高 64GB）、双 M.2、70Wh、150W 适配器、1.7kg/17.8mm，16 英寸 2560x1600 120Hz 350nits 100%sRGB，A/C 面镁铝合金。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 15X Pro|2025",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "无界 15X Pro",
+      "displayName": "机械革命 无界 15X Pro 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 AI 9 H365",
+        "AMD 锐龙 7 H255"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.3英寸 2560x1600 120Hz"
+      ],
+      "sourceUrl": "http://m.mnw.cn/news/digi/2998320.html",
+      "sourceTitle": "机械革命无界15X Pro 2025笔记本上市：6199元（闽南网）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年上市，锐龙 AI 9 365 版 6199 元；另有锐龙 7 H255 低配（4499 元，国补后 3599 元，见搜狐科技 2025 年秒杀报道）。全金属 ACD、180° 立轴、1.71~1.77kg，15.3 英寸 2560x1600 120Hz 400nits 100%sRGB，32GB DDR5-5600 双插槽（最高 128GB）、1TB + 双 M.2、99Wh + 100W 氮化镓，CPU 单烤 85W，USB4 + 全功能 C + 2×A + HDMI 2.1 + RJ45。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|星耀 14|2025",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "星耀 14",
+      "displayName": "机械革命 星耀 14 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 AI 9 H365",
+        "AMD 锐龙 7 H255",
+        "英特尔酷睿 Ultra 7 255H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://www.baike.com/wikiid/7563918880126664713",
+      "sourceTitle": "机械革命星耀 14（快懂百科，2025-05-27 发布 / 05-31 开售）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2025 年 5 月 27 日发布会推出全新星耀系列首款，5 月 31 日开售：锐龙 AI 9 H365 版 5999 元、锐龙 7 H255 版 5299 元（国补后 4559.2 / 3999.2 元）；9 月新增冰晶蓝酷睿版 Ultra 7 255H，6999 元（国补 5599.2 元，IT之家/超能网）。全镁机身 1.0kg/14.9mm、80Wh、14 英寸 2880x1800 120Hz OLED 500nits 100% DCI-P3、32GB LPDDR5X 板载 + 1TB（双 M.2，最高 4TB）、2×雷电4/USB4 + 2×USB-A + HDMI 2.1。官方写作「星耀」，不是「星曜」。ZOL 收录「星耀14 旗舰版（锐龙7 H 255/32GB/1TB）」在售 5199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|深海幽灵 Z2|2018",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "深海幽灵 Z2",
+      "displayName": "机械革命 深海幽灵 Z2 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-8750H",
+        "英特尔酷睿 i5-8300H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB SSD+1TB HDD",
+        "256GB SSD+1TB HDD",
+        "256GB SSD+2TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://product.yesky.com/product/1063/1063777/param.shtml",
+      "sourceTitle": "机械革命深海幽灵Z2(i7 8750H/16GB/256GB+2TB/GTX1060)参数（天极产品库）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018 年 4 月上市，光轴 RGB 机械键盘机型。15.6 英寸 1920x1080 144Hz IPS、72% NTSC、6mm 窄边框；DDR4-2666 双插槽（最高 32GB）、GTX 1060 6GB GDDR5、180W 适配器、约 2.1kg/23mm、镁铝合金太空灰。同期 Z2 亦有 i5-8300H + 8GB + 256GB+1TB 版本（太平洋 2018-04 参数页）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|钛钽|2019",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "钛钽",
+      "displayName": "机械革命 钛钽 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-9750H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD×2（RAID 0）"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 240Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/465/063.htm",
+      "sourceTitle": "机械革命钛钽笔记本开卖：i7+RTX 2060，13999元（IT之家，2019-12-25）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 12 月上市，首发 13999 元。i7-9750H + RTX 2060 6GB + 32GB DDR4-2666 + 1TB×2 RAID 0；17.3 英寸 1920x1080 240Hz 100%sRGB 3ms、88% 屏占比；镁合金（镁含量>90%）A/C/D 三面、20mm、约 2.2kg、91.24Wh、180W 适配器、雷电3、IR 摄像头。是机械革命当年 17 英寸轻薄高性能旗舰。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|钛钽 Plus|2021",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "钛钽 Plus",
+      "displayName": "机械革命 钛钽 Plus 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-10875H",
+        "英特尔酷睿 i7-11800H",
+        "英特尔酷睿 i9-11900H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "17.3英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://shop.zol.com/shop_122552/38084190.html",
+      "sourceTitle": "机械革命 钛钽PLUS(i9 11900H/32GB/1TB/RTX3080) 参数（中关村在线商城，上市 2021-05）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 1 月发布、2 月主流配置上市（i7-10875H + RTX3060/3070，16GB/512GB，首发约 9999 元起），5 月增加 i9-11900H + RTX3080 16GB 顶配（32GB/1TB；天极参考价 20499 元）。17.3 英寸 2560x1440 165Hz 100%sRGB ΔE<2，46.74Wh、230W、24.9mm/2.4kg、双风扇五热管四出风口、雷电4（11 代平台）。另有 17.3 英寸 1080p 144Hz 72% NTSC 低配版。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 Pro|2022",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "极光 Pro",
+      "displayName": "机械革命 极光 Pro 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://product.yesky.com/product/1134/1134864/param.shtml",
+      "sourceTitle": "机械革命极光(i7 12700H/16GB/512GB/RTX3060)参数（天极产品库，上市 2022-01）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 1 月上市（ZOL 产品型号标注「极光Pro」）。i7-12700H（14 核 20 线程）+ RTX 3060 6GB 140W + 16GB DDR5-4800 双插槽（最高 64GB）+ 512GB PCIe4.0；15.6 英寸 2560x1440 165Hz 100%sRGB ΔE<2；63.32Wh、2.5G 网口、雷电4、Sound Blaster Cinema6。是 2022 年「极光」系列的主力模具，2023 年延续为极光 Pro 4060 版。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 Pro|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "极光 Pro",
+      "displayName": "机械革命 极光 Pro 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12650H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/I09PUV150511B8LM.html",
+      "sourceTitle": "机械革命极光 Pro 笔记本新品上架，首发 5999 元（IT之家，2023-03-20）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 3 月 21 日开售，首发 5999 元（原价 6799 元），RTX 4060 首发价标杆机型，入选京东 2023 年度游戏本金榜。i7-12650H + RTX4060 8GB 140W 独显直连 + 16GB DDR4-3200 + 512GB（Intel 670P QLC）；15.6 英寸 2560x1440 165Hz 100%sRGB；2.1~2.15kg/24mm、5052 铝镁合金、46.74Wh、双风扇五热管四出风口。同期另有 i7-13700H 版本（价格更高）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 X|2024",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "极光 X",
+      "displayName": "机械革命 极光 X 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-14650HX",
+        "英特尔酷睿 i7-12800HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/mechrevo/2281839_detail.html",
+      "sourceTitle": "机械革命极光X(i7-14650HX/16GB/1TB/RTX4060/2.5K/165Hz)参数（太平洋科技，上市 2024-07）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 7 月上市，接替极光 Pro 的主流位。i7-14650HX（16 核 24 线程）+ RTX4060 8GB（ZOL 记 115W）+ 16GB DDR5 + 1TB；16 英寸 2560x1600 165Hz 500nits 100%sRGB；2.2~2.34kg/21~23mm、60Wh、3×USB-A + 2×USB-C + HDMI2.1 + miniDP。ZOL 另有 i7-12800HX + RTX4070 版本（2024-07，7299 元）。2026 年 3 月官方发布会已推出极光 X 2026（换装新一代酷睿 Ultra），规格未公布。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|旷世 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "旷世 16",
+      "displayName": "机械革命 旷世 16 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://shop.zol.com/shop_82117/40165736.html",
+      "sourceTitle": "机械革命 旷世16(i7 13700H/16GB/512GB/RTX4060) 参数（中关村在线商城，上市 2023-03）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 3 月上市，首发 7699 元。同方新模具：A 面阳极氧化铝合金 + 银黑撞色，i7-13700H（90W 单烤）+ RTX4060 8GB 140W 独显直连，16GB DDR4-3200 + 512GB；16 英寸 2560x1600 240Hz 100%sRGB；2.4kg/26.4mm、62.32Wh、240W、2.5G 网口、双风扇五热管四出风口。另有旷世 G16（模具相近、U 换为 i7-12650H/i5-13500H，2.5K 165/240Hz）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|旷世 16 Super|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "旷世 16 Super",
+      "displayName": "机械革命 旷世 16 Super 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.sohu.com/a/636120236_114760",
+      "sourceTitle": "机械革命新款旷世16 Super 笔记本上架：i9 + RTX 4080，15399 元（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 2 月京东首发，15399 元起。i9-13900HX（24 核 32 线程，55W）+ RTX4080 12GB 175W + 32GB DDR5-5600 + 1TB PCIe4.0；16 英寸 2560x1600 240Hz；双风扇八热管四出风口 + CPU/GPU 双液金，第二代分体式水冷（磁吸感应水管），2.5kg。2024 年 4 月仍在售、口碑较高。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|旷世 X|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "旷世 X",
+      "displayName": "机械革命 旷世 X 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "17英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/mechrevo/1722227.html",
+      "sourceTitle": "机械革命旷世X(i9-13900HX/32GB/1TB/RTX4080/240Hz/2.5K/水冷版)（太平洋科技产品库）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年旷世家族 17 英寸水冷旗舰（ZOL 报价 17999 元）。i9-13900HX + RTX4080 12GB 175W + 32GB DDR5-4800 + 1TB；17 英寸 2560x1600 240Hz；2.7kg/27.35mm、外置水冷接口，官方称水冷状态最高 265W 释放。2024 年另有 16 英寸旷世 X（i5-14450HX + RTX4050，16GB/512GB，1920x1200 165Hz）在售，配置跨度大，按年份/平台单列会更准确，本表暂并入 2023 款备注。2026 年 3 月官方已发布旷世 X 2026（新一代酷睿 Ultra，规格未公布）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 15K|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "蛟龙 15K",
+      "displayName": "机械革命 蛟龙 15K 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7735H",
+        "AMD 锐龙 5 7640H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1600 165Hz",
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/815/8150841.html",
+      "sourceTitle": "机械革命蛟龙15K 2023款游戏本 R7-7735H/16G/512G/RTX4060（中关村在线，6699 元）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2023 年上市（渠道标注 2023-06），R7-7735H + RTX4060 140W 版京东自营 6699 元、用券 6499 元；16GB DDR5-4800 + 512GB，15.6 英寸 2560x1600 165Hz 100%sRGB，双风扇四出风口，Nahimic 音效。低配为 R5-7640H + RTX3050 4GB + 1920x1080 144Hz（天猫商品页标注 2023-06-01）；另有 R7-7735H + RTX4050 版本。命名与「蛟龙5增强版」混用过，官方现名以蛟龙 15K 为准。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "蛟龙 16K",
+      "displayName": "机械革命 蛟龙 16K 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7735H",
+        "AMD 锐龙 7 7435H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/param_copy_2106515_gray_1_0_560.html",
+      "sourceTitle": "机械革命蛟龙16K(R7 7435H/16GB/512GB/RTX4060) 参数（中关村在线产品库，上市 2023-02）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 2 月上市，16 英寸 16:10 主力走量款。R7-7435H（Zen3+，8 核 16 线程，45W）/R7-7735H（70W）+ RTX4060 8GB 140W 独显直连 + 16GB DDR5-4800 双插槽（最高 32GB）+ 512GB PCIe4.0；16 英寸 2560x1600 165Hz 100%sRGB DC 调光；2.2kg/26.15mm、62.32Wh、240W、全金属、WiFi6E、双风扇五热管四出风口。另有 32GB+1TB（约 6438 元）与 RTX4070 版本（R7-7435H/32GB/1TB，165Hz）。2024 年推出 R7-8745H 版本（DDR5-5600，最大 64GB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 17K|2023",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "蛟龙 17K",
+      "displayName": "机械革命 蛟龙 17K 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7735H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4050 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "17.3英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://www.sohu.com/a/651495275_114760",
+      "sourceTitle": "聊一台性价比较高的大屏游戏本（笔吧评测室，机械革命 蛟龙17K）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年上市，RTX4060 版参考价 6699 元，是当年少见的 17.3 英寸大屏高性价比机型。R7-7735H + RTX4060 8GB 140W + 16GB DDR5-4800 + 512GB（金士顿 OM8SEP4512Q，另有一个 M.2 位）；17.3 英寸 2560x1600 165Hz 100% DCI-P3 IPS；2.49~2.50kg/23.6~24.6mm，适配器 693~696g，不支持 PD 充电。另有 RTX4050 6GB 版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2024",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "蛟龙 16 Pro",
+      "displayName": "机械革命 蛟龙 16 Pro 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7745HX",
+        "AMD 锐龙 9 7940HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/JAQ058PE0511A3C8.html",
+      "sourceTitle": "想玩《黑神话：悟空》或者玩热门AI应用？开学季热销笔记本推荐（网易，蛟龙16 Pro 配置与 7199 元参考价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年上市（8 月新增 R9-7940HX 配置），宝龙达代工新模具，A 面金属 + C 面异形键盘。R7-7745HX + RTX4070 8GB 140W 版 7199 元（16GB DDR5-4800 + 1TB）；16 英寸 2560x1600 240Hz 500nits 100%sRGB 3ms；2.55kg/26.4mm、62Wh，冰刃 2.0（VC + 铜板）、3×USB-A 10Gbps + 全功能 C。R9-7940HX + RTX4070 新增版 16GB+1TB 7399 元（券后 7279）、32GB+1TB 7799 元（券后 7679），黑白熊猫配色。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2025",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "蛟龙 16 Pro",
+      "displayName": "机械革命 蛟龙 16 Pro 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 9 8940HX",
+        "AMD 锐龙 9 8945HX",
+        "AMD 锐龙 7 H255"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5050 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 180Hz",
+        "16英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://m.newskj.org/game/189142.html",
+      "sourceTitle": "机械革命推蛟龙 16 Pro 活力橙限定版，抖音首发售 7499 元（每日科技网，2025-08）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2025 款换装 RTX 50 系。活力橙限定版：R9-8940HX（16 核 32 线程）+ RTX5060 8GB 115W + 24GB DDR5-5200 + 1TB PCIe4.0 + 16 英寸 2560x1600 180Hz 500nits 100%sRGB，7499 元（国补后 5679.2 元），A 面铝镁合金、双风扇。另有 R9-8945HX + RTX5060 + 300Hz 版本（京东 7599 元起）与 R7 H255 潮玩版（180Hz，约 6459~6999 元）、R9-8940HX + RTX5070 版本。300Hz 与 180Hz 为不同配置，需按 SKU 区分。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16S|2024",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "蛟龙 16S",
+      "displayName": "机械革命 蛟龙 16S 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 8845H",
+        "AMD 锐龙 9 7940H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz",
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.sohu.com/a/755777248_121649107",
+      "sourceTitle": "蛟龙16s 蛟龙16 Pro和极光Pro同室操戈！机械革命的这3款游戏本新品差在哪？（搜狐科技，2024）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年新品，与极光 Pro 同模具（A 面镁铝合金、接口布局一致，但 C 口升级为全功能并支持 PD 充电）。R7-8845H + RTX4060 8GB + 16GB + 512GB，16 英寸 2560x1600 165Hz，售价 5999 元，双风扇五热管 + 240W 碳化硅适配器。高配 R9-7940H + RTX4070 8GB + 32GB + 2TB，240Hz 500nits（苏宁页面标注 2024-06 上市）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Super|2024",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "耀世 16 Super",
+      "displayName": "机械革命 耀世 16 Super 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i9-14900HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/762/485.htm",
+      "sourceTitle": "机械革命耀世 16 Super 上架：i9-14900HX + RTX 4080/4090 版本 14999/19999 元（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 2 月 29 日发布会推出、4 月 17 日上架：RTX4080 版 14999 元、RTX4090 版 19999 元。i9-14900HX（单烤 170W）+ 175W RTX4080/4090 + 32GB/64GB DDR5-5600 + 1TB/2TB PCIe4.0；16 英寸 2560x1600 240Hz 500nits 100%sRGB ΔE<2；双烤 100+175W、分体式水冷、ACD 三面金属、80Wh、330W Slim 适配器、2.5kg/26.5mm、雷电4、IR 人脸识别。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Ultra|2025",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "耀世 16 Ultra",
+      "displayName": "机械革命 耀世 16 Ultra 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 Ti 12GB 笔记本电脑 GPU",
+        "RTX 5080 16GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://www.mechrevo.com/cn/products/yao-shi-16-ultra",
+      "sourceTitle": "耀世 16 Ultra 产品页（机械革命官网）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年旗舰，官方指导价 12999~24999 元（国补 12999~22999 元）。Ultra 9 275HX（24 核 24 线程，5.4GHz）+ RTX5060/5070Ti 12GB/5080 16GB/5090 24GB（5090 满功耗 175W、双烤 285W 为接水冷时）+ 至高 64GB DDR5-6400 + 至高 2TB PCIe4.0；16 英寸 2560x1600 300Hz，5090/5070Ti 版为 Mini LED 1200nits 100% DCI-P3，5080 基础版为 IPS 500nits 100%sRGB；99Wh、420W SiC 适配器、冰鲨分体水冷、2.4~2.5kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|苍龙 16 Ultra|2025",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "苍龙 16 Ultra",
+      "displayName": "机械革命 苍龙 16 Ultra 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 9 9955HX3D"
+      ],
+      "ramOptions": [
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://www.mechrevo.com/en/products/cang-long-16-ultra/",
+      "sourceTitle": "苍龙 16 Ultra 产品页（机械革命官网英文站）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年 AMD 平台水冷旗舰，与耀世 16 Ultra 同架构。R9-9955HX3D（3D V-Cache）+ RTX5090 24GB GDDR7 175W（双烤 280W 为接水冷、40dB）+ 64GB DDR5 + 2TB；16 英寸 2560x1600 300Hz Mini LED「耀月屏」，100% DCI-P3；99Wh、420W SiC 适配器、全金属暮石灰、54 颗 RGB 灯珠灯带、2.55~2.56kg/20.6mm。京东自营 64GB/2TB/RTX5090 版 27199 元。另有 5070Ti/5080 版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 18 Pro|2026",
+      "productType": "笔记本电脑",
+      "brand": "机械革命",
+      "model": "耀世 18 Pro",
+      "displayName": "机械革命 耀世 18 Pro 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 290HX Plus"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600"
+      ],
+      "sourceUrl": "https://www.mechrevo.com/cn/news/detail/0JsQMg",
+      "sourceTitle": "精彩，一步到位！机械革命耀世 18 Pro暨全系列新品发布会杭州启幕（机械革命官网，2026-03-19）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2026 年 3 月 18 日发布、3 月 18 日京东预售、3 月 25 日开售，官方定位「18 英寸大屏轻薄游戏本」。至高 Ultra 9 290HX Plus，CPU+GPU 双烤 215W、18 英寸 2.5K 电竞屏（Pantone/Skintone 双认证）、21.85mm/2.8kg、自研冰霜架构散热。官方新闻未披露具体独显型号与内存/存储档位，gpuOptions 留空；ZOL 产品库另记 18 英寸 2560x1600、16GB DDR5-5600、1TB、2.8kg。显卡与完整配置待官方规格页确认。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7111649908326728230/",
+      "sourceTitle": "机械革命无界14 到手 3999 元（i5-12500H/16GB/512GB）",
+      "confidence": "medium",
+      "notes": "2022 年 5~6 月电商价 3999 元；16GB DDR4 双插槽、512GB + 另 1 个 M.2、50Wh、90W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14|2023",
+      "cpu": "AMD 锐龙 7 7735H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7232860607744213562",
+      "sourceTitle": "无界14 2023 实测配置：R7-7735H/16GB LPDDR5/512GB/2.5K 120Hz",
+      "confidence": "high",
+      "notes": "首发 3699 元；16GB 板载不可换，512GB 为 Intel 670P QLC。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14|2026",
+      "cpu": "英特尔酷睿 Ultra 5 226V",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mechrevo.com/cn/news/detail/0JsQMg",
+      "sourceTitle": "无界14 2026 首发配置（Ultra 5 226V + 2.8K 120Hz，2026-03-18 预售）",
+      "confidence": "high",
+      "notes": "官方发布价未在新闻中列出；京东自营标价 5199 元、到手 4495.65 元（2026-10 抓取），1.07kg/60Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2023",
+      "cpu": "英特尔酷睿 i7-12650H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://article.pchome.net/content-2164525.html",
+      "sourceTitle": "无界14 Pro 2023 首发 3799 元（i7-12650H/16GB/1TB）",
+      "confidence": "high",
+      "notes": "2023-06-15 开售；16GB DDR5-4800 双插槽、1TB PCIe4.0、60Wh、100W 氮化镓。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://m.ithome.com/html/750299.htm",
+      "sourceTitle": "无界14 Pro 2024 16GB+1TB 售 3999 元",
+      "confidence": "high",
+      "notes": "2024-02-14 开售；54W 释放，雷电4。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "2TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://m.ithome.com/html/750299.htm",
+      "sourceTitle": "无界14 Pro 2024 32GB+2TB 售 4999 元",
+      "confidence": "high",
+      "notes": "顶配 4999 元；双 M.2 2280，2TB 款仍留一个扩展位。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 16|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7056734706653676035/",
+      "sourceTitle": "无界16 i7-12700H 核显版 到手 5299 元",
+      "confidence": "high",
+      "notes": "2022-02-01 秒杀价 5299 元；DDR4-3200 双插槽、70Wh、1.7kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 16 Pro|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7072704743688307212/",
+      "sourceTitle": "无界16 Pro 开卖：i7-12700H + RTX 2050，首发 6199 元（IT之家）",
+      "confidence": "high",
+      "notes": "2022-03-09 开卖；RTX2050 45W、70Wh、150W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 16 Pro|2022",
+      "cpu": "英特尔酷睿 i5-12450H",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%9C%BA%E6%A2%B0%E9%9D%A9%E5%91%BD%E6%97%A0%E7%95%8C%2016%20Pro/60165715",
+      "sourceTitle": "无界16 Pro 新增 i5-12450H 配置，首发 5499 元（2022-11-01）",
+      "confidence": "medium",
+      "notes": "2022-11-01 上架；与 i7 版同模具，仅 CPU 不同。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 15X Pro|2025",
+      "cpu": "AMD 锐龙 AI 9 H365",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "15.3英寸 2560x1600 120Hz",
+      "sourceUrl": "http://m.mnw.cn/news/digi/2998320.html",
+      "sourceTitle": "无界15X Pro 2025 上市 6199 元（R AI 9 365/32GB/1TB/99Wh）",
+      "confidence": "high",
+      "notes": "Radeon 880M 核显 + XDNA2 NPU 50 TOPS；32GB DDR5-5600 双插槽（最高 128GB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|无界 15X Pro|2025",
+      "cpu": "AMD 锐龙 7 H255",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "15.3英寸 2560x1600 120Hz",
+      "sourceUrl": "https://it.sohu.com/a/917784564_121649107",
+      "sourceTitle": "机械革命轻薄本秒杀：无界15X Pro 低配 4499 元（国补 3599 元）",
+      "confidence": "high",
+      "notes": "2025 年促销期价格；与 H365 版同模具、同 99Wh 电池。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|星耀 14|2025",
+      "cpu": "AMD 锐龙 AI 9 H365",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.baike.com/wikiid/7563918880126664713",
+      "sourceTitle": "星耀14 首发 5999 元（R AI 9 H365/32GB/1TB/2.8K OLED）",
+      "confidence": "medium",
+      "notes": "2025-05-31 开售，国补后 4559.2 元；80Wh、1.0kg/14.9mm。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|星耀 14|2025",
+      "cpu": "AMD 锐龙 7 H255",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.baike.com/wikiid/7563918880126664713",
+      "sourceTitle": "星耀14 锐龙7 H255 版 5299 元（国补 3999.2 元）",
+      "confidence": "medium",
+      "notes": "低配版同为 32GB+1TB、2.8K 120Hz OLED。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|星耀 14|2025",
+      "cpu": "英特尔酷睿 Ultra 7 255H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://m.expreview.com/101670.html",
+      "sourceTitle": "星耀14 冰晶蓝酷睿版：Ultra 7 255H + 32GB + 1TB，6999 元（超能网）",
+      "confidence": "high",
+      "notes": "2025-09-15 首销，国补后 5599.2 元；LPDDR5X-8000，双 M.2 最高 4TB。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|深海幽灵 Z2|2018",
+      "cpu": "英特尔酷睿 i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD+2TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.yesky.com/product/1063/1063777/param.shtml",
+      "sourceTitle": "深海幽灵Z2 i7-8750H/16GB/256GB+2TB/GTX1060 参数",
+      "confidence": "high",
+      "notes": "2018 年 4 月上市；光轴 RGB 机械键盘、180W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|深海幽灵 Z2|2018",
+      "cpu": "英特尔酷睿 i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/mechrevo/1161600_detail.html",
+      "sourceTitle": "深海幽灵Z2 i5-8300H/8GB/256GB+1TB/GTX1060 参数（太平洋）",
+      "confidence": "high",
+      "notes": "入门配置，DDR4-2666 双插槽最高 32GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|钛钽|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "32GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "1TB SSD×2（RAID 0）",
+      "screen": "17.3英寸 1920x1080 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/465/063.htm",
+      "sourceTitle": "钛钽 i7-9750H/32GB/1TB×2/RTX2060 售价 13999 元",
+      "confidence": "high",
+      "notes": "2019-12 开卖；91.24Wh、180W、2.2kg/20mm。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|钛钽 Plus|2021",
+      "cpu": "英特尔酷睿 i9-11900H",
+      "ram": "32GB",
+      "gpu": "RTX 3080 16GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17.3英寸 2560x1440 165Hz",
+      "sourceUrl": "https://shop.zol.com/shop_122552/38084190.html",
+      "sourceTitle": "钛钽PLUS i9-11900H/32GB/1TB/RTX3080 参数（2021-05 上市）",
+      "confidence": "high",
+      "notes": "参考价 20499 元（天极）；230W 适配器、46.74Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|钛钽 Plus|2021",
+      "cpu": "英特尔酷睿 i7-10875H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "17.3英寸 2560x1440 165Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%9C%BA%E6%A2%B0%E9%9D%A9%E5%91%BD%E9%92%9B%E9%92%BD/55350718",
+      "sourceTitle": "钛钽Plus 2021 款主流配置（i7-10875H + RTX3060，2021-02 上市）",
+      "confidence": "medium",
+      "notes": "同期另有 RTX3070 8GB 可选；46.74Wh、230W。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 Pro|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://product.yesky.com/product/1134/1134864/param.shtml",
+      "sourceTitle": "极光 Pro 2022：i7-12700H/16GB DDR5/512GB/RTX3060 140W",
+      "confidence": "high",
+      "notes": "DDR5-4800 双插槽最高 64GB；63.32Wh、2.5G 网口。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 Pro|2023",
+      "cpu": "英特尔酷睿 i7-12650H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.163.com/dy/article/I09PUV150511B8LM.html",
+      "sourceTitle": "极光 Pro 2023 首发 5999 元（i7-12650H/RTX4060/16GB/512GB）",
+      "confidence": "high",
+      "notes": "原价 6799 元；2.1kg/24mm、5052 铝镁合金。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 X|2024",
+      "cpu": "英特尔酷睿 i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/mechrevo/2281839_detail.html",
+      "sourceTitle": "极光X 2024 参数：i7-14650HX/16GB/1TB/RTX4060/165Hz",
+      "confidence": "high",
+      "notes": "2024-07 上市；60Wh、2.2~2.34kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|极光 X|2024",
+      "cpu": "英特尔酷睿 i7-12800HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook_index/subcate16_35578_list_1_0_1_1_12373_1.html",
+      "sourceTitle": "机械革命极光X(i7-12800HX/16G/1T/RTX4070) 上市 2024-07，7299 元（ZOL 产品列表）",
+      "confidence": "medium",
+      "notes": "同系列高配，2.2kg；价格随促销波动。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|旷世 16|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://shop.zol.com/shop_82117/40165736.html",
+      "sourceTitle": "旷世16 i7-13700H/16GB/512GB/RTX4060 参数，首发 7699 元",
+      "confidence": "high",
+      "notes": "i7-13700H 单烤 90W、RTX4060 140W；62.32Wh、240W。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|旷世 16 Super|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.sohu.com/a/636120236_114760",
+      "sourceTitle": "旷世16 Super 首发 15399 元（i9-13900HX/RTX4080/32GB/1TB）",
+      "confidence": "high",
+      "notes": "双液金 + 第二代磁吸式水冷；2.5kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|旷世 X|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17英寸 2560x1600 240Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/mechrevo/1722227.html",
+      "sourceTitle": "旷世X 水冷版：i9-13900HX/32GB/1TB/RTX4080/17 英寸 240Hz",
+      "confidence": "high",
+      "notes": "2.7kg/27.35mm；ZOL 报价 17999 元（2026-10）。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 15K|2023",
+      "cpu": "AMD 锐龙 7 7735H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 2560x1600 165Hz",
+      "sourceUrl": "https://nb.zol.com.cn/815/8150841.html",
+      "sourceTitle": "蛟龙15K 2023 款 6699 元（R7-7735H/16G/512G/RTX4060）",
+      "confidence": "medium",
+      "notes": "预约用券后 6499 元；DDR5-4800 双通道。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "cpu": "AMD 锐龙 7 7435H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/param_copy_2106515_gray_1_0_560.html",
+      "sourceTitle": "蛟龙16K R7-7435H/16GB/512GB/RTX4060 参数",
+      "confidence": "high",
+      "notes": "2023-02 上市；2×SO-DIMM 最高 32GB、62.32Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "cpu": "AMD 锐龙 7 7735H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_79474/40165701.html",
+      "sourceTitle": "蛟龙16K R7-7735H/16GB/512GB/RTX4060 参数（ZOL 商城）",
+      "confidence": "high",
+      "notes": "R7-7735H 功耗 70W；140W RTX4060、WiFi6E。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "cpu": "AMD 锐龙 7 7435H",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "http://www.jinshouji.com/bijibendiannao/618301.html",
+      "sourceTitle": "蛟龙16K R7 7435H/32GB/1TB/RTX4060（RMB 6438 起）",
+      "confidence": "medium",
+      "notes": "32GB 为 16GB×2；1TB 为后加/高配，价格 6438 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 17K|2023",
+      "cpu": "AMD 锐龙 7 7735H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "17.3英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.sohu.com/a/651495275_114760",
+      "sourceTitle": "蛟龙17K 实测配置与 6699 元参考价",
+      "confidence": "high",
+      "notes": "100% DCI-P3、2.50kg；另有一个 M.2 空位。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 17K|2023",
+      "cpu": "AMD 锐龙 7 7735H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "17.3英寸 2560x1600 165Hz",
+      "sourceUrl": "https://m.sohu.com/a/655680298_114760/",
+      "sourceTitle": "蛟龙17K RTX4050 版实测（140W、16GB DDR5、512GB）",
+      "confidence": "high",
+      "notes": "RTX4050 6GB，140W；首发 5999 元档，后涨至 6488 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2024",
+      "cpu": "AMD 锐龙 7 7745HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.163.com/dy/article/JAQ058PE0511A3C8.html",
+      "sourceTitle": "蛟龙16 Pro R7-7745HX/16GB/1TB/RTX4070 参考价 7199 元",
+      "confidence": "high",
+      "notes": "RTX4070 140W 独显直连；62Wh、2.55kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2024",
+      "cpu": "AMD 锐龙 9 7940HX",
+      "ram": "32GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "http://www.mnw.cn/news/digi/2942933.html",
+      "sourceTitle": "蛟龙16 Pro 新增 R9-7940HX + RTX4070：32GB+1TB 7799 元（券后 7679）",
+      "confidence": "high",
+      "notes": "2024-08 天猫开售；黑白熊猫配色、冰刃 2.0 散热。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2025",
+      "cpu": "AMD 锐龙 9 8940HX",
+      "ram": "24GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 180Hz",
+      "sourceUrl": "https://m.newskj.org/game/189142.html",
+      "sourceTitle": "蛟龙16 Pro 活力橙限定版 7499 元（R9-8940HX/24GB/1TB/RTX5060/180Hz）",
+      "confidence": "medium",
+      "notes": "2025-08 抖音首发，国补后 5679.2 元；RTX5060 115W。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16S|2024",
+      "cpu": "AMD 锐龙 7 8845H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.sohu.com/a/755777248_121649107",
+      "sourceTitle": "蛟龙16S 2024 售 5999 元（R7-8845H/16GB/512GB/RTX4060/165Hz）",
+      "confidence": "high",
+      "notes": "与极光 Pro 同模具但支持全功能 C 口 PD 充电；240W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Super|2024",
+      "cpu": "英特尔酷睿 i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/762/485.htm",
+      "sourceTitle": "耀世16 Super RTX4080 版 14999 元（32GB/1TB）",
+      "confidence": "high",
+      "notes": "175W RTX4080、330W Slim 适配器、80Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Super|2024",
+      "cpu": "英特尔酷睿 i9-14900HX",
+      "ram": "64GB",
+      "gpu": "RTX 4090 16GB 笔记本电脑 GPU",
+      "storage": "2TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/762/485.htm",
+      "sourceTitle": "耀世16 Super RTX4090 版 19999 元（64GB/2TB）",
+      "confidence": "high",
+      "notes": "顶配 19999 元；双烤 100+175W。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Ultra|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://m.bjbpc.com/view.php?aid=1907",
+      "sourceTitle": "耀世16 Ultra 上市：U9-275HX + RTX5080/32GB/1TB，14999 元（国补 12999）",
+      "confidence": "medium",
+      "notes": "该档为 2560x1600 LCD 500nits 屏；官方指导价 14999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Ultra|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "64GB",
+      "gpu": "RTX 5090 24GB 笔记本电脑 GPU",
+      "storage": "2TB",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://m.bjbpc.com/view.php?aid=1907",
+      "sourceTitle": "耀世16 Ultra 顶配：U9-275HX + RTX5090/64GB/2TB，24999 元（国补 22999）",
+      "confidence": "medium",
+      "notes": "Mini LED 1200nits；5090 175W、需接水冷实现 285W 双烤。"
+    },
+    {
+      "modelKey": "笔记本电脑|机械革命|苍龙 16 Ultra|2025",
+      "cpu": "AMD 锐龙 9 9955HX3D",
+      "ram": "64GB",
+      "gpu": "RTX 5090 24GB 笔记本电脑 GPU",
+      "storage": "2TB",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.mechrevo.com/en/products/cang-long-16-ultra/",
+      "sourceTitle": "苍龙16 Ultra 官方配置：R9-9955HX3D/RTX5090 24GB/300Hz Mini LED",
+      "confidence": "high",
+      "notes": "京东自营该配置 27199 元；420W SiC 适配器、99Wh。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "机械革命无界14",
+      "modelKey": "笔记本电脑|机械革命|无界 14|2022",
+      "aliasType": "常见搜索写法",
+      "note": "无空格连写，泛指 2022 首代；2023 锐龙版另有独立条目。"
+    },
+    {
+      "alias": "无界14",
+      "modelKey": "笔记本电脑|机械革命|无界 14|2022",
+      "aliasType": "简称",
+      "note": "电商标题最常见写法，需按年份区分。"
+    },
+    {
+      "alias": "MECHREVO 无界14",
+      "modelKey": "笔记本电脑|机械革命|无界 14|2023",
+      "aliasType": "中英混写",
+      "note": "2023 锐龙版 R7-7735H 常被写作「MECHREVO 无界14 锐龙版」。"
+    },
+    {
+      "alias": "无界14Pro",
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2023",
+      "aliasType": "常见搜索写法",
+      "note": "去掉空格；2023 酷睿版与 2024 Ultra 版需按年份区分。"
+    },
+    {
+      "alias": "机械革命无界14 Pro",
+      "modelKey": "笔记本电脑|机械革命|无界 14 Pro|2024",
+      "aliasType": "常见搜索写法",
+      "note": "默认指向在售的 2024 款（Ultra 5 125H）。"
+    },
+    {
+      "alias": "机械革命 无界16",
+      "modelKey": "笔记本电脑|机械革命|无界 16|2022",
+      "aliasType": "常见搜索写法",
+      "note": "16 英寸核显轻薄本，与无界 16 Pro 不同机型。"
+    },
+    {
+      "alias": "MECHREVO 无界16Pro",
+      "modelKey": "笔记本电脑|机械革命|无界 16 Pro|2022",
+      "aliasType": "中英混写",
+      "note": "常被误写为「无界16pro 2050」。"
+    },
+    {
+      "alias": "无界16 Pro",
+      "modelKey": "笔记本电脑|机械革命|无界 16 Pro|2022",
+      "aliasType": "简称",
+      "note": "首发 RTX2050 的 16 英寸机型。"
+    },
+    {
+      "alias": "机械革命 无界15X Pro",
+      "modelKey": "笔记本电脑|机械革命|无界 15X Pro|2025",
+      "aliasType": "常见搜索写法",
+      "note": "亦称「无界15X Pro 暴风雪」，99Wh 大电池版本。"
+    },
+    {
+      "alias": "机械革命星耀14",
+      "modelKey": "笔记本电脑|机械革命|星耀 14|2025",
+      "aliasType": "常见搜索写法",
+      "note": "官方写作「星耀」，被误写为「星曜14」的搜索也应命中。"
+    },
+    {
+      "alias": "机械革命 星曜14",
+      "modelKey": "笔记本电脑|机械革命|星耀 14|2025",
+      "aliasType": "错别字变体",
+      "note": "「曜/耀」同音误写，实际官方名称为星耀 14。"
+    },
+    {
+      "alias": "机械革命蛟龙16K",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "aliasType": "常见搜索写法",
+      "note": "走量机型，搜索量最大的蛟龙型号。"
+    },
+    {
+      "alias": "MECHREVO 蛟龙16K",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "aliasType": "中英混写",
+      "note": "海外/跨境店铺常用写法。"
+    },
+    {
+      "alias": "蛟龙16K-R7-7735H",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "aliasType": "SKU 后缀写法",
+      "note": "具体 SKU 后缀，只用于检索，不进 model 字段。"
+    },
+    {
+      "alias": "机械革命蛟龙15K",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 15K|2023",
+      "aliasType": "常见搜索写法",
+      "note": "早期与「蛟龙5增强版」混用。"
+    },
+    {
+      "alias": "蛟龙17K",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 17K|2023",
+      "aliasType": "简称",
+      "note": "17.3 英寸大屏款。"
+    },
+    {
+      "alias": "机械革命蛟龙16 Pro",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2024",
+      "aliasType": "常见搜索写法",
+      "note": "2024 款（R7-7745HX/R9-7940HX + RTX40）；2025 款另列。"
+    },
+    {
+      "alias": "蛟龙16Pro 2025",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16 Pro|2025",
+      "aliasType": "年份限定写法",
+      "note": "RTX50 平台，含活力橙限定版、潮玩版。"
+    },
+    {
+      "alias": "机械革命极光Pro",
+      "modelKey": "笔记本电脑|机械革命|极光 Pro|2023",
+      "aliasType": "常见搜索写法",
+      "note": "默认指 2023 年 5999 元 RTX4060 版；2022 款另列。"
+    },
+    {
+      "alias": "机械革命极光",
+      "modelKey": "笔记本电脑|机械革命|极光 Pro|2022",
+      "aliasType": "泛称",
+      "note": "2022 年官方产品名即「极光」，2023 年后统一为极光 Pro。"
+    },
+    {
+      "alias": "机械革命极光X",
+      "modelKey": "笔记本电脑|机械革命|极光 X|2024",
+      "aliasType": "常见搜索写法",
+      "note": "2024 年 16 英寸 i7-14650HX 机型。"
+    },
+    {
+      "alias": "机械革命 钛钽Plus",
+      "modelKey": "笔记本电脑|机械革命|钛钽 Plus|2021",
+      "aliasType": "常见搜索写法",
+      "note": "注意「钽」非常用字，常被写作「钛坦 Plus」。"
+    },
+    {
+      "alias": "钛钽Plus",
+      "modelKey": "笔记本电脑|机械革命|钛钽 Plus|2021",
+      "aliasType": "简称",
+      "note": "17.3 英寸 2K 165Hz 旗舰。"
+    },
+    {
+      "alias": "机械革命钛钽",
+      "modelKey": "笔记本电脑|机械革命|钛钽|2019",
+      "aliasType": "常见搜索写法",
+      "note": "2019 款 17.3 英寸 240Hz。"
+    },
+    {
+      "alias": "机械革命 旷世16",
+      "modelKey": "笔记本电脑|机械革命|旷世 16|2023",
+      "aliasType": "常见搜索写法",
+      "note": "与旷世 G16、旷世 16 Super 为不同机型。"
+    },
+    {
+      "alias": "旷世16 Super",
+      "modelKey": "笔记本电脑|机械革命|旷世 16 Super|2023",
+      "aliasType": "简称",
+      "note": "i9-13900HX + RTX4080 水冷旗舰。"
+    },
+    {
+      "alias": "机械革命旷世X",
+      "modelKey": "笔记本电脑|机械革命|旷世 X|2023",
+      "aliasType": "常见搜索写法",
+      "note": "17 英寸水冷版；2024 年另有 16 英寸低配版。"
+    },
+    {
+      "alias": "机械革命 深海幽灵Z2",
+      "modelKey": "笔记本电脑|机械革命|深海幽灵 Z2|2018",
+      "aliasType": "常见搜索写法",
+      "note": "2018 年光轴机械键盘机型；Z3 系列为后续型号。"
+    },
+    {
+      "alias": "机械革命 耀世16Super",
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Super|2024",
+      "aliasType": "常见搜索写法",
+      "note": "2024 年 i9-14900HX + RTX4080/4090。"
+    },
+    {
+      "alias": "耀世16 Ultra",
+      "modelKey": "笔记本电脑|机械革命|耀世 16 Ultra|2025",
+      "aliasType": "简称",
+      "note": "2025 年 RTX50 水冷旗舰。"
+    },
+    {
+      "alias": "苍龙16Ultra",
+      "modelKey": "笔记本电脑|机械革命|苍龙 16 Ultra|2025",
+      "aliasType": "简称",
+      "note": "AMD R9-9955HX3D 平台。"
+    },
+    {
+      "alias": "机械革命 耀世18Pro",
+      "modelKey": "笔记本电脑|机械革命|耀世 18 Pro|2026",
+      "aliasType": "常见搜索写法",
+      "note": "2026 年 18 英寸大屏旗舰。"
+    },
+    {
+      "alias": "机械革命游戏本",
+      "modelKey": "笔记本电脑|机械革命|蛟龙 16K|2023",
+      "aliasType": "泛词",
+      "note": "泛搜词，落到销量最大的蛟龙 16K 作为默认入口；实际应结合型号检索。"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "蛟龙 16 Super",
+      "issue": "官方产品线与 2024 年资料中只见「蛟龙 16S」「蛟龙 16 Pro」，未检索到官方命名为「蛟龙 16 Super」的机型，疑为 16S 的误写或与「旷世 16 Super」混淆。",
+      "suggestion": "暂不建档；待 mechrevo.com 产品页或京东自营 SKU 出现明确「蛟龙16 Super」再补，勿与 16S / 旷世16 Super 合并。",
+      "sourceUrl": "https://www.sohu.com/a/755777248_121649107"
+    },
+    {
+      "model": "极光 Z3",
+      "issue": "未检索到官方「极光 Z3」。2022 年为「极光 / 极光 Pro」（RTX3060），2023 年有「极光 Z」（i5-12450H/i7-13700H + RTX3050）与「极光 Pro」，2024 年为「极光 X」；「极光Z3」多为第三方店铺拼写。",
+      "suggestion": "按实际 SKU 归入极光 Pro 2022 / 极光 Pro 2023 / 极光 X 2024；若确认存在极光 Z 2023，可单独补一条。",
+      "sourceUrl": "https://www.163.com/dy/article/HUQLEKRE0511CEBF.html"
+    },
+    {
+      "model": "无界 14（2019 款）",
+      "issue": "未发现 2019 年存在「无界 14」。无界系列最早为 2022 年（官方稿件称无界14 沿用 S3/S3 Pro/S5 模具）；2019 年在售的机械革命 14 英寸轻薄本为 S1/S3 等，MX250 机型并非无界命名。",
+      "suggestion": "本表无界 14 从 2022 年起建档；如需覆盖 2019 年，应以 S1/S3 单独建型号，不要套用无界名称。",
+      "sourceUrl": "https://so.html5.qq.com/page/real/search_news?docid=70000021_48463644fff90652&faker=1"
+    },
+    {
+      "model": "星曜 14 / 星曜 15",
+      "issue": "官方写法为「星耀 14」「星耀 15」（mechrevo.com 首页与轻薄本系列页），「星曜」为同音误写；本表按官方名建档，未单列「星曜」。",
+      "suggestion": "检索与别名层兼容「星曜」，型号主数据统一用「星耀」；星耀 15 规格尚未取得官方页面，暂不建档。",
+      "sourceUrl": "https://www.mechrevo.com/cn/product-series?series=VbJS1V"
+    },
+    {
+      "model": "旷世 X 2026 / 极光 X 2026 / 极光 X 潮玩版 2026 / 耀世 16 Pro 2026 / 耀世 15 Pro 2026",
+      "issue": "2026-03-18 官方发布会确认这些机型存在并换装新一代酷睿 Ultra，但官方新闻未公布 CPU 具体型号、显卡、内存/存储档位与价格，只有机型名。",
+      "suggestion": "仅登记机型名，不写入 models 的配置字段；待官方产品页/京东自营 SKU 上线后补齐，避免用上一代配置推断。",
+      "sourceUrl": "https://www.mechrevo.com/cn/news/detail/0JsQMg"
+    },
+    {
+      "model": "蛟龙 16 Pro 2025 屏幕规格",
+      "issue": "同一年款存在 180Hz（活力橙限定版、潮玩版）与 300Hz（京东 R9-8945HX 版）两种面板，部分店铺标题混用「2.5K 240Hz」。",
+      "suggestion": "按 SKU 区分 180Hz / 300Hz 两档，不要合并为单一 screenOption；采购下单需以具体 SKU 型号核对。",
+      "sourceUrl": "https://m.newskj.org/game/189142.html"
+    },
+    {
+      "model": "无界 14 Max / 14 Max Carbon / 16 Max / 14S / 14 SE / 16S（2026 在售）",
+      "issue": "2026 年无界家族已扩展出 Max、Max Carbon、S、SE 等多个子系列（官方轻薄本系列页可见），本表仅覆盖任务要求的 无界 14 / 16 / 14 Pro / 16 Pro / 15X Pro，其余未建档。",
+      "suggestion": "如采购需要覆盖 900g 级碳纤维机型（无界 14 Max Carbon，946g、OLED），可单独发起一轮补充调研。",
+      "sourceUrl": "https://www.mechrevo.com/cn/product-series?series=VbJS1V"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import { requireRole, authErrorResponse } from '@/lib/auth';
 
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
+import { canonicalSKUBrand } from '@/lib/sku-brand';
 import {
   successResponse,
   errorResponse,
@@ -52,7 +53,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const { page, pageSize } = parsePaginationParams(searchParams);
     const productType = searchParams.get('productType') || '';
-    const brand = searchParams.get('brand') || '';
+    const brand = canonicalSKUBrand(searchParams.get('brand') || '');
     const search = searchParams.get('search') || '';
     
     // 构建查询条件
@@ -150,13 +151,14 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    const canonicalBrand = canonicalSKUBrand(brand);
     // 检查是否已存在相同的 SKU
     const normalizedYear = normalizeYear(year);
     const yearCondition = normalizedYear === null ? 'year IS NULL' : 'year = ?';
     const existingSku = db.prepare(`
       SELECT id FROM skus 
       WHERE productType = ? AND brand = ? AND model = ? AND ${yearCondition} AND ${notDeletedCondition}
-    `).get(...[productType.trim(), brand.trim(), model.trim(), ...(normalizedYear === null ? [] : [normalizedYear])]) as { id: string } | undefined;
+    `).get(...[productType.trim(), canonicalBrand, model.trim(), ...(normalizedYear === null ? [] : [normalizedYear])]) as { id: string } | undefined;
     
     if (existingSku) {
       return NextResponse.json(
@@ -187,7 +189,7 @@ export async function POST(request: NextRequest) {
     `).run(
       skuId,
       productType.trim(),
-      brand.trim(),
+      canonicalBrand,
       model.trim(),
       normalizedYear,
       JSON.stringify(cpuOptions || []),
@@ -265,9 +267,22 @@ export async function PUT(request: NextRequest) {
         { status: 404 }
       );
     }
+
+    if (typeof productType !== 'string' || typeof brand !== 'string' || typeof model !== 'string' ||
+        !productType.trim() || !brand.trim() || !model.trim()) {
+      return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '产品类型、品牌和型号不能为空'), { status: 400 });
+    }
     
+    const canonicalBrand = canonicalSKUBrand(brand);
     // 更新 SKU
     const normalizedYear = normalizeYear(year);
+    const yearCondition = normalizedYear === null ? 'year IS NULL' : 'year = ?';
+    const duplicate = db.prepare(`SELECT id FROM skus
+      WHERE id <> ? AND productType = ? AND brand = ? AND model = ? AND ${yearCondition} AND ${notDeletedCondition}`)
+      .get(id, productType.trim(), canonicalBrand, model.trim(), ...(normalizedYear === null ? [] : [normalizedYear]));
+    if (duplicate) {
+      return NextResponse.json(errorResponse(ErrorCode.DUPLICATE_ENTRY, '该 SKU 已存在'), { status: 400 });
+    }
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
     
     db.prepare(`
@@ -279,7 +294,7 @@ export async function PUT(request: NextRequest) {
       WHERE id = ?
     `).run(
       productType.trim(),
-      brand.trim(),
+      canonicalBrand,
       model.trim(),
       normalizedYear,
       JSON.stringify(cpuOptions || []),

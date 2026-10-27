@@ -1,0 +1,1362 @@
+{
+  "scope": "神舟 轻薄本+游戏本 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X4-SL5S1|2016",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "优雅X4-SL5S1",
+      "displayName": "神舟优雅X4-SL5S1 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "i5-6200U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "256GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1146729.shtml",
+      "sourceTitle": "神舟优雅X4-SL5S1 参数 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2016年06月上市（ZOL）。i5-6200U+HD 520核显，8GB DDR3L（1×SO-DIMM，最大16GB），256GB SSD。14英寸FHD微边框IPS，整机1.5kg，机身最厚20mm，镁铝合金外壳。参考价3699元（ZOL），2016年8月实际成交3999元。同系列另有触控版X4-SL5T1（4999元）与i7-7500U版X4-KL7S1（4099元），均属同一模具不同SKU。官方未标屏幕刷新率，按60Hz计。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X5-KL7S2|2017",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "优雅X5-KL7S2",
+      "displayName": "神舟优雅X5-KL7S2 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "i7-7500U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 950M 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "256GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1008.html",
+      "sourceTitle": "优雅X5-KL7S2 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "官网标注上市时间2017年10月。i7-7500U双核四线程+GTX 950M 2GB GDDR5双显卡，8GB DDR4，256GB SSD（2.5英寸7mm位），15.6英寸FHD LED屏。官方页面重量写4.8Kg、厚度写2.15mm，与15.6英寸机型不符，疑为官网录入错误，采购入库时以实物为准。官方未标刷新率与售价。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|精盾U45A1|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "精盾U45A1",
+      "displayName": "神舟精盾U45A1 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "i5-8265U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "MX250 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://shop.zol.com/shop_2167488/36573062.html",
+      "sourceTitle": "神舟 精盾 U45A1畅玩版 参数 - ZOL商城",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年06月13日发布会上市（ZOL上市时间2019年04月为备案口径）。i5-8265U+MX250 2GB，8GB DDR4 2666（1×SO-DIMM，最大16GB），512GB PCIe SSD。14英寸FHD IPS、4mm窄边框、86%屏占比，镁铝合金A/C/D面，1.16kg/17mm。发布会价3999元，5月预售折后4699元（IT之家）。官方与ZOL将产品定位误标为“游戏本”，实为轻薄本。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|精盾U45S1|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "精盾U45S1",
+      "displayName": "神舟精盾U45S1 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "i5-8265U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "MX250 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "http://m.haseecomputer.com/fineshieldseries/1123.html",
+      "sourceTitle": "KINGBOOK U45S1 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年08月13日上架（IT之家），官方产品页未标上市时间。i5-8265U+MX250 2GB，16GB DDR4（最大16GB，板载/单插槽不可扩），512GB PCIe SSD，双M.2 2280。14.1英寸1920x1080 72% IPS，1.16kg，46.74Wh。售价4599元，ZOL商家报价4499-4799元。与U45A1同模具，内存翻倍为主销版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|精盾U47T1|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "精盾U47T1",
+      "displayName": "神舟精盾U47T1 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "i7-8565U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "MX250 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14.1英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "http://m.haseecomputer.com/fineshieldseries/1125.html",
+      "sourceTitle": "KINGBOOK U47T1 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年06月13日发布会上市，首发4999元（ZOL发布会报道）。i7-8565U+MX250 2GB，8GB DDR4（最大16GB），1TB PCIe SSD，双M.2 2280。14.1英寸1920x1080 45% IPS（低色域版，与U45系列的72%不同），1.16kg，无背光键盘。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X4D2|2020",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "优雅X4D2",
+      "displayName": "神舟优雅X4D2 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "5205U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "256GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hasee/1314627_detail.html",
+      "sourceTitle": "神舟优雅X4D2(5205U/8GB/256GB)参数 - 太平洋产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年10月上市（太平洋产品库；IT之家2020年10月12日报道上架）。赛扬5205U（2核2线程，1.8GHz，15W）+集成显卡，8GB DDR4（板载上限8GB），256GB SSD。14英寸1920x1080 IPS、支持180度开合，全金属A面CNC+阳极氧化，1.44-1.5kg，厚18.9mm，白色背光两级可调，无RJ45。京东首发1999元、原价2499元（IT之家/网易）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X5 U5|2024",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "优雅X5 U5",
+      "displayName": "神舟优雅X5 U5 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Ultra 5 125H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://m.163.com/dy/article/JAKOUANE0552NPPI.html",
+      "sourceTitle": "升级酷睿Ultra 5和高色域屏幕 3699元的神舟优雅X5 U5靠谱吗？- 网易",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2024年上市（媒体评测期），官方未披露具体月份。Ultra 5 125H+Arc核显，16GB LPDDR5 4800（板载不可扩），512GB SSD，15.6英寸1080P 100%sRGB 60Hz（较X5老款升级高色域）。1.75kg，62.7Wh，A面金属、屏幕180°开合、带数字小键盘。售价3699元。同系列另有X5 i5-13420H/i7-13620H/i9-12900H 版本（16G+512G，2999-3499元，低色域屏），配置与上市年份不一，未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X6 Pro U5|2024",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "优雅X6 Pro U5",
+      "displayName": "神舟优雅X6 Pro U5 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Ultra 5 125H"
+      ],
+      "ramOptions": [
+        "24GB"
+      ],
+      "gpuOptions": [
+        "集成显卡"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://t.cj.sina.cn/articles/view/1826017320/6cd6d02802001c3qy?finpagefr=p_104&vt=4",
+      "sourceTitle": "神舟优雅 X6/Pro U5 笔记本开售：酷睿 Ultra 5-125H，3799 元起 - IT之家",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024年8月26日发布、9月1日开售。Ultra 5 125H，24GB LPDDR5（板载），1TB PCIe 4.0 SSD。16英寸1920x1200 16:10 60Hz 72%NTSC，A/D面金属，1.85kg/17.9mm，58.33Wh，雷电4+全功能USB-C。IT之家原文标价“2199元”，与24GB/1TB配置明显不符（同场X6 U5 16G/512G为3799元），疑为笔误，本表不采用该价格。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-KP7GC|2018",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 Z7-KP7GC",
+      "displayName": "神舟战神 Z7-KP7GC 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/701/7014966.html",
+      "sourceTitle": "强劲神舟战神Z7-KP7GC西安价格超值促销 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018年04月上市，HM370芯片组，蓝天模具。8GB DDR4（2×SO-DIMM，最大16GB，ZOL口径；太平洋标最大32GB），128GB SSD+1TB HDD，GTX 1060 6GB GDDR5。15.6英寸FHD IPS（60Hz），RGB全彩背光键盘，约2.98kg（百度百科）/2.5kg级。参考价7099元，初期售价6699-7099元，2022年10月前后停产。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT5NA|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 Z7-CT5NA",
+      "displayName": "神舟战神 Z7-CT5NA 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-9300H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1660Ti 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1073.html",
+      "sourceTitle": "战神Z7-CT5NA 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年04月上市（ZOL/天极）。蓝天NH50RC模具，i5-9300H+GTX 1660Ti 6GB GDDR6。8GB DDR4，2×SO-DIMM（官网标最大64GB，百科/天极标32GB，单槽16GB），512GB SSD，另留1个2.5英寸位+2个M.2 2280（支持RAID 0/1）。15.6英寸FHD 45% IPS，2.2kg/27.9mm，48.96Wh，150W适配器，多彩背光键盘。官方未标刷新率，按60Hz计；未见官方首发价。与Z7-CT7NA同模具、仅CPU不同。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT7NA|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 Z7-CT7NA",
+      "displayName": "神舟战神 Z7-CT7NA 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1660Ti 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1074.html",
+      "sourceTitle": "战神Z7-CT7NA 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年04月上市。i7-9750H（6核12线程，2.6/4.5GHz）+GTX 1660Ti 6GB GDDR6，8GB DDR4，512GB SSD。15.6英寸FHD 45% IPS窄边框，2.2kg，361×258×27.9mm，48.96Wh，150W适配器。参考价6999元（天极）。与Z7-CT5NA同模具，CPU由i5-9300H升级为i7-9750H。官方未标刷新率，按60Hz计。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 G7-CT7VK|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 G7-CT7VK",
+      "displayName": "神舟战神 G7-CT7VK 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1660Ti 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "256GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1094.html",
+      "sourceTitle": "战神G7-CT7VK 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年04月上市。i7-9750H+GTX 1660Ti 6GB GDDR6，16GB DDR4（最大32GB），256GB SSD+1TB HDD，17.3英寸FHD 72% IPS 144Hz。2.5kg，395.7×260.8×30.05mm，46.74Wh，180W适配器，RGB背光键盘，2×Mini DP 1.4a。同系列G7-CT7NA为8GB/512GB版（8099元起）、G7-CT7NK为16GB/256GB+1TB版，属不同SKU。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 G9-CT7PK|2019",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 G9-CT7PK",
+      "displayName": "神舟战神 G9-CT7PK 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "256GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "http://www.haseecomputer.com/PC/detail_1105.html",
+      "sourceTitle": "战神G9-CT7PK 规格参数 - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年04月上市，2019年8月ChinaJoy NVIDIA展区展出。i7-9750H+RTX 2070 8GB GDDR6，16GB DDR4（最大64GB），256GB SSD+1TB HDD，17.3英寸FHD 72% IPS 144Hz。2.9kg，399×275×29.9mm，62Wh，230W适配器。参考价8299元（ZOL）；同系列G9-CU7PK（i7-10750H/RTX2070）7599元、G9-CU7PS（RTX2070 Super）9699元，为2020年不同SKU。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CU7NA|2020",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 Z8-CU7NA",
+      "displayName": "神舟战神 Z8-CU7NA 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "256GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://product.yesky.com/product/1093/1093837/param.shtml",
+      "sourceTitle": "神舟战神Z8-CU7NA 参数 - 天极产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年04月上市。i7-10750H+RTX 2060 6GB GDDR6，15.6英寸FHD 45%色域144Hz，双风扇四铜管、Fn+1一键强冷。8GB/512GB为主销版本（ZOL报价6999元，天极7399元，行情6649元）；同系列Z8-CU7NK为16GB/256GB+1TB版本（7399-7799元），Z8-CU5NA为i5-10300H版6799元、Z8-CU5NS为6199元。2×SO-DIMM，最大64GB（ZOL口径）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 G8-CU7NA|2020",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 G8-CU7NA",
+      "displayName": "神舟战神 G8-CU7NA 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://m.zol.com.cn/article/7823712.html",
+      "sourceTitle": "发烧级6G独显 神舟战神G8-CU7NA售6499元 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年04月上市。i7-10750H+RTX 2060 6GB GDDR6，8GB DDR4（2×SO-DIMM，最大64GB），512GB SSD，17.3英寸FHD 72%NTSC IPS 144Hz窄边框。2.5kg，双风扇三铜管，150W适配器。参考价6499-6799元（ZOL行情）。与Z8-CU7NA同配置、屏幕由15.6英寸放大至17.3英寸。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 TX9-CU5DA|2020",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 TX9-CU5DA",
+      "displayName": "神舟战神 TX9-CU5DA 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-10400"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "RTX 2070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hasee/1299848_detail.html",
+      "sourceTitle": "神舟战神TX9-CU5DA(酷睿i5-10400/8GB/512GB/RTX2070)参数 - 太平洋产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年5月20日神舟战神发布会主推机型（ZOL报道）；ZOL/PChome标注上市时间2020年03月，为备案口径。桌面级i5-10400（6核12线程，65W）+RTX 2070 8GB GDDR6，8GB DDR4 2666（2×SO-DIMM，最大64GB），512GB SSD，16.1英寸FHD 72%NTSC IPS 144Hz。2.7kg/30mm，双风扇六铜管，230W适配器。参考价7399元（ZOL），首批五款TX8/TX9机型首发价7499-9799元。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CA7NP|2021",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 Z8-CA7NP",
+      "displayName": "神舟战神 Z8-CA7NP 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10870H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hasee/1349287_detail.html",
+      "sourceTitle": "神舟战神Z8-CA7NP(酷睿i7-10870H/16GB/512GB/RTX3060/144Hz)参数 - 太平洋产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021年01月13日上市（太平洋），ZOL标2021年02月。i7-10870H+RTX 3060 6GB（75-105W），16GB DDR4 3200（2×SO-DIMM，最大64GB，默认2933需BIOS开启超频），512GB SSD，15.6英寸FHD 72%NTSC 144Hz IPS。2.17kg，双M.2+2.5英寸位，180W适配器，不支持独显直连。售价8399元（笔吧评测室）。同系列Z8-CA5NP为i5-10500H版，上市价6799元。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 TX8-CA5DP|2021",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 TX8-CA5DP",
+      "displayName": "神舟战神 TX8-CA5DP 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-11400"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "http://en.haseecomputer.com/PC/detail_1149.html",
+      "sourceTitle": "TX8-CA5DP Specification - 神舟电脑官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021年03月上市。桌面级i5-11400（6核12线程）+RTX 3060 6GB GDDR6，16GB DDR4 3200（2×SO-DIMM，最大64GB），512GB SSD，16.1英寸FHD 72%NTSC IPS 144Hz。2.7kg/30mm，双风扇四热管，230W适配器，62Wh。ZOL报价8599元，2021年行情价6299元。TX9-CU5DA的后继（11代桌面U+RTX30）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-TA5NA|2021",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 Z7-TA5NA",
+      "displayName": "神舟战神 Z7-TA5NA 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-11260H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://product.yesky.com/product/1155/1155190/param.shtml",
+      "sourceTitle": "神舟战神Z7-TA5NA 参数 - 天极产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021年05月上市。i5-11260H（6核12线程，10nm）+RTX 3050 4GB GDDR6，8GB DDR4 3200（2×SO-DIMM，最大64GB），512GB SSD，15.6英寸FHD IPS 60Hz（太平洋标60Hz，ZOL未标刷新率）。2.2kg/24.9mm，41Wh，双风扇四铜管，单区多彩背光。参考价5699元（ZOL）。同系列Z7-TA7NP为i7-11800H/16GB版6099元、Z7T-TA5NS为i5-11400H/RTX3050Ti版6499元。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8-DA7NP|2022",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T8-DA7NP",
+      "displayName": "神舟战神 T8-DA7NP 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1422012.shtml",
+      "sourceTitle": "神舟战神T8-DA7NP 参数 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022年07月上市（7月19日夏季发布会首发）。i7-12700H（14核20线程）+RTX 3060 6GB，16GB DDR4 3200（2×SO-DIMM，最大64GB），512GB SSD（双M.2），16英寸1920x1200 16:10 100%sRGB 165Hz IPS。2.15-2.24kg/26.1mm，54Wh，180W适配器，双风扇5热管，支持独显直连。参考价6999元。同系列同年SKU：T8-DA5NP（i5-12500H）6499元、T8-DA5NS（i5-12450H）5699元、T8-DA9NT（i9-12900H/1TB/2.5K）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8 Pro|2024",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T8 Pro",
+      "displayName": "神舟战神 T8 Pro 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-14650HX",
+        "i7-13700HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/J1VTBIHP0511CEBF.html",
+      "sourceTitle": "聊一款表现均衡的新游戏本（神舟战神T8 Pro评测）- 笔吧评测室",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024年03月29日神舟发布T8 Plus/Pro系列（百度百科神舟笔记条例），媒体2024年5月实测。广达模具（非蓝天），i7-14650HX+RTX 4060 8GB（140W），16GB DDR5 5600（2插槽，单通道出厂），1TB PCIe4.0 SSD（双M.2），16英寸2560x1600 100%sRGB 165Hz，2.58kg。参考价7499元。13代批次为i7-13700HX，可选RTX 4060/4070，2025年国补到手4999/5600元（搜狐科技）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T8 Plus",
+      "displayName": "神舟战神 T8 Plus 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Core 7-240H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 180Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7511638348125962803/",
+      "sourceTitle": "神舟战神 T8 / T9 Plus 游戏本首销：酷睿 7-240H + RTX5060/5070，国补后 5499.2 元起 - IT之家（头条转载）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025年6月2日发布/首销（IT之家、ZOL）。酷睿7-240H（10核16线程，5.2GHz）+RTX 5060 8GB GDDR7，16GB DDR5 5600（双插槽），1TB PCIe4.0 SSD（双M.2），16英寸2560x1600 100%sRGB 500nit 180Hz。2.32kg/22.5mm，80Wh，双风扇五铜管四出风口，四分区RGB。首发7499元，国补后5499.2元；同模具T9 Plus（RTX5070）8499元/6299.2元。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T9 Plus|2025",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T9 Plus",
+      "displayName": "神舟战神 T9 Plus 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Core 7-240H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 180Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/991/9915232.html",
+      "sourceTitle": "神舟战神T8/T9 Plus笔记本发布，显卡不同 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025年6月2日与T8 Plus同期发布，仅显卡不同（T9 Plus为RTX 5070 8GB GDDR7）。酷睿7-240H，16GB DDR5 5600，1TB PCIe4.0 SSD，16英寸2560x1600 500nit 180Hz，2.32kg，80Wh。首发8499元，国补后6299.2元。与T8 Plus共用模具与主板，采购可视为同平台高低配。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T11 Pro|2025",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T11 Pro",
+      "displayName": "神舟战神 T11 Pro 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.dn580.com/yj/1746721116a3114649.html",
+      "sourceTitle": "神舟战神T11 Pro i9 14900HX/32GB/2TB/RTX5080 参数报价 - 电脑我帮您",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2025年5月神舟50系发布会机型，RTX 5080于3月31日首销。i9-14900HX（24核32线程）+RTX 5080 16GB GDDR7，16GB/1TB（京东自营13599元）与32GB/2TB（14599元）两版，16英寸2560x1600 100%sRGB 500nit 240Hz IPS，2.72kg/31.5mm，63Wh，双风扇六热管，双烤约230W，WiFi7。首发+国补到手11999元（搜狐科技）。官网无独立规格页，参数取自电商/媒体，confidence记为medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T12 Pro|2025",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T12 Pro",
+      "displayName": "神舟战神 T12 Pro 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "96GB"
+      ],
+      "gpuOptions": [
+        "RTX 5090 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/842/056.htm",
+      "sourceTitle": "神舟战神 T12 Pro 16 英寸游戏本首销：i9-14900HX + 32G + 1T + RTX5090 国补后 15999 元 - IT之家",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025年3月31日首销，定价17999元（国补后15999元）；2025年6月1日再次开售调价至19999元（国补17999元）。i9-14900HX（24核32线程）+RTX 5090，32GB DDR5 5600+1TB PCIe4.0 SSD，16英寸2560x1600 100%sRGB 500nit 300Hz IPS，2.72kg，63Wh，双风扇六铜管四出风口，RGB三区键盘。ZOL另有96GB/2TB、96GB/4TB、96GB/8TB商家配置（28099-33099元），双内存插槽最高96GB。RTX 5090显存按NVIDIA移动版规格为24GB GDDR7，IT之家与ZOL均未标容量，故gpuOptions不写显存。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T9|2026",
+      "productType": "笔记本电脑",
+      "brand": "神舟",
+      "model": "战神 T9",
+      "displayName": "神舟战神 T9 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 290HX Plus"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/969/224.htm",
+      "sourceTitle": "神舟推出 2026 款战神 T9 笔记本：Ultra 9 290HX Plus + 16G + 1T + RTX5070 售 12499 元 - IT之家",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026年6月26日上架京东，定价12499元。Ultra 9 290HX Plus（24核24线程，5.5GHz，36MB）+RTX 5070 8GB GDDR7，16GB DDR5（双插槽）+1TB PCIe4.0（三SSD接口），16英寸2560x1600 100%sRGB 500nit 300Hz IPS。2.45kg，53Wh，双风扇六铜管，WiFi7，独显直连。另有2026年8月上市的i7-14700HX版本（16GB/500GB，京东在售），配置不同未合并。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X4-SL5S1|2016",
+      "cpu": "i5-6200U",
+      "ram": "8GB",
+      "gpu": "集成显卡",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1146729.shtml",
+      "sourceTitle": "神舟优雅X4-SL5S1 参数 - 中关村在线",
+      "confidence": "high",
+      "notes": "2016年6月上市，参考价3699元；8GB DDR3L单插槽。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X5-KL7S2|2017",
+      "cpu": "i7-7500U",
+      "ram": "8GB",
+      "gpu": "GTX 950M 2GB 独立显卡",
+      "storage": "256GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1008.html",
+      "sourceTitle": "优雅X5-KL7S2 规格参数 - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "官网标注2017年10月上市，双显卡（GTX950M+HD620）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|精盾U45A1|2019",
+      "cpu": "i5-8265U",
+      "ram": "8GB",
+      "gpu": "MX250 2GB 独立显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://shop.zol.com/shop_2167488/36573062.html",
+      "sourceTitle": "神舟 精盾 U45A1畅玩版 参数 - ZOL商城",
+      "confidence": "high",
+      "notes": "2019年6月发布会价3999元，8GB DDR4 2666单插槽。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|精盾U45S1|2019",
+      "cpu": "i5-8265U",
+      "ram": "16GB",
+      "gpu": "MX250 2GB 独立显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.sohu.com/a/333335275_114760",
+      "sourceTitle": "神舟推出新款精盾笔记本：i5+16G内存+MX250，4599元 - IT之家（搜狐转载）",
+      "confidence": "high",
+      "notes": "2019年8月13日上架，4599元；16GB为板载上限，不可扩。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|精盾U47T1|2019",
+      "cpu": "i7-8565U",
+      "ram": "8GB",
+      "gpu": "MX250 2GB 独立显卡",
+      "storage": "1TB SSD",
+      "screen": "14.1英寸 1920x1080 60Hz",
+      "sourceUrl": "http://m.haseecomputer.com/fineshieldseries/1125.html",
+      "sourceTitle": "KINGBOOK U47T1 规格参数 - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "2019年6月发布会价4999元，1TB PCIe SSD、45%低色域屏、无背光键盘。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X4D2|2020",
+      "cpu": "5205U",
+      "ram": "8GB",
+      "gpu": "集成显卡",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hasee/1314627_detail.html",
+      "sourceTitle": "神舟优雅X4D2(5205U/8GB/256GB)参数 - 太平洋产品库",
+      "confidence": "high",
+      "notes": "2020年10月上市，京东首发1999元（原价2499元）；8GB板载。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X5 U5|2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://m.163.com/dy/article/JAKOUANE0552NPPI.html",
+      "sourceTitle": "升级酷睿Ultra 5和高色域屏幕 3699元的神舟优雅X5 U5靠谱吗？- 网易",
+      "confidence": "medium",
+      "notes": "3699元，16GB LPDDR5 4800板载，屏幕升级100%sRGB。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|优雅X6 Pro U5|2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "24GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 1920x1200 60Hz",
+      "sourceUrl": "https://t.cj.sina.cn/articles/view/1826017320/6cd6d02802001c3qy?finpagefr=p_104&vt=4",
+      "sourceTitle": "神舟优雅 X6/Pro U5 笔记本开售：酷睿 Ultra 5-125H，3799 元起 - IT之家",
+      "confidence": "high",
+      "notes": "2024年9月1日开售，24GB LPDDR5板载，雷电4。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-KP7GC|2018",
+      "cpu": "i7-8750H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "128GB SSD + 1TB HDD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://nb.zol.com.cn/701/7014966.html",
+      "sourceTitle": "强劲神舟战神Z7-KP7GC西安价格超值促销 - 中关村在线",
+      "confidence": "high",
+      "notes": "2018年4月上市，7099元；8GB单条，最大16GB（ZOL）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT5NA|2019",
+      "cpu": "i5-9300H",
+      "ram": "8GB",
+      "gpu": "GTX 1660Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1073.html",
+      "sourceTitle": "战神Z7-CT5NA 规格参数 - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "官方配置：8G DDR4/512G SSD/GTX1660Ti 6G，双M.2。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT7NA|2019",
+      "cpu": "i7-9750H",
+      "ram": "8GB",
+      "gpu": "GTX 1660Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1074.html",
+      "sourceTitle": "战神Z7-CT7NA 规格参数 - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "官方配置：I7-9750H/8G/512G SSD/GTX1660Ti 6G；参考价6999元（天极）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 G7-CT7VK|2019",
+      "cpu": "i7-9750H",
+      "ram": "16GB",
+      "gpu": "GTX 1660Ti 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD + 1TB HDD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "http://haseecomputer.net/PC/detail_1094.html",
+      "sourceTitle": "战神G7-CT7VK 规格参数 - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "官方配置：16G/256G SSD+1TB HDD/GTX1660Ti，17.3英寸144Hz 72%。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 G9-CT7PK|2019",
+      "cpu": "i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2070 8GB 笔记本电脑 GPU",
+      "storage": "256GB SSD + 1TB HDD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "http://www.haseecomputer.com/PC/detail_1105.html",
+      "sourceTitle": "战神G9-CT7PK 规格参数 - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "官方配置：I7-9750H/16G/256G SSD+1TB/RTX2070 8G；参考价8299元。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CU7NA|2020",
+      "cpu": "i7-10750H",
+      "ram": "8GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.yesky.com/product/1093/1093837/param.shtml",
+      "sourceTitle": "神舟战神Z8-CU7NA 参数 - 天极产品库",
+      "confidence": "high",
+      "notes": "ZOL报价6999元，天极7399元；8GB DDR4双插槽。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CU7NA|2020",
+      "cpu": "i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD + 1TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://pinterface.yesky.com/front/compare/productcompare.do?productids=1093837,1093490&siteinfoid=1",
+      "sourceTitle": "神舟战神Z8-CU7NK、Z8-CU7NA 产品对比 - 天极网",
+      "confidence": "high",
+      "notes": "同模具Z8-CU7NK配置（16GB/256GB+1TB），7399-7799元；与Z8-CU7NA为同一机型不同存储组合。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 G8-CU7NA|2020",
+      "cpu": "i7-10750H",
+      "ram": "8GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/7823712.html",
+      "sourceTitle": "发烧级6G独显 神舟战神G8-CU7NA售6499元 - 中关村在线",
+      "confidence": "high",
+      "notes": "2020年4月上市，参考价6499-6799元（ZOL行情）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 TX9-CU5DA|2020",
+      "cpu": "i5-10400",
+      "ram": "8GB",
+      "gpu": "RTX 2070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16.1英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hasee/1299848_detail.html",
+      "sourceTitle": "神舟战神TX9-CU5DA 参数 - 太平洋产品库",
+      "confidence": "high",
+      "notes": "2020年5月20日发布，7399元；桌面级i5-10400、230W适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CA7NP|2021",
+      "cpu": "i7-10870H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hasee/1349287_detail.html",
+      "sourceTitle": "神舟战神Z8-CA7NP 参数 - 太平洋产品库",
+      "confidence": "high",
+      "notes": "2021年1月上市，8399元；16GB DDR4 3200双通道。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 TX8-CA5DP|2021",
+      "cpu": "i5-11400",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16.1英寸 1920x1080 144Hz",
+      "sourceUrl": "http://en.haseecomputer.com/PC/detail_1149.html",
+      "sourceTitle": "TX8-CA5DP Specification - 神舟电脑官网",
+      "confidence": "high",
+      "notes": "官方规格：i5-11400/16G DDR4/512G SSD/RTX3060 6G，16.1英寸144Hz。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 Z7-TA5NA|2021",
+      "cpu": "i5-11260H",
+      "ram": "8GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://product.yesky.com/product/1155/1155190/param.shtml",
+      "sourceTitle": "神舟战神Z7-TA5NA 参数 - 天极产品库",
+      "confidence": "high",
+      "notes": "2021年5月上市，5699元（ZOL）；41Wh电池。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8-DA7NP|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1422012.shtml",
+      "sourceTitle": "神舟战神T8-DA7NP 参数 - 中关村在线",
+      "confidence": "high",
+      "notes": "2022年7月19日发布，6999元；DDR4 3200双插槽，支持独显直连。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8 Pro|2024",
+      "cpu": "i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.163.com/dy/article/J1VTBIHP0511CEBF.html",
+      "sourceTitle": "聊一款表现均衡的新游戏本（神舟战神T8 Pro评测）- 笔吧评测室",
+      "confidence": "high",
+      "notes": "2024年5月实测机，参考价7499元；RTX4060为140W满血。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8 Pro|2024",
+      "cpu": "i7-13700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "http://m.bjbpc.com/view.php?aid=1940",
+      "sourceTitle": "神舟战神T8 Pro(i7-13700HX RTX4060 16GB 1TB)国补价格4999.2元 - 笔记本评测网",
+      "confidence": "medium",
+      "notes": "13代批次，国补到手4999.2元；DDR5 4800双通道、预留第二M.2。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8 Pro|2024",
+      "cpu": "i7-13700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://it.sohu.com/a/877720124_121649107",
+      "sourceTitle": "神舟战神T12 Pro价格逆天？其实T8 Pro性价比更高！- 搜狐科技",
+      "confidence": "medium",
+      "notes": "RTX4070版国补到手5600元；与4060版同模具同CPU。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "cpu": "Core 7-240H",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 180Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7511638348125962803/",
+      "sourceTitle": "神舟战神 T8 / T9 Plus 游戏本首销 - IT之家（头条转载）",
+      "confidence": "high",
+      "notes": "2025年6月2日首销，7499元（国补5499.2元）；80Wh、双风扇五铜管。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T9 Plus|2025",
+      "cpu": "Core 7-240H",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 180Hz",
+      "sourceUrl": "https://nb.zol.com.cn/991/9915232.html",
+      "sourceTitle": "神舟战神T8/T9 Plus笔记本发布，显卡不同 - 中关村在线",
+      "confidence": "high",
+      "notes": "2025年6月2日首销，8499元（国补6299.2元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T11 Pro|2025",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BAT8JK1olWAQGUFZYDk8fB18IGloWXw8KV1pVCE8nRzBQRQQlBENHFRxWFlVPRjtUBABAQlRcCEBdCUoUAWYAGF8dXQIdDRsBVUVTXDdWRCdBCF5SMQ4LBEh5AgEIK1tvXARgHAQKayJpehBXBRplK1hUXRhRBHsTBWwOH1oUXAUyVF9cCUoeC2YAGWsRW2gDOl5UDSVFUWdaGwwVCFICVVlVDEhCM28JKwl7VQ4KV1hbAEsTBmw4GmsVWw4AVV9VCE4XC2oBK1sdWTbV_fCLhO3DusXfqdklbTYBZG5tCHsUMzFmGlwXXQECUVczVAxWAT1SS157Xw4FUlteAEgnAW4JGVklbTZCFVsYQA4SXzV-czNQFlJ6IDkgeCNSSAtXHAR1GwNsViUnai5JdApLRglQKHoHCRcjOEsnBGkJK1ol",
+      "sourceTitle": "神舟(HASEE)【RTX5080】战神T11 Pro 16英寸游戏本（i9-14900HX 16G 1TB 2.5K 240HZ）- 京东自营",
+      "confidence": "high",
+      "notes": "京东自营13599.15元，2.72kg/63Wh；国补后约11999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T11 Pro|2025",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.dn580.com/yj/1746721116a3114649.html",
+      "sourceTitle": "神舟战神T11 Pro i9 14900HX/32GB/2TB/RTX5080 参数报价 - 电脑我帮您",
+      "confidence": "medium",
+      "notes": "14599元；DDR5双SO-DIMM，双烤约230W。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T12 Pro|2025",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 5090 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.ithome.com/0/857/666.htm",
+      "sourceTitle": "神舟战神 T12 Pro 笔记本开售：i9-14900HX + 32G + 1T + RTX5090 售19999元（国补后17999元）- IT之家",
+      "confidence": "high",
+      "notes": "2025年6月1日京东开售价19999元，国补17999元（首销3月31日为17999元/国补15999元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T12 Pro|2025",
+      "cpu": "i9-14900HX",
+      "ram": "96GB",
+      "gpu": "RTX 5090 笔记本电脑 GPU",
+      "storage": "4TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index2162736.shtml",
+      "sourceTitle": "神舟战神 T12 Pro(i9 14900HX/96GB/4TB/RTX 5090满血) - 中关村在线",
+      "confidence": "medium",
+      "notes": "ZOL商家报价30099元；96GB为双插槽上限配置，属CTO高配。"
+    },
+    {
+      "modelKey": "笔记本电脑|神舟|战神 T9|2026",
+      "cpu": "Ultra 9 290HX Plus",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.ithome.com/0/969/224.htm",
+      "sourceTitle": "神舟推出 2026 款战神 T9 笔记本：Ultra 9 290HX Plus + 16G + 1T + RTX5070 售 12499 元 - IT之家",
+      "confidence": "high",
+      "notes": "2026年6月26日上架，12499元；53Wh、2.45kg。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "神舟战神",
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "aliasType": "系列统称",
+      "note": "泛指神舟战神游戏本系列；此处指向2025年在售主力T8 Plus，采购检索时需再按具体型号细分"
+    },
+    {
+      "alias": "战神",
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "aliasType": "系列简称",
+      "note": "同上，为品牌内游戏本子品牌名"
+    },
+    {
+      "alias": "Hasee 战神",
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "aliasType": "中英混写",
+      "note": "海外/电商检索常见写法"
+    },
+    {
+      "alias": "神舟游戏本",
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "aliasType": "品类词",
+      "note": "品类检索词，默认落到当年主力机型"
+    },
+    {
+      "alias": "战神Z7",
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT7NA|2019",
+      "aliasType": "系列简称",
+      "note": "Z7为15.6英寸系列，2018-2021跨多代，最常被搜到的是Z7-CT7NA/CT5NA"
+    },
+    {
+      "alias": "神舟Z7",
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT7NA|2019",
+      "aliasType": "搜索写法",
+      "note": "省略“战神”二字的常见写法"
+    },
+    {
+      "alias": "Z7-CT5NA",
+      "modelKey": "笔记本电脑|神舟|战神 Z7-CT5NA|2019",
+      "aliasType": "SKU代码",
+      "note": "i5-9300H+GTX1660Ti版，与CT7NA不可混用"
+    },
+    {
+      "alias": "Z7-KP7GC",
+      "modelKey": "笔记本电脑|神舟|战神 Z7-KP7GC|2018",
+      "aliasType": "SKU代码",
+      "note": "i7-8750H+GTX1060版，2018年款"
+    },
+    {
+      "alias": "战神Z8",
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CA7NP|2021",
+      "aliasType": "系列简称",
+      "note": "Z8为15.6英寸系列，2020年为CU7NA/CU5NA，2021年升级RTX3060（CA7NP/CA5NP）"
+    },
+    {
+      "alias": "Z8-CU7NA",
+      "modelKey": "笔记本电脑|神舟|战神 Z8-CU7NA|2020",
+      "aliasType": "SKU代码",
+      "note": "i7-10750H+RTX2060，8G/512G版"
+    },
+    {
+      "alias": "战神G7",
+      "modelKey": "笔记本电脑|神舟|战神 G7-CT7VK|2019",
+      "aliasType": "系列简称",
+      "note": "G7为17.3英寸GTX1660Ti系列"
+    },
+    {
+      "alias": "战神G8",
+      "modelKey": "笔记本电脑|神舟|战神 G8-CU7NA|2020",
+      "aliasType": "系列简称",
+      "note": "G8为17.3英寸RTX2060系列（2020）"
+    },
+    {
+      "alias": "战神G9",
+      "modelKey": "笔记本电脑|神舟|战神 G9-CT7PK|2019",
+      "aliasType": "系列简称",
+      "note": "G9为17.3英寸RTX2070系列（2019-2020）"
+    },
+    {
+      "alias": "战神TX8",
+      "modelKey": "笔记本电脑|神舟|战神 TX8-CA5DP|2021",
+      "aliasType": "系列简称",
+      "note": "TX8为16.1英寸桌面CPU系列，2020年为CU5DA/CU5DK，2021年为CA5DP"
+    },
+    {
+      "alias": "战神TX9",
+      "modelKey": "笔记本电脑|神舟|战神 TX9-CU5DA|2020",
+      "aliasType": "系列简称",
+      "note": "TX9为16.1英寸顶配，2020年CU5DA（RTX2070）"
+    },
+    {
+      "alias": "战神T8",
+      "modelKey": "笔记本电脑|神舟|战神 T8-DA7NP|2022",
+      "aliasType": "系列简称",
+      "note": "T8为16英寸系列，2022年DA7NP（RTX3060）；2024年衍生T8 Pro、2025年T8 Plus"
+    },
+    {
+      "alias": "T8 Pro",
+      "modelKey": "笔记本电脑|神舟|战神 T8 Pro|2024",
+      "aliasType": "型号简称",
+      "note": "广达模具，13代/14代i7+RTX4060/4070"
+    },
+    {
+      "alias": "T8 Plus",
+      "modelKey": "笔记本电脑|神舟|战神 T8 Plus|2025",
+      "aliasType": "型号简称",
+      "note": "2025年酷睿7-240H+RTX5060"
+    },
+    {
+      "alias": "战神T9",
+      "modelKey": "笔记本电脑|神舟|战神 T9|2026",
+      "aliasType": "系列简称",
+      "note": "2026款为Ultra 9 290HX Plus+RTX5070；2025年另有T9 Plus（Core7-240H+RTX5070）"
+    },
+    {
+      "alias": "T11 Pro",
+      "modelKey": "笔记本电脑|神舟|战神 T11 Pro|2025",
+      "aliasType": "型号简称",
+      "note": "RTX5080旗舰，2025年50系首发机型"
+    },
+    {
+      "alias": "T12 Pro",
+      "modelKey": "笔记本电脑|神舟|战神 T12 Pro|2025",
+      "aliasType": "型号简称",
+      "note": "RTX5090顶配，19999元"
+    },
+    {
+      "alias": "神舟优雅",
+      "modelKey": "笔记本电脑|神舟|优雅X5 U5|2024",
+      "aliasType": "系列统称",
+      "note": "优雅为神舟轻薄/商务线统称，含X3/X4/X5/X6等子系列"
+    },
+    {
+      "alias": "优雅X4",
+      "modelKey": "笔记本电脑|神舟|优雅X4-SL5S1|2016",
+      "aliasType": "系列简称",
+      "note": "2016年初代为SL5S1/SL5T1，2017年KL7S1，2020年5205U版（另列）"
+    },
+    {
+      "alias": "优雅X5",
+      "modelKey": "笔记本电脑|神舟|优雅X5-KL7S2|2017",
+      "aliasType": "系列简称",
+      "note": "2017年KL7S2（带GTX950M）；2023-2024年另有X5/X5 U5（另列）"
+    },
+    {
+      "alias": "精盾",
+      "modelKey": "笔记本电脑|神舟|精盾U45S1|2019",
+      "aliasType": "系列统称",
+      "note": "精盾/KINGBOOK为神舟中高端商务本线，含U43/U45/U47/U63/U65/X55/X57及T96/T97"
+    },
+    {
+      "alias": "精盾U45",
+      "modelKey": "笔记本电脑|神舟|精盾U45A1|2019",
+      "aliasType": "搜索写法",
+      "note": "U45有A1/S1/A2/S2多个SKU，检索需看后缀"
+    },
+    {
+      "alias": "精盾U47",
+      "modelKey": "笔记本电脑|神舟|精盾U47T1|2019",
+      "aliasType": "搜索写法",
+      "note": "U47T1为i7-8565U/8G/1TB版"
+    },
+    {
+      "alias": "神舟精盾",
+      "modelKey": "笔记本电脑|神舟|精盾U45S1|2019",
+      "aliasType": "品牌+系列",
+      "note": "常见电商标题写法"
+    },
+    {
+      "alias": "KINGBOOK U45S1",
+      "modelKey": "笔记本电脑|神舟|精盾U45S1|2019",
+      "aliasType": "英文型号",
+      "note": "官网英文名，中文名“精盾U45S1”"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "精盾 T45",
+      "issue": "未检索到神舟“精盾T45”这一型号。精盾T系列为15.6英寸高性能本（T96、T96C、T97、T97E等，i7-7700HQ+GTX1060级），14英寸轻薄线为U43/U45/U47；官网精盾产品列表与京东、ZOL产品库均无T45。",
+      "suggestion": "向需求方确认：若指14英寸轻薄本，应为精盾U45A1/U45S1；若指15.6英寸游戏本，应为精盾T96/T97系列（2017-2018年），可另开条目。本批未建T45。",
+      "sourceUrl": "http://haseecomputer.net/PC/list_10.html"
+    },
+    {
+      "model": "战神 T9 Pro",
+      "issue": "上市年份存在冲突：百度百科称T9 Pro于2025年上市（i7-14700HX+RTX5070 12GB，16英寸2.5K 180Hz），ZOL参数页与京东商家则标“2026年/2026新品”。同一机型被两个年份口径覆盖，且京东标题把T9 Pro与T8/Z8D6/S8混写，无法确认唯一上市年。",
+      "suggestion": "以神舟官网或京东自营SKU的上架快照为准核定年份后再入库；若按ZOL口径为2026年，则与2026款T9（Ultra 9 290HX Plus）为同年两个不同SKU，需分列。",
+      "sourceUrl": "https://detail.zol.com.cn/pro_sub_manu/notebook_1191.html"
+    },
+    {
+      "model": "战神 Z8D63 / S8D92（2026年在售配置）",
+      "issue": "ZOL 2026年4月出现大量“Z8D63（i7-13620H/16-64GB/512G-4TB/4060满血）”“S8D92（i9-12900H/…/4060独显）”条目，均为同一型号下的多内存/硬盘组合，价格7099-15999元。此类命名更像渠道CTO定制编码，官网无对应产品页，无法确认是否为官方标准型号。",
+      "suggestion": "如采购需要2026年在售的RTX4060机型，建议按“战神T8 Pro/Z8”标准型号下单，或要求供应商提供神舟官方配置单再建码，暂不单列。",
+      "sourceUrl": "https://detail.zol.com.cn/pro_sub_manu/notebook_1191.html"
+    },
+    {
+      "model": "优雅 Pro 14",
+      "issue": "未检索到“优雅Pro 14”。神舟优雅线14英寸为X3/X4系列；2024年“Pro”后缀仅见于16英寸的优雅X6 Pro U5（Ultra 5 125H/24GB/1TB）。",
+      "suggestion": "确认是否指优雅X6 Pro（16英寸）或优雅X4（14英寸）；命名易与“X6 Pro”混淆，本批按实际存在的X6 Pro U5入表。",
+      "sourceUrl": "https://t.cj.sina.cn/articles/view/1826017320/6cd6d02802001c3qy?finpagefr=p_104&vt=4"
+    },
+    {
+      "model": "优雅 X4-KL7S1",
+      "issue": "官网列有X4-KL7S1（14英寸/i7-7500U/8G/256G SSD），ZOL系列页将其与2016年6月上市的X4-SL5S1并列为同系列3款，但未单独标注KL7S1的上市时间；i7-7500U平台通常为2017年。",
+      "suggestion": "若需覆盖2017年i7轻薄本，可先并入X4系列条目并在notes注明；待查到确切上市月份后再单独建码。",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/20558_1.html"
+    },
+    {
+      "model": "2023 年在售战神机型（战神 S8-DA5NS / 战神 GX10R9 等）",
+      "issue": "2023 年神舟官网产品页与 IT之家报道均以 2022 年 T8 系列、2024 年 T8 Pro/Ultra 为主，缺少 2023 年独立发布会的可靠记录。ZOL 显示 S8-DA5NS（i5-12450H/16G/RTX3060，4498元）上市时间为空；快懂百科列 GX10R9（i9-13900HX/RTX4080/32G/17.3英寸2K）为2023年，但仅单一弱来源。",
+      "suggestion": "本批未建 2023 年条目以避免年份臆测。若采购目录要求逐年连续，建议向神舟渠道索取 2023 年产品线清单，重点核实 S8-DA5NS 与 GX10R9 的上市月份后再补码。",
+      "sourceUrl": "https://detail.zol.com.cn/pro_sub_manu/notebook_1191.html"
+    },
+    {
+      "model": "战神 T8-DA9NT / T8-DA5NS",
+      "issue": "ZOL显示T8系列2022年还有DA9NT（i9-12900H/16GB/1TB/RTX3060/2.5K）与DA5NS（i5-12450H）等SKU，价格6567/5699元，但缺少独立规格页，2.5K屏版本的面板参数与上市月份未核实。",
+      "suggestion": "如需覆盖T8全SKU（i5/i7/i9三档），建议补充各SKU的独立规格来源后再建码，避免与DA7NP合并错误。",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1422012.shtml"
+    }
+  ]
+}

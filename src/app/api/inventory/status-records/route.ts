@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const reason = String(body.reason || '').trim(); const location = String(body.location || '').trim();
     const responsiblePerson = String(body.responsiblePerson || user.realName || user.username).trim();
     const expectedReturnDate = String(body.expectedReturnDate || '').trim() || null;
-    if (!inventoryId || !definitionId || !reason || !location) throw new Error('请选择机器和状态，并填写原因、地点');
+    if (!inventoryId || !definitionId) throw new Error('请选择机器和状态');
     if ([reason,location,responsiblePerson].some(value => value.length > 500)) throw new Error('登记信息过长');
     if (expectedReturnDate && (!/^\d{4}-\d{2}-\d{2}$/.test(expectedReturnDate) || Number.isNaN(Date.parse(expectedReturnDate)))) throw new Error('预计归还日期格式不正确');
     const id = generateId('status_record'); const now = formatDateTime();
@@ -38,8 +38,9 @@ export async function POST(request: NextRequest) {
       db.prepare(`INSERT INTO inventory_status_records(id,inventoryId,definitionId,definitionSnapshot,reason,location,responsiblePerson,expectedReturnDate,remark,warehouseId,createdBy,createdAt)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).run(id,inventoryId,definitionId,JSON.stringify(definition),reason,location,responsiblePerson,expectedReturnDate,String(body.remark || '').trim() || null,item.warehouseId,user.id,now);
       if (db.prepare("UPDATE inventory SET status = 'custom',currentStatusRecordId = ?,updatedAt = ? WHERE id = ? AND status = 'in_stock' AND currentStatusRecordId IS NULL").run(id,now,inventoryId).changes !== 1) throw new Error('机器状态已变化');
+      const note = [definition.name, reason, location ? `地点：${location}` : ''].filter(Boolean).join('；');
       db.prepare(`INSERT INTO inventory_movements(id,inventoryId,warehouseId,movementType,referenceType,referenceId,actorId,note,statusFrom,statusTo,snapshot,createdAt)
-        VALUES (?,?,?,'custom_status_start','inventory_status',?,?,?,'in_stock','custom',?,?)`).run(generateId('movement'),inventoryId,item.warehouseId,id,user.id,`${definition.name}：${reason}；地点：${location}`,JSON.stringify({ ...item,status:'custom',statusRecord:{id,definition,reason,location,responsiblePerson,expectedReturnDate,remark:body.remark || null} }),now);
+        VALUES (?,?,?,'custom_status_start','inventory_status',?,?,?,'in_stock','custom',?,?)`).run(generateId('movement'),inventoryId,item.warehouseId,id,user.id,note,JSON.stringify({ ...item,status:'custom',statusRecord:{id,definition,reason,location,responsiblePerson,expectedReturnDate,remark:body.remark || null} }),now);
     })();
     return NextResponse.json(successResponse(serializeInventoryStatus(db.prepare('SELECT * FROM inventory WHERE id = ?').get(inventoryId) as { id: string })), { status: 201 });
   } catch (error) { return failure(error); }

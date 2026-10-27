@@ -3,7 +3,12 @@ import path from 'path';
 import fs from 'fs';
 // The CLI and server share transactional schema migrations.
 const schema = require('../../scripts/database.cjs') as { initDatabase: (db: Database.Database) => void; seedDatabase: (db: Database.Database) => void };
-const dbPath = process.env.INVENTORY_DB_PATH || path.join(process.cwd(), 'data', 'inventory.db');
+const defaultDbPath = path.join(process.cwd(), 'data', 'inventory.db');
+const dbPath = process.env.INVENTORY_DB_PATH || defaultDbPath;
+if (process.env.INVENTORY_TEST_MODE === '1' &&
+    (!process.env.INVENTORY_DB_PATH || path.normalize(dbPath).toLowerCase() === path.normalize(defaultDbPath).toLowerCase())) {
+  throw new Error('测试模式必须使用独立的 INVENTORY_DB_PATH 数据库');
+}
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');

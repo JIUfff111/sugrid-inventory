@@ -14,6 +14,8 @@ import ConfirmDialog from '@/components/ConfirmDialog';
 import Toast from '@/components/Toast';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
+import { formatProductName } from '@/lib/product-name';
+import { formatGPUDisplay } from '@/lib/sku-display';
 
 interface PurchaseOrder {
   id: string;
@@ -31,6 +33,7 @@ interface PurchaseOrder {
 
 interface MachineItem {
   id: string;
+  skuId?: string;
   productType: string;
   brand: string;
   model: string;
@@ -513,6 +516,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
         const loadedItems = (order.items || []).map((item: MachineItem, index: number) => ({
           ...item,
           id: item.id || `loaded_${index}_${Date.now()}`,
+          skuId: item.skuId || undefined,
           productType: item.productType || '笔记本电脑',
           brand: item.brand || '',
           model: item.model || '',
@@ -562,6 +566,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const handleSKUSelectorComplete = (config: SelectedConfig, mode: 'close' | 'continue') => {
     const newItem: MachineItem = {
       id: 'temp_' + Date.now(),
+      skuId: config.sku.id,
       productType: config.sku.productType,
       brand: config.sku.brand,
       model: config.sku.model,
@@ -589,6 +594,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     // 关闭 SKU 选择器，保存配置，打开批量输入
     setShowSKUSelector(false);
     setBatchPresetConfig({
+      skuId: config.sku.id,
       productType: config.sku.productType,
       brand: config.sku.brand,
       model: config.sku.model,
@@ -674,14 +680,19 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     }
 
     setMachineItems((items) => items.map((item) => (
-      item.id === editingMachineDraft.id ? { ...editingMachineDraft } : item
+      item.id === editingMachineDraft.id ? {
+        ...editingMachineDraft,
+        skuId: item.productType === editingMachineDraft.productType &&
+          item.brand === editingMachineDraft.brand &&
+          item.model === editingMachineDraft.model &&
+          item.year === editingMachineDraft.year ? item.skuId : undefined,
+      } : item
     )));
     handleCancelMachineEdit();
   };
 
   const validateBeforeSubmit = (inbound: boolean) => {
     if (!formData.supplierId) return '请选择供应商';
-    if (!formData.supplierOrderNo.trim()) return '请填写供应商采购单号';
     if (!formData.purchaseDate) return '请选择采购时间';
     if (!formData.purchasedBy.trim()) return '请填写采购人';
     if (machineItems.length === 0) return '请至少添加一台机器';
@@ -797,17 +808,16 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
             {/* 供应商采购单号 */}
             <div>
               <label className="block text-[13px] font-medium text-ink-deep mb-2">
-                供应商采购单号 <span className="text-danger">*</span>
+                供应商采购单号 <span className="text-ink-soft font-normal">（选填）</span>
               </label>
               <input
                 type="text"
                 value={formData.supplierOrderNo}
                 onChange={(e) => setFormData({ ...formData, supplierOrderNo: e.target.value })}
-                placeholder="请输入供应商的采购单号"
+                placeholder="有供应商单号时填写"
                 className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                          placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                          focus:ring-primary/20 focus:border-primary transition-all"
-                required
               />
             </div>
 
@@ -919,7 +929,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                           {index + 1}
                         </span>
                         <span className="text-[14px] font-semibold text-ink-deep">
-                          {item.brand} {item.model}{item.year ? ` ${item.year}` : ''}
+                          {formatProductName(item)}
                           {item.skuRemark && (
                             <span className="text-ink-soft font-normal ml-2">({item.skuRemark})</span>
                           )}
@@ -929,7 +939,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                         <div>{item.cpu} / {item.ram} / {item.storage}</div>
                         <div className="flex flex-wrap gap-2">
                           {item.screen && <span>屏幕: {item.screen}</span>}
-                          {item.gpu && <span>显卡: {item.gpu}</span>}
+                          {item.gpu && <span>显卡: {formatGPUDisplay(item.gpu)}</span>}
                           {item.touchScreen !== undefined && (
                             <span>触屏: {item.touchScreen ? '是' : '否'}</span>
                           )}

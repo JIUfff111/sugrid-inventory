@@ -29,6 +29,7 @@ async function run() {
   try {
     initDatabase(db); seedDatabase(db); initDatabase(db);
     assert.equal(db.prepare('SELECT COUNT(*) n FROM schema_migrations WHERE version=5').get().n, 1);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM schema_migrations WHERE version=6').get().n, 1);
     let token;
     let lastCookie;
     const headers = { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0' };
@@ -74,6 +75,7 @@ async function run() {
     const adminToken = token;
     await call(authMe.GET, undefined, 200);
     const adminId = db.prepare("SELECT id FROM users WHERE username='admin'").get().id;
+    assert.equal(db.prepare('SELECT isSystemAccount FROM users WHERE id=?').get(adminId).isSystemAccount, 1);
     assert.equal(lastCookie.options.secure, false);
     assert.equal(lastCookie.options.httpOnly, true);
     assert.equal(lastCookie.options.sameSite, 'lax');
@@ -144,9 +146,38 @@ async function run() {
     assert.equal(await auth.getCurrentUser(), null);
     token = adminToken;
     await call(users.PATCH, req('/api/users', {id:pending.user.id,newPassword:'ResetByAdmin2026!'}, 'PATCH'), 200);
+    const otherAdmin = await call(users.POST, req('/api/users', {username:'second-admin',password:'AccountTest2026!',role:'admin'}), 201);
+    assert.equal(otherAdmin.user.isSystemAccount, false);
+    const otherAdminToken = auth.createSession(otherAdmin.user.id);
+    token = otherAdminToken;
+    await call(users.DELETE, req(`/api/users?id=${pending.user.id}`, undefined, 'DELETE'), 403);
+    await call(users.PATCH, req('/api/users', {id:adminId,status:'disabled'}, 'PATCH'), 400);
+    token = adminToken;
+    await call(users.DELETE, req(`/api/users?id=${adminId}`, undefined, 'DELETE'), 400);
+
+    const targetToken = auth.createSession(pending.user.id);
+    db.exec(`CREATE TRIGGER reject_delete_session BEFORE UPDATE OF revokedAt ON sessions
+      WHEN OLD.userId = '${pending.user.id}' BEGIN SELECT RAISE(ABORT, 'forced session failure'); END`);
+    await call(users.DELETE, req(`/api/users?id=${pending.user.id}`, undefined, 'DELETE'), 400);
+    assert.equal(db.prepare('SELECT status,deletedAt FROM users WHERE id=?').get(pending.user.id).status, 'active');
+    token = targetToken; assert(await auth.getCurrentUser());
+    db.exec('DROP TRIGGER reject_delete_session');
+    token = adminToken;
+    const deleted = await call(users.DELETE, req(`/api/users?id=${pending.user.id}`, undefined, 'DELETE'), 200);
+    assert.deepEqual(deleted, {id:pending.user.id,message:'账号已删除'});
+    const deletedRow = db.prepare('SELECT status,deletedAt,deletedBy FROM users WHERE id=?').get(pending.user.id);
+    assert.equal(deletedRow.status, 'deleted'); assert(deletedRow.deletedAt); assert.equal(deletedRow.deletedBy, adminId);
+    assert.equal((await call(users.GET, req('/api/users', undefined, 'GET'), 200)).users.some(item => item.id === pending.user.id), false);
+    await call(users.DELETE, req(`/api/users?id=${pending.user.id}`, undefined, 'DELETE'), 404);
+    await call(users.PATCH, req('/api/users', {id:pending.user.id,status:'active'}, 'PATCH'), 404);
+    token = targetToken; assert.equal(await auth.getCurrentUser(), null);
+    await call(login.POST, req('/api/auth/login', {username:'pending-test',password:'ResetByAdmin2026!'}), 403);
+    token = adminToken;
+    await call(users.DELETE, req(`/api/users?id=${otherAdmin.user.id}`, undefined, 'DELETE'), 200);
+    token = otherAdminToken; assert.equal(await auth.getCurrentUser(), null);
     assert.equal(db.pragma('integrity_check', {simple:true}), 'ok');
     assert.equal(db.pragma('foreign_key_check').length, 0);
-    console.log('PASS isolated account API: v5 idempotency, HTTP/HTTPS cookies, login audit, user filters/approval/last admin, no-op sessions, account password verification, session isolation/revocation, login history');
+    console.log('PASS isolated account API: migrations, HTTP/HTTPS cookies, login audit, user filters/approval, protected admin deletion, rollback, session revocation, login history');
   } finally {
     if (originalSecure === undefined) delete process.env.SESSION_COOKIE_SECURE; else process.env.SESSION_COOKIE_SECURE = originalSecure;
     db.close();

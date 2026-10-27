@@ -19,7 +19,7 @@ async function main() {
     const database=load('src/lib/db.ts');db=database.default;let token;
     const api=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':api,'next/headers':{cookies:async()=>({get:()=>token?{value:token}:undefined})}});
-    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);
+    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);
     const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/analysis','inventory/movements'];
     const routes=Object.fromEntries(names.map(name=>[name,load(`src/app/api/${name}/route.ts`,deps)]));
     async function call(name,method,body,expected=200,query='') {
@@ -34,12 +34,16 @@ async function main() {
     db.prepare("INSERT INTO sales_channels(id,channelName) VALUES ('cs-channel','状态测试渠道')").run();
     const warehouse='warehouse_main';
     const machines=Array.from({length:111},(_,i)=>({brand:'ThinkPad',model:'X13',year:2020,cpu:'i5',ram:'16GB',storage:'512GB',screen:'',purchasePrice:1000,sn:`CS-${String(i).padStart(3,'0')}-${i===110?'LATE':'0000'}`}));
-    await call('purchase-orders','POST',{supplierId:'cs-supplier',supplierOrderNo:'CS-EXT',purchaseDate:'2026-10-21',purchasedBy:admin,warehouseId:warehouse,status:'completed',items:machines},201);
+    const purchase=await call('purchase-orders','POST',{supplierId:'cs-supplier',purchaseDate:'2026-10-21',purchasedBy:admin,warehouseId:warehouse,status:'completed',items:machines},201);
+    assert.equal(db.prepare('SELECT supplierOrderNo FROM purchase_orders WHERE id=?').get(purchase.id).supplierOrderNo,'');
     const machine=index=>db.prepare('SELECT * FROM inventory WHERE sn=?').get(machines[index].sn);
     const definition=await call('inventory/status-definitions','POST',{name:'外部保管',color:'#2563eb'},201);
     const register=index=>call('inventory/status-records','POST',{inventoryId:machine(index).id,definitionId:definition.id,reason:'测试原因',location:'维修点',expectedReturnDate:'2026-10-25'},201);
-    await call('inventory/status-records','POST',{inventoryId:machine(0).id,definitionId:definition.id,reason:'原因'},400);
-    await register(0);assert.equal(machine(0).status,'custom');assert(machine(0).currentStatusRecordId);
+    await call('inventory/status-records','POST',{inventoryId:machine(0).id,definitionId:definition.id},201);
+    const blankStatus=db.prepare('SELECT reason,location FROM inventory_status_records WHERE id=?').get(machine(0).currentStatusRecordId);
+    assert.equal(blankStatus.reason,'');assert.equal(blankStatus.location,'');
+    assert.equal(db.prepare("SELECT note FROM inventory_movements WHERE inventoryId=? AND movementType='custom_status_start'").get(machine(0).id).note,'外部保管');
+    assert.equal(machine(0).status,'custom');assert(machine(0).currentStatusRecordId);
     await call('inventory/status-records','POST',{inventoryId:machine(0).id,definitionId:definition.id,reason:'重复',location:'重复'},400);
     let result=await call('inventory/lookup','GET',undefined,200,'?context=sale&q='+encodeURIComponent(machine(0).sn));assert.equal(result.total,0);
     result=await call('inventory','GET',undefined,200,`?status=custom&customStatusId=${definition.id}`);assert.equal(result.total,1);assert.equal(result.items[0].customStatusName,'外部保管');

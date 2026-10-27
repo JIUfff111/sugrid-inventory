@@ -1,0 +1,2276 @@
+{
+  "scope": "惠普轻薄本 星/战66/幽灵/薄锐/星Book Pro 2016-2026",
+  "checkedAt": "2026-10-26",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|惠普|星13|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星13",
+      "displayName": "惠普 星13 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1035G1"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics G1"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hp/1230837_detail.html",
+      "sourceTitle": "惠普星13-an1019TU(酷睿i5-1035G1/8GB/512GB)参数（太平洋电脑网产品库，上市时间 2019 年）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "型号 13-an 系列（如 13-an1016TU / 13-an1019TU / 13-an1023TU），2019 年 10—11 月上市。13.3 英寸 16:9 IPS、5.38mm 微边框，72%NTSC 与 45%NTSC 两种面板并存。8GB DDR4 板载（部分资料写 DDR4-2400、部分写 2666，存在出入）。1.3kg、15.4mm，2 芯电池，65W 适配器，指纹识别+背光键盘。中关村在线参数页把核显标为 UHD 620，但 i5-1035G1 属 Ice Lake、核显应为 UHD G1，故按 G1 记录。参考价约 4999—5999 元区间（2019 年），无单一可靠首发价来源，故不写具体价格。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星14",
+      "displayName": "惠普 星14 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i5-8265U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620",
+        "独立显卡 NVIDIA GeForce MX150 2GB"
+      ],
+      "storageOptions": [
+        "256GB",
+        "128GB+1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hp/1100892_detail.html",
+      "sourceTitle": "惠普星14-CE0015TU(4HK87PA) 参数（太平洋电脑网产品库，上市时间 2018 年 5 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "14-ce 系列，2018 年 5 月先上 i5-8250U（Kaby Lake R），2018 年 9 月补充 i5-8265U（Whiskey Lake）版本，两者同模具同代，合并为一条。14 英寸 16:9 IPS、5.52mm 窄边框，1.59—1.6kg、17.9mm，镁铝合金，指纹识别，41Wh 电池。集显版（-TU）与 MX150 2GB 独显版（-TX）并行销售。参考价约 4999—5999 元（2018 年）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星14 青春版",
+      "displayName": "惠普 星14 青春版 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8265U",
+        "英特尔酷睿 i5-10210U",
+        "英特尔酷睿 i7-10510U",
+        "AMD 锐龙 5 3500U",
+        "AMD 锐龙 7 3700U",
+        "AMD 锐龙 3 3200U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 AMD Radeon Graphics",
+        "独立显卡 AMD Radeon 530 2GB"
+      ],
+      "storageOptions": [
+        "128GB+1TB",
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz",
+        "14英寸 1366x768 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/25874_1.html",
+      "sourceTitle": "惠普星14 青春版系列（中关村在线系列页，2019 年上市，共 14 款）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "型号 14S-CR / 14S-DK / 14S-DP 三个分支，2019 年 4 月上市，2021 年停产。既有英特尔 8 代/10 代 + Radeon 530 2GB 独显版（14S-CRxxxxTX），也有锐龙 3000 系 + 集显版（14S-DP/DKxxxxAU），属同一机型的不同平台配置，故合并。14 英寸 16:9、6.5mm 窄边框、178° 广视角，1.47—1.52kg、19.9mm，41Wh 电池。参考价 2999—5288 元（2019 年，按配置分层）。另有 1366x768 低配屏 1 款。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星15|2020",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星15",
+      "displayName": "惠普 星15 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce MX450 2GB"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hp/1330907_detail.html",
+      "sourceTitle": "惠普星15(酷睿i5-1135G7/16GB/512GB/MX450)参数（太平洋电脑网产品库，上市时间 2020 年 11 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "与星14 2021 同代（11 代酷睿 Tiger Lake）的 15.6 英寸版本，2020 年 11 月上市。15.6 英寸 16:9 IPS FHD，360.2x234x17.9mm、约 1.75kg，16GB DDR4-3200（最大 16GB，板载+插槽混合），MX450 2GB GDDR5，65W 适配器，指纹识别。参考价 5599 元（2021 年电商常见价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 2021|2021",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星14 2021",
+      "displayName": "惠普 星14 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i5-1155G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce MX450 2GB"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9F%2014%202021/55421525",
+      "sourceTitle": "惠普星14 2021（百度百科，2020 年 11 月上市，汇总 i5-1135G7/i5-1155G7/i7-1165G7 三档配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "官方命名为「星14 2021」，2020 年 11 月上市（严格说属 2020 年末发布、2021 年销售季，按上市时间取 2021 需注意；本条按官方年款命名记为 2021，实际发布月为 2020-11）。14 英寸 FHD IPS、84% 屏占比、72%NTSC、最高 400nit，1.41kg、16.9mm，43Wh 电池，双风扇双铜管。全系 16GB DDR4-3200 板载，存储 256GB/512GB/1TB。i5-1135G7+MX450 版本电商价约 5599 元（2021 年）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星14 Pro",
+      "displayName": "惠普 星14 Pro 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce RTX 2050 4GB"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 90Hz",
+        "14英寸 2560x1600 60Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/pk_1566247_1436587.html",
+      "sourceTitle": "惠普星14 Pro(酷睿i7-12700H/16GB/512GB/2.8K)参数（太平洋电脑网产品库，型号 P14-eh0200TU，上市时间 2022 年 5 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "型号 P14-eh 系列，2022 年 5 月上市，是星系列首款标压 H 处理器机型。14 英寸 16:10，2.8K(2880x1800) 90Hz OLED 与 2.5K(2560x1600) LCD 两种面板。16GB DDR4-3200 双通道（2xSO-DIMM），512GB PCIe SSD，51Wh 电池，90W 适配器。参考价：i5-12500H/16GB/512GB/LCD 4699 元、i5 OLED 4999 元、i7 OLED 5999 元、i7+RTX2050 OLED 7499 元（2022 年电商价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星13 Air|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星13 Air",
+      "displayName": "惠普 星13 Air 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 5 5600U",
+        "AMD 锐龙 5 5625U",
+        "AMD 锐龙 7 5800U",
+        "AMD 锐龙 7 5825U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 AMD Radeon Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 60Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7182393014730359352",
+      "sourceTitle": "聊一台「便携性极高」的性价比电脑——惠普星13 Air 评测（笔吧评测室，2022-12-29）",
+      "checkedAt": "2026-10-26",
+      "notes": "2022 年上市，锐龙 5000 系列（Zen3），13.3 英寸 16:10 2.5K IPS、100%sRGB、400nit、DC 调光。三面镁铝合金，实测 958—960g、16.4—16.9mm，43Wh 电池。16GB DDR4-3200 板载双通道不可更换，单 M.2 插槽。四色：月光银/陶瓷白/流光金/玫瑰金。参考价：R5-5600U 4699 元、R5-5625U 5199 元、R7-5825U 5699 元、R7-5800U 5499 元（2022—2023 年，随时间波动）。",
+      "confidence": "high"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 三代|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "战66 三代",
+      "displayName": "惠普 战66 三代 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i3-10110U",
+        "英特尔酷睿 i5-10210U",
+        "英特尔酷睿 i7-10510U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce MX130 2GB"
+      ],
+      "storageOptions": [
+        "256GB+1TB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz",
+        "14英寸 1366x768 60Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEProBook440%20G7/55295855",
+      "sourceTitle": "惠普ProBook440 G7（百度百科，2019 年 10 月上市，对应国行战66 三代）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "战66 三代 = ProBook 440 G7（14 英寸）/ 450 G7（15.6 英寸），2019 年 10 月上市，2021 年 6 月停产。铝合金银色机身，1.6kg、17.95mm，45Wh 电池，指纹识别，TPM。双 SO-DIMM 最高 32GB。参考价 4599—6199 元（上市期），渠道促销价低至 3900 元（i5-10210U/4GB/1TB/MX130）。15.6 英寸 450 G7 配置同源，未单列。",
+      "aliasesNote": "国行「战66 三代」对应国际型号 ProBook 440 G7"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "战66 四代",
+      "displayName": "惠普 战66 四代 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce MX450 2GB"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz",
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://tech.sina.cn/2020-10-19/detail-iiznezxr6825282.d.html",
+      "sourceTitle": "4699 元起，惠普战 66 四代上架：11 代酷睿 + MX450（IT之家/新浪科技，2020-10-19）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 10 月预售、11 月 1 日开售，全新模具，屏占比 87.9%，A/C/D 三面金属，180° 开合，19 项军标。14 英寸 1.375kg / 15.6 英寸 1.74kg，均 19.9mm，45Wh 电池，30 分钟充 50%。400nit 高色域 1W 屏为选配，普通屏为低色域。双内存插槽 DDR4-3200，最高 32GB。集显版（i5-1135G7/8GB/512GB）2020 年 11 月首发 3999 元；MX450 版 4699 元起。",
+      "aliasesNote": "对应 ProBook 440 G8 / 450 G8"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "战66 五代",
+      "displayName": "惠普 战66 五代 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1235U",
+        "英特尔酷睿 i7-1255U",
+        "英特尔酷睿 i5-1240P",
+        "英特尔酷睿 i7-1260P"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce MX570 2GB"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz",
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.xcc.com/news/detail/5002669",
+      "sourceTitle": "惠普战66五代酷睿版轻薄本上架，最高 i7-1260P+MX570，4599 元起售（芯查查，2022-04-10，附完整配置价格表）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 4 月上市（锐龙版更早，2022 年初）。14/15.6 英寸双尺寸，同配置 15.6 英寸贵 100 元。400nit、100%sRGB、87.9% 屏占比、180° 开合，1.4kg 起，A/C/D 三面铝合金。双内存插槽 + 双 SSD 插槽，全功能 USB-C、HDMI 2.0b、RJ45，IR 人脸识别。P28 处理器为集显配置、U15 配 MX570，是官方区分配置的方式。2022 年 8 月追加 32GB 内存版，4899 元起。",
+      "aliasesNote": "对应 ProBook 440 G9 / 450 G9"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 六代|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "战66 六代",
+      "displayName": "惠普 战66 六代 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1340P",
+        "英特尔酷睿 i7-1360P"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz",
+        "15.6英寸 2560x1440 120Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hp/1775367_detail.html",
+      "sourceTitle": "惠普战66 六代(酷睿i5-1340P/32GB/1TB/14寸/高色域)参数（太平洋电脑网产品库，上市时间 2023 年 3 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 3 月上市（15.6 英寸版 4 月 11 日发布）。13 代酷睿 P 系列（i5-1340P / i7-1360P），无独显选项。14 英寸 1920x1080 60Hz 400nit 100%sRGB；15.6 英寸 2560x1440 120Hz 100%sRGB + HP Eye Ease。51Wh 电池、65W 适配器，14 英寸 1.42kg / 15.6 英寸 1.79kg，均 19.9mm。双内存插槽 DDR4-3200 最高 32GB，双 M.2（15.6 英寸）。500 万像素 IR 摄像头。首发/促销价 4099—4499 元起。",
+      "aliasesNote": "对应 ProBook 440 G10 / 450 G10"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "战66 七代",
+      "displayName": "惠普 战66 七代 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H",
+        "英特尔酷睿 Ultra 7 155H",
+        "AMD 锐龙 5 7535U"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics",
+        "集成显卡 AMD Radeon 660M"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 120Hz",
+        "16英寸 2560x1600 120Hz",
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://s.zol.com.cn/shop_2194624/44728146.html",
+      "sourceTitle": "惠普战66 七代 酷睿Ultra版 14英寸(Ultra5 125H/32GB/1TB/120Hz)参数（中关村在线，上市时间 2024 年 05 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 5 月上市，正式换新模具（舍弃沿用四代的旧模具），机身圆润、斗拱中框。14 英寸 2.5K 120Hz 500nit 100%DCI-P3，16 英寸同规格；另有 16 英寸 FHD+ 低配。双 SO-DIMM DDR5-5600 最高 32GB（锐龙版 DDR5-4800），双 M.2（酷睿版为单硬盘位，见评测差异），56Wh 电池、65W PD，14 英寸 1.44kg。500 万像素 IR 摄像头、Poly Studio 扬声器、Wi-Fi 6E、MIL-STD-810H。锐龙版 R5-7535U 同期在售。参考价 4699—5099 元（14 英寸 Ultra5/16GB/1TB），官网 SKU 起售价 5699 元。",
+      "aliasesNote": "对应 ProBook 440 G11 / 460 G11；锐龙版对应 ProBook 445 G11"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "战66 八代",
+      "displayName": "惠普 战66 八代 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 225H",
+        "英特尔酷睿 Ultra 7 255H",
+        "AMD 锐龙 7 H255"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc 130T",
+        "集成显卡 AMD Radeon Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 120Hz",
+        "16英寸 2560x1600 120Hz",
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://s.zol.com.cn/shop_2194624/44776998.html",
+      "sourceTitle": "惠普战66 2025 酷睿Ultra版 14英寸(Ultra5 225H/16GB/1TB/2.5K屏)参数（中关村在线，上市时间 2025 年）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年上市，第二代酷睿 Ultra 200H（Arrow Lake-H）平台，锐龙版为 R7 H255（Zen4 架构，8 核 16 线程，加速 4.9—5.2GHz）。京东规格页显示认证型号 HP ZHAN66 14 G8a。14 英寸 1.43—1.44kg / 16 英寸 1.75—1.79kg，56Wh 电池，2A2C + HDMI 2.1 + RJ45，双 SO-DIMM（最高 32—64GB，按版本不同），Wi-Fi 6E、500 万像素摄像头、三面金属、11 项军标。价格：Ultra5 225H/32GB/1TB 16 英寸 5499 元（2025-09，补贴后约 4399 元）；14 英寸 2.5K 版国补后约 3519 元、16 英寸约 3919 元（2025-06）。",
+      "aliasesNote": "对应 ProBook 440 G12 / 460 G12；锐龙版对应 ProBook 445 G12"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "幽灵 Spectre 13",
+      "displayName": "惠普 幽灵 Spectre 13 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-6200U",
+        "英特尔酷睿 i7-6500U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel HD Graphics 520"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/20495_1.html",
+      "sourceTitle": "惠普SPECTRE 13-V000 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "13-v000 系列，2016 年 5 月上市（中国全球首发），2020 年 10 月停产。10.4mm 厚、约 1.1—1.16kg，全金属 + 碳纤维底盖，3 个 USB-C（2 个雷电 3），无 USB-A。13.3 英寸 FHD IPS、康宁四代玻璃、不支持触控。8GB LPDDR3-1866 板载不可升级，38Wh 电池、45W USB-C 适配器，B&O 四扬声器。参考价 7099—8699 元（2016 年上市期），高配 9999 元。；原 HP 支持页在本机网络超时，改用可访问的产品库/媒体页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "幽灵 Spectre x360 13",
+      "displayName": "惠普 幽灵 Spectre x360 13 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1035G4",
+        "英特尔酷睿 i7-1065G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Plus Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz 触控",
+        "13.3英寸 3840x2160 60Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AESPECTRE%20X360%2013-AW/65733159",
+      "sourceTitle": "惠普SPECTRE X360 13-AW（百度百科，2019 年 11 月上市，13-aw0000 系列）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "13-aw0000 系列，2019 年 11 月上市，通过英特尔雅典娜计划认证。CNC 钻石切割全铝机身，360° 翻转，1.28—1.31kg、17mm，屏占比 90%，60Wh 电池、标称续航 22 小时。8/16GB LPDDR4-3200 板载，Wi-Fi 6 AX201，雷电 3x2 + USB-A + microSD，物理摄像头开关。香港定价参考：i5/8GB/512GB HK$11499、i7/8GB/512GB HK$12999、i7/16GB/1TB HK$15499、i7/16GB/2TB+4K OLED HK$19999（2019-11）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2021",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "幽灵 Spectre x360 14",
+      "displayName": "惠普 幽灵 Spectre x360 14 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "13.5英寸 1920x1280 60Hz 触控",
+        "13.5英寸 3000x2000 60Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://m.zol.com.cn/article/7749212.html",
+      "sourceTitle": "为何说惠普Spectre X360 14创造了精致PC品类 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "14-ea0000 系列，2021 年 1 月（CES 2021）发布。Spectre 首款 3:2 比例 13.5 英寸屏（机型名标 14，实际 13.5 英寸）。1920x1280 400nit / 1000nit 防窥 / 3000x2000 OLED 三种面板。16GB LPDDR4x-4266 板载（低配 8GB），1.34kg、16.9mm，66Wh 电池，雷电 4 x2 + USB-A + microSD。美国起售价 1170 美元，实测配置 1430 美元；马来西亚 i5/8GB/1TB RM6099、i7/16GB/1TB RM7099。国行价格未取得可靠来源。；原 HP 支持页在本机网络超时，改用可访问的产品库/媒体页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "幽灵 Spectre x360 14",
+      "displayName": "惠普 幽灵 Spectre x360 14 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1335U",
+        "英特尔酷睿 i7-1355U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "13.5英寸 1920x1280 60Hz 触控",
+        "13.5英寸 3000x2000 60Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hp/1862427_detail.html",
+      "sourceTitle": "惠普Spectre X360 14(酷睿i7-1355U/32GB/1TB/3K) - 太平洋科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "14-ef2000 系列，2023 年 3 月上市，13 代酷睿 U 系列（i5-1335U / i7-1355U）。8/16/32GB LPDDR4X-4266 板载，512GB/1TB/2TB PCIe 4.0，1.36—1.38kg、16.9mm，66Wh 电池（45 分钟充 50%），雷电 4 x2 + USB-A + microSD，500 万像素 IR 摄像头，Wi-Fi 6E。屏幕三种：1920x1280 400nit / 1920x1280 1000nit 防窥 / 3000x2000 OLED（HDR 500nit，100%DCI-P3）。美国起售价 1399 美元。；原 HP 支持页在本机网络超时，改用太平洋产品库页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 16|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "幽灵 Spectre x360 16",
+      "displayName": "惠普 幽灵 Spectre x360 16 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 3072x1920 60Hz 触控",
+        "16英寸 3840x2400 60Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://themobileindian.com/news/hp-spectre-x360-16-2022-spectre-x360-laptops-launched-in-india",
+      "sourceTitle": "HP Spectre x360 16 (2022), Spectre x360 laptops launched in India（The Mobile Indian，2022 年发布）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2022 年 5 月发布，16 英寸 3:2 大屏翻转本，i7-12700H + Iris Xe（部分市场可选 Arc 独显，未取得国行证据，故不列入 gpuOptions）。16/32GB、512GB—2TB，83Wh 电池、135W 充电，1.99—2.0kg，雷电 4 x2、HDMI、SD 卡槽、四扬声器。印度定价 139999 卢比（约 2022 年）。国行上市情况与具体型号后缀未确认，confidence 记 medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 13|2018",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "薄锐 Envy 13",
+      "displayName": "惠普 薄锐 Envy 13 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620",
+        "独立显卡 NVIDIA GeForce MX150 2GB"
+      ],
+      "storageOptions": [
+        "256GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1216268.shtml",
+      "sourceTitle": "惠普ENVY 13-AH0004TU(4HQ96PA)（中关村在线，别名「薄锐13-AH0004TU」，2018 年 5 月上市）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "13-ah 系列（13-ah0000 / ah1000），2018 年 5 月上市，2021 年 1 月停产。13.3 英寸 16:9 IPS、4.22mm 超窄边框、边到边玻璃，14.9mm 厚、1.3kg，镁铝合金，53.2Wh 电池（标称 14 小时），B&O 四扬声器，指纹识别。8GB LPDDR3-2133 板载不可升级。参考价 5999—6599 元（2018 年），MX150 版 6499 元。13-ah1000（i5-8265U）为同代小改款，合并记录。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 14|2021",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "薄锐 Envy 14",
+      "displayName": "惠普 薄锐 Envy 14 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce GTX 1650 Ti Max-Q 4GB"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1200 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.anandtech.com/show/16377",
+      "sourceTitle": "CES 2021: HP ENVY 14 Refreshed（AnandTech，2021 年 1 月，含完整规格表）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "14-eb0000 系列，CES 2021 发布、2021 年 1 月上市。14 英寸 16:10 1920x1200 IPS 触控、400nit、100%sRGB、87% 屏占比，1.49—1.60kg、17.9mm，63.3Wh 电池 + 135W 适配器，雷电 4 x1 + USB-A x2 + HDMI 2.0 + microSD。16GB DDR4-3200 板载不可升级。美国起售价 999 美元；印度 i7-1165G7/16GB/1TB/GTX1650Ti 版 104999 卢比。国行价格未取得可靠来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 15|2020",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "薄锐 Envy 15",
+      "displayName": "惠普 薄锐 Envy 15 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10300H",
+        "英特尔酷睿 i7-10750H",
+        "英特尔酷睿 i9-10885H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce GTX 1650 Ti 4GB",
+        "独立显卡 NVIDIA GeForce GTX 1660 Ti Max-Q 6GB",
+        "独立显卡 NVIDIA GeForce RTX 2060 Max-Q 6GB"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz",
+        "15.6英寸 3840x2160 60Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://www.expreview.com/75122.html",
+      "sourceTitle": "惠普ENVY 15笔记本电脑评测（超能网，2020 款 15-ep，i7-10750H/RTX 2060 Max-Q/4K OLED，13999 元）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "15-ep0000 系列，2020 年 4 月上市，创作者定位（非游戏本）。15.6 英寸，FHD IPS 或 4K AMOLED 触控（400nit、100%DCI-P3、出厂校色）。全铝机身，18.45mm、2.14—2.15kg，83Wh 电池 + 200W 适配器，双 M.2（可 RAID 0），双 SO-DIMM 最高 32GB，雷电 3 x2 + USB-A x2 + HDMI 2.0 + microSD。国行高配（i7-10750H/16GB/1TB/RTX2060 Max-Q/4K OLED）13999 元。2021 年 15-ep1000（11 代 H + RTX 30）为另一代，未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 16|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "薄锐 Envy 16",
+      "displayName": "惠普 薄锐 Envy 16 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H",
+        "英特尔酷睿 i9-12900H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 Intel Arc A370M 4GB",
+        "独立显卡 NVIDIA GeForce RTX 3060 6GB"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz 触控",
+        "16英寸 3840x2400 60Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1434158.shtml",
+      "sourceTitle": "惠普ENVY 16(i7 12700H/32GB/1TB/RTX3060/4K) - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "16-h0000 系列，2022 年 6 月发布、7 月国内上架。16 英寸 16:10，2.5K 120Hz 触控 / 4K OLED 触控。双 SO-DIMM DDR5-4800 最高 32GB，单/双 M.2 PCIe 4.0，83Wh 电池、150W 充电，2.32kg、19.6mm，雷电 4 x2、HDMI 2.1、SD 卡槽、四扬声器、500 万像素 IR。国行首发仅一个配置：i7-12700H/16GB/512GB/A370M 4GB/2.5K 120Hz，原价 9999 元、首发 8999 元（2022-07）。2023 年 16-h1001TX（13 代 i7-13700H + RTX 4060）为下一代，未单列。；原 HP 支持页在本机网络超时，改用可访问的产品库/媒体页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy x360 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "薄锐 Envy x360 14",
+      "displayName": "惠普 薄锐 Envy x360 14 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125U",
+        "英特尔酷睿 Ultra 7 155U"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1200 60Hz 触控",
+        "14英寸 2880x1800 120Hz 触控 OLED"
+      ],
+      "sourceUrl": "https://www.hp.com/in-en/shop/laptops-tablets/personal-laptops/envy-laptops.html?displaytype=ips&scrnsizeus=35.56-cm-14-",
+      "sourceTitle": "HP Envy x360 14 (14-fc0106TU / 14-fc0105TU) 官方商城规格（惠普印度官网，酷睿 Ultra + 14 英寸 WUXGA 触控）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "14-fc 系列（2024 年，Meteor Lake），360° 翻转触控，16/32GB LPDDR5 板载，512GB/1TB PCIe 4.0，59Wh 电池、65W USB-C，雷电 4 + USB-C + USB-A x2 + HDMI 2.1，500 万像素 IR 摄像头，Poly Studio。屏幕有 WUXGA 1920x1200 与 2.8K 2880x1800 OLED 120Hz 两种。国行是否引进、具体型号后缀与价格均未确认，仅以海外官网规格记录，confidence 记 medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星Book Pro 14",
+      "displayName": "惠普 星Book Pro 14 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H",
+        "英特尔酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 120Hz",
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/747/404.htm",
+      "sourceTitle": "惠普星 Book Pro 14 2024 笔记本正式发布：可选 Ultra 5/7，至高 2.8K 屏幕，5499 元起（IT之家，2024-01-26）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 1 月上市。Ultra5 款为 2.5K(2560x1600) 120Hz LCD 300nit 100%sRGB；Ultra7 款为 2.8K(2880x1800) 120Hz OLED 400nit 100%DCI-P3。板载 LPDDR5X-7467，16/32GB，1TB PCIe 4.0，68Wh 电池 + 100W PD（30 分钟充 50%），1.52kg、17.5mm，三色（夜航蓝/微熏粉/月光银），500 万像素 IR 摄像头，Wi-Fi 6E，MIL-STD-810H。价格：Ultra5/16GB/1TB 5499 元、Ultra7/32GB/1TB 6999 元（首发）；另有 Ultra5/32GB/2.8K 版 5799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2025",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星Book Pro 14",
+      "displayName": "惠普 星Book Pro 14 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 225H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc 130T"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "sourceUrl": "https://s.zol.com.cn/shop_2201392/44728216.html",
+      "sourceTitle": "惠普 星Book Pro 14 2025(Ultra5 225H/32GB/1TB/2.8K全感屏)参数（中关村在线，上市时间 2025 年）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "型号 14-fr0042TU 等，2025 年上市，第二代酷睿 Ultra 5 225H（14 核 14 线程，55W 释放）。2.8K(2880x1800) OLED「全感屏」48—120Hz VRR、HDR 500nit、100%DCI-P3、0.2ms。16GB LPDDR5-7467（官方稿）/ 32GB LPDDR5-5200（ZOL 参数，不同 SKU 有差异），1TB PCIe 4.0 + 额外 2280 M.2 位，68Wh 电池，1.5kg、14.95mm，雷电 4、Wi-Fi 7、蓝牙 5.4，500 万像素 IR。价格：16GB 版官方商城暑促 5799 元；32GB 版电商 6199—6999 元（2025—2026）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星Book Pro 16",
+      "displayName": "惠普 星Book Pro 16 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13500H",
+        "英特尔酷睿 i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce RTX 3050 6GB"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "sourceUrl": "https://news.qq.com/rain/a/20230922A068PZ00",
+      "sourceTitle": "一图看懂 惠普星Book Pro 16发布：2.5K高刷 首发5199元起（快科技/腾讯新闻，2023-09-22）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 9 月 22 日发布，星Book Pro 16 首代。16 英寸 2.5K 2560x1600 120Hz、100%sRGB、400nit、60/120Hz VRR。13 代酷睿 H（i5-13500H 12 核 16 线程 / i7-13700H 14 核 20 线程），16GB LPDDR5X-5200 板载，1TB SSD，集显或 RTX 3050 6GB（整机 80W）。1.899kg、17.7mm，68Wh 电池 + 100W PD，雷电 4、HDMI 2.1，500 万像素 IR，数字小键盘。首发价 5199/5499/6899 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星Book Pro 16",
+      "displayName": "惠普 星Book Pro 16 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H",
+        "英特尔酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics",
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/765/191.htm",
+      "sourceTitle": "5799 元起，惠普星 Book Pro 16 2024 笔记本开售：可选酷睿 Ultra + RTX 4050（IT之家，2024-04-30）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 4 月上市，仅月光银配色。16 英寸 2.5K 2560x1600 IPS、400nit、100%sRGB、60/120Hz 可变，板载 LPDDR5x-7467，1TB PCIe 4.0，集显或 RTX 4050 6GB（独显版整机 80W）。1.899kg、17.7mm，68Wh 电池 + 100W PD，雷电 4 + 全功能 USB-C + HDMI 2.1 + USB-A，500 万像素 IR，数字小键盘，3 年 E 管家。价格：Ultra5/16GB 5799 元、Ultra7/16GB 5999 元、Ultra7/32GB 6999 元、Ultra7/32GB/RTX4050 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2026",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "星Book Pro 16",
+      "displayName": "惠普 星Book Pro 16 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra X7 358H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc B390"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://news.qq.com/rain/a/20260127A06Z1N00",
+      "sourceTitle": "惠普星Book Pro 16 2026上架，搭新一代Ultra 7售7999元（腾讯新闻，2026-01-27）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026 年 1 月 27 日京东首发开售，首发价 7999 元，仅 32GB+1TB 一个版本。酷睿 Ultra X7 358H（Intel 18A，4P+8E+4LPE，16 核 16 线程，睿频 4.8GHz，NPU 180 TOPS），Arc B390 核显（12 Xe 核心 + 12 光追单元）。16 英寸 2.5K 2560x1600 IPS 240Hz、500nit、100%sRGB，32GB LPDDR5x-8533 板载，1TB PCIe 4.0（预留一个 PCIe 5.0 M.2），70Wh 电池 + 100W PD，1.95kg、15.05mm，雷电 4、HDMI 2.1、Wi-Fi 7、蓝牙 6.0、500 万像素 IR。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|惠普|星13|2019",
+      "cpu": "英特尔酷睿 i5-1035G1",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics G1",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hp/1230837_detail.html",
+      "sourceTitle": "惠普星13-an1019TU(酷睿i5-1035G1/8GB/512GB)参数（太平洋电脑网产品库）",
+      "confidence": "high",
+      "notes": "对应型号 13-an1019TU；2019 年上市，电商参考价约 4999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星13|2019",
+      "cpu": "英特尔酷睿 i5-1035G1",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics G1",
+      "storage": "1TB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://shop.zol.com/shop_199336/35597878.html",
+      "sourceTitle": "惠普 星 13-AN1023TU 参数（中关村在线商城，1TB SSD 版本）",
+      "confidence": "high",
+      "notes": "对应型号 13-AN1023TU，2019 年 11 月上市，初恋粉配色。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX150 2GB",
+      "storage": "128GB SSD + 1TB HDD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://m.pconline.com.cn/shop808597/pid:15275799/product_detail.html",
+      "sourceTitle": "惠普 星 14-CE0029TX(4HL30PA) 参数（太平洋电脑网，2018 年 5 月上市）",
+      "confidence": "high",
+      "notes": "混搭硬盘（128GB SSD + 1TB HDD），粉色机身，1.59kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hp/1100892_detail.html",
+      "sourceTitle": "惠普星14-CE0015TU(4HK87PA) 参数（太平洋电脑网，2018 年 5 月上市）",
+      "confidence": "high",
+      "notes": "集显版，金色，1.59kg，41Wh 电池。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "cpu": "英特尔酷睿 i5-8265U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hp/1136633.html",
+      "sourceTitle": "惠普 星 14-CE1003TX(酷睿i5-8265U/8GB/256GB)（太平洋电脑网，2018 年 09 月上市）",
+      "confidence": "high",
+      "notes": "2018 年 9 月补充的 Whiskey Lake 版本，与 5 月的 8250U 版同代同模具。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "8GB",
+      "gpu": "独立显卡 AMD Radeon 530 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/25874_1.html",
+      "sourceTitle": "惠普星14 青春版系列 14S-CR2003TX 配置与报价（中关村在线，3999 元）",
+      "confidence": "high",
+      "notes": "型号 14S-CR2003TX，闪耀银，全尺寸键盘，参考价 3999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "8GB",
+      "gpu": "独立显卡 AMD Radeon 530 2GB",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/25874_1.html",
+      "sourceTitle": "惠普星14 青春版(i5 10210U/8GB/256GB/R530) 配置与报价（中关村在线，4299 元）",
+      "confidence": "high",
+      "notes": "IPS 屏、6.5mm 窄边框、178° 广视角，参考价 4299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "cpu": "AMD 锐龙 5 3500U",
+      "ram": "8GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.shangxianda.com/?p=5686/",
+      "sourceTitle": "惠普星14 青春版 14S-DP0005AU(6QG78PA)参数（上线达电脑网，2019 年 4 月上市）",
+      "confidence": "medium",
+      "notes": "锐龙 5 3500U，8GB DDR4-2400，1.47kg、19.9mm，电商价 4499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "cpu": "AMD 锐龙 3 3200U",
+      "ram": "4GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/disinfection_cabinet/index1270200.shtml",
+      "sourceTitle": "惠普星14 青春版 14S-DK0025AU(6TK82PA) 报价（中关村在线，2999 元）",
+      "confidence": "medium",
+      "notes": "入门配置，参考价 2999 元；该页为 ZOL 型号页，参数段落部分串行，容量组合以价格页标注为准。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星15|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hp/1330907_detail.html",
+      "sourceTitle": "惠普星15(酷睿i5-1135G7/16GB/512GB/MX450)参数（太平洋电脑网产品库）",
+      "confidence": "high",
+      "notes": "2020 年 11 月上市，电商参考价 5599 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 2021|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9F%2014%202021/55421525",
+      "sourceTitle": "惠普星14 2021（百度百科，列出 i5-1135G7/16GB/512GB/MX450 等具体型号）",
+      "confidence": "medium",
+      "notes": "主销配置，2021 年电商价约 5599 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 2021|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/hp/c12591_c22792/25s3.shtml",
+      "sourceTitle": "惠普星14(酷睿i5-1135G7/16GB/512GB/高色域) 报价（太平洋电脑网产品库列表，5599 元）",
+      "confidence": "high",
+      "notes": "集显高色域版，16.9mm、1.41kg，与 MX450 版同价 5599 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 60Hz",
+      "sourceUrl": "https://product.yesky.com/notebookpc/type_hp/",
+      "sourceTitle": "惠普星14 Pro(i5 12500H/16GB/512GB/集显/LCD) 报价（天极网产品库，4699 元）",
+      "confidence": "medium",
+      "notes": "LCD 屏入门配置，参考价 4699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://product.yesky.com/notebookpc/type_hp/",
+      "sourceTitle": "惠普星14 Pro(i5 12500H/16GB/512GB/集显/OLED) 报价（天极网产品库，4999 元）",
+      "confidence": "medium",
+      "notes": "2.8K OLED 版，参考价 4999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/pk_1566247_1436587.html",
+      "sourceTitle": "惠普星14 Pro(酷睿i7-12700H/16GB/512GB/2.8K)参数（太平洋电脑网，型号 P14-eh0200TU）",
+      "confidence": "high",
+      "notes": "2.8K OLED 高配，参考价 5999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 2050 4GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://product.yesky.com/notebookpc/type_hp/",
+      "sourceTitle": "惠普星14 Pro(i7 12700H/16GB/512GB/RTX2050/OLED) 报价（天极网产品库，7499 元）",
+      "confidence": "medium",
+      "notes": "顶配独显版，参考价 7499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星13 Air|2022",
+      "cpu": "AMD 锐龙 5 5600U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 60Hz",
+      "sourceUrl": "https://www.163.com/dy/article/H78FIQP4051189P5.html",
+      "sourceTitle": "2022年预算5000元轻薄本盘点（网易，星13 Air R5-5600U/16G/512G 售价 4699 元）",
+      "confidence": "medium",
+      "notes": "三面镁铝合金、960g，2022 年参考价 4699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星13 Air|2022",
+      "cpu": "AMD 锐龙 7 5800U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 60Hz",
+      "sourceUrl": "https://www.pconline.com.cn/zhizao/article/362828.html",
+      "sourceTitle": "聊聊笔记本电脑的「品牌价值」——惠普星13 Air 评测（太平洋科技，R7-5800U 版 5499 元，R5 版 4699 元）",
+      "confidence": "high",
+      "notes": "实测 0.96kg、43Wh 电池、板载 16GB DDR4-3200。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星13 Air|2022",
+      "cpu": "AMD 锐龙 7 5825U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 60Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7182393014730359352",
+      "sourceTitle": "惠普星13 Air 评测（笔吧评测室，R7-5825U 版 5699 元）",
+      "confidence": "high",
+      "notes": "2022 年末小改款，R5-5625U 版 5199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 三代|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "4GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX130 2GB",
+      "storage": "1TB HDD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://gz.zol.com.cn/744/7449441.html",
+      "sourceTitle": "商务办公选择 惠普ProBook440 G7售3900（中关村在线行情，i5-10210U/4GB/1TB/MX130）",
+      "confidence": "high",
+      "notes": "型号 440 G7-A40，45%NTSC 屏，促销价 3900 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 三代|2019",
+      "cpu": "英特尔酷睿 i7-10510U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX130 2GB",
+      "storage": "256GB SSD + 1TB HDD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/7607492.html",
+      "sourceTitle": "济南惠普ProBook440 G7热销 快充技术（中关村在线，i7-10510U/8GB/256GB+1TB/MX130，6100 元）",
+      "confidence": "high",
+      "notes": "45Wh 电池，30 分钟充 50%，报价 6100 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.163.com/dy/article/FPA1KBBJ051184BI.html",
+      "sourceTitle": "惠普战 66 四代上架，搭载 11 代酷睿 售价 4699 元起（网易/IT之家，附 14/15.6 英寸完整价格表）",
+      "confidence": "high",
+      "notes": "14 英寸普通屏入门版，2020-11-01 首发 4699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.163.com/dy/article/FPA1KBBJ051184BI.html",
+      "sourceTitle": "惠普战 66 四代上架，搭载 11 代酷睿 售价 4699 元起（网易/IT之家）",
+      "confidence": "high",
+      "notes": "16GB + 高色域屏（400nit/100%sRGB），4999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.163.com/dy/article/FPA1KBBJ051184BI.html",
+      "sourceTitle": "惠普战 66 四代上架，搭载 11 代酷睿 售价 4699 元起（网易/IT之家）",
+      "confidence": "high",
+      "notes": "i7 普通屏版，5399 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.163.com/dy/article/FPA1KBBJ051184BI.html",
+      "sourceTitle": "惠普战 66 四代上架，搭载 11 代酷睿 售价 4699 元起（网易/IT之家）",
+      "confidence": "high",
+      "notes": "14 英寸顶配，高色域屏，6499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://tech.sina.cn/2020-10-19/detail-iiznezxr6825282.d.html",
+      "sourceTitle": "4699 元起，惠普战 66 四代上架：11 代酷睿 + MX450（新浪科技/IT之家，含 15.6 英寸价格）",
+      "confidence": "high",
+      "notes": "15.6 英寸高色域版，4999 元；同配置比 14 英寸贵 0 元（该代两尺寸同价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://m.tech.china.com/digi/digi/20201112/20201112647907.html",
+      "sourceTitle": "惠普战66四代新品上架：11代酷睿+10nm工艺制程（中华网科技，集显版首发 3999 元）",
+      "confidence": "high",
+      "notes": "集显版 2020-11-12 首发 3999 元，8GB DDR4-3200、512GB SSD。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "cpu": "英特尔酷睿 i5-1240P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.xcc.com/news/detail/5002669",
+      "sourceTitle": "惠普战66五代酷睿版轻薄本上架（芯查查，14 英寸集显配置价格表）",
+      "confidence": "high",
+      "notes": "14 英寸集显入门，4599 元；DDR4-3200 双通道、PCIe 4.0。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.xcc.com/news/detail/5002669",
+      "sourceTitle": "惠普战66五代酷睿版轻薄本上架（芯查查，14 英寸集显配置价格表）",
+      "confidence": "high",
+      "notes": "5399 元；同系列 i7/1TB 集显 5899 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "cpu": "英特尔酷睿 i5-1240P",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX570 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.xcc.com/news/detail/5002669",
+      "sourceTitle": "惠普战66五代酷睿版轻薄本上架（芯查查，14 英寸独显配置价格表）",
+      "confidence": "high",
+      "notes": "5299 元；U15 处理器搭配 MX570 是官方规则。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX570 2GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.xcc.com/news/detail/5002669",
+      "sourceTitle": "惠普战66五代酷睿版轻薄本上架（芯查查，14 英寸独显顶配 6999 元）",
+      "confidence": "high",
+      "notes": "该代最高配，6999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "cpu": "英特尔酷睿 i5-1240P",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.ithome.com/0/632/724.htm",
+      "sourceTitle": "惠普战 66 笔记本推出 32GB 大内存版本，售价 4899 元起（IT之家，2022-08-01）",
+      "confidence": "high",
+      "notes": "32GB 内存普及版，14 英寸 4899 元，15.6 英寸 4999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.ithome.com/0/632/724.htm",
+      "sourceTitle": "惠普战 66 笔记本推出 32GB 大内存版本，售价 4899 元起（IT之家）",
+      "confidence": "high",
+      "notes": "15.6 英寸 32GB/1TB 集显，6299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 六代|2023",
+      "cpu": "英特尔酷睿 i5-1340P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/8549002.html",
+      "sourceTitle": "惠普战66六代2023款十三代酷睿版轻薄笔记本电脑 4099 元（中关村在线，i5-1340P/16G/1T/14 英寸）",
+      "confidence": "high",
+      "notes": "14 英寸 FHD 400nit 100%sRGB，51Wh 电池，参考价 4099 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 六代|2023",
+      "cpu": "英特尔酷睿 i5-1340P",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/hp/1775367_detail.html",
+      "sourceTitle": "惠普战66 六代(酷睿i5-1340P/32GB/1TB/14寸/高色域)参数（太平洋电脑网产品库）",
+      "confidence": "high",
+      "notes": "32GB DDR4-3200 双 SO-DIMM 版本，1.42kg、19.9mm。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 六代|2023",
+      "cpu": "英特尔酷睿 i5-1340P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 120Hz",
+      "sourceUrl": "https://dnzp.com/jy/202311/234321.html",
+      "sourceTitle": "2023 年双十一 4-5K 高性价比笔记本盘点（电脑装配网，战66 六代 15.6 英寸 2.5K 120Hz，4499 元）",
+      "confidence": "medium",
+      "notes": "15.6 英寸 2.5K 120Hz 版，1.79kg，参考价 4499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.hpstore.cn/laptops-tablets/business-laptops.html?graphicprocessor=%E8%8B%B1%E7%89%B9%E5%B0%94-gpu&processorfamily=%E7%AC%AC%E4%B8%80%E4%BB%A3%E8%8B%B1%E7%89%B9%E5%B0%94%C2%AE-%E9%85%B7%E7%9D%BF%E2%84%A2-ultra-5-%E5%A4%84%E7%90%86%E5%99%A8&weightmet=%3C-2-kg",
+      "sourceTitle": "中国惠普官方商城 战66 七代 14 英寸（A2CN6PC，Ultra5/16GB/1TB/QHD）商品卡",
+      "confidence": "high",
+      "notes": "SKU A2CN6PC，起售价 5699 元（页面显示现价 4412 元，2026-10 抓取）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.hpstore.cn/laptops-tablets/business-laptops.html?graphicprocessor=%E8%8B%B1%E7%89%B9%E5%B0%94-gpu&processorfamily=%E7%AC%AC%E4%B8%80%E4%BB%A3%E8%8B%B1%E7%89%B9%E5%B0%94%C2%AE-%E9%85%B7%E7%9D%BF%E2%84%A2-ultra-5-%E5%A4%84%E7%90%86%E5%99%A8&weightmet=%3C-2-kg",
+      "sourceTitle": "中国惠普官方商城 战66 七代 14 英寸（A2CD1PC，Ultra5/32GB/1TB/QHD）商品卡",
+      "confidence": "high",
+      "notes": "SKU A2CD1PC，起售价 6099 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.hpstore.cn/laptops-tablets/business-laptops.html?graphicprocessor=%E8%8B%B1%E7%89%B9%E5%B0%94-gpu&processorfamily=%E7%AC%AC%E4%B8%80%E4%BB%A3%E8%8B%B1%E7%89%B9%E5%B0%94%C2%AE-%E9%85%B7%E7%9D%BF%E2%84%A2-ultra-5-%E5%A4%84%E7%90%86%E5%99%A8&weightmet=%3C-2-kg",
+      "sourceTitle": "中国惠普官方商城 战66 七代 16 英寸（A2NC3PC，Ultra5/16GB/1TB/QHD）商品卡",
+      "confidence": "high",
+      "notes": "SKU A2NC3PC，起售价 5849 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_2194624/44728146.html",
+      "sourceTitle": "惠普战66 七代 酷睿Ultra版 14 英寸(Ultra5 125H/32GB/1TB/120Hz)（中关村在线，2024 年 05 月上市）",
+      "confidence": "high",
+      "notes": "32GB 顶配，经销商报价 6137 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "cpu": "AMD 锐龙 5 7535U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon 660M",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=2004354-2004338.html",
+      "sourceTitle": "惠普战66 七代 锐龙版 14 英寸(R5 7535U/16GB/1TB/120Hz) 参数对比（中关村在线，2024 年 05 月）",
+      "confidence": "high",
+      "notes": "锐龙版 DDR5-4800，9 家商家报价 4999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "cpu": "英特尔酷睿 Ultra 5 225H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc 130T",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_2194624/44776998.html",
+      "sourceTitle": "惠普 战 66 2025 酷睿Ultra版 14 英寸(Ultra5 225H/16GB/1TB/2.5K屏)（中关村在线，2025 年上市）",
+      "confidence": "high",
+      "notes": "500nit、100%DCI-P3、1.44kg、56Wh，Evo 认证。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "cpu": "英特尔酷睿 Ultra 5 225H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc 130T",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://news.qq.com/rain/a/20250926A078G800",
+      "sourceTitle": "惠普新款战66 16英寸笔记本登场，都是老配置，但新价格相当不错（腾讯新闻，2025-09-26，5499 元/补贴后 4399 元）",
+      "confidence": "high",
+      "notes": "32GB DDR5-5600 双插槽，400nit、100%AdobeRGB/P3/sRGB，1.75kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "cpu": "AMD 锐龙 7 H255",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 1920x1200 60Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8DUlhaC00eBl8IGlgWVAMBXVxcDEoUC19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwBHlgcXwcGVV1VFxJSXzI4HFpsI3AGAwQ_QVFDVylbXgxOKHQDJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk0fUWdaGwtGX1UGUlkOWBsnA244WjUVXAYGXFZZDHsWM28OE1gdVQUEVl5cCk8nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsLHFMQW2heEwAYUg5MBAEKEloVWQAKUG5fCUoVAV84Ky9pCnR0NCcNXAtJSg9MSz10FH5xHT41bEJ0ATx9fjUXWAddClg9azN_ZWxtaANHKlUyVG5aDkonAl8",
+      "sourceTitle": "京东 惠普(HP)战66八代 2025 锐龙7-H255 16 英寸 16G/1TB 商品页（规格与价格）",
+      "confidence": "medium",
+      "notes": "京东定制款，常卖价 6449 元；16 英寸 1920x1200 45%NTSC 低色域屏，双 SO-DIMM 最高 64GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "cpu": "AMD 锐龙 7 H255",
+      "ram": "24GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BARgJK1olXDYCVV9eD00TAGYLHVgWXTZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXAUFUlpeAUgRAGwIBAJQAVsyDDcoYRV-aCdqQgdyVVxAM10ocxtqc2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQxAWlYKVllVWxgQAz0IGA8lXQcyHzBcOEonA2kAGFMdXgAAVF9fDHsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBW8ISAwcM1pFChsHTRBEbW0BGlIRWg4FZFxcCUkVM184GyNWNFB9DyMfT0t0RC4JTilAXVRYMDYZTB5oAA9mGSZ-PWFWBCEGUwgURxFjXSRVbQYyZF9t",
+      "sourceTitle": "京东 惠普(HP) 战66 八代 锐龙7 H255 14 英寸 2.5K 屏 24G/1TB 商品页",
+      "confidence": "medium",
+      "notes": "认证型号 HP ZHAN66 14 G8a，1.43kg，100%AdobeRGB/DCI-P3/sRGB，常卖价 7799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "cpu": "英特尔酷睿 i5-6200U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 520",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/20495_1.html",
+      "sourceTitle": "惠普SPECTRE 13-V000 系列（中关村在线，V014TU 8GB/256GB 配置）",
+      "confidence": "high",
+      "notes": "型号 SPECTRE 13-V014TU(W6T89PA)，深灰色。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "cpu": "英特尔酷睿 i7-6500U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 520",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/20495_1.html",
+      "sourceTitle": "惠普SPECTRE 13-V000 系列（中关村在线，V015TU 8GB/256GB 配置）",
+      "confidence": "high",
+      "notes": "型号 SPECTRE 13-V015TU(W6T90PA)，深灰色。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "cpu": "英特尔酷睿 i7-6500U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 520",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/20495_1.html",
+      "sourceTitle": "惠普SPECTRE 13-V000 系列 - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "型号 13-v016tu(W6T91PA)，国行参考价 8699—9999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "cpu": "英特尔酷睿 i5-1035G4",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Plus Graphics",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://pc3mag.com/?p=135444/",
+      "sourceTitle": "HP 新 Spectre X360 13 抵港（PC3 Magazine，2019 年香港上市价格表）",
+      "confidence": "medium",
+      "notes": "香港定价 HK$11499（2019-11），国行对应型号未逐一确认。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "cpu": "英特尔酷睿 i7-1065G7",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Plus Graphics",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://pc3mag.com/?p=135444/",
+      "sourceTitle": "HP 新 Spectre X360 13 抵港（PC3 Magazine，i7+8GB+512GB 定价 HK$12999）",
+      "confidence": "medium",
+      "notes": "HK$12999（2019-11）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "cpu": "英特尔酷睿 i7-1065G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Plus Graphics",
+      "storage": "1TB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://pc3mag.com/?p=135444/",
+      "sourceTitle": "HP 新 Spectre X360 13 抵港（PC3 Magazine，i7+16GB+1TB 定价 HK$15499）",
+      "confidence": "medium",
+      "notes": "HK$15499（2019-11）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "cpu": "英特尔酷睿 i7-1065G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Plus Graphics",
+      "storage": "2TB SSD",
+      "screen": "13.3英寸 3840x2160 60Hz 触控 OLED",
+      "sourceUrl": "https://pc3mag.com/?p=135444/",
+      "sourceTitle": "HP 新 Spectre X360 13 抵港（PC3 Magazine，顶配 4K OLED 定价 HK$19999）",
+      "confidence": "medium",
+      "notes": "4K AMOLED 顶配，HK$19999，1.31kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "13.5英寸 1920x1280 60Hz 触控",
+      "sourceUrl": "https://technave.com/gadget/HP-Spectre-x360-14-Price-in-Malaysia-Specs-23023.html",
+      "sourceTitle": "HP Spectre x360 14 (ea0053TU) Price & Specs（TechNave，i5/8GB/1TB，RM6099）",
+      "confidence": "medium",
+      "notes": "马来西亚定价 RM6099（2021 年），国行价格未取得。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2021",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "13.5英寸 1920x1280 60Hz 触控",
+      "sourceUrl": "https://m.zol.com.cn/article/7749212.html",
+      "sourceTitle": "为何说惠普Spectre X360 14创造了精致PC品类 - 中关村在线",
+      "confidence": "high",
+      "notes": "官方规格页；同系列 ea0054TU 为 16GB/1TB 版本，RM7099。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2023",
+      "cpu": "英特尔酷睿 i7-1355U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "13.5英寸 3000x2000 60Hz 触控 OLED",
+      "sourceUrl": "https://www.asifcomputers.com/product/hp-spectre-x360-14-ef2023dx-13th-gen-intel-core-i7-1355u-3-7-ghz-16gb-ram-1tb-ssd-13-5-3k2k-oled-price-in-pakistan/",
+      "sourceTitle": "HP Spectre x360 14-ef2023dx (i7-1355U/16GB/1TB/3K2K OLED) 具体 SKU 页",
+      "confidence": "medium",
+      "notes": "14-ef2023dx 具体型号，1.36kg，含触控笔。海外零售页，非国行。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2023",
+      "cpu": "英特尔酷睿 i7-1355U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "13.5英寸 1920x1280 60Hz 触控",
+      "sourceUrl": "https://laptopmedia.com/au/laptop-specs/hp-spectre-x360-14-111",
+      "sourceTitle": "HP Spectre x360 14 (14-ef000/ef1000/ef2000) 规格（LaptopMedia，i7-1355U/16GB/512GB/WUXGA+）",
+      "confidence": "medium",
+      "notes": "非触控 OLED 的 LCD 入门配置，美国价 1449 美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 16|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB SSD",
+      "screen": "16英寸 3072x1920 60Hz 触控",
+      "sourceUrl": "https://laptopchooser.co.uk/laptop/hp-spectre-x360-16-2022",
+      "sourceTitle": "HP Spectre x360 16 (2022) 完整规格（Laptop Chooser，i7-12700H/16GB/512GB/3K+ 触控）",
+      "confidence": "medium",
+      "notes": "3:2 3072x1920 IPS 触控、400nit，83Wh 电池，1.99kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 13|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1216268.shtml",
+      "sourceTitle": "惠普ENVY 13-AH0004TU(4HQ96PA)（中关村在线，集显版，5999 元）",
+      "confidence": "high",
+      "notes": "集显版 5999 元（2018 年）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 13|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX150 2GB",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEENVY%2013-AH0010TX/55059380",
+      "sourceTitle": "惠普ENVY 13-AH0010TX（百度百科，MX150 2GB 版，上市参考价 6499 元）",
+      "confidence": "high",
+      "notes": "13-AH0010TX，1.3kg、14.9mm，53.2Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 14|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Ti Max-Q 4GB",
+      "storage": "256GB SSD",
+      "screen": "14英寸 1920x1200 60Hz 触控",
+      "sourceUrl": "https://www.anandtech.com/show/16377",
+      "sourceTitle": "CES 2021: HP ENVY 14 Refreshed（AnandTech，i5-1135G7/16GB/256GB/GTX1650Ti，999 美元起）",
+      "confidence": "high",
+      "notes": "美国起售价 999 美元（2021-01）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 14|2021",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Ti 4GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 1920x1200 60Hz 触控",
+      "sourceUrl": "https://gadgets360.com/hp-envy-14-eb0021tx-103891",
+      "sourceTitle": "HP Envy 14-eb0021TX 完整规格与价格（Gadgets 360，i7/16GB/1TB/GTX1650Ti）",
+      "confidence": "medium",
+      "notes": "14-eb0021TX，印度价 104999 卢比（2021-08 上市）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 15|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 4GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://gadgets360.com/hp-envy-15-2020-price-in-india-92055",
+      "sourceTitle": "HP Envy 15 (2020) 规格（Gadgets 360，i5-10300H/16GB/512GB/GTX1650，2020-04-17）",
+      "confidence": "medium",
+      "notes": "FHD 触控版，2.14kg，83Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 15|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 2060 Max-Q 6GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 3840x2160 60Hz 触控 OLED",
+      "sourceUrl": "https://www.expreview.com/75122.html",
+      "sourceTitle": "惠普ENVY 15笔记本电脑评测（超能网，国行 i7-10750H/16GB/1TB/RTX2060 Max-Q/4K OLED，13999 元）",
+      "confidence": "high",
+      "notes": "国行高配 13999 元，100%DCI-P3、出厂校色。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 16|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 Intel Arc A370M 4GB",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 120Hz 触控",
+      "sourceUrl": "https://www.toutiao.com/article/7118652972468535823/",
+      "sourceTitle": "惠普新款 ENVY 16 笔记本国内上架，首发 8999 元（IT之家，2022-07-10）",
+      "confidence": "high",
+      "notes": "国行唯一上架配置，原价 9999 元、首发 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy x360 14|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1200 60Hz 触控",
+      "sourceUrl": "https://www.hp.com/in-en/shop/laptops-tablets/personal-laptops/envy-laptops.html?displaytype=ips&scrnsizeus=35.56-cm-14-",
+      "sourceTitle": "HP Envy x360 14-fc0106TU 官方商城商品卡（酷睿 Ultra 7 / 16GB / 512GB / WUXGA 触控）",
+      "confidence": "medium",
+      "notes": "SKU A00PQPA，印度官网起售价 125002 卢比。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy x360 14|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 120Hz 触控 OLED",
+      "sourceUrl": "https://www.plazait.co.id/product/hp-envy-x360-14-fc0555tu-a03gvpa-silver-2y",
+      "sourceTitle": "HP Envy x360 14-fc0555TU (A03GVPA) 具体 SKU 规格页（Ultra 5-125U/16GB/512GB/2.8K OLED 触控）",
+      "confidence": "low",
+      "notes": "印尼零售商 SKU 页，非官方；2.8K OLED 48—120Hz、100%DCI-P3、59Wh，含触控笔。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/747/404.htm",
+      "sourceTitle": "惠普星 Book Pro 14 2024 正式发布（IT之家，Ultra5/16GB/1TB 5499 元）",
+      "confidence": "high",
+      "notes": "首发 5499 元，2.5K LCD 300nit。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://www.ithome.com/0/747/404.htm",
+      "sourceTitle": "惠普星 Book Pro 14 2024 正式发布（IT之家，Ultra7/32GB/1TB 6999 元）",
+      "confidence": "high",
+      "notes": "首发 6999 元，2.8K OLED 400nit 100%DCI-P3。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://detail.zol.com.cn/gas_waterheater/index1977711.shtml",
+      "sourceTitle": "惠普星Book Pro 14 2024(Ultra5 125H/32GB/1TB/2.8K)（中关村在线，系列共 3 款，5799 元）",
+      "confidence": "high",
+      "notes": "中间配置，参考价 5799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2025",
+      "cpu": "英特尔酷睿 Ultra 5 225H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc 130T",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=Mzk0MDMxNjQyNw==&mid=2247492054&idx=3&sn=a576023c2af8becf786562aa355a840b&chksm=c3844217d51edfdb4cfbe0a021306858e2bbbf00dbe0f2080fb6fad37750ff98714501b53f8d#rd",
+      "sourceTitle": "惠普星Book Pro 14 2025：高颜值的AI轻薄战力本（中国惠普官方商城公众号，14-fr0042TU，5799 元）",
+      "confidence": "high",
+      "notes": "官方商城暑促到手价 5799 元，16GB LPDDR5-7467。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2025",
+      "cpu": "英特尔酷睿 Ultra 5 225H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc 130T",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://s.zol.com.cn/shop_2201392/44728216.html",
+      "sourceTitle": "惠普 星Book Pro 14 2025(Ultra5 225H/32GB/1TB/2.8K全感屏)（中关村在线，6137 元）",
+      "confidence": "high",
+      "notes": "32GB 版本，ZOL 记 LPDDR5-5200（与官方稿 7467 有出入，按 SKU 差异处理）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2023",
+      "cpu": "英特尔酷睿 i5-13500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7281561441076314683/",
+      "sourceTitle": "惠普星Book Pro 16大屏轻薄本上架：i7+RTX 3050，6899 元（IT之家，三档首发价）",
+      "confidence": "high",
+      "notes": "首发 5199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7281561441076314683/",
+      "sourceTitle": "惠普星Book Pro 16大屏轻薄本上架（IT之家，i7 集显 5499 元）",
+      "confidence": "high",
+      "notes": "首发 5499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 6GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7281561441076314683/",
+      "sourceTitle": "惠普星Book Pro 16大屏轻薄本上架（IT之家，i7+RTX3050 6899 元）",
+      "confidence": "high",
+      "notes": "首发 6899 元，整机 80W 释放。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/765/191.htm",
+      "sourceTitle": "5799 元起，惠普星 Book Pro 16 2024 开售（IT之家，四档价格）",
+      "confidence": "high",
+      "notes": "5799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/765/191.htm",
+      "sourceTitle": "5799 元起，惠普星 Book Pro 16 2024 开售（IT之家）",
+      "confidence": "high",
+      "notes": "5999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/765/191.htm",
+      "sourceTitle": "5799 元起，惠普星 Book Pro 16 2024 开售（IT之家）",
+      "confidence": "high",
+      "notes": "6999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/765/191.htm",
+      "sourceTitle": "5799 元起，惠普星 Book Pro 16 2024 开售（IT之家）",
+      "confidence": "high",
+      "notes": "顶配 8999 元，独显版整机 80W。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2026",
+      "cpu": "英特尔酷睿 Ultra X7 358H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc B390",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9FBook%20Pro%2016%202026/67293968",
+      "sourceTitle": "惠普星Book Pro 16 2026（百度百科，2026 年 1 月上市，唯一配置 32GB+1TB，7999 元）",
+      "confidence": "high",
+      "notes": "首发 7999 元，Intel 18A 平台，Arc B390（12 Xe 核 + 12 光追单元）。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "惠普星13",
+      "modelKey": "笔记本电脑|惠普|星13|2019",
+      "aliasType": "中文通用名",
+      "note": "2019 款 13-an 系列，搜索「惠普星13 2019」常见"
+    },
+    {
+      "alias": "星13-an",
+      "modelKey": "笔记本电脑|惠普|星13|2019",
+      "aliasType": "型号代码",
+      "note": "13-an1016TU / an1019TU / an1023TU 等"
+    },
+    {
+      "alias": "HP Pavilion 13",
+      "modelKey": "笔记本电脑|惠普|星13|2019",
+      "aliasType": "英文名",
+      "note": "星系列对应海外 Pavilion 13 产品线"
+    },
+    {
+      "alias": "惠普星14",
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "aliasType": "中文通用名",
+      "note": "泛指 14 英寸星系列；2018 年款为 14-ce"
+    },
+    {
+      "alias": "星14-CE",
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "aliasType": "型号代码",
+      "note": "14-ce0015TU / ce0029TX / ce1003TX"
+    },
+    {
+      "alias": "HP Pavilion 14",
+      "modelKey": "笔记本电脑|惠普|星14|2018",
+      "aliasType": "英文名",
+      "note": "海外对应 Pavilion 14-ce 系列"
+    },
+    {
+      "alias": "星14青春版",
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "aliasType": "中文通用名",
+      "note": "官方名「星14 青春版」，常被写作「星14青春版」"
+    },
+    {
+      "alias": "惠普星14 青春版",
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "aliasType": "带品牌写法",
+      "note": "14S-CR / 14S-DP / 14S-DK"
+    },
+    {
+      "alias": "14S-CR",
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "aliasType": "型号代码",
+      "note": "英特尔平台分支"
+    },
+    {
+      "alias": "14S-DP",
+      "modelKey": "笔记本电脑|惠普|星14 青春版|2019",
+      "aliasType": "型号代码",
+      "note": "锐龙平台分支"
+    },
+    {
+      "alias": "惠普星15",
+      "modelKey": "笔记本电脑|惠普|星15|2020",
+      "aliasType": "中文通用名",
+      "note": "15.6 英寸星系列，2020 年 11 代酷睿款"
+    },
+    {
+      "alias": "HP Pavilion 15",
+      "modelKey": "笔记本电脑|惠普|星15|2020",
+      "aliasType": "英文名",
+      "note": "海外 Pavilion 15 对应"
+    },
+    {
+      "alias": "星14 2021",
+      "modelKey": "笔记本电脑|惠普|星14 2021|2021",
+      "aliasType": "年款写法",
+      "note": "官方年款命名，11 代酷睿"
+    },
+    {
+      "alias": "惠普星14 11代",
+      "modelKey": "笔记本电脑|惠普|星14 2021|2021",
+      "aliasType": "口语描述",
+      "note": "按处理器代际的口语叫法"
+    },
+    {
+      "alias": "星14 Pro",
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "aliasType": "中文通用名",
+      "note": "标压 H 处理器 + 2.8K OLED"
+    },
+    {
+      "alias": "惠普星14Pro",
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "aliasType": "无空格写法",
+      "note": "电商标题常见连写"
+    },
+    {
+      "alias": "P14-eh",
+      "modelKey": "笔记本电脑|惠普|星14 Pro|2022",
+      "aliasType": "型号代码",
+      "note": "P14-eh0200TU 等"
+    },
+    {
+      "alias": "星13 Air",
+      "modelKey": "笔记本电脑|惠普|星13 Air|2022",
+      "aliasType": "中文通用名",
+      "note": "960g 超轻本"
+    },
+    {
+      "alias": "惠普星13Air",
+      "modelKey": "笔记本电脑|惠普|星13 Air|2022",
+      "aliasType": "无空格写法",
+      "note": "电商常见写法"
+    },
+    {
+      "alias": "战66",
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "aliasType": "系列简称",
+      "note": "不带代际时通常指最新在售代，此处指向 2025 年八代"
+    },
+    {
+      "alias": "战66 三代",
+      "modelKey": "笔记本电脑|惠普|战66 三代|2019",
+      "aliasType": "代际写法",
+      "note": "ProBook 440 G7"
+    },
+    {
+      "alias": "战66 四代",
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "aliasType": "代际写法",
+      "note": "ProBook 440 G8"
+    },
+    {
+      "alias": "战66 五代",
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "aliasType": "代际写法",
+      "note": "ProBook 440 G9"
+    },
+    {
+      "alias": "战66 六代",
+      "modelKey": "笔记本电脑|惠普|战66 六代|2023",
+      "aliasType": "代际写法",
+      "note": "ProBook 440 G10"
+    },
+    {
+      "alias": "战66 七代",
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "aliasType": "代际写法",
+      "note": "ProBook 440 G11"
+    },
+    {
+      "alias": "战66 八代",
+      "modelKey": "笔记本电脑|惠普|战66 八代|2025",
+      "aliasType": "代际写法",
+      "note": "ProBook 440 G12 / ZHAN66 14 G8a"
+    },
+    {
+      "alias": "ProBook 440 G7",
+      "modelKey": "笔记本电脑|惠普|战66 三代|2019",
+      "aliasType": "国际型号",
+      "note": "14 英寸；15.6 英寸为 450 G7"
+    },
+    {
+      "alias": "ProBook 440 G8",
+      "modelKey": "笔记本电脑|惠普|战66 四代|2020",
+      "aliasType": "国际型号",
+      "note": "14 英寸；15.6 英寸为 450 G8"
+    },
+    {
+      "alias": "ProBook 440 G9",
+      "modelKey": "笔记本电脑|惠普|战66 五代|2022",
+      "aliasType": "国际型号",
+      "note": "14 英寸；15.6 英寸为 450 G9"
+    },
+    {
+      "alias": "ProBook 440 G10",
+      "modelKey": "笔记本电脑|惠普|战66 六代|2023",
+      "aliasType": "国际型号",
+      "note": "14 英寸；15.6 英寸为 450 G10"
+    },
+    {
+      "alias": "ProBook 440 G11",
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "aliasType": "国际型号",
+      "note": "14 英寸；16 英寸为 460 G11"
+    },
+    {
+      "alias": "战66 锐龙版",
+      "modelKey": "笔记本电脑|惠普|战66 七代|2024",
+      "aliasType": "平台写法",
+      "note": "锐龙版按代际分别对应，此处指向有 R5-7535U 证据的七代"
+    },
+    {
+      "alias": "惠普幽灵",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "aliasType": "中文通用名",
+      "note": "泛指 Spectre 系列，最早国行称「幽灵」"
+    },
+    {
+      "alias": "幽灵13",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "aliasType": "口语简称",
+      "note": "13.3 英寸非翻转版"
+    },
+    {
+      "alias": "Spectre 13",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre 13|2016",
+      "aliasType": "英文名",
+      "note": "13-v000 系列"
+    },
+    {
+      "alias": "Spectre x360",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "aliasType": "系列简称",
+      "note": "不带尺寸时多指 13 英寸款"
+    },
+    {
+      "alias": "幽灵Spectre x360 13",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "aliasType": "中文通用名",
+      "note": "13-aw0000 系列，2019 款"
+    },
+    {
+      "alias": "Spectre x360 13-aw",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 13|2019",
+      "aliasType": "型号代码",
+      "note": "aw0000 / aw1000"
+    },
+    {
+      "alias": "幽灵 Spectre x360 14",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2021",
+      "aliasType": "中文通用名",
+      "note": "13.5 英寸 3:2 翻转本，2021 年首代"
+    },
+    {
+      "alias": "Spectre x360 14-ea",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2021",
+      "aliasType": "型号代码",
+      "note": "2021 款"
+    },
+    {
+      "alias": "Spectre x360 14-ef",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 14|2023",
+      "aliasType": "型号代码",
+      "note": "2023 款，ef0000/ef1000/ef2000"
+    },
+    {
+      "alias": "幽灵16",
+      "modelKey": "笔记本电脑|惠普|幽灵 Spectre x360 16|2022",
+      "aliasType": "口语简称",
+      "note": "16 英寸 Spectre 翻转本"
+    },
+    {
+      "alias": "薄锐",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 13|2018",
+      "aliasType": "系列简称",
+      "note": "惠普 Envy 国行中文名「薄锐」"
+    },
+    {
+      "alias": "薄锐Envy 13",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 13|2018",
+      "aliasType": "中文通用名",
+      "note": "13-ah 系列"
+    },
+    {
+      "alias": "Envy 13",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 13|2018",
+      "aliasType": "英文名",
+      "note": "海外 ENVY 13-ah"
+    },
+    {
+      "alias": "薄锐 Envy 14",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 14|2021",
+      "aliasType": "中文通用名",
+      "note": "14-eb，16:10 屏"
+    },
+    {
+      "alias": "Envy 14",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 14|2021",
+      "aliasType": "英文名",
+      "note": "海外 ENVY 14-eb"
+    },
+    {
+      "alias": "薄锐 Envy 15",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 15|2020",
+      "aliasType": "中文通用名",
+      "note": "15-ep，创作者本"
+    },
+    {
+      "alias": "Envy 15",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 15|2020",
+      "aliasType": "英文名",
+      "note": "注意与更早的 15-as/15-j 主流本区分"
+    },
+    {
+      "alias": "薄锐 Envy 16",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 16|2022",
+      "aliasType": "中文通用名",
+      "note": "16-h0000"
+    },
+    {
+      "alias": "Envy 16",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy 16|2022",
+      "aliasType": "英文名",
+      "note": "海外 ENVY 16-h"
+    },
+    {
+      "alias": "Envy x360",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy x360 14|2024",
+      "aliasType": "系列简称",
+      "note": "14 英寸翻转本，14-fc"
+    },
+    {
+      "alias": "薄锐 Envy x360 14",
+      "modelKey": "笔记本电脑|惠普|薄锐 Envy x360 14|2024",
+      "aliasType": "中文通用名",
+      "note": "14-fc 系列"
+    },
+    {
+      "alias": "星Book Pro",
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2025",
+      "aliasType": "系列简称",
+      "note": "不带尺寸多指 14 英寸最新款"
+    },
+    {
+      "alias": "星Book Pro 14",
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2025",
+      "aliasType": "中文通用名",
+      "note": "2025 款 14-fr"
+    },
+    {
+      "alias": "星bookpro14",
+      "modelKey": "笔记本电脑|惠普|星Book Pro 14|2025",
+      "aliasType": "无空格小写写法",
+      "note": "电商标题常见"
+    },
+    {
+      "alias": "星Book Pro 16",
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2024",
+      "aliasType": "中文通用名",
+      "note": "2024 款 16 英寸"
+    },
+    {
+      "alias": "惠普星Book Pro 16",
+      "modelKey": "笔记本电脑|惠普|星Book Pro 16|2026",
+      "aliasType": "带品牌写法",
+      "note": "最新为 2026 款，Ultra X7 358H"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "星16",
+      "issue": "任务清单要求覆盖「星16」，但多轮检索只命中 OMEN 16（游戏本，型号 16-k）与星Book Pro 16，未找到惠普中国独立命名为「星16」的消费轻薄本产品页或规格页；2016—2026 年星系列公开产品线为星13/星14/星15 + 星Book Pro 14/16。",
+      "suggestion": "若确指 16 英寸星系列，应归入「星Book Pro 16」；若指某个区域性/渠道特供型号，需补充京东或 hp.com.cn 具体商品链接后再建条目，暂不新建以免与星Book Pro 16 重复。",
+      "sourceUrl": "https://support.hp.com/tw-zh/document/ish_6489474-6583607-16"
+    },
+    {
+      "model": "星Book Pro 14 2026",
+      "issue": "天猫「惠普中国官方旗舰店」在售标题写「Ultra5 225H 2.8k屏 26年新款」，但 225H 属第二代 Ultra（2025 平台），且未检索到 2026 款星Book Pro 14 的发布稿或规格页；2026 年 1 月官方发布的只有星Book Pro 16 2026（Ultra X7 358H）。",
+      "suggestion": "该标题很可能是 2025 款的营销话术（“26年新款”指 2026 年在售）。建议以 14-fr0042TU（2025 款）入库，等 2026 款正式发布稿出现后再新增。",
+      "sourceUrl": "https://s.click.taobao.com/t?e=m%3D2%26s%3Dstbaqke3VGtw4vFB6t2Z2ueEDrYVVa64yK8Cckff7TVRAdhuF14FMSfDa3ZUujpXRitN3%2FurF3ybBjBh3LodcDtMDMUFdHxsEga%2Bn4dNFSFW2RGh2%2FLyNYVwhIsr1DlAgb9ZeSZXs4ohwqI8c9k6WjhPP0nhgD70zRD18rVfQC6EuM7wkVK6roZdGwyNexBH8M6QVuQz78vx%2BOJE9dRXjKAAptyKwcUFvvvOJUdMkbq5XXWXhIifvPevp8onuSlvgHp1FTZO1rPZGL0GbiMMd6BniEC%2BBYvRNiy3Wf6r52f25yfj6v06lBTAoyy9aPtpE4aERQYdZnw%3D&union_lens=lensId:TAPI@1792992761@213f175c_143e_1a176b255de_d86e@01&skuId=6280997694249"
+    },
+    {
+      "model": "战66 一代 / 二代",
+      "issue": "本次只收录三代（2019，ProBook 440 G7）及以后。战66 一代（2017，ProBook 440 G4/G5）与二代（2018，445 G5/G6）的国行型号对应关系未检索到可靠中文来源，且与三代间隔较远、二手市场为主。",
+      "suggestion": "如需补齐 2016—2018 段，建议先确认「一代=ProBook 440 G4」「二代=440 G5」的官方对应，再从 ZOL 系列页取配置，避免代际错位。",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEProBook440%20G7/55295855"
+    },
+    {
+      "model": "薄锐 Envy 13（2020/2021 款，13-ba / 13-bb）",
+      "issue": "Envy 13 只收录到 2018 款（13-ah）。2020—2021 年的 13-ba/13-bb 国行是否以「薄锐 Envy 13」名义销售、具体配置与价格，未取得可靠中文来源，故未建条目。",
+      "suggestion": "补检 hp.com.cn 或 ZOL「ENVY 13-ba」系列页后再决定是否新增；避免用海外规格直接套国行。",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1216268.shtml"
+    },
+    {
+      "model": "战66 七代 锐龙版 CPU 上限",
+      "issue": "仅确认到 R5-7535U（ZOL 对比页）；R7-7735U 是否在国内战66 七代锐龙版上销售，未找到具体 SKU 或官方配置表，故 cpuOptions 未写入。",
+      "suggestion": "若有 R7 版本需求，请以京东具体 SKU 标题（含 R7-7735U）为准补充，勿按海外 ProBook 445 G11 配置推定。",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=2004354-2004338.html"
+    }
+  ]
+}

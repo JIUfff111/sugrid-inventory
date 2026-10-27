@@ -42,7 +42,10 @@ async function main() {
   }
   // Several after-sales records for the same order must not amplify sales lines.
   db.prepare("INSERT INTO after_sale_records (id,afterSaleNo,inventoryId,sn,salesRecordId,saleOrderNo,customerName,customerPhone,issueType,issueDescription,resolutionType,status,refundAmount,createdBy) VALUES ('repair','AS-repair',?,?,'order-2','EXT-order-2','','','质量','维修','repair','resolved',200,?)").run(machines[5].id,machines[5].sn,user);
-  const service=load('src/lib/sales-records.ts');const blank={search:'',dateFrom:'',dateTo:'',channel:'',warehouseId:'',status:''};
+  const brand=load('src/lib/sku-brand.ts');
+  const productName=load('src/lib/product-name.ts',{'@/lib/sku-brand':brand});
+  const service=load('src/lib/sales-records.ts',{'@/lib/product-name':productName,'@/lib/sku-display':load('src/lib/sku-display.ts')});
+  const blank={search:'',dateFrom:'',dateTo:'',channel:'',warehouseId:'',status:''};
   // Optional normalized metadata must not blank a complete historical JSON snapshot.
   db.prepare("UPDATE sales_record_items SET snapshot=? WHERE id='order-2-0'").run(JSON.stringify({brand:null,model:null,warehouseId:null}));
   // Retained JSON/normalized duplicates describe one delivery, never a second sale.

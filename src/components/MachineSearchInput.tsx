@@ -4,6 +4,8 @@ import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } f
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, LoaderCircle, Search } from 'lucide-react';
 import { useWorkspace } from '@/components/WorkspaceContext';
+import { formatProductName } from '@/lib/product-name';
+import { formatGPUDisplay } from '@/lib/sku-display';
 
 export interface MachineSuggestion {
   id: string; sn: string; brand?: string | null; model?: string | null; year?: number | string | null;
@@ -21,11 +23,9 @@ function defaultItems<T extends MachineSuggestion>(payload: unknown): T[] {
   return Array.isArray(data?.data?.items) ? data.data.items as T[] : [];
 }
 function productName(item: MachineSuggestion) {
-  const brand = String(item.brand || '').trim(); const model = String(item.model || '').trim();
-  const full = brand && model.toLowerCase().startsWith(brand.toLowerCase()) ? model : [brand, model].filter(Boolean).join(' ');
-  return [full, item.year && !full.includes(String(item.year)) ? item.year : ''].filter(Boolean).join(' ') || '未命名商品';
+  return formatProductName(item);
 }
-function configText(item: MachineSuggestion) { return [item.cpu, item.ram, item.storage, item.gpu, item.screen].filter(Boolean).join(' / ') || '配置待补充'; }
+function configText(item: MachineSuggestion) { return [item.cpu, item.ram, item.storage, formatGPUDisplay(item.gpu), item.screen].filter(Boolean).join(' / ') || '配置待补充'; }
 const STATUS_NAMES: Record<string, string> = { in_stock: '在库', sold: '已售', returning: '供应商退货中', returned: '已退货', renting: '租赁中', after_sale: '售后中', reserved: '已预留', on_way: '在途' };
 function HighlightSN({ sn, query }: { sn: string; query: string }) {
   return query && sn.toLowerCase().endsWith(query.toLowerCase()) ? <>{sn.slice(0, sn.length - query.length)}<mark className="rounded bg-primary/15 px-0.5 font-semibold text-primary">{sn.slice(-query.length)}</mark></> : <>{sn}</>;

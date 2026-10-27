@@ -1,0 +1,489 @@
+{
+ "http://www.vrrb.cn/kuaixun/diannao/20210318/125871.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.vrrb.cn/kuaixun/diannao/20210318/125871.html"
+ },
+ "http://www.51menmen.com/goodsdetail/single/677011686393043271": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.51menmen.com/goodsdetail/single/677011686393043271"
+ },
+ "https://detail.zol.com.cn/notebook/index1268419.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1268419.shtml"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzIxMTAyNjk0OA==&mid=2654672225&idx=2&sn=546f8ea9c9edeff5ffff538b423d87fd": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HG0k32qjczS1FGQeHawR0G-x9mfcnDqGj7R3oWqF&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzIxMTAyNjk0OA%3D%3D%26mid%3D2654672225%26idx%3D2%26sn%3D546f8ea9c9edeff5ffff538b423d87fd"
+ },
+ "https://g.pconline.com.cn/zhikeji/article/264325": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/zhikeji/article/264325"
+ },
+ "https://detail.zol.com.cn/series/16/10720667_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10720667_1.html"
+ },
+ "https://i.ifeng.com/c/8GUt5drxQOF": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8GUt5drxQOF"
+ },
+ "http://mp.weixin.qq.com/s?__biz=Mzg5NDA0MjA1NQ==&mid=2247504517&idx=1&sn=1bc5041bc27617b0933901519b25c565&chksm=c027382df750b13b631cd336ad695d6244d2c085bcc322cc23c04af114a38ddfa17042961e81#rd": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/s?__biz=Mzg5NDA0MjA1NQ==&mid=2247504517&idx=1&sn=1bc5041bc27617b0933901519b25c565&chksm=c027382df750b13b631cd336ad695d6244d2c085bcc322cc23c04af114a38ddfa17042961e81#rd"
+ },
+ "https://detail.zol.com.cn/Intelligentvoiceassistant/index1271310.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1271310.shtml"
+ },
+ "https://detail.zol.com.cn/gas_waterheater/index1993126.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1993126.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1993016.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1993016.shtml"
+ },
+ "https://detail.zol.com.cn/series/16/28810_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/28810_1.html"
+ },
+ "https://detail.zol.com.cn/wireless_router/index1272925.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1272925.shtml"
+ },
+ "https://mini.jnnc.com/qd/h/11133535_2.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mini.jnnc.com/qd/h/11133535_2.html"
+ },
+ "https://m.expreview.com/93580.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/93580.html"
+ },
+ "https://m.expreview.com/74542.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/74542.html"
+ },
+ "https://m.expreview.com/92610.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/92610.html"
+ },
+ "https://kafan.cn/news/14410.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.kafan.cn/news/14410.html"
+ },
+ "https://nb.zol.com.cn/777/7775851.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/777/7775851.html"
+ },
+ "https://hk.msi.com/Promotion/hk-chinese-new-year-promo-2026": {
+  "status": 403,
+  "ok": true,
+  "final": "https://hk.msi.com/Promotion/hk-chinese-new-year-promo-2026",
+  "error": "HTTP 403"
+ },
+ "https://notebook.pconline.com.cn/1419/14197864.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.pconline.com.cn/1419/14197864.html"
+ },
+ "https://laptopmedia.com/cn/laptop-specs/msi-raider-18-hx-ai-3": {
+  "status": 403,
+  "ok": true,
+  "final": "https://laptopmedia.com/cn/laptop-specs/msi-raider-18-hx-ai-3",
+  "error": "HTTP 403"
+ },
+ "https://s.zol.com.cn/shop_93237/42401379.html": {
+  "status": 404,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_93237/42401379.html",
+  "error": "HTTP 404"
+ },
+ "https://my-store.msi.com/collections/promotion-merdeka-sales/products/msi-summit-e14-flip-evo-a13mt-400": {
+  "status": 404,
+  "ok": true,
+  "final": "https://my-store.msi.com/collections/promotion-merdeka-sales/products/msi-summit-e14-flip-evo-a13mt-400",
+  "error": "HTTP 404"
+ },
+ "https://jp.msi.com/news/detail/Katana-15-B13VFK-2301JP-141752": {
+  "status": 403,
+  "ok": true,
+  "final": "https://jp.msi.com/news/detail/Katana-15-B13VFK-2301JP-141752",
+  "error": "HTTP 403"
+ },
+ "http://digital.intozgc.com/202302/10/155880.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://digital.intozgc.com/202302/10/155880.html"
+ },
+ "https://my-store.msi.com/collections/year-end-sales/products/msi-prestige-14-ai-evo-c1mg-019-business-and-productivity-laptop": {
+  "status": 200,
+  "ok": true,
+  "final": "https://my-store.msi.com/collections/year-end-sales/products/msi-prestige-14-ai-evo-c1mg-019-business-and-productivity-laptop"
+ },
+ "https://shop.zol.com/shop_214550/35030294.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214550/35030294.html"
+ },
+ "https://storage-asset.msi.com/excelSku/us/bnp/Prestige 14Evo A12M-054.pdf": {
+  "status": 0,
+  "ok": false,
+  "final": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige 14Evo A12M-054.pdf",
+  "error": "InvalidURL: URL can't contain control characters. '/"
+ },
+ "https://shop.zol.com/shop_214084/34696172.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214084/34696172.html"
+ },
+ "https://my-store.msi.com/collections/sword-katana-series/products/msi-katana-15-hx-b14wfk-289-gaming-laptop": {
+  "status": 200,
+  "ok": true,
+  "final": "https://my-store.msi.com/collections/sword-katana-series/products/msi-katana-15-hx-b14wfk-289-gaming-laptop"
+ },
+ "https://s.zol.com.cn/shop_59227/35286686.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_59227/35286686.html"
+ },
+ "https://devicehd.com/laptops/en/product/64255f82ab2396ddf314e3fa/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://devicehd.com/laptops/en/product/64255f82ab2396ddf314e3fa/"
+ },
+ "https://jp.msi.com/Business-Productivity/Prestige-16-AI-Evo-B2HMX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://jp.msi.com/Business-Productivity/Prestige-16-AI-Evo-B2HMX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://tech.sina.cn/2020-04-02/detail-iimxxsth3279584.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.cn/2020-04-02/detail-iimxxsth3279584.d.html"
+ },
+ "https://notebookcheck.net/MSI-Modern-14-with-Core-i5-10210U-512-GB-NVMe-SSD-and-GeForce-MX250-GPU-now-available-for-899.431817.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck.net/MSI-Modern-14-with-Core-i5-10210U-512-GB-NVMe-SSD-and-GeForce-MX250-GPU-now-available-for-899.431817.0.html"
+ },
+ "https://specpair.com/product/msi-katana-15": {
+  "status": 200,
+  "ok": true,
+  "final": "https://specpair.com/product/msi-katana-15"
+ },
+ "https://mobilexfiles.com/notebooks/msi/msi_gaming_gf66_11uc-811nl_katana/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mobilexfiles.com/notebooks/msi/msi_gaming_gf66_11uc-811nl_katana/"
+ },
+ "https://nextrift.com?p=25810/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nextrift.com/202325810/"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8KUVxYDE8SAF8IGlgVXAMCUFhZCUIfA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8JHlsRWwIDXVZdFxJSXzI4HilFD0dKViY4VwMUe2h2TAh2JgR8ElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkMRB2cOTFlBVAMFAA5aCkgnA244WjUVXAUAVlpbC3sWM28OE1kUXA8GVlteCEsnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWUG9cGVJGXWheEx9eQxBFWgEKE1wVWAMGUm5fCUoVAV84K19lVEJ1EF9YDkN0aisMGxxePHsKPRpZbz5DXjJvEjUXWQUGMAkHe0xPfQdeGwJ1XHAyVG5aDkonAl8": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8KUVxYDE8SAF8IGlgVXAMCUFhZCUIfA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8JHlsRWwIDXVZdFxJSXzI4HilFD0dKViY4VwMUe2h2TAh2JgR8ElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkMRB2cOTFlBVAMFAA5aCkgnA244WjUVXAUAVlpbC3sWM28OE1kUXA8GVlteCEsnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWUG9cGVJGXWheEx9eQxBFWgEKE1wVWAMGUm5fCUoVAV84K19lVEJ1EF9YDkN0aisMGxxePHsKPRpZbz5DXjJvEjUXWQUGMAkHe0xPfQdeGwJ1XHAyVG5aDkonAl8"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwQAV19VC08eBl8IGlgVWA4BUVlfCUgXAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8NE1gQWgQDV15cFxJSXzI4eFsSKnNCFyk_e1ESAW1ObUVgDkRjJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh8QVDgBTlhFVFEEXF1YCUonA244WjUVXAUAVlpbC3sWM28OE1kUXA8GU19eD00nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsMG1xGXGheEx9fCUlBUwEKE14dXQQDUm5fCUoVAV84KyJBPV9AMwwiezdjdAhhaBlFK1NrIzkYbStkagRBezUXLnkDEyEBTBtIRxNxfyV9FlQyVG5aDkonAl8": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwQAV19VC08eBl8IGlgVWA4BUVlfCUgXAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8NE1gQWgQDV15cFxJSXzI4eFsSKnNCFyk_e1ESAW1ObUVgDkRjJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh8QVDgBTlhFVFEEXF1YCUonA244WjUVXAUAVlpbC3sWM28OE1kUXA8GU19eD00nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsMG1xGXGheEx9fCUlBUwEKE14dXQQDUm5fCUoVAV84KyJBPV9AMwwiezdjdAhhaBlFK1NrIzkYbStkagRBezUXLnkDEyEBTBtIRxNxfyV9FlQyVG5aDkonAl8"
+ },
+ "https://tw.msi.com/index.php/Laptop/Stealth-16-Studio-A13VX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://tw.msi.com/index.php/Laptop/Stealth-16-Studio-A13VX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://toptechchoices.com/mx/zh/product/laptops/381f51e2c4455e07/msi-prestige-16-evo-a13m-407us": {
+  "status": 0,
+  "ok": false,
+  "final": "https://toptechchoices.com/mx/zh/product/laptops/381f51e2c4455e07/msi-prestige-16-evo-a13m-407us",
+  "error": "RemoteDisconnected: Remote end closed connection without res"
+ },
+ "https://tw.msi.com/Business-Productivity/Prestige-14-Evo-A12MX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://tw.msi.com/Business-Productivity/Prestige-14-Evo-A12MX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://smbtech.au/?p=7424": {
+  "status": 0,
+  "ok": false,
+  "final": "https://smbtech.au/?p=7424",
+  "error": "RemoteDisconnected: Remote end closed connection without res"
+ },
+ "https://wap.zol.com.cn/1366/1365463/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1366/1365463/index.html"
+ },
+ "https://wap.zol.com.cn/1994/1993015/param.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1994/1993015/param.html"
+ },
+ "https://weibo.com/2108645364/KmeKXgXZN": {
+  "status": 200,
+  "ok": true,
+  "final": "https://passport.weibo.com/visitor/visitor?entry=miniblog&a=enter&url=https%3A%2F%2Fweibo.com%2F2108645364%2FKmeKXgXZN&domain=weibo.com&ua=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F124.0%20Safari%2F537.36&_rand=1793008756208&sudaref="
+ },
+ "https://us-store.msi.com/Laptops/BUSINESS-PRODUCTIVITY/Prestige-Series?sort=p.model&order=DESC&limit=24": {
+  "status": 403,
+  "ok": true,
+  "final": "https://us-store.msi.com/Laptops/BUSINESS-PRODUCTIVITY/Prestige-Series?sort=p.model&order=DESC&limit=24",
+  "error": "HTTP 403"
+ },
+ "https://us.msi.com/Laptop/GT76-Titan-9SX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://us.msi.com/Laptop/GT76-Titan-9SX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://www.ithome.com/0/551/072.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/551/072.htm"
+ },
+ "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-048US.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-048US.pdf"
+ },
+ "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/",
+  "error": "HTTP 403"
+ },
+ "https://tw.msi.com/Laptop/Katana-GF66-11UX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://tw.msi.com/Laptop/Katana-GF66-11UX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://www.laptoparena.net/msi/msi-summit-e15-a11scs-083nl-summit-e15-a11scs-083nl-black-56121": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.laptoparena.net/msi/msi-summit-e15-a11scs-083nl-summit-e15-a11scs-083nl-black-56121"
+ },
+ "https://www.laptoparena.net/msi/msi-modern-14-modern-14-c13m-618fr-black-106491": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.laptoparena.net/msi/msi-modern-14-modern-14-c13m-618fr-black-106491"
+ },
+ "https://storage-asset.msi.com/excelSku/cn/nb/%E7%BB%9D%E5%BD%B116%20AI%20A2HWGG-039CN%28Stealth%2016%20AI%20A2HWGG-039CN%29.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/excelSku/cn/nb/%E7%BB%9D%E5%BD%B116%20AI%20A2HWGG-039CN%28Stealth%2016%20AI%20A2HWGG-039CN%29.pdf"
+ },
+ "https://www.gizmochina.com/2023/05/26/msi-titan-gp78hx-gaming-notebook-core-i9-13980hx-nvidia-rtx-40-series-gpu-official": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gizmochina.com/2023/05/26/msi-titan-gp78hx-gaming-notebook-core-i9-13980hx-nvidia-rtx-40-series-gpu-official/"
+ },
+ "https://www.laptopvslaptop.com/laptop/MSI-Modern-14-A10M-460-Modern-14-A10M-460/23213b": {
+  "status": 200,
+  "ok": true,
+  "final": "https://laptopvslaptop.com/laptop/MSI-Modern-14-A10M-460-Modern-14-A10M-460/23213b"
+ },
+ "https://www.msi.cn/Business-Productivity/Prestige-14Evo-A11M-203CN/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Business-Productivity/Prestige-14Evo-A11M-203CN/Specification"
+ },
+ "https://www.msi.cn/Business-Productivity/Modern-15-A10M-035CN/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Business-Productivity/Modern-15-A10M-035CN/Specification"
+ },
+ "https://www.msi.cn/Laptop/GF63-8RX/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/GF63-8RX/Specification"
+ },
+ "https://www.megadiscountsales.com/products/MSI-%252d-Bravo-15-15.6%22-144hz-Gaming-Laptop-FHD-Ryzen-7%252d7735HS-Radeon-RX6550M-16GB-Memory-with-512GB-SSD-%252d-Black.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.megadiscountsales.com/products/MSI-%252d-Bravo-15-15.6%22-144hz-Gaming-Laptop-FHD-Ryzen-7%252d7735HS-Radeon-RX6550M-16GB-Memory-with-512GB-SSD-%252d-Black.html"
+ },
+ "https://storage-asset.msi.com/specSheet/id/bnp/Modern%2014%20C12MO-879ID.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/specSheet/id/bnp/Modern%2014%20C12MO-879ID.pdf"
+ },
+ "https://www.msi.cn/Laptop/GS65-Stealth-Thin-8RF-012CN/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/GS65-Stealth-Thin-8RF-012CN/Specification"
+ },
+ "https://storage-asset.msi.com/specSheet/ph/bnp/Modern%2014%20C12M-053PH.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/specSheet/ph/bnp/Modern%2014%20C12M-053PH.pdf"
+ },
+ "https://storage-asset.msi.com/specSheet/pl/nb/Katana%20GF76%2011UC-467XPL.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/specSheet/pl/nb/Katana%20GF76%2011UC-467XPL.pdf"
+ },
+ "https://www.msi.com/Business-Productivity/Summit-E14-Flip-Evo-A13MX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.msi.com/Business-Productivity/Summit-E14-Flip-Evo-A13MX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://www.msi.com/Business-Productivity/Modern-14-C12X/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.msi.com/Business-Productivity/Modern-14-C12X/Specification",
+  "error": "HTTP 403"
+ },
+ "https://www.peopleapp.com/rmharticle/30021678886": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30021678886"
+ },
+ "https://www.msi.cn/Laptop/GT75-Titan-8RG-002CN/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/GT75-Titan-8RG-002CN/Specification"
+ },
+ "https://www.msi.cn/Laptop/GS76%20-11UH-071CN/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/GS76%20-11UH-071CN/Specification"
+ },
+ "https://www.sohu.com/a/532634859_114760": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/532634859_114760"
+ },
+ "https://www.pcmag.com/reviews/msi-raider-18-hx-ai": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.pcmag.com/reviews/msi-raider-18-hx-ai",
+  "error": "HTTP 403"
+ },
+ "https://www.msi.com/Laptop/Katana-GF76-11UX/Specification": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.msi.com/Laptop/Katana-GF76-11UX/Specification",
+  "error": "HTTP 403"
+ },
+ "https://www.toutiao.com/article/7342702181717623332": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7342702181717623332"
+ },
+ "https://www.smartprix.com/bytes/msi-business-productivity-laptops-with-11th-gen-intel-processor-launched-in-india/?amp": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.smartprix.com/bytes/msi-business-productivity-laptops-with-11th-gen-intel-processor-launched-in-india/?amp",
+  "error": "HTTP 403"
+ },
+ "https://www.retailmarket.net/products/msi-summit-e13-flip-evo-business-professional-laptop-13-4-fhd-1200p-intel-core-i5-1155g7-intel-iris-xe-16gb-512gb-ssd-thunderbolt-4-wifi-6e-tpm-2-0-win10-ink-black-a11mt-234": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.retailmarket.net/products/msi-summit-e13-flip-evo-business-professional-laptop-13-4-fhd-1200p-intel-core-i5-1155g7-intel-iris-xe-16gb-512gb-ssd-thunderbolt-4-wifi-6e-tpm-2-0-win10-ink-black-a11mt-234",
+  "error": "HTTP 403"
+ },
+ "https://www.msi.cn/Laptop/Titan-GT77-12UHS-028CN/Specification": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/Titan-GT77-12UHS-028CN/Specification"
+ },
+ "https://www.smartprix.com/laptops/msi_bravo_15_c7vek_088in_gamin_vs_lenovo_loq_83jc00mvin_gaming_l-cpd1v90e7j4u_pd142tgcukp.php": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.smartprix.com/laptops/msi_bravo_15_c7vek_088in_gamin_vs_lenovo_loq_83jc00mvin_gaming_l-cpd1v90e7j4u_pd142tgcukp.php",
+  "error": "HTTP 403"
+ },
+ "https://www.laptopmag.com/laptops/gaming-laptops-pcs/the-msi-vector-16-hx-with-superb-rtx-4080-gaming-performance-is-only-usd2-499-during-prime-day": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.laptopmag.com/laptops/gaming-laptops-pcs/the-msi-vector-16-hx-with-superb-rtx-4080-gaming-performance-is-only-usd2-499-during-prime-day",
+  "error": "URLError: <urlopen error Tunnel connection failed:"
+ },
+ "https://www.mobile01.com/topicdetail.php?f=241&t=6754615": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.mobile01.com/topicdetail.php?f=241&t=6754615",
+  "error": "URLError: <urlopen error Tunnel connection failed:"
+ },
+ "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-020US.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-020US.pdf"
+ },
+ "https://www.msi.cn/Laptop/Stealth-16-AI-A2HWX/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/Stealth-16-AI-A2HWX/"
+ },
+ "https://www.msi.cn/Laptop/Raider-18-Max-HX-A2W/Overview": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.msi.cn/Laptop/Raider-18-Max-HX-A2W/Overview"
+ },
+ "https://www.techbang.com/posts/77461-msi-gs66-stealth-and-ge66-raider-with-intels-10th-generation-core-h-series-processor-launched-with-30-pen-to-electric-sync-upgrades": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.techbang.com/posts/77461-msi-gs66-stealth-and-ge66-raider-with-intels-10th-generation-core-h-series-processor-launched-with-30-pen-to-electric-sync-upgrades",
+  "error": "URLError: <urlopen error Tunnel connection failed:"
+ },
+ "https://www.tip3x.com/2021/03/18/msi-stealth-15m-notebook-is-on-sale-starting-at-9499-yuan/": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.tip3x.com/2021/03/18/msi-stealth-15m-notebook-is-on-sale-starting-at-9499-yuan/",
+  "error": "URLError: <urlopen error Tunnel connection failed:"
+ },
+ "https://www.zybuluo.com/arh397996954/note/1731255": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.zybuluo.com/arh397996954/note/1731255"
+ },
+ "https://detail.zol.com.cn/series/16/28161_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/28161_1.html"
+ },
+ "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016Evo%20A13M-259US.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016Evo%20A13M-259US.pdf"
+ },
+ "https://storage-asset.msi.com/specSheet/pl/nb/Raider%20GE68HX%2013VG-056PL.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://storage-asset.msi.com/specSheet/pl/nb/Raider%20GE68HX%2013VG-056PL.pdf"
+ },
+ "https://us.msi.com/Laptop/Vector-16-HX-A14VX": {
+  "status": 403,
+  "ok": true,
+  "final": "https://us.msi.com/Laptop/Vector-16-HX-A14VX",
+  "error": "HTTP 403"
+ }
+}

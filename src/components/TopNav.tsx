@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef, type CSSProperties } from "react";
-import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import { ChevronDown, House, LogOut, UserRound } from "lucide-react";
 import { BrandLogo } from '@/components/Brand';
 import { useRouter } from "next/navigation";
 import { canVisit, type SessionUser } from "@/lib/access";
@@ -187,6 +187,7 @@ export default function TopNav({ user }: { user: SessionUser }) {
 
           {/* 主导航 */}
           <div className="flex shrink-0 items-center gap-0.5 lg:gap-1">
+            {user.role === 'admin' && <Link href="/" aria-current={pathname === '/' ? 'page' : undefined} className={`flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-2 text-[12px] font-medium transition-colors lg:gap-2 lg:px-3 lg:text-[13px] ${pathname === '/' ? 'bg-primary/8 text-primary' : 'text-ink hover:bg-white/60 hover:text-ink-deep'}`}><House className="h-4 w-4" /><span>首页</span></Link>}
             {NAV.map(item => ({ ...item, children: item.children?.filter(child => canVisit(user.role, child.href)) })).filter(item => item.children?.length).map((item) => {
               const active = isActive(item);
               const children = item.children ?? [];

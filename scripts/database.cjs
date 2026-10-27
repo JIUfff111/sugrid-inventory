@@ -10,6 +10,9 @@ function initDatabase(db) {
       realName TEXT,
       role TEXT NOT NULL DEFAULT 'warehouse_manager',
       status TEXT NOT NULL DEFAULT 'active',
+      isSystemAccount INTEGER NOT NULL DEFAULT 0,
+      deletedAt TEXT,
+      deletedBy TEXT,
       createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
       updatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
     )
@@ -552,8 +555,8 @@ function seedDatabase(db) {
   // 插入默认管理员用户（密码：admin123，实际应该加密）
   const userId = 'user_' + Date.now();
   db.prepare(`
-    INSERT INTO users (id, username, password, realName, role, status)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO users (id, username, password, realName, role, status, isSystemAccount)
+    VALUES (?, ?, ?, ?, ?, ?, 1)
   `).run(userId, 'admin', hashPassword('admin123'), '系统管理员', 'admin', 'active');
   db.prepare(`
     INSERT OR IGNORE INTO user_warehouses (userId, warehouseId)
@@ -684,6 +687,24 @@ function applyVersionedMigrations(db) {
       );
       CREATE INDEX IF NOT EXISTS idx_login_events_user_time ON login_events(userId, createdAt DESC);
       CREATE INDEX IF NOT EXISTS idx_login_events_result_time ON login_events(result, createdAt DESC);
+    `);
+  });
+  migrate(6, 'protected system account and retained account deletion', () => {
+    add('users', 'isSystemAccount', 'INTEGER NOT NULL DEFAULT 0');
+    add('users', 'deletedAt', 'TEXT');
+    add('users', 'deletedBy', 'TEXT');
+    db.prepare("UPDATE users SET isSystemAccount = 1 WHERE username = 'admin' COLLATE NOCASE AND role = 'admin' AND status <> 'deleted'").run();
+    db.exec('CREATE INDEX IF NOT EXISTS idx_users_status_created ON users(status, createdAt DESC)');
+  });
+  migrate(7, 'group Redmi SKUs under Xiaomi brand', () => {
+    db.prepare("UPDATE skus SET brand = '小米' WHERE lower(trim(brand)) = 'redmi' OR trim(brand) = '红米'").run();
+  });
+  migrate(8, 'track purchase SKU selections by entering user', () => {
+    add('purchase_items', 'skuId', 'TEXT');
+    add('purchase_items', 'recordedBy', 'TEXT');
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_purchase_items_recorded_sku
+      ON purchase_items(recordedBy, skuId, deleted);
     `);
   });
 }

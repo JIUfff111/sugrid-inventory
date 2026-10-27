@@ -1,4 +1,6 @@
 import type Database from 'better-sqlite3';
+import { formatProductName } from '@/lib/product-name';
+import { formatGPUDisplay } from '@/lib/sku-display';
 
 type Row = Record<string, unknown>;
 export interface SalesFilters { search: string; dateFrom: string; dateTo: string; channel: string; warehouseId: string; status: string; }
@@ -39,9 +41,7 @@ function mergeSaleLines(legacy: Row[], normalized: Row[]) {
   return [...result.values()];
 }
 export function salesProduct(item: Row) {
-  const brand = text(item.brand).trim(), model = text(item.model).trim();
-  const name = brand && model.toLowerCase().startsWith(brand.toLowerCase()) ? model : [brand, model].filter(Boolean).join(' ');
-  return [name, item.year && !name.includes(String(item.year)) ? item.year : ''].filter(Boolean).join(' ') || '历史机型未记录';
+  return formatProductName({ brand: text(item.brand), model: text(item.model), year: text(item.year) }, '历史机型未记录');
 }
 export function readSalesFilters(params: URLSearchParams): SalesFilters {
   const result = { search: (params.get('search') || '').trim(), dateFrom: params.get('dateFrom') || '', dateTo: params.get('dateTo') || '', channel: params.get('channel') || '', warehouseId: params.get('warehouseId') || '', status: params.get('status') || '' };
@@ -78,8 +78,9 @@ export function querySalesRecords(db: Database.Database, filters: SalesFilters) 
       const warehouseId = text(source.warehouseId);
       if (filters.warehouseId && warehouseId !== filters.warehouseId) continue;
       const itemType = deliveryType(source);
-      const product = salesProduct(source), config = ['cpu', 'ram', 'storage', 'gpu', 'screen'].map(key => text(source[key])).filter(Boolean).join(' / ') || '历史配置未记录';
-      const searchable = [source.sn, product, config, record.recordNo, record.saleOrderNo, record.trackingNo, record.saleChannel].map(text).join(' ').toLocaleLowerCase();
+      const product = salesProduct(source);
+      const config = [text(source.cpu), text(source.ram), text(source.storage), formatGPUDisplay(text(source.gpu)), text(source.screen)].filter(Boolean).join(' / ') || '历史配置未记录';
+      const searchable = [source.sn, product, config, source.gpu, record.recordNo, record.saleOrderNo, record.trackingNo, record.saleChannel].map(text).join(' ').toLocaleLowerCase();
       if (!terms.every(term => searchable.includes(term))) continue;
       const line: SalesMachine = {
         id: text(source.id) || `${record.id}:${index}`, recordId: text(record.id), recordNo: text(record.recordNo), saleDate: text(record.saleDate), outboundAt: itemType === 'exchange' ? text(source.createdAt) || text(record.createdAt) : text(record.saleDate),

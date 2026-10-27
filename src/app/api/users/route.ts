@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { errorResponse, ErrorCode, generateId, parsePaginationParams, successResponse } from '@/lib/api-helpers';
-import { authErrorResponse, getUserById, hashPassword, publicUser, requireRole, USER_ROLES, verifyPassword } from '@/lib/auth';
+import { AuthError, authErrorResponse, getUserById, hashPassword, publicUser, requireRole, USER_ROLES, verifyPassword } from '@/lib/auth';
 
 function warehouseIds(body: Record<string, unknown>) {
   const raw = body.warehouseIds ?? body.warehouses ?? (body.warehouseId ? [body.warehouseId] : undefined);
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
   try {
     await requireRole('admin');
     const query = request.nextUrl.searchParams;
-    const clauses = ['1 = 1'];
+    const clauses = ["u.status <> 'deleted'"];
     const args: string[] = [];
     const search = query.get('search')?.trim();
     if (search) {
@@ -94,10 +94,12 @@ export async function PATCH(request: NextRequest) {
     if (!existing) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '用户不存在'), { status: 404 });
     const role = body.role === undefined ? existing.role : String(body.role);
     const status = body.status === undefined ? existing.status : String(body.status);
+    if (existing.isSystemAccount && (role !== existing.role || status !== existing.status)) throw new Error('内置系统管理员的角色和状态不能修改');
     if (!(USER_ROLES as readonly string[]).includes(role)) throw new Error('角色不正确');
     if (!['pending', 'active', 'rejected', 'disabled'].includes(status)) throw new Error('用户状态不正确');
     const ids = warehouseIds(body), now = new Date().toISOString();
     const password = body.newPassword ?? body.password;
+    if (existing.isSystemAccount && actor.id !== id && password !== undefined) throw new AuthError('FORBIDDEN', '不能重置内置系统管理员的密码');
     const realName = body.realName === undefined ? existing.realName : typeof body.realName === 'string' ? body.realName.trim() || null : null;
     if (body.realName !== undefined && typeof body.realName !== 'string') throw new Error('姓名格式不正确');
     if ((realName?.length ?? 0) > 80) throw new Error('姓名不能超过 80 个字符');
@@ -120,5 +122,36 @@ export async function PATCH(request: NextRequest) {
       if (permissionsChanged || passwordChanged) db.prepare('UPDATE sessions SET revokedAt = ? WHERE userId = ? AND revokedAt IS NULL').run(now, id);
     })();
     return NextResponse.json(successResponse({ user: publicUser(getUserById(id)!), sessionsRevoked: permissionsChanged || passwordChanged, message: passwordChanged ? '密码已重置，原登录会话已退出' : changed ? '用户已更新' : '没有需要更新的内容' }));
+  } catch (error) { return failure(error); }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const actor = await requireRole('admin');
+    if (!actor.isSystemAccount) throw new AuthError('FORBIDDEN', '仅内置系统管理员可以删除其他账号');
+    const id = request.nextUrl.searchParams.get('id')?.trim() || '';
+    if (!id) throw new Error('请选择要删除的账号');
+    if (id === actor.id) throw new Error('不能删除当前登录账号');
+    const target = getUserById(id);
+    if (!target) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '用户不存在'), { status: 404 });
+    if (target.isSystemAccount) throw new Error('不能删除内置系统管理员');
+
+    db.transaction(() => {
+      const current = db.prepare('SELECT role, status, isSystemAccount FROM users WHERE id = ?').get(id) as {
+        role: string; status: string; isSystemAccount: number;
+      } | undefined;
+      if (!current || current.status === 'deleted') throw new Error('账号状态已变化，请刷新后重试');
+      if (current.isSystemAccount) throw new Error('不能删除内置系统管理员');
+      if (current.role === 'admin' && current.status === 'active') {
+        const count = db.prepare("SELECT COUNT(*) AS total FROM users WHERE role = 'admin' AND status = 'active'").get() as { total: number };
+        if (count.total <= 1) throw new Error('必须保留至少一个有效管理员');
+      }
+      const now = new Date().toISOString();
+      const changed = db.prepare("UPDATE users SET status = 'deleted', deletedAt = ?, deletedBy = ?, updatedAt = ? WHERE id = ? AND status <> 'deleted' AND isSystemAccount = 0")
+        .run(now, actor.id, now, id);
+      if (changed.changes !== 1) throw new Error('账号状态已变化，请刷新后重试');
+      db.prepare('UPDATE sessions SET revokedAt = ? WHERE userId = ? AND revokedAt IS NULL').run(now, id);
+    })();
+    return NextResponse.json(successResponse({ id, message: '账号已删除' }));
   } catch (error) { return failure(error); }
 }

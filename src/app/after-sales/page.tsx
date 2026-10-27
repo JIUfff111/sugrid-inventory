@@ -9,6 +9,8 @@ import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
+import { formatProductName } from '@/lib/product-name';
+import { formatGPUDisplay } from '@/lib/sku-display';
 
 type SoldItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; storage: string; sellingPrice: number | null; purchasePrice: number; saleOrderNo: string | null; salesRecordNo?: string | null; saleChannel?: string | null; saleDate?: string | null; warehouseId?: string | null };
 type ReplacementItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; storage: string };
@@ -16,11 +18,11 @@ type AfterSale = { id: string; afterSaleNo: string; inventoryId: string; sn: str
 type ToastMessage = { text: string; tone: 'success' | 'error' };
 
 function money(value: number | null | undefined) { return '¥' + Number(value || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function configText(item: Pick<SoldItem, 'cpu' | 'ram' | 'storage'> & { gpu?: string | null }) { return [item.cpu, item.ram, item.gpu, item.storage].filter(Boolean).join(' · ') || '配置待补充'; }
+function configText(item: Pick<SoldItem, 'cpu' | 'ram' | 'storage'> & { gpu?: string | null }) { return [item.cpu, item.ram, formatGPUDisplay(item.gpu), item.storage].filter(Boolean).join(' · ') || '配置待补充'; }
 function statusLabel(status: string) { return ({ created: '待收机', received: '已收到', processing: '处理中', resolved: '已完成', cancelled: '已取消' } as Record<string, string>)[status] || status; }
 function statusClass(status: string) { return ['created', 'received', 'processing'].includes(status) ? 'warn' : status === 'resolved' ? 'ok' : 'danger'; }
 function resolutionLabel(type: string) { return type === 'repair' ? '维修' : type === 'exchange' ? '换货' : '退货退款'; }
-function productName(item: { brand?: string | null; model?: string | null; year?: number | null }) { return [item.brand, item.model, item.year].filter((value) => value !== null && value !== undefined && String(value).trim() !== '').join(' ') || '未命名商品'; }
+function productName(item: { brand?: string | null; model?: string | null; year?: number | null }) { return formatProductName(item); }
 
 function ModalShell({ title, subtitle, onClose, children, footer }: { title: string; subtitle?: string; onClose: () => void; children: ReactNode; footer?: ReactNode }) {
   return <BusinessDialog title={title} description={subtitle} onClose={onClose} footer={footer}>{children}</BusinessDialog>;

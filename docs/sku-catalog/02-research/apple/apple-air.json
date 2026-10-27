@@ -1,0 +1,1068 @@
+{
+  "scope": "苹果 MacBook Air / MacBook 12 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2018",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13",
+      "displayName": "苹果 MacBook Air 13 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-8210Y"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel UHD Graphics 617）"
+      ],
+      "storageOptions": [
+        "128GB SSD",
+        "256GB SSD",
+        "512GB SSD",
+        "1.5TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/kb/SP783",
+      "sourceTitle": "MacBook Air (Retina, 13 英寸, 2018) - 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018年10月发布的首款视网膜屏 MacBook Air，也是首款带 Touch ID 与 T2 芯片的 Air。官方规格页仅写“1.6GHz 双核 Intel Core i5”，i5-8210Y 为业界通用型号标注。128GB/256GB 为标配，512GB 与 1.5TB 为按单配置；无原彩显示（True Tone），与 2019 款的主要差异点。国行首发价未核实，故未记录。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2019",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13",
+      "displayName": "苹果 MacBook Air 13 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-8210Y"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel UHD Graphics 617）"
+      ],
+      "storageOptions": [
+        "128GB SSD",
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜（支持原彩显示）"
+      ],
+      "sourceUrl": "https://support.apple.com/111948",
+      "sourceTitle": "MacBook Air（13 英寸，2019）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年7月发布，相对 2018 款加入原彩显示（True Tone）与更低起价，模具/处理器未变。官方页仅写“1.6GHz 双核 Intel Core i5”，i5-8210Y 为业界通用标注。128GB 为标配入门，256GB/512GB/1TB 为按单配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（Intel）|2020",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13（Intel）",
+      "displayName": "苹果 MacBook Air 13（Intel）2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i3-1000NG4（1.1GHz 双核）",
+        "Intel 酷睿 i5-1030NG7（1.1GHz 四核）",
+        "Intel 酷睿 i7-1060NG7（1.2GHz 四核）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel Iris Plus Graphics）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜（支持原彩显示）"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111991",
+      "sourceTitle": "MacBook Air（Retina，13 英寸，2020）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年3月18日发布，第十代 Ice Lake 平台，回归剪刀式妙控键盘，存储翻倍至 256GB 起。与同年 11 月的 M1 款为不同机型，故 model 加平台后缀以便 modelKey 唯一。首发价：i3/8GB/256GB RMB 7999、i5/8GB/512GB RMB 9999（2020-03，媒体首发报道）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（M1）|2020",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13（M1）",
+      "displayName": "苹果 MacBook Air 13（M1）2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M1（8 核 CPU/7 核 GPU）",
+        "Apple M1（8 核 CPU/8 核 GPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（7 核 GPU）",
+        "集成显卡（8 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111883",
+      "sourceTitle": "MacBook Air（M1，2020）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年11月发布，首款 Apple 芯片 MacBook Air。注意：support.apple.com/zh-cn/111883 正文写“128GB 固态硬盘”，英文版规格页与当年在售配置均为 256GB 起，本表按 256GB 记录，并列入 uncertain。首发价 RMB 7999 起（2020-11）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2022",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13",
+      "displayName": "苹果 MacBook Air 13 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M2（8 核 CPU/8 核 GPU）",
+        "Apple M2（8 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（8 核 GPU）",
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.6英寸 2560x1664 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111867",
+      "sourceTitle": "MacBook Air（M2，2022 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022年6月发布、7月上市，全新模具（11.3mm、1.24kg）、刘海屏、MagSafe 3 回归、1080p 摄像头。首发价 8GB/256GB RMB 9499；10 核 GPU 加价 RMB 900，内存与 SSD 每档加价 RMB 1500（2022-06，IT之家）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2023",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 15",
+      "displayName": "苹果 MacBook Air 15 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M2（8 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.3英寸 2880x1864 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111346",
+      "sourceTitle": "MacBook Air（15 英寸，M2，2023 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023年6月6日发布、6月13日发售，首款 15 英寸 Air，六扬声器系统。首发价 8GB/256GB RMB 10499、8GB/512GB RMB 11999（Apple 中国 2023-06 新闻稿）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2024",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13",
+      "displayName": "苹果 MacBook Air 13 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M3（8 核 CPU/8 核 GPU）",
+        "Apple M3（8 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（8 核 GPU）",
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.6英寸 2560x1664 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/118551",
+      "sourceTitle": "MacBook Air（13 英寸，M3，2024 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024年3月4日发布、3月8日发货，首款 3nm 工艺 Air，支持合盖双外接屏与 Wi-Fi 6E。官方称 512GB 机型随机附 35W 双口适配器，对应 10 核 GPU 机型。首发价 8GB/256GB RMB 8999、8GB/512GB RMB 10499、16GB/512GB RMB 11999（2024-03，媒体首发报道）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2024",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 15",
+      "displayName": "苹果 MacBook Air 15 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M3（8 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.3英寸 2880x1864 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/118552",
+      "sourceTitle": "MacBook Air（15 英寸，M3，2024 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024年3月发布，15 英寸版仅提供 10 核 GPU 的 M3。首发价 8GB/256GB RMB 10499、8GB/512GB RMB 11999、16GB/512GB RMB 13499（Apple 中国 2024-03 新闻稿起售价 RMB 10499）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2025",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13",
+      "displayName": "苹果 MacBook Air 13 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M4（10 核 CPU/8 核 GPU）",
+        "Apple M4（10 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（8 核 GPU）",
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.6英寸 2560x1664 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/122209",
+      "sourceTitle": "MacBook Air（13 英寸，M4，2025 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025年3月5日发布、3月12日发货，新增天蓝色，起步内存提升至 16GB，1200 万像素 Center Stage 摄像头。起售价 RMB 7999（Apple 中国 2025-03 新闻稿），教育优惠 RMB 7249。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2025",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 15",
+      "displayName": "苹果 MacBook Air 15 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M4（10 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.3英寸 2880x1864 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/122210",
+      "sourceTitle": "MacBook Air（15 英寸，M4，2025 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025年3月发布，15 英寸版标配 10 核 GPU 的 M4、六扬声器、66.5Wh 电池。起售价 RMB 9999（Apple 中国 2025-03 新闻稿），教育优惠 RMB 9249。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 13",
+      "displayName": "苹果 MacBook Air 13 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M5（10 核 CPU/8 核 GPU）",
+        "Apple M5（10 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（8 核 GPU）",
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "13.6英寸 2560x1664 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/126320",
+      "sourceTitle": "MacBook Air（13 英寸，M5）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026年3月3日发布（环境报告标注 Date introduced: March 3, 2026），Apple 支持页“识别 MacBook Air 机型”列为 Mac17,3。升级 M5、雷雳 4、Wi-Fi 7（Apple N1 芯片）、1200 万像素 Center Stage。起步存储升至 512GB；官网价 16GB/512GB（8 核 GPU）RMB 9999、10 核 GPU 版 RMB 10749（2026-10 抓取 apple.com.cn 商城）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2026",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Air 15",
+      "displayName": "苹果 MacBook Air 15 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M5（10 核 CPU/10 核 GPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "15.3英寸 2880x1864 Liquid 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/126321",
+      "sourceTitle": "MacBook Air（15 英寸，M5）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026年3月发布，Mac17,4。15 英寸仅提供 10 核 GPU 的 M5，六扬声器系统、66.5Wh 电池、40W 动态电源适配器。官网价 RMB 11999 起（16GB/512GB，2026-10 抓取 apple.com.cn 商城）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2016",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook 12",
+      "displayName": "苹果 MacBook 12 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 m3-6Y30（1.1GHz 双核）",
+        "Intel 酷睿 m5-6Y54（1.2GHz 双核）",
+        "Intel 酷睿 m7-6Y75（1.3GHz 双核，按单配置）"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel HD Graphics 515）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "12英寸 2304x1440 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/112033",
+      "sourceTitle": "MacBook（Retina，12 英寸，2016 年初）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2016年4月发布（Early 2016），新增玫瑰金，Skylake 平台，0.92kg 无风扇，单一 USB-C 口。官方页只写频率与核心数，m3-6Y30/m5-6Y54/m7-6Y75 为业界通用标注。8GB 为唯一内存选项（不可定制更大容量）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2017",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook 12",
+      "displayName": "苹果 MacBook 12 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 m3-7Y32（1.2GHz 双核）",
+        "Intel 酷睿 i5-7Y54（1.3GHz 双核）",
+        "Intel 酷睿 i7-7Y75（1.4GHz 双核，按单配置）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel HD Graphics 615）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "12英寸 2304x1440 视网膜"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111986",
+      "sourceTitle": "MacBook（Retina，12 英寸，2017）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2017年6月发布，Kaby Lake 平台，处理器命名由 m3/m5/m7 改为 m3/i5/i7；2019年7月随产品线停更下架。官方页写 1.3GHz 双核 i5 与 1.4GHz 双核 i7，型号后缀为业界通用标注。国行首发价未核实。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2018",
+      "cpu": "Intel 酷睿 i5-8210Y",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel UHD Graphics 617）",
+      "storage": "128GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜",
+      "sourceUrl": "https://support.apple.com/kb/SP783",
+      "sourceTitle": "MacBook Air (Retina, 13 英寸, 2018) - 技术规格",
+      "confidence": "high",
+      "notes": "官方规格页列出的标配入门组合（128GB）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2018",
+      "cpu": "Intel 酷睿 i5-8210Y",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel UHD Graphics 617）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜",
+      "sourceUrl": "https://support.apple.com/kb/SP783",
+      "sourceTitle": "MacBook Air (Retina, 13 英寸, 2018) - 技术规格",
+      "confidence": "high",
+      "notes": "官方规格页列出的标配高配组合（256GB）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2019",
+      "cpu": "Intel 酷睿 i5-8210Y",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel UHD Graphics 617）",
+      "storage": "128GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜（支持原彩显示）",
+      "sourceUrl": "https://support.apple.com/111948",
+      "sourceTitle": "MacBook Air（13 英寸，2019）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门款。国行首发价未核实（媒体记载 RMB 8899，未取得官方页面佐证，故价格仅作备注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2019",
+      "cpu": "Intel 酷睿 i5-8210Y",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel UHD Graphics 617）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜（支持原彩显示）",
+      "sourceUrl": "https://support.apple.com/111948",
+      "sourceTitle": "MacBook Air（13 英寸，2019）- 技术规格",
+      "confidence": "high",
+      "notes": "标配高配款。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（Intel）|2020",
+      "cpu": "Intel 酷睿 i3-1000NG4（1.1GHz 双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜（支持原彩显示）",
+      "sourceUrl": "https://support.apple.com/zh-cn/111991",
+      "sourceTitle": "MacBook Air（Retina，13 英寸，2020）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门款，首发价 RMB 7999（2020-03-18，媒体首发报道）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（Intel）|2020",
+      "cpu": "Intel 酷睿 i5-1030NG7（1.1GHz 四核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜（支持原彩显示）",
+      "sourceUrl": "https://support.apple.com/zh-cn/111991",
+      "sourceTitle": "MacBook Air（Retina，13 英寸，2020）- 技术规格",
+      "confidence": "high",
+      "notes": "标配高配款，首发价 RMB 9999（2020-03，媒体首发报道）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（M1）|2020",
+      "cpu": "Apple M1（8 核 CPU/7 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（7 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/111883",
+      "sourceTitle": "MacBook Air（M1，2020）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门款，首发价 RMB 7999（2020-11）；2023 年 6 月官网仍以 RMB 7999 在售（Apple 中国 2023-06 新闻稿）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（M1）|2020",
+      "cpu": "Apple M1（8 核 CPU/8 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/111883",
+      "sourceTitle": "MacBook Air（M1，2020）- 技术规格",
+      "confidence": "medium",
+      "notes": "8 核 GPU + 512GB 为当年的标准在售档（官方规格页将 8 核 GPU 列为可选芯片配置）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2022",
+      "cpu": "Apple M2（8 核 CPU/8 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/111867",
+      "sourceTitle": "MacBook Air（M2，2022 年）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门款，首发价 RMB 9499（2022-06 发布、7 月上市，IT之家）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2022",
+      "cpu": "Apple M2（8 核 CPU/8 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://www.ithome.com/html/it/629669.htm",
+      "sourceTitle": "苹果 M2 MacBook Air 评测解禁：屏幕、扬声器更佳，GPU 性能大增（IT之家）",
+      "confidence": "medium",
+      "notes": "媒体称为“主流配置”，16GB/512GB 售价 RMB 12499（2022-07）。该组合为官方商城在售档位，非按单加装拼凑。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2022",
+      "cpu": "Apple M2（8 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://www.ithome.com/0/622/670.htm",
+      "sourceTitle": "苹果发布新款 MacBook Air：刘海屏 + M2 芯片，9499 元起（IT之家）",
+      "confidence": "medium",
+      "notes": "媒体称“满血 M2 + 16GB + 512GB”，售价 RMB 13399（2022-06）。10 核 GPU 加价 RMB 900。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2023",
+      "cpu": "Apple M2（8 核 CPU/10 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://www.apple.com.cn/newsroom/2023/06/apple-introduces-the-15-inch-macbook-air",
+      "sourceTitle": "Apple 推出 15 英寸 MacBook Air（Apple 中国新闻稿，2023-06）",
+      "confidence": "high",
+      "notes": "标配入门款，起售价 RMB 10499（2023-06-13 发售）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2023",
+      "cpu": "Apple M2（8 核 CPU/10 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://i.ifeng.com/c/8QNlHyTF7dV",
+      "sourceTitle": "15 英寸 MacBook Air 国行价格公布：10499 元起（凤凰网/快科技，2023-06）",
+      "confidence": "high",
+      "notes": "8GB/512GB 首批在售配置，售价 RMB 11999（2023-06）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2024",
+      "cpu": "Apple M3（8 核 CPU/8 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/118551",
+      "sourceTitle": "MacBook Air（13 英寸，M3，2024 年）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门款，首发价 RMB 8999（2024-03-04 发布，媒体首发报道）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2024",
+      "cpu": "Apple M3（8 核 CPU/10 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://g.pconline.com.cn/x/171/17164348.html",
+      "sourceTitle": "8999 元起！苹果 M3 版本 MacBook Air 13/15 发布（太平洋电脑网，2024-03）",
+      "confidence": "medium",
+      "notes": "8GB/512GB 售价 RMB 10499（2024-03）。官方规格页说明 512GB 机型对应 10 核 GPU 并附 35W 双口适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2024",
+      "cpu": "Apple M3（8 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://g.pconline.com.cn/x/171/17164348.html",
+      "sourceTitle": "8999 元起！苹果 M3 版本 MacBook Air 13/15 发布（太平洋电脑网，2024-03）",
+      "confidence": "medium",
+      "notes": "16GB/512GB 售价 RMB 11999（2024-03）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2024",
+      "cpu": "Apple M3（8 核 CPU/10 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/118552",
+      "sourceTitle": "MacBook Air（15 英寸，M3，2024 年）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门款，首发价 RMB 10499（2024-03，Apple 中国新闻稿起售价 RMB 10499）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2024",
+      "cpu": "Apple M3（8 核 CPU/10 核 GPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://g.pconline.com.cn/x/171/17164348.html",
+      "sourceTitle": "8999 元起！苹果 M3 版本 MacBook Air 13/15 发布（太平洋电脑网，2024-03）",
+      "confidence": "medium",
+      "notes": "8GB/512GB 售价 RMB 11999（2024-03）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2024",
+      "cpu": "Apple M3（8 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://g.pconline.com.cn/x/171/17164348.html",
+      "sourceTitle": "8999 元起！苹果 M3 版本 MacBook Air 13/15 发布（太平洋电脑网，2024-03）",
+      "confidence": "medium",
+      "notes": "16GB/512GB 售价 RMB 13499（2024-03）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2025",
+      "cpu": "Apple M4（10 核 CPU/8 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://www.apple.com.cn/newsroom/2025/03/apple-introduces-the-new-macbook-air-with-m4-and-a-gorgeous-new-sky-blue-color/",
+      "sourceTitle": "Apple 发布搭载 M4 芯片的新款 MacBook Air（Apple 中国新闻稿，2025-03）",
+      "confidence": "high",
+      "notes": "标配入门款，起售价 RMB 7999、教育优惠 RMB 7249（2025-03）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2025",
+      "cpu": "Apple M4（10 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/122209",
+      "sourceTitle": "MacBook Air（13 英寸，M4，2025 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "官方商城在售档位（10 核 GPU + 512GB，附 35W 双口适配器）。具体售价未从官方页面核实，故未记录。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2025",
+      "cpu": "Apple M4（10 核 CPU/10 核 GPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/122209",
+      "sourceTitle": "MacBook Air（13 英寸，M4，2025 年）- 技术规格",
+      "confidence": "low",
+      "notes": "24GB/512GB 为电商在售整机 SKU（如 MC6A4CH/A）。属官方可选内存档，但是否为独立标配 SKU 需按部件号复核，价格未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2025",
+      "cpu": "Apple M4（10 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://www.apple.com.cn/newsroom/2025/03/apple-introduces-the-new-macbook-air-with-m4-and-a-gorgeous-new-sky-blue-color/",
+      "sourceTitle": "Apple 发布搭载 M4 芯片的新款 MacBook Air（Apple 中国新闻稿，2025-03）",
+      "confidence": "high",
+      "notes": "标配入门款，起售价 RMB 9999、教育优惠 RMB 9249（2025-03）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2025",
+      "cpu": "Apple M4（10 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/122210",
+      "sourceTitle": "MacBook Air（15 英寸，M4，2025 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "官方商城在售档位（16GB/512GB）。具体售价未从官方页面核实，故未记录。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2025",
+      "cpu": "Apple M4（10 核 CPU/10 核 GPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/122210",
+      "sourceTitle": "MacBook Air（15 英寸，M4，2025 年）- 技术规格",
+      "confidence": "low",
+      "notes": "24GB/512GB 为电商在售整机 SKU（如 MC6J4CH/A）。是否为标准 SKU 需按部件号复核，价格未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "cpu": "Apple M5（10 核 CPU/8 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://www.apple.com.cn/shop/buy-mac/macbook-air/13-inch-silver-m5-chip-10-core-cpu-8-core-gpu-16gb-memory-512gb-storage",
+      "sourceTitle": "13 英寸 MacBook Air（M5 芯片，10 核 CPU/8 核 GPU，16GB/512GB）- Apple 中国商城",
+      "confidence": "high",
+      "notes": "官网在售基础款，RMB 9999（2026-10-26 抓取）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "cpu": "Apple M5（10 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.6英寸 2560x1664 Liquid 视网膜",
+      "sourceUrl": "https://www.apple.com.cn/shop/buy-mac/macbook-air/MTJ92CH/A",
+      "sourceTitle": "MacBook Air 购买页（13 英寸 M5 芯片配置与价格）- Apple 中国商城",
+      "confidence": "high",
+      "notes": "官网在售第二档，RMB 10749（2026-10-26 抓取）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2026",
+      "cpu": "Apple M5（10 核 CPU/10 核 GPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "15.3英寸 2880x1864 Liquid 视网膜",
+      "sourceUrl": "https://www.apple.com.cn/shop/buy-mac/macbook-air/MTJ92CH/A",
+      "sourceTitle": "MacBook Air 购买页（15 英寸 M5 芯片配置与价格）- Apple 中国商城",
+      "confidence": "high",
+      "notes": "官网在售基础款，RMB 11999（2026-10-26 抓取）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2016",
+      "cpu": "Intel 酷睿 m3-6Y30（1.1GHz 双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel HD Graphics 515）",
+      "storage": "256GB SSD",
+      "screen": "12英寸 2304x1440 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/112033",
+      "sourceTitle": "MacBook（Retina，12 英寸，2016 年初）- 技术规格",
+      "confidence": "high",
+      "notes": "官方规格页列出的 1.1GHz 机型标配（256GB）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2016",
+      "cpu": "Intel 酷睿 m5-6Y54（1.2GHz 双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel HD Graphics 515）",
+      "storage": "512GB SSD",
+      "screen": "12英寸 2304x1440 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/112033",
+      "sourceTitle": "MacBook（Retina，12 英寸，2016 年初）- 技术规格",
+      "confidence": "high",
+      "notes": "官方规格页列出的 1.2GHz 机型标配（512GB）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2017",
+      "cpu": "Intel 酷睿 m3-7Y32（1.2GHz 双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel HD Graphics 615）",
+      "storage": "256GB SSD",
+      "screen": "12英寸 2304x1440 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/111986",
+      "sourceTitle": "MacBook（Retina，12 英寸，2017）- 技术规格",
+      "confidence": "high",
+      "notes": "官方规格页列出的 1.2GHz 机型标配（256GB）。国行首发价未核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2017",
+      "cpu": "Intel 酷睿 i5-7Y54（1.3GHz 双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel HD Graphics 615）",
+      "storage": "512GB SSD",
+      "screen": "12英寸 2304x1440 视网膜",
+      "sourceUrl": "https://support.apple.com/zh-cn/111986",
+      "sourceTitle": "MacBook（Retina，12 英寸，2017）- 技术规格",
+      "confidence": "high",
+      "notes": "官方规格页列出的 1.3GHz 机型标配（512GB）。国行首发价未核实。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "MacBook Air",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "系列通称",
+      "note": "系列通称，搜索结果可能指向任一尺寸/年份；此处指向当前官网在售基础款，检索时需结合年份或芯片消歧"
+    },
+    {
+      "alias": "苹果笔记本",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "品牌通用词",
+      "note": "品牌通用搜索词，不代表具体机型"
+    },
+    {
+      "alias": "MBA",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "缩写",
+      "note": "MacBook Air 英文缩写，中文采购单常见写法"
+    },
+    {
+      "alias": "MacBook Air M5",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "芯片写法",
+      "note": "按芯片代次检索，13 英寸"
+    },
+    {
+      "alias": "M5 Air",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "芯片写法",
+      "note": "口语化芯片+系列写法"
+    },
+    {
+      "alias": "Air 13.6",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "尺寸写法",
+      "note": "按屏幕对角线尺寸检索"
+    },
+    {
+      "alias": "MacBook Air 13 英寸",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2026",
+      "aliasType": "尺寸写法",
+      "note": "官方口径尺寸写法"
+    },
+    {
+      "alias": "苹果 Air 15",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2026",
+      "aliasType": "尺寸写法",
+      "note": "15 英寸 Air 口语写法"
+    },
+    {
+      "alias": "MacBook Air 15 英寸",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2026",
+      "aliasType": "尺寸写法",
+      "note": "官方口径尺寸写法"
+    },
+    {
+      "alias": "MacBook Air M4",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2025",
+      "aliasType": "芯片写法",
+      "note": "13 英寸 M4 款"
+    },
+    {
+      "alias": "M4 Air",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2025",
+      "aliasType": "芯片写法",
+      "note": "口语化写法"
+    },
+    {
+      "alias": "MacBook Air 15 M4",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2025",
+      "aliasType": "芯片写法",
+      "note": "15 英寸 M4 款"
+    },
+    {
+      "alias": "MacBook Air M3",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2024",
+      "aliasType": "芯片写法",
+      "note": "13 英寸 M3 款"
+    },
+    {
+      "alias": "M3 Air 15",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2024",
+      "aliasType": "芯片写法",
+      "note": "15 英寸 M3 款"
+    },
+    {
+      "alias": "MacBook Air M2",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2022",
+      "aliasType": "芯片写法",
+      "note": "13.6 英寸 M2 款；15 英寸 M2 见“MacBook Air 15 M2”"
+    },
+    {
+      "alias": "M2 Air",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2022",
+      "aliasType": "俗称",
+      "note": "二手/渠道常见写法"
+    },
+    {
+      "alias": "MacBook Air 15 M2",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 15|2023",
+      "aliasType": "芯片写法",
+      "note": "15 英寸首代（2023）"
+    },
+    {
+      "alias": "M1 Air",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（M1）|2020",
+      "aliasType": "俗称",
+      "note": "最常见的二手渠道写法"
+    },
+    {
+      "alias": "MacBook Air M1",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（M1）|2020",
+      "aliasType": "芯片写法",
+      "note": "官方芯片命名写法"
+    },
+    {
+      "alias": "苹果 M1 笔记本",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（M1）|2020",
+      "aliasType": "品牌通用词",
+      "note": "非精确写法，可能指 M1 MacBook Pro，需二次确认"
+    },
+    {
+      "alias": "MacBook Air 2020 Intel",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（Intel）|2020",
+      "aliasType": "年份写法",
+      "note": "用于与同年 M1 款区分"
+    },
+    {
+      "alias": "Intel Air",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13（Intel）|2020",
+      "aliasType": "俗称",
+      "note": "渠道常用来指代最后一代 Intel Air"
+    },
+    {
+      "alias": "MacBook Air 2019",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2019",
+      "aliasType": "年份写法",
+      "note": "按上市年份检索"
+    },
+    {
+      "alias": "MacBook Air 2018",
+      "modelKey": "笔记本电脑|苹果|MacBook Air 13|2018",
+      "aliasType": "年份写法",
+      "note": "首款视网膜 Air"
+    },
+    {
+      "alias": "MacBook 12",
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2016",
+      "aliasType": "型号简称",
+      "note": "12 英寸无风扇 MacBook；2017 款另见年份写法"
+    },
+    {
+      "alias": "12 英寸 MacBook",
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2016",
+      "aliasType": "尺寸写法",
+      "note": "官方名称含尺寸，检索时易与 MacBook Pro 13 混淆"
+    },
+    {
+      "alias": "MacBook 12 2017",
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2017",
+      "aliasType": "年份写法",
+      "note": "末代 12 英寸 MacBook"
+    },
+    {
+      "alias": "蝴蝶键盘 MacBook",
+      "modelKey": "笔记本电脑|苹果|MacBook 12|2017",
+      "aliasType": "俗称",
+      "note": "指采用蝶式键盘的 12 英寸机型（2015-2017）"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "MacBook Air 13（2017 款，非视网膜 1440x900）",
+      "issue": "该机型属 2016—2026 时间窗内，但沿用 2015 年模具，2017 年 6 月仅升级 1.8GHz i5 后继续销售至 2019 年 7 月；Apple 现仅保留归档规格页，未纳入本批 14 条 models。",
+      "suggestion": "如采购库需覆盖老款 Air，建议单独批次收录，并补 1440x900/8GB/128GB 的归档规格页链接。",
+      "sourceUrl": "https://support.apple.com/zh-cn/102869"
+    },
+    {
+      "model": "MacBook Air 13（M1，2020）存储起步容量",
+      "issue": "support.apple.com/zh-cn/111883 正文写“128GB 固态硬盘，可选配 256GB…”，英文版规格页与当年在售记录均为 256GB 起，疑为中文页文案错误。",
+      "suggestion": "本表按 256GB 记录；若需精确到 SKU，可核对部件号 MGN63（256GB）/MGN73（512GB）。",
+      "sourceUrl": "https://support.apple.com/zh-cn/111883"
+    },
+    {
+      "model": "MacBook Air 13（M5，2026）16GB/1TB 标配档",
+      "issue": "规格页列出 3 个标配（16GB/512GB、16GB/1TB、24GB/1TB），但官网商城仅能确认 RMB 9999 与 RMB 10749 两档价格对应关系，第三档价格未取得。",
+      "suggestion": "补抓 apple.com.cn 商城全部 SKU（含 1TB 档）价格后再补 configCombos 行。",
+      "sourceUrl": "https://www.apple.com.cn/shop/buy-mac/macbook-air/MTJ92CH/A"
+    },
+    {
+      "model": "MacBook Air 13/15（M4，2025）24GB 内存档",
+      "issue": "24GB/512GB 在电商以整机 SKU 形式在售（MC6A4CH/A、MC6J4CH/A），但 Apple 规格页把 24GB 同时列为“可选配”，无法仅凭规格页判定其是否为独立标准 SKU。",
+      "suggestion": "按部件号向渠道核对是否为原厂整机配置；若为按单定制，应从 configCombos 移除。",
+      "sourceUrl": "https://support.apple.com/zh-cn/122209"
+    }
+  ]
+}

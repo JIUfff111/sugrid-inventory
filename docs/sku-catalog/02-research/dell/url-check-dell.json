@@ -1,0 +1,592 @@
+{
+ "https://baike.sogou.com/v175007207.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://baike.sogou.com/v175007207.htm"
+ },
+ "https://baike.baidu.com/item/%E5%A4%96%E6%98%9F%E4%BA%BAX14%20R1/65739443": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E5%A4%96%E6%98%9F%E4%BA%BAX14%20R1/65739443",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94Inspiron%20%E7%81%B5%E8%B6%8A%2014%205000(5488)/23764900": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94Inspiron%20%E7%81%B5%E8%B6%8A%2014%205000(5488)/23764900",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94XPS%2013(9360)/23770018": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94XPS%2013(9360)/23770018",
+  "error": "HTTP 403"
+ },
+ "https://detail.zol.com.cn/series/345/27782_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/345/27782_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/25555_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/25555_1.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1553816.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1553816.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/alienware/2067347_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/alienware/2067347_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/dell/1080358_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/dell/1080358_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/alienware/2645159_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/alienware/2645159_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/dell/1835127_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/dell/1835127_detail.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1289920.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1289920.shtml"
+ },
+ "https://detail.zol.com.cn/mice/index1990971.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1990971.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/dell/1073341_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/dell/1073341_detail.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1207680.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1207680.shtml"
+ },
+ "https://detail.zol.com.cn/Intelligentvoiceassistant/index1415742.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1415742.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/dell/1416007_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/dell/1416007_detail.html"
+ },
+ "https://i.ifeng.com/c/8PWZZIDGwVx": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8PWZZIDGwVx"
+ },
+ "https://g.pconline.com.cn/product/notebook/dell/2065167_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/dell/2065167_detail.html"
+ },
+ "https://devicehd.com/laptops/cn/product/63e963bba6803e6331dcdb8d/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://devicehd.com/laptops/cn/product/63e963bba6803e6331dcdb8d/"
+ },
+ "https://laptopmedia.com/bg/laptop-specs/dell-g5-5500-107/review/": {
+  "status": 403,
+  "ok": true,
+  "final": "https://laptopmedia.com/bg/laptop-specs/dell-g5-5500-107/review/",
+  "error": "HTTP 403"
+ },
+ "https://laptopmedia.com/it/laptop-specs/alienware-18-area-51-62": {
+  "status": 403,
+  "ok": true,
+  "final": "https://laptopmedia.com/it/laptop-specs/alienware-18-area-51-62",
+  "error": "HTTP 403"
+ },
+ "https://kelaptop.com/en/alienware-m17-r3-alw17m-d5768w": {
+  "status": 200,
+  "ok": true,
+  "final": "https://kelaptop.com/en/alienware-m17-r3-alw17m-d5768w"
+ },
+ "https://m.zol.com/shop_188133/39753294.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_188133/39753294.html"
+ },
+ "https://kelaptop.com/en/dell-inspiron-14-plus-7000-7420-cn74306": {
+  "status": 200,
+  "ok": true,
+  "final": "https://kelaptop.com/en/dell-inspiron-14-plus-7000-7420-cn74306"
+ },
+ "https://kelaptop.com/nl/alienware-m17-r2-alw17m-d4758w": {
+  "status": 200,
+  "ok": true,
+  "final": "https://kelaptop.com/nl/alienware-m17-r2-alw17m-d4758w"
+ },
+ "https://m.zol.com/shop_119206/38479237.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_119206/38479237.html"
+ },
+ "https://m.zol.com/shop_194794/40484166.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_194794/40484166.html"
+ },
+ "https://m.zol.com/shop_8479/39779346.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_8479/39779346.html"
+ },
+ "https://nb.zol.com.cn/722/7221312.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/722/7221312.html"
+ },
+ "https://kelaptop.com/nl/alienware-x15-r2-wnr2x15cto30ssb": {
+  "status": 200,
+  "ok": true,
+  "final": "https://kelaptop.com/nl/alienware-x15-r2-wnr2x15cto30ssb"
+ },
+ "https://kelaptop.com/en/dell-xps-13-9360-xps9360-7180slv-pus": {
+  "status": 200,
+  "ok": true,
+  "final": "https://kelaptop.com/en/dell-xps-13-9360-xps9360-7180slv-pus"
+ },
+ "https://downloads.dell.com/topicspdf/g-series-15-3590-laptop_Users-Guide_zh-cn.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://downloads.dell.com/topicspdf/g-series-15-3590-laptop_Users-Guide_zh-cn.pdf"
+ },
+ "https://product.yesky.com/product/1145/1145706/param.shtml": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1145/1145706/param.shtml",
+  "error": "HTTP 405"
+ },
+ "https://in.ign.com/tech/200184/news/ces-2024-dell-announces-alienware-m16-r2-x16-r2-and-m18-r2-gaming-laptops": {
+  "status": 200,
+  "ok": true,
+  "final": "https://in.ign.com/tech/200184/news/ces-2024-dell-announces-alienware-m16-r2-x16-r2-and-m18-r2-gaming-laptops"
+ },
+ "https://downloads.dell.com/topicspdf/g-series-15-3579-laptop_Users-Guide_en-us.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://downloads.dell.com/topicspdf/g-series-15-3579-laptop_Users-Guide_en-us.pdf"
+ },
+ "https://s.zol.com.cn/shop_157135/42889593.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_157135/42889593.html"
+ },
+ "https://s.zol.com.cn/shop_184495/39307228.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_184495/39307228.html"
+ },
+ "https://s.zol.com.cn/shop_210390/44207554.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_210390/44207554.html"
+ },
+ "https://shop.zol.com/shop_16271/33573477.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_16271/33573477.html"
+ },
+ "https://shop.zol.com/shop_170080/37029243.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_170080/37029243.html"
+ },
+ "https://shop.zol.com/shop_189529/38082974.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_189529/38082974.html"
+ },
+ "https://shop.zol.com/shop_189529/40325391.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_189529/40325391.html"
+ },
+ "https://shop.zol.com/shop_214551/36476499.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214551/36476499.html"
+ },
+ "https://tech.sina.com.cn/digi/2020-06-05/doc-iirczymk5365082.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.com.cn/digi/2020-06-05/doc-iirczymk5365082.shtml"
+ },
+ "https://me.pcmag.com/en/laptops/32645/dell-14-premium-da14250": {
+  "status": 200,
+  "ok": true,
+  "final": "https://me.pcmag.com/en/laptops/32645/dell-14-premium-da14250"
+ },
+ "https://mac24h.vn/alienware-m18-r1-2023-core-i9-13900hx-32gb-1tb-ssd-rtx-4090-16gb-fhd-480hz.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mac24h.vn/alienware-m18-r1-2023-core-i9-13900hx-32gb-1tb-ssd-rtx-4090-16gb-fhd-480hz.html"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1cCUoQBWwKElIVVDZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgcDVVlbC0keCm8BBAJQAVsyJwALagtWQzpqXAtiCGJGHQIoTy5wc2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdV9GVQMDXVcJCBwXU2hdHFklXQcyHzBcOEonA2kAGFMcWwYBUVhfDnsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBWxbGlpBM1pFCh5UVxVVbW0OHl4SVAUGZFxcCUkVM184aCx1NH0KECIUDzhRCz1DSDxRP39EXBwncA58em1odVlMBgRUNQBaXTwedRNMbT1wBzYCZG5cOA": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1cCUoQBWwKElIVVDZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgcDVVlbC0keCm8BBAJQAVsyJwALagtWQzpqXAtiCGJGHQIoTy5wc2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdV9GVQMDXVcJCBwXU2hdHFklXQcyHzBcOEonA2kAGFMcWwYBUVhfDnsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBWxbGlpBM1pFCh5UVxVVbW0OHl4SVAUGZFxcCUkVM184aCx1NH0KECIUDzhRCz1DSDxRP39EXBwncA58em1odVlMBgRUNQBaXTwedRNMbT1wBzYCZG5cOA"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXQAFVVxdCkgWBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24IHVwUXwYAV19YFxJSXzI4fylTPFZ-USk9STVKZDRjbjheNQcKJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhtFBD8KE1tAWAYBBw0JCxsnA244WjUVXAIDVlZeCXsWM28OE1gdVAADXV5YCEMnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HDmheEwAdDgsfVQEKHVkXWg4DUm5fCUoVAV84KyxvLnFYPFYDUB12WCxcGjJBPlhgNxgtdk5IQzJodVl-NHVgLDsoXh5kVAZXaBsQCTYCZFlbCXsWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXQAFVVxdCkgWBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24IHVwUXwYAV19YFxJSXzI4fylTPFZ-USk9STVKZDRjbjheNQcKJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhtFBD8KE1tAWAYBBw0JCxsnA244WjUVXAIDVlZeCXsWM28OE1gdVAADXV5YCEMnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HDmheEwAdDgsfVQEKHVkXWg4DUm5fCUoVAV84KyxvLnFYPFYDUB12WCxcGjJBPlhgNxgtdk5IQzJodVl-NHVgLDsoXh5kVAZXaBsQCTYCZFlbCXsWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXwcBUVpZAE4RAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24KGlgQWQIKUVhfFxJSXzI4fwtQXgdQBgo-YC1Cayh6Hx8cH1ZUAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZklHUWpfGFkSWwFWXFkIDU4nA244WjUVXAIDVlZeCXsWM28OE1gdVAADXVhfAE4nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGpdT1IQD2heEwAdDg9QVwEKHV8UWgYGXW5fCUoVAV84KxtGKAdLCAk6C09kUBZTUANxG35wHyFUYRNIWQkNdVlrPHwFNCddQAxjRh8BZhBWOTYCZFlbCXsWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXwcBUVpZAE4RAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24KGlgQWQIKUVhfFxJSXzI4fwtQXgdQBgo-YC1Cayh6Hx8cH1ZUAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZklHUWpfGFkSWwFWXFkIDU4nA244WjUVXAIDVlZeCXsWM28OE1gdVAADXVhfAE4nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGpdT1IQD2heEwAdDg9QVwEKHV8UWgYGXW5fCUoVAV84KxtGKAdLCAk6C09kUBZTUANxG35wHyFUYRNIWQkNdVlrPHwFNCddQAxjRh8BZhBWOTYCZFlbCXsWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIGVVpeD0sXCl8IGlsVWwEFUF1bDUkQAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA28OHFwRXgAHVllfFxJSXzI4HV9pWVF2EUA_ABNiXhJ8Q15DXE5eJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkgeBjpcHVxCXwJRVVlUXBknA244WjUVVAYEVV5dCXsWM28OE1gdVAEFUllaCUknA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWUGcNGFgTX2heEwAcQ0tQRgEKHV4SWgMGVG5fCUoVAV84KyJTBW1QNRgeYTQTajdxbzhIG25yERk2agh2WjpXdVlnOn16Kh8FVk9XZB9PG1hCBzYCZFlbCXsWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIGVVpeD0sXCl8IGlsVWwEFUF1bDUkQAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA28OHFwRXgAHVllfFxJSXzI4HV9pWVF2EUA_ABNiXhJ8Q15DXE5eJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkgeBjpcHVxCXwJRVVlUXBknA244WjUVVAYEVV5dCXsWM28OE1gdVAEFUllaCUknA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWUGcNGFgTX2heEwAcQ0tQRgEKHV4SWgMGVG5fCUoVAV84KyJTBW1QNRgeYTQTajdxbzhIG25yERk2agh2WjpXdVlnOn16Kh8FVk9XZB9PG1hCBzYCZFlbCXsWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIHUF9YAE0UAl8IGlsVWQEFUVpdCE0UAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA28MHFwQWQYCUl1cFxJSXzI4XixKC1B3VAI4Xx8SXgheaAZsDwZ_NFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkweVj0PHVJFDVIAVVxYWB4nA244WjUVVAYFU1lbCnsWM28OE1gdVAADXV5YAUwnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBD9dE10WXWheEwAdDgsfVQEKHVkTVAAAVW5fCUoVAV84KyATL35GHxlfUxhseB1WWSFTXl0BKihYSTBgZBtodVlDBHhQCz4VUklnQjQAZ113KTYCZFlbCXsWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIHUF9YAE0UAl8IGlsVWQEFUVpdCE0UAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA28MHFwQWQYCUl1cFxJSXzI4XixKC1B3VAI4Xx8SXgheaAZsDwZ_NFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkweVj0PHVJFDVIAVVxYWB4nA244WjUVVAYFU1lbCnsWM28OE1gdVAADXV5YAUwnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBD9dE10WXWheEwAdDgsfVQEKHVkTVAAAVW5fCUoVAV84KyATL35GHxlfUxhseB1WWSFTXl0BKihYSTBgZBtodVlDBHhQCz4VUklnQjQAZ113KTYCZFlbCXsWMw"
+ },
+ "https://technosports.co.in/dell-alienware-goes-ryzen-alienware-m15-r5-ryzen-edition-with-up-to-ryzen-9-5900hx-and-rtx-3070-launched?amp=1": {
+  "status": 403,
+  "ok": true,
+  "final": "https://technosports.co.in/dell-alienware-goes-ryzen-alienware-m15-r5-ryzen-edition-with-up-to-ryzen-9-5900hx-and-rtx-3070-launched?amp=1",
+  "error": "HTTP 403"
+ },
+ "https://pokde.net/gadget/laptop/dell-g5-15-5500-malaysia": {
+  "status": 200,
+  "ok": true,
+  "final": "https://pokde.net/gadget/laptop/dell-g5-15-5500-malaysia"
+ },
+ "https://wap.zol.com.cn/1399/1398669/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1399/1398669/index.html"
+ },
+ "https://wap.zol.com.cn/1423/1422525/param.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1423/1422525/param.html"
+ },
+ "https://technave.com/compare-laptop/compare-Dell-Alienware-M15-R3-vs-specs-price-malaysia-c119-20695.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://technave.com/compare-laptop/compare-Dell-Alienware-M15-R3-vs-specs-price-malaysia-c119-20695.html"
+ },
+ "https://product.yesky.com/product/1114/1114197/param.shtml": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1114/1114197/param.shtml",
+  "error": "HTTP 405"
+ },
+ "https://wap.zol.com.cn/1554/1553800/extraprice_9999.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1554/1553800/extraprice_9999.html"
+ },
+ "https://laptoping.com/specs/product/dell-g7-17-7790-g7790": {
+  "status": 200,
+  "ok": true,
+  "final": "https://laptoping.com/specs/product/dell-g7-17-7790-g7790/"
+ },
+ "https://www.163.com/dy/article/FCHT7CGE0511B8LM.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/FCHT7CGE0511B8LM.html"
+ },
+ "https://pcmax.id?p=2793": {
+  "status": 200,
+  "ok": true,
+  "final": "https://pcmax.id/laptop/dell-xps-17-9730/"
+ },
+ "https://i.dell.com/sites/doccontent/app-merchandizing/responsive/Shop/Browse/Work/zh/Documents/%E6%88%B4%E5%B0%94%E5%B0%8F%E4%BC%81%E4%B8%9A%E4%BA%A7%E5%93%81%E6%89%8B%E5%86%8C618%E4%BF%83%E9%94%80%E7%89%B9%E5%88%8A.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.dell.com/sites/doccontent/app-merchandizing/responsive/Shop/Browse/Work/zh/Documents/%E6%88%B4%E5%B0%94%E5%B0%8F%E4%BC%81%E4%B8%9A%E4%BA%A7%E5%93%81%E6%89%8B%E5%86%8C618%E4%BF%83%E9%94%80%E7%89%B9%E5%88%8A.pdf"
+ },
+ "https://windowstip.com/laptop/dell-xps-16-9640": {
+  "status": 403,
+  "ok": true,
+  "final": "https://windowstip.com/laptop/dell-xps-16-9640",
+  "error": "HTTP 403"
+ },
+ "https://www.cnet.com/reviews/alienware-m15-r2-review/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.cnet.com/reviews/alienware-m15-r2-review/"
+ },
+ "https://technave.com/gadget/Dell-Alienware-M15-R5-Price-in-Malaysia-Specs-28828.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://technave.com/gadget/Dell-Alienware-M15-R5-Price-in-Malaysia-Specs-28828.html"
+ },
+ "https://technave.com/gadget/Dell-XPS-17-9700-Laptop-Price-in-Malaysia-Specs-20670.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://technave.com/gadget/Dell-XPS-17-9700-Laptop-Price-in-Malaysia-Specs-20670.html"
+ },
+ "https://www.dell.com/en-uk/shop/laptop-computers-for-businesses/inspiron-14-7000/spd/inspiron-14-7400-laptop/bn74005sb": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-uk/shop/laptop-computers-for-businesses/inspiron-14-7000/spd/inspiron-14-7400-laptop/bn74005sb",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-sg/shop/gaming-and-games/new-g15-special-edition-gaming-laptop/spd/g-series-15-5511-laptop/hng55111501sesg": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-sg/shop/gaming-and-games/new-g15-special-edition-gaming-laptop/spd/g-series-15-5511-laptop/hng55111501sesg",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-us/shop/dell-laptops/new-dell-g5-15-gaming-laptop/spd/g-series-15-5510-laptop": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-us/shop/dell-laptops/new-dell-g5-15-gaming-laptop/spd/g-series-15-5510-laptop",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-us/shop/dell-laptops/alienware-m17-r5/spd/alienware-m17-r5-amd-gaming-laptop/wnm17r5cto020s": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-us/shop/dell-laptops/alienware-m17-r5/spd/alienware-m17-r5-amd-gaming-laptop/wnm17r5cto020s",
+  "error": "HTTP 403"
+ },
+ "https://pcgamer.com/hardware/gaming-laptops/alienware-16-area-51-review": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pcgamer.com/hardware/gaming-laptops/alienware-16-area-51-review/"
+ },
+ "https://technave.com/gadget/Dell-XPS-17-9730-Price-in-Malaysia-Specs-35057.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://technave.com/gadget/Dell-XPS-17-9730-Price-in-Malaysia-Specs-35057.html"
+ },
+ "https://www.dell.com/en-us/shop/dell-laptops/new-xps-15-laptop/spd/xps-15-9520-laptop/xn9520cto040s": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-us/shop/dell-laptops/new-xps-15-laptop/spd/xps-15-9520-laptop/xn9520cto040s",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-au/shop/gaming-and-games/alienware-m17-r5-gaming-laptop/spd/alienware-m17-r5-amd-gaming-laptop/hnawr72351au": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-au/shop/gaming-and-games/alienware-m17-r5-gaming-laptop/spd/alienware-m17-r5-amd-gaming-laptop/hnawr72351au",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-au/work/shop/business-laptop-notebook-computers/xps-15-laptop/spd/xps-15-9500-laptop/smhnx950013aus?view=configurations": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-au/work/shop/business-laptop-notebook-computers/xps-15-laptop/spd/xps-15-9500-laptop/smhnx950013aus?view=configurations",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-us/member/shop/dell-laptops/xps-15-laptop/spd/xps-15-9510-laptop/xn9510cto220sedu?view=configurations": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-us/member/shop/dell-laptops/xps-15-laptop/spd/xps-15-9510-laptop/xn9510cto220sedu?view=configurations",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-ca/shop/dell-laptops/dell-g5-15-se-gaming-laptop/spd/g-series-15-5505-laptop/ng155505_sesb_s6600e": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-ca/shop/dell-laptops/dell-g5-15-se-gaming-laptop/spd/g-series-15-5505-laptop/ng155505_sesb_s6600e",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-13-2-in-1-laptop/spd/xps-13-9315-2-in-1-laptop/wnx9315t001my": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-13-2-in-1-laptop/spd/xps-13-9315-2-in-1-laptop/wnx9315t001my",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/support/manuals/zh-cn/alienware-m17-r3-laptop/alienware-m17r3-setup-specs/gpu-%E2%80%94-%E7%8D%A8%E7%AB%8B%E5%BC%8F?guid=guid-f3706dde-a5ea-44f6-9a98-f7d5abbdb6b4&lang=zh-hk": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/support/manuals/zh-cn/alienware-m17-r3-laptop/alienware-m17r3-setup-specs/gpu-%E2%80%94-%E7%8D%A8%E7%AB%8B%E5%BC%8F?guid=guid-f3706dde-a5ea-44f6-9a98-f7d5abbdb6b4&lang=zh-hk",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-14-laptop-2025/spd/dell-da14250-laptop/cda14250cto03mmyh": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-14-laptop-2025/spd/dell-da14250-laptop/cda14250cto03mmyh",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/support/manuals/de-de/alienware-m18-r1-laptop/alienware-m18-r1-setup-and-specifications/%e9%a1%af%e7%a4%ba%e5%99%a8?guid=guid-740ab3a0-50a9-4e5b-942d-02ebbb4a2fc6&lang=zh-hk": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/support/manuals/de-de/alienware-m18-r1-laptop/alienware-m18-r1-setup-and-specifications/%e9%a1%af%e7%a4%ba%e5%99%a8?guid=guid-740ab3a0-50a9-4e5b-942d-02ebbb4a2fc6&lang=zh-hk",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-us/shop/dell-laptops/xps-13-laptop/spd/xps-13-9380-laptop/xn9380dhndh?view=configurations": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-us/shop/dell-laptops/xps-13-laptop/spd/xps-13-9380-laptop/xn9380dhndh?view=configurations",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/support/manuals/zh-cn/xps-13-9300-laptop/xps-13-9300-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F?guid=guid-5579fc11-9b22-44fa-ba0d-ae67ba34e9f8&lang=zh-cn": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/support/manuals/zh-cn/xps-13-9300-laptop/xps-13-9300-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F?guid=guid-5579fc11-9b22-44fa-ba0d-ae67ba34e9f8&lang=zh-cn",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/support/manuals/zh-cn/alienware-m15-r2-laptop/alienware-m15r2-setup-specs/%E6%98%BE%E5%8D%A1?guid=guid-3fbdfa16-55ff-4d50-8144-e5b37c6e7962&lang=zh-cn": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/support/manuals/zh-cn/alienware-m15-r2-laptop/alienware-m15r2-setup-specs/%E6%98%BE%E5%8D%A1?guid=guid-3fbdfa16-55ff-4d50-8144-e5b37c6e7962&lang=zh-cn",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-my/shop/deals/weekly-deals/touch-screen?appliedRefinements=43329": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-my/shop/deals/weekly-deals/touch-screen?appliedRefinements=43329",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/support/manuals/zh-cn/xps-13-9310-laptop/xps-13-9310-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/support/manuals/zh-cn/xps-13-9310-laptop/xps-13-9310-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F",
+  "error": "HTTP 403"
+ },
+ "https://www.howtogeek.com/alienware-16-area-51-2025-review/": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.howtogeek.com/alienware-16-area-51-2025-review/",
+  "error": "RemoteDisconnected: Remote end closed connection without response"
+ },
+ "https://www.laptoparena.net/dell/dell-g5-5500-5500-4762-black-70668": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.laptoparena.net/dell/dell-g5-5500-5500-4762-black-70668"
+ },
+ "https://www.laptoparena.net/dell/dell-vostro-7510-jntp1-black-76004": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.laptoparena.net/dell/dell-vostro-7510-jntp1-black-76004"
+ },
+ "https://www.peopleapp.com/rmharticle/30017931048": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30017931048"
+ },
+ "https://www.dell.com/vc/business/p/vostro-13-5391-laptop/pd": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/vc/business/p/vostro-13-5391-laptop/pd",
+  "error": "HTTP 403"
+ },
+ "https://www.notebookcheck.net/Alienware-m15-Series.385296.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck.net/Alienware-m15-Series.385296.0.html"
+ },
+ "https://www.toutiao.com/article/7036941291405607431": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7036941291405607431"
+ },
+ "https://www.sohu.com/a/672406570_114760": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/672406570_114760"
+ },
+ "https://www.shangxianda.com/bijibendiannao/16704.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.shangxianda.com/bijibendiannao/16704.html"
+ },
+ "https://www.notebookcheck.net/Alienware-m17-Series.385296.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck.net/Alienware-m15-Series.385296.0.html"
+ },
+ "https://www.dell.com/en-yu/shop/cty/pdp/spd/vostro-13-5391-laptop": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-yu/shop/cty/pdp/spd/vostro-13-5391-laptop",
+  "error": "HTTP 403"
+ },
+ "https://www.trustedreviews.com/?p=390181": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.trustedreviews.com/reviews/alienware-m16-r2"
+ },
+ "https://www.dell.com/en-us/shop/dell-laptops/xps-17-laptop/spd/xps-17-9720-laptop/xn9720cto020s": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-us/shop/dell-laptops/xps-17-laptop/spd/xps-17-9720-laptop/xn9720cto020s",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/en-uk/shop/laptop-computers-2-in-1-pcs/g15-gaming-laptop/spd/g-series-15-5525-laptop/cn55309sc": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/en-uk/shop/laptop-computers-2-in-1-pcs/g15-gaming-laptop/spd/g-series-15-5525-laptop/cn55309sc",
+  "error": "HTTP 403"
+ },
+ "https://www.dell.com/zh-cn/shop/%C2%B4%C3%B7%C2%BB%C3%BB%C2%B1%CA%BC%C7%C2%B1%BE%B5%E7%C4%D4/vostro-%C2%B3%C9%BE%CD-5510-%C2%B8%DF%D0%D4%C4%DC%C9%CC%CE%F1%B1%BE/spd/vostro-15-5510-laptop/vostro%2015-5510-d2625a": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.dell.com/zh-cn/shop/%C2%B4%C3%B7%C2%BB%C3%BB%C2%B1%CA%BC%25c7%C2%B1%25be%25b5%25e7%25c4%25d4/spd/vostro-15-5510-laptop"
+ },
+ "https://www.dell.com/zh-cn/shop/%E7%AC%94%E8%AE%B0%E6%9C%AC/xps-13-plus-%E7%AC%94%E8%AE%B0%E6%9C%AC/spd/xps-13-9320-laptop/xps%2013-9320-d2808tb?view=configurations": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.dell.com/zh-cn/shop/%E7%AC%94%E8%AE%B0%E6%9C%AC/spd/xps-13-9320-laptop"
+ },
+ "https://www.dell.com/zh-cn/shop/%B1%CA%BC%C7%B1%BE/%D0%C2-inspiron-%C1%E9%D4%BD-16-plus-%B1%CA%BC%C7%B1%BE/spd/inspiron-16-7630-laptop/ins16-7630-d1887s": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.dell.com/zh-cn/shop/%25b1%CA%BC%C7%B3%25be/spd/inspiron-16-7630-laptop"
+ },
+ "https://www.wikiwand.com/en/articles/Dell_G5_Series": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.wikiwand.com/en/articles/Dell_G5_Series",
+  "error": "URLError: <urlopen error Tunnel connection failed: 502 Bad Gateway>"
+ },
+ "https://www.wikiwand.com/en/articles/Dell_XPS_730x": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.wikiwand.com/en/articles/Dell_XPS_730x",
+  "error": "URLError: <urlopen error Tunnel connection failed: 502 Bad Gateway>"
+ },
+ "https://www.dell.com/zh-cn/shop/cty/dell/spd/g-series-16-7630-laptop": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.dell.com/zh-cn/shop/cty/spd/g-series-16-7630-laptop"
+ },
+ "https://www.dell.com/zh-hk/shop/%E9%81%8A%E6%88%B2%E5%B0%88%E7%94%A8%E7%AD%86%E8%A8%98%E5%9E%8B%E9%9B%BB%E8%85%A6/alienware-x15-r2-%E9%81%8A%E6%88%B2%E5%B0%88%E7%94%A8%E7%AD%86%E8%A8%98%E5%9E%8B%E9%9B%BB%E8%85%A6/spd/alienware-x15-r2-laptop/alwx15r2-d1980r": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.dell.com/zh-hk/shop/%E9%81%8A%E6%88%B2%E5%B0%88%E7%94%A8%E7%AD%86%E8%A8%98%E5%9E%8B%E9%9B%BB%E8%85%A6/alienware-x15-r2-%E9%81%8A%E6%88%B2%E5%B0%88%E7%94%A8%E7%AD%86%E8%A8%98%E5%9E%8B%E9%9B%BB%E8%85%A6/spd/alienware-x15-r2-laptop/alwx15r2-d1980r",
+  "error": "HTTP 403"
+ },
+ "https://detail.zol.com.cn/series/16/21770_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/21770_1.html"
+ },
+ "https://newton.com.tw/wiki/Alienware%2016%20Area-51/65549131": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.newton.com.tw/wiki/Alienware%2016%20Area-51/65549131"
+ },
+ "https://detail.zol.com.cn/series/16/21/param_23437_15597271.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/21/param_23437_15597271.html"
+ }
+}

@@ -1,0 +1,1836 @@
+{
+  "scope": "微星游戏本 泰坦/强袭/绝影/冲锋坦克/武士/侠客 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT75|2018",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "泰坦 GT75",
+      "displayName": "微星泰坦 GT75 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-8750H",
+        "i9-8950HK"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "GTX 1070 8GB 笔记本电脑 GPU",
+        "GTX 1080 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "256GB SSD + 1TB HDD",
+        "512GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 120Hz",
+        "17.3英寸 3840x2160 60Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/GT75-Titan-8RG-002CN/Specification",
+      "sourceTitle": "GT75 Titan 8RG-002CN 规格 - 微星科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018年4月上市（ZOL产品库上市时间2018年04月）。8RG为GTX1080款、8RF为GTX1070款、8SG为顶配。4内存插槽、3个M.2+1个2.5英寸位。国内参考价：8RF-003CN 13999元、8RG-085CN 18999元、8RG-002CN 22999元、8SG-033CN 36999元（ZOL系列页）。整机4.56kg，330W适配器（i9版双230W）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT76|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "泰坦 GT76",
+      "displayName": "微星泰坦 GT76 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-9700K",
+        "i9-9900K"
+      ],
+      "ramOptions": [
+        "16GB",
+        "64GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "RTX 2070 8GB 笔记本电脑 GPU",
+        "RTX 2080 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD（512GB×2 RAID）",
+        "1TB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz",
+        "17.3英寸 1920x1080 240Hz",
+        "17.3英寸 3840x2160 60Hz"
+      ],
+      "sourceUrl": "https://us.msi.com/Laptop/GT76-Titan-9SX/Specification",
+      "sourceTitle": "Specification GT76 Titan DT (Intel 9th Gen) (GeForce RTX) - MSI",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年6月上市，桌面级i9-9900K（Z390芯片组）。DT为桌面CPU版，非DT为移动版。4内存插槽最大128GB，双230W适配器，4.2kg。海外起价3600美元、高配约4800美元（搜狗百科引外媒）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT77|2022",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "泰坦 GT77",
+      "displayName": "微星泰坦 GT77 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-12900HX"
+      ],
+      "ramOptions": [
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 3070 Ti 8GB 笔记本电脑 GPU",
+        "RTX 3080 Ti 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 3840x2160 120Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/Titan-GT77-12UHS-028CN/Specification",
+      "sourceTitle": "泰坦GT77 12UHS-028CN 规格 - 微星科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "12UHS-028CN：i9-12900HX/RTX3080Ti 16GB/64GB DDR5/2TB/17.3英寸4K 120Hz，4内存槽（最大128GB）、4个M.2（1个PCIe 5.0）。首发价：3080Ti版33999元、3070Ti版29999元（IT之家2022-06-01）。整机3.3kg，99.9Whr。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Pro|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "泰坦18 Pro",
+      "displayName": "微星泰坦18 Pro 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB",
+        "192GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "18英寸 3840x2400 120Hz"
+      ],
+      "sourceUrl": "https://m.expreview.com/92610.html",
+      "sourceTitle": "微星泰坦 18 Pro 2024游戏本上市 i9-14900HX+RTX 4080/4090，24999元起 - 超能网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024年3月上市。18英寸Mini LED釉月屏Pro（1000nits、VESA DisplayHDR 1000、100% DCI-P3）。双风扇六热管，超增压Ultra 250W（CPU 75W+GPU 175W），4内存插槽最大192GB，M.2支持PCIe 5.0。首发价：4080/32GB/2TB 24999元、4090/64GB/2TB 28999元；后续4090/192GB/4TB 36599元、8TB 40799元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Ultra AI|2025",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "泰坦18 Ultra AI",
+      "displayName": "微星泰坦18 Ultra AI 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 285HX"
+      ],
+      "ramOptions": [
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "4TB SSD",
+        "6TB SSD"
+      ],
+      "screenOptions": [
+        "18英寸 3840x2400 120Hz"
+      ],
+      "sourceUrl": "https://mini.jnnc.com/qd/h/11133535_2.html",
+      "sourceTitle": "285HX+5090典藏版5.2万元！微星五大新游戏本价格公布 - 齐鲁网",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "对应海外 Titan 18 HX AI（A2XW），国内称“泰坦18 Ultra AI 2025”，2025年3月上市（苏宁页面标注上市时间2025年03月）。Ultra 9 285HX+RTX5080/5090，18英寸4K Mini LED 120Hz、1000nits。早鸟价：5090版46999元（国补到手44999元）、5080版39999元。海外评测机A2XWJG配RTX5090 24GB GDDR7、64GB DDR5、4TB。中国区SKU命名与海外HX AI存在差异，已在uncertain标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Max|2026",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "泰坦18 Max",
+      "displayName": "微星泰坦18 Max 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 290HX Plus"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "18英寸 3840x2400 120Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/Raider-18-Max-HX-A2W/Overview",
+      "sourceTitle": "泰坦18 Max 2026 - 微星科技官网产品页",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026年3月发布、4月产品线更新（百度百科）。Ultra 9 290HX Plus（24核）+RTX5080 16GB GDDR7，超增压总功耗260W（双烤最高270W），18英寸4K Mini LED 120Hz釉月屏Pro，双雷电5，99.9Whr，2.5kg以上（约3.6kg）。京东定制版（64GB/4TB）参考价35397元。注：百度百科称4K 240Hz与官网120Hz不一致，按官网记120Hz。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE75|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "强袭 GE75",
+      "displayName": "微星强袭 GE75 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-8750H",
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 8GB 笔记本电脑 GPU",
+        "RTX 2080 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "256GB SSD + 1TB HDD",
+        "512GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/wireless_router/index1272925.shtml",
+      "sourceTitle": "msi微星GE75 Raider 9SE-640CN 参数 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年4月上市，8代（8SG/8SF/8SE）与9代（9SG/9SF/9SE）两批。9SE-640CN：i7-9750H/RTX2060 6GB/16GB DDR4/256GB+1TB/144Hz，参考价13999元；8SG-024CN 18999元、8SG-025CN 23999元、8SE-028CN 15999元。双风扇7热管Cooler Boost 5，2.6kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE66|2020",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "强袭 GE66",
+      "displayName": "微星强袭 GE66 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10750H",
+        "i9-10980HK"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 2070 8GB 笔记本电脑 GPU",
+        "RTX 2070 SUPER 8GB 笔记本电脑 GPU",
+        "RTX 2080 SUPER 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 240Hz",
+        "15.6英寸 1920x1080 300Hz"
+      ],
+      "sourceUrl": "https://tech.sina.cn/2020-04-02/detail-iimxxsth3279584.d.html",
+      "sourceTitle": "十代标压：微星刷新GS66 Stealth/GE Raider/Creator 17笔电产品线 - 新浪科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020年4月15日开售，起价1799美元（约12769元）。15.6英寸300Hz IPS、99.9Whr电池、掌托Mystic Light灯带、单键RGB赛睿键盘。海外SKU后缀10SGS/10SFS等。国内对应“强袭2 GE66”。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE76|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "强袭 GE76",
+      "displayName": "微星强袭 GE76 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-11980HK"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 360Hz",
+        "17.3英寸 3840x2160 120Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/777/7775851.html",
+      "sourceTitle": "买外星人真不如买它 同等配置便宜1万（微星强袭GE76 Raider）- 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "11代酷睿版，国内名“强袭2 GE76”。11UH-445CN：i9-11980HK/RTX3080 16GB（165W）/32GB/2TB/360Hz，京东首发到手24499元（原价25499元，2021-06-28）；同配日常价24999元。系列首发价18499元起。双风扇6热管，99.9Whr。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE68 HX|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "强袭 GE68 HX",
+      "displayName": "微星强袭 GE68 HX 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-13700HX",
+        "i9-13950HX",
+        "i9-13980HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://storage-asset.msi.com/specSheet/pl/nb/Raider%20GE68HX%2013VG-056PL.pdf",
+      "sourceTitle": "Raider GE68 HX 13V 规格 - 微星官方 PDF",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "GE68 HX 13V（13VF=4060、13VG=4070、13VH=4080、13VI=4090）。16英寸16:10 2.5K 240Hz，99.9Whr，2.71kg，双风扇6热管。澳洲13VG建议零售价5999澳元（促销3998澳元）。国内对应“泰坦GE68 HX”，与GE78 HX同代。；原来源不可访问，改用微星官方规格页/产品库页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE78 HX|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "强袭 GE78 HX",
+      "displayName": "微星强袭 GE78 HX 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-13980HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "17英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "http://digital.intozgc.com/202302/10/155880.html",
+      "sourceTitle": "微星笔记本13th+RTX40新品媒体抢鲜会：首发配置/售价 - 走进中关村",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国内名“泰坦GE78HX”，2023年2月首发。i9-13980HX+RTX4090/64GB/2TB/2.5K 240Hz首发33999元；4080版29899元。海外13VI（4090）/13VG（4080），17英寸16:10 QHD+ 240Hz、100% DCI-P3，99.99Whr，5kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭18 HX AI|2025",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "强袭18 HX AI",
+      "displayName": "微星强袭18 HX AI 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 285HX"
+      ],
+      "ramOptions": [
+        "64GB",
+        "96GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "18英寸 3840x2400 120Hz",
+        "18英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.pcmag.com/reviews/msi-raider-18-hx-ai",
+      "sourceTitle": "MSI Raider 18 HX AI Review - PCMag",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "A2XW系列，2025年2月上市（海外发布）。18英寸4K Mini LED 120Hz或2.5K 240Hz，双雷电5、Wi-Fi 7、PCIe 5.0，99Whr，3.6kg。美国起价3999美元（285HX/5080/64GB/4TB），5090版5099美元。国内上市时间与中文命名（强袭18 HX AI）待官方页面复核，见uncertain。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS65|2018",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影 GS65",
+      "displayName": "微星绝影 GS65 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-8750H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "GTX 1060 6GB 笔记本电脑 GPU",
+        "GTX 1070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/GS65-Stealth-Thin-8RF-012CN/Specification",
+      "sourceTitle": "GS65 Stealth Thin 8RF-012CN 规格 - 微星科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018年4月上市，8RF（GTX1070 Max-Q 8GB）/8RE（GTX1060 6GB）。17.9mm、1.8kg、4芯电池、180W Slim适配器、三风扇四热管。8RF-012CN为16GB/512GB版本；GS65 8RF-002JP为16GB(8GB×2)/512GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS75|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影 GS75",
+      "displayName": "微星绝影 GS75 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 8GB 笔记本电脑 GPU",
+        "RTX 2080 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://shop.zol.com/shop_214550/35030294.html",
+      "sourceTitle": "msi微星GS75 Stealth 9SG-481CN 参数 - ZOL商城",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年4月上市，均为Max-Q显卡。9SG-481CN：i7-9750H/RTX2080 Max-Q 8GB/32GB(16GB×2)/1TB/144Hz，2.25kg、18.95mm、82Whr、230W适配器。CES 2019发布，17.3英寸144Hz IPS、三M.2插槽。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS66|2020",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影 GS66",
+      "displayName": "微星绝影 GS66 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10750H",
+        "i9-10980HK"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 8GB 笔记本电脑 GPU",
+        "RTX 2070 SUPER 8GB 笔记本电脑 GPU",
+        "RTX 2080 SUPER 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz",
+        "15.6英寸 1920x1080 240Hz",
+        "15.6英寸 1920x1080 300Hz"
+      ],
+      "sourceUrl": "https://m.expreview.com/74542.html",
+      "sourceTitle": "微星绝影2 GS66轻薄游戏本评测 - 超能网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国内名“绝影2 GS66”，2020年4月26日首发。19.8mm、2.1kg、99.9Whr、100W PD、三风扇七热管Cooler Boost Trinity+、2个M.2。国内价格区间10999元（i7+1660Ti+16GB+512GB+144Hz）至27999元（i9+2080S+32GB+2TB+300Hz）；i7+2060+16GB+512GB+240Hz 11999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS76|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影 GS76",
+      "displayName": "微星绝影 GS76 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-11800H",
+        "i9-11900H",
+        "i9-11980HK"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 360Hz",
+        "17.3英寸 2560x1440 165Hz",
+        "17.3英寸 2560x1440 240Hz",
+        "17.3英寸 3840x2160 120Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/GS76%20-11UH-071CN/Specification",
+      "sourceTitle": "绝影GS76 11UH-071CN 规格 - 微星科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021年5月发布，20.25mm、2.45kg、99.9Whr、三风扇Cooler Boost Trinity+、2个DDR4插槽（最大64GB）。11UH-071CN：i9-11900H/RTX3080 16GB/64GB(32GB×2)/2TB/4K 120Hz。系列首发价13599元起，首发直降800元至12799元；海外i7+3060版1999美元起、i9+4K+3080版3999美元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 Stealth 15M|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影 Stealth 15M",
+      "displayName": "微星绝影 Stealth 15M 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-1185G7",
+        "i7-11375H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU（Max-Q）",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "http://www.vrrb.cn/kuaixun/diannao/20210318/125871.html",
+      "sourceTitle": "微星Stealth 15M上市 搭载15.6英寸1080p 144Hz屏 - VR日报（转IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "A11UEK/A11UET。16.15mm、1.7kg、52Whr、雷电4、100W PD、最大64GB DDR4。2020年底首版为i7-1185G7+RTX2060 Max-Q，首发10999元；2021年3月升级i7-11375H+RTX3060，售价9499元。两个配置同属Stealth 15M模具，按同一机型合并，年份取2021（国内主销版本）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影16 Studio|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影16 Studio",
+      "displayName": "微星绝影16 Studio 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-13700H",
+        "i9-13900H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz",
+        "16英寸 3840x2400 120Hz"
+      ],
+      "sourceUrl": "https://tw.msi.com/index.php/Laptop/Stealth-16-Studio-A13VX/Specification",
+      "sourceTitle": "Stealth 16 Studio A13V 规格 - MSI",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "19.9mm、1.9kg、99.9Whr、双风扇五热管、2内存插槽（DDR5-5200，最大64GB）、2个M.2。国内首发：i7-13700H+RTX4060+16GB+1TB 14999元；i9-13900H+RTX4070 16999元。另有Mercedes-AMG Motorsport联名限量版（A13VG，4K OLED 60Hz，台湾84900新台币）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影16 AI|2025",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "绝影16 AI",
+      "displayName": "微星绝影16 AI 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 285H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/Stealth-16-AI-A2HWX/",
+      "sourceTitle": "绝影16 AI 2025 - 微星科技官网产品页",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "A2HWX/A2HWGG，2025年1月规格书、6月国内开售。16英寸16:10 QHD+ OLED 240Hz（100% DCI-P3、DisplayHDR True Black 600）。19.95mm、2.1kg、99.9Whr、6扬声器（2×2W+4×2W）、雷电4、Wi-Fi 7。A2HWGG-039CN：Ultra 9 285H/RTX5070 8GB GDDR7/16GB DDR5/1TB。京东参考价13399元（活动价低至12399元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP66|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "冲锋坦克 GP66",
+      "displayName": "微星冲锋坦克 GP66 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/551/072.htm",
+      "sourceTitle": "微星 11th 笔记本 7 款新品预售，早鸟计划再送 300 元 Steam 游戏礼券 - IT之家",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国内名“冲锋坦克Pro GP66”，2021年6月随RTX30换新模具。GP66 11UG：i7-11800H+RTX3070（140W）/16GB/1TB/2.5K 165Hz 100% DCI-P3。与GP76同价13699元，首发直降800元至12899元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP76|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "冲锋坦克 GP76",
+      "displayName": "微星冲锋坦克 GP76 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 240Hz",
+        "17.3英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://notebook.pconline.com.cn/1419/14197864.html",
+      "sourceTitle": "11代微星笔记本新品预售，早鸟计划再送300元Steam游戏礼券 - 太平洋科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国内名“冲锋坦克Pro GP76”，GP76 11UG：i7-11800H+RTX3070 140W/16GB/1TB，国行标称FHD 240Hz；港版同型号为17.3英寸2K 165Hz（HK$20499）。首发价13699元，直降800元至12899元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP78 HX|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "冲锋坦克 GP78 HX",
+      "displayName": "微星冲锋坦克 GP78 HX 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-13980HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "17英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.gizmochina.com/2023/05/26/msi-titan-gp78hx-gaming-notebook-core-i9-13980hx-nvidia-rtx-40-series-gpu-official",
+      "sourceTitle": "MSI Titan GP78HX Gaming Notebook with Core i9-13980HX and RTX 40 series GPU official - Gizmochina",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国内曾以“泰坦GP78HX”命名销售（2023-05-25发布），海外为Vector GP78 HX 13V。i9-13980HX+RTX4060/4070/4080/4090，17英寸2.5K 240Hz 100% DCI-P3，90Whr、100W PD、双风扇五热管、250W释放。首发价：4060 11299元、4070 13999元、4080 18999元、4090 24999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 Vector 16 HX|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "冲锋坦克 Vector 16 HX",
+      "displayName": "微星冲锋坦克 Vector 16 HX 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://us.msi.com/Laptop/Vector-16-HX-A14VX",
+      "sourceTitle": "Vector 16 HX A14VX - 微星官方产品页",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "A14VHG，2024年2月上市。16英寸16:10 2.5K 240Hz、100% DCI-P3、90Whr、2.7kg、雷电4、Wi-Fi 7、2内存插槽。美国：4080/32GB/1TB 2699美元，4060/16GB 1799美元起；马来西亚A14VHG-837（4080/32GB/2TB）RM11499。；原来源不可访问，改用微星官方规格页/产品库页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF63|2018",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "武士 GF63",
+      "displayName": "微星武士 GF63 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050 Ti 4GB 笔记本电脑 GPU（Max-Q）"
+      ],
+      "storageOptions": [
+        "128GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Laptop/GF63-8RX/Specification",
+      "sourceTitle": "GF63 8RD-001CN 规格 - 微星科技",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018年7月上市（ZOL），4.9mm窄边框、21.7mm、1.86kg、3芯51Whr、120W适配器。8RD-001CN：i7-8750H/GTX1050Ti Max-Q/8GB/128GB+1TB，参考价7499元（促销7299元）。海外名GF63 Thin 8RD/Leopard GF63。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF75|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "武士 GF75",
+      "displayName": "微星武士 GF75 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-9300H",
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1268419.shtml",
+      "sourceTitle": "msi微星GF75 Thin 9SC-069CN 参数 - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019年4月上市，17.3英寸88%屏占比、5mm窄边框、22-23.1mm、2.2kg、镁铝合金。9SC-069CN（i7-9750H/8GB/512GB/GTX1650）7499元；9SC-070CN（i5-9300H）6299元。双内存插槽最大32GB（i5版标称64GB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF66|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "武士 GF66",
+      "displayName": "微星武士 GF66 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-11400H",
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://tw.msi.com/Laptop/Katana-GF66-11UX/Specification",
+      "sourceTitle": "Specification Katana GF66 - MSI",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021年5月上市（百科），国内称“武士66”，海外Katana GF66。15.6英寸144Hz、24.9mm、2.25kg、53.5Whr、2内存插槽最大64GB、双风扇6热管。11UE=3060、11UD=3050Ti、11UC=3050。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF76|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "武士 GF76",
+      "displayName": "微星武士 GF76 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://www.msi.com/Laptop/Katana-GF76-11UX/Specification",
+      "sourceTitle": "MSI Katana GF76 Specification - MSI",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021年7月23日上市，国内称“武士76”。17.3英寸144Hz、25.2mm、2.6kg、53.5Whr（11UG可选90Whr）、2内存插槽最大64GB。11UG=3070、11UE=3060、11UD=3050Ti、11UC=3050。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 Katana 15|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "武士 Katana 15",
+      "displayName": "微星武士 Katana 15 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-13620H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz",
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://jp.msi.com/news/detail/Katana-15-B13VFK-2301JP-141752",
+      "sourceTitle": "Katana 15 B13VFK-2301JP 製品情報 - MSI Japan",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "B13V系列，2023年5月18日上市（日本）。15.6英寸、24.9mm、2.25kg、53.5Whr、4区RGB键盘。B13VFK：i7-13620H/RTX4060，日版32GB/1TB/2.5K 165Hz 259800日元；美版16GB/512GB/FHD 144Hz 899美元；澳洲B13VFK-1872AU 1449澳元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 Katana 15 HX|2025",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "武士 Katana 15 HX",
+      "displayName": "微星武士 Katana 15 HX 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-14450HX",
+        "i7-14650HX",
+        "i7-14700HX",
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://my-store.msi.com/collections/sword-katana-series/products/msi-katana-15-hx-b14wfk-289-gaming-laptop",
+      "sourceTitle": "MSI Katana 15 HX B14WFK-289MY Gaming Laptop - MSI Malaysia Store",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "B14W系列，2025年上市。15.6英寸2.5K 165Hz 100% DCI-P3、25.5mm、2.4kg、75Whr 4芯、240W适配器、双风扇5热管（共享热管）。B14WFK-289MY：i7-14650HX/RTX5060/8GB DDR5/512GB RM6199；港版B14WFK（i5-14450HX/5060/16GB/1TB）12999港币、B14WGK（5070）13999港币；台版B14WFK-884TW（i7-14700HX/5060）62900新台币。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2020",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "侠客 Bravo 15",
+      "displayName": "微星侠客 Bravo 15 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ryzen 5 4600H",
+        "Ryzen 7 4800H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RX 5500M 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 120Hz",
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/",
+      "sourceTitle": "You Can Pre-Order MSI's New Budget Gaming Laptops（Bravo 15/17）- GameSpot",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Bravo 15 于2020年5月8日开售（A4Dx/B5DD），非2019年；2019年的AMD机型是Alpha 15（另一系列，未收录）。15.6英寸FHD 120Hz FreeSync、2内存插槽。美国：R5 4600H/8GB/512GB 929美元，R7 4800H/16GB/512GB 999美元；B5DD（Ryzen 5000）为后续升级款，最大64GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 17|2020",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "侠客 Bravo 17",
+      "displayName": "微星侠客 Bravo 17 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ryzen 7 4800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RX 5500M 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD + 1TB HDD"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920x1080 120Hz"
+      ],
+      "sourceUrl": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/",
+      "sourceTitle": "You Can Pre-Order MSI's New Budget Gaming Laptops（Bravo 15/17）- GameSpot",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2020年5月8日与Bravo 15同步开售，仅一个配置：R7 4800H/16GB/RX5500M/512GB SSD+1TB HDD/17.3英寸FHD 120Hz FreeSync，1099美元。国内“侠客17”渠道信息较少，价格与国行SKU待补。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "侠客 Bravo 15",
+      "displayName": "微星侠客 Bravo 15 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ryzen 5 7535HS",
+        "Ryzen 7 7735HS"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RX 6550M 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://www.smartprix.com/laptops/msi_bravo_15_c7vek_088in_gamin_vs_lenovo_loq_83jc00mvin_gaming_l-cpd1v90e7j4u_pd142tgcukp.php",
+      "sourceTitle": "MSI Bravo 15 C7VEK-088IN 规格与价格 - Smartprix",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "C7V系列（2023）。15.6英寸FHD 144Hz 300nits 100% sRGB、24.9mm、2.25kg、DDR5、Wi-Fi 6E。美国RRP 899.99美元（BRAVO15B7001，R7 7735HS/16GB/512GB/RX6550M）；印度C7VEK-088IN（R7 7735HS/16GB/1TB）84490卢比；R5 7535HS版70990卢比。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT75|2018",
+      "cpu": "i7-8750H",
+      "ram": "32GB",
+      "gpu": "GTX 1080 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD + 1TB HDD",
+      "screen": "17.3英寸 1920x1080 120Hz",
+      "sourceUrl": "https://shop.zol.com/shop_214084/34696172.html",
+      "sourceTitle": "msi微星GT75 8RG-271CN 商品参数 - ZOL商城",
+      "confidence": "high",
+      "notes": "GT75 8RG-271CN，DDR4 2666，8芯电池，330W适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT75|2018",
+      "cpu": "i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1080 8GB 笔记本电脑 GPU",
+      "storage": "256GB SSD + 1TB HDD",
+      "screen": "17.3英寸 1920x1080 120Hz",
+      "sourceUrl": "https://www.msi.cn/Laptop/GT75-Titan-8RG-002CN/Specification",
+      "sourceTitle": "GT75 Titan 8RG-002CN 规格 - 微星科技",
+      "confidence": "high",
+      "notes": "8RG-002CN，国内参考价22999元（ZOL）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT76|2019",
+      "cpu": "i9-9900K",
+      "ram": "64GB",
+      "gpu": "RTX 2080 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD（512GB×2 RAID）+ 1TB HDD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "https://us.msi.com/Laptop/GT76-Titan-9SX/Specification",
+      "sourceTitle": "GT76 TITAN DT-006 规格 - MSI US",
+      "confidence": "high",
+      "notes": "GT76 DT-006（桌面i9-9900K/Z390），海外起价约3600美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT76|2019",
+      "cpu": "i7-9700K",
+      "ram": "16GB",
+      "gpu": "RTX 2070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "https://us.msi.com/Laptop/GT76-Titan-9SX/Specification",
+      "sourceTitle": "GT76 TITAN DT-230 规格 - MSI US",
+      "confidence": "high",
+      "notes": "GT76 DT-230，入门配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT77|2022",
+      "cpu": "i9-12900HX",
+      "ram": "64GB",
+      "gpu": "RTX 3080 Ti 16GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "17.3英寸 3840x2160 120Hz",
+      "sourceUrl": "https://i.ifeng.com/c/8GUt5drxQOF",
+      "sourceTitle": "微星泰坦GT77旗舰游戏本上架：i9-12900HX+RTX 3080 Ti（IT之家）- 凤凰网",
+      "confidence": "high",
+      "notes": "首发价33999元（2022-06-07发布）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦 GT77|2022",
+      "cpu": "i9-12900HX",
+      "ram": "64GB",
+      "gpu": "RTX 3070 Ti 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "17.3英寸 3840x2160 120Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10720667_1.html",
+      "sourceTitle": "msi微星泰坦GT77系列参数与报价 - 中关村在线",
+      "confidence": "high",
+      "notes": "首发价29999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Pro|2024",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://m.expreview.com/92610.html",
+      "sourceTitle": "微星泰坦 18 Pro 2024游戏本上市 - 超能网",
+      "confidence": "high",
+      "notes": "首发价24999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Pro|2024",
+      "cpu": "i9-14900HX",
+      "ram": "64GB",
+      "gpu": "RTX 4090 16GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7342702181717623332",
+      "sourceTitle": "微星泰坦 18 Pro 笔记本上架：i9-14900HX+RTX4080/90，售价24999元起（IT之家）- 今日头条",
+      "confidence": "high",
+      "notes": "首发价28999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Pro|2024",
+      "cpu": "i9-14900HX",
+      "ram": "192GB",
+      "gpu": "RTX 4090 16GB 笔记本电脑 GPU",
+      "storage": "4TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://m.expreview.com/93580.html",
+      "sourceTitle": "微星泰坦 18 Pro 2024游戏本新配置 i9-14900HX+RTX4090+192GB，36599元起 - 超能网",
+      "confidence": "high",
+      "notes": "首发价36599元（8TB版40799元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Ultra AI|2025",
+      "cpu": "Ultra 9 285HX",
+      "ram": "64GB",
+      "gpu": "RTX 5090 24GB 笔记本电脑 GPU",
+      "storage": "6TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "http://www.51menmen.com/goodsdetail/single/677011686393043271",
+      "sourceTitle": "微星泰坦18Ultra AI 2025 Ultra9-285HX/RTX5090/64GB/6TB/4K/120Hz 商品页（苏宁自营）",
+      "confidence": "medium",
+      "notes": "早鸟价46999元，国补到手44999元（2025-03-31价格公布）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Ultra AI|2025",
+      "cpu": "Ultra 9 285HX",
+      "ram": "64GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "4TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://mini.jnnc.com/qd/h/11133535_2.html",
+      "sourceTitle": "285HX+5090典藏版5.2万元！微星五大新游戏本价格公布 - 齐鲁网",
+      "confidence": "medium",
+      "notes": "早鸟价39999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|泰坦18 Max|2026",
+      "cpu": "Ultra 9 290HX Plus",
+      "ram": "64GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "4TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwQAV19VC08eBl8IGlgVWA4BUVlfCUgXAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8NE1gQWgQDV15cFxJSXzI4eFsSKnNCFyk_e1ESAW1ObUVgDkRjJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh8QVDgBTlhFVFEEXF1YCUonA244WjUVXAUAVlpbC3sWM28OE1kUXA8GU19eD00nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsMG1xGXGheEx9fCUlBUwEKE14dXQQDUm5fCUoVAV84KyJBPV9AMwwiezdjdAhhaBlFK1NrIzkYbStkagRBezUXLnkDEyEBTBtIRxNxfyV9FlQyVG5aDkonAl8",
+      "sourceTitle": "微星(MSI)泰坦18Max 游戏本 U9-290HX Plus/RTX5080/64G/4TB 京东商品页",
+      "confidence": "medium",
+      "notes": "京东微星电脑旗舰店定制配置，页面价35397元，历史最低35099元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE75|2019",
+      "cpu": "i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD + 1TB HDD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/wireless_router/index1272925.shtml",
+      "sourceTitle": "msi微星GE75 Raider 9SE-640CN 参数 - 中关村在线",
+      "confidence": "high",
+      "notes": "9SE-640CN，参考价13999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE66|2020",
+      "cpu": "i7-10750H",
+      "ram": "32GB",
+      "gpu": "RTX 2080 SUPER 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 300Hz",
+      "sourceUrl": "https://tech.sina.cn/2020-04-02/detail-iimxxsth3279584.d.html",
+      "sourceTitle": "十代标压：微星刷新GS66 Stealth/GE Raider/Creator 17笔电产品线 - 新浪科技",
+      "confidence": "high",
+      "notes": "美国起价1799美元（2020-04-15开售）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE76|2021",
+      "cpu": "i9-11980HK",
+      "ram": "32GB",
+      "gpu": "RTX 3080 16GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "17.3英寸 1920x1080 360Hz",
+      "sourceUrl": "https://weibo.com/2108645364/KmeKXgXZN",
+      "sourceTitle": "强袭GE76首发抢购（11UH-445CN 配置与价格）- 微星官方微博",
+      "confidence": "high",
+      "notes": "11UH-445CN，京东首发到手24499元（原价25499元，2021-06-28）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE68 HX|2023",
+      "cpu": "i9-13980HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://storage-asset.msi.com/specSheet/pl/nb/Raider%20GE68HX%2013VG-056PL.pdf",
+      "sourceTitle": "Raider GE68 HX 13V 规格 - 微星官方 PDF",
+      "confidence": "medium",
+      "notes": "13VG，澳洲RRP 5999澳元（促销3998澳元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE78 HX|2023",
+      "cpu": "i9-13980HX",
+      "ram": "64GB",
+      "gpu": "RTX 4090 16GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "17英寸 2560x1600 240Hz",
+      "sourceUrl": "http://digital.intozgc.com/202302/10/155880.html",
+      "sourceTitle": "微星笔记本13th+RTX40新品媒体抢鲜会：首发配置/售价 - 走进中关村",
+      "confidence": "high",
+      "notes": "泰坦GE78HX，首发价33999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭 GE78 HX|2023",
+      "cpu": "i9-13980HX",
+      "ram": "64GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "17英寸 2560x1600 240Hz",
+      "sourceUrl": "https://nextrift.com?p=25810/",
+      "sourceTitle": "MSI Raider GE78HX Is an RTX 4090 Gaming Behemoth for RM24,999 - Nextrift",
+      "confidence": "high",
+      "notes": "国内4080版首发29899元；马来西亚4090版RM24999。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭18 HX AI|2025",
+      "cpu": "Ultra 9 285HX",
+      "ram": "64GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "4TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://www.pcmag.com/reviews/msi-raider-18-hx-ai",
+      "sourceTitle": "MSI Raider 18 HX AI Review - PCMag",
+      "confidence": "high",
+      "notes": "美国3999美元起（双2TB RAID 0，其中1条PCIe 5.0）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|强袭18 HX AI|2025",
+      "cpu": "Ultra 9 285HX",
+      "ram": "64GB",
+      "gpu": "RTX 5090 24GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "18英寸 3840x2400 120Hz",
+      "sourceUrl": "https://laptopmedia.com/cn/laptop-specs/msi-raider-18-hx-ai-3",
+      "sourceTitle": "MSI Raider 18 HX AI 规格 - LaptopMedia",
+      "confidence": "high",
+      "notes": "美国5099美元（A2XWJG）；欧洲建议价4399欧元（A2XWJG-232NL）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS65|2018",
+      "cpu": "i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.msi.cn/Laptop/GS65-Stealth-Thin-8RF-012CN/Specification",
+      "sourceTitle": "GS65 Stealth Thin 8RF-012CN 规格 - 微星科技",
+      "confidence": "high",
+      "notes": "8RF-012CN 国行配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS75|2019",
+      "cpu": "i7-9750H",
+      "ram": "32GB",
+      "gpu": "RTX 2080 8GB 笔记本电脑 GPU（Max-Q）",
+      "storage": "1TB SSD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "https://shop.zol.com/shop_214550/35030294.html",
+      "sourceTitle": "msi微星GS75 Stealth 9SG-481CN 参数 - ZOL商城",
+      "confidence": "high",
+      "notes": "9SG-481CN。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS66|2020",
+      "cpu": "i7-10750H",
+      "ram": "16GB",
+      "gpu": "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.zybuluo.com/arh397996954/note/1731255",
+      "sourceTitle": "绝影2 GS66 配置与京东自营价格（2020新生购机指南）- 作业部落",
+      "confidence": "medium",
+      "notes": "10999元；i7+2060+16GB+512GB+240Hz 11999元；i9+2080S+32GB+2TB+300Hz 27999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS66|2020",
+      "cpu": "i9-10980HK",
+      "ram": "32GB",
+      "gpu": "RTX 2080 SUPER 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "15.6英寸 1920x1080 300Hz",
+      "sourceUrl": "https://m.expreview.com/74542.html",
+      "sourceTitle": "微星绝影2 GS66轻薄游戏本评测 - 超能网",
+      "confidence": "high",
+      "notes": "顶配官方价27999元；首发日（4/26）直降500元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 GS76|2021",
+      "cpu": "i9-11900H",
+      "ram": "64GB",
+      "gpu": "RTX 3080 16GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "17.3英寸 3840x2160 120Hz",
+      "sourceUrl": "https://www.msi.cn/Laptop/GS76%20-11UH-071CN/Specification",
+      "sourceTitle": "绝影GS76 11UH-071CN 规格 - 微星科技",
+      "confidence": "high",
+      "notes": "11UH-071CN，系列首发价13599元起、首发直降800元至12799元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影 Stealth 15M|2021",
+      "cpu": "i7-11375H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "http://www.vrrb.cn/kuaixun/diannao/20210318/125871.html",
+      "sourceTitle": "微星Stealth 15M上市 搭载15.6英寸1080p 144Hz屏 - VR日报",
+      "confidence": "high",
+      "notes": "9499元（2021-03）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影16 Studio|2023",
+      "cpu": "i7-13700H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=Mzg5NDA0MjA1NQ==&mid=2247504517&idx=1&sn=1bc5041bc27617b0933901519b25c565&chksm=c027382df750b13b631cd336ad695d6244d2c085bcc322cc23c04af114a38ddfa17042961e81#rd",
+      "sourceTitle": "ROG幻16的挑战者！微星绝影16 Studio是否值得选？",
+      "confidence": "high",
+      "notes": "首发价14999元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影16 Studio|2023",
+      "cpu": "i9-13900H",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://tw.msi.com/index.php/Laptop/Stealth-16-Studio-A13VX/Specification",
+      "sourceTitle": "Stealth 16 Studio A13V 规格（A13VG-049TW）- MSI",
+      "confidence": "high",
+      "notes": "国行首发价16999元；A13VG另有16英寸4K 120Hz/2TB版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|绝影16 AI|2025",
+      "cpu": "Ultra 9 285H",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/cn/nb/%E7%BB%9D%E5%BD%B116%20AI%20A2HWGG-039CN%28Stealth%2016%20AI%20A2HWGG-039CN%29.pdf",
+      "sourceTitle": "绝影16 AI A2HWGG-039CN 规格表 - 微星科技",
+      "confidence": "high",
+      "notes": "京东参考价13399元，活动最低约11899-12399元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP66|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.ithome.com/0/551/072.htm",
+      "sourceTitle": "微星 11th 笔记本 7 款新品预售 - IT之家",
+      "confidence": "high",
+      "notes": "GP66 11UG，促销价13699元、首发达12899元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP76|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "17.3英寸 1920x1080 240Hz",
+      "sourceUrl": "https://g.pconline.com.cn/zhikeji/article/264325",
+      "sourceTitle": "微星公布7款笔记本 搭载Intel 11代酷睿H45处理器 - 太平洋电脑网",
+      "confidence": "high",
+      "notes": "GP76 11UG，首发价12899元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP78 HX|2023",
+      "cpu": "i9-13980HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "17英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.gizmochina.com/2023/05/26/msi-titan-gp78hx-gaming-notebook-core-i9-13980hx-nvidia-rtx-40-series-gpu-official",
+      "sourceTitle": "MSI Titan GP78HX Gaming Notebook official - Gizmochina",
+      "confidence": "high",
+      "notes": "首发价11299元（4070 13999元、4080 18999元、4090 24999元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|冲锋坦克 Vector 16 HX|2024",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://us.msi.com/Laptop/Vector-16-HX-A14VX",
+      "sourceTitle": "Vector 16 HX A14VX - 微星官方产品页",
+      "confidence": "high",
+      "notes": "A14VHG，2699美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF63|2018",
+      "cpu": "i7-8750H",
+      "ram": "8GB",
+      "gpu": "GTX 1050 Ti 4GB 笔记本电脑 GPU（Max-Q）",
+      "storage": "128GB SSD + 1TB HDD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_59227/35286686.html",
+      "sourceTitle": "msi微星 GF63 8RD-001CN 商品参数与价格 - ZOL商城",
+      "confidence": "high",
+      "notes": "8RD-001CN，7499元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF75|2019",
+      "cpu": "i7-9750H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "17.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1268419.shtml",
+      "sourceTitle": "msi微星GF75 Thin 9SC-069CN 参数 - 中关村在线",
+      "confidence": "high",
+      "notes": "9SC-069CN，7499元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF75|2019",
+      "cpu": "i5-9300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "17.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/Intelligentvoiceassistant/index1271310.shtml",
+      "sourceTitle": "msi微星GF75 Thin 9SC-070CN 参数 - 中关村在线",
+      "confidence": "high",
+      "notes": "9SC-070CN，6299元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF66|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://mobilexfiles.com/notebooks/msi/msi_gaming_gf66_11uc-811nl_katana/",
+      "sourceTitle": "Specification MSI Gaming GF66 11UC-811NL Katana - MobileXfiles",
+      "confidence": "high",
+      "notes": "GF66 11UC-811NL，2021-08-09上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 GF76|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "17.3英寸 1920x1080 144Hz",
+      "sourceUrl": "https://storage-asset.msi.com/specSheet/pl/nb/Katana%20GF76%2011UC-467XPL.pdf",
+      "sourceTitle": "MSI Katana GF76 11UC-467XPL 规格表 - MSI",
+      "confidence": "high",
+      "notes": "GF76 11UC-467XPL，DDR4-3200 8GB单条。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 Katana 15|2023",
+      "cpu": "i7-13620H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://specpair.com/product/msi-katana-15",
+      "sourceTitle": "MSI Katana 15 规格与售价 - SpecPair",
+      "confidence": "medium",
+      "notes": "B13V，美国899美元；1TB版为nnlaptops等渠道配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 Katana 15|2023",
+      "cpu": "i7-13620H",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://jp.msi.com/news/detail/Katana-15-B13VFK-2301JP-141752",
+      "sourceTitle": "Katana 15 B13VFK-2301JP 製品情報 - MSI Japan",
+      "confidence": "high",
+      "notes": "日版259800日元（含税）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 Katana 15 HX|2025",
+      "cpu": "i7-14650HX",
+      "ram": "8GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://my-store.msi.com/collections/sword-katana-series/products/msi-katana-15-hx-b14wfk-289-gaming-laptop",
+      "sourceTitle": "MSI Katana 15 HX B14WFK-289MY - MSI Malaysia Store",
+      "confidence": "high",
+      "notes": "B14WFK-289MY，RM6199。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|武士 Katana 15 HX|2025",
+      "cpu": "i5-14450HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://hk.msi.com/Promotion/hk-chinese-new-year-promo-2026",
+      "sourceTitle": "2026 MSI 香港 新春限定優惠 - MSI HK",
+      "confidence": "high",
+      "notes": "B14WFK，HK$12999（优惠价11499）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2020",
+      "cpu": "Ryzen 5 4600H",
+      "ram": "8GB",
+      "gpu": "RX 5500M 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 120Hz",
+      "sourceUrl": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/",
+      "sourceTitle": "You Can Pre-Order MSI's New Budget Gaming Laptops - GameSpot",
+      "confidence": "high",
+      "notes": "929美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2020",
+      "cpu": "Ryzen 7 4800H",
+      "ram": "16GB",
+      "gpu": "RX 5500M 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 120Hz",
+      "sourceUrl": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/",
+      "sourceTitle": "You Can Pre-Order MSI's New Budget Gaming Laptops - GameSpot",
+      "confidence": "high",
+      "notes": "999美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 17|2020",
+      "cpu": "Ryzen 7 4800H",
+      "ram": "16GB",
+      "gpu": "RX 5500M 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD + 1TB HDD",
+      "screen": "17.3英寸 1920x1080 120Hz",
+      "sourceUrl": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/",
+      "sourceTitle": "You Can Pre-Order MSI's New Budget Gaming Laptops - GameSpot",
+      "confidence": "high",
+      "notes": "1099美元，唯一配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2023",
+      "cpu": "Ryzen 7 7735HS",
+      "ram": "16GB",
+      "gpu": "RX 6550M 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.megadiscountsales.com/products/MSI-%252d-Bravo-15-15.6%22-144hz-Gaming-Laptop-FHD-Ryzen-7%252d7735HS-Radeon-RX6550M-16GB-Memory-with-512GB-SSD-%252d-Black.html",
+      "sourceTitle": "MSI Bravo 15 15.6\" 144Hz Ryzen 7-7735HS Radeon RX6550M 16GB/512GB - Mega Discount Sales",
+      "confidence": "medium",
+      "notes": "BRAVO15B7001，RRP 899.99美元，促销759.99美元。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "微星泰坦",
+      "modelKey": "笔记本电脑|微星|泰坦 GT77|2022",
+      "aliasType": "系列简称",
+      "note": "泛指泰坦Titan系列，最常指向GT77/泰坦18"
+    },
+    {
+      "alias": "MSI Titan GT77",
+      "modelKey": "笔记本电脑|微星|泰坦 GT77|2022",
+      "aliasType": "英文型号",
+      "note": "海外名Titan GT77 12UHS"
+    },
+    {
+      "alias": "泰坦GT76",
+      "modelKey": "笔记本电脑|微星|泰坦 GT76|2019",
+      "aliasType": "搜索写法",
+      "note": "GT76 Titan DT 9SG/9SF"
+    },
+    {
+      "alias": "GT75 Titan",
+      "modelKey": "笔记本电脑|微星|泰坦 GT75|2018",
+      "aliasType": "英文型号",
+      "note": "GT75 8RG/8RF/8SG"
+    },
+    {
+      "alias": "微星泰坦18",
+      "modelKey": "笔记本电脑|微星|泰坦18 Pro|2024",
+      "aliasType": "系列简称",
+      "note": "可指泰坦18 Pro 2024或泰坦18 2026，采购需按年份区分"
+    },
+    {
+      "alias": "Titan 18 HX",
+      "modelKey": "笔记本电脑|微星|泰坦18 Ultra AI|2025",
+      "aliasType": "英文型号",
+      "note": "海外A2XW系列，国内称泰坦18 Ultra AI"
+    },
+    {
+      "alias": "泰坦18 Ultra",
+      "modelKey": "笔记本电脑|微星|泰坦18 Ultra AI|2025",
+      "aliasType": "搜索写法",
+      "note": "京东商品名“泰坦18Ultra AI 2025”"
+    },
+    {
+      "alias": "泰坦18 Max",
+      "modelKey": "笔记本电脑|微星|泰坦18 Max|2026",
+      "aliasType": "搜索写法",
+      "note": "2026年3月发布，A2W平台"
+    },
+    {
+      "alias": "强袭GE76",
+      "modelKey": "笔记本电脑|微星|强袭 GE76|2021",
+      "aliasType": "搜索写法",
+      "note": "国内亦称强袭2 GE76"
+    },
+    {
+      "alias": "强袭GE66",
+      "modelKey": "笔记本电脑|微星|强袭 GE66|2020",
+      "aliasType": "搜索写法",
+      "note": "GE66 Raider 10SGS/10SFS"
+    },
+    {
+      "alias": "GE75 Raider",
+      "modelKey": "笔记本电脑|微星|强袭 GE75|2019",
+      "aliasType": "英文型号",
+      "note": "9SE/9SF/9SG与8SE/8SF/8SG"
+    },
+    {
+      "alias": "泰坦GE78HX",
+      "modelKey": "笔记本电脑|微星|强袭 GE78 HX|2023",
+      "aliasType": "国内命名",
+      "note": "国行曾用“泰坦GE78HX”，海外Raider GE78 HX 13V"
+    },
+    {
+      "alias": "强袭18 HX AI",
+      "modelKey": "笔记本电脑|微星|强袭18 HX AI|2025",
+      "aliasType": "搜索写法",
+      "note": "海外Raider 18 HX AI A2XW"
+    },
+    {
+      "alias": "绝影GS66",
+      "modelKey": "笔记本电脑|微星|绝影 GS66|2020",
+      "aliasType": "搜索写法",
+      "note": "国内亦称绝影2 GS66"
+    },
+    {
+      "alias": "绝影GS65",
+      "modelKey": "笔记本电脑|微星|绝影 GS65|2018",
+      "aliasType": "搜索写法",
+      "note": "GS65 Stealth Thin 8RF/8RE"
+    },
+    {
+      "alias": "GS75 Stealth",
+      "modelKey": "笔记本电脑|微星|绝影 GS75|2019",
+      "aliasType": "英文型号",
+      "note": "9SG/9SE/9SD"
+    },
+    {
+      "alias": "Stealth 16 Studio",
+      "modelKey": "笔记本电脑|微星|绝影16 Studio|2023",
+      "aliasType": "英文型号",
+      "note": "A13VF/A13VG，另有Mercedes-AMG联名版"
+    },
+    {
+      "alias": "绝影16",
+      "modelKey": "笔记本电脑|微星|绝影16 AI|2025",
+      "aliasType": "系列简称",
+      "note": "2025款为绝影16 AI（A2HWX），2023款为绝影16 Studio"
+    },
+    {
+      "alias": "Stealth 15M",
+      "modelKey": "笔记本电脑|微星|绝影 Stealth 15M|2021",
+      "aliasType": "英文型号",
+      "note": "A11UEK/A11UET"
+    },
+    {
+      "alias": "冲锋坦克GP76",
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP76|2021",
+      "aliasType": "搜索写法",
+      "note": "国行名冲锋坦克Pro GP76"
+    },
+    {
+      "alias": "冲锋坦克GP66",
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP66|2021",
+      "aliasType": "搜索写法",
+      "note": "国行名冲锋坦克Pro GP66"
+    },
+    {
+      "alias": "GP78 HX",
+      "modelKey": "笔记本电脑|微星|冲锋坦克 GP78 HX|2023",
+      "aliasType": "英文型号",
+      "note": "国内曾名泰坦GP78HX，海外Vector GP78 HX 13V"
+    },
+    {
+      "alias": "Vector 16 HX",
+      "modelKey": "笔记本电脑|微星|冲锋坦克 Vector 16 HX|2024",
+      "aliasType": "英文型号",
+      "note": "A14VHG/A14VHG-278US"
+    },
+    {
+      "alias": "武士GF63",
+      "modelKey": "笔记本电脑|微星|武士 GF63|2018",
+      "aliasType": "搜索写法",
+      "note": "海外GF63 Thin 8RD"
+    },
+    {
+      "alias": "武士GF66",
+      "modelKey": "笔记本电脑|微星|武士 GF66|2021",
+      "aliasType": "搜索写法",
+      "note": "国内“武士66”，海外Katana GF66 11UE/11UD/11UC"
+    },
+    {
+      "alias": "Katana 15",
+      "modelKey": "笔记本电脑|微星|武士 Katana 15|2023",
+      "aliasType": "英文型号",
+      "note": "B13V系列；2025款为Katana 15 HX B14W"
+    },
+    {
+      "alias": "Katana 15 HX",
+      "modelKey": "笔记本电脑|微星|武士 Katana 15 HX|2025",
+      "aliasType": "英文型号",
+      "note": "B14WFK/B14WGK"
+    },
+    {
+      "alias": "侠客Bravo",
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2023",
+      "aliasType": "系列简称",
+      "note": "Bravo系列统称，按年份区分2020/2023"
+    },
+    {
+      "alias": "Bravo 15",
+      "modelKey": "笔记本电脑|微星|侠客 Bravo 15|2020",
+      "aliasType": "英文型号",
+      "note": "2020款A4Dx/B5DD，2023款为C7V"
+    },
+    {
+      "alias": "微星游戏本",
+      "modelKey": "笔记本电脑|微星|强袭 GE76|2021",
+      "aliasType": "品牌泛搜",
+      "note": "泛搜词，仅作入口；实际指向需按系列细分"
+    },
+    {
+      "alias": "MSI Raider",
+      "modelKey": "笔记本电脑|微星|强袭 GE76|2021",
+      "aliasType": "系列简称",
+      "note": "海外Raider系列，含GE66/GE76/GE78/18 HX AI"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "泰坦16 AI 2025 / Vector 16 HX AI 2025",
+      "issue": "国内京东在售“泰坦16 AI 2025”（Ultra 9 275HX+RTX5070Ti，16英寸2.5K 240Hz）与海外“Vector 16 HX AI”规格高度重合，但微星中国官网未见“冲锋坦克Vector 16 HX AI 2025”独立页面，无法确认是否为同一机型换名。",
+      "suggestion": "向微星中国渠道索取2025年产品线命名对照表；确认后再决定是否新增Vector 2025条目或将其并入泰坦系列。",
+      "sourceUrl": "https://www.guangdiu.com/detail.php?id=25182456"
+    },
+    {
+      "model": "侠客 Bravo 15 2019",
+      "issue": "任务给定区间为2019年起，但2019年微星AMD机型为Alpha 15（RX5500M），Bravo 15实际于2020年5月上市，Bravo 17同期。",
+      "suggestion": "按实际上市年份记为2020；若采购目录需要2019年AMD机型，应另立Alpha 15条目（不在本批范围）。",
+      "sourceUrl": "https://www.gamespot.com/articles/msis-new-budget-gaming-laptops-are-up-for-pre-orde/1100-6476335/"
+    },
+    {
+      "model": "强袭18 HX AI 2025",
+      "issue": "海外2025年2月已上市并有完整评测，但未检索到微星中国官网页面及国行首发价，中文名“强袭18 HX AI”为按系列译名推定。",
+      "suggestion": "补充msi.cn产品页或京东自营SKU截图后，将confidence提升至high并补国行价格。",
+      "sourceUrl": "https://www.pcmag.com/reviews/msi-raider-18-hx-ai"
+    },
+    {
+      "model": "泰坦18 Max 2026",
+      "issue": "屏幕刷新率来源冲突：msi.cn产品页写18英寸4K Mini LED 120Hz，百度百科写4K 240Hz；另京东页面型号字段显示“Raider 18 Max HX A2WJ”。",
+      "suggestion": "以官网规格页120Hz为准；型号归属（泰坦 vs 强袭）向官方确认后再定category与model。",
+      "sourceUrl": "https://www.msi.cn/Laptop/Raider-18-Max-HX-A2W/Overview"
+    },
+    {
+      "model": "绝影 Stealth 15M 2020/2021",
+      "issue": "同一模具存在两批配置：2020年底i7-1185G7+RTX2060 Max-Q（10999元）与2021年3月i7-11375H+RTX3060（9499元），官方未区分年款命名。",
+      "suggestion": "暂合并为2021年单条并备注两批配置；若系统要求严格按年款，可拆为2020/2021两条。",
+      "sourceUrl": "http://www.vrrb.cn/kuaixun/diannao/20210318/125871.html"
+    },
+    {
+      "model": "武士 Katana 17 2023 / 绝影14 Studio 2023 / 冲锋坦克 GP68 HX 2023",
+      "issue": "本批为控制条目数量（32条上限）未单列，但同代产品线中确有对应机型（Katana 17 B13V、Stealth 14 Studio A13V、Vector GP68 HX 13V）。",
+      "suggestion": "下一批补充时按同规则单列，重点补Katana 17的17.3英寸SKU与GP68 HX的16英寸SKU。",
+      "sourceUrl": "https://www.msi.com/Laptop/Katana-GF76-11UX/Specification"
+    }
+  ]
+}

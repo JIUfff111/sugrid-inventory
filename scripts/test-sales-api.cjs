@@ -66,7 +66,9 @@ async function isolatedChecks() {
         VALUES (?, 'purchase-test', ?, ?, '笔记本电脑', 'ThinkPad', 'X13', 2020, 'i5', '16GB', '512GB',
         '', 1000, 'supplier-test', '回归供应商', '2026-10-20')`).run(id, `item-${id}`, `SN-${id}`);
     }
-    ['trimmed', 'omitted', 'blank', 'null', 'boundary', 'invalid', 'rollback', 'race'].forEach(addMachine);
+    ['trimmed', 'omitted', 'blank', 'null', 'boundary', 'invalid', 'rollback', 'race', 'asset'].forEach(addMachine);
+    db.prepare(`INSERT INTO skus (id, productType, brand, model, year, ramOptions, storageOptions, createdBy)
+      VALUES ('sku-asset-test', '笔记本电脑', 'ThinkPad', 'X13', 2020, '["16GB"]', '["512GB"]', ?)`).run(user);
     const baseBody = (inventoryId) => ({ saleOrderNo: `SALE-${inventoryId}`, saleChannelId: 'channel-test',
       saleDate: '2026-10-20', items: [{ inventoryId, sellingPrice: 1500 }] });
     async function post(body, expectedStatus) {
@@ -104,8 +106,11 @@ async function isolatedChecks() {
     db.exec(`CREATE TRIGGER reject_test_sale BEFORE INSERT ON sales_records
       WHEN NEW.saleOrderNo = 'SALE-rollback'
       BEGIN SELECT RAISE(ABORT, 'forced transaction failure'); END`);
-    await post(baseBody('rollback'), 500);
-    assert.equal(db.prepare("SELECT status FROM inventory WHERE id = 'rollback'").get().status, 'in_stock');
+    await post({ ...baseBody('rollback'), items: [{ inventoryId: 'rollback', sellingPrice: 1500,
+      assetChange: { expectedRam: '16GB', expectedStorage: '512GB', ram: '32GB', storage: '1TB' } }] }, 500);
+    assert.deepEqual(db.prepare("SELECT status, ram, storage FROM inventory WHERE id = 'rollback'").get(),
+      { status: 'in_stock', ram: '16GB', storage: '512GB' });
+    assert.equal(db.prepare("SELECT COUNT(*) AS count FROM inventory_movements WHERE inventoryId = 'rollback' AND movementType = 'asset_change'").get().count, 0);
     assert.equal(db.prepare('SELECT COUNT(*) AS count FROM sales_records').get().count, 5);
     assert.equal(db.prepare("SELECT usageCount FROM sales_channels WHERE id = 'channel-test'").get().usageCount, 5);
 
@@ -128,16 +133,55 @@ async function isolatedChecks() {
     assert(data.records.every((record) => Array.isArray(record.items)));
     assert.equal(data.records.find((record) => record.id === trimmed.data.id).trackingNo, 'SF123456789');
     assert.equal(data.records.find((record) => record.id === trimmed.data.id).items[0].year, 2020);
+    const stale = await post({ ...baseBody('invalid'), items: [{ inventoryId: 'invalid', sellingPrice: 1500,
+      assetChange: { expectedRam: '8GB', expectedStorage: '512GB', ram: '32GB' } }] }, 400);
+    assert.match(stale.error.message, /配置|内存|状态已变化/);
+    assert.deepEqual(db.prepare("SELECT status, ram, storage FROM inventory WHERE id = 'invalid'").get(),
+      { status: 'in_stock', ram: '16GB', storage: '512GB' });
+    assert.equal(db.prepare("SELECT COUNT(*) AS count FROM inventory_movements WHERE inventoryId = 'invalid' AND movementType = 'asset_change'").get().count, 0);
     for (const [search, expectedIds] of [
-      ['ThinkPad X13 2020', ['invalid', 'rollback']],
+      ['ThinkPad X13 2020', ['asset', 'invalid', 'rollback']],
       ['ThinkPad X13 2021', []],
       ['SN-inval', ['invalid']],
     ]) {
       const filtered = await route.GET(new NextRequest(`http://localhost/api/sales?search=${encodeURIComponent(search)}`));
       assert.deepEqual((await filtered.json()).data.items.map((item) => item.id).sort(), expectedIds);
     }
+    const sharedSkuBefore = db.prepare("SELECT ramOptions, storageOptions FROM skus WHERE id = 'sku-asset-test'").get();
+    const changed = await post({ ...baseBody('asset'), items: [{ inventoryId: 'asset', sellingPrice: 1500,
+      assetChange: { expectedRam: '16GB', expectedStorage: '512GB', ram: '32GB', storage: '1TB' } }] }, 201);
+    assert.equal(changed.data.totalCost, 1000);
+    assert.equal(changed.data.totalProfit, 500);
+    assert.equal(changed.data.items[0].ram, '32GB');
+    assert.equal(changed.data.items[0].storage, '1TB');
+    assert.deepEqual(db.prepare("SELECT status, ram, storage, purchasePrice FROM inventory WHERE id = 'asset'").get(),
+      { status: 'sold', ram: '32GB', storage: '1TB', purchasePrice: 1000 });
+    assert.deepEqual(db.prepare("SELECT ramOptions, storageOptions FROM skus WHERE id = 'sku-asset-test'").get(), sharedSkuBefore);
+    assert.deepEqual(db.prepare("SELECT ram, storage FROM purchase_items WHERE id = 'item-asset'").get(),
+      { ram: '16GB', storage: '512GB' });
+    const storedSale = db.prepare('SELECT items FROM sales_records WHERE id = ?').get(changed.data.id);
+    assert.equal(JSON.parse(storedSale.items)[0].ram, '32GB');
+    assert.equal(JSON.parse(storedSale.items)[0].storage, '1TB');
+    const storedLine = db.prepare('SELECT snapshot FROM sales_record_items WHERE salesRecordId = ?').get(changed.data.id);
+    assert.equal(JSON.parse(storedLine.snapshot).ram, '32GB');
+    assert.equal(JSON.parse(storedLine.snapshot).storage, '1TB');
+    const changes = db.prepare("SELECT movementType, snapshot, note FROM inventory_movements WHERE inventoryId = 'asset' ORDER BY rowid").all();
+    assert.deepEqual(changes.map((row) => row.movementType), ['asset_change', 'sale']);
+    assert.deepEqual(JSON.parse(changes[0].snapshot), {
+      before: { ram: '16GB', storage: '512GB' }, after: { ram: '32GB', storage: '1TB' },
+    });
+    assert.match(changes[0].note, /16GB|32GB/);
+    assert.equal(JSON.parse(changes[1].snapshot).ram, '32GB');
+    const cancelResponse = await route.PATCH(new NextRequest('http://localhost/api/sales', {
+      method: 'PATCH', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ id: changed.data.id, action: 'cancel', cancelReason: '回归测试撤销' }),
+    }));
+    assert.equal(cancelResponse.status, 200, await cancelResponse.text());
+    assert.deepEqual(db.prepare("SELECT status, ram, storage FROM inventory WHERE id = 'asset'").get(),
+      { status: 'in_stock', ram: '32GB', storage: '1TB' });
+    assert.equal(db.prepare('SELECT status FROM sales_records WHERE id = ?').get(changed.data.id).status, 'cancelled');
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
-    console.log('PASS isolated sales API: tracking validation/persistence, year snapshot, no duplicate sale, rollback, composite search, GET compatibility');
+    console.log('PASS isolated sales API: tracking, snapshots, asset change, stale rejection, cancellation, rollback, composite search, GET compatibility');
   } finally {
     process.chdir(originalCwd);
     if (db?.open) db.close();

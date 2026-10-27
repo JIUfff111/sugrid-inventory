@@ -1,0 +1,200 @@
+{
+ "https://baike.baidu.com/item/%E6%9C%BA%E6%A2%B0%E9%9D%A9%E5%91%BD%E6%97%A0%E7%95%8C%2016%20Pro/60165715": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%9C%BA%E6%A2%B0%E9%9D%A9%E5%91%BD%E6%97%A0%E7%95%8C%2016%20Pro/60165715",
+  "error": "HTTP 403"
+ },
+ "https://article.pchome.net/content-2164525.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://article.pchome.net/content-2164525.html"
+ },
+ "http://m.mnw.cn/news/digi/2998320.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://m.mnw.cn/news/digi/2998320.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/mechrevo/2281839_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/mechrevo/2281839_detail.html"
+ },
+ "http://www.mnw.cn/news/digi/2942933.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.mnw.cn/news/digi/2942933.html"
+ },
+ "https://it.sohu.com/a/917784564_121649107": {
+  "status": 200,
+  "ok": true,
+  "final": "https://it.sohu.com/a/917784564_121649107"
+ },
+ "https://baike.baidu.com/item/%E6%9C%BA%E6%A2%B0%E9%9D%A9%E5%91%BD%E9%92%9B%E9%92%BD/55350718": {
+  "status": 200,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%9C%BA%E6%A2%B0%E9%9D%A9%E5%91%BD%E9%92%9B%E9%92%BD/55350718"
+ },
+ "https://detail.zol.com.cn/param_copy_2106515_gray_1_0_560.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/param_copy_2106515_gray_1_0_560.html"
+ },
+ "https://detail.zol.com.cn/notebook_index/subcate16_35578_list_1_0_1_1_12373_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook_index/subcate16_35578_list_1_0_1_1_12373_1.html"
+ },
+ "https://m.bjbpc.com/view.php?aid=1907": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.bjbpc.com/view.php?aid=1907"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1401812.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1401812.html"
+ },
+ "https://m.ithome.com/html/750299.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/750299.htm"
+ },
+ "https://product.yesky.com/product/1063/1063777/param.shtml": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1063/1063777/param.shtml",
+  "error": "HTTP 405"
+ },
+ "https://m.sohu.com/a/655680298_114760/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.sohu.com/a/655680298_114760/"
+ },
+ "http://www.jinshouji.com/bijibendiannao/618301.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.jinshouji.com/bijibendiannao/618301.html"
+ },
+ "https://nb.zol.com.cn/815/8150841.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/815/8150841.html"
+ },
+ "https://m.expreview.com/101670.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/101670.html"
+ },
+ "https://product.yesky.com/product/1134/1134864/param.shtml": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/product/1134/1134864/param.shtml",
+  "error": "HTTP 405"
+ },
+ "https://www.163.com/dy/article/JAQ058PE0511A3C8.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/JAQ058PE0511A3C8.html"
+ },
+ "https://www.163.com/dy/article/I09PUV150511B8LM.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/I09PUV150511B8LM.html"
+ },
+ "https://www.ithome.com/0/465/063.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/465/063.htm"
+ },
+ "https://shop.zol.com/shop_122552/38084190.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_122552/38084190.html"
+ },
+ "https://shop.zol.com/shop_82117/40165736.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_82117/40165736.html"
+ },
+ "https://www.ithome.com/0/762/485.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/762/485.htm"
+ },
+ "https://s.zol.com.cn/shop_79474/40165701.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://shop.zol.com/shop_82117/40165701.html"
+ },
+ "https://www.sohu.com/a/636120236_114760": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/636120236_114760"
+ },
+ "https://www.sohu.com/a/755777248_121649107": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/755777248_121649107"
+ },
+ "https://www.mechrevo.com/cn/news/detail/0JsQMg": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mechrevo.com/cn/news/detail/0JsQMg"
+ },
+ "https://www.sohu.com/a/651495275_114760": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/651495275_114760"
+ },
+ "https://www.toutiao.com/article/7072704743688307212/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7072704743688307212/"
+ },
+ "https://www.toutiao.com/article/7111649908326728230/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7111649908326728230/"
+ },
+ "https://www.toutiao.com/article/7232860607744213562": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7232860607744213562"
+ },
+ "https://www.toutiao.com/article/7056734706653676035/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7056734706653676035/"
+ },
+ "https://www.mechrevo.com/cn/products/yao-shi-16-ultra": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mechrevo.com/cn/products/yao-shi-16-ultra"
+ },
+ "https://m.newskj.org/game/189142.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.newskj.org/game/189142.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/mechrevo/1722227.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/mechrevo/1722227.html"
+ },
+ "https://www.mechrevo.com/en/products/cang-long-16-ultra/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mechrevo.com/en/products/cang-long-16-ultra/"
+ },
+ "https://product.pconline.com.cn/notebook/mechrevo/1161600_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/mechrevo/1161600_detail.html"
+ },
+ "https://www.baike.com/wikiid/7563918880126664713": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.baike.com/wikiid/7563918880126664713"
+ }
+}

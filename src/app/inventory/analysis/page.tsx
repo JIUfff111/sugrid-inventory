@@ -6,6 +6,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useWorkspace } from '@/components/WorkspaceContext';
+import { formatProductName } from '@/lib/product-name';
 import {
   ArrowLeft,
   BarChart3,
@@ -55,7 +56,7 @@ type AnalysisData = {
 };
 
 function productName(item: Pick<DetailRow, 'brand' | 'model' | 'year'>) {
-  return [item.brand, item.model, item.year].filter((value) => value !== null && value !== undefined && String(value).trim() !== '').join(' ') || '未命名商品';
+  return formatProductName(item);
 }
 
 const EMPTY_DATA: AnalysisData = {

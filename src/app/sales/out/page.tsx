@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { AlertCircle, ArrowRight, Check, CheckCheck, ClipboardList, History, LoaderCircle, PackageCheck, Plus, RefreshCw, ScanLine, Trash2, Truck, X } from "lucide-react";
+import { AlertCircle, ArrowRight, Check, CheckCheck, ClipboardList, HardDrive, History, LoaderCircle, MemoryStick, PackageCheck, Plus, RefreshCw, ScanLine, Trash2, Truck, X } from "lucide-react";
 import CustomSelect from "@/components/CustomSelect";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import MachineSearchInput from "@/components/MachineSearchInput";
 import { useWorkspace, useWorkspaceDirty } from "@/components/WorkspaceContext";
 import { useMachineEligibility } from "@/components/useMachineEligibility";
+import { formatProductName } from "@/lib/product-name";
+import { formatGPUDisplay } from "@/lib/sku-display";
 
 interface InventoryItem {
   id: string;
@@ -30,7 +32,8 @@ interface InventoryItem {
 }
 
 interface SalesChannel { id: string; channelName: string; channelType: string | null }
-interface SelectedItem { item: InventoryItem; sellingPrice: string; remark: string }
+interface AssetChange { expectedRam: string; expectedStorage: string; ram?: string; storage?: string }
+interface SelectedItem { item: InventoryItem; sellingPrice: string; remark: string; assetChange?: AssetChange }
 interface SaleRecord {
   id: string;
   recordNo: string;
@@ -58,14 +61,10 @@ function money(value: number) {
   return `¥${Number(value || 0).toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 function productName(item: { brand: string; model: string; year?: number | null }) {
-  const brand = item.brand?.trim() || "";
-  const model = item.model?.trim() || "";
-  const fullName = model.toLowerCase().startsWith(brand.toLowerCase()) ? model : [brand, model].filter(Boolean).join(" ");
-  const year = item.year && !fullName.includes(String(item.year)) ? String(item.year) : "";
-  return [fullName, year].filter(Boolean).join(" ") || "未命名商品";
+  return formatProductName(item);
 }
 function configText(item: InventoryItem) {
-  return [item.cpu, item.ram, item.storage, item.gpu, item.screen, item.touchScreen ? "触屏" : "", item.skuRemark].filter(Boolean).join(" / ") || "未填写配置";
+  return [item.cpu, item.ram, item.storage, formatGPUDisplay(item.gpu), item.screen, item.touchScreen ? "触屏" : "", item.skuRemark].filter(Boolean).join(" / ") || "未填写配置";
 }
 function validPrice(value: string) {
   return value.trim() !== "" && Number.isFinite(Number(value)) && Number(value) >= 0;
@@ -164,6 +163,10 @@ export default function SalesOutPage() {
   const [pickerError, setPickerError] = useState("");
   const [pickerLoading, setPickerLoading] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [assetChangeItemId, setAssetChangeItemId] = useState<string | null>(null);
+  const [assetDraftRam, setAssetDraftRam] = useState("");
+  const [assetDraftStorage, setAssetDraftStorage] = useState("");
+  const [assetError, setAssetError] = useState("");
   const [clearOpen, setClearOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [expandedRecordId, setExpandedRecordId] = useState<string | null>(null);
@@ -198,6 +201,8 @@ export default function SalesOutPage() {
   }, [notice]);
 
   const selectedItems = useMemo(() => Object.values(selected), [selected]);
+  const assetChangeEntry = assetChangeItemId ? selected[assetChangeItemId] : null;
+  const changedAssetItems = selectedItems.filter(entry => entry.assetChange);
   const validity = useMachineEligibility(selectedItems.map(entry => entry.item), "sale");
   useWorkspaceDirty(Boolean(selectedItems.length || Object.keys(pickerSelected).length || saleOrderNo || trackingNo || remark || saleChannelId !== baselineChannel || (saleDate && saleDate !== today()) || (cancelRecord && cancelReason)));
   const totalCost = selectedItems.reduce((sum, entry) => sum + Number(entry.item.purchasePrice || 0), 0);
@@ -208,7 +213,37 @@ export default function SalesOutPage() {
   const allVisibleChecked = pickerItems.length > 0 && pickerItems.every((item) => selected[item.id] || pickerSelected[item.id]);
 
   const updateSelected = (id: string, field: "sellingPrice" | "remark", value: string) => setSelected((current) => current[id] ? { ...current, [id]: { ...current[id], [field]: value } } : current);
-  const removeSelected = (id: string) => setSelected((current) => { const next = { ...current }; delete next[id]; return next; });
+  const removeSelected = (id: string) => {
+    if (assetChangeItemId === id) setAssetChangeItemId(null);
+    setSelected((current) => { const next = { ...current }; delete next[id]; return next; });
+  };
+  const openAssetChange = (entry: SelectedItem) => {
+    setAssetDraftRam(entry.assetChange?.ram ?? entry.item.ram);
+    setAssetDraftStorage(entry.assetChange?.storage ?? entry.item.storage);
+    setAssetError("");
+    setAssetChangeItemId(entry.item.id);
+  };
+  const saveAssetChange = () => {
+    if (!assetChangeEntry) return;
+    const ram = assetDraftRam.trim();
+    const storage = assetDraftStorage.trim();
+    if (!ram || !storage) { setAssetError("内存和硬盘容量不能为空"); return; }
+    if (ram.length > 64 || storage.length > 64 || /[\u0000-\u001f\u007f]/.test(ram + storage)) {
+      setAssetError("容量最多 64 个字符，且不能包含换行或控制字符"); return;
+    }
+    const assetChange: AssetChange = {
+      expectedRam: assetChangeEntry.item.ram,
+      expectedStorage: assetChangeEntry.item.storage,
+      ...(ram !== assetChangeEntry.item.ram ? { ram } : {}),
+      ...(storage !== assetChangeEntry.item.storage ? { storage } : {}),
+    };
+    const changed = assetChange.ram !== undefined || assetChange.storage !== undefined;
+    setSelected(current => current[assetChangeEntry.item.id] ? {
+      ...current,
+      [assetChangeEntry.item.id]: { ...current[assetChangeEntry.item.id], assetChange: changed ? assetChange : undefined },
+    } : current);
+    setAssetChangeItemId(null);
+  };
   const addItems = (items: InventoryItem[]) => {
     setSelected((current) => {
       const next = { ...current };
@@ -260,7 +295,7 @@ export default function SalesOutPage() {
     return next;
   });
   const resetOrder = () => {
-    setBaselineChannel(saleChannelId); setSelected({}); setSaleOrderNo(""); setTrackingNo(""); setRemark(""); setQuickSearch(""); setSaleDate(today()); setError("");
+    setBaselineChannel(saleChannelId); setSelected({}); setAssetChangeItemId(null); setSaleOrderNo(""); setTrackingNo(""); setRemark(""); setQuickSearch(""); setSaleDate(today()); setError("");
   };
   const requestSubmit = (event: FormEvent) => {
     event.preventDefault(); setError("");
@@ -276,7 +311,7 @@ export default function SalesOutPage() {
       const response = await fetch("/api/sales", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: selectedItems.map(({ item, sellingPrice, remark: itemRemark }) => ({ inventoryId: item.id, sellingPrice: Number(sellingPrice), remark: itemRemark.trim() || null })),
+          items: selectedItems.map(({ item, sellingPrice, remark: itemRemark, assetChange }) => ({ inventoryId: item.id, sellingPrice: Number(sellingPrice), remark: itemRemark.trim() || null, ...(assetChange ? { assetChange } : {}) })),
           saleChannelId, saleOrderNo: saleOrderNo.trim(), saleDate, trackingNo: trackingNo.trim() || null, remark: remark.trim() || null,
         }),
       });
@@ -304,6 +339,18 @@ export default function SalesOutPage() {
   const priceInput = (entry: SelectedItem) => <input type="number" inputMode="decimal" min="0" step="0.01" value={entry.sellingPrice} onChange={(event) => updateSelected(entry.item.id, "sellingPrice", event.target.value)} disabled={submitting} placeholder="输入销售价" aria-label={`SN ${entry.item.sn} 的销售价格`} className="field min-w-0 py-2 font-mono text-[13px]" />;
   const remarkInput = (entry: SelectedItem) => <input type="text" value={entry.remark} onChange={(event) => updateSelected(entry.item.id, "remark", event.target.value)} disabled={submitting} placeholder="机器备注（选填）" aria-label={`SN ${entry.item.sn} 的备注`} className="field min-w-0 py-2 text-[12px]" />;
   const itemProfit = (entry: SelectedItem) => validPrice(entry.sellingPrice) ? <span className={`font-mono ${Number(entry.sellingPrice) - entry.item.purchasePrice < 0 ? "text-danger" : "text-ok"}`}>{money(Number(entry.sellingPrice) - entry.item.purchasePrice)}</span> : <span className="text-ink-soft">待填写</span>;
+  const assetChangeDetails = (entry: SelectedItem) => entry.assetChange ? (
+    <div className="mt-1.5 space-y-1 text-[11px] leading-relaxed text-primary animate-fade-in">
+      {entry.assetChange.ram && <p className="flex items-start gap-1"><MemoryStick className="mt-0.5 h-3 w-3 shrink-0" /><span className="break-words">内存 {entry.item.ram} → {entry.assetChange.ram}</span></p>}
+      {entry.assetChange.storage && <p className="flex items-start gap-1"><HardDrive className="mt-0.5 h-3 w-3 shrink-0" /><span className="break-words">硬盘 {entry.item.storage} → {entry.assetChange.storage}</span></p>}
+    </div>
+  ) : null;
+  const assetChangeControl = (entry: SelectedItem) => (
+    <div className="mt-1.5">
+      <button type="button" disabled={submitting} onClick={() => openAssetChange(entry)} aria-label={`变更 SN ${entry.item.sn} 的内存或硬盘`} className="inline-flex items-center gap-1 text-[11px] font-medium text-primary transition hover:text-primary-deep hover:underline active:scale-95 disabled:opacity-50"><MemoryStick className="h-3.5 w-3.5" />{entry.assetChange ? "编辑资产变更" : "资产变更"}</button>
+      {assetChangeDetails(entry)}
+    </div>
+  );
 
   return (
     <div className="mx-auto flex min-h-[calc(100dvh-148px)] max-w-[1440px] min-w-0 flex-col page-transition-enter">
@@ -337,8 +384,8 @@ export default function SalesOutPage() {
           </div>
           {(validity.error || validity.invalidIds.length > 0) && <p role="alert" className="mx-4 rounded-xl bg-danger/5 p-3 text-xs text-danger">{validity.error || "以下机器状态已变化，请移除后重新选择："}{!validity.error && selectedItems.filter(entry => validity.invalidIds.includes(entry.item.id)).map(entry => entry.item.sn).join("、")}</p>}
           {selectedItems.length === 0 ? <div className="flex min-h-[230px] flex-col items-center justify-center px-5 py-10 text-center"><div className="mb-3 rounded-2xl bg-primary/7 p-3.5"><ScanLine className="h-7 w-7 text-primary/80" /></div><h3 className="text-[14px] font-medium text-ink-deep">添加本次要出库的机器</h3><p className="mt-2 max-w-sm text-[12px] leading-relaxed text-ink-soft">扫描 SN 可快速添加一台；从库存选择可批量加入。<br />机器加入后，在此填写各台售价和备注。</p></div> : <>
-            <div className="hidden min-w-0 overflow-x-auto lg:block"><table className="data-table w-full min-w-[1050px] table-fixed"><thead><tr><th className="w-12">序号</th><th className="w-[29%]">机器 / 配置</th><th className="w-[15%]">SN</th><th className="w-28">采购成本</th><th className="w-36">销售价格 <span className="text-danger">*</span></th><th className="w-28">预计利润</th><th className="w-44">机器备注</th><th className="w-14">操作</th></tr></thead><tbody>{selectedItems.map((entry, index) => <tr key={entry.item.id} className="animate-fade-in"><td className="font-mono text-[12px] text-ink-soft">{String(index + 1).padStart(2, "0")}</td><td><div className="break-words text-[13px] font-medium leading-relaxed text-ink-deep">{productName(entry.item)}</div><div className="mt-1 break-words text-[11px] leading-relaxed text-ink-soft">{configText(entry.item)}</div></td><td className="break-all font-mono text-[12px] text-ink-deep">{entry.item.sn}</td><td className="font-mono text-[12px] text-ink-soft">{money(entry.item.purchasePrice)}</td><td>{priceInput(entry)}</td><td className="text-[12px]">{itemProfit(entry)}</td><td>{remarkInput(entry)}</td><td><button type="button" disabled={submitting} onClick={() => removeSelected(entry.item.id)} aria-label={`移除 SN ${entry.item.sn}`} className="rounded-lg p-2 text-ink-soft transition hover:bg-danger/7 hover:text-danger active:scale-95"><Trash2 className="h-4 w-4" /></button></td></tr>)}</tbody></table></div>
-            <div className="divide-y divide-line-strong/60 lg:hidden">{selectedItems.map((entry, index) => <article key={entry.item.id} className="p-4 animate-fade-in sm:p-5"><div className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-primary/8 font-mono text-[10px] text-primary">{index + 1}</span><div className="min-w-0 flex-1"><h3 className="break-words text-[13px] font-medium text-ink-deep">{productName(entry.item)}</h3><p className="mt-1 break-all font-mono text-[12px] text-ink-soft">SN {entry.item.sn}</p><p className="mt-1.5 break-words text-[11px] leading-relaxed text-ink-soft">{configText(entry.item)}</p></div><button type="button" disabled={submitting} onClick={() => removeSelected(entry.item.id)} aria-label={`移除 SN ${entry.item.sn}`} className="rounded-lg p-1.5 text-ink-soft transition hover:bg-danger/7 hover:text-danger active:scale-95"><Trash2 className="h-4 w-4" /></button></div><div className="mt-3 grid min-w-0 grid-cols-2 gap-3"><label className="min-w-0"><span className="mb-1 block text-[11px] text-ink-soft">销售价格 <span className="text-danger">*</span></span>{priceInput(entry)}</label><div className="self-end pb-2 text-right text-[11px] text-ink-soft"><div>成本 <span className="font-mono">{money(entry.item.purchasePrice)}</span></div><div className="mt-1">利润 {itemProfit(entry)}</div></div><label className="col-span-2 min-w-0"><span className="sr-only">机器备注</span>{remarkInput(entry)}</label></div></article>)}</div>
+            <div className="hidden min-w-0 overflow-x-auto lg:block"><table className="data-table w-full min-w-[1050px] table-fixed"><thead><tr><th className="w-12">序号</th><th className="w-[29%]">机器 / 配置</th><th className="w-[15%]">SN</th><th className="w-28">采购成本</th><th className="w-36">销售价格 <span className="text-danger">*</span></th><th className="w-28">预计利润</th><th className="w-44">机器备注</th><th className="w-14">操作</th></tr></thead><tbody>{selectedItems.map((entry, index) => <tr key={entry.item.id} className="animate-fade-in"><td className="font-mono text-[12px] text-ink-soft">{String(index + 1).padStart(2, "0")}</td><td><div className="break-words text-[13px] font-medium leading-relaxed text-ink-deep">{productName(entry.item)}</div><div className="mt-1 break-words text-[11px] leading-relaxed text-ink-soft">{configText(entry.item)}</div>{assetChangeControl(entry)}</td><td className="break-all font-mono text-[12px] text-ink-deep">{entry.item.sn}</td><td className="font-mono text-[12px] text-ink-soft">{money(entry.item.purchasePrice)}</td><td>{priceInput(entry)}</td><td className="text-[12px]">{itemProfit(entry)}</td><td>{remarkInput(entry)}</td><td><button type="button" disabled={submitting} onClick={() => removeSelected(entry.item.id)} aria-label={`移除 SN ${entry.item.sn}`} className="rounded-lg p-2 text-ink-soft transition hover:bg-danger/7 hover:text-danger active:scale-95"><Trash2 className="h-4 w-4" /></button></td></tr>)}</tbody></table></div>
+            <div className="divide-y divide-line-strong/60 lg:hidden">{selectedItems.map((entry, index) => <article key={entry.item.id} className="p-4 animate-fade-in sm:p-5"><div className="flex items-start gap-2"><span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-primary/8 font-mono text-[10px] text-primary">{index + 1}</span><div className="min-w-0 flex-1"><h3 className="break-words text-[13px] font-medium text-ink-deep">{productName(entry.item)}</h3><p className="mt-1 break-all font-mono text-[12px] text-ink-soft">SN {entry.item.sn}</p><p className="mt-1.5 break-words text-[11px] leading-relaxed text-ink-soft">{configText(entry.item)}</p>{assetChangeControl(entry)}</div><button type="button" disabled={submitting} onClick={() => removeSelected(entry.item.id)} aria-label={`移除 SN ${entry.item.sn}`} className="rounded-lg p-1.5 text-ink-soft transition hover:bg-danger/7 hover:text-danger active:scale-95"><Trash2 className="h-4 w-4" /></button></div><div className="mt-3 grid min-w-0 grid-cols-2 gap-3"><label className="min-w-0"><span className="mb-1 block text-[11px] text-ink-soft">销售价格 <span className="text-danger">*</span></span>{priceInput(entry)}</label><div className="self-end pb-2 text-right text-[11px] text-ink-soft"><div>成本 <span className="font-mono">{money(entry.item.purchasePrice)}</span></div><div className="mt-1">利润 {itemProfit(entry)}</div></div><label className="col-span-2 min-w-0"><span className="sr-only">机器备注</span>{remarkInput(entry)}</label></div></article>)}</div>
           </>}
         </section>
 
@@ -347,6 +394,30 @@ export default function SalesOutPage() {
           <div className="flex shrink-0 items-center justify-end gap-2 border-t border-line-strong/70 pt-3 xl:border-0 xl:pt-0"><button type="button" disabled={submitting || querying || (!selectedItems.length && !saleOrderNo && !trackingNo && !remark && !saleChannelId)} onClick={() => setClearOpen(true)} className="btn-ghost inline-flex items-center justify-center gap-1.5 text-[13px]"><Trash2 className="h-3.5 w-3.5" />清空本单</button><button type="submit" disabled={loading || submitting || querying || validity.checking || !!validity.error || validity.invalidIds.length > 0} className="btn-primary inline-flex flex-1 items-center justify-center gap-2 text-[13px] sm:flex-none"><PackageCheck className="h-4 w-4" />{submitting ? "出库处理中..." : "确认销售出库"}</button></div>
         </footer>
       </form>
+
+      {assetChangeEntry && <SalesDialog
+        title="资产变更"
+        subtitle={`SN ${assetChangeEntry.item.sn} · ${productName(assetChangeEntry.item)}`}
+        onClose={() => setAssetChangeItemId(null)}
+        footer={<>
+          {assetChangeEntry.assetChange && <button type="button" onClick={() => { setSelected(current => current[assetChangeEntry.item.id] ? { ...current, [assetChangeEntry.item.id]: { ...current[assetChangeEntry.item.id], assetChange: undefined } } : current); setAssetChangeItemId(null); }} className="btn-ghost mr-auto text-[13px] text-danger">撤销此项变更</button>}
+          <button type="button" onClick={() => setAssetChangeItemId(null)} className="btn-ghost text-[13px]">取消</button>
+          <button type="button" onClick={saveAssetChange} className="btn-primary text-[13px]">保存到本单</button>
+        </>}
+      >
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-3 rounded-lg border border-line bg-white/70 p-3 text-[12px]">
+            <div><span className="text-ink-soft">当前内存</span><strong className="mt-1 block break-words font-medium text-ink-deep">{assetChangeEntry.item.ram}</strong></div>
+            <div><span className="text-ink-soft">当前硬盘</span><strong className="mt-1 block break-words font-medium text-ink-deep">{assetChangeEntry.item.storage}</strong></div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="block min-w-0 text-[12px] font-medium text-ink-deep"><span className="mb-1.5 flex items-center gap-1.5"><MemoryStick className="h-4 w-4 text-primary" />新内存大小</span><input type="text" value={assetDraftRam} onChange={event => { setAssetDraftRam(event.target.value); setAssetError(""); }} maxLength={64} placeholder="例如 16GB" autoComplete="off" className="field" /></label>
+            <label className="block min-w-0 text-[12px] font-medium text-ink-deep"><span className="mb-1.5 flex items-center gap-1.5"><HardDrive className="h-4 w-4 text-primary" />新硬盘大小</span><input type="text" value={assetDraftStorage} onChange={event => { setAssetDraftStorage(event.target.value); setAssetError(""); }} maxLength={64} placeholder="例如 1TB" autoComplete="off" className="field" /></label>
+          </div>
+          {assetError && <p role="alert" className="rounded-lg bg-danger/6 px-3 py-2 text-[12px] text-danger">{assetError}</p>}
+          <p className="text-[12px] text-ink-soft">出库确认后更新该机器配置；成本保持不变。</p>
+        </div>
+      </SalesDialog>}
 
       {pickerOpen && <SalesDialog title="选择在库机器" subtitle="勾选后加入本单；已加入的机器不会重复添加" wide onClose={closePicker} footer={<><span className="mr-auto text-[12px] text-ink-soft">待加入 <b className="font-mono text-primary">{pendingItems.length}</b> 台</span><button type="button" onClick={closePicker} className="btn-ghost text-[13px]">取消</button><button type="button" disabled={!pendingItems.length} onClick={() => { addItems(pendingItems); closePicker(); setQuickSearch(""); setNotice(`已添加 ${pendingItems.length} 台机器`); }} className="btn-primary inline-flex items-center gap-1.5 text-[13px]"><Check className="h-4 w-4" />确认加入</button></>}>
         <form onSubmit={searchPicker} className="mb-3 flex min-w-0 gap-2"><MachineSearchInput<InventoryItem> value={pickerSearch} onChange={setPickerSearch} endpoint="/api/inventory/lookup?context=sale" onSelect={item => { setPickerItems(current => [item, ...current.filter(row => row.id !== item.id)]); setPickerSelected(current => ({ ...current, [item.id]: item })); setPickerSearch(item.sn); }} placeholder="输入 SN 后四位、品牌型号或配置" ariaLabel="搜索在库机器" className="min-w-0 flex-1" /><button type="submit" disabled={pickerLoading} className="btn-primary text-[13px]">{pickerLoading ? "搜索中" : "搜索"}</button></form>
@@ -357,13 +428,19 @@ export default function SalesOutPage() {
 
       {confirmOpen && <SalesDialog title="确认销售出库" subtitle="确认后，所选机器将更新为已售并生成销售记录" busy={submitting} onClose={() => { if (!submitting) setConfirmOpen(false); }} footer={<><button type="button" disabled={submitting} onClick={() => setConfirmOpen(false)} className="btn-ghost text-[13px]">返回检查</button><button type="button" disabled={submitting} onClick={() => void submitSale()} className="btn-primary inline-flex items-center gap-2 text-[13px]">{submitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <PackageCheck className="h-4 w-4" />}{submitting ? "正在出库..." : "确认出库"}</button></>}>
         <dl className="space-y-3 text-[13px]"><div className="flex justify-between gap-5"><dt className="shrink-0 text-ink-soft">销售渠道</dt><dd className="break-words text-right text-ink-deep">{channels.find((channel) => channel.id === saleChannelId)?.channelName}</dd></div><div className="flex justify-between gap-5"><dt className="shrink-0 text-ink-soft">销售订单号</dt><dd className="break-all text-right font-mono text-ink-deep">{saleOrderNo}</dd></div><div className="flex justify-between gap-5"><dt className="shrink-0 text-ink-soft">销售日期</dt><dd className="text-ink-deep">{saleDate}</dd></div>{trackingNo.trim() && <div className="flex justify-between gap-5"><dt className="shrink-0 text-ink-soft">快递单号</dt><dd className="break-all text-right font-mono text-ink-deep">{trackingNo}</dd></div>}</dl><div className="mt-5 rounded-xl border border-primary/15 bg-primary/5 p-4"><div className="flex items-center justify-between gap-3 text-[13px]"><span className="text-ink-deep">本次出库 <b className="font-mono">{selectedItems.length}</b> 台</span><strong className="font-mono text-[18px] text-primary">{money(totalAmount)}</strong></div><div className="mt-2 flex justify-between gap-3 text-[12px] text-ink-soft"><span>采购成本 {money(totalCost)}</span><span className={totalProfit < 0 ? "text-danger" : "text-ok"}>预计利润 {money(totalProfit)}</span></div></div>
+        {changedAssetItems.length > 0 && <section className="mt-4 rounded-xl border border-primary/15 bg-white/70 p-3 animate-fade-in">
+          <h3 className="text-[12px] font-semibold text-ink-deep">资产变更 · {changedAssetItems.length} 台</h3>
+          <ul className="mt-2 divide-y divide-line/60">
+            {changedAssetItems.map(entry => <li key={entry.item.id} className="py-2 text-[12px]"><span className="break-all font-mono text-ink-deep">SN {entry.item.sn}</span>{assetChangeDetails(entry)}</li>)}
+          </ul>
+        </section>}
       </SalesDialog>}
 
       {clearOpen && <SalesDialog title="清空本次出库单？" onClose={() => setClearOpen(false)} footer={<><button type="button" onClick={() => setClearOpen(false)} className="btn-ghost text-[13px]">保留本单</button><button type="button" onClick={() => { resetOrder(); setSaleChannelId(""); setClearOpen(false); setNotice("已清空本次出库单"); }} className="btn-primary bg-danger text-[13px] hover:bg-red-600">确认清空</button></>}><p className="text-[13px] leading-relaxed text-ink-soft">将清除已选机器、售价和本单信息，库存不会发生变化。</p></SalesDialog>}
 
       <ConfirmDialog isOpen={Boolean(cancelRecord)} title="确认取消销售" message={`销售单 ${cancelRecord?.recordNo || ""} 将标记为已取消，所含机器将恢复在库。已有后续业务的销售无法取消。`} confirmText={cancelling ? "取消中..." : "确认取消销售"} cancelText="返回检查" danger onConfirm={() => void cancelSale()} onCancel={() => { if (!cancelling) { setCancelRecord(null); setHistoryOpen(true); } }} />
       {historyOpen && <SalesDialog title="最近出库记录" subtitle="最近 20 笔销售记录，点击查看成交快照与取消状态" wide onClose={() => setHistoryOpen(false)} footer={<button type="button" onClick={() => setHistoryOpen(false)} className="btn-ghost text-[13px]">关闭</button>}>
-        {!records.length ? <div className="py-12 text-center text-[13px] text-ink-soft">暂无出库记录</div> : <div className="space-y-2">{records.map((record) => <article key={record.id} className="overflow-hidden rounded-xl border border-line-strong/70 bg-white/70"><button type="button" onClick={() => setExpandedRecordId(expandedRecordId === record.id ? null : record.id)} aria-expanded={expandedRecordId === record.id} className="flex w-full flex-wrap items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-primary/4"><span className="min-w-0"><span className="block break-all font-mono text-[12px] font-medium text-ink-deep">{record.recordNo}</span><span className="mt-1 block text-[11px] text-ink-soft">{record.saleChannel} · {record.saleDate?.slice(0, 10)} · {record.totalQuantity} 台 · {record.status === "cancelled" ? "已取消" : "已完成"}</span></span><span className="font-mono text-[14px] font-medium text-primary">{money(record.totalAmount)}</span></button>{expandedRecordId === record.id && <div className="border-t border-line bg-white/65 px-4 py-3 animate-fade-in"><dl className="grid gap-2 text-[12px] sm:grid-cols-2"><div className="min-w-0"><dt className="text-ink-soft">销售订单号</dt><dd className="mt-1 break-all font-mono text-ink-deep">{record.saleOrderNo}</dd></div><div className="min-w-0"><dt className="inline-flex items-center gap-1 text-ink-soft"><Truck className="h-3.5 w-3.5" />快递单号</dt><dd className="mt-1 break-all font-mono text-ink-deep">{record.trackingNo || "未填写"}</dd></div></dl><div className="mt-3 space-y-2 border-t border-line pt-3">{(Array.isArray(record.items) ? record.items : []).map((item) => <div key={item.inventoryId || item.sn} className="flex flex-wrap items-center justify-between gap-2 text-[12px]"><span className="min-w-0"><span className="text-ink-deep">{productName(item)}</span><span className="mt-1 block break-all font-mono text-[11px] text-ink-soft">SN {item.sn}</span></span><span className="font-mono text-ink-deep">售价 {money(item.sellingPrice)}<span className="mt-1 block text-[11px] text-ink-soft">成本 {money(item.purchasePrice)} · 利润 {money(item.profit)}</span></span><p className="w-full text-[11px] text-ink-soft">{[item.cpu, item.ram, item.storage, item.gpu, item.screen, item.remark].filter(Boolean).join(" / ")}</p></div>)}</div><div className="mt-4 border-t border-line pt-3 text-[12px] text-ink-soft">总成本 {money(record.totalCost)} · 总利润 {money(record.totalProfit)}{record.remark && <p className="mt-2">备注：{record.remark}</p>}</div>{record.status === "cancelled" ? <p className="mt-3 text-[12px] text-ink-soft">取消时间：{record.cancelledAt || "-"} · 原因：{record.cancelReason || "未填写"}</p> : <div className="mt-4 flex flex-wrap gap-2"><input value={cancelReason} onChange={(event) => setCancelReason(event.target.value)} placeholder="取消原因（选填）" aria-label="取消销售原因" className="field min-w-0 flex-1 text-[12px]" /><button type="button" onClick={() => { setHistoryOpen(false); setCancelRecord(record); }} className="btn-ghost text-[12px] text-danger">取消销售</button></div>}</div>}</article>)}</div>}
+        {!records.length ? <div className="py-12 text-center text-[13px] text-ink-soft">暂无出库记录</div> : <div className="space-y-2">{records.map((record) => <article key={record.id} className="overflow-hidden rounded-xl border border-line-strong/70 bg-white/70"><button type="button" onClick={() => setExpandedRecordId(expandedRecordId === record.id ? null : record.id)} aria-expanded={expandedRecordId === record.id} className="flex w-full flex-wrap items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-primary/4"><span className="min-w-0"><span className="block break-all font-mono text-[12px] font-medium text-ink-deep">{record.recordNo}</span><span className="mt-1 block text-[11px] text-ink-soft">{record.saleChannel} · {record.saleDate?.slice(0, 10)} · {record.totalQuantity} 台 · {record.status === "cancelled" ? "已取消" : "已完成"}</span></span><span className="font-mono text-[14px] font-medium text-primary">{money(record.totalAmount)}</span></button>{expandedRecordId === record.id && <div className="border-t border-line bg-white/65 px-4 py-3 animate-fade-in"><dl className="grid gap-2 text-[12px] sm:grid-cols-2"><div className="min-w-0"><dt className="text-ink-soft">销售订单号</dt><dd className="mt-1 break-all font-mono text-ink-deep">{record.saleOrderNo}</dd></div><div className="min-w-0"><dt className="inline-flex items-center gap-1 text-ink-soft"><Truck className="h-3.5 w-3.5" />快递单号</dt><dd className="mt-1 break-all font-mono text-ink-deep">{record.trackingNo || "未填写"}</dd></div></dl><div className="mt-3 space-y-2 border-t border-line pt-3">{(Array.isArray(record.items) ? record.items : []).map((item) => <div key={item.inventoryId || item.sn} className="flex flex-wrap items-center justify-between gap-2 text-[12px]"><span className="min-w-0"><span className="text-ink-deep">{productName(item)}</span><span className="mt-1 block break-all font-mono text-[11px] text-ink-soft">SN {item.sn}</span></span><span className="font-mono text-ink-deep">售价 {money(item.sellingPrice)}<span className="mt-1 block text-[11px] text-ink-soft">成本 {money(item.purchasePrice)} · 利润 {money(item.profit)}</span></span><p className="w-full text-[11px] text-ink-soft">{[item.cpu, item.ram, item.storage, formatGPUDisplay(item.gpu), item.screen, item.remark].filter(Boolean).join(" / ")}</p></div>)}</div><div className="mt-4 border-t border-line pt-3 text-[12px] text-ink-soft">总成本 {money(record.totalCost)} · 总利润 {money(record.totalProfit)}{record.remark && <p className="mt-2">备注：{record.remark}</p>}</div>{record.status === "cancelled" ? <p className="mt-3 text-[12px] text-ink-soft">取消时间：{record.cancelledAt || "-"} · 原因：{record.cancelReason || "未填写"}</p> : <div className="mt-4 flex flex-wrap gap-2"><input value={cancelReason} onChange={(event) => setCancelReason(event.target.value)} placeholder="取消原因（选填）" aria-label="取消销售原因" className="field min-w-0 flex-1 text-[12px]" /><button type="button" onClick={() => { setHistoryOpen(false); setCancelRecord(record); }} className="btn-ghost text-[12px] text-danger">取消销售</button></div>}</div>}</article>)}</div>}
       </SalesDialog>}
     </div>
   );

@@ -1,0 +1,416 @@
+{
+ "http://m.mnw.cn/news/digi/2731352.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://m.mnw.cn/news/digi/2731352.html"
+ },
+ "https://baike.baidu.com/item/Acer%20Swift%203/55421129": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/Acer%20Swift%203/55421129",
+  "error": "HTTP 403"
+ },
+ "https://digi.ithome.com/archiver/857/153.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://digi.ithome.com/archiver/857/153.htm"
+ },
+ "https://g.pconline.com.cn/product/notebook/acer/1268796_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/acer/1268796_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/acer/1176923_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/acer/1176923_detail.html"
+ },
+ "https://c.m.163.com/news/a/GCUF7I9S0511CEBF.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://c.m.163.com/news/a/GCUF7I9S0511CEBF.html"
+ },
+ "https://g.pconline.com.cn/x/1870/18702710.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/x/1870/18702710.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/acer/1374148_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/acer/1374148_detail.html"
+ },
+ "https://detail.zol.com.cn/series/16/21385_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/21385_1.html"
+ },
+ "https://k.sina.cn/article_1448589414_5657b86605500q5xq.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://k.sina.cn/article_1448589414_5657b86605500q5xq.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/acer/1182596_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/acer/1182596_detail.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1157936.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1157936.shtml"
+ },
+ "https://m.jinshouji.com/bijibendiannao/464338.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.jinshouji.com/bijibendiannao/464338.html"
+ },
+ "https://detail.zol.com.cn/57/index1413916.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1413916.shtml"
+ },
+ "https://nb.zol.com.cn/642/6420580.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/642/6420580.html"
+ },
+ "https://detail.zol.com.cn/Remote-control/index1401475.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1401475.shtml"
+ },
+ "https://nb.zol.com.cn/1213/12137764.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/1213/12137764.html"
+ },
+ "https://nb.zol.com.cn/762/7626765.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/762/7626765.html"
+ },
+ "https://nb.zol.com.cn/774/7747609.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/774/7747609.html"
+ },
+ "https://nb.zol.com.cn/774/7748869.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/774/7748869.html"
+ },
+ "https://detail.zol.com.cn/move_disk/index1229807.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1229807.shtml"
+ },
+ "https://detail.zol.com.cn/lcd/index1207479.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1207479.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1330358.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1330358.shtml"
+ },
+ "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190201/1811%E8%B3%87%E8%A8%8A%E6%9C%88Gaming%E5%83%B9%E6%A0%BC%E8%A1%A8-1113v7-%E9%83%A8%E5%88%862.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190201/1811%E8%B3%87%E8%A8%8A%E6%9C%88Gaming%E5%83%B9%E6%A0%BC%E8%A1%A8-1113v7-%E9%83%A8%E5%88%862.pdf"
+ },
+ "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190829/1908-NB%E5%83%B9%E6%A0%BC%E8%A1%A8-0822v5_%E9%83%A8%E5%88%862.pdf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190829/1908-NB%E5%83%B9%E6%A0%BC%E8%A1%A8-0822v5_%E9%83%A8%E5%88%862.pdf"
+ },
+ "https://detail.zol.com.cn/lcd/index1362397.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1362397.shtml"
+ },
+ "https://nb.zol.com.cn/811/8116058.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/811/8116058.html"
+ },
+ "https://nb.zol.com.cn/806/8064083_all.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/806/8064083_all.html"
+ },
+ "https://nb.zol.com.cn/813/8136955.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/813/8136955.html"
+ },
+ "https://tech.sina.com.cn/digi/2020-07-04/doc-iirczymm0497678.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.com.cn/digi/2020-07-04/doc-iirczymm0497678.shtml"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwIHVlxbAU0UAF8IGlsQVQEEV1ZaCEwQAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2oAHF0WVQECU1lfFxJSXzI4ZRpoNG93KwY_TDVoU2hqHEFQLVZ6AlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkkSUGoOTllCWFICAw4PWk4nA244WjUVVAQEUlteDHsWM28OE1kUXAILV1dcDEknA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBD9cH1sSWmheEx9dXRAfVAEKE1sdXgQHV25fCUoVAV84K118OFlcDQcZcxZVVjZVTjJMIAN_AQdecTNreWtyfjUXBlwKVB00DhdSXGdIRzpRAQ4yVG5aDkonAl8": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwIHVlxbAU0UAF8IGlsQVQEEV1ZaCEwQAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2oAHF0WVQECU1lfFxJSXzI4ZRpoNG93KwY_TDVoU2hqHEFQLVZ6AlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkkSUGoOTllCWFICAw4PWk4nA244WjUVVAQEUlteDHsWM28OE1kUXAILV1dcDEknA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBD9cH1sSWmheEx9dXRAfVAEKE1sdXgQHV25fCUoVAV84K118OFlcDQcZcxZVVjZVTjJMIAN_AQdecTNreWtyfjUXBlwKVB00DhdSXGdIRzpRAQ4yVG5aDkonAl8"
+ },
+ "https://news.sina.com.cn/sx/2024-09-30/detail-incqwyyw5210297.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.sina.com.cn/sx/2024-09-30/detail-incqwyyw5210297.shtml"
+ },
+ "https://www.163.com/dy/article/H9DO0C1L0511CEBF.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/H9DO0C1L0511CEBF.html"
+ },
+ "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html"
+ },
+ "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html"
+ },
+ "https://wap.yesky.com/product/top_notebookpc/top_acer": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.yesky.com/product/top_notebookpc/top_acer/"
+ },
+ "https://product.yesky.com/notebookpc/zwsb_acer/": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/notebookpc/zwsb_acer/",
+  "error": "HTTP 405"
+ },
+ "https://product.pconline.com.cn/notebook/acer/1228994_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/acer/1228994_detail.html"
+ },
+ "https://www.acer.com.cn/news_view.html?newsid=54": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.acer.com.cn/news_view.html?newsid=54"
+ },
+ "https://laptopmedia.com/review/acer-nitro-v-16-anv16-41-review-this-one-could-be-one-of-the-best-budget-laptops-in-2024/post": {
+  "status": 200,
+  "ok": true,
+  "final": "https://laptopmedia.com/review/acer-nitro-v-16-anv16-41-review-this-one-could-be-one-of-the-best-budget-laptops-in-2024/"
+ },
+ "https://technave.com/comparison/compare-laptop-specs-price-Malaysia-119.html?gadget1=44290": {
+  "status": 200,
+  "ok": true,
+  "final": "https://technave.com/comparison/compare-laptop-specs-price-Malaysia-119.html?gadget1=44290"
+ },
+ "https://www.donews.com/news/detail/4/6352984.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.donews.com/news/detail/4/6352984.html"
+ },
+ "https://www.expreview.com/92561.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/92561.html"
+ },
+ "https://www.gizguide.com/2026/06/acer-predator-helios-18-ai-nitro-blaze-16.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gizguide.com/2026/06/acer-predator-helios-18-ai-nitro-blaze-16.html"
+ },
+ "https://www.ithome.com/0/609/247.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/609/247.htm"
+ },
+ "https://www.ithome.com/0/619/186.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/619/186.htm"
+ },
+ "https://www.ithome.com/0/644/301.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/644/301.htm"
+ },
+ "https://www.ithome.com/0/675/967.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/675/967.htm"
+ },
+ "https://www.ithome.com/0/697/453.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/697/453.htm"
+ },
+ "https://www.ithome.com/0/808/864.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/808/864.htm"
+ },
+ "https://www.ithome.com/0/842/174.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/842/174.htm"
+ },
+ "https://www.ithome.com/0/889/000.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/889/000.htm"
+ },
+ "https://www.notebookcheck-cn.com/Acer-Nitro-V16.882704.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck-cn.com/Acer-Nitro-V16.882704.0.html"
+ },
+ "https://www.notebookcheck-cn.com/Acer-Predator-Helios-300-G3-571.236182.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck-cn.com/Acer-Predator-Helios-300-G3-571.236182.0.html"
+ },
+ "https://nxtmag.tech/?p=24547": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nxtmag.tech/2023/05/25/introducing-the-predator-helios-neo-16-helios-16-and-helios-18-unleashing-powerful-gaming-performance-with-affordable-nvidia-geforce-rtx-40-series-graphics/"
+ },
+ "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881": {
+  "status": 403,
+  "ok": true,
+  "final": "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881",
+  "error": "HTTP 403"
+ },
+ "https://www.nova.com.tw/article/em/content/Predator_Triton_Neo_16": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.nova.com.tw/article/em/content/Predator_Triton_Neo_16"
+ },
+ "https://store.acer.com/en-my/promotion?memory_standard=1457": {
+  "status": 0,
+  "ok": false,
+  "final": "https://store.acer.com/en-my/promotion?memory_standard=1457",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.acer.com/ae-en/laptops/nitro/nitro-v-15/pdp/NH.QQEEM.00B": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/ae-en/laptops/nitro/nitro-v-15/pdp/NH.QQEEM.00B",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.toutiao.com/article/7067140169622749699": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7067140169622749699"
+ },
+ "https://www.toutiao.com/article/7197380424036368933/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7197380424036368933/"
+ },
+ "https://www.smartprix.com/laptops/acer_predator_helios_neo_16_20_vs_acer_nitro_v16_anv16_41_gaming-cpd1lnrxkdyg_pd11w4rjmka.php": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.smartprix.com/laptops/acer_predator_helios_neo_16_20_vs_acer_nitro_v16_anv16_41_gaming-cpd1lnrxkdyg_pd11w4rjmka.php",
+  "error": "HTTP 403"
+ },
+ "https://www.acer.com/ac/en/AE/content/models/laptops/swift7": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/ac/en/AE/content/models/laptops/swift7",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.toutiao.com/article/7484145589480686134": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7484145589480686134"
+ },
+ "https://xinwen.pconline.com.cn/2140/21400232.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://xinwen.pconline.com.cn/2140/21400232.html"
+ },
+ "https://www.acer.com/ee-en/laptops/swift/swift-5/pdp/NX.HXAEL.004": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/ee-en/laptops/swift/swift-5/pdp/NX.HXAEL.004",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://potions.sg/?p=16791": {
+  "status": 200,
+  "ok": true,
+  "final": "https://potions.sg/tech/acers-predator-helios-line-of-gaming-laptops-gets-a-new-mid-range-offering/"
+ },
+ "https://www.acer.com/id-id/predator/laptops/helios/helios-neo-16/pdp/NH.QLUSN.001": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/id-id/predator/laptops/helios/helios-neo-16/pdp/NH.QLUSN.001",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.acer.com/tw-zh/laptops/nitro/nitro-v-15/pdp/UN.QN8TA.003": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/tw-zh/laptops/nitro/nitro-v-15/pdp/UN.QN8TA.003",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.techradar.com/news/acer-introduces-indias-first-amd-ryzen-4500u-powered-laptop": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.techradar.com/news/acer-introduces-indias-first-amd-ryzen-4500u-powered-laptop"
+ },
+ "https://www.acer.com/au-en/support/product-support/GT5676/downloads": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/au-en/support/product-support/GT5676/downloads",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.yugatech.com/hi/news/acer-predator-helios-300-g3-571-with-gtx-1060-now-in-ph/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.yugatech.com/news/acer-predator-helios-300-g3-571-with-gtx-1060-now-in-ph/"
+ },
+ "https://www.acer.com/ee-en/laptops/nitro/nitro-5/pdp/NH.Q59EL.01L": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.acer.com/ee-en/laptops/nitro/nitro-5/pdp/NH.Q59EL.01L",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.straitstimes.com/tech/acer-swift-3-is-excellent-value-for-money": {
+  "status": 0,
+  "ok": false,
+  "final": "https://www.straitstimes.com/tech/acer-swift-3-is-excellent-value-for-money",
+  "error": "URLError: <urlopen error Tunnel connection failed:"
+ },
+ "https://detail.zol.com.cn/series/16/29277_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/29277_1.html"
+ },
+ "https://www.notebookcheck-cn.com/Acer-Swift-5-SF514-54T-595E.460855.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck-cn.com/Acer-Swift-5-SF514-54T-595E.460855.0.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1154447.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1154447.shtml"
+ },
+ "https://gaming.unboxparadigm.com/p/acer-nitro-v-anv15-51-2023-unqnsi002-c8c15/": {
+  "status": 0,
+  "ok": false,
+  "final": "https://gaming.unboxparadigm.com/p/acer-nitro-v-anv15-51-2023-unqnsi002-c8c15/",
+  "error": "RemoteDisconnected: Remote end closed connection without res"
+ },
+ "https://detail.zol.com.cn/notebook/index1478224.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1478224.shtml"
+ },
+ "https://www.notebookcheck-cn.com/Acer-Nitro-V-15-ANV15-51.777843.0.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.notebookcheck-cn.com/Acer-Nitro-V-15-ANV15-51.777843.0.html"
+ }
+}

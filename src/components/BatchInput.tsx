@@ -8,9 +8,12 @@ import { useState } from 'react';
 import { Plus, Trash2, X, Check } from 'lucide-react';
 import Toast from '@/components/Toast';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
+import { formatProductName } from '@/lib/product-name';
+import { formatGPUDisplay } from '@/lib/sku-display';
 
 interface BatchInputProps {
   presetConfig?: {
+    skuId?: string;
     productType: string;
     brand: string;
     model: string;
@@ -24,6 +27,7 @@ interface BatchInputProps {
     skuRemark?: string;
   };
   onConfirm: (machines: Array<{
+    skuId?: string;
     productType: string;
     brand: string;
     model: string;
@@ -52,6 +56,7 @@ interface BatchRow {
 export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchInputProps) {
   // 通用配置 - 如果有预设配置则使用预设
   const [baseConfig, setBaseConfig] = useState({
+    skuId: presetConfig?.skuId,
     productType: presetConfig?.productType || '笔记本电脑',
     brand: presetConfig?.brand || '',
     model: presetConfig?.model || '',
@@ -188,7 +193,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                 <div className="grid grid-cols-4 gap-3 text-[13px]">
                   <div>
                     <span className="text-ink-soft">品牌型号：</span>
-                    <span className="font-medium text-ink-deep">{presetConfig.brand} {presetConfig.model}{presetConfig.year ? ` ${presetConfig.year}` : ''}</span>
+                    <span className="font-medium text-ink-deep">{formatProductName(presetConfig)}</span>
                   </div>
                   <div>
                     <span className="text-ink-soft">CPU：</span>
@@ -205,7 +210,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   {presetConfig.gpu && (
                     <div>
                       <span className="text-ink-soft">显卡：</span>
-                      <span className="font-medium text-ink-deep">{presetConfig.gpu}</span>
+                      <span className="font-medium text-ink-deep">{formatGPUDisplay(presetConfig.gpu)}</span>
                     </div>
                   )}
                   {presetConfig.screen && (

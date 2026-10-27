@@ -98,7 +98,7 @@ try {
     {
       id: 'sku_redmi_book_14',
       productType: '笔记本电脑',
-      brand: 'Redmi',
+      brand: '小米',
       model: 'RedmiBook 14',
       cpuOptions: ['i5-1135G7', 'i7-1165G7'],
       ramOptions: ['8GB', '16GB'],
@@ -111,7 +111,7 @@ try {
     {
       id: 'sku_redmi_book_pro_15',
       productType: '笔记本电脑',
-      brand: 'Redmi',
+      brand: '小米',
       model: 'RedmiBook Pro 15',
       cpuOptions: ['i5-11300H', 'i7-11370H'],
       ramOptions: ['16GB'],
@@ -139,7 +139,7 @@ try {
     {
       id: 'sku_redmi_pad',
       productType: '平板电脑',
-      brand: 'Redmi',
+      brand: '小米',
       model: 'Redmi Pad',
       cpuOptions: ['联发科 Helio G99'],
       ramOptions: ['4GB', '6GB'],

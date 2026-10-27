@@ -1,0 +1,1586 @@
+{
+  "scope": "宏碁轻薄本 非凡/蜂鸟 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2016",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 3",
+      "displayName": "宏碁 蜂鸟 Swift 3 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-6200U",
+        "英特尔酷睿 i7-6500U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel HD Graphics 520"
+      ],
+      "storageOptions": [
+        "128GB",
+        "256GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1157936.shtml",
+      "sourceTitle": "Acer SF314-51-50KS 参数（中关村在线产品库，上市时间 2016 年 10 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "首代蜂鸟 Swift 3，型号 SF314-51，2016 年 10 月上市（IFA 2016 发布）。14 英寸 IPS FHD、1.5kg/17.9mm、4 芯电池、镁铝合金、Type-C USB3.1、指纹识别。国行参考价：i5-6200U/4GB/128GB 4299 元，i5/8GB/256GB 4899 元，i7-6500U/8GB/256GB 5299 元（ZOL 报价）。内存 DDR4 板载单通道（8GB×1），无内存插槽；另有支持多点触控的 SKU（-51PZ/-55RG/-77J3）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2017",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 3",
+      "displayName": "宏碁 蜂鸟 Swift 3 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620",
+        "NVIDIA GeForce MX150 2GB"
+      ],
+      "storageOptions": [
+        "256GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://m.jinshouji.com/bijibendiannao/464338.html",
+      "sourceTitle": "Acer SF314-52G-52LV 参数（ZOL 参数镜像页，上市时间 2017 年 09 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "SF314-52 / SF314-52G，2017 年 9 月上市，首批 8 代酷睿 U。i5-8250U + MX150 2GB GDDR5（384 CUDA，Pascal）国行约 4999 元起；2017 年 11 月 i5-8250U 集显版上市价约 4799 元。8GB DDR4-2133 为单条 SO-DIMM（可更换），14 英寸 IPS、镁铝合金、1.8kg/18mm、48Wh。参数页来源为 ZOL 数据镜像站，价格与上市月份建议以京东历史页复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2020",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 3",
+      "displayName": "宏碁 蜂鸟 Swift 3 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 5 4500U",
+        "AMD 锐龙 7 4700U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 AMD Radeon Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/29277_1.html",
+      "sourceTitle": "Acer宏碁新蜂鸟Swift3 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "SF314-42，锐龙 4000U 平台，2020 年 3 月中国上市，官方口径 4499 元起；1.2kg/15.95mm、48Wh、Wi-Fi 6、指纹、背光键盘，14 英寸 FHD IPS 窄边（左右 4.37mm）。内存 LPDDR4X 板载（8GB/16GB），不可扩展；SSD 最高 512GB（部分海外 SKU 1TB）。同代 Intel 版 SF314-57（i5-1035G1，14 英寸 FHD）国行亦有销售，本表未单列。；原区域官网页在本机网络不可达，改用产品库/规格站页核验，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2018",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 5",
+      "displayName": "宏碁 蜂鸟 Swift 5 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz 触控"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/lcd/index1207479.shtml",
+      "sourceTitle": "Acer SF514-52T-511E 参数（中关村在线产品库，上市时间 2018 年 02 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "SF514-52T，2018 年 2 月上市，970g/14.9mm，镁锂合金机身，14 英寸 FHD IPS 多点触控（72% NTSC、9.2mm 窄边、170° 视角），36Wh，指纹+背光键盘。8GB LPDDR3 板载，参数页写「最大 16GB」但实际无插槽，不可扩展。国行 i5-8250U/8GB/256GB 首发 7499 元（2018 年 3 月电商价）；ZOL 收录 13 个 SKU，i7-8550U 版多为 8GB/512GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2019",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 5",
+      "displayName": "宏碁 蜂鸟 Swift 5 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8265U",
+        "英特尔酷睿 i7-8565U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz 触控"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/move_disk/index1229807.shtml",
+      "sourceTitle": "Acer SF514-53T-59ZT 参数（中关村在线产品库，上市时间 2019 年 01 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "SF514-53T，2019 年 1 月上市，14 英寸 9.32mm 窄边 IPS 触控，DDR4（参数页写最大 16GB），国行 i5-8265U/8GB/256GB 6999 元、8GB/512GB 约 7499 元。同期海外还有 10 代 Ice Lake 的 SF514-54T（i5-1035G1 / i7-1065G7，MX250 2GB，990g），国行未见正式型号页，故不单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2020",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 5",
+      "displayName": "宏碁 蜂鸟 Swift 5 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "NVIDIA GeForce MX350 2GB"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Swift-5-SF514-54T-595E.460855.0.html",
+      "sourceTitle": "Acer Swift 5 SF514-54T-595E 规格 - Notebookcheck 中文版",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "SF514-55T / 55GT，11 代 Tiger Lake + 抗菌康宁大猩猩玻璃触控屏，1.05kg/14.95mm、56Wh、90% 屏占比、雷电4。官方规格页机型 NX.HXAEL.004 为 i5-1135G7/8GB LPDDR4X/256GB/MX350 2GB GDDR5。8GB 与 16GB 均为 LPDDR4X 板载，无插槽。该模具 2021 年以「非凡 S5」名义在国行销售，见「非凡 S5 2021」行。；原区域官网页在本机网络不可达，改用产品库/规格站页核验，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2016",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 7",
+      "displayName": "宏碁 蜂鸟 Swift 7 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-7Y54",
+        "英特尔酷睿 i7-7Y75"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel HD Graphics 615"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1154447.shtml",
+      "sourceTitle": "Acer SF713-51-M5MP（Swift 7） - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "SF713-51，2016 年 10 月上市，9.98mm/1.1kg，全金属+钻石切边，13.3 英寸 FHD IPS（Gorilla Glass 4），无风扇，41.58Wh，2×USB-C（USB3.1 Gen1 + DP 输出）。8GB LPDDR3 板载不可扩展。美国首发 1099.99 美元（i5-7Y54/8GB/256GB），i7-7Y75/8GB/512GB 为高配。国行上市时间与价格无官方页面可核，故价格不入库。；原区域官网页在本机网络不可达，改用产品库/规格站页核验，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2019",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "蜂鸟 Swift 7",
+      "displayName": "宏碁 蜂鸟 Swift 7 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-8500Y"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 615"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.acer.com.cn/news_view.html?newsid=54",
+      "sourceTitle": "【新品】宏碁发表全新 Swift 7：轻薄设计展现惊人屏占比（宏碁中国官网新闻，SF714-52T）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "SF714-52T，CES 2019 创新奖，2019 年 1 月发布。890g/9.95mm，92% 屏占比、边框 2.57mm，14 英寸 FHD IPS 触控 + 第六代大猩猩玻璃，72% NTSC/300nit，无风扇，32Wh，指纹电源二合一。16GB 板载（LPDDR3），512GB PCIe。台湾含税 63,900 新台币（16GB/512GB），国行价格未见官方页面。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2021",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 S3",
+      "displayName": "宏碁 非凡 S3 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/lcd/index1362397.shtml",
+      "sourceTitle": "Acer 非凡 S3(i5 1135G7/16GB/512GB/集显) 参数（中关村在线产品库，上市时间 2021 年 03 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国行「非凡」系列首代，2021 年 3 月上市，EVO 认证、雷电4。14 英寸 FHD IPS、300nit、100%sRGB、86% 屏占比；1.2kg/15.9mm、56Wh。16GB LPDDR4X-4266 为板载（ZOL 参数页写 2×SO-DIMM 有误，实机不可换，最大 16GB）。参考价 i5 版 4499–4599 元、i7 版 5199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2022",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 S3",
+      "displayName": "宏碁 非凡 S3 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1240P",
+        "英特尔酷睿 i7-1260P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1440 60Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/609/247.htm",
+      "sourceTitle": "4299 元，宏碁推出 2022 款非凡 S3 轻薄本：12 代酷睿 CPU、14 英寸 2.5K 屏（IT之家 2022-03-23）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "SF314-512，2022 年 3 月 23 日上架、4 月 6 日首发 4299 元（i5-1240P/16GB/512GB/集显）。14 英寸 2.5K IPS、90% 屏占比、1200:1、100%sRGB、DC 调光；1.25kg/15.9mm、56Wh、双雷电4、双 M.2、FHD 摄像头，EVO 认证。16GB LPDDR4X-4266 板载。i7-1260P 版参考价 5299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3 OLED高能版|2022",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 S3 OLED高能版",
+      "displayName": "宏碁 非凡 S3 OLED高能版 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 90Hz OLED"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/619/186.htm",
+      "sourceTitle": "宏碁发布非凡 S3 OLED 高能版笔记本：12 代酷睿 H 处理器 + 2.8K OLED 屏（IT之家 2022-05-18）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "与非凡 S3 2022（P 系列）同年但为不同平台/不同模具，故单列。2022 年 5 月 18 日发布、6 月上架：i5-12500H/16GB/512GB 首发 4799 元，i7-12700H/16GB/512GB 5799 元。14 英寸 2.8K 90Hz OLED（E4、10bit、100% DCI-P3、500nit、DisplayHDR True Black 500）、92% 屏占比；1.4kg/17.9mm、铝合金、OceanGlass 触控板、键盘进气散热、Wi-Fi 6E、EVO。16GB LPDDR5 板载。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S5|2021",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 S5",
+      "displayName": "宏碁 非凡 S5 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz 触控"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/806/8064083_all.html",
+      "sourceTitle": "4089 元秒杀宏碁非凡 S5 超轻薄本 11 代酷睿 i5 16G+512G/1TB Evo 认证（中关村在线，含产品详细参数）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "对应海外 SF514-55T，2021 年国行上市。1.05kg/14.9mm，镁锂（AD 面）+镁铝（C 面），14 英寸 FHD 触控 + 康宁大猩猩抗菌玻璃、100%sRGB、340nit，56Wh，雷电4，EVO；16GB LPDDR4X 板载。价格：i5/16GB/1TB 参考 6799 元（天极），i7-1165G7 首发 7999 元、后降至 7289 元（笔吧评测室）。原厂 SSD 为 QLC 颗粒，支持 PCIe4.0 自行更换。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S5 Pro|2022",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 S5 Pro",
+      "displayName": "宏碁 非凡 S5 Pro 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1240P",
+        "英特尔酷睿 i7-1260P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html",
+      "sourceTitle": "宏碁新款非凡 S5 Pro 轻薄本今日开卖：12 代酷睿 / 2.5K 触控屏（IT之家，2022-05-18）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "SF514-56T，国行正式名为「非凡 S5 Pro」，不称「非凡 S5 2022」，2022 年 5 月 18 日开卖：i5-1240P 6499 元、i7-1260P 6999 元。1.2kg/14.95mm，CNC 钻石切割、6000 系航空铝，14 英寸 16:10 2.5K 触控（92% 屏占比、100%sRGB、500nit、DC 调光、康宁抗菌玻璃），56Wh，双雷电4，EVO；16GB LPDDR5 板载。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go 14",
+      "displayName": "宏碁 非凡 Go 14 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13500H",
+        "英特尔酷睿 i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 90Hz OLED"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/675/967.htm",
+      "sourceTitle": "4999 元起，宏碁非凡 Go 2023 款上架：13 代标压处理器 + 2.8K OLED 屏（IT之家 2023-02-27）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 2 月 27 日上架、3 月 7 日开售：i5-13500H 4999 元、i7-13700H 5999 元（i5 版为 16GB/512GB）；618 期间 i5 版降至 4098 元。14 英寸 2.8K 90Hz OLED（E4、10bit、90% 屏占比、100% DCI-P3、500nit、DisplayHDR True Black 500）、16:10；1.3kg/14.9mm、65Wh、双雷电4、双 M.2、1440p 摄像头、Wi-Fi 6E 杀手网卡。16GB LPDDR5 板载。i7 版存储容量未见明确，故 storageOptions 仅记 512GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go 14",
+      "displayName": "宏碁 非凡 Go 14 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H",
+        "英特尔酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz",
+        "14英寸 2880x1800 90Hz OLED"
+      ],
+      "sourceUrl": "https://www.expreview.com/92561.html",
+      "sourceTitle": "Acer 新款非凡 Go AI 笔电预售 搭载酷睿 Ultra 7/5，EVO 认证可选，4999 元起（超能网 2024-03）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 3 月上架，首发 5 个配置 4999/5299/5499/6099/6299 元；1.32kg/14.9mm，全金属流光银+钻切，180° 开合，65Wh，100W? 标配 100W 级快充（30 分钟 4 小时），双雷电4、双 USB-A、HDMI、MicroSD，Wi-Fi 7/蓝牙 5.3；AI Zone（LiveArt/AlterView/智慧会议 2.0）。16/32GB LPDDR5X 板载，1TB PCIe4.0 + 空余 M.2。标准版为 2.8K 120Hz IPS（400nit/100%sRGB），EVO 版为 2.8K 90Hz OLED（500nit/100% DCI-P3）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go 16",
+      "displayName": "宏碁 非凡 Go 16 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/889/000.htm",
+      "sourceTitle": "宏碁推出非凡 Go 16 AI 笔记本：Ultra5-125H + 32G + 1T，首发价 3899 元（IT之家 2024-10-13）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 10 月 13 日上架，定价 4999 元、首发 3899 元。1.83kg/17.9mm，金属 A 面极光灰，16 英寸 16:10 1920x1200 IPS、90% 屏占比、100%sRGB、180° 开合、独立数字小键盘；62.7Wh、100W GaN、双风扇双热管、双 M.2；32GB LPDDR5 板载；Wi-Fi 6/蓝牙 5.2；全功能 Type-C + 3×USB-A + HDMI + RJ45 + MicroSD。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 公主本|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go 公主本",
+      "displayName": "宏碁 非凡 Go 公主本 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13620H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://news.sina.com.cn/sx/2024-09-30/detail-incqwyyw5210297.shtml",
+      "sourceTitle": "潮玩 PC 新品类，宏碁非凡 Go 公主本正式开售（新浪新闻 2024-09-30，含官方配置说明）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2024 年 9 月 30 日首发，泡泡玛特联名（Peach Riot 叛桃盲盒礼盒，前 200 名），公主粉定制 A 面。i7-13620H（10 核 16 线程）、45W 释放、双风扇双热管；双 DDR5 内存插槽 + 双 M.2（可扩展）；1.49kg、100W GaN、14 英寸 2.8K 120Hz、DC 调光、全金属。价格：京东联名款 4999 元、非联名 4899 元（笔记本评测网 2025-03）。16GB 为插槽内存（非板载），此项官方稿未明示，按同模具 Pro 机型推断，标 medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Air|2025",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go Air",
+      "displayName": "宏碁 非凡 Go Air 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13260H",
+        "英特尔 Core 5 210H",
+        "英特尔 Core 7 240H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "集成显卡 Intel Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2240x1400 60Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/x/1870/18702710.html",
+      "sourceTitle": "宏碁发布非凡 Go Air 超轻薄本：重量仅 999g 售价 4999 元（太平洋电脑网 2025-01-15）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年 1 月 15 日首发：i7-13260H/32GB LPDDR5/1TB 4999 元（国补到手 3999.2 元）；3 月 21 日追加酷睿 200H 平台：Core 5 210H 版 5299 元、Core 7 240H 版 5699 元。镁铝合金、999g/15.9mm，60Wh、100W PD、12 小时续航；14 英寸 2240x1400 IPS 雾面、16:10、100%sRGB、DC 调光、88% 屏占比、180° 开合；三档背光、Wi-Fi 6、3×USB-C（2 全功能）+1×USB-A+HDMI 2.0。32GB LPDDR5 板载（京东页标 0 插槽、最大 32GB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Pro|2025",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go Pro",
+      "displayName": "宏碁 非凡 Go Pro 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔 Core 7 240H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/842/174.htm",
+      "sourceTitle": "宏碁 2025 款非凡 Go Pro 14 英寸笔记本上架：Core 7-240H + 32G + 1T 售 5299 元（IT之家 2025-03-31）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年 3 月 31 日上架、4 月 10 日首销，5299 元。1.49kg/16.9mm、金属机身银河灰、180° 开合、指纹电源二合一；60Wh、续航 9 小时、双风扇双热管；14 英寸 2880x1800 120Hz、400nit、100%sRGB；32GB DDR5（双 SO-DIMM 可换）+1TB PCIe4.0（双 M.2）；Wi-Fi 6E；2×USB-C（1 全功能）+HDMI+2×USB-A+RJ45+3.5mm。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go|2026",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go",
+      "displayName": "宏碁 非凡 Go 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔 Core 5 210H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 144Hz",
+        "16英寸 1920x1200 60Hz",
+        "14英寸 2240x1400 60Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/1213/12137764.html",
+      "sourceTitle": "宏碁非凡 Go 16 英寸本，低至 3965 元（中关村在线 2026，含酷睿 C5-210H/16G/1TB/2.5K 配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2026 年在售「非凡 Go 14/16 2026 款」，京东页标注认证型号：16 英寸 2.5K 为 N25JJ3、16 英寸 1920x1200 为 N23J7、14 英寸为 N23J5。C5-210H，16G/1TB/2.5K 版页面价 4689 元（国补后约 3965 元）；16 英寸 1.76kg、14 英寸 1.49kg；单色背光、Wi-Fi 6、HDMI 2.0、Micro SD；16 英寸 2.5K 为 144Hz。内存标注「2 插槽/最大 16GB」与 32GB 版本并存，容量与插槽信息以具体 SKU 为准，故 confidence 记 medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Edge|2026",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go Edge",
+      "displayName": "宏碁 非凡 Go Edge 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 355"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "sourceUrl": "https://xinwen.pconline.com.cn/2140/21400232.html",
+      "sourceTitle": "点亮非凡生活！宏碁推出非凡 Go Edge 和非凡 Go AI 双旗舰（太平洋科技 2026-04-28，官方发布稿）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026 年 4 月 27 日开售，与非凡 Go AI 同场发布。镁合金 990g/13.95mm，MIL-STD-810H、2026 年 iF 设计奖；Ultra 7 355 + Intel 核显，最高 32GB LPDDR5X + 1TB PCIe4.0；14 英寸 2.8K WQXGA+ OLED 120Hz；标称 24.5 小时续航；FHD 红外摄像头、DTS:X Ultra 双扬声器、PurifiedVoice；Wi-Fi 7/蓝牙 5.4、双雷电4、USB-A、HDMI 2.1。首发价未公开（京东首发赠 150 元 E 卡），故不记价格。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go AI|2026",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "非凡 Go AI",
+      "displayName": "宏碁 非凡 Go AI 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra X7 358H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc B390"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2880x1800 120Hz OLED"
+      ],
+      "sourceUrl": "https://xinwen.pconline.com.cn/2140/21400232.html",
+      "sourceTitle": "点亮非凡生活！宏碁推出非凡 Go Edge 和非凡 Go AI 双旗舰（太平洋科技 2026-04-28，官方发布稿）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2026 年 4 月 27 日开售。Ultra X7 358H（Xe3 架构 Arc B390 核显，支持多帧生成），标配 32GB LPDDR5X，AI 总算力 180 TOPS；16 英寸 2.8K WQXGA+ OLED 120Hz、100% DCI-P3；1.36kg、71Wh、续航 13.5 小时、180° 摊平；500 万像素红外 HDR 摄像头、7.1 英寸多功能触控板；双雷电4、USB-A、HDMI 2.1、Wi-Fi 7/蓝牙 5.4。价格未公开。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "传奇 Go",
+      "displayName": "宏碁 传奇 Go 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 5 7520U",
+        "AMD 锐龙 5 7530U",
+        "AMD 锐龙 7 7730U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 AMD Radeon 610M",
+        "集成显卡 AMD Radeon Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "http://m.mnw.cn/news/digi/2731352.html",
+      "sourceTitle": "宏碁 Go 14 轻薄本发布 搭载 AMD 锐龙 7000 处理器（闽南网转 IT之家，2023-01）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "「传奇」为国行 AMD 消费线，2023 年 1 月 13 日开售：R5-7520U 3699 元、R5-7530U 4299 元、R7-7730U 4999 元。铝合金 1.25kg/15.9mm，14 英寸 FHD IPS、100%sRGB、300nit、90% 屏占比、DC 调光；50Wh、65W Type-C、双铜管双风扇、双 M.2；16GB LPDDR4X-4266 板载；Wi-Fi 6E/蓝牙 5.2、指纹电源二合一、OceanGlass 触控板。同场还有 15.6 英寸「传奇 Young」（R5-7520U），另计。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Edge|2022",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "传奇 Edge",
+      "displayName": "宏碁 传奇 Edge 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 7 6800U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 AMD Radeon 680M"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16英寸 3840x2400 60Hz OLED"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/644/301.htm",
+      "sourceTitle": "宏碁传奇 Edge 笔记本今晚开卖：16 英寸 4K OLED 屏，仅重 1.17kg（IT之家 2022-09-30）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "海外名 Acer Swift Edge（SFA16-41），2022 年 9 月 22 日上架、10 月 1 日 0 点开卖，R7-6800U/16GB/512GB 6999 元。镁铝合金 1.17kg/12.95mm，16 英寸 16:10 4K OLED（国行 60Hz，海外 90Hz）、100 万:1、100% DCI-P3、500nit；16GB LPDDR5-6400 板载、双 M.2；双全功能 USB-C（USB4）+HDMI+USB-A。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go AI|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "传奇 Go AI",
+      "displayName": "宏碁 传奇 Go AI 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "AMD 锐龙 7 8845H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 AMD Radeon 780M"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1200 60Hz",
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/808/864.htm",
+      "sourceTitle": "首发 3999 到手 3182 元：宏碁传奇 Go AI 笔记本电脑百亿补贴（IT之家，2024-06，含完整参数）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 6 月 13 日开售：14 英寸 3999 元、16 英寸 4299 元。R7-8845H（8 核 16 线程/5.1GHz，Radeon 780M 12CU，Ryzen AI 38 TOPS）、45W 释放、双风扇；16GB LPDDR5-6400 板载、1TB PCIe4.0 + 双 M.2 2280；14/16 英寸均 16:10 WUXGA 1920x1200 IPS、100%sRGB、DC 调光、180° 开合，屏占比 85%/89%；1.4/1.7kg、17.9mm、58Wh、100W GaN；双全功能 Type-C、2×USB-A、HDMI 2.0、RJ45、MicroSD、Wi-Fi 6。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|墨舞 EX214|2021",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "墨舞 EX214",
+      "displayName": "宏碁 墨舞 EX214 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "NVIDIA GeForce MX350 2GB"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1374148_detail.html",
+      "sourceTitle": "宏碁墨舞 EX214（酷睿 i5-1135G7/8GB/512GB/MX350）参数（太平洋电脑网产品库，上市 2021 年 3 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "「墨舞」为国行商用/政教线（EX 系列），2021 年 3 月上市：i5/8GB/512GB/MX350 4499 元、i5/16GB/512GB/集显 4199 元（京东秒杀曾至 3989 元）。14 英寸 FHD IPS、170° 广视角、蓝光护盾；1.4kg/17.95mm、48Wh、45W 适配器；双 SO-DIMM（最大 24GB，8GB 板载 +1 插槽）、双硬盘位（可加 SATA）；Wi-Fi 6/蓝牙 5.1；USB-C+2×USB3.2+USB2.0+HDMI+RJ45。同平台另有 14 英寸「墨舞 TMX40」（TMX40-53），配 MX350 与雷电4，未单列。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2016",
+      "cpu": "英特尔酷睿 i5-6200U",
+      "ram": "4GB",
+      "gpu": "集成显卡 Intel HD Graphics 520",
+      "storage": "128GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1157936.shtml",
+      "sourceTitle": "Acer SF314-51-50KS（i5-6200U/4GB/128GB）参数与报价",
+      "confidence": "high",
+      "notes": "国行 4299 元（ZOL 参考价），2016 年 10 月上市，日耀金配色，非触控。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2016",
+      "cpu": "英特尔酷睿 i5-6200U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 520",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/21385_1.html",
+      "sourceTitle": "Acer 蜂鸟 Swift3(14寸) 系列参数列表（SF314-51-51PZ，8GB/256GB/多点触控）",
+      "confidence": "high",
+      "notes": "SF314-51-51PZ 星光银，4899 元（ZOL 报价）；同系列 -55RG 为日耀金同配。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2016",
+      "cpu": "英特尔酷睿 i7-6500U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 520",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/21385_1.html",
+      "sourceTitle": "Acer 蜂鸟 Swift3(14寸) 系列参数列表（SF314-51-77J3，i7-6500U/8GB/256GB）",
+      "confidence": "high",
+      "notes": "SF314-51-77J3 星光银，5299 元（ZOL 报价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2017",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "NVIDIA GeForce MX150 2GB",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://m.jinshouji.com/bijibendiannao/464338.html",
+      "sourceTitle": "Acer SF314-52G-52LV（i5-8250U/8GB/256GB/MX150 2GB）参数",
+      "confidence": "medium",
+      "notes": "国行 4999 元起（2017 年 9 月上市）；内存 8GB DDR4-2133 单条可换。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2017",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://baike.baidu.com/item/Acer%20Swift%203/55421129",
+      "sourceTitle": "Acer Swift 3（i5-8250U 版本 2017 年 11 月上市，初始售价约 4799 元）",
+      "confidence": "medium",
+      "notes": "集显版 2017 年 11 月上市，约 4799 元；百度百科词条引用 ZOL 参数，建议以京东历史页复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2020",
+      "cpu": "AMD 锐龙 5 4500U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/29277_1.html",
+      "sourceTitle": "Acer宏碁新蜂鸟Swift3 系列 - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "中国官方起价 4499 元（宏碁新闻稿），新加坡 S$1,198；1.2kg、48Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2020",
+      "cpu": "AMD 锐龙 5 4500U",
+      "ram": "8GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/29277_1.html",
+      "sourceTitle": "Acer宏碁新蜂鸟Swift3 系列 - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "印度首发 64,300 卢比（优惠 59,900）；8GB LPDDR4X 板载。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://detail.zol.com.cn/lcd/index1207479.shtml",
+      "sourceTitle": "Acer SF514-52T-511E（i5-8250U/8GB/256GB/触控）参数与报价",
+      "confidence": "high",
+      "notes": "国行 7499 元（2018 年 3 月电商价，ZOL 参考价 6999 元）；970g。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2019",
+      "cpu": "英特尔酷睿 i5-8265U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://detail.zol.com.cn/move_disk/index1229807.shtml",
+      "sourceTitle": "Acer SF514-53T-59ZT（i5-8265U/8GB/256GB）参数与报价",
+      "confidence": "high",
+      "notes": "国行 6999 元；同系列 -75DX（i5/8GB/512GB）约 8000 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "8GB",
+      "gpu": "NVIDIA GeForce MX350 2GB",
+      "storage": "256GB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Swift-5-SF514-54T-595E.460855.0.html",
+      "sourceTitle": "Acer Swift 5 SF514-54T-595E 规格 - Notebookcheck 中文版",
+      "confidence": "high",
+      "notes": "官方规格页机型，1.05kg/14.95mm、56Wh、触控抗菌玻璃；无国行价格。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2016",
+      "cpu": "英特尔酷睿 i5-7Y54",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 615",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1154447.shtml",
+      "sourceTitle": "Acer SF713-51-M5MP（Swift 7） - 中关村在线",
+      "confidence": "high",
+      "notes": "美国首发 1099.99 美元（2016 年 10 月）；1.1kg/9.98mm。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2016",
+      "cpu": "英特尔酷睿 i7-7Y75",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel HD Graphics 615",
+      "storage": "512GB",
+      "screen": "13.3英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1154447.shtml",
+      "sourceTitle": "Acer SF713-51-M5MP（Swift 7） - 中关村在线",
+      "confidence": "high",
+      "notes": "同模具高配 SKU，8GB LPDDR3 板载。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2019",
+      "cpu": "英特尔酷睿 i7-8500Y",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel UHD Graphics 615",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://www.acer.com.cn/news_view.html?newsid=54",
+      "sourceTitle": "宏碁蜂鸟 Swift 7（SF714-52T）官方发布稿：i7-8500Y、最高 16GB、512GB PCIe",
+      "confidence": "high",
+      "notes": "890g/9.95mm；台湾含税 63,900 新台币（SF714-52T-748F 16GB/512GB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/lcd/index1362397.shtml",
+      "sourceTitle": "Acer 非凡 S3(i5 1135G7/16GB/512GB/集显) 参数与报价",
+      "confidence": "high",
+      "notes": "2021 年 3 月上市，参考价 4499–4599 元（ZOL 4500 元）；EVO 认证。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2021",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/lcd/index1362397.shtml",
+      "sourceTitle": "Acer 非凡 S3(i7 1165G7/16GB/512GB/集显) 参数与报价",
+      "confidence": "high",
+      "notes": "同系列第二款，参考价 5199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2022",
+      "cpu": "英特尔酷睿 i5-1240P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2560x1440 60Hz",
+      "sourceUrl": "https://www.ithome.com/0/609/247.htm",
+      "sourceTitle": "4299 元，宏碁推出 2022 款非凡 S3 轻薄本（IT之家）",
+      "confidence": "high",
+      "notes": "4 月 6 日首发 4299 元，赛博黄/夜海蓝/珠光银三色。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2560x1440 60Hz",
+      "sourceUrl": "https://wap.yesky.com/product/top_notebookpc/top_acer",
+      "sourceTitle": "宏碁笔记本排行榜：非凡 S3 2022(i7 1260P/16GB/512GB/集显) 5299 元",
+      "confidence": "medium",
+      "notes": "价格来源为天极产品库榜单页，配置为 i7-1260P/16GB/512GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3 OLED高能版|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2880x1800 90Hz OLED",
+      "sourceUrl": "https://www.163.com/dy/article/H9DO0C1L0511CEBF.html",
+      "sourceTitle": "首发 4799 元，宏碁非凡 S3 高能版上架：i5-12500H 16G 512G（IT之家转载）",
+      "confidence": "high",
+      "notes": "首发 4799 元，2022 年 6 月上架。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S3 OLED高能版|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2880x1800 90Hz OLED",
+      "sourceUrl": "https://www.163.com/dy/article/H9DO0C1L0511CEBF.html",
+      "sourceTitle": "首发 4799 元，宏碁非凡 S3 高能版上架：i7-12700H 16G 512G 首发 5799 元",
+      "confidence": "high",
+      "notes": "首发 5799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S5|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://product.yesky.com/notebookpc/zwsb_acer/",
+      "sourceTitle": "宏碁笔记本报价：非凡 S5(i5 1135G7/16GB/1TB/集显/Office) 6799 元",
+      "confidence": "medium",
+      "notes": "参考价 6799 元；京东曾秒杀至 4099–4809 元区间（2021 年 6 月）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S5|2021",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 1920x1080 60Hz 触控",
+      "sourceUrl": "https://c.m.163.com/news/a/GCUF7I9S0511CEBF.html",
+      "sourceTitle": "笔吧评测室：宏碁非凡 S5 i7-1165G7 首发 7999 元，后降至 7289 元",
+      "confidence": "high",
+      "notes": "首发 7999 元（2020 年底海外/2021 年初国行），2021 年中降至 7289 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S5 Pro|2022",
+      "cpu": "英特尔酷睿 i5-1240P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2560x1600 60Hz 触控",
+      "sourceUrl": "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html",
+      "sourceTitle": "宏碁非凡 S5 Pro 开卖：i5-1240P 16G LPDDR5 512G 首发 6499 元",
+      "confidence": "high",
+      "notes": "2022 年 5 月 18 日开卖，翠色。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 S5 Pro|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2560x1600 60Hz 触控",
+      "sourceUrl": "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html",
+      "sourceTitle": "宏碁非凡 S5 Pro 开卖：i7-1260P 16G 512G 首发 6999 元",
+      "confidence": "high",
+      "notes": "首发 6999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2023",
+      "cpu": "英特尔酷睿 i5-13500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2880x1800 90Hz OLED",
+      "sourceUrl": "https://www.ithome.com/0/697/453.htm",
+      "sourceTitle": "宏碁非凡 Go 2023 笔记本降至 4098 元：i5-13500H + 2.8K 90Hz OLED 屏（含 16G 512G 京东链接）",
+      "confidence": "high",
+      "notes": "首发 4999 元（2023 年 3 月 7 日），618 降至 4098 元；金/银两色。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.expreview.com/92561.html",
+      "sourceTitle": "非凡 Go AI，Ultra 5 125H+16GB+1TB，售价 4999 元（超能网）",
+      "confidence": "high",
+      "notes": "起步配置 4999 元，即 1TB 起售。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.expreview.com/92561.html",
+      "sourceTitle": "非凡 Go AI，Ultra 5 125H+32GB+1TB，售价 5299 元（超能网）",
+      "confidence": "high",
+      "notes": "标准版（非 EVO）5299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 90Hz OLED",
+      "sourceUrl": "https://www.expreview.com/92561.html",
+      "sourceTitle": "非凡 Go AI（EVO），Ultra 5 125H+32GB+1TB，售价 5499 元（超能网）",
+      "confidence": "high",
+      "notes": "EVO 版，OLED 屏，比同配标准版贵 200 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.expreview.com/92561.html",
+      "sourceTitle": "非凡 Go AI，Ultra 7 155H+32GB+1TB，售价 6099 元（超能网）",
+      "confidence": "high",
+      "notes": "标准版顶配 6099 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 90Hz OLED",
+      "sourceUrl": "https://www.expreview.com/92561.html",
+      "sourceTitle": "非凡 Go AI（EVO），Ultra 7 155H+32GB+1TB，售价 6299 元（超能网）",
+      "confidence": "high",
+      "notes": "EVO 顶配 6299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 16|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "16英寸 1920x1200 60Hz",
+      "sourceUrl": "https://www.ithome.com/0/889/000.htm",
+      "sourceTitle": "宏碁非凡 Go 16 AI：Ultra5-125H + 32G + 1T，定价 4999 元、首发 3899 元（IT之家）",
+      "confidence": "high",
+      "notes": "单一配置上架，首发 3899 元，日常定价 4999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Air|2025",
+      "cpu": "英特尔酷睿 i7-13260H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2240x1400 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/x/1870/18702710.html",
+      "sourceTitle": "宏碁发布非凡 Go Air：999g、i7-13260H/32GB/1TB、4999 元（太平洋电脑网）",
+      "confidence": "high",
+      "notes": "2025 年 1 月 15 日首发，国补到手 3999.2 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Air|2025",
+      "cpu": "英特尔 Core 5 210H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2240x1400 60Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7484145589480686134",
+      "sourceTitle": "宏碁推出 2025 款非凡 Go Air 超轻薄本：999g，酷睿 200H 处理器（IT之家，2025-03-21）",
+      "confidence": "high",
+      "notes": "酷睿 5 210H 版标价 5299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Air|2025",
+      "cpu": "英特尔 Core 7 240H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2240x1400 60Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7484145589480686134",
+      "sourceTitle": "宏碁推出 2025 款非凡 Go Air 超轻薄本：999g，酷睿 200H 处理器（IT之家，2025-03-21）",
+      "confidence": "high",
+      "notes": "酷睿 7 240H 版标价 5699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Pro|2025",
+      "cpu": "英特尔 Core 7 240H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/842/174.htm",
+      "sourceTitle": "宏碁 2025 款非凡 Go Pro 14：Core 7-240H + 32G + 1T 售 5299 元（IT之家）",
+      "confidence": "high",
+      "notes": "2025 年 4 月 10 日首销，5299 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go|2026",
+      "cpu": "英特尔 Core 5 210H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Graphics",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 144Hz",
+      "sourceUrl": "https://nb.zol.com.cn/1213/12137764.html",
+      "sourceTitle": "宏碁非凡 Go 16 英寸（C5-210H 16G 1TB 2.5K）京东 4689 元、国补后 3965 元",
+      "confidence": "medium",
+      "notes": "页面标注 2.5K 144Hz；型号 N25JJ3。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go|2026",
+      "cpu": "英特尔 Core 5 210H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2240x1400 60Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwIHVlxbAU0UAF8IGlsQVQEEV1ZaCEwQAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2oAHF0WVQECU1lfFxJSXzI4ZRpoNG93KwY_TDVoU2hqHEFQLVZ6AlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkkSUGoOTllCWFICAw4PWk4nA244WjUVVAQEUlteDHsWM28OE1kUXAILV1dcDEknA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBD9cH1sSWmheEx9dXRAfVAEKE1sdXgQHV25fCUoVAV84K118OFlcDQcZcxZVVjZVTjJMIAN_AQdecTNreWtyfjUXBlwKVB00DhdSXGdIRzpRAQ4yVG5aDkonAl8",
+      "sourceTitle": "京东 ACER 宏碁旗舰店：非凡 Go 14 2026 款 C5-210H/32G/1TB/2.2K，页面价 6697 元",
+      "confidence": "low",
+      "notes": "京东联盟跳转链接，商品标题写「新 2026 款」，型号 N23J5；价格为页面价，非首发价。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Edge|2026",
+      "cpu": "英特尔酷睿 Ultra 7 355",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://xinwen.pconline.com.cn/2140/21400232.html",
+      "sourceTitle": "宏碁非凡 Go Edge 发布稿：Ultra 7 355、最高 32GB LPDDR5X、1TB、2.8K OLED 120Hz",
+      "confidence": "high",
+      "notes": "官方稿仅给最高配，未公布价格；2026 年 4 月 27 日开售。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|非凡 Go AI|2026",
+      "cpu": "英特尔酷睿 Ultra X7 358H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc B390",
+      "storage": "1TB",
+      "screen": "16英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://xinwen.pconline.com.cn/2140/21400232.html",
+      "sourceTitle": "宏碁非凡 Go AI 发布稿：Ultra X7 358H + 32GB、16 英寸 2.8K OLED 120Hz",
+      "confidence": "high",
+      "notes": "单一标配（32GB/1TB），价格未公布。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go|2023",
+      "cpu": "AMD 锐龙 5 7520U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon 610M",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "http://m.mnw.cn/news/digi/2731352.html",
+      "sourceTitle": "宏碁 Go 14：R5-7520U 版 3699 元（闽南网转 IT之家）",
+      "confidence": "high",
+      "notes": "2023 年 1 月 13 日开售。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go|2023",
+      "cpu": "AMD 锐龙 5 7530U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://nb.zol.com.cn/811/8116058.html",
+      "sourceTitle": "宏碁传奇 Go 六核笔记本：R5-7530U 16G 512G 3999 元（ZOL）",
+      "confidence": "high",
+      "notes": "首发 4299 元（2023 年 1 月），开学季促销 3999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go|2023",
+      "cpu": "AMD 锐龙 7 7730U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "http://m.mnw.cn/news/digi/2731352.html",
+      "sourceTitle": "宏碁 Go 14：R7-7730U 版 4999 元（闽南网转 IT之家）",
+      "confidence": "high",
+      "notes": "2023 年 1 月 13 日开售。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Edge|2022",
+      "cpu": "AMD 锐龙 7 6800U",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon 680M",
+      "storage": "512GB",
+      "screen": "16英寸 3840x2400 60Hz OLED",
+      "sourceUrl": "https://www.ithome.com/0/644/301.htm",
+      "sourceTitle": "宏碁传奇 Edge：R7 6800U 16G 512G 6999 元，10 月 1 日开卖（IT之家）",
+      "confidence": "high",
+      "notes": "单一配置，1.17kg/12.95mm。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go AI|2024",
+      "cpu": "AMD 锐龙 7 8845H",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon 780M",
+      "storage": "1TB",
+      "screen": "14英寸 1920x1200 60Hz",
+      "sourceUrl": "https://www.ithome.com/0/808/864.htm",
+      "sourceTitle": "宏碁传奇 Go AI 14 英寸（R7-8845H 16G 1TB）3999 元（IT之家）",
+      "confidence": "high",
+      "notes": "2024 年 6 月 13 日开售，1.4kg/58Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|传奇 Go AI|2024",
+      "cpu": "AMD 锐龙 7 8845H",
+      "ram": "16GB",
+      "gpu": "集成显卡 AMD Radeon 780M",
+      "storage": "1TB",
+      "screen": "16英寸 1920x1200 60Hz",
+      "sourceUrl": "https://www.ithome.com/0/808/864.htm",
+      "sourceTitle": "宏碁传奇 Go AI 16 英寸（R7-8845H 16G 1TB）4299 元（IT之家）",
+      "confidence": "high",
+      "notes": "2024 年 6 月 13 日开售，1.7kg，带数字小键盘。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|墨舞 EX214|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "8GB",
+      "gpu": "NVIDIA GeForce MX350 2GB",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1374148_detail.html",
+      "sourceTitle": "宏碁墨舞 EX214（i5-1135G7/8GB/512GB/MX350）参数页",
+      "confidence": "high",
+      "notes": "4499 元（ZOL/太平洋报价），2021 年 3 月上市；48Wh、1.4kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|墨舞 EX214|2021",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://nb.zol.com.cn/774/7747609.html",
+      "sourceTitle": "十大低价热销轻薄本：宏碁墨舞 EX214（i5-1135G7/16GB/512GB/集显）3989 元",
+      "confidence": "high",
+      "notes": "16GB 为 8GB 板载 + 8GB SO-DIMM，最大可扩 24GB；同页另一渠道报价 4199 元。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "宏碁非凡S3",
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2022",
+      "aliasType": "常见搜索写法",
+      "note": "无空格写法，电商标题最常用；2021/2022 两代同名，搜到 12 代 i5-1240P 即本行。"
+    },
+    {
+      "alias": "非凡S3",
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2021",
+      "aliasType": "系列简称",
+      "note": "2021 款（11 代 U + FHD 屏）；若标题含「2.5K」则为 2022 款。"
+    },
+    {
+      "alias": "非凡 S3 高能版",
+      "modelKey": "笔记本电脑|宏碁|非凡 S3 OLED高能版|2022",
+      "aliasType": "型号别名",
+      "note": "官方又名「非凡 S3 高能版」，OLED 版；勿与 2022 款 2.5K IPS 版混同。"
+    },
+    {
+      "alias": "Acer Swift 3",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2017",
+      "aliasType": "英文名",
+      "note": "Swift 3 覆盖 2016—2020 四代，本行仅指向 8 代酷睿代表款。"
+    },
+    {
+      "alias": "蜂鸟Swift3",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2016",
+      "aliasType": "常见搜索写法",
+      "note": "去空格写法，ZOL/京东标题常见。"
+    },
+    {
+      "alias": "宏碁蜂鸟",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2018",
+      "aliasType": "系列俗称",
+      "note": "「蜂鸟」为 Swift 系列中文统称，采购单只写「宏碁蜂鸟」时需按年份/尺寸再确认。"
+    },
+    {
+      "alias": "SF314",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 3|2020",
+      "aliasType": "型号片段",
+      "note": "SF314 横跨 2016—2022 多代（-51/-52/-42/-512），仅按型号片段不可定位年份。"
+    },
+    {
+      "alias": "Acer Swift 5",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2018",
+      "aliasType": "英文名",
+      "note": "Swift 5 覆盖 2018—2022（后两代国行改称非凡 S5 / S5 Pro）。"
+    },
+    {
+      "alias": "蜂鸟Swift5",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2019",
+      "aliasType": "常见搜索写法",
+      "note": "去空格写法。"
+    },
+    {
+      "alias": "SF514",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 5|2020",
+      "aliasType": "型号片段",
+      "note": "-52T/-53T/-54T/-55T/-56T 均属 SF514，需结合代际判断。"
+    },
+    {
+      "alias": "Acer Swift 7",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2016",
+      "aliasType": "英文名",
+      "note": "另有 2019 款 SF714-52T（890g），按重量/年份区分。"
+    },
+    {
+      "alias": "蜂鸟Swift7",
+      "modelKey": "笔记本电脑|宏碁|蜂鸟 Swift 7|2019",
+      "aliasType": "常见搜索写法",
+      "note": "去空格写法。"
+    },
+    {
+      "alias": "宏碁轻薄本",
+      "modelKey": "笔记本电脑|宏碁|非凡 S3|2022",
+      "aliasType": "品类俗称",
+      "note": "泛称，不指单一机型；本行仅作默认锚点，采购时须补型号。"
+    },
+    {
+      "alias": "非凡Go",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2023",
+      "aliasType": "系列简称",
+      "note": "非凡 Go 系列自 2023 年起，含 14/16 英寸、Air、Pro、Edge、AI 等分支。"
+    },
+    {
+      "alias": "非凡Go14",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "aliasType": "常见搜索写法",
+      "note": "2024 款（Ultra 系列）；2023 款为 13 代 H45。"
+    },
+    {
+      "alias": "非凡 Go 16",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 16|2024",
+      "aliasType": "型号别名",
+      "note": "16 英寸 1920x1200 版；2026 款 16 英寸为 2560x1600 144Hz，另计。"
+    },
+    {
+      "alias": "非凡Go Air",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Air|2025",
+      "aliasType": "型号别名",
+      "note": "999g 超轻本，2025 年 1 月首销。"
+    },
+    {
+      "alias": "999g超轻本",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Air|2025",
+      "aliasType": "电商标题写法",
+      "note": "京东/天猫标题常用「999g 超轻本」指代非凡 Go Air。"
+    },
+    {
+      "alias": "非凡Go Pro",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Pro|2025",
+      "aliasType": "型号别名",
+      "note": "注意与 2024 年「非凡 Go Pro」（i7-13620H，2.8K 120Hz）区分，两者模具相同、平台不同。"
+    },
+    {
+      "alias": "非凡Go Edge",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go Edge|2026",
+      "aliasType": "型号别名",
+      "note": "2026 年 4 月发布的 990g 旗舰，Ultra 7 355。"
+    },
+    {
+      "alias": "非凡Go AI",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go AI|2026",
+      "aliasType": "型号别名",
+      "note": "2026 年 16 英寸旗舰（Ultra X7 358H）；2024 年同名宣传语「非凡 Go AI」指 Ultra 平台 14 英寸款，需按年份区分。"
+    },
+    {
+      "alias": "宏碁传奇",
+      "modelKey": "笔记本电脑|宏碁|传奇 Go|2023",
+      "aliasType": "系列俗称",
+      "note": "「传奇」为国行 AMD 消费线统称，含传奇 Go / 传奇 Young / 传奇 Edge。"
+    },
+    {
+      "alias": "传奇Go",
+      "modelKey": "笔记本电脑|宏碁|传奇 Go|2023",
+      "aliasType": "型号别名",
+      "note": "2023 款锐龙 7000U；2024 款为「传奇 Go AI」（8845H）。"
+    },
+    {
+      "alias": "传奇Edge",
+      "modelKey": "笔记本电脑|宏碁|传奇 Edge|2022",
+      "aliasType": "型号别名",
+      "note": "16 英寸 4K OLED 超轻本。"
+    },
+    {
+      "alias": "Swift Edge",
+      "modelKey": "笔记本电脑|宏碁|传奇 Edge|2022",
+      "aliasType": "英文名",
+      "note": "海外名 Acer Swift Edge（SFA16-41）。"
+    },
+    {
+      "alias": "宏碁墨舞",
+      "modelKey": "笔记本电脑|宏碁|墨舞 EX214|2021",
+      "aliasType": "系列俗称",
+      "note": "「墨舞」为国行商用/政教线，含 EX214、TMX40、P40 等。"
+    },
+    {
+      "alias": "墨舞EX214",
+      "modelKey": "笔记本电脑|宏碁|墨舞 EX214|2021",
+      "aliasType": "型号别名",
+      "note": "14 英寸，i5-1135G7，有 MX350 与集显两种 SKU。"
+    },
+    {
+      "alias": "非凡S5",
+      "modelKey": "笔记本电脑|宏碁|非凡 S5|2021",
+      "aliasType": "系列简称",
+      "note": "2021 款 1.05kg 触控本；2022 款国行名为「非凡 S5 Pro」。"
+    },
+    {
+      "alias": "非凡S5 Pro",
+      "modelKey": "笔记本电脑|宏碁|非凡 S5 Pro|2022",
+      "aliasType": "型号别名",
+      "note": "SF514-56T，2.5K 触控。"
+    },
+    {
+      "alias": "宏碁S5",
+      "modelKey": "笔记本电脑|宏碁|非凡 S5 Pro|2022",
+      "aliasType": "错误写法",
+      "note": "媒体标题曾简写「宏碁 S5 Pro」；易与 2012 年 Aspire S5 超极本混淆，实际指非凡 S5 Pro。"
+    },
+    {
+      "alias": "Swift Go 14",
+      "modelKey": "笔记本电脑|宏碁|非凡 Go 14|2024",
+      "aliasType": "英文名",
+      "note": "海外名 Swift Go 14（SFG14-7x）；国行统一叫非凡 Go 14。"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "非凡 S7",
+      "issue": "2016—2026 年宏碁国行轻薄本序列中未检索到「非凡 S7」型号；宏碁 S7 实为 2012 年 Aspire S7 超极本（13.3/11.6 英寸，Win8 时代），与「非凡」命名体系无关。",
+      "suggestion": "不要新建「非凡 S7」SKU；若采购清单要求 S7 档位，按「非凡 S5 Pro 2022」或「非凡 Go Edge 2026」归并，并在清单注明对应关系。",
+      "sourceUrl": "https://www.twice.com/news/acer-unveils-s7-ultrabook-line-4421"
+    },
+    {
+      "model": "蜂鸟 Swift 3 2019（SF314-54）",
+      "issue": "国行 2019 年是否引入 SF314-54（Whiskey Lake / Comet Lake）无法核验；ZOL 系列页只列 2016、2017、2020 三代共 13+ 款，未见 2019 款产品页。",
+      "suggestion": "暂不建档；如遇 2019 年采购记录，按 SF314-52（2017 平台）或 SF314-42（2020 平台）核对实物铭牌后再归并。",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/21385_1.html"
+    },
+    {
+      "model": "非凡 Go 16 2025（Core 7 240H / 16GB / 1TB / 2560x1600 120Hz）",
+      "issue": "仅见京东第三方店铺商品页（宏碁恒众专卖店）与标题，无媒体发布稿或官方规格页确认其型号年份、首发价；2026 款 16 英寸同为 2.5K 120Hz/144Hz，易混淆。",
+      "suggestion": "待 acer.com.cn 或京东自营规格页确认后补录；当前按「非凡 Go 2026」建档，2025 版下单前须核对能效网型号（N23J4）。",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwYLVl1VAU0eC18IGlsdWwYDU1teD00UBF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2cOG1oSWAUFUl1aFxJSXzI4ZTAQPHVrPz4-fTEJaDxdYxx-BH5fNFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkoXUz8KHl0cW1IAAApbXRsnA244WjUVXgcKVlhaAXsWM28OE1kUXAIEUVhfCU8nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGkLTlhBCmheEx9dWwlfUAEKE1gTVAILU25fCUoVAV84KxhFWH5SBl0VcxxOdz1BWiEcPkdVIAxcDE11BBYPHjUXCFEHJhkDUAwURhhYaxxvAEMyVG5aDkonAl8"
+    },
+    {
+      "model": "2026 年 Swift Air 14 / Swift Blade 14",
+      "issue": "2026 年 5 月与 9 月全球发布（SFA14-I31、SFB14-53CF，Intel Core 系列 3），但国行是否以「非凡」系列引进、中文命名与价格均未公布。",
+      "suggestion": "持续关注 acer.com.cn 新品页；在此之前不建 SKU，避免与「非凡 Go Edge / Go AI 2026」重复。",
+      "sourceUrl": "https://news.acer.com/hong-qi-tui-chu-quan-xinswift-air-14bi-dian-da-zai-xin-yi-daiintel-core-xi-lie3chu-li-qi"
+    },
+    {
+      "model": "蜂鸟 Swift 7 2016 国行版本",
+      "issue": "SF713-51 的国行上市时间与售价无官方页面可核；2016 年 11 月台湾目录中的 31,900 新台币对应 Swift 3 而非 Swift 7。",
+      "suggestion": "仅保留规格与美元首发价（1099.99 美元），国行价格暂不录入；如需报价，按同代 XPS 13/UX390 类比不合适，建议询价。",
+      "sourceUrl": "https://www.acer.com/ac/en/AE/content/models/laptops/swift7"
+    },
+    {
+      "model": "墨舞 TMX40（TMX40-53）",
+      "issue": "与墨舞 EX214 同为 2021 年 2 月、同平台（i5-1135G7/i7-1165G7 + MX350），是否独立 SKU、是否带雷电4，各站参数不一致。",
+      "suggestion": "暂并入「墨舞 EX214 2021」notes；若采购要求独显+雷电4 的商用 14 英寸，再单列并补官方规格页。",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/33026_1.html"
+    },
+    {
+      "model": "非凡 S5 2022",
+      "issue": "国行正式名为「非凡 S5 Pro」，是否存在独立「非凡 S5 2022」SKU 未确认；部分媒体标题写作「2022 款非凡 S5」。",
+      "suggestion": "统一归并到「非凡 S5 Pro 2022」（SF514-56T），别名表已收录「非凡 S5 Pro」「宏碁S5」。",
+      "sourceUrl": "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html"
+    }
+  ]
+}

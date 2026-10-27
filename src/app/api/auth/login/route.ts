@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(errorResponse(ErrorCode.UNAUTHORIZED, '用户名或密码错误'), { status: 401 });
     }
     if (String(row.status) !== 'active' || !(USER_ROLES as readonly string[]).includes(String(row.role))) {
-      const message = String(row.status) === 'pending' ? '账号正在等待管理员审核' : '账号已被停用';
+      const message = String(row.status) === 'pending' ? '账号正在等待管理员审核' : String(row.status) === 'deleted' ? '账号已删除' : '账号已被停用';
       recordLoginEvent(String(row.id), username, String(row.status) === 'pending' ? 'pending' : 'disabled', request);
       return NextResponse.json(errorResponse(ErrorCode.FORBIDDEN, message), { status: 403 });
     }

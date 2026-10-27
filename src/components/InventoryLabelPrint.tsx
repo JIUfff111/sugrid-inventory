@@ -4,6 +4,8 @@ import { useCallback, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import LabelCanvas, { labelDimensions, type CanvasElement, type CanvasField } from '@/components/LabelCanvas';
 import { useWorkspace } from '@/components/WorkspaceContext';
+import { formatProductName } from '@/lib/product-name';
+import { formatCPUDisplay, formatGPUDisplay } from '@/lib/sku-display';
 
 type PrintTemplate = {
   id: string;
@@ -114,8 +116,8 @@ export function useInventoryLabelPrinter() {
     `}</style>
     <div id={printRootId} data-print-job={job.id} aria-hidden="true">{job.items.map((item) => <article key={item.id} className="direct-print-tag">
       <LabelCanvas template={job.template} values={{
-        product: [item.brand, item.model, item.year].filter(Boolean).join(' '),
-        config: [item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充',
+        product: formatProductName(item),
+        config: [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充',
         sn: item.sn,
         purchasePrice: `¥${Number(item.purchasePrice).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
         supplier: item.supplierName || '-',

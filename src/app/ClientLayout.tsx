@@ -46,7 +46,7 @@ function WorkspaceSlot({ tab, active, user, onDirtyChange }: { tab: Tab; active:
   </WorkspaceProvider>;
 }
 
-function WorkspaceHost({ user, pathname, href, children }: { user: SessionUser; pathname: string; href: string; children: ReactNode }) {
+function WorkspaceHost({ user, pathname, href, testMode, children }: { user: SessionUser; pathname: string; href: string; testMode: boolean; children: ReactNode }) {
   const router = useRouter();
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [visited, setVisited] = useState<Set<string>>(() => new Set());
@@ -56,7 +56,7 @@ function WorkspaceHost({ user, pathname, href, children }: { user: SessionUser; 
   const [instances, setInstances] = useState<Record<string, number>>({});
   const closingId = useRef<string | null>(null);
   const closingHref = useRef<string | null>(null);
-  const storageKey = `app_tabs:${user.id}`;
+  const storageKey = testMode ? `app_tabs:test:${user.id}` : `app_tabs:${user.id}`;
   const activeRoute = workspaceRoutes[pathname];
   const activeId = activeRoute?.id || '';
   const onDirtyChange = useCallback((id: string, source: string, dirty: boolean) => setDirtyTabs(current => {
@@ -66,15 +66,18 @@ function WorkspaceHost({ user, pathname, href, children }: { user: SessionUser; 
   const dirtyIds = useMemo(() => new Set(Object.entries(dirtyTabs).filter(([, entries]) => Object.values(entries).some(Boolean)).map(([id]) => id)), [dirtyTabs]);
 
   useEffect(() => {
+    let restored: Tab[] = [];
     try {
       const stored = JSON.parse(sessionStorage.getItem(storageKey) || '[]');
-      if (Array.isArray(stored)) setTabs(stored.flatMap((item: Tab) => {
+      restored = Array.isArray(stored) ? stored.flatMap((item: Tab) => {
         if (typeof item?.href !== 'string') return [];
         const path = new URL(item.href, window.location.origin).pathname;
         const route = workspaceRoutes[path];
-        return route && canVisit(user.role, path) ? [{ id: route.id, label: route.label, href: item.href }] : [];
-      }).filter((tab: Tab, index: number, all: Tab[]) => all.findIndex(t => t.id === tab.id) === index));
+        return route && canVisit(user.role, path) ? [{ id: route.id, label: route.label, href: item.href, pinned: route.id === 'home' }] : [];
+      }).filter((tab: Tab, index: number, all: Tab[]) => all.findIndex(t => t.id === tab.id) === index) : [];
     } catch { /* Invalid tab metadata never blocks the workspace. */ }
+    const homeTab: Tab[] = user.role === 'admin' ? [{ id: 'home', label: '首页', href: '/', pinned: true }] : [];
+    setTabs([...homeTab, ...restored.filter(tab => tab.id !== 'home')]);
     setHydrated(true);
   }, [storageKey, user.role]);
 
@@ -84,10 +87,10 @@ function WorkspaceHost({ user, pathname, href, children }: { user: SessionUser; 
     closingId.current = null;
     closingHref.current = null;
     setTabs(current => {
-      const next: Tab = { id: activeRoute.id, label: activeRoute.label, href };
+      const next: Tab = { id: activeRoute.id, label: activeRoute.label, href, pinned: activeRoute.id === 'home' };
       const existing = current.find(tab => tab.id === next.id);
       if (!existing) return [...current, next];
-      return existing.href === href ? current : current.map(tab => tab.id === next.id ? next : tab);
+      return existing.href === href && existing.pinned === next.pinned ? current : current.map(tab => tab.id === next.id ? next : tab);
     });
     setVisited(current => current.has(activeRoute.id) ? current : new Set([...current, activeRoute.id]));
   }, [activeRoute, href, hydrated, pathname, user.role]);
@@ -106,6 +109,7 @@ function WorkspaceHost({ user, pathname, href, children }: { user: SessionUser; 
   }, [user.role]);
 
   const closeTab = (id: string) => {
+    if (tabs.find(tab => tab.id === id)?.pinned) return;
     const remaining = tabs.filter(tab => tab.id !== id);
     const index = tabs.findIndex(tab => tab.id === id);
     if (id === activeId) { closingId.current = id; closingHref.current = href; }
@@ -127,9 +131,10 @@ function WorkspaceHost({ user, pathname, href, children }: { user: SessionUser; 
 
   return <>
     <TopNav user={user} />
+    {testMode && <div role="status" className="flex h-6 items-center justify-center border-y border-primary/15 bg-primary/8 px-3 text-[11px] font-medium text-primary">隔离测试库 · 此处录入不会写入正式数据库</div>}
     <TabBar tabs={tabs} activeTabId={activeId} dirtyIds={dirtyIds} onTabClose={id => dirtyIds.has(id) ? setPendingClose(id) : closeTab(id)} />
     <AlertCenter />
-    <main className={`relative overflow-hidden ${tabs.length ? 'h-[calc(100dvh-100px)]' : 'h-[calc(100dvh-56px)]'}`}>
+    <main className={`relative overflow-hidden ${tabs.length ? (testMode ? 'h-[calc(100dvh-124px)]' : 'h-[calc(100dvh-100px)]') : (testMode ? 'h-[calc(100dvh-80px)]' : 'h-[calc(100dvh-56px)]')}`}>
       {tabs.filter(tab => visited.has(tab.id)).map(tab => <WorkspaceSlot key={`${tab.id}:${instances[tab.id] || 0}`} tab={tab} active={tab.id === activeId} user={user} onDirtyChange={onDirtyChange} />)}
       {!activeRoute && <div className="h-full overflow-y-auto px-4 py-6">{children}</div>}
       {activeRoute && (!hydrated || !visited.has(activeId)) && <Loading />}
@@ -144,6 +149,7 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const isPublic = pathname === '/login' || pathname === '/register';
   const [user, setUser] = useState<SessionUser | null>(null);
+  const [testMode, setTestMode] = useState(false);
   const [checking, setChecking] = useState(true);
   const [authError, setAuthError] = useState('');
   const [retryKey, setRetryKey] = useState(0);
@@ -166,12 +172,14 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
         if (response.status === 401 || response.status === 403) {
           for (const key of Object.keys(sessionStorage)) if (key.startsWith('app_tabs:')) sessionStorage.removeItem(key);
           setUser(null); setAuthError('');
+          setTestMode(false);
           router.replace('/login?returnTo=' + encodeURIComponent(returnHref.current)); return;
         }
         const payload = await response.json();
         if (!response.ok || !payload.success || !payload.data?.user) throw new Error('登录服务暂时不可用，请稍后重试');
         if (disposed) return;
         setUser(payload.data.user);
+        setTestMode(payload.data.testMode === true);
         setAuthError('');
       } catch { if (!disposed) setAuthError('暂时无法连接登录服务，已保留当前操作。请检查网络后重试。'); }
       finally { window.clearTimeout(timeout); inFlight = false; if (!disposed) setChecking(false); }
@@ -193,8 +201,8 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
   if (checking) return <div className="flex min-h-screen items-center justify-center text-ink-soft"><LoaderCircle className="mr-2 h-5 w-5 animate-spin" />正在验证登录…</div>;
   if (!user) return <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center text-ink-soft"><WifiOff className="h-8 w-8 text-primary" /><p>{authError || '正在连接登录服务…'}</p><button type="button" onClick={() => { setChecking(true); setRetryKey(key => key + 1); }} className="btn-primary inline-flex items-center gap-2"><RefreshCw className="h-4 w-4" />重新验证</button></div>;
   if (!canVisit(user.role, pathname) || aliases[pathname]) return <Loading />;
-  const permissionKey = `${user.id}:${user.role}:${user.warehouses.map(warehouse => `${warehouse.id}:${warehouse.status}`).sort().join(',')}`;
-  return <>{authError && <div role="alert" className="fixed bottom-4 left-1/2 z-[9999] flex w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 items-center gap-3 rounded-xl border border-warn/25 bg-white/95 p-4 text-xs shadow-lg"><WifiOff className="h-4 w-4 shrink-0 text-warn" /><span className="flex-1">{authError}</span><button type="button" onClick={() => setRetryKey(key => key + 1)} className="shrink-0 text-primary">重试</button></div>}<WorkspaceHost key={permissionKey} user={user} pathname={pathname} href={href}>{children}</WorkspaceHost></>;
+  const permissionKey = `${testMode ? 'test' : 'production'}:${user.id}:${user.role}:${user.warehouses.map(warehouse => `${warehouse.id}:${warehouse.status}`).sort().join(',')}`;
+  return <>{authError && <div role="alert" className="fixed bottom-4 left-1/2 z-[9999] flex w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 items-center gap-3 rounded-xl border border-warn/25 bg-white/95 p-4 text-xs shadow-lg"><WifiOff className="h-4 w-4 shrink-0 text-warn" /><span className="flex-1">{authError}</span><button type="button" onClick={() => setRetryKey(key => key + 1)} className="shrink-0 text-primary">重试</button></div>}<WorkspaceHost key={permissionKey} user={user} pathname={pathname} href={href} testMode={testMode}>{children}</WorkspaceHost></>;
 }
 
 export default function ClientLayout({ children }: { children: ReactNode }) {

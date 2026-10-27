@@ -8,6 +8,7 @@ import CustomSelect from '@/components/CustomSelect';
 import MachineSearchInput, { type MachineSuggestion } from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
+import { formatProductName } from '@/lib/product-name';
 
 export interface InventoryStatusDefinition { id: string; name: string; color: string; allowStockOperations: number | boolean; isActive: number | boolean; }
 export interface InventoryStatusRecord {
@@ -87,7 +88,7 @@ export default function InventoryStatusDialog({ mode, machine, onClose, onChange
     <BusinessDialog title={title} description={mode === 'manage' ? '配置维修、外部保管等状态；登记和结束过程都会保留记录' : '状态登记保留原仓库、成本和 SN'} onClose={requestClose} footer={<>
       <button type="button" className="btn-ghost" onClick={requestClose} disabled={busy}>关闭</button>
       {mode === 'manage' ? <button type="button" className="btn-primary inline-flex items-center gap-1.5" disabled={busy || !definition.name.trim()} onClick={() => void saveDefinition()}><Check className="h-4 w-4" />{busy ? '保存中…' : editingId ? '保存修改' : '添加状态'}</button>
-        : <button type="button" className="btn-primary" disabled={busy || !selectedMachine || validity.checking || !!validity.error || validity.invalidIds.length > 0 || (mode === 'restore' ? !resultNote.trim() : !definitionId || !form.reason.trim() || !form.location.trim())} onClick={() => mode === 'restore' ? setConfirm('restore') : void submit()}>{busy ? '保存中…' : mode === 'restore' ? '确认恢复在库' : '确认登记'}</button>}
+        : <button type="button" className="btn-primary" disabled={busy || !selectedMachine || validity.checking || !!validity.error || validity.invalidIds.length > 0 || (mode === 'restore' ? !resultNote.trim() : !definitionId)} onClick={() => mode === 'restore' ? setConfirm('restore') : void submit()}>{busy ? '保存中…' : mode === 'restore' ? '确认恢复在库' : '确认登记'}</button>}
     </>}>
       {error && <p role="alert" className="mb-4 rounded-lg border border-danger/20 bg-danger/5 p-3 text-sm text-danger">{error}</p>}
       {(validity.error || validity.invalidIds.length > 0) && <p role="alert" className="mb-4 rounded-lg border border-danger/20 bg-danger/5 p-3 text-sm text-danger">{validity.error || '所选机器状态已变化或已被调拨占用，请重新选择机器。未提交内容已保留。'}</p>}
@@ -102,12 +103,12 @@ export default function InventoryStatusDialog({ mode, machine, onClose, onChange
         </section>
       </div> : <div className="space-y-4">
         {!machine && <label className="block text-xs text-ink-soft">选择机器 *<div className="mt-1.5"><MachineSearchInput<StatusMachine> value={query} onChange={value => { setQuery(value); setSelectedMachine(null); }} endpoint="/api/inventory/lookup?context=status-register" onSelect={item => { setSelectedMachine(item); setQuery(item.sn); }} placeholder="输入 SN 后四位或品牌型号" /></div></label>}
-        {selectedMachine && <div className="rounded-xl border border-primary/15 bg-primary/5 p-3"><p className="text-sm font-medium">{[selectedMachine.brand, selectedMachine.model, selectedMachine.year].filter(Boolean).join(' ')}</p><p className="mt-1 font-mono text-xs">SN {selectedMachine.sn}</p><p className="mt-1 text-xs text-ink-soft">{selectedMachine.warehouseName || '原仓库'}{selectedMachine.customStatusName ? ` · ${selectedMachine.customStatusName}` : ''}</p></div>}
+        {selectedMachine && <div className="rounded-xl border border-primary/15 bg-primary/5 p-3"><p className="text-sm font-medium">{formatProductName(selectedMachine)}</p><p className="mt-1 font-mono text-xs">SN {selectedMachine.sn}</p><p className="mt-1 text-xs text-ink-soft">{selectedMachine.warehouseName || '原仓库'}{selectedMachine.customStatusName ? ` · ${selectedMachine.customStatusName}` : ''}</p></div>}
         {mode === 'restore' ? <><p className="text-sm text-ink-soft">结束当前登记，机器恢复普通在库。此前的状态和处理信息保留在机器生命周期中。</p><label className="block text-xs text-ink-soft">处理结果 *<textarea aria-label="处理结果" className="field mt-1.5" rows={3} value={resultNote} onChange={e => setResultNote(e.target.value)} placeholder="例如：维修完成，已收回总仓" /></label></> : <>
           <label className="block text-xs text-ink-soft">机器状态 *<div className="mt-1.5"><CustomSelect value={definitionId} onChange={setDefinitionId} options={definitions.filter(item => item.isActive).map(item => ({ value: item.id, label: item.name }))} placeholder="请选择状态" /></div></label>
           {definitions.length === 0 && <p className="text-xs text-ink-soft">请先在库存工具栏的“状态管理”中创建状态。</p>}
           {chosenDefinition && <p className="rounded-lg bg-white/65 p-2 text-xs text-ink-soft">{chosenDefinition.allowStockOperations ? '此状态允许参与在库业务，业务完成后自动结束登记。' : '登记后暂停参与销售、租赁、调拨和供应商退货。'}</p>}
-          <div className="grid gap-3 sm:grid-cols-2">{(['reason', 'location', 'responsiblePerson', 'expectedReturnDate'] as const).map(key => <label className="block text-xs text-ink-soft" key={key}>{({ reason: '登记原因 *', location: '当前地点 *', responsiblePerson: '负责人', expectedReturnDate: '预计归还日' })[key]}<input className="field mt-1.5" aria-label={key === 'reason' ? '登记原因' : key === 'location' ? '当前地点' : key === 'responsiblePerson' ? '负责人' : '预计归还日'} type={key === 'expectedReturnDate' ? 'date' : 'text'} value={form[key]} onChange={e => setForm(v => ({ ...v, [key]: e.target.value }))} /></label>)}</div>
+          <div className="grid gap-3 sm:grid-cols-2">{(['reason', 'location', 'responsiblePerson', 'expectedReturnDate'] as const).map(key => <label className="block text-xs text-ink-soft" key={key}>{({ reason: '登记原因', location: '当前地点', responsiblePerson: '负责人', expectedReturnDate: '预计归还日' })[key]}<input className="field mt-1.5" aria-label={key === 'reason' ? '登记原因' : key === 'location' ? '当前地点' : key === 'responsiblePerson' ? '负责人' : '预计归还日'} type={key === 'expectedReturnDate' ? 'date' : 'text'} value={form[key]} onChange={e => setForm(v => ({ ...v, [key]: e.target.value }))} /></label>)}</div>
           <label className="block text-xs text-ink-soft">备注<textarea className="field mt-1.5" rows={3} value={form.remark} onChange={e => setForm(v => ({ ...v, remark: e.target.value }))} /></label>
         </>}
       </div>}

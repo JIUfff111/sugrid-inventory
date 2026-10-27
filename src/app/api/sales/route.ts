@@ -16,7 +16,9 @@ interface InventoryForSale {
   purchasePrice: number; supplierName: string; inboundDate: string; skuRemark: string | null;
   warehouseId?: string | null; status: string;
 }
-interface SaleItemInput { inventoryId?: unknown; id?: unknown; sellingPrice?: unknown; remark?: unknown; }
+interface SaleItemInput { inventoryId?: unknown; id?: unknown; sellingPrice?: unknown; remark?: unknown; assetChange?: unknown; }
+interface AssetChangeInput { expectedRam: string; expectedStorage: string; ram?: string; storage?: string; }
+type AssetChangeSnapshot = { before: { ram: string; storage: string }; after: { ram: string; storage: string } };
 interface SaleRequestBody {
   id?: unknown; recordId?: unknown; recordNo?: unknown; action?: unknown; reason?: unknown; cancelReason?: unknown;
   items?: unknown; inventoryIds?: unknown; saleChannelId?: unknown; saleChannel?: unknown; saleOrderNo?: unknown;
@@ -25,7 +27,7 @@ interface SaleRequestBody {
 type SaleItemSnapshot = {
   inventoryId: string; sn: string; productType?: string; brand?: string; model?: string; year?: number | null;
   cpu?: string; ram?: string; gpu?: string | null; storage?: string; screen?: string; warehouseId?: string | null; touchScreen?: number | null;
-  purchasePrice: number; sellingPrice: number; profit: number; remark: string | null;
+  purchasePrice: number; sellingPrice: number; profit: number; remark: string | null; assetChange?: AssetChangeSnapshot;
 };
 
 function messageFromError(error: unknown, fallback: string) { return error instanceof Error ? error.message : fallback; }
@@ -44,9 +46,45 @@ function insertDynamic(table: string, values: Record<string, unknown>) {
 }
 function insertInventoryMovement(values: {
   inventoryId: string; warehouseId?: string | null; fromWarehouseId?: string | null; toWarehouseId?: string | null;
-  movementType: string; referenceType: string; referenceId: string; actorId?: string | null; note?: string | null; createdAt: string;
+  movementType: string; referenceType: string; referenceId: string; actorId?: string | null; note?: string | null;
+  snapshot?: string; statusFrom?: string; statusTo?: string; createdAt: string;
 }) {
   if (tableExists('inventory_movements')) insertDynamic('inventory_movements', { id: generateId('movement'), ...values });
+}
+
+function normalizeAssetChange(value: unknown): AssetChangeInput | null {
+  if (value === undefined || value === null) return null;
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('资产变更信息无效');
+  const change = value as Record<string, unknown>;
+  if (Object.keys(change).some(key => !['expectedRam', 'expectedStorage', 'ram', 'storage'].includes(key))) throw new Error('资产变更只支持内存和硬盘');
+  if (typeof change.expectedRam !== 'string' || typeof change.expectedStorage !== 'string') throw new Error('资产变更缺少原配置，请刷新后重试');
+  if (change.ram === undefined && change.storage === undefined) throw new Error('请选择要变更的内存或硬盘');
+  const normalized: AssetChangeInput = { expectedRam: change.expectedRam, expectedStorage: change.expectedStorage };
+  for (const field of ['ram', 'storage'] as const) {
+    if (change[field] === undefined) continue;
+    if (typeof change[field] !== 'string') throw new Error('资产变更配置无效');
+    const text = change[field].trim();
+    if (!text || text.length > 64 || /[\x00-\x1f\x7f]/.test(text)) throw new Error('内存或硬盘配置不能为空，且不能超过 64 个字符');
+    normalized[field] = text;
+  }
+  return normalized;
+}
+
+function resolveAssetChange(inventory: InventoryForSale, change: AssetChangeInput | null): AssetChangeSnapshot | null {
+  if (!change) return null;
+  if (change.expectedRam !== inventory.ram || change.expectedStorage !== inventory.storage) throw new Error(`SN [${inventory.sn}] 配置已变化，请刷新后重试`);
+  const before = { ram: inventory.ram, storage: inventory.storage };
+  const after = { ram: change.ram ?? before.ram, storage: change.storage ?? before.storage };
+  if (before.ram === after.ram && before.storage === after.storage) throw new Error(`SN [${inventory.sn}] 资产变更没有实际修改`);
+  return { before, after };
+}
+
+function assetChangeNote(change: AssetChangeSnapshot): string {
+  const changes = [
+    change.before.ram !== change.after.ram ? `内存 ${change.before.ram} → ${change.after.ram}` : '',
+    change.before.storage !== change.after.storage ? `硬盘 ${change.before.storage} → ${change.after.storage}` : '',
+  ].filter(Boolean);
+  return `销售出库前资产变更：${changes.join('；')}`;
 }
 
 function normalizeTrackingNo(value: unknown): string | null {
@@ -76,7 +114,7 @@ function normalizeItems(body: SaleRequestBody) {
     const sellingPrice = typeof item.sellingPrice === 'number' ? item.sellingPrice : typeof item.sellingPrice === 'string' && item.sellingPrice.trim() ? Number(item.sellingPrice) : NaN;
     if (!Number.isFinite(sellingPrice) || sellingPrice < 0) throw new Error(`机器 ${inventoryId} 的销售价格无效`);
     const remark = item.remark === null || item.remark === undefined ? null : String(item.remark).trim() || null;
-    return { inventoryId, sellingPrice, remark };
+    return { inventoryId, sellingPrice, remark, assetChange: normalizeAssetChange(item.assetChange) };
   });
 }
 function getActiveChannel(channelId: string, channelName: string) {
@@ -160,8 +198,26 @@ export async function POST(request: NextRequest) {
     const result = db.transaction(() => {
       const inventoryColumns = tableColumns('inventory'); const warehouseField = inventoryColumns.has('warehouseId') ? ', warehouseId' : ''; const inventoryRows: InventoryForSale[] = [];
       for (const item of items) { const inventory = db.prepare(`SELECT id, sn, productType, brand, model, year, cpu, ram, gpu, storage, screen, touchScreen, purchasePrice, supplierName, inboundDate, skuRemark, status${warehouseField} FROM inventory WHERE id = ? AND deleted = 0`).get(item.inventoryId) as InventoryForSale | undefined; if (!inventory) throw new Error(`库存机器不存在：${item.inventoryId}`); assertStockEligible(inventory.id); inventoryRows.push(inventory); }
-      const now = formatDateTime(); const recordId = generateId('sale'); const updateInventory = db.prepare("UPDATE inventory SET status = 'sold', soldDate = ?, sellingPrice = ?, saleChannel = ?, saleOrderNo = ?, profit = ?, updatedAt = ? WHERE id = ? AND status IN ('in_stock','custom') AND deleted = 0");
-      const saleItems: SaleItemSnapshot[] = inventoryRows.map((inventory, index) => { const input = items[index]; const profit = input.sellingPrice - Number(inventory.purchasePrice); endCustomStatus(inventory.id,userId,'销售出库','sales_record',recordId,'sold'); if (updateInventory.run(saleDate, input.sellingPrice, channel.channelName, saleOrderNo, profit, now, inventory.id).changes !== 1) throw new Error(`SN [${inventory.sn}] 状态已变化，请刷新后重试`); return { inventoryId: inventory.id, sn: inventory.sn, productType: inventory.productType, brand: inventory.brand, model: inventory.model, year: inventory.year, cpu: inventory.cpu, ram: inventory.ram, gpu: inventory.gpu, storage: inventory.storage, screen: inventory.screen, touchScreen: inventory.touchScreen, warehouseId: inventory.warehouseId, purchasePrice: Number(inventory.purchasePrice), sellingPrice: input.sellingPrice, profit, remark: input.remark }; });
+      const assetChanges = inventoryRows.map((inventory, index) => resolveAssetChange(inventory, items[index].assetChange));
+      if (assetChanges.some(Boolean) && (!tableExists('inventory_movements') || !tableColumns('inventory_movements').has('snapshot'))) throw new Error('机器变更记录不可用，销售出库已取消');
+      const now = formatDateTime(); const recordId = generateId('sale');
+      const updateInventory = db.prepare("UPDATE inventory SET ram = ?, storage = ?, status = 'sold', soldDate = ?, sellingPrice = ?, saleChannel = ?, saleOrderNo = ?, profit = ?, updatedAt = ? WHERE id = ? AND ram = ? AND storage = ? AND status IN ('in_stock','custom') AND deleted = 0");
+      const saleItems: SaleItemSnapshot[] = inventoryRows.map((inventory, index) => {
+        const input = items[index];
+        const assetChange = assetChanges[index];
+        const ram = assetChange?.after.ram ?? inventory.ram;
+        const storage = assetChange?.after.storage ?? inventory.storage;
+        const profit = input.sellingPrice - Number(inventory.purchasePrice);
+        endCustomStatus(inventory.id, userId, '销售出库', 'sales_record', recordId, 'sold');
+        if (assetChange) insertInventoryMovement({
+          inventoryId: inventory.id, warehouseId: inventory.warehouseId || 'warehouse_main',
+          movementType: 'asset_change', referenceType: 'sales_record', referenceId: recordId,
+          actorId: userId, note: assetChangeNote(assetChange), snapshot: JSON.stringify(assetChange),
+          statusFrom: inventory.status, statusTo: inventory.status, createdAt: now,
+        });
+        if (updateInventory.run(ram, storage, saleDate, input.sellingPrice, channel.channelName, saleOrderNo, profit, now, inventory.id, inventory.ram, inventory.storage).changes !== 1) throw new Error(`SN [${inventory.sn}] 状态或配置已变化，请刷新后重试`);
+        return { inventoryId: inventory.id, sn: inventory.sn, productType: inventory.productType, brand: inventory.brand, model: inventory.model, year: inventory.year, cpu: inventory.cpu, ram, gpu: inventory.gpu, storage, screen: inventory.screen, touchScreen: inventory.touchScreen, warehouseId: inventory.warehouseId, purchasePrice: Number(inventory.purchasePrice), sellingPrice: input.sellingPrice, profit, remark: input.remark, ...(assetChange ? { assetChange } : {}) };
+      });
       const totalCost = saleItems.reduce((sum, item) => sum + item.purchasePrice, 0); const totalAmount = saleItems.reduce((sum, item) => sum + item.sellingPrice, 0); const totalProfit = saleItems.reduce((sum, item) => sum + item.profit, 0); const recordNo = nextRecordNo(saleDate);
       insertDynamic('sales_records', { id: recordId, recordNo, saleChannel: channel.channelName, saleOrderNo, saleDate, trackingNo, items: JSON.stringify(saleItems), totalQuantity: saleItems.length, totalCost, totalAmount, totalProfit, status: 'completed', remark, deleted: 0, createdBy: userId, createdAt: now });
       if (tableExists('sales_record_items')) for (const item of saleItems) insertDynamic('sales_record_items', { id: generateId('sale_item'), salesRecordId: recordId, saleRecordId: recordId, inventoryId: item.inventoryId, sn: item.sn, warehouseId: item.warehouseId, snapshot: JSON.stringify(item), purchasePrice: item.purchasePrice, sellingPrice: item.sellingPrice, profit: item.profit, remark: item.remark, createdAt: now });
@@ -172,7 +228,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(successResponse(result), { status: 201 });
   } catch (error: unknown) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
-    console.error('POST /api/sales error:', error); const message = messageFromError(error, '销售出库失败'); const isValidation = /不能为空|无效|不存在|请选择|不可销售|不能重复|状态已变化|至少选择|快递单号|生成失败|不可参与|调拨/.test(message); return NextResponse.json(errorResponse(isValidation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: isValidation ? 400 : 500 });
+    console.error('POST /api/sales error:', error); const message = messageFromError(error, '销售出库失败'); const isValidation = /不能为空|无效|不存在|请选择|不可销售|不能重复|状态已变化|至少选择|快递单号|生成失败|不可参与|调拨|资产变更|配置已变化|状态或配置已变化|内存或硬盘|机器变更记录不可用/.test(message); return NextResponse.json(errorResponse(isValidation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: isValidation ? 400 : 500 });
   }
 }
 

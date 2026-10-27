@@ -15,7 +15,7 @@ export const SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 
 export const USER_ROLES = ['admin', 'warehouse_manager'] as const;
 export type UserRole = (typeof USER_ROLES)[number];
-export type UserStatus = 'pending' | 'active' | 'rejected' | 'disabled';
+export type UserStatus = 'pending' | 'active' | 'rejected' | 'disabled' | 'deleted';
 
 export interface AuthUser {
   id: string;
@@ -23,6 +23,7 @@ export interface AuthUser {
   realName: string | null;
   role: string;
   status: UserStatus | string;
+  isSystemAccount: boolean;
   createdAt: string;
   updatedAt?: string;
   warehouses: Array<{
@@ -96,6 +97,7 @@ export function userFromRow(row: Record<string, unknown> | undefined): AuthUser 
     realName: row.realName == null ? null : String(row.realName),
     role: String(row.role || 'warehouse_manager'),
     status: String(row.status || 'pending'),
+    isSystemAccount: Number(row.isSystemAccount || 0) === 1,
     createdAt: String(row.createdAt || ''),
     updatedAt: row.updatedAt == null ? undefined : String(row.updatedAt),
     warehouses: [],
@@ -206,7 +208,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   if (!token) return null;
   const now = new Date().toISOString();
   const row = db.prepare(`
-    SELECT u.id, u.username, u.realName, u.role, u.status, u.createdAt, u.updatedAt
+    SELECT u.id, u.username, u.realName, u.role, u.status, u.isSystemAccount, u.createdAt, u.updatedAt
     FROM sessions s JOIN users u ON u.id = s.userId
     WHERE s.tokenHash = ? AND s.revokedAt IS NULL AND s.expiresAt > ?
   `).get(hashSessionToken(token), now) as Record<string, unknown> | undefined;
@@ -239,6 +241,7 @@ export function publicUser(user: AuthUser) {
     realName: user.realName,
     role: user.role,
     status: user.status,
+    isSystemAccount: user.isSystemAccount,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
     warehouses: user.warehouses,
@@ -248,7 +251,7 @@ export function publicUser(user: AuthUser) {
 
 /** Read fresh account and assignment metadata without exposing password fields. */
 export function getUserById(id: string): AuthUser | null {
-  return userFromRow(db.prepare('SELECT id, username, realName, role, status, createdAt, updatedAt FROM users WHERE id = ?').get(id) as Record<string, unknown> | undefined);
+  return userFromRow(db.prepare("SELECT id, username, realName, role, status, isSystemAccount, createdAt, updatedAt FROM users WHERE id = ? AND status <> 'deleted'").get(id) as Record<string, unknown> | undefined);
 }
 
 export function authErrorResponse(error: unknown) {

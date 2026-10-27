@@ -1,0 +1,639 @@
+{
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B54%E4%BB%A3/23766760": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B54%E4%BB%A3/23766760",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEENVY%2013-AH0010TX/55059380": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEENVY%2013-AH0010TX/55059380",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/HyperX%20%E6%9A%97%E5%BD%B1%E7%B2%BE%E7%81%B5%20PRO%2016%20%E8%B6%85%E8%83%BD%E6%B8%B8%E6%88%8F%E6%9C%AC/67837926": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/HyperX%20%E6%9A%97%E5%BD%B1%E7%B2%BE%E7%81%B5%20PRO%2016%20%E8%B6%85%E8%83%BD%E6%B8%B8%E6%88%8F%E6%9C%AC/67837926",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B56/55292569": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B56/55292569",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9FBook%20Pro%2016%202026/67293968": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9FBook%20Pro%2016%202026/67293968",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEProBook440%20G7/55295855": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AEProBook440%20G7/55295855",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AESPECTRE%20X360%2013-AW/65733159": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AESPECTRE%20X360%2013-AW/65733159",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9F%2014%202021/55421525": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E6%98%9F%2014%202021/55421525",
+  "error": "HTTP 403"
+ },
+ "http://m.mnw.cn/news/digi/2767889.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://m.mnw.cn/news/digi/2767889.html"
+ },
+ "https://baike.sogou.com/v184275391.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://baike.sogou.com/v184275391.htm"
+ },
+ "http://m.bjbpc.com/view.php?aid=4790": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.bjbpc.com/view.php?aid=4790"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1496591.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1496591.html"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=2004354-2004338.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=2004354-2004338.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1410206.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1410206.shtml"
+ },
+ "https://baike.baidu.com/tashuo/browse/content?id=f39dc6c7199708407976791d": {
+  "status": 200,
+  "ok": true,
+  "final": "https://baike.baidu.com/tashuo/browse/content?id=f39dc6c7199708407976791d"
+ },
+ "https://detail.zol.com.cn/series/16/20495_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/20495_1.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/hp/1775367_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/hp/1775367_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/pk_1566247_1436587.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/pk_1566247_1436587.html"
+ },
+ "http://mp.weixin.qq.com/s?__biz=Mzk0MDMxNjQyNw==&mid=2247492054&idx=3&sn=a576023c2af8becf786562aa355a840b&chksm=c3844217d51edfdb4cfbe0a021306858e2bbbf00dbe0f2080fb6fad37750ff98714501b53f8d#rd": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/s?__biz=Mzk0MDMxNjQyNw==&mid=2247492054&idx=3&sn=a576023c2af8becf786562aa355a840b&chksm=c3844217d51edfdb4cfbe0a021306858e2bbbf00dbe0f2080fb6fad37750ff98714501b53f8d#rd"
+ },
+ "https://g.pconline.com.cn/product/notebook/hp/1100892_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/hp/1100892_detail.html"
+ },
+ "https://gz.zol.com.cn/744/7449441.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gz.zol.com.cn/744/7449441.html"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzU5Mjg0NTA2Mw==&mid=2247483915&idx=1&sn=8b273583c86b46af63f623caf6b5c652&chksm=ff42815e01c8cbc38e3ffde5699f2f5effc863a9ac4651afb2c76c7f10e393b883c336a1a39b": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/s?__biz=MzU5Mjg0NTA2Mw==&mid=2247483915&idx=1&sn=8b273583c86b46af63f623caf6b5c652&chksm=ff42815e01c8cbc38e3ffde5699f2f5effc863a9ac4651afb2c76c7f10e393b883c336a1a39b"
+ },
+ "https://i.ifeng.com/c/8DlJotQa6re": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8DlJotQa6re"
+ },
+ "https://m.ithome.com/html/696614.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/696614.htm"
+ },
+ "https://detail.zol.com.cn/series/16/25874_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/25874_1.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1216268.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1216268.shtml"
+ },
+ "https://m.tech.china.com/digi/digi/20201112/20201112647907.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.tech.china.com/digi/digi/20201112/20201112647907.html"
+ },
+ "https://dnzp.com/jy/202311/234321.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://dnzp.com/jy/202311/234321.html"
+ },
+ "https://m.pconline.com.cn/shop808597/pid:15275799/product_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.pconline.com.cn/shop808597/pid:15275799/product_detail.html"
+ },
+ "https://m.igao7.com/news/202007/T0CXTnYp9ncJhtll.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.igao7.com/news/202007/T0CXTnYp9ncJhtll.html"
+ },
+ "https://detail.zol.com.cn/gas_waterheater/index1977711.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1977711.shtml"
+ },
+ "https://detail.zol.com.cn/disinfection_cabinet/index1270200.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1270200.shtml"
+ },
+ "https://nb.zol.com.cn/725/7250084.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/725/7250084.html"
+ },
+ "https://mp.ofweek.com/znyj/a845693828926": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.ofweek.com/znyj/a845693828926"
+ },
+ "https://nb.zol.com.cn/792/7928459.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/792/7928459.html"
+ },
+ "https://nb.zol.com.cn/815/8152405_all.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/815/8152405_all.html"
+ },
+ "https://m.zol.com.cn/article/7607492.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7607492.html"
+ },
+ "https://m.zol.com.cn/article/7928575.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7928575.html"
+ },
+ "https://news.qq.com/rain/a/20210609A0DD4N00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20210609A0DD4N00"
+ },
+ "https://news.qq.com/rain/a/20240118A069AM00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20240118A069AM00"
+ },
+ "https://laptopmedia.com/au/laptop-specs/hp-spectre-x360-14-111": {
+  "status": 403,
+  "ok": true,
+  "final": "https://laptopmedia.com/au/laptop-specs/hp-spectre-x360-14-111",
+  "error": "HTTP 403"
+ },
+ "https://news.qq.com/rain/a/20230922A068PZ00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20230922A068PZ00"
+ },
+ "https://nb.zol.com.cn/867/8676367.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/867/8676367.html"
+ },
+ "https://news.qq.com/rain/a/20250926A078G800": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20250926A078G800"
+ },
+ "https://news.qq.com/rain/a/20260127A06Z1N00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20260127A06Z1N00"
+ },
+ "https://notebook.pconline.com.cn/1584/15840206.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.pconline.com.cn/1584/15840206.html"
+ },
+ "https://notebook.pconline.com.cn/1485/14853865.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.pconline.com.cn/1485/14853865.html"
+ },
+ "https://notebook.pconline.com.cn/1262/12620056.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.pconline.com.cn/1262/12620056.html"
+ },
+ "https://news.zol.com.cn/799/7994725.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.zol.com.cn/799/7994725.html"
+ },
+ "https://product.pconline.com.cn/notebook/hp/1230837_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/hp/1230837_detail.html"
+ },
+ "https://notebook.pconline.com.cn/993/9932425.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.pconline.com.cn/993/9932425.html"
+ },
+ "https://notebook.yesky.com/161/525476661.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.yesky.com/161/525476661.shtml"
+ },
+ "https://product.pconline.com.cn/notebook/hp/c12591_c22792/25s3.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/hp/c12591_c22792/25s3.shtml"
+ },
+ "https://product.yesky.com/notebookpc/type_hp/": {
+  "status": 405,
+  "ok": true,
+  "final": "https://product.yesky.com/notebookpc/type_hp/",
+  "error": "HTTP 405"
+ },
+ "https://m.zol.com.cn/article/8549002.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/8549002.html"
+ },
+ "https://s.zol.com.cn/shop_2194624/44728146.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_2194624/44728146.html"
+ },
+ "https://product.pconline.com.cn/notebook/hp/1330907_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/hp/1330907_detail.html"
+ },
+ "https://s.zol.com.cn/shop_2201392/44728216.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_2201392/44728216.html"
+ },
+ "https://shop.zol.com/shop_199336/35597878.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_199336/35597878.html"
+ },
+ "https://laptopchooser.co.uk/laptop/hp-spectre-x360-16-2022": {
+  "status": 200,
+  "ok": true,
+  "final": "https://laptopchooser.co.uk/laptop-finder/hp/"
+ },
+ "https://m.zol.com.cn/article/8206499.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/8206499.html"
+ },
+ "https://s.zol.com.cn/shop_2194624/44776998.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_2194624/44776998.html"
+ },
+ "https://product.pconline.com.cn/notebook/hp/1136633.html": {
+  "status": 503,
+  "ok": false,
+  "final": "https://product.pconline.com.cn/notebook/hp/1136633.html",
+  "error": "HTTP 503"
+ },
+ "https://tech.sina.cn/2020-10-19/detail-iiznezxr6825282.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.cn/tech/2020-10-19/detail-iiznezxr6825282.d.html?fromtech=1"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BARgJK1olXDYCVV9eD00TAGYLHVgWXTZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXAUFUlpeAUgRAGwIBAJQAVsyDDcoYRV-aCdqQgdyVVxAM10ocxtqc2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQxAWlYKVllVWxgQAz0IGA8lXQcyHzBcOEonA2kAGFMdXgAAVF9fDHsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBW8ISAwcM1pFChsHTRBEbW0BGlIRWg4FZFxcCUkVM184GyNWNFB9DyMfT0t0RC4JTilAXVRYMDYZTB5oAA9mGSZ-PWFWBCEGUwgURxFjXSRVbQYyZF9t": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BARgJK1olXDYCVV9eD00TAGYLHVgWXTZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXAUFUlpeAUgRAGwIBAJQAVsyDDcoYRV-aCdqQgdyVVxAM10ocxtqc2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQxAWlYKVllVWxgQAz0IGA8lXQcyHzBcOEonA2kAGFMdXgAAVF9fDHsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBW8ISAwcM1pFChsHTRBEbW0BGlIRWg4FZFxcCUkVM184GyNWNFB9DyMfT0t0RC4JTilAXVRYMDYZTB5oAA9mGSZ-PWFWBCEGUwgURxFjXSRVbQYyZF9t"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olXw8BXFZaCUgUC18IGlsdWwQFUFdeAUsWA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2cOGVwRVAULVF9dFxJSXzI4YxJRBQdbICc4U0hyXSd0XS5CO1QENFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhsTUDtdTg8XWwNRXA5fWk8nA244WjUWXQQGUVhaDE8nAl8IHVMWVQ4BUl1dD0wVM28AH2vC9KjU2PiJseHAse04K2sWbTYyVG5eOBV5AmhYT18VWgNsCBkDTRFLUyRmGV0dXAUKUlltCkoWAW04K2tsVXZDMQNUSCBPSApVQTlPGVZkCjsACRFVQCtXT157X3pCACcaXxEeSDhNSClqKXhpZF5tD00WM244": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olXw8BXFZaCUgUC18IGlsdWwQFUFdeAUsWA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2cOGVwRVAULVF9dFxJSXzI4YxJRBQdbICc4U0hyXSd0XS5CO1QENFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhsTUDtdTg8XWwNRXA5fWk8nA244WjUWXQQGUVhaDE8nAl8IHVMWVQ4BUl1dD0wVM28AH2vC9KjU2PiJseHAse04K2sWbTYyVG5eOBV5AmhYT18VWgNsCBkDTRFLUyRmGV0dXAUKUlltCkoWAW04K2tsVXZDMQNUSCBPSApVQTlPGVZkCjsACRFVQCtXT157X3pCACcaXxEeSDhNSClqKXhpZF5tD00WM244"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8DUlhaC00eBl8IGlgWVAMBXVxcDEoUC19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwBHlgcXwcGVV1VFxJSXzI4HFpsI3AGAwQ_QVFDVylbXgxOKHQDJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk0fUWdaGwtGX1UGUlkOWBsnA244WjUVXAYGXFZZDHsWM28OE1gdVQUEVl5cCk8nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsLHFMQW2heEwAYUg5MBAEKEloVWQAKUG5fCUoVAV84Ky9pCnR0NCcNXAtJSg9MSz10FH5xHT41bEJ0ATx9fjUXWAddClg9azN_ZWxtaANHKlUyVG5aDkonAl8": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8DUlhaC00eBl8IGlgWVAMBXVxcDEoUC19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwBHlgcXwcGVV1VFxJSXzI4HFpsI3AGAwQ_QVFDVylbXgxOKHQDJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk0fUWdaGwtGX1UGUlkOWBsnA244WjUVXAYGXFZZDHsWM28OE1gdVQUEVl5cCk8nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsLHFMQW2heEwAYUg5MBAEKEloVWQAKUG5fCUoVAV84Ky9pCnR0NCcNXAtJSg9MSz10FH5xHT41bEJ0ATx9fjUXWAddClg9azN_ZWxtaANHKlUyVG5aDkonAl8"
+ },
+ "https://gadgets360.com/hp-envy-14-eb0021tx-103891": {
+  "status": 403,
+  "ok": true,
+  "final": "https://gadgets360.com/hp-envy-14-eb0021tx-103891",
+  "error": "HTTP 403"
+ },
+ "https://www.163.com/dy/article/FPA1KBBJ051184BI.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/FPA1KBBJ051184BI.html"
+ },
+ "https://www.163.com/dy/article/H0DQTUK50550JBMS.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/H0DQTUK50550JBMS.html"
+ },
+ "https://wap.zol.com.cn/1406/1405449/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1406/1405449/index.html"
+ },
+ "https://www.163.com/dy/article/I6IHLULE051189P5.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/I6IHLULE051189P5.html"
+ },
+ "https://www.163.com/dy/article/H78FIQP4051189P5.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/H78FIQP4051189P5.html"
+ },
+ "https://view.inews.qq.com/a/LNK2025033100174700": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/s?__biz=MzIxMTAyNjk0OA==&mid=2654679581&idx=2&sn=f97a7572096330284396a68d231e6ea8&chksm=8d6920d723d1fa15213c448ac3d98b04a84d4b580570468184a0532b4cb943090f3dd69a3fc4&3rd=MjM5NzM2NjUzNg==&scene=8#rd"
+ },
+ "https://www.expreview.com/75122.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/75122.html"
+ },
+ "https://www.gamersky.com/hardware/202106/1395989.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gamersky.com/hardware/202106/1395989.shtml"
+ },
+ "https://gadgets360.com/hp-envy-15-2020-price-in-india-92055": {
+  "status": 403,
+  "ok": true,
+  "final": "https://gadgets360.com/hp-envy-15-2020-price-in-india-92055",
+  "error": "HTTP 403"
+ },
+ "https://themobileindian.com/news/hp-spectre-x360-16-2022-spectre-x360-laptops-launched-in-india": {
+  "status": 403,
+  "ok": true,
+  "final": "https://themobileindian.com/news/hp-spectre-x360-16-2022-spectre-x360-laptops-launched-in-india",
+  "error": "HTTP 403"
+ },
+ "https://www.hpstore.cn/gaming-laptops": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.hpstore.cn/gaming-laptops"
+ },
+ "https://www.hpstore.cn/laptops-tablets/business-laptops.html?graphicprocessor=%E8%8B%B1%E7%89%B9%E5%B0%94-gpu&processorfamily=%E7%AC%AC%E4%B8%80%E4%BB%A3%E8%8B%B1%E7%89%B9%E5%B0%94%C2%AE-%E9%85%B7%E7%9D%BF%E2%84%A2-ultra-5-%E5%A4%84%E7%90%86%E5%99%A8&weightmet=%3C-2-kg": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.hpstore.cn/laptops-tablets/business-laptops.html?graphicprocessor=%E8%8B%B1%E7%89%B9%E5%B0%94-gpu&processorfamily=%E7%AC%AC%E4%B8%80%E4%BB%A3%E8%8B%B1%E7%89%B9%E5%B0%94%C2%AE-%E9%85%B7%E7%9D%BF%E2%84%A2-ultra-5-%E5%A4%84%E7%90%86%E5%99%A8&weightmet=%3C-2-kg"
+ },
+ "https://www.igao7.com/news/202105/kfIxy8KcBLPHK1sg.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.igao7.com/news/202105/kfIxy8KcBLPHK1sg.html"
+ },
+ "https://www.ithome.com/0/632/724.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/632/724.htm"
+ },
+ "https://www.ithome.com/0/747/404.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/747/404.htm"
+ },
+ "https://www.ithome.com/0/762/384.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/762/384.htm"
+ },
+ "https://www.ithome.com/0/765/191.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/765/191.htm"
+ },
+ "https://www.pconline.com.cn/zhizao/article/362828.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/362828.html"
+ },
+ "https://www.pcpop.com/article/4536892.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pcpop.com/article/4536892.shtml"
+ },
+ "https://www.peopleapp.com/rmharticle/30024565799": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30024565799"
+ },
+ "https://www.asifcomputers.com/product/hp-spectre-x360-14-ef2023dx-13th-gen-intel-core-i7-1355u-3-7-ghz-16gb-ram-1tb-ssd-13-5-3k2k-oled-price-in-pakistan/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asifcomputers.com/product/hp-spectre-x360-14-ef2023dx-13th-gen-intel-core-i7-1355u-3-7-ghz-16gb-ram-1tb-ssd-13-5-3k2k-oled-price-in-pakistan/"
+ },
+ "https://www.qingdan.com/item/29274": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.qingdan.com/item/29274"
+ },
+ "https://pc3mag.com/?p=135444/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://pc3mag.com/hp-spectre-x360-13-2019/"
+ },
+ "https://www.shangxianda.com/de/bijibendiannao/5237.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.shangxianda.com/bijibendiannao/5237.html"
+ },
+ "https://www.hp.com/cn-zh/gaming-pc/laptops/2023-victus-16-amd-nvidia.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.hp.com/cn-zh/gaming-pc/laptops/2023-victus-16-amd-nvidia.html"
+ },
+ "https://www.sohu.com/a/202084315_114838": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/202084315_114838"
+ },
+ "https://www.sohu.com/a/323024038_115511": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/323024038_115511"
+ },
+ "https://www.sohu.com/a/848311033_616364": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/848311033_616364"
+ },
+ "https://www.toutiao.com/article/6561344297495429636/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/6561344297495429636/"
+ },
+ "https://www.toutiao.com/article/6847481381275042311": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/6847481381275042311"
+ },
+ "https://www.toutiao.com/article/6847864669806264840/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/6847864669806264840/"
+ },
+ "https://www.toutiao.com/article/7118652972468535823/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7118652972468535823/"
+ },
+ "https://www.toutiao.com/article/7228036385142374912/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7228036385142374912/"
+ },
+ "https://www.toutiao.com/article/7182393014730359352": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7182393014730359352"
+ },
+ "https://www.toutiao.com/article/7582515124498432527/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7582515124498432527/"
+ },
+ "https://www.toutiao.com/article/7281561441076314683/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7281561441076314683/"
+ },
+ "https://www.toutiao.com/article/7636622993304601142/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7636622993304601142/"
+ },
+ "https://www.x-techcon.com/article/6579.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.x-techcon.com/article/6579.html"
+ },
+ "https://www.anandtech.com/show/16377": {
+  "status": 200,
+  "ok": true,
+  "final": "https://forums.anandtech.com/.stile/challenge?rung=js&band=suspect&return=%2F&sig=502cd8433709a4583d3aa4ad1bf566b515349f8164ef3c6e71207a720e552776&aud=forums.anandtech.com&aid=c26daa5784f878214b8a212094b10a62"
+ },
+ "https://www.xcc.com/news/detail/5002669": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.xcc.com/news/detail/5002669"
+ },
+ "https://www.plazait.co.id/product/hp-envy-x360-14-fc0555tu-a03gvpa-silver-2y": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.plazait.co.id/product/hp-envy-x360-14-fc0555tu-a03gvpa-silver-2y"
+ },
+ "https://www.shangxianda.com/?p=5686/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.shangxianda.com/bijibendiannao/5686.html"
+ },
+ "https://support.hp.com/cn-zh/document/ish_9697831-9839736-16": {
+  "status": 0,
+  "ok": false,
+  "final": "https://support.hp.com/cn-zh/document/ish_9697831-9839736-16",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://support.hp.com/hk-en/document/c05164875": {
+  "status": 0,
+  "ok": false,
+  "final": "https://support.hp.com/hk-en/document/c05164875",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://support.hp.com/hk-zh/document/ish_7694537-7728720-16": {
+  "status": 0,
+  "ok": false,
+  "final": "https://support.hp.com/hk-zh/document/ish_7694537-7728720-16",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://support.hp.com/my-en/document/c07030162": {
+  "status": 0,
+  "ok": false,
+  "final": "https://support.hp.com/my-en/document/c07030162",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://technave.com/gadget/HP-Spectre-x360-14-Price-in-Malaysia-Specs-23023.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://technave.com/gadget/HP-Spectre-x360-14-Price-in-Malaysia-Specs-23023.html"
+ },
+ "https://support.hp.com/tw-zh/document/ish_6507977-6527210-16": {
+  "status": 0,
+  "ok": false,
+  "final": "https://support.hp.com/tw-zh/document/ish_6507977-6527210-16",
+  "error": "TimeoutError: The read operation timed out"
+ },
+ "https://www.hp.com/in-en/shop/laptops-tablets/personal-laptops/envy-laptops.html?displaytype=ips&scrnsizeus=35.56-cm-14-": {
+  "status": 301,
+  "ok": true,
+  "final": "https://www.hp.com/in-en/shop/laptops-tablets/personal-laptops/envy-laptops.html?displaytype=ips&scrnsizeus=35.56-cm-14-",
+  "error": "HTTP 301（重定向）"
+ },
+ "https://g.pconline.com.cn/product/notebook/hp/1862427_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/hp/1862427_detail.html"
+ },
+ "https://s.zol.com.cn/shop_59227/39277984.html": {
+  "status": 404,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_59227/39277984.html",
+  "error": "HTTP 404"
+ },
+ "https://detail.zol.com.cn/notebook/index1434158.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1434158.shtml"
+ },
+ "https://www.gadgets360.com/hp-omen-transcend-16-price-in-india-118856": {
+  "status": 403,
+  "ok": true,
+  "final": "https://www.gadgets360.com/hp-omen-transcend-16-price-in-india-118856",
+  "error": "HTTP 403"
+ },
+ "https://m.zol.com.cn/article/7749212.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7749212.html"
+ },
+ "https://www.hp.com/ca-en/gaming-pc/laptops/2023-omen-transcend-intel.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.hp.com/ca-en/gaming-pc/laptops/2023-omen-transcend-intel.html"
+ }
+}

@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import CustomSelect from '@/components/CustomSelect';
 import LabelCanvas, { labelDimensions as dimensions, labelFieldBox } from '@/components/LabelCanvas';
+import { formatProductName } from '@/lib/product-name';
+import { formatCPUDisplay, formatGPUDisplay } from '@/lib/sku-display';
 
 type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate';
 type LabelField = {
@@ -85,8 +87,8 @@ type InventoryItem = {
 };
 
 const FIELD_META: Record<FieldKey, { label: string; describe: (item: InventoryItem) => string }> = {
-  product: { label: '品牌型号', describe: (item) => [item.brand, item.model, item.year].filter((value) => value !== null && value !== undefined && String(value).trim() !== '').join(' ') || item.productType || '商品名称' },
-  config: { label: '配置摘要', describe: (item) => [item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充' },
+  product: { label: '品牌型号', describe: (item) => formatProductName(item, item.productType || '商品名称') },
+  config: { label: '配置摘要', describe: (item) => [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充' },
   sn: { label: 'SN / IMEI', describe: (item) => item.sn || 'SN / IMEI' },
   purchasePrice: { label: '采购价', describe: (item) => `¥${Number(item.purchasePrice || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2 })}` },
   supplier: { label: '供应商', describe: (item) => item.supplierName || '供应商' },

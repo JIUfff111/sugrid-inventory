@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { Check, Printer, RefreshCw } from 'lucide-react';
 import CustomSelect from '@/components/CustomSelect';
 import LabelCanvas from '@/components/LabelCanvas';
+import { formatProductName } from '@/lib/product-name';
+import { formatCPUDisplay, formatGPUDisplay } from '@/lib/sku-display';
 
 type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate';
 type LabelField = {
@@ -82,11 +84,11 @@ function formatDate(value: string | null | undefined) {
 }
 
 function productName(item: InventoryItem) {
-  return [item.brand, item.model, item.year].filter((value) => value !== null && value !== undefined && String(value).trim() !== '').join(' ') || item.productType || '未命名商品';
+  return formatProductName(item, item.productType || '未命名商品');
 }
 
 function configSummary(item: InventoryItem) {
-  return [item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充';
+  return [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充';
 }
 
 function fieldValue(key: FieldKey, item: InventoryItem) {

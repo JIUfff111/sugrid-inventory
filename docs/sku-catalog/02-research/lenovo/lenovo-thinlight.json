@@ -1,0 +1,3418 @@
+{
+  "scope": {
+    "productType": "笔记本电脑",
+    "brand": "联想",
+    "seriesIncluded": [
+      "小新 Air",
+      "小新 Pro",
+      "小新（数字系列）",
+      "YOGA"
+    ],
+    "categories": [
+      "轻薄本"
+    ],
+    "yearRange": "2016-2026",
+    "excluded": [
+      "ThinkPad（数据库已有，不收录）",
+      "平板",
+      "台式机",
+      "一体机",
+      "显示器",
+      "游戏本（拯救者另行收录）"
+    ],
+    "researchDate": "2026-10-23",
+    "modelYearRule": "modelYear 采用型号命名年份（如 2021 款取 2021），而非严格上市月份；各型号 notes 均记录确切上市时间",
+    "currency": "CNY",
+    "note": "所有配置组合均有来源依据；无证据的配置不录入 options，仅在 uncertain 或 notes 中说明",
+    "modelCount": 42,
+    "configComboCount": 105
+  },
+  "models": [
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 12",
+      "modelYear": 2016,
+      "screenSizeInch": 12.2,
+      "cpuOptions": [
+        "Intel 酷睿 M3-6Y30"
+      ],
+      "ramOptions": [
+        "4GB"
+      ],
+      "storageOptions": [
+        "128GB SSD",
+        "256GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel HD Graphics 515"
+        }
+      ],
+      "screenOptions": [
+        "12.2英寸 1920x1200 60Hz"
+      ],
+      "launchDate": "2016年5-7月（6Y54 版 2016年5月，6Y30 版 2016年7月上市）",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1140473.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "无风扇设计，镁铝合金机身，重约1.2kg、厚13.4mm；内存为 LPDDR3；WiFi 版/LTE 版/流量版/定制版主要在网络制式与硬盘容量上区分；70%色域 IPS 屏；屏幕刷新率 ZOL 未标注，按 FHD IPS 常规为 60Hz"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 13 Pro",
+      "modelYear": 2016,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿 i5-6200U",
+        "Intel 酷睿 i7-6500U",
+        "Intel 酷睿 i7-7500U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce 940MX",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2016年7月首发（第六代酷睿）；2017年3月更新第七代酷睿 i5-7200U/i7-7500U",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1166906.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 11 款，含 LTE 版；2017 年批次（i7-7500U）与首发 2016 批次同系列页，统一按首发年份 2016 收录；镁铝合金机身 1.29kg、厚 14.8mm，JBL 音箱"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 14",
+      "modelYear": 2018,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-8250U",
+        "Intel 酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX150",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2018年4月",
+      "sourceUrl": "https://shop.zol.com/shop_205799/31922914.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "百度百科列同系列 9 个版本（另含 i5-8265U/i7-8565U 与 R5-2500U 版本）；金属机身 1.59kg、45Wh；2019 年起升级 MX250 的批次归入小新 Air 14 2019 收录"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2018",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 15",
+      "modelYear": 2018,
+      "screenSizeInch": 15.6,
+      "cpuOptions": [
+        "Intel 酷睿 i5-8250U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX150",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2018年（2018年9月已有用户晒单）",
+      "sourceUrl": "https://shop.lenovo.com.cn/product/1003276.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "联想商城在售页面；重 1.95kg、厚 16.8mm、45Wh 电池，三边窄全高清 IPS 屏"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2019",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 14",
+      "modelYear": 2019,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-10210U"
+      ],
+      "ramOptions": [
+        "12GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX250",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2019年8月",
+      "sourceUrl": "https://m.zol.com.cn/article/7388713.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "ZOL 参数页：i5-10210U/12GB(4GB+8GB)/512GB/MX250，72%色域、300nits、50Wh、1.5kg；另有 i5-8265U/i7-8565U+MX250 版本未逐一列价"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2020",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 14",
+      "modelYear": 2020,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "AMD Ryzen 3 4300U",
+        "AMD Ryzen 5 4600U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "AMD Radeon Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2020年9月（锐龙版）",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1339291.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 2 款均为锐龙 4000 集显；酷睿版（i5-1035G1/MX350 等）未取得可靠规格页，未收录，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 14",
+      "modelYear": 2021,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1155G7",
+        "AMD Ryzen 5 5500U",
+        "AMD Ryzen 7 5800U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2020年10月（2021 款）",
+      "sourceUrl": "https://nb.zol.com.cn/774/7741243.html",
+      "sourceDomain": "nb.zol.com.cn",
+      "notes": "锐龙版 R5-5500U/16GB/512GB 京东售 4699 元；酷睿版 i5-1155G7/16GB/512GB/集显 1.38kg；内存板载不可更换；MX450 独显版未核实，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 14",
+      "modelYear": 2022,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1235U",
+        "Intel 酷睿 i5-1240P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2022年4月",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "全系集显；DDR4 3200 双通道（8GB×2，非板载）、56.5Wh、1.39kg、100%sRGB 300nits 雾面屏；2022 年 14 英寸数字系列实为 Air 14 2022（无独立\"小新 14 2022\"型号，见 uncertain）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 15",
+      "modelYear": 2021,
+      "screenSizeInch": 15.6,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1155G7",
+        "AMD Ryzen 5 5500U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2021年6月（酷睿版 6月18日开售）",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1372038.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "i5-1155G7/16GB/512GB/集显开售 4799 元；70Wh、1.7kg、100%sRGB 300nits DC 调光；锐龙版（R5-5500U/R7-5800U）同系列，最高 1TB"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Air",
+      "model": "小新 Air 15",
+      "modelYear": 2022,
+      "screenSizeInch": 15.6,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1235U",
+        "Intel 酷睿 i5-1240P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2022年5月",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10707027_1.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 4 款，全系集显；76Wh、1.75kg、100%sRGB 300nits；电源键指纹二合一"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 13",
+      "modelYear": 2019,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿 i5-10210U",
+        "Intel 酷睿 i7-10710U",
+        "AMD Ryzen 5 3550H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel UHD Graphics / AMD Radeon Vega 8"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX250",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 60Hz"
+      ],
+      "launchDate": "2019年9月",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1291172.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 5 款；16:10 2.5K 100%sRGB 300nits、90% 屏占比、56Wh、1.28kg；标压锐龙版 R5-3550H 为同系列性能款"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2020",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 13",
+      "modelYear": 2020,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿 i5-10210U",
+        "AMD Ryzen 5 4600U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel UHD Graphics / AMD Radeon Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX350",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 60Hz"
+      ],
+      "launchDate": "2020年3月（酷睿版）；2020年5月（锐龙版）",
+      "sourceUrl": "https://nb.zol.com.cn/748/7486073.html",
+      "sourceDomain": "nb.zol.com.cn",
+      "notes": "2020 款酷睿版 i5-10210U+MX350+16GB+512GB 首发 5899 元（ZOL 资讯）；锐龙版 R5-4600U/16GB/512GB 内存板载不可升级"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 14",
+      "modelYear": 2021,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1135G7",
+        "Intel 酷睿 i5-11300H",
+        "Intel 酷睿 i5-11320H",
+        "AMD Ryzen 5 5600H",
+        "AMD Ryzen 7 5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX450",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2240x1400 60Hz",
+        "14英寸 2880x1800 90Hz"
+      ],
+      "launchDate": "2020年10月首发（i5-1135G7+MX450）；2020年12月核显版；2021年5月标压版（i5-11320H，2.8K 90Hz）；2021年9月锐龙高刷版",
+      "sourceUrl": "https://www.lenovo.com.cn/product/1010533.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "联想官方将各批次统称\"小新 Pro 14 2021\"，故合并为一行；酷睿版 LPDDR4X-4266 板载，锐龙版 DDR4-3200；61Wh 电池、1.3-1.4kg；首发 MX450 版 5999 元（联想商城）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 14",
+      "modelYear": 2022,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-12500H",
+        "Intel 酷睿 i7-12700H",
+        "Intel 酷睿 i9-12900H",
+        "AMD Ryzen 7 6800HS"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon 680M"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "launchDate": "2022年8月（锐龙版）；2022年10月（酷睿版）",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1416038.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "酷睿版 3 款全系集显（ZOL 系列页），LPDDR5/DDR5 4800 板载不可升级；锐龙版 R7-6800HS LPDDR5-6400；61Wh、1.3kg、400nits 100%sRGB；RTX2050 独显版未在 ZOL 系列页出现，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2023",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 14",
+      "modelYear": 2023,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-13500H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 3050",
+          "vram": "6GB"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "launchDate": "2023年2月22日（ZOL）；2023年3月1日开启预售",
+      "sourceUrl": "https://s.zol.com.cn/shop_93237/39695004.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "全系 1TB SSD；LPDDR5-5200 板载；75Wh、1.46kg、400nits 100%sRGB；i5-13500H 核显版首发 5499 元；锐龙版（R7-7840H）与 i9 版未核实，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 14",
+      "modelYear": 2024,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 5 125H",
+        "Intel 酷睿 Ultra 9 185H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz",
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "launchDate": "2024年1月17日（ZOL 系列上市时间）",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1974286.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 5 款：Ultra5 125H/Ultra9 185H × LCD(400nits 100%sRGB)/OLED(600nits 100%DCI-P3)；LPDDR5X-7467 板载、84Wh、1.46kg；联想知识库文章另提及 Ultra 7 155H 批次；锐龙版 R7-8845H 未核实"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 GT AI元启版|2025",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 14 GT AI元启版",
+      "modelYear": 2025,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 9 285H",
+        "Intel 酷睿 Ultra 5 225H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "launchDate": "2025年2月",
+      "sourceUrl": "https://m.zol.com/shop_33250/42768840.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "官方型号\"小新Pro14GT AI元启版\"（认证型号 小新Pro 14 IAH）；Arrow Lake 平台；LPDDR5X-8533 板载、84Wh、140W GT 闪充、1.39kg；1100nits 峰值 100%DCI-P3；官网参考价 7999 元；另有锐龙 AI 版（锐龙 AI 7 H 350 / AI 9 H 365）在售"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 酷睿 AI元启版|2026",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 14 酷睿 AI元启版",
+      "modelYear": 2026,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 5 336H",
+        "Intel 酷睿 Ultra 7 356H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "launchDate": "2026年（知识库文章称 2026年3月上市）",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1053911.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "第三代酷睿 Ultra（Panther Lake）；官网 336H/32GB/1TB 参考价 10999 元，京东自营渠道约 7600-8000 元；电池容量京东商品页 60Wh 与联想知识库 75Wh 说法不一（见 uncertain）；GT 版搭载 Ultra X7-358H"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 16",
+      "modelYear": 2021,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "AMD Ryzen 7 5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "AMD Radeon Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce GTX 1650",
+          "vram": "4GB"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 3050",
+          "vram": "4GB"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "launchDate": "2021年",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-doc-25513.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "联想商城三版本：GTX1650 / RTX3050 / 集显；16:10 2.5K 350nits 120Hz、75Wh、约1.92kg；整机性能释放约 80W（独显版）/49W（集显版）；酷睿版（i5-11320H）证据不足未收录，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 16",
+      "modelYear": 2022,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 i5-12500H",
+        "Intel 酷睿 i7-12700H",
+        "AMD Ryzen 7 6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon 680M"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "launchDate": "2022年5月",
+      "sourceUrl": "https://nb.zol.com.cn/792/7922812.html",
+      "sourceDomain": "nb.zol.com.cn",
+      "notes": "酷睿版 i5-12500H 首发 4999 元、i7-12700H 首发 5999 元，约 60W 释放；锐龙版 R7-6800H/16GB/1TB LPDDR5-6400；75Wh、1.92kg、100%sRGB 350nits；RTX3050/Ti 锐龙独显版未核实，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 16",
+      "modelYear": 2023,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 i5-13500H",
+        "Intel 酷睿 i7-13700H",
+        "Intel 酷睿 i9-13900H",
+        "Intel 酷睿 i7-13620H",
+        "AMD Ryzen 7 7735HS"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon 680M"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 3050",
+          "vram": "6GB"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 4050",
+          "vram": "6GB"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "launchDate": "2023年3月",
+      "sourceUrl": "https://wap.zol.com.cn/1462/1461022/index.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "ZOL 系列共 8 款；全系标配 1TB 起（另有 2TB 集显款）；LPDDR5 板载；75Wh、1.93kg、350nits 100%sRGB；Pro 16 独显版最高 RTX4050，支持 M.2 扩展"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 16",
+      "modelYear": 2024,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 5 125H",
+        "Intel 酷睿 Ultra 9 185H",
+        "AMD Ryzen 7 8845H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics / AMD Radeon 780M"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
+      "launchDate": "2023年12月-2024年（ZOL 系列标注 2024年；锐龙版 2024年2月27日上市）",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10851163_1.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 3 款（Ultra5 125H/16GB/1TB 5999 元、Ultra5 125H/32GB/1TB 6199 元、Ultra9 185H/32GB/1TB 7699 元）；LPDDR5X-7467 板载、84Wh、1.91kg；官方命名 2024 但 2023 年 12 月已开卖；另有 2.8K 屏版本待核（见 uncertain）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 16 GT AI元启版",
+      "modelYear": 2025,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 9 285H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 5050",
+          "vram": "8GB"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2880x1800 120Hz OLED"
+      ],
+      "launchDate": "2025年2月",
+      "sourceUrl": "https://s.zol.com.cn/shop_79474/42768751.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "官方型号\"小新Pro16GT AI元启版\"（认证型号 小新Pro 16 IAH）；Arrow Lake；2.8K OLED 1100nits 100%DCI-P3 30-120Hz VRR；84Wh、1.72-1.79kg；集显版官方 7999 元起、渠道 7199 元起；RTX5050 独显版上市时间待核（见 uncertain）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 酷睿 AI元启版|2026",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 Pro",
+      "model": "小新 Pro 16 酷睿 AI元启版",
+      "modelYear": 2026,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 5 338H",
+        "Intel 酷睿 Ultra 7 356H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2880x1800 120Hz"
+      ],
+      "launchDate": "2026年",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1053888.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "第三代酷睿 Ultra（Panther Lake）；官网 FIFA 定制版（Ultra 7 356H/32GB/1TB）参考价 11999 元，京东渠道约 8500-9950 元；80Wh、约1.76kg；GT 版（Ultra X7-358H / X9-388H）与锐龙版未逐一核实（见 uncertain）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新",
+      "model": "小新 15",
+      "modelYear": 2019,
+      "screenSizeInch": 15.6,
+      "cpuOptions": [
+        "Intel 酷睿 i5-8265U",
+        "Intel 酷睿 i7-8565U",
+        "AMD Ryzen 5 3500U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "256GB SSD + 1TB HDD",
+        "128GB SSD + 1TB HDD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "AMD Radeon Vega 8"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX250",
+          "vram": "2GB"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX150",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2019年10月",
+      "sourceUrl": "https://detail.zol.com.cn/bluetoothspeaker/index1303309.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 5 款；联想商城在售页（i5-8265U/4GB+4GB/512GB/MX250）4899 元；内存 DDR4 双通道（4GB×2）；15.6 英寸 4.7mm 窄边框"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2020",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新",
+      "model": "小新 15",
+      "modelYear": 2020,
+      "screenSizeInch": 15.6,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1035G1",
+        "AMD Ryzen 5 4600U",
+        "AMD Ryzen 7 4800U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "AMD Radeon Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX350",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2020年3月（酷睿版）；2020年5月（锐龙版）",
+      "sourceUrl": "https://nb.zol.com.cn/741/7419900.html",
+      "sourceDomain": "nb.zol.com.cn",
+      "notes": "酷睿版 i5-1035G1/16GB/512GB/MX350（成都行情 5199 元）；锐龙版 R5-4600U/16GB/512GB/集显首发 3999 元；70Wh、1.76kg、100%sRGB 300nits DC 调光"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新",
+      "model": "小新 16",
+      "modelYear": 2023,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1340P",
+        "Intel 酷睿 i5-12450H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 60Hz",
+        "16英寸 2560x1600 60Hz"
+      ],
+      "launchDate": "2023年2月22日",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10735709_1.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 3 款：i5-1340P/16GB/512GB（1920x1200）、i5-1340P/16GB/1TB（2.5K 2560x1600）、i5-12450H/16GB/512GB；LPDDR5-5200 板载、75.4Wh、1.89kg、MIL-STD-810H 军标；2024-2025 年数字系列延续情况待核（见 uncertain）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA S730",
+      "modelYear": 2018,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿 i5-8265U",
+        "Intel 酷睿 i7-8565U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel UHD Graphics 620"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2018年10月",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1233060.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 3 款；支持 180 度翻转；镁铝合金 1.1kg、厚 11.9mm、42Wh；LPDDR3 内存；100%sRGB 三边窄 IPS 屏；i7-8565U/8GB/512GB 参考价 9999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA C740",
+      "modelYear": 2019,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-10210U",
+        "Intel 酷睿 i7-10710U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel UHD Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "launchDate": "2019年9月",
+      "sourceUrl": "https://detail.zol.com.cn/digital_tv/index1320989.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "360 度翻转触控本；LPDDR4 内存；51Wh、1.38kg、厚 14.9mm；72%NTSC IPS；发布会价格 i5/16GB/512GB 5799 元、i7(6核)/16GB/512GB 6799 元（百度百科 TA 说）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C940|2019",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA C940",
+      "modelYear": 2019,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1035G4",
+        "Intel 酷睿 i7-1065G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Plus Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 3840x2160 60Hz"
+      ],
+      "launchDate": "2019年9月",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1292466.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "大师翻转本，支持触控笔；4K 500nits 90%DCI-P3 杜比视界；LPDDR4 板载；60Wh、1.35kg；双雷电3；发布会价格 i5/16GB/512GB 8999 元、i7/16GB/1TB 9999 元（百度百科 TA 说），ZOL 参考价 9699/8520 元"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 13s|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA 13s",
+      "modelYear": 2021,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1135G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 60Hz"
+      ],
+      "launchDate": "2020年11月1日预售、11月11日开售",
+      "sourceUrl": "https://nb.zol.com.cn/754/7547066.html",
+      "sourceDomain": "nb.zol.com.cn",
+      "notes": "Intel EVO 认证；与 YOGA Pro 13s Carbon 同平台；LPDDR4X-4266 板载、50Wh、1.19kg；2.5K 400nits 100%sRGB；售价 5999 元（起售 5499 元）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 13s Carbon|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Pro 13s Carbon",
+      "modelYear": 2021,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1135G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 60Hz"
+      ],
+      "launchDate": "2020年11月发布、12月1日开售",
+      "sourceUrl": "https://shop.zol.com/shop_214514/37107391.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "白色碳纤维 A 面 + 镁铝合金机身，仅 966g、厚 14.25mm，9 项军规认证；LPDDR4x-4266 板载、50Wh、1 小时充 80%；双雷电4；首发价 6799 元（ZOL 资讯）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA 14s",
+      "modelYear": 2021,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-11300H",
+        "Intel 酷睿 i5-1135G7",
+        "Intel 酷睿 i7-11370H",
+        "AMD Ryzen 7 5800HS",
+        "AMD Ryzen 7 4800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce MX450",
+          "vram": "2GB"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 90Hz",
+        "14英寸 2990x1800 90Hz OLED"
+      ],
+      "launchDate": "2021年3月2日（标压版）；2021年6月18日（OLED 版）；2021年7月（锐龙版）",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1380739.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "酷睿标压版 i5-11300H/16GB/512GB/集显首发 5899 元（定价 6499 元）；OLED 版 i7-11370H+MX450 首发 7999 元（2990x1800、100%DCI-P3、600nits）；锐龙版 R7-5800HS+MX450（2880x1800、400nits、61Wh、1.42kg）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA 16s",
+      "modelYear": 2022,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "AMD Ryzen 5 5600H",
+        "AMD Ryzen 7 5800H",
+        "AMD Ryzen 7 6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "AMD Radeon Graphics"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 3050",
+          "vram": "4GB"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz",
+        "16英寸 2560x1600 60Hz"
+      ],
+      "launchDate": "2021年11月",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37850_1.html",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 4 款，全系十点触控；R7-5800H+RTX3050 首发 7499 元；R7-6800H 批次为 60Hz/400nits，R5-5600H/R7-5800H 批次为 120Hz/500nits（批次差异）；75Wh、2.08kg"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Air 14s",
+      "modelYear": 2022,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 i5-1240P",
+        "Intel 酷睿 i7-1280P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 90Hz OLED"
+      ],
+      "launchDate": "2022年5月",
+      "sourceUrl": "https://www.toutiao.com/article/7157679617661338150/",
+      "sourceDomain": "toutiao.com",
+      "notes": "3D 曲面玻璃顶盖、圆润机身；OLED 2.8K 90Hz 400nits 100%DCI-P3 十点触控；LPDDR5-5600；75Wh、1.37kg、厚 14.9mm；3 个雷电4；B&W 四扬声器；特别款 i7-1280P/16GB/1TB 售价 12999 元；IT 之家配置图证实另有 i5-1240P 版本"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 14s|2022",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Pro 14s",
+      "modelYear": 2022,
+      "screenSizeInch": 14.5,
+      "cpuOptions": [
+        "Intel 酷睿 i7-12700H",
+        "Intel 酷睿 i5-12500H",
+        "AMD Ryzen 7 6800HS"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Iris Xe Graphics / AMD Radeon 680M"
+        },
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 3050",
+          "vram": "4GB"
+        }
+      ],
+      "screenOptions": [
+        "14.5英寸 3072x1920 120Hz"
+      ],
+      "launchDate": "2022年5月",
+      "sourceUrl": "https://s.zol.com.cn/shop_59227/40084455.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "14.5 英寸 3K 120Hz 触控镜面屏（康宁大猩猩玻璃、AF 防指纹）；LPDDR5-6000 板载、70Wh、1.52kg；哈曼卡顿双扬声器；IT 之家：可选 12 代酷睿标压/锐龙 6800HS，可选 RTX3050，官网可定制 32GB+1TB"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2023",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Air 14s",
+      "modelYear": 2023,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "AMD Ryzen 7 7840S"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "AMD Radeon 780M"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2944x1840 90Hz OLED"
+      ],
+      "launchDate": "2023年8月",
+      "sourceUrl": "https://detail.zol.com.cn/washer/index1977745.shtml",
+      "sourceDomain": "detail.zol.com.cn",
+      "notes": "ZOL 系列共 2 款；OLED 2.9K 90Hz 600nits 100%DCI-P3 十点触控；LPDDR5X-6400 板载、70Wh、1.28kg；水月银/日光映潮配色"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 16s|2023",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Pro 16s",
+      "modelYear": 2023,
+      "screenSizeInch": 16,
+      "cpuOptions": [
+        "Intel 酷睿 i9-13905H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "独显",
+          "name": "NVIDIA GeForce RTX 4060",
+          "vram": "8GB"
+        }
+      ],
+      "screenOptions": [
+        "16英寸 3200x2000 60Hz"
+      ],
+      "launchDate": "2023年",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-doc-27039.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "至尊版：i9-13905H 定制标压（14核20线程、5.4GHz）+ RTX4060 8GB GDDR6；PureSight Pro 3.2K 屏；75Wh、35 分钟充 90%；官网参考价 12999 元；非至尊版（i5/i7+RTX4050）配置未逐一核实"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Air 14",
+      "modelYear": 2024,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz OLED"
+      ],
+      "launchDate": "2024年5月",
+      "sourceUrl": "https://s.zol.com.cn/shop_195226/40284999.html",
+      "sourceDomain": "zol.com.cn",
+      "notes": "官方名称\"YOGA Air 14 AI元启\"（型号 YOGA Air 14 IMH9）；2.8K OLED 120Hz 400nits 100%DCI-P3 DisplayHDR 500；LPDDR5X-7467 板载、65Wh、1.4kg、厚 14.9mm；浅海贝配色、PureBright 珍宝工艺；商城预估到手 8269 元"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14 Aura|2025",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Air 14 Aura",
+      "modelYear": 2025,
+      "screenSizeInch": 14,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 7 355"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel Arc Graphics"
+        }
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "launchDate": "2025年（Aura 系列首发；页面未明示具体月份）",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-1052930.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "联想商城在售页：Ultra 7 355/32GB LPDDR5X/1TB/70Wh，参考价 10399 元；Aura 系列命名年份与处理器命名（首发平台 Lunar Lake Ultra 7 258V 与在售 Ultra 7 355 并存）待核，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s 骁龙 AI元启|2026",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "YOGA",
+      "model": "YOGA Air 14s 骁龙 AI元启",
+      "modelYear": 2026,
+      "screenSizeInch": 14.5,
+      "cpuOptions": [
+        "高通骁龙 X Plus"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "高通 Adreno GPU"
+        }
+      ],
+      "screenOptions": [
+        "14.5英寸 2944x1840 90Hz OLED"
+      ],
+      "launchDate": "2026年（骁龙 AI元启系列 2025 年首发，X Plus 版本为在售配置，页面未明示上市月份）",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-45143.html",
+      "sourceDomain": "lenovo.com.cn",
+      "notes": "骁龙 X Plus（12 大核 Oryon CPU）；32GB LPDDR5X-8448 + 1TB；14.5 英寸 OLED 触控屏 1000nits DCI-P3；70Wh、1.5kg；联想小天个人智能助手；屏幕刷新率页面未标注，按 OLED 触控本常规为 90Hz"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 潮7000-13|2017",
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "series": "小新 潮7000",
+      "model": "小新 潮7000-13",
+      "modelYear": 2017,
+      "screenSizeInch": 13.3,
+      "cpuOptions": [
+        "Intel 酷睿i3-7100U",
+        "Intel 酷睿i5-8250U",
+        "Intel 酷睿i7-8550U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "storageOptions": [
+        "256GB SSD"
+      ],
+      "gpuOptions": [
+        {
+          "type": "集成",
+          "name": "Intel HD Graphics 620"
+        },
+        {
+          "type": "独立",
+          "name": "NVIDIA GeForce MX150 2GB"
+        }
+      ],
+      "screenOptions": [
+        "13.3英寸 1920x1080 IPS"
+      ],
+      "launchDate": "2017年8月",
+      "sourceUrl": "https://product.yesky.com/product/1020/1020672/param.shtml",
+      "sourceDomain": "product.yesky.com",
+      "sourceTitle": "联想小新 潮7000-13(i5 8250U/8GB/256GB)参数 - 天极产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2017-08 上市（天极/ZOL 均标注 2017年08月），首发批次搭载第八代酷睿 i5-8250U。13.3 英寸 FHD 窄边框 IPS、1.2kg、16.9mm、双涡轮风扇；i5-8250U+8GB DDR4 2400+MX150 2GB+256GB SSD 参考报价 4399 元（ZOL 广州站）。百度百科记载共 7 个配置（i3-7100U 1 款、i5-8250U 4 款、i7-8550U 2 款），4GB/8GB 内存，可选 MX150；未逐款核到存储容量，故存储仅列已证实的 256GB SSD。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "cpu": "Intel 酷睿 M3-6Y30",
+      "ram": "4GB",
+      "storage": "128GB SSD",
+      "gpu": "集成 Intel HD Graphics 515",
+      "screen": "12.2英寸 1920x1200",
+      "priceRMB": 3599,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1140473.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "cpu": "Intel 酷睿 M3-6Y30",
+      "ram": "4GB",
+      "storage": "128GB SSD",
+      "gpu": "集成 Intel HD Graphics 515",
+      "screen": "12.2英寸 1920x1200",
+      "priceRMB": 3699,
+      "priceNote": "ZOL 参考报价，LTE 版",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1140473.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "cpu": "Intel 酷睿 M3-6Y30",
+      "ram": "4GB",
+      "storage": "128GB SSD",
+      "gpu": "集成 Intel HD Graphics 515",
+      "screen": "12.2英寸 1920x1200",
+      "priceRMB": 3599,
+      "priceNote": "ZOL 参考报价，流量版（含 12G 流量）",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1140473.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "cpu": "Intel 酷睿 M3-6Y30",
+      "ram": "4GB",
+      "storage": "256GB SSD",
+      "gpu": "集成 Intel HD Graphics 515",
+      "screen": "12.2英寸 1920x1200",
+      "priceRMB": 3599,
+      "priceNote": "ZOL 参考报价，定制版",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1140473.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "cpu": "Intel 酷睿 i5-6200U",
+      "ram": "4GB",
+      "storage": "256GB SSD",
+      "gpu": "独显 NVIDIA GeForce 940MX 2GB",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 5599,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1166906.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "cpu": "Intel 酷睿 i5-6200U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "独显 NVIDIA GeForce 940MX 2GB",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 5699,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1166906.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "cpu": "Intel 酷睿 i7-6500U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "独显 NVIDIA GeForce 940MX 2GB",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 6200,
+      "priceNote": "ZOL 广州行情",
+      "sourceUrl": "https://gz.zol.com.cn/638/6386213.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "cpu": "Intel 酷睿 i7-7500U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "独显 NVIDIA GeForce 940MX 2GB",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 6236,
+      "priceNote": "ZOL 参考报价，2017年3月批次",
+      "sourceUrl": "https://m.zol.com.cn/article/6685290.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "cpu": "Intel 酷睿 i7-7500U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce 940MX 2GB",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 7099,
+      "priceNote": "ZOL 参考报价，2017年3月批次",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1166906.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "cpu": "Intel 酷睿 i5-8250U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX150 2GB",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0Air%2014/23762971",
+      "notes": "百度百科系列版本表（9 版本之一）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "cpu": "Intel 酷睿 i5-8250U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX150 2GB",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://shop.zol.com/shop_205799/31922914.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "cpu": "Intel 酷睿 i7-8550U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX150 2GB",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0Air%2014/23762971",
+      "notes": "百度百科系列版本表"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2018",
+      "cpu": "Intel 酷睿 i5-8250U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX150 2GB",
+      "screen": "15.6英寸 1920x1080",
+      "sourceUrl": "https://shop.lenovo.com.cn/product/1003276.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2019",
+      "cpu": "Intel 酷睿 i5-10210U",
+      "ram": "12GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX250 2GB",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://m.zol.com.cn/article/7388713.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2020",
+      "cpu": "AMD Ryzen 3 4300U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "14英寸 1920x1080",
+      "priceRMB": 3899,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1339291.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2020",
+      "cpu": "AMD Ryzen 5 4600U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "14英寸 1920x1080",
+      "priceRMB": 4599,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1339291.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2021",
+      "cpu": "Intel 酷睿 i5-1155G7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://m.zol.com.cn/article/7989422.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2021",
+      "cpu": "AMD Ryzen 5 5500U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "14英寸 1920x1080",
+      "priceRMB": 4699,
+      "priceNote": "京东商城售价（ZOL 资讯引用）",
+      "sourceUrl": "https://nb.zol.com.cn/774/7741243.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "cpu": "Intel 酷睿 i5-1235U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html",
+      "notes": "ZOL 系列页确认 i5-1235U/i5-1240P × 512GB/1TB 共 4 款全系集显"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "cpu": "Intel 酷睿 i5-1235U",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "cpu": "Intel 酷睿 i5-1240P",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "cpu": "Intel 酷睿 i5-1240P",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 1920x1080",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2021",
+      "cpu": "Intel 酷睿 i5-1155G7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 4799,
+      "priceNote": "开售价（2021年6月18日）",
+      "sourceUrl": "https://m.zol.com.cn/article/7704588.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "cpu": "Intel 酷睿 i5-1235U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 4499,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10707027_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "cpu": "Intel 酷睿 i5-1235U",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 4599,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10707027_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "cpu": "Intel 酷睿 i5-1240P",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 4599,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10707027_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "cpu": "Intel 酷睿 i5-1240P",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 4999,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10707027_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "cpu": "Intel 酷睿 i5-10210U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel UHD Graphics",
+      "screen": "13.3英寸 2560x1600",
+      "priceRMB": 5999,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1291172.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "cpu": "Intel 酷睿 i5-10210U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX250 2GB",
+      "screen": "13.3英寸 2560x1600",
+      "priceRMB": 5999,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1291172.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "cpu": "Intel 酷睿 i7-10710U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX250 2GB",
+      "screen": "13.3英寸 2560x1600",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1291172.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "cpu": "AMD Ryzen 5 3550H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Vega 8",
+      "screen": "13.3英寸 2560x1600",
+      "priceRMB": 4799,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/ultrabook/index1291172.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2020",
+      "cpu": "Intel 酷睿 i5-10210U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX350 2GB",
+      "screen": "13.3英寸 2560x1600",
+      "priceRMB": 5899,
+      "priceNote": "首发价（2020年3月18日预售）",
+      "sourceUrl": "https://m.zol.com.cn/article/7402412.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2020",
+      "cpu": "AMD Ryzen 5 4600U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "13.3英寸 2560x1600",
+      "sourceUrl": "https://nb.zol.com.cn/748/7486073.html",
+      "notes": "2020年5月上市，内存板载不可升级"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "cpu": "Intel 酷睿 i5-1135G7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX450 2GB",
+      "screen": "14英寸 2240x1400",
+      "priceRMB": 5999,
+      "priceNote": "联想商城预售参考价",
+      "sourceUrl": "https://www.lenovo.com.cn/product/1010533.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "cpu": "Intel 酷睿 i5-11300H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2240x1400",
+      "priceRMB": 4799,
+      "priceNote": "联想商城参考价（Evo 版）",
+      "sourceUrl": "https://shop.lenovo.com.cn/product/1013147.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "cpu": "AMD Ryzen 7 5800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%AF%E6%83%B3%E5%B0%8F%E6%96%B0%20Pro%2014%202021/55136576",
+      "notes": "2021年9月锐龙高刷版（DDR4-3200）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "cpu": "Intel 酷睿 i5-12500H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 5599,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1416038.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "cpu": "Intel 酷睿 i7-12700H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 6299,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1416038.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "cpu": "Intel 酷睿 i9-12900H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 6499,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1416038.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "cpu": "AMD Ryzen 7 6800HS",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 5099,
+      "priceNote": "ZOL 系列参考报价下限",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10714819_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "cpu": "AMD Ryzen 7 6800HS",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 5499,
+      "priceNote": "ZOL 系列参考报价上限",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10714819_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2023",
+      "cpu": "Intel 酷睿 i5-13500H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 5499,
+      "priceNote": "首发价（2023年3月1日预售）",
+      "sourceUrl": "https://m.zol.com.cn/article/8130164.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2023",
+      "cpu": "Intel 酷睿 i5-13500H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 3050 6GB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_93237/39695004.html",
+      "notes": "独显版性能释放提升至 80W"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "cpu": "Intel 酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 5599,
+      "priceNote": "ZOL 参考报价，LCD 屏",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1974286.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "cpu": "Intel 酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 5999,
+      "priceNote": "ZOL 参考报价，LCD 屏",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1974286.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "cpu": "Intel 酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1974286.shtml",
+      "notes": "OLED 屏版本（600nits 100%DCI-P3）"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "cpu": "Intel 酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1974286.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 GT AI元启版|2025",
+      "cpu": "Intel 酷睿 Ultra 9 285H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "priceRMB": 7999,
+      "priceNote": "联想官网参考价",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1044732.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 酷睿 AI元启版|2026",
+      "cpu": "Intel 酷睿 Ultra 5 336H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "priceRMB": 7989,
+      "priceNote": "京东 1号会员店套装价（2026-10 在售）",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1053911.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 酷睿 AI元启版|2026",
+      "cpu": "Intel 酷睿 Ultra 7 356H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "priceRMB": 8299,
+      "priceNote": "联想知识库 AI 元启版参考价",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/article-49998.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "cpu": "AMD Ryzen 7 5800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce GTX 1650 4GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 6299,
+      "priceNote": "联想商城参考价",
+      "sourceUrl": "https://shop.lenovo.com.cn/product/1014231.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "cpu": "AMD Ryzen 7 5800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 3050 4GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://shop.lenovo.com.cn/product/1019106.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "cpu": "AMD Ryzen 7 5800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-doc-46385.html",
+      "notes": "标压锐龙集显版，约 49W 释放"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "cpu": "Intel 酷睿 i5-12500H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 4999,
+      "priceNote": "首发价（2022年5月发布）",
+      "sourceUrl": "https://nb.zol.com.cn/792/7922812.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "cpu": "Intel 酷睿 i7-12700H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 5999,
+      "priceNote": "首发价",
+      "sourceUrl": "https://nb.zol.com.cn/792/7922812.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "cpu": "AMD Ryzen 7 6800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.zol.com/shop_77703/39981971.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "cpu": "AMD Ryzen 7 6800H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.zol.com/shop_77703/39981971.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "cpu": "Intel 酷睿 i5-13500H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 5199,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://wap.zol.com.cn/1462/1461022/index.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "cpu": "Intel 酷睿 i5-13500H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 3050 6GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 7299,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://wap.zol.com.cn/1462/1461022/index.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "cpu": "Intel 酷睿 i5-13500H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 3050 6GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 7799,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://wap.zol.com.cn/1462/1461022/index.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "cpu": "Intel 酷睿 i9-13900H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1462/1461022/index.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "cpu": "AMD Ryzen 7 7735HS",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://nb.zol.com.cn/848/8484718.html",
+      "notes": "锐龙版，LPDDR5-6400"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "cpu": "Intel 酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 5999,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10851163_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "cpu": "Intel 酷睿 Ultra 5 125H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 6199,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10851163_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "cpu": "Intel 酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 7699,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10851163_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "cpu": "AMD Ryzen 7 8845H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 780M",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_197875/40105343.html",
+      "notes": "锐龙版 2024，LPDDR5X-6400、84Wh"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "cpu": "Intel 酷睿 Ultra 9 285H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "16英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://s.zol.com.cn/shop_79474/42768751.html",
+      "notes": "集显版；渠道价约 7199 元起"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "cpu": "Intel 酷睿 Ultra 9 285H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 5050 8GB",
+      "screen": "16英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-34975.html",
+      "notes": "RTX5050 版上市时间待核，见 uncertain"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 酷睿 AI元启版|2026",
+      "cpu": "Intel 酷睿 Ultra 5 338H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "16英寸 2880x1800 120Hz",
+      "priceRMB": 9999,
+      "priceNote": "联想消费站点挂牌价（教育特惠减 300）",
+      "sourceUrl": "https://consumer.lenovo.com.cn"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 酷睿 AI元启版|2026",
+      "cpu": "Intel 酷睿 Ultra 7 356H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "16英寸 2880x1800 120Hz",
+      "priceRMB": 8499,
+      "priceNote": "京东渠道在售价（2026-10）",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1053888.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "cpu": "Intel 酷睿 i5-8265U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX250 2GB",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 5799,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/bluetoothspeaker/index1303309.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "cpu": "Intel 酷睿 i5-8265U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX150 2GB",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 6699,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/bluetoothspeaker/index1303309.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "cpu": "Intel 酷睿 i5-8265U",
+      "ram": "8GB",
+      "storage": "256GB SSD + 1TB HDD",
+      "gpu": "独显 NVIDIA GeForce MX250 2GB",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 5049,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/bluetoothspeaker/index1303309.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "cpu": "AMD Ryzen 5 3500U",
+      "ram": "8GB",
+      "storage": "128GB SSD + 1TB HDD",
+      "gpu": "集成 AMD Radeon Vega 8",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 3899,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/bluetoothspeaker/index1303309.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2020",
+      "cpu": "Intel 酷睿 i5-1035G1",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX350 2GB",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 5199,
+      "priceNote": "ZOL 成都行情价",
+      "sourceUrl": "https://nb.zol.com.cn/741/7419900.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2020",
+      "cpu": "AMD Ryzen 5 4600U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "15.6英寸 1920x1080",
+      "priceRMB": 3999,
+      "priceNote": "首发价（2020年5月）",
+      "sourceUrl": "https://nb.zol.com.cn/743/7436524.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "cpu": "Intel 酷睿 i5-1340P",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 1920x1200",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10735709_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "cpu": "Intel 酷睿 i5-1340P",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 2560x1600",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1463031.html",
+      "notes": "2.5K 版本"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "cpu": "Intel 酷睿 i5-12450H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "16英寸 1920x1200",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10735709_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "cpu": "Intel 酷睿 i5-8265U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel UHD Graphics 620",
+      "screen": "13.3英寸 1920x1080",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1233060.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "cpu": "Intel 酷睿 i7-8565U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel UHD Graphics 620",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 9999,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1233060.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "cpu": "Intel 酷睿 i7-8565U",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel UHD Graphics 620",
+      "screen": "13.3英寸 1920x1080",
+      "sourceUrl": "https://shop.zol.com/shop_214514/37107989.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "cpu": "Intel 酷睿 i5-10210U",
+      "ram": "8GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel UHD Graphics",
+      "screen": "14英寸 1920x1080",
+      "priceRMB": 5799,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/digital_tv/index1320989.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "cpu": "Intel 酷睿 i5-10210U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel UHD Graphics",
+      "screen": "14英寸 1920x1080",
+      "priceRMB": 5550,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/digital_tv/index1320989.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "cpu": "Intel 酷睿 i7-10710U",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel UHD Graphics",
+      "screen": "14英寸 1920x1080",
+      "priceRMB": 7299,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/digital_tv/index1320989.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C940|2019",
+      "cpu": "Intel 酷睿 i5-1035G4",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Plus Graphics",
+      "screen": "14英寸 3840x2160",
+      "priceRMB": 9699,
+      "priceNote": "ZOL 参考报价（发布会价 8999 元）",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1292466.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C940|2019",
+      "cpu": "Intel 酷睿 i7-1065G7",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Plus Graphics",
+      "screen": "14英寸 3840x2160",
+      "priceRMB": 8520,
+      "priceNote": "ZOL 参考报价（发布会价 9999 元）",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1292466.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 13s|2021",
+      "cpu": "Intel 酷睿 i5-1135G7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "13.3英寸 2560x1600",
+      "priceRMB": 5999,
+      "priceNote": "发布会价（起售 5499 元）",
+      "sourceUrl": "https://nb.zol.com.cn/754/7547066.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 13s Carbon|2021",
+      "cpu": "Intel 酷睿 i5-1135G7",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "13.3英寸 2560x1600",
+      "priceRMB": 6799,
+      "priceNote": "首发价",
+      "sourceUrl": "https://nb.zol.com.cn/757/7577908.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "cpu": "Intel 酷睿 i5-11300H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2880x1800 90Hz",
+      "priceRMB": 5899,
+      "priceNote": "首发价（定价 6499 元，2021年3月2日开卖）",
+      "sourceUrl": "https://m.zol.com.cn/article/7631925.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "cpu": "Intel 酷睿 i7-11370H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX450 2GB",
+      "screen": "14英寸 2990x1800 90Hz OLED",
+      "priceRMB": 7999,
+      "priceNote": "首发价（2021年6月18日开售）",
+      "sourceUrl": "https://nb.zol.com.cn/770/7705452.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "cpu": "AMD Ryzen 7 5800HS",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce MX450 2GB",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1380739.html",
+      "notes": "锐龙版 2021年7月上市"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "cpu": "AMD Ryzen 5 5600H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon Graphics",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 6499,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37850_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "cpu": "AMD Ryzen 7 5800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 3050 4GB",
+      "screen": "16英寸 2560x1600 120Hz",
+      "priceRMB": 8299,
+      "priceNote": "ZOL 参考报价（首发 7499 元）",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37850_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "cpu": "AMD Ryzen 7 6800H",
+      "ram": "16GB",
+      "storage": "512GB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "16英寸 2560x1600 60Hz",
+      "priceRMB": 6788,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37850_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "cpu": "AMD Ryzen 7 6800H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 680M",
+      "screen": "16英寸 2560x1600 60Hz",
+      "priceRMB": 7299,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37850_1.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2022",
+      "cpu": "Intel 酷睿 i7-1280P",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14英寸 2880x1800 90Hz OLED",
+      "priceRMB": 12999,
+      "priceNote": "特别款媒体报价",
+      "sourceUrl": "https://m.zol.com.cn/article/8128103.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 14s|2022",
+      "cpu": "Intel 酷睿 i7-12700H",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Iris Xe Graphics",
+      "screen": "14.5英寸 3072x1920 120Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_59227/40084455.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2023",
+      "cpu": "AMD Ryzen 7 7840S",
+      "ram": "16GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 780M",
+      "screen": "14英寸 2944x1840 90Hz OLED",
+      "priceRMB": 7999,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/washer/index1977745.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2023",
+      "cpu": "AMD Ryzen 7 7840S",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 AMD Radeon 780M",
+      "screen": "14英寸 2944x1840 90Hz OLED",
+      "priceRMB": 8299,
+      "priceNote": "ZOL 参考报价",
+      "sourceUrl": "https://detail.zol.com.cn/washer/index1977745.shtml"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 16s|2023",
+      "cpu": "Intel 酷睿 i9-13905H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "独显 NVIDIA GeForce RTX 4060 8GB",
+      "screen": "16英寸 3200x2000",
+      "priceRMB": 12999,
+      "priceNote": "联想商城参考价（至尊版）",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-doc-27039.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14|2024",
+      "cpu": "Intel 酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "priceRMB": 8269,
+      "priceNote": "联想商城预估到手价",
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1047369.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14 Aura|2025",
+      "cpu": "Intel 酷睿 Ultra 7 355",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 Intel Arc Graphics",
+      "screen": "14英寸 2880x1800 120Hz",
+      "priceRMB": 10399,
+      "priceNote": "联想商城参考价",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-1052930.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s 骁龙 AI元启|2026",
+      "cpu": "高通骁龙 X Plus",
+      "ram": "32GB",
+      "storage": "1TB SSD",
+      "gpu": "集成 高通 Adreno GPU",
+      "screen": "14.5英寸 2944x1840 OLED",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-45143.html"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 潮7000-13|2017",
+      "cpu": "Intel 酷睿i5-8250U",
+      "ram": "8GB",
+      "storage": "256GB SSD",
+      "gpu": "NVIDIA GeForce MX150 2GB",
+      "screen": "13.3英寸 1920x1080",
+      "priceRMB": 4399,
+      "priceNote": "ZOL 参考报价（2017-10）",
+      "sourceUrl": "https://gz.zol.com.cn/727/7275069.html",
+      "sourceTitle": "联想笔记本小新潮7000-13售价4399元 - 中关村在线广州站"
+    }
+  ],
+  "aliases": [
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "alias": "联想小新 Air 12",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "alias": "小新Air 12",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "alias": "Lenovo Xiaoxin Air 12",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 12|2016",
+      "alias": "小新 Air 12 WiFi版/LTE版/流量版",
+      "aliasType": "版本别名",
+      "notes": "按网络制式区分"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "alias": "联想小新 Air 13 Pro",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "alias": "小新Air 13 Pro",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "alias": "Lenovo Xiaoxin Air 13 Pro",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 13 Pro|2016",
+      "alias": "小新 Air 13 Pro LTE版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "alias": "联想小新 Air 14",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "alias": "小新Air14",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "alias": "Lenovo Xiaoxin Air 14",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2018",
+      "alias": "小新 Air 14 2018款",
+      "aliasType": "年份俗称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2018",
+      "alias": "联想小新 Air 15",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2018",
+      "alias": "小新Air15",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2018",
+      "alias": "Lenovo Xiaoxin Air 15",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2019",
+      "alias": "联想小新 Air 14 2019",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2019",
+      "alias": "小新Air 14 2019款",
+      "aliasType": "年份俗称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2019",
+      "alias": "Lenovo Xiaoxin Air 14 2019",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2020",
+      "alias": "联想小新 Air 14 2020",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2020",
+      "alias": "小新Air14 2020 锐龙版",
+      "aliasType": "版本别名",
+      "notes": "ZOL 系列别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2020",
+      "alias": "Lenovo Xiaoxin Air 14 2020",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2021",
+      "alias": "联想小新 Air 14 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2021",
+      "alias": "小新Air14 2021 锐龙版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2021",
+      "alias": "小新 Air 14 ITL",
+      "aliasType": "型号代码",
+      "notes": "京东配件页出现的内部型号标注"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "alias": "联想小新 Air 14 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "alias": "小新Air14 2022 酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 14|2022",
+      "alias": "Lenovo Xiaoxin Air 14 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2021",
+      "alias": "联想小新 Air 15 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2021",
+      "alias": "小新Air 15 2021 酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2021",
+      "alias": "Lenovo Xiaoxin Air 15 2021",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "alias": "联想小新 Air 15 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "alias": "小新Air 15 2022 酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Air 15|2022",
+      "alias": "Lenovo Xiaoxin Air 15 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "alias": "联想小新 Pro 13",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "alias": "小新Pro13",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "alias": "Lenovo Xiaoxin Pro 13",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2019",
+      "alias": "小新 Pro 13 标压锐龙版",
+      "aliasType": "版本别名",
+      "notes": "R5-3550H 版本"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2020",
+      "alias": "联想小新 Pro 13 2020",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2020",
+      "alias": "小新Pro13 2020锐龙版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 13|2020",
+      "alias": "Lenovo Xiaoxin Pro 13 2020",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "alias": "联想小新 Pro 14 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "alias": "小新Pro14 2021",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "alias": "小新 Pro 14 2021 锐龙高刷版",
+      "aliasType": "版本别名",
+      "notes": "2021年9月批次"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2021",
+      "alias": "Lenovo Xiaoxin Pro 14 2021",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "alias": "联想小新 Pro 14 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "alias": "小新Pro14 2022 标压酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "alias": "小新Pro 14 2022 锐龙版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2022",
+      "alias": "Lenovo Xiaoxin Pro 14 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2023",
+      "alias": "联想小新 Pro 14 超能本 2023",
+      "aliasType": "官方别名",
+      "notes": "ZOL 产品型号为\"小新 Pro 14 超能本 2023\""
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2023",
+      "alias": "小新Pro14 2023",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2023",
+      "alias": "Lenovo Xiaoxin Pro 14 2023",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "alias": "联想小新 Pro 14 酷睿版 2024",
+      "aliasType": "官方别名",
+      "notes": "ZOL 产品型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "alias": "小新Pro14 2024",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14|2024",
+      "alias": "Lenovo Xiaoxin Pro 14 2024",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 GT AI元启版|2025",
+      "alias": "小新Pro14GT AI元启版",
+      "aliasType": "官方别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 GT AI元启版|2025",
+      "alias": "小新 Pro 14 2025",
+      "aliasType": "年份俗称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 GT AI元启版|2025",
+      "alias": "小新Pro 14 IAH",
+      "aliasType": "认证型号",
+      "notes": "ZOL 产品型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 GT AI元启版|2025",
+      "alias": "Lenovo Xiaoxin Pro 14 GT 2025",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 酷睿 AI元启版|2026",
+      "alias": "联想小新Pro14 酷睿 AI元启版",
+      "aliasType": "官方别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 酷睿 AI元启版|2026",
+      "alias": "小新 Pro 14 2026",
+      "aliasType": "年份俗称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 14 酷睿 AI元启版|2026",
+      "alias": "小新Pro14IPH11",
+      "aliasType": "认证型号",
+      "notes": "京东商品认证型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "alias": "联想小新 Pro 16 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "alias": "小新Pro16 2021 锐龙版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2021",
+      "alias": "Lenovo Xiaoxin Pro 16 2021",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "alias": "联想小新 Pro 16 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "alias": "小新Pro16 2022 酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "alias": "小新Pro 16 2022 锐龙版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2022",
+      "alias": "Lenovo Xiaoxin Pro 16 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "alias": "联想小新 Pro 16 超能本 2023",
+      "aliasType": "官方别名",
+      "notes": "ZOL 产品型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "alias": "小新Pro16 2023",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2023",
+      "alias": "Lenovo Xiaoxin Pro 16 2023",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "alias": "联想小新 Pro 16 2024",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "alias": "小新Pro16 2024",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "alias": "小新 Pro 16 锐龙版 2024",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16|2024",
+      "alias": "Lenovo Xiaoxin Pro 16 2024",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "alias": "联想小新Pro16GT AI元启版",
+      "aliasType": "官方别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "alias": "小新 Pro 16 2025",
+      "aliasType": "年份俗称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "alias": "小新Pro 16 IAH",
+      "aliasType": "认证型号",
+      "notes": "ZOL 产品型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 GT AI元启版|2025",
+      "alias": "Lenovo Xiaoxin Pro 16 GT 2025",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 酷睿 AI元启版|2026",
+      "alias": "联想小新Pro16 酷睿 AI元启",
+      "aliasType": "官方别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 酷睿 AI元启版|2026",
+      "alias": "小新 Pro 16 2026",
+      "aliasType": "年份俗称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 Pro 16 酷睿 AI元启版|2026",
+      "alias": "小新Pro16IPH11",
+      "aliasType": "认证型号",
+      "notes": "京东商品认证型号；FIFA 世界杯定制版同平台"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "alias": "联想小新 15",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "alias": "小新-15 2019",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2019",
+      "alias": "Lenovo Xiaoxin 15 2019",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2020",
+      "alias": "联想小新 15 2020",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2020",
+      "alias": "小新15 2020 锐龙版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 15|2020",
+      "alias": "Lenovo Xiaoxin 15 2020",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "alias": "联想小新 16 2023",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "alias": "小新16 2023",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 16|2023",
+      "alias": "Lenovo Xiaoxin 16 2023",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "alias": "联想 YOGA S730",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "alias": "YOGA S730-13IWL",
+      "aliasType": "完整型号",
+      "notes": "ZOL 型号标注"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA S730|2018",
+      "alias": "Lenovo YOGA S730",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "alias": "联想 YOGA C740",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "alias": "YOGA C740-14IML",
+      "aliasType": "完整型号",
+      "notes": "14 英寸 Comet Lake 平台型号代码"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C740|2019",
+      "alias": "Lenovo YOGA C740",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C940|2019",
+      "alias": "联想 YOGA C940",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C940|2019",
+      "alias": "YOGA C940 大师翻转本",
+      "aliasType": "宣传别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA C940|2019",
+      "alias": "Lenovo YOGA C940",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 13s|2021",
+      "alias": "联想 YOGA 13s 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 13s|2021",
+      "alias": "YOGA 13s 酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 13s|2021",
+      "alias": "Lenovo YOGA 13s 2021",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 13s Carbon|2021",
+      "alias": "联想 YOGA Pro 13s Carbon 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 13s Carbon|2021",
+      "alias": "YOGA 13s Carbon 2021",
+      "aliasType": "无空格简称",
+      "notes": "媒体常用简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 13s Carbon|2021",
+      "alias": "Lenovo YOGA Pro 13s Carbon",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "alias": "联想 YOGA 14s 2021",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "alias": "YOGA 14s 2021 标压版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "alias": "YOGA 14s 2021 OLED",
+      "aliasType": "版本别名",
+      "notes": "i7-11370H+MX450 OLED 版本"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 14s|2021",
+      "alias": "Lenovo YOGA 14s 2021",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "alias": "联想 YOGA 16s 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "alias": "YOGA16s",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA 16s|2022",
+      "alias": "Lenovo YOGA 16s 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2022",
+      "alias": "联想 YOGA Air 14s 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2022",
+      "alias": "YOGA Air 14s 特别款",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2022",
+      "alias": "Lenovo YOGA Air 14s 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 14s|2022",
+      "alias": "联想 YOGA Pro 14s 2022",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 14s|2022",
+      "alias": "YOGA Pro 14s 酷睿版",
+      "aliasType": "版本别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 14s|2022",
+      "alias": "Lenovo YOGA Pro 14s 2022",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2023",
+      "alias": "联想 YOGA Air 14s 2023款",
+      "aliasType": "官方别名",
+      "notes": "ZOL 产品型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2023",
+      "alias": "YOGA Air 14s 2023",
+      "aliasType": "无空格简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s|2023",
+      "alias": "Lenovo YOGA Air 14s 2023",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 16s|2023",
+      "alias": "联想 YOGA Pro 16s 2023",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 16s|2023",
+      "alias": "YOGA Pro16s 2023 至尊版",
+      "aliasType": "版本别名",
+      "notes": "联想商城在售名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Pro 16s|2023",
+      "alias": "Lenovo YOGA Pro 16s 2023",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14|2024",
+      "alias": "联想 YOGA Air 14 AI元启",
+      "aliasType": "官方别名",
+      "notes": "发布时名称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14|2024",
+      "alias": "YOGA Air 14 IMH9",
+      "aliasType": "型号代码",
+      "notes": "联想商城产品型号"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14|2024",
+      "alias": "Lenovo YOGA Air 14 2024",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14 Aura|2025",
+      "alias": "联想 YOGA Air 14 Aura",
+      "aliasType": "品牌全称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14 Aura|2025",
+      "alias": "YOGA Air 14 Aura 浅海贝",
+      "aliasType": "配色版本"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14 Aura|2025",
+      "alias": "Lenovo YOGA Air 14 Aura",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s 骁龙 AI元启|2026",
+      "alias": "联想 YOGA Air 14s 骁龙 AI元启",
+      "aliasType": "官方别名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s 骁龙 AI元启|2026",
+      "alias": "YOGA Air 14s 骁龙版",
+      "aliasType": "平台简称"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|YOGA Air 14s 骁龙 AI元启|2026",
+      "alias": "Lenovo YOGA Air 14s Snapdragon",
+      "aliasType": "英文名"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 潮7000-13|2017",
+      "alias": "联想小新潮7000",
+      "aliasType": "常见搜索写法"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 潮7000-13|2017",
+      "alias": "小新 潮7000",
+      "aliasType": "官方写法"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|小新 潮7000-13|2017",
+      "alias": "Lenovo Xiaoxin Chao7000",
+      "aliasType": "英文名"
+    }
+  ],
+  "uncertain": [
+    {
+      "item": "小新 Air 13（2016，非 Pro 版）",
+      "reason": "任务范围提及 2016 年 Air 12/13，但本次检索未找到 Air 13 非 Pro 版的可靠规格页与 SKU 证据",
+      "suggestion": "如需收录，建议查 ZOL 系列页 detail.zol.com.cn 检索\"小新Air 13\"或联想商城历史商品页后补充"
+    },
+    {
+      "item": "小新 Air 14 2020 酷睿版（i5-1035G1/MX350 等）",
+      "reason": "仅检索到第三方配件（屏幕/键盘）商品页提及 14IIL/14ARE 型号，无整机规格页",
+      "suggestion": "建议以 ZOL 系列页或联想商城历史页核实后补充"
+    },
+    {
+      "item": "小新 Air 14 2021 MX450 独显版",
+      "reason": "酷睿版 i5-1155G7 有 MX450 独显版本的说法，但未取得可靠规格来源",
+      "suggestion": "核实 ZOL 系列页后补充 gpuOptions 与组合"
+    },
+    {
+      "item": "小新 Pro 14 2022 RTX2050 独显版",
+      "reason": "ZOL 系列页仅 3 款且全系集显，未见 RTX2050 版本",
+      "suggestion": "以联想商城/ZOL 系列页确认是否存在独显 SKU"
+    },
+    {
+      "item": "小新 Pro 14 2023 锐龙版（R7-7840H）与 i9 版本",
+      "reason": "ZOL/资讯仅证实 i5-13500H 批次（集显/RTX3050 6GB）",
+      "suggestion": "补查 ZOL 系列全量表后扩充"
+    },
+    {
+      "item": "小新 Pro 14 2024 锐龙版（R7-8845H）与 Ultra 7 155H 批次",
+      "reason": "ZOL 系列 5 款均为酷睿 Ultra 5 125H/Ultra 9 185H；155H 仅见于联想知识库文章（AI 生成文案）",
+      "suggestion": "以 ZOL 系列页或京东自营规格页核实"
+    },
+    {
+      "item": "小新 Pro 16 2021 酷睿版（i5-11320H）",
+      "reason": "联想商城仅见锐龙版三个 SKU，酷睿版未取得可靠来源",
+      "suggestion": "核实后补充 cpuOptions"
+    },
+    {
+      "item": "小新 Pro 16 2022 RTX3050/RTX3050Ti 锐龙独显版",
+      "reason": "仅证实集显版（酷睿 i5/i7、锐龙 R7-6800H）",
+      "suggestion": "补查 ZOL 系列页确认独显 SKU"
+    },
+    {
+      "item": "小新 Pro 16 2024 2.8K（2880x1800）屏幕版本",
+      "reason": "ZOL 系列 3 款均为 2560x1600；2.8K 版本与 2025 款的屏幕关系待核",
+      "suggestion": "以联想商城规格页核实是否存在 2.8K SKU"
+    },
+    {
+      "item": "小新 Pro 16 GT AI元启版 RTX5050 独显版上市时间与价格",
+      "reason": "联想商城页面为 AI 生成式文案，规格表与正文存在不一致风险（如重量 1.79kg/1.72kg）",
+      "suggestion": "以京东自营规格参数页或 ZOL 经销商页核实后补充价格"
+    },
+    {
+      "item": "小新 Pro 16 2026 GT 版（Ultra X7-358H / X9-388H）与锐龙版（R7-H255）",
+      "reason": "消费站点与知识库提及 GT 可选与锐龙平台，但未取得具体 SKU 规格页",
+      "suggestion": "以联想商城/ZOL 核实后补充"
+    },
+    {
+      "item": "小新 15 2024/2025 与\"小新 14 2022\"",
+      "reason": "2023 年后数字系列延续情况未检索到可靠来源；2022 年 14 英寸实为小新 Air 14 2022，无独立\"小新 14 2022\"型号",
+      "suggestion": "如需收录 2024+ 数字系列，需先确认产品线是否延续"
+    },
+    {
+      "item": "YOGA S940（2019）",
+      "reason": "任务范围提及，但本次未取得可靠规格页与 SKU 证据",
+      "suggestion": "查 ZOL 系列页\"YOGA S940\"后补充"
+    },
+    {
+      "item": "YOGA Air 13s 2021 与 YOGA 14c 2021",
+      "reason": "IT 之家 2022 配置图提及 2022 款含 Air 13s/14c；2021 款同名机型未取得可靠来源",
+      "suggestion": "核实 2021 年 YOGA 产品线全量后补充"
+    },
+    {
+      "item": "YOGA Air 16 / \"YOGA 16 Air\" 2025",
+      "reason": "未检索到可靠规格页",
+      "suggestion": "以联想商城/ZOL 核实产品命名与配置"
+    },
+    {
+      "item": "YOGA Pro 16 Aura 2025-2026",
+      "reason": "仅见联想知识库 AI 文章提及，无规格页与 SKU 证据",
+      "suggestion": "以联想商城产品页核实后收录"
+    },
+    {
+      "item": "YOGA Air 14 Aura 处理器命名（Ultra 7 258V 与 Ultra 7 355 并存）",
+      "reason": "Aura 系列首发平台为 Lunar Lake（Ultra 7 258V），但联想商城当前在售页显示 Ultra 7 355（第三代酷睿 Ultra 命名体系），两代平台共用 Aura 命名",
+      "suggestion": "按渠道 SKU 核实具体处理器后细化 cpuOptions"
+    },
+    {
+      "item": "小新 Pro 14 2026 电池容量（60Wh vs 75Wh）",
+      "reason": "京东商品参数页为 60Wh，联想知识库文章称 75Wh，两者冲突",
+      "suggestion": "以联想官网规格表或 ZOL 参数页为准"
+    },
+    {
+      "item": "YOGA Air 14s 骁龙 AI元启上市年份",
+      "reason": "联想商城规格页未明示上市时间；骁龙 AI元启系列 2025 年首发，X Plus 版本为在售配置",
+      "suggestion": "以发布会新闻或 ZOL 上市时间字段核实后校正 modelYear"
+    },
+    {
+      "item": "YOGA Air 14s 2022 i5-1240P 版本具体 SKU 与价格",
+      "reason": "IT 之家配置图证实 i5-1240P/i7-1280P 可选，但仅取得 i7-1280P 特别款整机信息",
+      "suggestion": "补查 ZOL 系列页后扩充组合"
+    }
+  ]
+}

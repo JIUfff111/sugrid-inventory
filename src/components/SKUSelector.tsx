@@ -5,8 +5,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronRight, Search, Check, Plus } from 'lucide-react';
+import { ChevronRight, Search, Check, Plus, TrendingUp, X } from 'lucide-react';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
+import { formatCPUDisplay, formatGPUDisplay, getSKUProductType, uniqueCPUOptions, uniqueGPUOptions } from '@/lib/sku-display';
+import { canonicalSKUBrand } from '@/lib/sku-brand';
+import { formatProductName } from '@/lib/product-name';
 
 const STORAGE_OPTIONS = ['256GB', '512GB', '1TB', '1.5TB', '2TB'] as const;
 
@@ -53,9 +56,34 @@ function getSKUYear(sku: Pick<SKU, 'model' | 'modelYear' | 'year' | 'releaseYear
 }
 
 function getSKUDisplayName(sku: SKU): string {
-  const baseName = `${sku.brand} ${sku.model}`.replace(/\s+/g, ' ').trim();
-  const year = getSKUYear(sku);
-  return year && !baseName.includes(year) ? `${baseName} ${year}` : baseName;
+  return formatProductName({ brand: canonicalSKUBrand(sku.brand), model: sku.model, year: getSKUYear(sku) });
+}
+
+function matchesSKUQuery(sku: SKU, value: string): boolean {
+  const keyword = value.trim().toLocaleLowerCase();
+  if (!keyword) return true;
+
+  const modelKeyword = keyword.replace(/红米/g, 'redmi');
+
+  const values = [
+    getSKUDisplayName(sku),
+    sku.brand,
+    canonicalSKUBrand(sku.brand),
+    sku.model,
+    getSKUProductType(sku.productType),
+    getSKUYear(sku),
+    ...sku.cpuOptions,
+    ...sku.cpuOptions.map(formatCPUDisplay),
+    ...sku.ramOptions,
+    ...sku.gpuOptions,
+    ...sku.gpuOptions.map(formatGPUDisplay),
+    ...sku.storageOptions,
+    ...sku.screenOptions,
+  ];
+  return values.some(item => {
+    const normalized = item.toLocaleLowerCase();
+    return normalized.includes(keyword) || normalized.includes(modelKeyword);
+  });
 }
 
 interface SKUSelectorProps {
@@ -69,11 +97,13 @@ type Step = 'productType' | 'brand' | 'model' | 'config' | 'singleInput';
 
 export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selectedMachineCount }: SKUSelectorProps) {
   const [step, setStep] = useState<Step>('productType');
+  const [selectedFromHome, setSelectedFromHome] = useState(false);
   const [selectedProductType, setSelectedProductType] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedSKU, setSelectedSKU] = useState<SKU | null>(null);
   
   const [skus, setSkus] = useState<SKU[]>([]);
+  const [frequentModels, setFrequentModels] = useState<Array<{ skuId: string; count: number }>>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [loadAttempt, setLoadAttempt] = useState(0);
@@ -102,6 +132,15 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
 
     const loadSkus = async () => {
       try {
+        const frequentRequest = fetch('/api/skus/frequent', { signal: controller.signal })
+          .then(async (response) => {
+            const result = await response.json() as {
+              success?: boolean;
+              data?: { items?: Array<{ skuId: string; count: number }> };
+            };
+            return response.ok && result.success && Array.isArray(result.data?.items) ? result.data.items : [];
+          })
+          .catch(() => [] as Array<{ skuId: string; count: number }>);
         const allSkus: SKU[] = [];
         let page = 1;
 
@@ -129,7 +168,11 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
           page += 1;
         }
 
-        if (!controller.signal.aborted) setSkus(allSkus);
+        const frequent = await frequentRequest;
+        if (!controller.signal.aborted) {
+          setSkus(allSkus);
+          setFrequentModels(frequent);
+        }
       } catch (error) {
         if (!controller.signal.aborted) {
           console.error('加载 SKU 失败:', error);
@@ -147,29 +190,39 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
     };
   }, [loadAttempt]);
 
-  // 获取产品类型列表
-  const productTypes = Array.from(new Set(skus.map(s => s.productType)));
+  const productTypes = Array.from(new Set(skus.map(s => getSKUProductType(s.productType))));
 
   // 获取品牌列表（根据已选产品类型）
   const brands = Array.from(
     new Set(
       skus
-        .filter(s => !selectedProductType || s.productType === selectedProductType)
-        .map(s => s.brand)
+        .filter(s => !selectedProductType || getSKUProductType(s.productType) === selectedProductType)
+        .map(s => canonicalSKUBrand(s.brand))
     )
   );
+  const frequencyBySkuId = new Map(frequentModels.map(({ skuId, count }) => [skuId, count]));
+  const sortByFrequency = (left: SKU, right: SKU) =>
+    (frequencyBySkuId.get(right.id) || 0) - (frequencyBySkuId.get(left.id) || 0);
 
   // 获取型号列表（根据已选品牌）
   const models = skus.filter(
     s =>
-      (!selectedProductType || s.productType === selectedProductType) &&
-      (!selectedBrand || s.brand === selectedBrand)
-  );
+      (!selectedProductType || getSKUProductType(s.productType) === selectedProductType) &&
+      (!selectedBrand || canonicalSKUBrand(s.brand) === selectedBrand)
+  ).sort(sortByFrequency);
+
+  const globalSearchMatches = search.trim()
+    ? skus.filter(sku => matchesSKUQuery(sku, search)).sort(sortByFrequency)
+    : [];
+  const frequentSkus = frequentModels
+    .map(({ skuId, count }) => ({ sku: skus.find((item) => item.id === skuId), count }))
+    .filter((item): item is { sku: SKU; count: number } => Boolean(item.sku));
 
   // 每个 SKU 都提供“集显”，并将其固定放在显卡选项首位。
   const gpuOptions = selectedSKU
-    ? ['集显', ...selectedSKU.gpuOptions.filter(option => option !== '集显')]
+    ? uniqueGPUOptions(['集显', ...selectedSKU.gpuOptions])
     : [];
+  const cpuOptions = selectedSKU ? uniqueCPUOptions(selectedSKU.cpuOptions) : [];
 
   // 步骤 1：选择产品类型
   const handleSelectProductType = (type: string) => {
@@ -189,9 +242,11 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
   };
 
   // 步骤 3：选择型号
-  const handleSelectModel = (sku: SKU) => {
-    setSelectedSKU(sku);
-    setSearch('');
+  const handleSelectModel = (sku: SKU, fromHome = false) => {
+    setSelectedFromHome(fromHome);
+    setSelectedProductType(getSKUProductType(sku.productType));
+    setSelectedBrand(canonicalSKUBrand(sku.brand));
+    setSelectedSKU({ ...sku, brand: canonicalSKUBrand(sku.brand), productType: getSKUProductType(sku.productType) });
     // 不再默认选择，全部清空
     setSelectedCpu('');
     setSelectedRam('');
@@ -275,7 +330,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
       setStep('brand');
       setSelectedSKU(null);
     } else if (step === 'config') {
-      setStep('model');
+      setStep(selectedFromHome ? 'productType' : 'model');
     }
   };
 
@@ -295,12 +350,12 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
             <div>
               <h2 className="text-[15px] font-semibold text-ink-deep">选择机器 SKU</h2>
               <div className="flex items-center gap-2 mt-0.5 text-[12px] text-ink-soft">
-                {step === 'productType' && '第 1 步：选择产品类型'}
+                {step === 'productType' && '选择型号'}
                 {step === 'brand' && (
                   <>
                     <span>{selectedProductType}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                    <span>第 2 步：选择品牌</span>
+                    <span>选择品牌</span>
                   </>
                 )}
                 {step === 'model' && (
@@ -309,29 +364,26 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                     <ChevronRight className="w-3.5 h-3.5" />
                     <span>{selectedBrand}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                    <span>第 3 步：选择型号</span>
+                    <span>选择型号</span>
                   </>
                 )}
                 {step === 'config' && (
                   <>
                     <span>{selectedProductType}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                    <span>{selectedBrand}</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
                     <span>{selectedSKU ? getSKUDisplayName(selectedSKU) : ''}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                    <span>第 4 步：配置选项</span>
+                    <span>填写机器配置</span>
                   </>
                 )}
               </div>
             </div>
             <button
               onClick={onCancel}
+              aria-label="关闭 SKU 选择器"
               className="p-2 hover:bg-paper rounded-lg transition-all ripple-hover"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="w-5 h-5" />
             </button>
           </div>
 
@@ -362,7 +414,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                           type="text"
                           value={search}
                           onChange={(e) => setSearch(e.target.value)}
-                          placeholder="搜索产品类型..."
+                          placeholder="搜索品牌、型号或年份，例如 Redmi G 2021..."
                           className="w-full pl-10 pr-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                                    placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                    focus:ring-primary/20 focus:border-primary transition-all"
@@ -370,25 +422,84 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-3">
-                      {productTypes
-                        .filter(type => !search || type.toLowerCase().includes(search.toLowerCase()))
-                        .map(type => (
-                        <button
-                          key={type}
-                          onClick={() => handleSelectProductType(type)}
-                          className="glass p-4 rounded-xl hover:bg-white/60 transition-all ripple-hover
-                                   border-2 border-transparent hover:border-primary/20"
-                        >
-                          <div className="text-center">
-                            <div className="text-[15px] font-semibold text-ink-deep mb-1">{type}</div>
-                            <div className="text-[13px] text-ink-soft">
-                              {skus.filter(s => s.productType === type).length} 个型号
+                    {search.trim() ? (
+                      <div className="space-y-3 animate-fade-in">
+                        <p className="text-[12px] text-ink-soft">找到 {globalSearchMatches.length} 个型号</p>
+                        {globalSearchMatches.map(sku => (
+                          <button
+                            key={sku.id}
+                            onClick={() => handleSelectModel(sku, true)}
+                            className="w-full glass p-4 rounded-xl text-left hover:bg-white/60 transition-all ripple-hover
+                                     border-2 border-transparent hover:border-primary/20 animate-fade-in"
+                          >
+                            <div className="flex items-center justify-between gap-4">
+                              <div>
+                                <div className="text-[15px] font-semibold text-ink-deep mb-1">{getSKUDisplayName(sku)}</div>
+                                <div className="text-[12px] text-ink-soft">{getSKUProductType(sku.productType)} · {canonicalSKUBrand(sku.brand)}</div>
+                              </div>
+                              <div className="flex shrink-0 items-center gap-2 text-[11px] text-ink-soft">
+                                {frequencyBySkuId.has(sku.id) && <span>录入 {frequencyBySkuId.get(sku.id)} 台</span>}
+                                <ChevronRight className="h-5 w-5" />
+                              </div>
                             </div>
+                          </button>
+                        ))}
+                        {globalSearchMatches.length === 0 && (
+                          <p className="rounded-lg border border-line bg-white/60 px-4 py-6 text-center text-sm text-ink-soft">没有找到匹配型号</p>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-5">
+                        {frequentSkus.length > 0 && (
+                          <section className="animate-fade-in" aria-label="近三天常用型号">
+                            <div className="mb-2 flex items-center justify-between gap-2">
+                              <h3 className="flex items-center gap-2 text-[12px] font-semibold text-ink-deep">
+                                <TrendingUp className="h-4 w-4 text-primary" />近三天常用型号
+                              </h3>
+                              <span className="text-[11px] text-ink-soft">{frequentSkus.length} 个型号</span>
+                            </div>
+                            <div className="max-h-52 overflow-y-auto overscroll-contain rounded-lg border border-line bg-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40" role="region" aria-label="近三天常用型号列表" tabIndex={0}>
+                              {frequentSkus.map(({ sku, count }, index) => (
+                                <button
+                                  key={sku.id}
+                                  type="button"
+                                  onClick={() => handleSelectModel(sku, true)}
+                                  className={`group flex w-full min-w-0 items-center gap-3 px-3 py-2.5 text-left transition-all hover:bg-primary/5 active:scale-[0.995] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${index > 0 ? 'border-t border-line/70' : ''}`}
+                                >
+                                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/8 text-[12px] font-semibold text-primary">{index + 1}</span>
+                                  <span className="min-w-0 flex-1">
+                                    <span className="block break-words text-[13px] font-medium text-ink-deep" title={getSKUDisplayName(sku)}>{getSKUDisplayName(sku)}</span>
+                                    <span className="block text-[11px] text-ink-soft">{getSKUProductType(sku.productType)}</span>
+                                  </span>
+                                  <span className="shrink-0 text-[11px] text-ink-soft">录入 {count} 台</span>
+                                  <ChevronRight className="h-4 w-4 shrink-0 text-ink-soft transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+                                </button>
+                              ))}
+                            </div>
+                          </section>
+                        )}
+                        <section aria-label="按品类浏览">
+                          {frequentSkus.length > 0 && <h3 className="mb-2 text-[12px] font-semibold text-ink-deep">按品类浏览</h3>}
+                          <div className="grid grid-cols-2 gap-3">
+                            {productTypes.map(type => (
+                              <button
+                                key={type}
+                                type="button"
+                                onClick={() => handleSelectProductType(type)}
+                                className="glass rounded-lg border border-line p-4 transition-all hover:border-primary/30 hover:bg-white/80 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                              >
+                                <div className="text-center">
+                                  <div className="mb-1 text-[15px] font-semibold text-ink-deep">{type}</div>
+                                  <div className="text-[12px] text-ink-soft">
+                                    {skus.filter(s => getSKUProductType(s.productType) === type).length} 个型号
+                                  </div>
+                                </div>
+                              </button>
+                            ))}
                           </div>
-                        </button>
-                      ))}
-                    </div>
+                        </section>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -413,7 +524,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                     
                     <div className="grid grid-cols-3 gap-3">
                       {brands
-                        .filter(brand => !search || brand.toLowerCase().includes(search.toLowerCase()))
+                        .filter(brand => !search || brand.toLowerCase().includes(search.toLowerCase()) || (brand === '小米' && /redmi|红米/i.test(search)))
                         .map(brand => (
                         <button
                           key={brand}
@@ -424,7 +535,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                           <div className="text-center">
                             <div className="text-[15px] font-semibold text-ink-deep mb-1">{brand}</div>
                             <div className="text-[13px] text-ink-soft">
-                              {skus.filter(s => s.productType === selectedProductType && s.brand === brand).length} 个型号
+                              {skus.filter(s => getSKUProductType(s.productType) === selectedProductType && canonicalSKUBrand(s.brand) === brand).length} 个型号
                             </div>
                           </div>
                         </button>
@@ -454,20 +565,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                     
                     <div className="space-y-3">
                       {models
-                        .filter(sku => {
-                          const keyword = search.trim().toLowerCase();
-                          if (!keyword) return true;
-                          return [
-                            getSKUDisplayName(sku),
-                            sku.brand,
-                            sku.model,
-                            getSKUYear(sku),
-                            ...sku.cpuOptions,
-                            ...sku.ramOptions,
-                            ...sku.storageOptions,
-                          ]
-                            .some((value) => value.toLowerCase().includes(keyword));
-                        })
+                        .filter(sku => matchesSKUQuery(sku, search))
                         .map(sku => (
                         <button
                           key={sku.id}
@@ -479,14 +577,17 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                             <div>
                               <div className="text-[15px] font-semibold text-ink-deep mb-2">{getSKUDisplayName(sku)}</div>
                               <div className="flex flex-wrap gap-2 text-[12px] text-ink-soft">
-                                <span>CPU: {sku.cpuOptions.length} 选项</span>
+                                <span>CPU: {uniqueCPUOptions(sku.cpuOptions).length} 选项</span>
                                 <span>•</span>
                                 <span>内存: {sku.ramOptions.length ? `${sku.ramOptions.length} 选项` : '手动填写'}</span>
                                 <span>•</span>
                                 <span>硬盘: {STORAGE_OPTIONS.length} 选项</span>
                               </div>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-ink-soft" />
+                            <div className="flex shrink-0 items-center gap-2 text-[11px] text-ink-soft">
+                              {frequencyBySkuId.has(sku.id) && <span>录入 {frequencyBySkuId.get(sku.id)} 台</span>}
+                              <ChevronRight className="h-5 w-5" />
+                            </div>
                           </div>
                         </button>
                       ))}
@@ -503,7 +604,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                       CPU 处理器 <span className="text-danger">*</span>
                     </label>
                     <div className="grid grid-cols-2 gap-2">
-                      {selectedSKU.cpuOptions.map(option => (
+                      {cpuOptions.map(option => (
                         <button
                           key={option}
                           onClick={() => setSelectedCpu(selectedCpu === option ? '' : option)}
@@ -514,7 +615,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                                     }`}
                         >
                           {selectedCpu === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                          {option}
+                          {formatCPUDisplay(option)}
                         </button>
                       ))}
                     </div>
@@ -566,6 +667,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                           <button
                             key={option}
                             onClick={() => setSelectedGpu(selectedGpu === option ? '' : option)}
+                            title={option}
                             className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
                                       ${selectedGpu === option
                                         ? 'bg-primary text-white shadow-sm'
@@ -573,7 +675,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                                       }`}
                           >
                             {selectedGpu === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                            {option}
+                            {formatGPUDisplay(option)}
                           </button>
                         ))}
                       </div>
@@ -718,7 +820,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
             className="px-4 py-2 text-[13px] font-medium text-ink hover:bg-paper 
                      rounded-lg transition-all ripple-hover"
           >
-            {step === 'productType' ? '取消' : '上一步'}
+            {step === 'productType' ? '取消' : step === 'config' && selectedFromHome ? '切换型号' : '上一步'}
           </button>
           
           {step === 'config' && selectedSKU && (

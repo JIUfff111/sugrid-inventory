@@ -1,0 +1,2762 @@
+{
+  "scope": "联想游戏本 拯救者 2018-2026",
+  "models": [
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000",
+      "modelYear": 2018,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2018",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-8300H",
+        "i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050Ti 4GB 笔记本电脑 GPU",
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB SSD+1TB HDD",
+        "128GB SSD+2TB HDD",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 IPS 72%NTSC"
+      ],
+      "sourceUrl": "https://shop.zol.com/shop_214084/34696048.html",
+      "sourceTitle": "联想拯救者 Y7000(i7 8750H/16GB/512GB/1060/高色域版) - ZOL商城",
+      "confidence": "high",
+      "notes": "初代拯救者 Y7000，2018 年 5-7 月陆续上市（ZOL 上市时间 2018 年 05 月/07 月）。i5-8300H+GTX 1050Ti 与 i7-8750H+GTX 1060 均有 ZOL 在售记录；144Hz 电竞屏为 Y7000P 独有，Y7000 参数页未标注刷新率，故 screenOptions 未写刷新率。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2018,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-8300H",
+        "i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050Ti 4GB 笔记本电脑 GPU",
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "128GB SSD+1TB HDD",
+        "512GB SSD+2TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz 72%NTSC"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml",
+      "sourceTitle": "联想拯救者Y7000P(i5 8300H/8GB/512GB/1050Ti) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "2018 年 8 月上市；金属 A 面、144Hz 电竞屏。ZOL 产品库同页列出多个在售型号及参考报价：i5-8300H/8GB/128GB+1TB/1050Ti 5499 元、i5-8300H/8GB/512GB/1060 8199 元、i5-8300H/8GB/512GB/1050Ti 6999 元、i7-8750H/16GB/512GB+2TB/1060 9999 元。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000",
+      "modelYear": 2019,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2019",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-9300H",
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1660Ti 6GB 笔记本电脑 GPU",
+        "GTX 1050 3GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 IPS 45%NTSC",
+        "15.6英寸 1920x1080 IPS 72%NTSC"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/article-182259.html",
+      "sourceTitle": "联想拯救者游戏本Y7000-2019、Y7000P-2019、Y9000K-2019 SE常见问题 - 联想",
+      "confidence": "high",
+      "notes": "2019 年 7 月发售（富途转引联想官宣）。官方知识库：Y7000 2019 提供 45% 与 72% 两种色域屏、GTX 1660Ti/GTX 1650，另有 i5/i7+GTX 1050 3G 的专业版。缺口：16GB 内存版本本次未取得独立规格来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2019,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2019",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-9300H",
+        "i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "GTX 1660Ti 6GB 笔记本电脑 GPU",
+        "GTX 1650 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "1TB SSD+1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz 72%NTSC"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/article-182259.html",
+      "sourceTitle": "联想拯救者游戏本Y7000-2019、Y7000P-2019、Y9000K-2019 SE常见问题 - 联想",
+      "confidence": "high",
+      "notes": "2019 年 4 月上市（太平洋科技）。官方知识库：15.6 寸高色域 144Hz DC 调光电竞屏、i7-9750H/i5-9300H、RTX 2060/GTX 1660Ti/GTX 1650；16GB+1TB+RTX 2060 配置见联想商城（商品编号 81Q50008CD）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000K",
+      "modelYear": 2019,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2019",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-9750H"
+      ],
+      "ramOptions": [],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 8GB Max-Q 笔记本电脑 GPU",
+        "RTX 2080 8GB Max-Q 笔记本电脑 GPU"
+      ],
+      "storageOptions": [],
+      "screenOptions": [
+        "17.3英寸 1920x1080 144Hz G-SYNC"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/article-182259.html",
+      "sourceTitle": "联想拯救者游戏本Y7000-2019、Y7000P-2019、Y9000K-2019 SE常见问题 - 联想",
+      "confidence": "high",
+      "notes": "2019 年上市的旗舰魂系列（Y9000K 2019 SE）。官方知识库：17.3 寸高色域 144Hz+G-SYNC 顶级电竞屏、金属机身、海盗船 RGB 键盘、i7-9750H、RTX 2060/RTX 2070 Max-Q/RTX 2080 Max-Q。缺口：内存/硬盘标配官方页未列，留空。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-10300H",
+        "i7-10750H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 IPS 100%sRGB"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/ProductComp_param_1322052.html",
+      "sourceTitle": "联想 拯救者 Y7000 2020 参数对比 - 中关村在线",
+      "confidence": "high",
+      "notes": "2020 年 5 月上市、6 月 1 日发售（新浪科技）。ZOL：i5-10300H/16GB/512GB/GTX 1650、15.6 寸 1080P IPS 100%sRGB 300nits；i7-10750H+RTX 2060 配置见百度百科 2020 款示例。屏幕为 60Hz 常规屏（ZOL 参数页未标注刷新率）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-10200H",
+        "i7-10750H",
+        "i7-10875H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1650Ti 4GB 笔记本电脑 GPU",
+        "GTX 1660Ti 6GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y7000P%202020/55233942",
+      "sourceTitle": "联想拯救者 Y7000P 2020 - 百度百科",
+      "confidence": "high",
+      "notes": "2020 年 5 月 7 日发布、6 月 1 日发售。i7-10750H+RTX 2060（解锁 100W）+16GB+1TB、144Hz 100%sRGB 300nits；后续推出 i7-10875H 版本（百度百科）；i5-10200H 与 GTX 1650/1650Ti/1660Ti 选项见联想社区参数详解帖。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R5-4600H",
+        "R7-4800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1650Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 IPS 100%sRGB"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20R7000%202020/55137025",
+      "sourceTitle": "联想拯救者 R7000 2020 - 百度百科",
+      "confidence": "high",
+      "notes": "R 系列首代，2020 年 5 月发布、6 月 1 日发售；R5-4600H+GTX 1650 首发优惠价 5199 元、R7-4800H 版 5599 元（新浪科技）。15.6 寸 100%sRGB IPS 雾面屏、300nits、DC 调光、Wi-Fi 6。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-4800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/product/1011312.html",
+      "sourceTitle": "拯救者 R7000P 2020款 15.6英寸游戏笔记本 冰魄白 - 联想",
+      "confidence": "high",
+      "notes": "2020 年 8-9 月上市（联想社区 2021/2020 对比晒单称其为上一代）。官网规格：R7-4800H+RTX 2060 6GB+16GB+512GB+15.6 寸 1080P IPS；115W 满血 RTX 2060、144Hz 100%sRGB 300nits、80Wh；首发价 7499 元。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000K",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10875H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 2070 Super Max-Q 8GB 笔记本电脑 GPU",
+        "RTX 2080 Super Max-Q 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1283707_detail.html",
+      "sourceTitle": "联想拯救者Y9000K 2020款(酷睿i7-10875H/32GB/1TB/RTX2070super MQ/144Hz) - 太平洋科技",
+      "confidence": "high",
+      "notes": "2020 年 6 月 1 日开启预售（新浪科技）。16GB/32GB+1TB+RTX 2070 Super MQ 版本见太平洋科技；联想商城定制款达 64GB+1TB+512GB 双 SSD；另有 RTX 2080 Super MQ 型号（太平洋科技全部型号列表）。缺口：屏幕色域来源不一（100%sRGB / 100% Adobe RGB），screenOptions 未收色域。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000X",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-4800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB Max-Q 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://tech.ifeng.com/c/81pFwL0Iipm",
+      "sourceTitle": "联想发布拯救者Y9000X/R9000X 2021游戏本：8核CPU、售价7999元起 - 凤凰网科技",
+      "confidence": "medium",
+      "notes": "官方命名为 R9000X 2021 款，2020 年 11 月 30 日发布、12 月开售（首发价 7999 元）；本目录按实际上市年份记为 2020。15.9mm/1.92kg、71Wh、16GB 板载+插槽、512GB PCIe SSD、RTX 2060 Max-Q（约 90W）。注意与 2021 年 11 月上市的同名 R9000X 2021（R7-5800H+RTX 3050Ti、15.6 寸 2K 165Hz）是不同机型，详见 uncertain。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000X",
+      "modelYear": 2020,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2020",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-10875H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB Max-Q 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://tech.ifeng.com/c/81pFwL0Iipm",
+      "sourceTitle": "联想发布拯救者Y9000X/R9000X 2021游戏本：8核CPU、售价7999元起 - 凤凰网科技",
+      "confidence": "medium",
+      "notes": "官方命名为 Y9000X 2021 款，2020 年 11 月 30 日发布、2020 年 12 月 18 日开售（首发价 8699 元）；本目录按实际上市年份记为 2020。15.9mm/1.86kg、71Wh、双雷电 3、16GB+512GB。与 2021 年 11 月的 R9000X 2021 同名不同代，详见 uncertain。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R5-5600H",
+        "R7-5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 IPS 100%sRGB"
+      ],
+      "sourceUrl": "https://item.lenovo.com.cn/product/1015790.html",
+      "sourceTitle": "拯救者R7000 2021款 15.6英寸游戏笔记本电脑 幻影黑 - 联想商城",
+      "confidence": "high",
+      "notes": "2021 年上市。联想商城：R5-5600H/16G/512G/RTX 3050 4G；联想社区选购指南载 R5-5600H 与 R7-5800H 两版、RTX 3050 最高 95W、80Wh、霜刃散热 3.0。日常价 R5 版约 5999 元、R7 版约 6399 元（联想社区）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-11400H",
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 165Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1015437.html",
+      "sourceTitle": "拯救者Y7000P 2021款 15.6英寸游戏笔记本电脑 钛晶灰 - 联想商城",
+      "confidence": "high",
+      "notes": "2021 年 3 月 30 日随拯救者春季新品发布。首发价：i5-11400H+RTX 3050Ti 6399 元、i7-11800H+RTX 3050Ti 6999 元、i7-11800H+RTX 3060 7899 元（微信公众号购机指南）。双雷电 4、80Wh、PCIe 4.0 SSD。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R5-5600H",
+        "R7-5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 165Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1375447_detail.html",
+      "sourceTitle": "联想拯救者R7000P 2021(R7-5800H/16GB/512GB/RTX3060) - 太平洋科技",
+      "confidence": "high",
+      "notes": "2021 年 3 月 30 日发布、3 月 31 日预售（首发价 7499 元，联想社区）。RTX 3060 最高 130W、165Hz、80Wh+300W；R5-5600H+RTX 3050Ti 首发 5999 元、R7-5800H+RTX 3050Ti 首发 6399 元（微信公众号）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://www.baike.com/wikiid/7652530149392941071",
+      "sourceTitle": "拯救者Y9000系列 - 快懂百科",
+      "confidence": "high",
+      "notes": "2021 年 6 月推出（快懂百科）。i7-11800H+RTX 3060/3070/3050Ti、16GB+512GB、16 寸 2560x1600 165Hz 500nits、双雷电 4。首发价 i7-11800H+RTX 3060 8999 元、+RTX 3070 9999 元（微信公众号）。缺口：i5-11400H 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000P",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R5-5600H",
+        "R7-5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-25521.html",
+      "sourceTitle": "拯救者 R9000P 2021款16英寸游戏笔记本电脑 钛晶灰 - 联想",
+      "confidence": "high",
+      "notes": "2021 年 3 月 30 日发布、4 月 7 日开售（百度百科）；海外型号 Legion 5 Pro 16ACH6H（百度百科引联想海外官网）。RTX 3060 130W/RTX 3070 140W、16 寸 2560x1600 165Hz 500nits 91.7% 屏占比、80Wh+300W。首发价 R7-5800H+RTX 3060 7999 元、+RTX 3070 9499 元（微信公众号）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000K",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000K|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-5800H",
+        "R9-5900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://m.zol.com/shop_2206918/43925965.html",
+      "sourceTitle": "联想 拯救者R9000K 2021(R9 5900HX/32GB/1TB/RTX3080) - 中关村在线",
+      "confidence": "high",
+      "notes": "2021 年 4 月上市（ZOL）。海盗船 RGB 键盘、16 寸 2560x1600 165Hz 500nits 92% 屏占比。首发价 R7-5800H+RTX 3060+16G 9999 元、R7-5800H+RTX 3070+32G 11999 元、R9-5900HX+RTX 3080+32G 14999 元（微信公众号）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000K",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://s.zol.com.cn/shop_2186829/44394223.html",
+      "sourceTitle": "联想 拯救者Y9000K 2021(i7 11800H/32GB/1TB/RTX3080) - 中关村在线",
+      "confidence": "high",
+      "notes": "2021 年 6 月上市（ZOL）。双雷电 4、16 寸 2560x1600 165Hz 500nits。首发价 i7-11800H+RTX 3060+16G 11999 元、+RTX 3070+32G 13999 元、+RTX 3080+32G 16999 元（微信公众号）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000X",
+      "modelYear": 2021,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2021",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-34616.html",
+      "sourceTitle": "拯救者 R9000X 2021款15.6英寸游戏笔记本电脑 钛晶灰 - 联想",
+      "confidence": "high",
+      "notes": "2021 年 11 月开启预售（今日头条转中关村在线），到手价 7699 元。5800H 65W+RTX 3050Ti 95W 满血、15.6 寸 2560x1440 165Hz 100%sRGB、1.94kg、预装 Windows 11、霜刃 Pro 3.0。与 2020 年 11 月发布的同名 R9000X 2021（R7-4800H+RTX 2060 Max-Q）是不同机型，详见 uncertain。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2022,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2022",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-12500H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%sRGB 300nits"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1482107_detail.html",
+      "sourceTitle": "联想拯救者Y7000P 2022(酷睿i5-12500H/16GB/512GB/RTX3050) - 太平洋电脑网",
+      "confidence": "high",
+      "notes": "2022 年 2 月 28 日上市（PChome/太平洋）。15.6 寸 2560x1440 165Hz 300nits、DDR5-4800、512GB/1TB PCIe 4.0、A 面金属、霜刃 4.0、雷电 4。缺口：i7-12700H 与 RTX 3050Ti 版本本次未取得独立规格来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2022,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2022",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%sRGB 300nits"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1573527_detail.html",
+      "sourceTitle": "联想拯救者R7000P 2022(R7-6800H/16GB/512GB/RTX3050Ti) - 太平洋科技",
+      "confidence": "high",
+      "notes": "2022 年 5-6 月上市（太平洋 5 月 10 日/ZOL 6 月）。R7-6800H+RTX 3050Ti 95W、DDR5-4800、15.6 寸 2560x1440 165Hz、80Wh。缺口：R5-6600H 与 RTX 3050 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P",
+      "modelYear": 2022,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2022",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070Ti 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://www.pconline.com.cn/zhizao/article/384692.html",
+      "sourceTitle": "聊一款综合表现优秀的游戏本（联想拯救者Y9000P 2022）- 太平洋科技",
+      "confidence": "high",
+      "notes": "2022 年上市。i7-12700H+RTX 3060 140W、16GB DDR5+512GB PCIe 4.0、16.1 寸 2560x1600 165Hz 100%sRGB，首发售价 8999 元；i7-12700H+RTX 3070Ti 8GB 版本见联想商城（商品编号 82RF0001CD）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000P",
+      "modelYear": 2022,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2022",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3070Ti 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1413808.html",
+      "sourceTitle": "联想拯救者 R9000P 2022(R7 6800H/16GB/512GB/RTX3070Ti) - 中关村在线",
+      "confidence": "high",
+      "notes": "2022 年 6 月上市（ZOL）。DDR5-4800、PCIe 4.0、16 寸 2560x1600 165Hz 500nits 92.3% 屏占比、RTX 3070Ti 150W、独显直连；联想官方参考价 11499 元。缺口：RTX 3060 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000X",
+      "modelYear": 2022,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2022",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RX 6800S 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1617667_detail.html",
+      "sourceTitle": "联想拯救者R9000X 2022(R7-6800H/16GB/512B/RX6800S)参数 - 太平洋科技",
+      "confidence": "high",
+      "notes": "2022 年 7 月 29 日上市（太平洋）。3A 平台轻薄游戏本：RX 6800S 90W、16 寸 2560x1600 165Hz 500nits、99.99Wh、约 2.21kg、薄至 16.9mm；参考售价 9299 元（网易/太平洋科技）。1TB 高配可选（EEWorld）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000X",
+      "modelYear": 2022,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2022",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 500nits"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/ProductComp_param_1404832.html",
+      "sourceTitle": "联想 拯救者 Y9000X 2022 参数对比 - 中关村在线",
+      "confidence": "high",
+      "notes": "2022 年 5 月上市（ZOL）；6 月 17 日京东尾款、到手价 8999 元（ZOL）。16 寸 2560x1600 165Hz 500nits 93.3% 屏占比、RTX 3060 100W、99.99Wh、16.9mm/约 2.18-2.28kg。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "GeekPro G5000",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|GeekPro G5000|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i5-13500H",
+        "i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%sRGB 350nits"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/zhikeji/article/514262",
+      "sourceTitle": "联想Geek Pro G5000新品上市，首发价6999起 - 太平洋电脑网",
+      "confidence": "high",
+      "notes": "2023 年 3 月 21 日发布、3 月 26 日开售。属联想 GeekPro 产品线入门级电竞本（拯救者 2023 春季发布会同期推出，非 Y/R 拯救者命名体系）。RTX 4050 95W/RTX 4060 115W、60Wh+170W。首发价：i5-13500H+RTX 4050+16G+1T 6999 元、i7-13700H+RTX 4060+16G+1T 7999 元（快懂百科）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB 350nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-40290.html",
+      "sourceTitle": "联想拯救者Y7000P2023 英特尔酷睿i7 16英寸游戏笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "2023 年上市。i7-13700H+RTX 4060 140W、16GB DDR5-5200+1TB PCIe 4.0、16 寸 2560x1600 165Hz 350nits、80Wh+140W 快充、霜刃 5.0；联想参考价 7999 元。缺口：i5-13500H/RTX 4050 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-7840H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2240x1400 165Hz"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-40420.html",
+      "sourceTitle": "联想(Lenovo)拯救者R7000P 16英寸电竞游戏本笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "2023 年上市。R7-7840H+RTX 4060 140W、16GB+1TB、16 寸 2240x1400 165Hz、80Wh+230W、霜刃 5.0。缺口：屏幕色域/亮度官方页未标注；R7-7745HX 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-13900HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-40222.html",
+      "sourceTitle": "联想 拯救者Y9000P 2023 16英寸游戏本笔记本碳晶灰 - 联想",
+      "confidence": "high",
+      "notes": "2023 年 3 月随拯救者春季新品上市。i9-13900HX+RTX 4060 140W、16GB DDR5-5600+1TB、16 寸 2560x1600 240Hz 3ms；联想参考价 9699 元。缺口：i5-13500HX/i7-13700HX 版本及至尊版（RTX 4080/4090）未取得官方规格页，未收录，详见 uncertain。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000P",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R9-7945HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-28764.html",
+      "sourceTitle": "联想拯救者R9000P 2023 16英寸电竞游戏本笔记本电脑 冰魄白 - 联想",
+      "confidence": "high",
+      "notes": "2023 年上市。R9-7945HX（16 核 32 线程）+RTX 4060、16GB+1TB、16 寸 2560x1600 240Hz、80Wh；联想参考价 8899 元。缺口：R7-7745HX 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000X",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-7840H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 3200x2000 165Hz 100%DCI-P3 430nits"
+      ],
+      "sourceUrl": "https://news.qq.com/rain/a/20230731A03VEM00",
+      "sourceTitle": "10999元！拯救者R9000X 2023发布 - 腾讯新闻",
+      "confidence": "high",
+      "notes": "2023 年 7 月 31 日发布（ChinaJoy 2023）、8 月 8 日开售，首发价 10999 元（R7-7840H+RTX 4060+16GB+1TB）。17.6mm/2.1kg、99.9Wh、DDR5-5600、3200x2000 165Hz 100% P3 430nits、霜刃 Pro 5.0。联想知识库参考价 9299 元与首发价口径不符，疑为旧数据，采用腾讯新闻首发价。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000X",
+      "modelYear": 2023,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2023",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-13900H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 3200x2000 165Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y9000X%202023/63156787",
+      "sourceTitle": "联想拯救者 Y9000X 2023 - 百度百科",
+      "confidence": "medium",
+      "notes": "2023 年 7 月 22 日 Bilibili World 发布，首发价 12999 元起（百度百科）；海外版名 Legion Slim 7i Gen 8，2023-07-08 已在海外上市。白色机身、17.6mm/2.1kg、99.99Wh、230W、单键 RGB。首发价口径不一致：腾讯新闻称 i9-13900H+RTX 4060+32GB+1TB 为 13999 元、RTX 4070 为 15999 元。缺口：i7-13700H 版本未取得独立来源。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2024,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2024",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i7-14650HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 100%sRGB"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-43576.html",
+      "sourceTitle": "联想拯救者Y7000P 2024 16英寸电竞游戏本笔记本电脑 月蚀灰 - 联想",
+      "confidence": "high",
+      "notes": "2024 年 1 月 17 日上市（ZOL）。i7-14650HX（16 核 24 线程）+RTX 4060 140W、乾坤散热 180W 整机释放、16 寸 2560x1600 165Hz、80Wh；联想参考价 8899 元；32GB/2TB 定制款见联想知识库。缺口：RTX 4050 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2024,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2024",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R7-8845H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-26958.html",
+      "sourceTitle": "联想(Lenovo)拯救者R7000P 2024 16英寸电竞游戏本笔记本 月蚀灰 - 联想",
+      "confidence": "high",
+      "notes": "2024 年上市。R7-8845H+RTX 4060 140W、16GB+1TB、16 寸 2560x1600 165Hz 3ms、80Wh+230W、霜刃散热；联想商城价 7999 元、参考价 8399 元。缺口：屏幕色域/亮度官方页未标注。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P",
+      "modelYear": 2024,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2024",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-41773.html",
+      "sourceTitle": "联想拯救者Y9000P 2024 16英寸电竞游戏本笔记本电脑 碳晶灰 - 联想",
+      "confidence": "high",
+      "notes": "2024 年 1 月上市。i9-14900HX（24 核 32 线程）+RTX 4060 140W、16 寸 2560x1600 240Hz、80Wh+140W 快充；联想参考价 10499 元（16G/1T）；32GB 版与 RTX 4070/2TB 定制款见联想知识库/商城。缺口：至尊版（RTX 4090）未取得官方规格页，未单独收录，详见 uncertain。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000P",
+      "modelYear": 2024,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2024",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R9-7945HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits 100%DCI-P3"
+      ],
+      "sourceUrl": "https://m.zol.com/shop_2194468/42135362.html",
+      "sourceTitle": "联想 拯救者 R9000P 2024(R9 7945HX/16GB/1TB/RTX4060) - 中关村在线",
+      "confidence": "high",
+      "notes": "2024 年 7 月上市（ZOL）。R9-7945HX+RTX 4060 140W、霜刃 Pro 5.0、16 寸 2560x1600 240Hz 500nits 100% DCI-P3 10bit、80Wh+300W；AI 元启版与 32GB 定制款见联想知识库。缺口：RTX 4070 版本未取得独立来源，未收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000X",
+      "modelYear": 2024,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2024",
+      "category": "游戏本",
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 3200x2000 165Hz 100%DCI-P3 430nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-41901.html",
+      "sourceTitle": "联想(Lenovo)拯救者Y9000X 2024 16英寸电竞游戏本笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "2024 年 2 月 27 日开售，售价 14999 元起（卡饭网）。i9-14900HX+RTX 4060 130W（160W 整机释放）、乾坤散热、16 寸 3200x2000 165Hz、99Wh；联想参考价 14499 元（4060）/15499 元（4070，AI 元启版）。官方一处页面标注 OLED 屏、卡饭网参数页未标注，screenOptions 按 3200x2000 165Hz 记录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2025,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2025",
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 7 255HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 100%DCI-P3 500nits"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki-b/product-doc-47577.html",
+      "sourceTitle": "拯救者Y7000P 2025 16英寸电竞游戏本笔记本电脑 碳晶黑 - 联想",
+      "confidence": "high",
+      "notes": "2025 年上市（RTX 50 系平台，2026-10-23 经联想官网实时检索确认在售）。Ultra 7 255HX（20 核）+RTX 5060 115W（Blackwell、8GB GDDR7）、32GB DDR5-6400+1TB PCIe 4.0、16 寸 2560x1600 240Hz 3ms 100% DCI-P3、第二代乾坤散热、Wi-Fi 7、140W C 口快充。缺口：RTX 5070 版本与 16GB 版本本次未取得联想官方页面确认（京东第三方链接型号标注混乱，未采信）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2025,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2025",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R9-8945HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 100%DCI-P3"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1048843.html",
+      "sourceTitle": "联想拯救者R7000P 2025 AI元启 16英寸电竞游戏笔记本电脑 碳晶黑 - 联想",
+      "confidence": "high",
+      "notes": "2025 年上市（AI 元启版，2026-10-23 经联想官网实时检索确认）。R9-8945HX+RTX 5060 8GB、16 寸 2560x1600 240Hz、80Wh；RTX 5070 8GB GDDR7 版本见联想商城（商品 1046342，秒杀价 11999 元）；32GB/2TB 定制款见京东自营。联想参考价 14799 元。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P",
+      "modelYear": 2025,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2025",
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 275HX",
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz OLED 100%DCI-P3"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1048286.html",
+      "sourceTitle": "联想拯救者Y9000P 2025 AI元启 16英寸电竞游戏笔记本 碳晶黑 - 联想",
+      "confidence": "high",
+      "notes": "2025 年上市（2026-10-23 经联想官网实时检索确认）。AI 元启版：Ultra 9 275HX（24 核）+RTX 5060 8GB GDDR7 115W、32GB+1TB、16 寸 2560x1600 240Hz OLED 0.08ms 100% DCI-P3 HDR1000；联想参考价 17999 元（碳晶黑）/18499 元（冰魄白）。另见 i9-14900HX+RTX 5060 版本（联想企业购 13999 元）与 Ultra 9 275HX+RTX 5070+2TB 京东定制（25999 元）。至尊版单独收录。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P 至尊版",
+      "modelYear": 2025,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2025",
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz OLED 100%DCI-P3 1100nits"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/846/607.htm",
+      "sourceTitle": "政府补贴2000元 学生再减2000元：联想 Y9000P 至尊版笔记本低至 17999 元 - IT之家",
+      "confidence": "high",
+      "notes": "2025 年 4 月中旬发布（IT之家）。16 寸 2560x1600 240Hz OLED、100% DCI-P3、1100nits 峰值亮度、TrueBlack 1000；整机 TDP 释放 175W、99Wh、400W 适配器、最高 64GB DDR5-6400、支持 PCIe 5.0 SSD、Wi-Fi 7。国补价：Ultra 9 275HX+32G+1T+RTX 5080 19999 元（白 20499）；Ultra 9 275HX+64G+2T+RTX 5090 27499 元（白 27999）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000P",
+      "modelYear": 2025,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2025",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R9-8945HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 100%DCI-P3 500nits"
+      ],
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-doc-46103.html",
+      "sourceTitle": "联想拯救者R9000P 2025 AI元启 16英寸电竞游戏笔记本 碳晶黑 - 联想商城",
+      "confidence": "high",
+      "notes": "2025 年上市（AI 元启版，2026-10-23 经联想官网实时检索确认）。R9-8945HX（16 核 32 线程、最高 5.4GHz）+RTX 5060 115W、32GB DDR5-5200+1TB、16 寸 2560x1600 240Hz 500nits 100% DCI-P3 HDR400、第二代乾坤 Pro 散热、140W C 口快充。RTX 5070 配置见联想知识库笔记本列表（R9-8945HX/32G/1T/RTX 5070 8G）。联想不同页面参考价 10499-16999 元，口径不一，未采信单一价格。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y7000P",
+      "modelYear": 2026,
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2026",
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 7 251HX",
+        "Ultra 7 255HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 100%DCI-P3"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1054225.html",
+      "sourceTitle": "联想拯救者Y7000P 2026 16英寸电竞游戏笔记本电脑 碳晶黑 - 联想知识库",
+      "confidence": "high",
+      "notes": "2026 年上市（2026-10-23 经联想官网/京东自营实时检索确认）。Ultra 7 255HX+RTX 5060 8GB、16GB+1TB、16 寸 2560x1600 240Hz、80Wh、雷电 4、Wi-Fi 7；联想参考价 15499 元。京东自营另有 Ultra 7 251HX+16G+1T+RTX 5060（14999 元）与 Ultra 7 251HX+16G+1T+RTX 5070（约 16499 元）在售；定制款最高 64GB+2TB。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R7000P",
+      "modelYear": 2026,
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2026",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R9-8940HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85",
+      "sourceTitle": "联想商城搜索'联想拯救者'结果列表（拯救者 R7000P 2026 条目）- 联想企业购",
+      "confidence": "medium",
+      "notes": "2026 年上市（联想商城定制款列表确认，2026-10-23 检索）。R9-8940HX+RTX 5060 8GB、16GB+2TB(1T+1T) SSD，商城价 16398 元。缺口：未获取单独官方规格页，屏幕色域/亮度未标注，confidence 记为 medium。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P",
+      "modelYear": 2026,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2026",
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 290HX Plus",
+        "Ultra 9 275HX",
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070Ti 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 Y9000P 2026 条目）",
+      "confidence": "medium",
+      "notes": "2026 年上市（2026-10-23 经联想官网/京东实时检索确认）。标准版：i9-14900HX 或 Ultra 9 290HX Plus + RTX 5060、16-32GB、1-2TB；京东第三方另有 Ultra 9 290HX Plus+32G+2T+RTX 5060（约 21499 元）。至尊版单独收录。部分京东链接标注升级款/定制，价格口径以联想商城为准。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 Y9000P 至尊版",
+      "modelYear": 2026,
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2026",
+      "category": "游戏本",
+      "cpuOptions": [
+        "Ultra 9 290HX Plus",
+        "Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070Ti 12GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 Y9000P 2026 至尊版条目）",
+      "confidence": "medium",
+      "notes": "2026 年上市（联想知识库/商城确认，2026-10-23 检索）。至尊版：Ultra 9 290HX Plus+64GB+2TB+RTX 5090 24GB（冰魄白）；商城定制款另有 32GB+1TB+RTX 5060 与 32GB+2TB+RTX 5070Ti 12GB（29998 元）；京东第三方见 Ultra 9 275HX 至尊版+RTX 5070Ti（约 24899 元）。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "联想",
+      "model": "拯救者 R9000P",
+      "modelYear": 2026,
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2026",
+      "category": "游戏本",
+      "cpuOptions": [
+        "R9-8945HX",
+        "R9-9955HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 R9000P 2026 条目）",
+      "confidence": "medium",
+      "notes": "2026 年上市（联想知识库/商城确认，2026-10-23 检索）。R9-8945HX+RTX 5060+16GB+1TB（冰魄白/碳晶黑）；商城定制款 R9-9955HX+32GB+1TB+RTX 5060（17998 元）。联想商城另有未标年份的 R9-9955HX+RTX 5070、R9-8945HX+RTX 5070Ti 12GB 配置，款年待确认，未收入 gpuOptions，详见 uncertain。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2018",
+      "cpu": "i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1050Ti 4GB 笔记本电脑 GPU",
+      "storage": "128GB SSD+2TB HDD",
+      "screen": "15.6英寸 1920x1080 IPS 72%NTSC",
+      "sourceUrl": "https://nb.zol.com.cn/696/6964043.html",
+      "sourceTitle": "联想拯救者 Y7000系列 成都报5799元 - 中关村在线",
+      "confidence": "high",
+      "notes": "ZOL 在售记录（i5 8300H/8GB/128GB+2TB/1050Ti），上市时间 2018 年 05 月；经销商报价 5799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2018",
+      "cpu": "i7-8750H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "128GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 IPS 72%NTSC",
+      "sourceUrl": "https://m.zol.com.cn/article/6980644.html",
+      "sourceTitle": "联想游戏本拯救者Y7000 GTX1060安徽报价8150 - 中关村在线",
+      "confidence": "high",
+      "notes": "高色域版在售记录，上市时间 2018 年 07 月；经销商报价 8150 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2018",
+      "cpu": "i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 IPS 72%NTSC",
+      "sourceUrl": "https://shop.zol.com/shop_214084/34696048.html",
+      "sourceTitle": "联想拯救者 Y7000(i7 8750H/16GB/512GB/1060/高色域版) - ZOL商城",
+      "confidence": "high",
+      "notes": "ZOL 商城商品参数页，上市时间 2018 年 07 月。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "cpu": "i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1050Ti 4GB 笔记本电脑 GPU",
+      "storage": "128GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz 72%NTSC",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml",
+      "sourceTitle": "联想拯救者Y7000P(i5 8300H/8GB/512GB/1050Ti) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "ZOL 产品库在售型号，参考报价 5499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "cpu": "i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 72%NTSC",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml",
+      "sourceTitle": "联想拯救者Y7000P(i5 8300H/8GB/512GB/1050Ti) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "ZOL 产品库在售型号，参考报价 8199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "cpu": "i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 72%NTSC",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml",
+      "sourceTitle": "联想拯救者Y7000P(i5 8300H/8GB/512GB/1050Ti) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "ZOL 产品库在售型号，参考报价 6999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "cpu": "i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD+2TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz 72%NTSC",
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml",
+      "sourceTitle": "联想拯救者Y7000P(i5 8300H/8GB/512GB/1050Ti) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "ZOL 产品库在售型号，参考报价 9999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2019",
+      "cpu": "i7-9750H",
+      "ram": "8GB",
+      "gpu": "GTX 1050 3GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 IPS 45%NTSC",
+      "sourceUrl": "https://news.futunn.com/th/post/5523719",
+      "sourceTitle": "联想2020款拯救者R7000官宣：最高R7 4800H 8核16线程 - 富途牛牛",
+      "confidence": "high",
+      "notes": "文中回顾上代 Y7000 2019 专业版配置：i7-9750H+8GB+512GB+GTX 1050 3G，2019 年 7 月发售。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2019",
+      "cpu": "i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 72%NTSC",
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1007105.html",
+      "sourceTitle": "拯救者 Y7000P 2019 15.6英寸专业电竞本 冰魄白 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城商品编号 81Q50008CD：i7-9750H/16G/1T SSD/RTX 2060 6G。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2019",
+      "cpu": "i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "1TB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz 72%NTSC",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1176028_detail.html",
+      "sourceTitle": "联想拯救者 Y7000P 2019(酷睿i7-9750H/16GB/1TB+1TB/RTX2060/144Hz) - 太平洋科技",
+      "confidence": "high",
+      "notes": "太平洋科技参数页，上市时间 2019 年 4 月。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2020",
+      "cpu": "i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 100%sRGB",
+      "sourceUrl": "https://gz.zol.com.cn/754/7541255.html",
+      "sourceTitle": "联想Y7000P i710750H/16GB/1TB/RTX2060 - 中关村在线",
+      "confidence": "high",
+      "notes": "ZOL 在售记录，上市时间 2020 年 05 月；RTX 2060 解锁 100W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2020",
+      "cpu": "R5-4600H",
+      "ram": "16GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 IPS 100%sRGB",
+      "sourceUrl": "https://tech.sina.com.cn/roll/2020-06-01/doc-iircuyvi6036431.shtml",
+      "sourceTitle": "联想拯救者多款游戏本新品硬核开售 最高12期免息 - 新浪科技",
+      "confidence": "high",
+      "notes": "R5-4600H+16GB+512GB+GTX 1650 首发优惠价 5199 元，2020 年 6 月 1 日发售。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2020",
+      "cpu": "R7-4800H",
+      "ram": "16GB",
+      "gpu": "GTX 1650Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 IPS 100%sRGB",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-30127.html",
+      "sourceTitle": "拯救者 R7000 2020款 15.6英寸游戏笔记本 幻影黑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R5 4600H/GTX 1650Ti/16GB/512GB 页面；R7-4800H 版见联想知识库另一页面（product-doc-34684）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2020",
+      "cpu": "R7-4800H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 100%sRGB",
+      "sourceUrl": "https://mclub.lenovo.com.cn/thread-7787005-1-1.html",
+      "sourceTitle": "【晒单】依旧香甜，拯救者R7000P 2021/2020对比评测 - 联想社区",
+      "confidence": "high",
+      "notes": "联想社区晒单载 2020 款唯一配置：R7-4800H+RTX 2060 115W+16GB DDR4 3200+512GB+15.6 寸 144Hz；首发价 7499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2020",
+      "cpu": "i7-10875H",
+      "ram": "32GB",
+      "gpu": "RTX 2070 Super Max-Q 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1283707_detail.html",
+      "sourceTitle": "联想拯救者Y9000K 2020款(酷睿i7-10875H/32GB/1TB/RTX2070super MQ/144Hz) - 太平洋科技",
+      "confidence": "high",
+      "notes": "太平洋科技参数页，2020 年上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2020",
+      "cpu": "i7-10875H",
+      "ram": "64GB",
+      "gpu": "RTX 2070 Super Max-Q 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD+512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1013898.html",
+      "sourceTitle": "拯救者 Y9000K 2020 英特尔酷睿i7 15.6英寸电竞本 耀石灰 定制款 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城定制款规格：i7-10875H/64GB/1TB+512GB 双 SSD/RTX 2070 Super MaxQ 8GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2020",
+      "cpu": "R7-4800H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB Max-Q 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 100%sRGB",
+      "sourceUrl": "https://tech.ifeng.com/c/81pFwL0Iipm",
+      "sourceTitle": "联想发布拯救者Y9000X/R9000X 2021游戏本：8核CPU、售价7999元起 - 凤凰网科技",
+      "confidence": "medium",
+      "notes": "官方命名 R9000X 2021 款，2020-11-30 发布，首发价 7999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2020",
+      "cpu": "i7-10875H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB Max-Q 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz 100%sRGB",
+      "sourceUrl": "https://tech.ifeng.com/c/81pFwL0Iipm",
+      "sourceTitle": "联想发布拯救者Y9000X/R9000X 2021游戏本：8核CPU、售价7999元起 - 凤凰网科技",
+      "confidence": "medium",
+      "notes": "官方命名 Y9000X 2021 款，2020-11-30 发布、2020-12-18 开售，首发价 8699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2021",
+      "cpu": "R5-5600H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 IPS 100%sRGB",
+      "sourceUrl": "https://item.lenovo.com.cn/product/1015790.html",
+      "sourceTitle": "拯救者R7000 2021款 15.6英寸游戏笔记本电脑 幻影黑 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城商品 ST-R7506：R5 5600H/16G/512G/RTX 3050 4G。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 IPS 100%sRGB",
+      "sourceUrl": "https://mclub.lenovo.com.cn/thread-7825139-1-1.html",
+      "sourceTitle": "高性价比游戏本 拯救者R7000选购建议 - 联想社区",
+      "confidence": "high",
+      "notes": "联想社区选购指南：R7 版日常价约 6399 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 165Hz 100%sRGB",
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1015437.html",
+      "sourceTitle": "拯救者Y7000P 2021款 15.6英寸游戏笔记本电脑 钛晶灰 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城商品 82JH0006CDZHSP：i7-11800H/16G/512G/RTX 3060 6G，商城价 9099 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2021",
+      "cpu": "i5-11400H",
+      "ram": "16GB",
+      "gpu": "RTX 3050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 165Hz 100%sRGB",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd",
+      "sourceTitle": "2021新生购机指南【游戏本列表】- 微信公众号",
+      "confidence": "medium",
+      "notes": "首发价 6399 元（微信公众号购机指南汇总）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 165Hz 100%sRGB",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1375447_detail.html",
+      "sourceTitle": "联想拯救者R7000P 2021(R7-5800H/16GB/512GB/RTX3060) - 太平洋科技",
+      "confidence": "high",
+      "notes": "上市时间 2021 年 3 月 30 日；RTX 3060 最高 130W；首发价 7499 元（联想社区）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2021",
+      "cpu": "R5-5600H",
+      "ram": "16GB",
+      "gpu": "RTX 3050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 165Hz 100%sRGB",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd",
+      "sourceTitle": "2021新生购机指南【游戏本列表】- 微信公众号",
+      "confidence": "medium",
+      "notes": "首发价 5999 元（微信公众号购机指南汇总）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://mclub.lenovo.com.cn/thread-7809998-1-1.html",
+      "sourceTitle": "2021.8.8入手拯救者 Y9000P 2021酷睿11代晒单 - 联想社区",
+      "confidence": "high",
+      "notes": "联想社区晒单配置：i7-11800H+RTX 3060（115W~130W）+16GB+512GB+16 寸 2K 165Hz；首发价 8999 元（微信公众号）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://www.baike.com/wikiid/7652530149392941071",
+      "sourceTitle": "拯救者Y9000系列 - 快懂百科",
+      "confidence": "medium",
+      "notes": "快懂百科型号表载 i7-11800H/16GB/512GB/RTX 3070；首发价 9999 元（微信公众号）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-25521.html",
+      "sourceTitle": "拯救者 R9000P 2021款16英寸游戏笔记本电脑 钛晶灰 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R7 5800H/16GB/512G/RTX 3060 6GB/2560x1600；首发价 7999 元（微信公众号）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85R9000P%202021/68135313",
+      "sourceTitle": "联想拯救者R9000P 2021 - 百度百科",
+      "confidence": "medium",
+      "notes": "百度百科载 RTX 3070 最高 140W；首发价 9499 元（微信公众号）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000K|2021",
+      "cpu": "R9-5900HX",
+      "ram": "32GB",
+      "gpu": "RTX 3080 16GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://m.zol.com/shop_2206918/43925965.html",
+      "sourceTitle": "联想 拯救者R9000K 2021(R9 5900HX/32GB/1TB/RTX3080) - 中关村在线",
+      "confidence": "high",
+      "notes": "上市时间 2021 年 04 月；首发价 14999 元（微信公众号）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000K|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd",
+      "sourceTitle": "2021新生购机指南【游戏本列表】- 微信公众号",
+      "confidence": "medium",
+      "notes": "首发价 9999 元（微信公众号购机指南汇总）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2021",
+      "cpu": "i7-11800H",
+      "ram": "32GB",
+      "gpu": "RTX 3080 16GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://s.zol.com.cn/shop_2186829/44394223.html",
+      "sourceTitle": "联想 拯救者Y9000K 2021(i7 11800H/32GB/1TB/RTX3080) - 中关村在线",
+      "confidence": "high",
+      "notes": "上市时间 2021 年 06 月；PCIe 4.0 SSD、双雷电 4。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2021",
+      "cpu": "i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd",
+      "sourceTitle": "2021新生购机指南【游戏本列表】- 微信公众号",
+      "confidence": "medium",
+      "notes": "首发价 11999 元（微信公众号购机指南汇总）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%sRGB",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-34616.html",
+      "sourceTitle": "拯救者 R9000X 2021款15.6英寸游戏笔记本电脑 钛晶灰 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R7 5800H/16GB/512G/RTX 3050Ti 4G/2560x1440 165Hz；2021 年 11 月预售到手价 7699 元（今日头条）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2022",
+      "cpu": "i5-12500H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%sRGB 300nits",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1482107_detail.html",
+      "sourceTitle": "联想拯救者Y7000P 2022(酷睿i5-12500H/16GB/512GB/RTX3050) - 太平洋电脑网",
+      "confidence": "high",
+      "notes": "上市时间 2022 年 2 月 28 日；RTX 3050 95W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2022",
+      "cpu": "i5-12500H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%sRGB 300nits",
+      "sourceUrl": "https://s.zol.com.cn/shop_130622/42433267.html",
+      "sourceTitle": "联想 拯救者 Y7000P 2022(i5 12500H/16GB/1TB/RTX3050) - 中关村在线",
+      "confidence": "high",
+      "notes": "ZOL 经销商在售记录，上市时间 2022 年 03 月。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%sRGB 300nits",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1573527_detail.html",
+      "sourceTitle": "联想拯救者R7000P 2022(R7-6800H/16GB/512GB/RTX3050Ti) - 太平洋科技",
+      "confidence": "high",
+      "notes": "上市时间 2022 年 5 月 10 日（太平洋）/6 月（ZOL）；RTX 3050Ti 95W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://www.pconline.com.cn/zhizao/article/384692.html",
+      "sourceTitle": "聊一款综合表现优秀的游戏本（联想拯救者Y9000P 2022）- 太平洋科技",
+      "confidence": "high",
+      "notes": "i7-12700H+RTX 3060 140W+16GB DDR5 4800+512GB；首发售价 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3070Ti 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1020768.html",
+      "sourceTitle": "联想(Lenovo)拯救者Y9000P 2022 16英寸游戏笔记本电脑 钛晶灰 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城商品 82RF0001CD：i7-12700H/16G/512G/RTX 3070Ti 8G。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070Ti 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1413808.html",
+      "sourceTitle": "联想拯救者 R9000P 2022(R7 6800H/16GB/512GB/RTX3070Ti) - 中关村在线",
+      "confidence": "high",
+      "notes": "上市时间 2022 年 06 月；DDR5-4800、PCIe 4.0、RTX 3070Ti 150W；联想参考价 11499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RX 6800S 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/lenovo/1617667_detail.html",
+      "sourceTitle": "联想拯救者R9000X 2022(R7-6800H/16GB/512B/RX6800S)参数 - 太平洋科技",
+      "confidence": "high",
+      "notes": "上市时间 2022 年 7 月 29 日；RX 6800S 90W、99.9Wh；参考售价 9299 元（网易）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 500nits",
+      "sourceUrl": "https://detail.zol.com.cn/ProductComp_param_1404832.html",
+      "sourceTitle": "联想 拯救者 Y9000X 2022 参数对比 - 中关村在线",
+      "confidence": "high",
+      "notes": "上市时间 2022 年 05 月；RTX 3060 100W、99.99Wh；京东预售到手价 8999 元（ZOL）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|GeekPro G5000|2023",
+      "cpu": "i5-13500H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%sRGB 350nits",
+      "sourceUrl": "https://g.pconline.com.cn/zhikeji/article/514262",
+      "sourceTitle": "联想Geek Pro G5000新品上市，首发价6999起 - 太平洋电脑网",
+      "confidence": "high",
+      "notes": "2023 年 3 月 26 日开售；首发价 6999 元；RTX 4050 95W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|GeekPro G5000|2023",
+      "cpu": "i7-13700H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%sRGB 350nits",
+      "sourceUrl": "https://www.baike.com/wikiid/7420267281395400716",
+      "sourceTitle": "联想Geek Pro G5000 - 快懂百科",
+      "confidence": "high",
+      "notes": "首发价 7999 元；RTX 4060 115W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2023",
+      "cpu": "i7-13700H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB 350nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-40290.html",
+      "sourceTitle": "联想拯救者Y7000P2023 英特尔酷睿i7 16英寸游戏笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：i7-13700H/16G(8*2)/1T/RTX 4060 8G/2560x1600 165Hz；参考价 7999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2023",
+      "cpu": "R7-7840H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2240x1400 165Hz",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-40420.html",
+      "sourceTitle": "联想(Lenovo)拯救者R7000P 16英寸电竞游戏本笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R7-7840H/16GB(8*2)/1T/RTX 4060 8GB/2240x1400 165Hz。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2023",
+      "cpu": "i9-13900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-40222.html",
+      "sourceTitle": "联想 拯救者Y9000P 2023 16英寸游戏本笔记本碳晶灰 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：i9-13900HX/16G/1T/RTX 4060 8G/2560x1600 240Hz；参考价 9699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2023",
+      "cpu": "R9-7945HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-28764.html",
+      "sourceTitle": "联想拯救者R9000P 2023 16英寸电竞游戏本笔记本电脑 冰魄白 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R9 7945HX/16GB/1T/RTX 4060 8GB/2560x1600 240Hz；参考价 8899 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2023",
+      "cpu": "R7-7840H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3200x2000 165Hz 100%DCI-P3 430nits",
+      "sourceUrl": "https://news.qq.com/rain/a/20230731A03VEM00",
+      "sourceTitle": "10999元！拯救者R9000X 2023发布 - 腾讯新闻",
+      "confidence": "high",
+      "notes": "2023-08-08 开售；首发价 10999 元（建议零售价 11999 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2023",
+      "cpu": "i9-13900H",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3200x2000 165Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y9000X%202023/63156787",
+      "sourceTitle": "联想拯救者 Y9000X 2023 - 百度百科",
+      "confidence": "medium",
+      "notes": "2023-07-22 发布；首发价口径：百度百科称 12999 元起，腾讯新闻称该配置 13999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2024",
+      "cpu": "i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB",
+      "sourceUrl": "https://nb.zol.com.cn/893/8938513.html",
+      "sourceTitle": "拯救者Y7000P(14代i7/16+1T/RTX4060)成都8490元 - 中关村在线",
+      "confidence": "high",
+      "notes": "上市时间 2024 年 01 月 17 日；RTX 4060 140W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2024",
+      "cpu": "i7-14650HX",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 100%sRGB",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-31189.html",
+      "sourceTitle": "【定制款】联想拯救者y7000p 2024 16英寸电竞游戏本笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方定制款规格：i7-14650HX/32G(16+16)/1T/RTX 4060 8G。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2024",
+      "cpu": "R7-8845H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-26958.html",
+      "sourceTitle": "联想(Lenovo)拯救者R7000P 2024 16英寸电竞游戏本笔记本 月蚀灰 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R7-8845H/16GB(16*1)/1T/RTX 4060 8GB/2560x1600 165Hz；参考价 8399 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2024",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-41773.html",
+      "sourceTitle": "联想拯救者Y9000P 2024 16英寸电竞游戏本笔记本电脑 碳晶灰 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：i9-14900HX/16G/1T/RTX 4060 8G/2560x1600 240Hz；参考价 10499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2024",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://item.lenovo.com.cn/product/1038129.html",
+      "sourceTitle": "【定制款】拯救者Y9000P 2024 AI元启 16英寸电竞游戏本 冰魄白 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城定制款：i9-14900HX/32G(16*2)/2T SSD(1T*2)/RTX 4070 8G，商城价 14348 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2024",
+      "cpu": "R9-7945HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits 100%DCI-P3",
+      "sourceUrl": "https://m.zol.com/shop_2194468/42135362.html",
+      "sourceTitle": "联想 拯救者 R9000P 2024(R9 7945HX/16GB/1TB/RTX4060) - 中关村在线",
+      "confidence": "high",
+      "notes": "上市时间 2024 年 07 月；RTX 4060 140W、DDR5-5200。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2024",
+      "cpu": "R9-7945HX",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits 100%DCI-P3",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-43939.html",
+      "sourceTitle": "【定制款】联想拯救者r9000p 2024 16英寸电竞游戏本笔记本电脑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方定制款规格：R9-7945HX/32GB(16+16)/1T/RTX 4060 8GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2024",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3200x2000 165Hz 100%DCI-P3 430nits",
+      "sourceUrl": "https://www.kafan.cn/news/20644.html",
+      "sourceTitle": "联想拯救者 9000X 2024 16英寸电竞游戏本笔记本电脑开售 - 卡饭网",
+      "confidence": "high",
+      "notes": "2024 年 2 月 27 日开售，售价 14999 元起；RTX 4060 130W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2024",
+      "cpu": "i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3200x2000 165Hz 100%DCI-P3 430nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-doc-28986.html",
+      "sourceTitle": "联想(Lenovo)拯救者Y9000X 2024 AI元启 16英寸电竞游戏本电脑 - 联想",
+      "confidence": "high",
+      "notes": "AI 元启版：RTX 4070 130W；联想参考价 15499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2025",
+      "cpu": "Ultra 7 255HX",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 100%DCI-P3 500nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki-b/product-doc-47577.html",
+      "sourceTitle": "拯救者Y7000P 2025 16英寸电竞游戏本笔记本电脑 碳晶黑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：Ultra 7 255HX/32GB(32x1)/1T/RTX 5060 8G；RTX 5060 115W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2025",
+      "cpu": "R9-8945HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 100%DCI-P3",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1048843.html",
+      "sourceTitle": "联想拯救者R7000P 2025 AI元启 16英寸电竞游戏笔记本电脑 碳晶黑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：R9-8945HX/16GB(16X1)/1T/RTX 5060 8GB；参考价 14799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2025",
+      "cpu": "R9-8945HX",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 100%DCI-P3",
+      "sourceUrl": "https://mitem.lenovo.com.cn/product/1046342.html",
+      "sourceTitle": "联想拯救者R7000P 2025 AI元启 16英寸电竞游戏笔记本电脑 碳晶黑 - 联想商城",
+      "confidence": "high",
+      "notes": "联想商城规格：R9-8945HX/16GB/1T/RTX 5070 8GB GDDR7；秒杀价 11999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2025",
+      "cpu": "Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz OLED 100%DCI-P3",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1048286.html",
+      "sourceTitle": "联想拯救者Y9000P 2025 AI元启 16英寸电竞游戏笔记本 碳晶黑 - 联想",
+      "confidence": "high",
+      "notes": "联想官方规格：Ultra 9 275HX/32GB(16+16)/1T/RTX 5060 8G；参考价 17999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2025",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz OLED 100%DCI-P3",
+      "sourceUrl": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85",
+      "sourceTitle": "联想商城搜索'联想拯救者'结果列表（2025 款 i9-14900HX+RTX 5060 条目）- 联想企业购",
+      "confidence": "medium",
+      "notes": "联想企业购在售条目：i9-14900HX/16G/1T/RTX 5060 8G，13999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2025",
+      "cpu": "Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz OLED 100%DCI-P3 1100nits",
+      "sourceUrl": "https://www.ithome.com/0/846/607.htm",
+      "sourceTitle": "政府补贴2000元 学生再减2000元：联想 Y9000P 至尊版笔记本低至 17999 元 - IT之家",
+      "confidence": "high",
+      "notes": "2025 年 4 月中旬发布；国补价 19999 元（黑色）/20499 元（白色）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2025",
+      "cpu": "Ultra 9 275HX",
+      "ram": "64GB",
+      "gpu": "RTX 5090 24GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz OLED 100%DCI-P3 1100nits",
+      "sourceUrl": "https://www.ithome.com/0/846/607.htm",
+      "sourceTitle": "政府补贴2000元 学生再减2000元：联想 Y9000P 至尊版笔记本低至 17999 元 - IT之家",
+      "confidence": "high",
+      "notes": "国补价 27499 元（黑色）/27999 元（白色）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2025",
+      "cpu": "R9-8945HX",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 100%DCI-P3 500nits",
+      "sourceUrl": "https://m.lenovo.com.cn/wiki/product-doc-46103.html",
+      "sourceTitle": "联想拯救者R9000P 2025 AI元启 16英寸电竞游戏笔记本 碳晶黑 - 联想商城",
+      "confidence": "high",
+      "notes": "联想官方规格：R9-8945HX/32GB DDR5-5200/1T/RTX 5060 115W。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2025",
+      "cpu": "R9-8945HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 100%DCI-P3 500nits",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 R9000P RTX 5070 条目）",
+      "confidence": "medium",
+      "notes": "联想知识库笔记本列表：R9-8945HX/32GB(16+16)/1T/RTX 5070 8G（碳晶黑）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2026",
+      "cpu": "Ultra 7 255HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 100%DCI-P3",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/product-1054225.html",
+      "sourceTitle": "联想拯救者Y7000P 2026 16英寸电竞游戏笔记本电脑 碳晶黑 - 联想知识库",
+      "confidence": "high",
+      "notes": "联想官方规格：Ultra 7 255HX/16GB(16GBx1)/1T/RTX 5060 8G/2560x1600 240Hz；参考价 15499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2026",
+      "cpu": "R9-8940HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85",
+      "sourceTitle": "联想商城搜索'联想拯救者'结果列表（拯救者 R7000P 2026 条目）- 联想企业购",
+      "confidence": "medium",
+      "notes": "联想商城定制款：R9-8940HX/16GB/2TB(1T+1T)/RTX 5060 8G，商城价 16398 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2026",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 Y9000P 2026 条目）",
+      "confidence": "medium",
+      "notes": "联想知识库笔记本列表：i9-14900HX/16GB/1TB/RTX 5060 8G（冰魄白/碳晶黑）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2026",
+      "cpu": "Ultra 9 290HX Plus",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85",
+      "sourceTitle": "联想商城搜索'联想拯救者'结果列表（拯救者 Y9000P 2026 条目）- 联想企业购",
+      "confidence": "medium",
+      "notes": "联想商城定制款：Ultra 9 290HX Plus/32GB(16x2)/2TB(1TB+1TB)/RTX 5060 8G，商城价 20498 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2026",
+      "cpu": "Ultra 9 290HX Plus",
+      "ram": "64GB",
+      "gpu": "RTX 5090 24GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 Y9000P 2026 至尊版条目）",
+      "confidence": "medium",
+      "notes": "联想知识库笔记本列表：Ultra 9 290HX Plus/64GB/2TB/RTX 5090 24G（冰魄白）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2026",
+      "cpu": "Ultra 9 290HX Plus",
+      "ram": "32GB",
+      "gpu": "RTX 5070Ti 12GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85",
+      "sourceTitle": "联想商城搜索'联想拯救者'结果列表（拯救者 Y9000P 2026 至尊版条目）- 联想企业购",
+      "confidence": "medium",
+      "notes": "联想商城定制款：Ultra 9 290HX Plus/32GB/2TB(1TB+1TB)/RTX 5070Ti 12G，商城价 29998 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2026",
+      "cpu": "R9-8945HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.lenovo.com.cn/wiki/notebook",
+      "sourceTitle": "笔记本 - 联想知识库（拯救者 R9000P 2026 条目）",
+      "confidence": "medium",
+      "notes": "联想知识库笔记本列表：R9-8945HX/16GB/1TB/RTX 5060 8G（冰魄白/碳晶黑）。"
+    },
+    {
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2026",
+      "cpu": "R9-9955HX",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85",
+      "sourceTitle": "联想商城搜索'联想拯救者'结果列表（拯救者 R9000P 2026 条目）- 联想企业购",
+      "confidence": "medium",
+      "notes": "联想商城定制款：R9-9955HX/32GB(16x2)/1TB/RTX 5060 8G，商城价 17998 元。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "拯救者Y7000",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2018",
+      "aliasType": "常见搜索写法",
+      "note": "无空格写法"
+    },
+    {
+      "alias": "联想拯救者Y7000",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2018",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y7000P",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "aliasType": "常见搜索写法",
+      "note": "无空格写法"
+    },
+    {
+      "alias": "Legion Y7000P",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2018",
+      "aliasType": "英文名",
+      "note": "海外同名型号 Legion Y7000P（联想支持页 PD500220 覆盖 Legion Y530/Y7000P）"
+    },
+    {
+      "alias": "拯救者Y7000 2019",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2019",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Y7000 2019",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2019",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y7000P 2019",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2019",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion Y7000P 2019",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2019",
+      "aliasType": "英文名",
+      "note": "联想海外规格书 Lenovo Legion Y7000p (Y545) 15-inch 2019，配置与国行一致"
+    },
+    {
+      "alias": "拯救者Y9000K 2019",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2019",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Y9000K 2019 SE",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2019",
+      "aliasType": "官方写法",
+      "note": "SE=Second Edition（联想官方知识库）"
+    },
+    {
+      "alias": "拯救者Y7000 2020",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y7000P 2020",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Y7000P 2020",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2020",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000 2020",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000P 2020",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "虚空神机",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2020",
+      "aliasType": "常见搜索写法（昵称）",
+      "note": "联想社区评测称 R7000P 2020 为虚空神机（指长期一机难求）"
+    },
+    {
+      "alias": "拯救者Y9000K 2020",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000X 2021款",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2020",
+      "aliasType": "官方写法",
+      "note": "官方命名 2021 款，实际 2020-11-30 发布"
+    },
+    {
+      "alias": "R9000X",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2020",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000X 2021款",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2020",
+      "aliasType": "官方写法",
+      "note": "官方命名 2021 款，实际 2020-11-30 发布"
+    },
+    {
+      "alias": "拯救者R7000 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y7000P 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Y7000P 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2021",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000P 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Y9000P 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2021",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000P 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion 5 Pro",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2021",
+      "aliasType": "英文名",
+      "note": "海外型号 Legion 5 Pro 16ACH6H（百度百科产品沿革引联想海外官网）"
+    },
+    {
+      "alias": "拯救者R9000K 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000K|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000K 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000K|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000X 2021",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2021",
+      "aliasType": "常见搜索写法",
+      "note": "注意与 2020-11-30 发布的同名 2021 款区分"
+    },
+    {
+      "alias": "拯救者Y7000P 2022",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000P 2022",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2022",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000P 2022",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000X 2022",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000X 2022",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "联想GeekPro G5000",
+      "modelKey": "笔记本电脑|联想|GeekPro G5000|2023",
+      "aliasType": "官方写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者G5000",
+      "modelKey": "笔记本电脑|联想|GeekPro G5000|2023",
+      "aliasType": "常见搜索写法",
+      "note": "常见误称；官方属 GeekPro 产品线，非拯救者 Y/R 命名"
+    },
+    {
+      "alias": "G5000",
+      "modelKey": "笔记本电脑|联想|GeekPro G5000|2023",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y7000P 2023",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion Y7000P IRH8",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2023",
+      "aliasType": "官方写法（认证型号）",
+      "note": "京东商品规格认证型号 Legion Y7000P IRH8"
+    },
+    {
+      "alias": "拯救者R7000P 2023",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2023",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000P 2023",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000X 2023",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000X|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000X 2023",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion Slim 7i Gen 8",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2023",
+      "aliasType": "英文名",
+      "note": "海外版名（百度百科）"
+    },
+    {
+      "alias": "拯救者Y7000P 2024",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000P 2024",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2024",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Y9000P AI元启",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2024",
+      "aliasType": "官方写法",
+      "note": "2024 起 AI 元启子型号名"
+    },
+    {
+      "alias": "拯救者R9000P 2024",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion R9000P ARX8G",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2024",
+      "aliasType": "官方写法（产品型号）",
+      "note": "ZOL 产品型号"
+    },
+    {
+      "alias": "拯救者Y9000X 2024",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000X|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y7000P 2025",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000P 2025",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "R7000P AI元启",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2025",
+      "aliasType": "官方写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2025",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion Y9000P IAX10",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2025",
+      "aliasType": "官方写法（产品型号）",
+      "note": "联想商城产品型号 Legion Y9000P IAX10"
+    },
+    {
+      "alias": "拯救者Y9000P 2025至尊版",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2025",
+      "aliasType": "官方写法",
+      "note": ""
+    },
+    {
+      "alias": "Y9000P至尊版",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000P 2025",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "R9000P AI元启",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2025",
+      "aliasType": "官方写法",
+      "note": ""
+    },
+    {
+      "alias": "Legion R9000P ADR10",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2025",
+      "aliasType": "官方写法（产品型号）",
+      "note": "联想商城产品型号 Legion R9000P ADR10"
+    },
+    {
+      "alias": "拯救者Y7000P 2026",
+      "modelKey": "笔记本电脑|联想|拯救者 Y7000P|2026",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R7000P 2026",
+      "modelKey": "笔记本电脑|联想|拯救者 R7000P|2026",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2026",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P|2026",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者Y9000P 2026至尊版",
+      "modelKey": "笔记本电脑|联想|拯救者 Y9000P 至尊版|2026",
+      "aliasType": "官方写法",
+      "note": ""
+    },
+    {
+      "alias": "拯救者R9000P 2026",
+      "modelKey": "笔记本电脑|联想|拯救者 R9000P|2026",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "拯救者 R9000X 2024",
+      "issue": "仅检索到联想社区用户晒单，且两帖对屏幕规格描述互相矛盾（16 英寸 2.5K 165Hz 100%sRGB vs 16 英寸 3200x2000 165Hz）；京东 2024 年的在售 R9000X 链接实为 R7-7840H（即 2023 款参数）；未找到联想官方规格页或稳定京东自营 SKU 页。",
+      "suggestion": "暂不收录；如需收录，请以联想官方产品规格页或京东自营商品页规格参数栏核实 CPU 与屏幕后补充。"
+    },
+    {
+      "model": "拯救者 R9000X / Y9000X「2021 款」",
+      "issue": "官方对 9000X 系列存在跨年同名：2020-11-30 发布的 R9000X/Y9000X（R7-4800H / i7-10875H + RTX 2060 Max-Q、15.6 英寸 FHD 144Hz）与 2021-11 上市的 R9000X 2021（R7-5800H + RTX 3050Ti、15.6 英寸 2K 165Hz）均被官方/媒体称为 2021 款。本目录按实际上市年份将前者记为 2020、后者记为 2021。",
+      "suggestion": "采购检索「R9000X 2021」时需二选一确认；建议系统中以 CPU/屏幕规格辅助区分两代。"
+    },
+    {
+      "model": "拯救者 R9000X 2025 / Y9000X 2025",
+      "issue": "实时检索（2026-10-23）未找到 2025 年 9000X 系列的可靠来源，9000X 轻薄游戏本线疑似停留在 2024 款（Y9000X 2024）。",
+      "suggestion": "持续关注联想官网；如确认无更新，从采购目录预期中移除该年份。"
+    },
+    {
+      "model": "拯救者 Y7000 / R7000X / Y7000X 2025-2026（15.3 英寸机型）",
+      "issue": "百度百科「联想拯救者 Y7000」词条称 2025 款为 15.3 英寸 2560x1600 180Hz；联想商城 2026 年出现「Y7000 15.3 英寸」「Y7000X 2026 15.3 英寸」「R7000X 2026 15.3 英寸」定制款（i7-14650HX / 酷睿 7 245HX / 锐龙 7 H 255 + RTX 5060）。均为定制款列表或百科条目，缺少完整官方规格页。",
+      "suggestion": "补充联想官方规格页后可收录为新系列条目；本次仅记录备查。"
+    },
+    {
+      "model": "拯救者 R9000P（2026 款）RTX 5070 / RTX 5070Ti 配置",
+      "issue": "联想商城列表中存在 R9-9955HX + RTX 5070、R9-8945HX + RTX 5070Ti 12GB 的「拯救者 R9000P」条目，但商品名未标注年份，无法确认款年。",
+      "suggestion": "核实款年后补充到对应 modelYear 的 gpuOptions / configCombos。"
+    },
+    {
+      "model": "拯救者 Y9000P 2023 至尊版 / Y9000P 2024 至尊版（RTX 4080/4090）",
+      "issue": "仅见电商在售与媒体报道（如淘宝「拯救者Y9000P 2023 至尊版 i9-13900HX/RTX4090」），未取得联想官方规格页。",
+      "suggestion": "如需收录 2023/2024 款旗舰至尊版，请补充官方规格页来源。"
+    },
+    {
+      "model": "2026 款各型号首发月份",
+      "issue": "2026 款型号（Y7000P/R7000P/Y9000P/R9000P 2026）已通过联想官网与京东自营确认在售（检索日 2026-10-23），但逐一的首发月份未核实，modelYear 按官方 2026 款命名记录。",
+      "suggestion": "如需精确上市月份，可查 2026 年拯救者发布会报道后补充 notes。"
+    },
+    {
+      "model": "2018 年前旧系列（Y700/Y9000 2015-2017）",
+      "issue": "按任务要求未收录（2018 年前为联想游戏本旧命名）。",
+      "suggestion": "后续如需收录，请以中关村在线产品库等可靠来源逐款核实。"
+    }
+  ]
+}

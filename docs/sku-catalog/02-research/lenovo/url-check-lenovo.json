@@ -1,0 +1,700 @@
+{
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y7000P%202020/55233942": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y7000P%202020/55233942",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20R7000%202020/55137025": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20R7000%202020/55137025",
+  "error": "HTTP 403"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1404838.html"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85R9000P%202021/68135313": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85R9000P%202021/68135313",
+  "error": "HTTP 403"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1380739.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1380739.html"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1372038.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1372038.html"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0Air%2014/23762971": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0Air%2014/23762971",
+  "error": "HTTP 403"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1413808.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1413808.html"
+ },
+ "https://consumer.lenovo.com.cn": {
+  "status": 200,
+  "ok": true,
+  "final": "https://consumer.lenovo.com.cn/index.html"
+ },
+ "https://baike.baidu.com/item/%E8%81%AF%E6%83%B3%E5%B0%8F%E6%96%B0%20Pro%2014%202021/55136576": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%AF%E6%83%B3%E5%B0%8F%E6%96%B0%20Pro%2014%202021/55136576",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y9000X%202023/63156787": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y9000X%202023/63156787",
+  "error": "HTTP 403"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd": {
+  "status": 301,
+  "ok": true,
+  "final": "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd",
+  "error": "HTTP 301（需跟随重定向）"
+ },
+ "https://detail.zol.com.cn/ProductComp_param_1322052.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ProductComp_param_1322052.html"
+ },
+ "https://detail.zol.com.cn/bluetoothspeaker/index1303309.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1303309.shtml"
+ },
+ "https://detail.zol.com.cn/ProductComp_param_1404832.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ProductComp_param_1404832.html"
+ },
+ "https://detail.zol.com.cn/digital_tv/index1320989.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1320989.shtml"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1463031.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1463031.html"
+ },
+ "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1232927.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1416038.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ultrabook/index1416038.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1292466.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1292466.shtml"
+ },
+ "https://detail.zol.com.cn/series/16/10707027_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10707027_1.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1974286.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1974286.shtml"
+ },
+ "https://detail.zol.com.cn/digital_camcorder/index1166906.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ultrabook/index1166906.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1233060.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1233060.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1339291.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1339291.shtml"
+ },
+ "https://detail.zol.com.cn/series/16/37850_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/37850_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/10714819_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10714819_1.html"
+ },
+ "https://detail.zol.com.cn/ultrabook/index1291172.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ultrabook/index1291172.shtml"
+ },
+ "https://detail.zol.com.cn/ultrabook/index1140473.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ultrabook/index1140473.shtml"
+ },
+ "https://detail.zol.com.cn/series/16/10735709_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10735709_1.html"
+ },
+ "https://detail.zol.com.cn/washer/index1977745.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1977745.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1283707_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1283707_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1176028_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1176028_detail.html"
+ },
+ "https://detail.zol.com.cn/series/16/10851163_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10851163_1.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1482107_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1482107_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1375447_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1375447_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1573527_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1573527_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1617667_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1617667_detail.html"
+ },
+ "https://g.pconline.com.cn/zhikeji/article/514262": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/zhikeji/article/514262"
+ },
+ "https://gz.zol.com.cn/638/6386213.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gz.zol.com.cn/638/6386213.html"
+ },
+ "https://gz.zol.com.cn/754/7541255.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gz.zol.com.cn/754/7541255.html"
+ },
+ "https://item.lenovo.com.cn/product/1015790.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1015790.html"
+ },
+ "https://item.lenovo.com.cn/product/1038129.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1038129.html"
+ },
+ "https://gz.zol.com.cn/727/7275069.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gz.zol.com.cn/727/7275069.html"
+ },
+ "https://m.lenovo.com.cn/wiki/article-49998.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/article-49998.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-1052930.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-1052930.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-25513.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-25513.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-27039.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-27039.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-46103.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-46103.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-46385.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-46385.html"
+ },
+ "https://m.zol.com.cn/article/7631925.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7631925.html"
+ },
+ "https://m.zol.com.cn/article/7704588.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7704588.html"
+ },
+ "https://m.zol.com.cn/article/7388713.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7388713.html"
+ },
+ "https://m.zol.com.cn/article/6685290.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/6685290.html"
+ },
+ "https://m.zol.com.cn/article/6980644.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/6980644.html"
+ },
+ "https://m.zol.com.cn/article/7402412.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7402412.html"
+ },
+ "https://m.zol.com.cn/article/7989422.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7989422.html"
+ },
+ "https://m.zol.com.cn/article/8128103.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/8128103.html"
+ },
+ "https://m.zol.com/shop_2206918/43925965.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_2206918/43925965.html"
+ },
+ "https://m.zol.com.cn/article/8130164.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/8130164.html"
+ },
+ "https://m.zol.com/shop_33250/42768840.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_33250/42768840.html"
+ },
+ "https://m.zol.com/shop_77703/39981971.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_77703/39981971.html"
+ },
+ "https://m.zol.com/shop_2194468/42135362.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_2194468/42135362.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7809998-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7809998-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7787005-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7787005-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7825139-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7825139-1-1.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1015437.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1015437.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1047369.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1047369.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1007105.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1007105.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1020768.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1020768.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1046342.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1046342.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1013898.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1013898.html"
+ },
+ "https://nb.zol.com.cn/748/7486073.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/748/7486073.html"
+ },
+ "https://nb.zol.com.cn/696/6964043.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/696/6964043.html"
+ },
+ "https://nb.zol.com.cn/741/7419900.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/741/7419900.html"
+ },
+ "https://nb.zol.com.cn/743/7436524.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/743/7436524.html"
+ },
+ "https://nb.zol.com.cn/754/7547066.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/754/7547066.html"
+ },
+ "https://news.futunn.com/th/post/5523719": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.futunn.com/th/post/5523719"
+ },
+ "https://nb.zol.com.cn/893/8938513.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/893/8938513.html"
+ },
+ "https://nb.zol.com.cn/757/7577908.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/757/7577908.html"
+ },
+ "https://nb.zol.com.cn/774/7741243.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/774/7741243.html"
+ },
+ "https://nb.zol.com.cn/770/7705452.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/770/7705452.html"
+ },
+ "https://nb.zol.com.cn/848/8484718.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/848/8484718.html"
+ },
+ "https://nb.zol.com.cn/792/7922812.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/792/7922812.html"
+ },
+ "https://news.qq.com/rain/a/20230731A03VEM00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20230731A03VEM00"
+ },
+ "https://s.zol.com.cn/shop_2186829/44394223.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_2186829/44394223.html"
+ },
+ "https://s.zol.com.cn/shop_195226/40284999.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_195226/40284999.html"
+ },
+ "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85"
+ },
+ "https://s.zol.com.cn/shop_130622/42433267.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_130622/42433267.html"
+ },
+ "https://s.zol.com.cn/shop_197875/40105343.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_197875/40105343.html"
+ },
+ "https://shop.lenovo.com.cn/product/1003276.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1003276.html"
+ },
+ "https://shop.lenovo.com.cn/product/1013147.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1013147.html"
+ },
+ "https://s.zol.com.cn/shop_79474/42768751.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_79474/42768751.html"
+ },
+ "https://shop.lenovo.com.cn/product/1014231.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1014231.html"
+ },
+ "https://s.zol.com.cn/shop_59227/40084455.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_59227/40084455.html"
+ },
+ "https://shop.lenovo.com.cn/product/1019106.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1019106.html"
+ },
+ "https://s.zol.com.cn/shop_93237/39695004.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_93237/39695004.html"
+ },
+ "https://shop.zol.com/shop_205799/31922914.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_205799/31922914.html"
+ },
+ "https://tech.ifeng.com/c/81pFwL0Iipm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.ifeng.com/c/81pFwL0Iipm"
+ },
+ "https://shop.zol.com/shop_214084/34696048.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214084/34696048.html"
+ },
+ "https://shop.zol.com/shop_214514/37107989.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214514/37107989.html"
+ },
+ "https://shop.zol.com/shop_214514/37107391.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214514/37107391.html"
+ },
+ "https://www.ithome.com/0/846/607.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/846/607.htm"
+ },
+ "https://www.baike.com/wikiid/7420267281395400716": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.baike.com/wikiid/7420267281395400716"
+ },
+ "https://tech.sina.com.cn/roll/2020-06-01/doc-iircuyvi6036431.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.com.cn/roll/2020-06-01/doc-iircuyvi6036431.shtml"
+ },
+ "https://wap.zol.com.cn/1462/1461022/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1462/1461022/index.html"
+ },
+ "https://product.yesky.com/product/1020/1020672/param.shtml": {
+  "status": 405,
+  "ok": false,
+  "final": "https://product.yesky.com/product/1020/1020672/param.shtml",
+  "error": "HTTP 405（站点拦截自动化请求）"
+ },
+ "https://www.baike.com/wikiid/7652530149392941071": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.baike.com/wikiid/7652530149392941071"
+ },
+ "https://www.kafan.cn/news/20644.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.kafan.cn/news/20644.html"
+ },
+ "https://www.lenovo.com.cn/product/1010533.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1010533.html"
+ },
+ "https://www.lenovo.com.cn/product/1011312.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1011312.html"
+ },
+ "https://www.lenovo.com.cn/wiki-b/product-doc-47577.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki-b/product-doc-47577.html"
+ },
+ "https://www.lenovo.com.cn/wiki/notebook": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/notebook/"
+ },
+ "https://www.lenovo.com.cn/wiki/article-182259.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/article-182259.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1044732.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1044732.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048286.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048286.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048843.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048843.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1053911.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1053911.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1053888.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1053888.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-28986.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-28986.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-26958.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-26958.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1054225.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1054225.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-25521.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-25521.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-28764.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-28764.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-34616.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-34616.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-30127.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-30127.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-31189.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-31189.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-40290.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-40290.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-43576.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-43576.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-34975.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-34975.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-41773.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-41773.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-40222.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-40222.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-43939.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-43939.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-45143.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-45143.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-41901.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-41901.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-40420.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-40420.html"
+ },
+ "https://www.toutiao.com/article/7157679617661338150/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7157679617661338150/"
+ },
+ "https://www.pconline.com.cn/zhizao/article/384692.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/384692.html"
+ }
+}

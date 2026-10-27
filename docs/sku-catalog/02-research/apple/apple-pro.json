@@ -1,0 +1,1627 @@
+{
+  "scope": "苹果 MacBook Pro 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2016",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13",
+      "displayName": "苹果 MacBook Pro 13 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-6267U（2.9GHz，双核，触控栏版）",
+        "Intel 酷睿 i5-6287U（3.1GHz，双核，触控栏版）",
+        "Intel 酷睿 i7-6567U（3.3GHz，双核，触控栏版）",
+        "Intel 酷睿 i5-6360U（2.0GHz，双核，无触控栏版）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel Iris Graphics 550）",
+        "集成显卡（Intel Iris Graphics 540，无触控栏版）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/112003",
+      "sourceTitle": "MacBook Pro（13 英寸，2016 年，四个雷雳 3 端口）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2016 年 13 英寸有「四个雷雳 3 端口（带触控栏）」与「两个雷雳 3 端口（无触控栏）」两款，同年同尺寸按一条记录，无触控栏版型号另见 support.apple.com/zh-cn/111999。CPU 具体型号由 Apple 公布的频率/核心参数对照公开资料整理，Apple 规格页仅标注频率。16GB 内存与 1TB 存储为 BTO 定制。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2017",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13",
+      "displayName": "苹果 MacBook Pro 13 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-7267U（3.1GHz，双核，触控栏版）",
+        "Intel 酷睿 i5-7287U（3.3GHz，双核，触控栏版）",
+        "Intel 酷睿 i7-7567U（3.5GHz，双核，触控栏版）",
+        "Intel 酷睿 i5-7360U（2.3GHz，双核，无触控栏版）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel Iris Plus Graphics 650）",
+        "集成显卡（Intel Iris Plus Graphics 640，无触控栏版）"
+      ],
+      "storageOptions": [
+        "128GB SSD",
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111972",
+      "sourceTitle": "MacBook Pro（13 英寸，2017 年，四个雷雳 3 端口）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "同为 2017 年 13 英寸，两个雷雳 3 端口无触控栏版另见 support.apple.com/zh-cn/111951；128GB 仅见于无触控栏版。16GB 与 1TB 为 BTO。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2018",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13",
+      "displayName": "苹果 MacBook Pro 13 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-8259U（2.3GHz，四核）",
+        "Intel 酷睿 i7-8559U（2.7GHz，四核）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel Iris Plus Graphics 655）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111925",
+      "sourceTitle": "MacBook Pro（13 英寸，2018 年，四个雷雳 3 端口）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2018 年 13 英寸仅四个雷雳 3 端口（触控栏）机型，标配 8GB/256GB 与 8GB/512GB；16GB、1TB、2TB 为 BTO。CPU 型号按 Apple 公布频率对照公开资料整理。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2019",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13",
+      "displayName": "苹果 MacBook Pro 13 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-8279U（2.4GHz，四核）",
+        "Intel 酷睿 i7-8569U（2.8GHz，四核）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel Iris Plus Graphics 655）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111997",
+      "sourceTitle": "MacBook Pro（13 英寸，2019 年，四个雷雳 3 端口）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Apple 规格页标注 2.4GHz 四核 i5（可选 2.8GHz 四核 i7）、8GB 2133MHz LPDDR3（可选 16GB）、256GB/512GB 标配。2019 年另有 1.4GHz 两个雷雳 3 端口版本（support.apple.com/zh-cn/111945），未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2020",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13",
+      "displayName": "苹果 MacBook Pro 13 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i5-1038NG7（2.0GHz，四核，第十代）",
+        "Intel 酷睿 i7-1068NG7（2.3GHz，四核，第十代）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（Intel Iris Plus Graphics）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111339",
+      "sourceTitle": "MacBook Pro（13 英寸，2020 年，四个雷雳 3 端口）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 5 月 Intel 十代机型，标配 16GB 3733MHz LPDDR4X（可选 32GB）、512GB 或 1TB。同年 11 月另有 M1 机型，按不同芯片平台单独建行；两个雷雳 3 端口的 8 代 i5 版本（support.apple.com/zh-cn/111981）未收录。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M1）|2020",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13（M1）",
+      "displayName": "苹果 MacBook Pro 13（M1） 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M1（8 核 CPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（8 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111893",
+      "sourceTitle": "MacBook Pro（13 英寸，M1，2020 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Apple 首款 M1 MacBook Pro，2020 年 11 月上市。标配 8GB 统一内存 + 256GB/512GB；16GB、1TB、2TB 为 BTO。参考首发价：8GB/256GB 9999 元、8GB/512GB 11499 元（2020 年 11 月，人民币）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M2）|2022",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 13（M2）",
+      "displayName": "苹果 MacBook Pro 13（M2） 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M2（8 核 CPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "13.3英寸 2560x1600 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111869",
+      "sourceTitle": "MacBook Pro（13 英寸，M2，2022 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 6 月上市，保留触控栏与 13.3 英寸屏的最后一款 13 英寸 MacBook Pro。标配 8GB + 256GB/512GB；16GB/24GB、1TB/2TB 为 BTO。参考首发价 9999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2016",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 15",
+      "displayName": "苹果 MacBook Pro 15 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i7-6700HQ（2.6GHz，四核）",
+        "Intel 酷睿 i7-6820HQ（2.7GHz，四核）",
+        "Intel 酷睿 i7-6920HQ（2.9GHz，四核）"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "独立显卡（AMD Radeon Pro 450，2GB GDDR5）",
+        "独立显卡（AMD Radeon Pro 455，2GB GDDR5）",
+        "独立显卡（AMD Radeon Pro 460，4GB GDDR5）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.4英寸 2880x1800 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111975",
+      "sourceTitle": "MacBook Pro（15 英寸，2016 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2016 年 10 月发布，首次采用触控栏与四个雷雳 3 端口。内存板载 16GB 不可扩展。CPU 型号按 Apple 公布频率对照公开资料整理，1TB/2TB 为 BTO。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2017",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 15",
+      "displayName": "苹果 MacBook Pro 15 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i7-7700HQ（2.8GHz，四核）",
+        "Intel 酷睿 i7-7820HQ（3.1GHz，四核）",
+        "Intel 酷睿 i7-7920HQ（3.1GHz，四核）"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "独立显卡（AMD Radeon Pro 555，2GB GDDR5）",
+        "独立显卡（AMD Radeon Pro 560，4GB GDDR5）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.4英寸 2880x1800 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111947",
+      "sourceTitle": "MacBook Pro（15 英寸，2017 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2017 年 6 月更新，主要为第七代酷睿与 Radeon Pro 555/560。内存 16GB 板载；1TB/2TB 为 BTO。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2018",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 15",
+      "displayName": "苹果 MacBook Pro 15 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i7-8750H（2.2GHz，六核）",
+        "Intel 酷睿 i7-8850H（2.6GHz，六核）",
+        "Intel 酷睿 i9-8950HK（2.9GHz，六核）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡（AMD Radeon Pro 555X，4GB GDDR5）",
+        "独立显卡（AMD Radeon Pro 560X，4GB GDDR5）",
+        "独立显卡（AMD Radeon Pro Vega 16，4GB HBM2）",
+        "独立显卡（AMD Radeon Pro Vega 20，4GB HBM2）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "15.4英寸 2880x1800 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111949",
+      "sourceTitle": "MacBook Pro（15 英寸，2018 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2018 年 7 月更新，首次提供六核 i9 与 32GB DDR4 选项。标配 16GB/256GB（2.2GHz）或 16GB/512GB；更高配置为 BTO。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2019",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 15",
+      "displayName": "苹果 MacBook Pro 15 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i7-9750H（2.6GHz，六核）",
+        "Intel 酷睿 i9-9880H（2.3GHz，八核）",
+        "Intel 酷睿 i9-9980HK（2.4GHz，八核）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡（AMD Radeon Pro 555X，4GB GDDR5）",
+        "独立显卡（AMD Radeon Pro 560X，4GB GDDR5）",
+        "独立显卡（AMD Radeon Pro Vega 16，4GB HBM2）",
+        "独立显卡（AMD Radeon Pro Vega 20，4GB HBM2）"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "15.4英寸 2880x1800 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111941",
+      "sourceTitle": "MacBook Pro（15 英寸，2019 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Apple 规格页：2.6GHz 六核 i7（可选 2.4GHz 八核 i9）/ 2.3GHz 八核 i9（可选 2.4GHz），16GB 2400MHz DDR4（可选 32GB），256GB 或 512GB 起。最后一款 15 英寸 MacBook Pro。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 14",
+      "displayName": "苹果 MacBook Pro 14 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M1 Pro（8 核 CPU）",
+        "Apple M1 Pro（10 核 CPU）",
+        "Apple M1 Max（10 核 CPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（14 核 GPU）",
+        "集成显卡（16 核 GPU）",
+        "集成显卡（24 核 GPU）",
+        "集成显卡（32 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "14.2英寸 3024x1964 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111902",
+      "sourceTitle": "MacBook Pro（14 英寸，2021 年机型）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 10 月发布，全新 14.2 英寸 Liquid 视网膜 XDR + MagSafe 3 + HDMI + SD 卡槽。标配 16GB/512GB；32GB、64GB 与 1TB 以上为 BTO。参考首发价 14999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M2 Pro/M2 Max）|2023",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 14（M2 Pro/M2 Max）",
+      "displayName": "苹果 MacBook Pro 14（M2 Pro/M2 Max） 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M2 Pro（10 核 CPU）",
+        "Apple M2 Pro（12 核 CPU）",
+        "Apple M2 Max（12 核 CPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB",
+        "96GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（16 核 GPU）",
+        "集成显卡（19 核 GPU）",
+        "集成显卡（30 核 GPU）",
+        "集成显卡（38 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "14.2英寸 3024x1964 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111340",
+      "sourceTitle": "MacBook Pro（14 英寸，2023 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 1 月发布。M2 Pro 标配 16GB/512GB，M2 Max 标配 32GB/1TB；96GB 仅 38 核 GPU 的 M2 Max 可选。参考首发价 15999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M3 系列）|2023",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 14（M3 系列）",
+      "displayName": "苹果 MacBook Pro 14（M3 系列） 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M3（8 核 CPU）",
+        "Apple M3 Pro（11 核 CPU）",
+        "Apple M3 Pro（12 核 CPU）",
+        "Apple M3 Max（14 核 CPU）",
+        "Apple M3 Max（16 核 CPU）"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "18GB",
+        "24GB",
+        "36GB",
+        "48GB",
+        "64GB",
+        "96GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）",
+        "集成显卡（14 核 GPU）",
+        "集成显卡（18 核 GPU）",
+        "集成显卡（30 核 GPU）",
+        "集成显卡（40 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "14.2英寸 3024x1964 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/117735",
+      "sourceTitle": "MacBook Pro（14 英寸，M3，2023 年 11 月）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 11 月发布，同一代 14 英寸机型含 M3 / M3 Pro / M3 Max 三种芯片配置，合并为一条；M3 Pro 与 M3 Max 规格见 support.apple.com/zh-cn/117736。M3 标配 8GB/512GB（可选 16GB/24GB 内存），深空黑色为新增配色。参考首发价 12999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 14",
+      "displayName": "苹果 MacBook Pro 14 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M4（10 核 CPU）",
+        "Apple M4 Pro（12 核 CPU）",
+        "Apple M4 Pro（14 核 CPU）",
+        "Apple M4 Max（14 核 CPU）",
+        "Apple M4 Max（16 核 CPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "36GB",
+        "48GB",
+        "64GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）",
+        "集成显卡（16 核 GPU）",
+        "集成显卡（20 核 GPU）",
+        "集成显卡（32 核 GPU）",
+        "集成显卡（40 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "14.2英寸 3024x1964 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/121552",
+      "sourceTitle": "MacBook Pro（14 英寸，M4，2024 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 10 月发布，14 英寸含 M4 / M4 Pro / M4 Max 三种芯片，合并为一条；M4 Pro/Max 规格见 support.apple.com/zh-cn/121553（M4 Pro 标配 24GB/512GB）。M4 标配 16GB/512GB，可选 24GB/32GB。Thunderbolt 5 仅 M4 Pro/Max 机型。参考首发价 12999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 14",
+      "displayName": "苹果 MacBook Pro 14 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M5（10 核 CPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（10 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "14.2英寸 3024x1964 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/125405",
+      "sourceTitle": "MacBook Pro（14 英寸，M5）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Apple 官方规格页标注「推出年份：2025 年」，M5（10 核 CPU / 10 核 GPU / 16 核神经网络引擎，153GB/s 带宽）。标配 16GB/512GB，可选 24GB/32GB 与 1TB-4TB。2025 年未发布 16 英寸 M5 机型。参考官网价（2026-10 查）：15999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2026",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 14",
+      "displayName": "苹果 MacBook Pro 14 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M5 Pro（15 核 CPU）",
+        "Apple M5 Pro（18 核 CPU）",
+        "Apple M5 Max（18 核 CPU）"
+      ],
+      "ramOptions": [
+        "24GB",
+        "36GB",
+        "48GB",
+        "64GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（16 核 GPU）",
+        "集成显卡（20 核 GPU）",
+        "集成显卡（32 核 GPU）",
+        "集成显卡（40 核 GPU）"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "14.2英寸 3024x1964 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/126318",
+      "sourceTitle": "MacBook Pro（14 英寸，M5 Pro 或 M5 Max）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Apple 官方规格页标注「推出年份：2026 年」，三个雷雳 5 端口、Wi-Fi 7、蓝牙 6。M5 Pro 标配 24GB/1TB，M5 Max 标配 36GB/2TB。参考官网价（2026-10 查）：M5 Pro 19999 元起、M5 Max 33999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2019",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 16",
+      "displayName": "苹果 MacBook Pro 16 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Intel 酷睿 i7-9750H（2.6GHz，六核）",
+        "Intel 酷睿 i9-9880H（2.3GHz，八核）",
+        "Intel 酷睿 i9-9980HK（2.4GHz，八核）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "独立显卡（AMD Radeon Pro 5300M，4GB GDDR6）",
+        "独立显卡（AMD Radeon Pro 5500M，4GB GDDR6）",
+        "独立显卡（AMD Radeon Pro 5500M，8GB GDDR6）",
+        "独立显卡（AMD Radeon Pro 5600M，8GB HBM2）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 3072x1920 视网膜显示屏"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111932",
+      "sourceTitle": "MacBook Pro (16 英寸，2019) - 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 11 月发布，取代 15 英寸，回归剪刀式妙控键盘。2.6GHz 六核 i7 标配 512GB + Radeon Pro 5300M；2.3GHz 八核 i9 标配 1TB + 5500M。16GB 2666MHz DDR4 起，最高 64GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2021",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 16",
+      "displayName": "苹果 MacBook Pro 16 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M1 Pro（10 核 CPU）",
+        "Apple M1 Max（10 核 CPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（16 核 GPU）",
+        "集成显卡（24 核 GPU）",
+        "集成显卡（32 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "16.2英寸 3456x2234 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111901",
+      "sourceTitle": "MacBook Pro（16 英寸，2021 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 10 月发布。M1 Pro 标配 16GB/512GB，M1 Max 机型标配 32GB/1TB；64GB 仅 M1 Max 可选。参考首发价 18999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M2 Pro/M2 Max）|2023",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 16（M2 Pro/M2 Max）",
+      "displayName": "苹果 MacBook Pro 16（M2 Pro/M2 Max） 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M2 Pro（12 核 CPU）",
+        "Apple M2 Max（12 核 CPU）"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB",
+        "96GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（19 核 GPU）",
+        "集成显卡（30 核 GPU）",
+        "集成显卡（38 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "16.2英寸 3456x2234 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/111838",
+      "sourceTitle": "MacBook Pro（16 英寸，2023 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 1 月发布。M2 Pro 标配 16GB/512GB，M2 Max 标配 32GB/1TB；96GB 仅 38 核 GPU 的 M2 Max 可选。参考首发价 19999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M3 系列）|2023",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 16（M3 系列）",
+      "displayName": "苹果 MacBook Pro 16（M3 系列） 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M3 Pro（12 核 CPU）",
+        "Apple M3 Max（14 核 CPU）",
+        "Apple M3 Max（16 核 CPU）"
+      ],
+      "ramOptions": [
+        "18GB",
+        "36GB",
+        "48GB",
+        "64GB",
+        "96GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（18 核 GPU）",
+        "集成显卡（30 核 GPU）",
+        "集成显卡（40 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "16.2英寸 3456x2234 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/117737",
+      "sourceTitle": "MacBook Pro（16 英寸，M3 Pro 或 M3 Max，2023 年 11 月）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 11 月发布，16 英寸仅提供 M3 Pro / M3 Max（无基础 M3）。M3 Pro 标配 18GB/512GB，M3 Max 标配 36GB/1TB。参考首发价 19999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 16",
+      "displayName": "苹果 MacBook Pro 16 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M4 Pro（14 核 CPU）",
+        "Apple M4 Max（16 核 CPU）"
+      ],
+      "ramOptions": [
+        "24GB",
+        "36GB",
+        "48GB",
+        "64GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（20 核 GPU）",
+        "集成显卡（32 核 GPU）",
+        "集成显卡（40 核 GPU）"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "16.2英寸 3456x2234 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/121554",
+      "sourceTitle": "MacBook Pro（16 英寸，M4 Pro 或 M4 Max，2024 年）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 10 月发布，16 英寸仅 M4 Pro / M4 Max，配备三个雷雳 5 端口。M4 Pro 标配 24GB/512GB，M4 Max 标配 36GB/1TB。参考首发价 19999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2026",
+      "productType": "笔记本电脑",
+      "brand": "苹果",
+      "model": "MacBook Pro 16",
+      "displayName": "苹果 MacBook Pro 16 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "Apple M5 Pro（18 核 CPU）",
+        "Apple M5 Max（18 核 CPU）"
+      ],
+      "ramOptions": [
+        "24GB",
+        "36GB",
+        "48GB",
+        "64GB",
+        "128GB"
+      ],
+      "gpuOptions": [
+        "集成显卡（20 核 GPU）",
+        "集成显卡（32 核 GPU）",
+        "集成显卡（40 核 GPU）"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD",
+        "4TB SSD",
+        "8TB SSD"
+      ],
+      "screenOptions": [
+        "16.2英寸 3456x2234 Liquid 视网膜 XDR"
+      ],
+      "sourceUrl": "https://support.apple.com/zh-cn/126319",
+      "sourceTitle": "MacBook Pro（16 英寸，M5 Pro 或 M5 Max）- 技术规格",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Apple 官方规格页标注「推出年份：2026 年」，三个雷雳 5 端口、Wi-Fi 7、蓝牙 6。M5 Pro 标配 24GB/1TB，M5 Max 标配 36GB/2TB。参考官网价（2026-10 查）：24999 元起。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2016",
+      "cpu": "Intel 酷睿 i5-6267U（2.9GHz，双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Graphics 550）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/112003",
+      "sourceTitle": "MacBook Pro（13 英寸，2016 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配入门组合（带触控栏），2016 年 10 月上市，首发参考价 13888 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2016",
+      "cpu": "Intel 酷睿 i5-6287U（3.1GHz，双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Graphics 550）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/112003",
+      "sourceTitle": "MacBook Pro（13 英寸，2016 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配高配组合，2016 年 10 月上市，首发参考价 15888 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2017",
+      "cpu": "Intel 酷睿 i5-7267U（3.1GHz，双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics 650）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111972",
+      "sourceTitle": "MacBook Pro（13 英寸，2017 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配入门组合，2017 年 6 月上市，首发参考价 13888 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2017",
+      "cpu": "Intel 酷睿 i5-7287U（3.3GHz，双核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics 650）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111972",
+      "sourceTitle": "MacBook Pro（13 英寸，2017 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配高配组合，2017 年 6 月上市，首发参考价 15888 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2018",
+      "cpu": "Intel 酷睿 i5-8259U（2.3GHz，四核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics 655）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111925",
+      "sourceTitle": "MacBook Pro（13 英寸，2018 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门组合，2018 年 7 月上市，首发参考价 13888 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2018",
+      "cpu": "Intel 酷睿 i5-8259U（2.3GHz，四核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics 655）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111925",
+      "sourceTitle": "MacBook Pro（13 英寸，2018 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "high",
+      "notes": "标配高配组合，2018 年 7 月上市，首发参考价 15888 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2019",
+      "cpu": "Intel 酷睿 i5-8279U（2.4GHz，四核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics 655）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111997",
+      "sourceTitle": "MacBook Pro（13 英寸，2019 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "high",
+      "notes": "Apple 规格页标配组合（2.4GHz + 8GB + 256GB），2019 年 5 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2019",
+      "cpu": "Intel 酷睿 i5-8279U（2.4GHz，四核）",
+      "ram": "8GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics 655）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111997",
+      "sourceTitle": "MacBook Pro（13 英寸，2019 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "high",
+      "notes": "Apple 规格页第二档标配（2.4GHz + 8GB + 512GB），2019 年 5 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2020",
+      "cpu": "Intel 酷睿 i5-1038NG7（2.0GHz，四核，第十代）",
+      "ram": "16GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111339",
+      "sourceTitle": "MacBook Pro（13 英寸，2020 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "high",
+      "notes": "标配入门组合，2020 年 5 月上市，首发参考价 14499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2020",
+      "cpu": "Intel 酷睿 i5-1038NG7（2.0GHz，四核，第十代）",
+      "ram": "16GB",
+      "gpu": "集成显卡（Intel Iris Plus Graphics）",
+      "storage": "1TB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111339",
+      "sourceTitle": "MacBook Pro（13 英寸，2020 年，四个雷雳 3 端口）- 技术规格",
+      "confidence": "high",
+      "notes": "标配第二档（2.0GHz + 16GB + 1TB），2020 年 5 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M1）|2020",
+      "cpu": "Apple M1（8 核 CPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111893",
+      "sourceTitle": "MacBook Pro（13 英寸，M1，2020 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配，2020 年 11 月上市，首发价 9999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M1）|2020",
+      "cpu": "Apple M1（8 核 CPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（8 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111893",
+      "sourceTitle": "MacBook Pro（13 英寸，M1，2020 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配，2020 年 11 月上市，首发价 11499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M2）|2022",
+      "cpu": "Apple M2（8 核 CPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "256GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111869",
+      "sourceTitle": "MacBook Pro（13 英寸，M2，2022 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配，2022 年 6 月上市，首发价 9999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M2）|2022",
+      "cpu": "Apple M2（8 核 CPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2560x1600 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111869",
+      "sourceTitle": "MacBook Pro（13 英寸，M2，2022 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配，2022 年 6 月上市，首发价 11499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2016",
+      "cpu": "Intel 酷睿 i7-6700HQ（2.6GHz，四核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 450，2GB GDDR5）",
+      "storage": "256GB SSD",
+      "screen": "15.4英寸 2880x1800 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111975",
+      "sourceTitle": "MacBook Pro（15 英寸，2016 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配入门组合，2016 年 10 月上市，首发参考价 18988 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2016",
+      "cpu": "Intel 酷睿 i7-6820HQ（2.7GHz，四核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 455，2GB GDDR5）",
+      "storage": "512GB SSD",
+      "screen": "15.4英寸 2880x1800 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111975",
+      "sourceTitle": "MacBook Pro（15 英寸，2016 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配高配组合，2016 年 10 月上市，首发参考价 21988 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2017",
+      "cpu": "Intel 酷睿 i7-7700HQ（2.8GHz，四核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 555，2GB GDDR5）",
+      "storage": "256GB SSD",
+      "screen": "15.4英寸 2880x1800 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111947",
+      "sourceTitle": "MacBook Pro（15 英寸，2017 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配入门组合，2017 年 6 月上市，首发参考价 18988 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2018",
+      "cpu": "Intel 酷睿 i7-8750H（2.2GHz，六核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 555X，4GB GDDR5）",
+      "storage": "256GB SSD",
+      "screen": "15.4英寸 2880x1800 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111949",
+      "sourceTitle": "MacBook Pro（15 英寸，2018 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "标配入门组合，2018 年 7 月上市，首发参考价 18988 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2019",
+      "cpu": "Intel 酷睿 i7-9750H（2.6GHz，六核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 555X，4GB GDDR5）",
+      "storage": "256GB SSD",
+      "screen": "15.4英寸 2880x1800 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111941",
+      "sourceTitle": "MacBook Pro（15 英寸，2019 年）- 技术规格",
+      "confidence": "high",
+      "notes": "Apple 规格页标配（2.6GHz + 16GB + 256GB + 555X），2019 年 5 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2019",
+      "cpu": "Intel 酷睿 i9-9880H（2.3GHz，八核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 560X，4GB GDDR5）",
+      "storage": "512GB SSD",
+      "screen": "15.4英寸 2880x1800 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111941",
+      "sourceTitle": "MacBook Pro（15 英寸，2019 年）- 技术规格",
+      "confidence": "high",
+      "notes": "Apple 规格页第二档标配（2.3GHz 八核 i9 + 512GB + 560X），2019 年 5 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "cpu": "Apple M1 Pro（8 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（14 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111902",
+      "sourceTitle": "MacBook Pro（14 英寸，2021 年机型）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2021 年 10 月上市，首发价 14999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "cpu": "Apple M1 Pro（10 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（16 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "confidence": "high",
+      "sourceUrl": "https://support.apple.com/zh-cn/111902",
+      "sourceTitle": "MacBook Pro（14 英寸，2021 年机型）- 技术规格",
+      "notes": "官网标配高配款，2021 年 10 月上市，首发价 17999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "cpu": "Apple M1 Max（10 核 CPU）",
+      "ram": "32GB",
+      "gpu": "集成显卡（32 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111902",
+      "sourceTitle": "MacBook Pro（14 英寸，2021 年机型）- 技术规格",
+      "confidence": "medium",
+      "notes": "官网顶配起步组合，2021 年 10 月上市，首发参考价 21999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M2 Pro/M2 Max）|2023",
+      "cpu": "Apple M2 Pro（10 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（16 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111340",
+      "sourceTitle": "MacBook Pro（14 英寸，2023 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2023 年 1 月上市，首发价 15999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M2 Pro/M2 Max）|2023",
+      "cpu": "Apple M2 Max（12 核 CPU）",
+      "ram": "32GB",
+      "gpu": "集成显卡（30 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111340",
+      "sourceTitle": "MacBook Pro（14 英寸，2023 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网 M2 Max 标配（32GB + 1TB + 30 核 GPU），2023 年 1 月上市，首发参考价 21999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M3 系列）|2023",
+      "cpu": "Apple M3（8 核 CPU）",
+      "ram": "8GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/117735",
+      "sourceTitle": "MacBook Pro（14 英寸，M3，2023 年 11 月）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2023 年 11 月上市，首发价 12999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M3 系列）|2023",
+      "cpu": "Apple M3 Pro（11 核 CPU）",
+      "ram": "18GB",
+      "gpu": "集成显卡（14 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/117736",
+      "sourceTitle": "MacBook Pro（14 英寸，M3 Pro 或 M3 Max，2023 年 11 月）- 技术规格",
+      "confidence": "high",
+      "notes": "M3 Pro 标配（18GB 统一内存 + 512GB），2023 年 11 月上市，首发价 16999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M3 系列）|2023",
+      "cpu": "Apple M3 Max（14 核 CPU）",
+      "ram": "36GB",
+      "gpu": "集成显卡（30 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/117736",
+      "sourceTitle": "MacBook Pro（14 英寸，M3 Pro 或 M3 Max，2023 年 11 月）- 技术规格",
+      "confidence": "high",
+      "notes": "M3 Max 标配（36GB + 1TB），2023 年 11 月上市，首发参考价 25999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2024",
+      "cpu": "Apple M4（10 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/121552",
+      "sourceTitle": "MacBook Pro（14 英寸，M4，2024 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2024 年 10 月发布、11 月发售，首发价 12999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2024",
+      "cpu": "Apple M4 Pro（12 核 CPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（16 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/121553",
+      "sourceTitle": "MacBook Pro（14 英寸，M4 Pro 或 M4 Max，2024 年）- 技术规格",
+      "confidence": "high",
+      "notes": "M4 Pro 标配（24GB + 512GB + 16 核 GPU），2024 年 10 月发布，首发参考价 16999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "cpu": "Apple M5（10 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/125405",
+      "sourceTitle": "MacBook Pro（14 英寸，M5）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配（16GB + 512GB），2025 年上市；参考价 15999 元起（2026-10 官网）。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "cpu": "Apple M5（10 核 CPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（10 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://www.apple.com.cn/shop/buy-mac/macbook-pro/14-%E8%8B%B1%E5%AF%B8-m5",
+      "sourceTitle": "14 英寸 MacBook Pro（M5）- Apple Store 在线商店",
+      "confidence": "medium",
+      "notes": "商城在售配置（24GB + 1TB），2026-10 查询价 17999 元；该组合亦见于京东 Apple 自营。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2026",
+      "cpu": "Apple M5 Pro（15 核 CPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（16 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/126318",
+      "sourceTitle": "MacBook Pro（14 英寸，M5 Pro 或 M5 Max）- 技术规格",
+      "confidence": "high",
+      "notes": "M5 Pro 标配（24GB + 1TB + 16 核 GPU），2026 年上市，参考起售价 19999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2026",
+      "cpu": "Apple M5 Max（18 核 CPU）",
+      "ram": "36GB",
+      "gpu": "集成显卡（32 核 GPU）",
+      "storage": "2TB SSD",
+      "screen": "14.2英寸 3024x1964 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/126318",
+      "sourceTitle": "MacBook Pro（14 英寸，M5 Pro 或 M5 Max）- 技术规格",
+      "confidence": "high",
+      "notes": "M5 Max 标配（36GB + 2TB + 32 核 GPU），2026 年上市，参考起售价 33999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2019",
+      "cpu": "Intel 酷睿 i7-9750H（2.6GHz，六核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 5300M，4GB GDDR6）",
+      "storage": "512GB SSD",
+      "screen": "16英寸 3072x1920 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111932",
+      "sourceTitle": "MacBook Pro (16 英寸，2019) - 技术规格",
+      "confidence": "high",
+      "notes": "Apple 规格页标配（2.6GHz + 16GB + 512GB + 5300M），2019 年 11 月上市，首发价 18999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2019",
+      "cpu": "Intel 酷睿 i9-9880H（2.3GHz，八核）",
+      "ram": "16GB",
+      "gpu": "独立显卡（AMD Radeon Pro 5500M，4GB GDDR6）",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3072x1920 视网膜显示屏",
+      "sourceUrl": "https://support.apple.com/zh-cn/111932",
+      "sourceTitle": "MacBook Pro (16 英寸，2019) - 技术规格",
+      "confidence": "high",
+      "notes": "Apple 规格页第二档标配（2.3GHz 八核 i9 + 1TB + 5500M），2019 年 11 月上市，首发价 21999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2021",
+      "cpu": "Apple M1 Pro（10 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（16 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111901",
+      "sourceTitle": "MacBook Pro（16 英寸，2021 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2021 年 10 月上市，首发价 18999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2021",
+      "cpu": "Apple M1 Max（10 核 CPU）",
+      "ram": "32GB",
+      "gpu": "集成显卡（32 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111901",
+      "sourceTitle": "MacBook Pro（16 英寸，2021 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "官网 M1 Max 标配（32GB + 1TB + 32 核 GPU），2021 年 10 月上市，首发参考价 26499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M2 Pro/M2 Max）|2023",
+      "cpu": "Apple M2 Pro（12 核 CPU）",
+      "ram": "16GB",
+      "gpu": "集成显卡（19 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111838",
+      "sourceTitle": "MacBook Pro（16 英寸，2023 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2023 年 1 月上市，首发价 19999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M2 Pro/M2 Max）|2023",
+      "cpu": "Apple M2 Max（12 核 CPU）",
+      "ram": "32GB",
+      "gpu": "集成显卡（38 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/111838",
+      "sourceTitle": "MacBook Pro（16 英寸，2023 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "官网 M2 Max 高配（32GB + 1TB + 38 核 GPU），2023 年 1 月上市，首发参考价 26499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M3 系列）|2023",
+      "cpu": "Apple M3 Pro（12 核 CPU）",
+      "ram": "18GB",
+      "gpu": "集成显卡（18 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/117737",
+      "sourceTitle": "MacBook Pro（16 英寸，M3 Pro 或 M3 Max，2023 年 11 月）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2023 年 11 月上市，首发价 19999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M3 系列）|2023",
+      "cpu": "Apple M3 Max（16 核 CPU）",
+      "ram": "48GB",
+      "gpu": "集成显卡（40 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/117737",
+      "sourceTitle": "MacBook Pro（16 英寸，M3 Pro 或 M3 Max，2023 年 11 月）- 技术规格",
+      "confidence": "high",
+      "notes": "M3 Max 16 核 CPU 标配 48GB + 1TB，2023 年 11 月上市，首发参考价 31999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2024",
+      "cpu": "Apple M4 Pro（14 核 CPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（20 核 GPU）",
+      "storage": "512GB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/121554",
+      "sourceTitle": "MacBook Pro（16 英寸，M4 Pro 或 M4 Max，2024 年）- 技术规格",
+      "confidence": "high",
+      "notes": "官网标配入门款，2024 年 10 月发布、11 月发售，首发价 19999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2024",
+      "cpu": "Apple M4 Max（16 核 CPU）",
+      "ram": "48GB",
+      "gpu": "集成显卡（40 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/121554",
+      "sourceTitle": "MacBook Pro（16 英寸，M4 Pro 或 M4 Max，2024 年）- 技术规格",
+      "confidence": "medium",
+      "notes": "M4 Max 16 核 CPU 机型标配 48GB + 1TB，2024 年 10 月发布，首发参考价 31999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2026",
+      "cpu": "Apple M5 Pro（18 核 CPU）",
+      "ram": "24GB",
+      "gpu": "集成显卡（20 核 GPU）",
+      "storage": "1TB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/126319",
+      "sourceTitle": "MacBook Pro（16 英寸，M5 Pro 或 M5 Max）- 技术规格",
+      "confidence": "high",
+      "notes": "M5 Pro 标配（24GB + 1TB + 20 核 GPU），2026 年上市，参考起售价 24999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2026",
+      "cpu": "Apple M5 Max（18 核 CPU）",
+      "ram": "36GB",
+      "gpu": "集成显卡（32 核 GPU）",
+      "storage": "2TB SSD",
+      "screen": "16.2英寸 3456x2234 Liquid 视网膜 XDR",
+      "sourceUrl": "https://support.apple.com/zh-cn/126319",
+      "sourceTitle": "MacBook Pro（16 英寸，M5 Pro 或 M5 Max）- 技术规格",
+      "confidence": "high",
+      "notes": "M5 Max 标配（36GB + 2TB + 32 核 GPU），2026 年上市，参考起售价 33999 元（16 英寸 M5 Max 起配）。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "MacBook Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "aliasType": "通用搜索词",
+      "note": "无尺寸限定时的默认指向当前在售 14 英寸基础款，需人工确认尺寸与年份。"
+    },
+    {
+      "alias": "MBP",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "aliasType": "英文缩写",
+      "note": "MacBook Pro 常见缩写，无尺寸信息时默认指向 14 英寸在售款。"
+    },
+    {
+      "alias": "苹果笔记本 Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "aliasType": "中文俗称",
+      "note": "电商与二手平台常见写法。"
+    },
+    {
+      "alias": "MacBook Pro 13 M1",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M1）|2020",
+      "aliasType": "芯片写法",
+      "note": "2020 年 M1 版 13 英寸。"
+    },
+    {
+      "alias": "M1 MacBook Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M1）|2020",
+      "aliasType": "芯片前置写法",
+      "note": "搜索时芯片常置于机型前。"
+    },
+    {
+      "alias": "MBP 13 M1",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M1）|2020",
+      "aliasType": "英文缩写+芯片",
+      "note": "缩写与芯片组合写法。"
+    },
+    {
+      "alias": "MacBook Pro 13 M2",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13（M2）|2022",
+      "aliasType": "芯片写法",
+      "note": "2022 年 M2 版 13 英寸，带触控栏。"
+    },
+    {
+      "alias": "MacBook Pro 13 Touch Bar",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 13|2016",
+      "aliasType": "特征写法",
+      "note": "按触控栏特征检索 2016 款 13 英寸。"
+    },
+    {
+      "alias": "MBP 14 M1 Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "aliasType": "英文缩写+芯片",
+      "note": "2021 款 14 英寸 M1 Pro。"
+    },
+    {
+      "alias": "M1 Pro 14",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "aliasType": "芯片前置简写",
+      "note": "二手与论坛常见写法。"
+    },
+    {
+      "alias": "MacBook Pro 14 M1 Max",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2021",
+      "aliasType": "芯片写法",
+      "note": "2021 款 14 英寸顶配芯片版本。"
+    },
+    {
+      "alias": "MacBook Pro 14 M2 Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M2 Pro/M2 Max）|2023",
+      "aliasType": "芯片写法",
+      "note": "2023 年 1 月发布款。"
+    },
+    {
+      "alias": "MacBook Pro 14 M3",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M3 系列）|2023",
+      "aliasType": "芯片写法",
+      "note": "2023 年 11 月发布款，含 M3/M3 Pro/M3 Max。"
+    },
+    {
+      "alias": "M3 Max 14",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14（M3 系列）|2023",
+      "aliasType": "芯片前置简写",
+      "note": "指 14 英寸 M3 Max。"
+    },
+    {
+      "alias": "MacBook Pro 14 M4",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2024",
+      "aliasType": "芯片写法",
+      "note": "2024 年 10 月发布款。"
+    },
+    {
+      "alias": "MacBook Pro 14 M5",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2025",
+      "aliasType": "芯片写法",
+      "note": "2025 年 M5 款，注意与 2026 年 M5 Pro/Max 区分。"
+    },
+    {
+      "alias": "MacBook Pro 14 M5 Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 14|2026",
+      "aliasType": "芯片写法",
+      "note": "2026 年发布款。"
+    },
+    {
+      "alias": "MBP 16 M1 Max",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2021",
+      "aliasType": "英文缩写+芯片",
+      "note": "2021 款 16 英寸 M1 Max。"
+    },
+    {
+      "alias": "MacBook Pro 16 M1 Pro",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2021",
+      "aliasType": "芯片写法",
+      "note": "2021 款 16 英寸入门芯片版本。"
+    },
+    {
+      "alias": "MacBook Pro 16 M2 Max",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M2 Pro/M2 Max）|2023",
+      "aliasType": "芯片写法",
+      "note": "2023 年 1 月发布款。"
+    },
+    {
+      "alias": "MacBook Pro 16 M3 Max",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16（M3 系列）|2023",
+      "aliasType": "芯片写法",
+      "note": "2023 年 11 月发布款。"
+    },
+    {
+      "alias": "MacBook Pro 16 M4 Max",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2024",
+      "aliasType": "芯片写法",
+      "note": "2024 年 10 月发布款。"
+    },
+    {
+      "alias": "MacBook Pro 16 M5 Max",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2026",
+      "aliasType": "芯片写法",
+      "note": "2026 年发布款。"
+    },
+    {
+      "alias": "MBP 15",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 15|2019",
+      "aliasType": "英文缩写+尺寸",
+      "note": "15 英寸最后一款为 2019 款，默认指向它。"
+    },
+    {
+      "alias": "MacBook Pro 16 2019 Intel",
+      "modelKey": "笔记本电脑|苹果|MacBook Pro 16|2019",
+      "aliasType": "平台+年份写法",
+      "note": "用于区分 2019 Intel 16 英寸与后续 Apple 芯片款。"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "MacBook Pro 16 2025（M5）",
+      "issue": "2025 年 Apple 仅发布 14 英寸 M5 机型，未见 16 英寸 M5（非 Pro/Max）机型；2026 年 16 英寸直接从 M5 Pro 起步。",
+      "suggestion": "不建 16 英寸 M5 行；如后续出现该机型再补充。",
+      "sourceUrl": "https://support.apple.com/zh-cn/108052"
+    },
+    {
+      "model": "MacBook Pro 14 2023（M3 Pro/M3 Max）",
+      "issue": "Apple 将 M3、M3 Pro、M3 Max 分为两个技术规格页（117735/117736），本文件按同代同机型合并为一条，内存 8GB 仅基础 M3 可选。",
+      "suggestion": "若采购系统需按芯片平台独立建 SKU，可将本条拆为「M3」与「M3 Pro/M3 Max」两条。",
+      "sourceUrl": "https://support.apple.com/zh-cn/117736"
+    },
+    {
+      "model": "MacBook Pro 14 2024（M4/M4 Pro/M4 Max）",
+      "issue": "同上，M4 与 M4 Pro/Max 官方为两个规格页（121552/121553），本文件合并为一条；两者雷雳端口数不同（M4 为雷雳 4，M4 Pro/Max 为雷雳 5）。",
+      "suggestion": "如需区分接口差异，建议拆分为两条 SKU。",
+      "sourceUrl": "https://support.apple.com/zh-cn/121553"
+    },
+    {
+      "model": "MacBook Pro 13 2016（两个雷雳 3 端口/无触控栏）",
+      "issue": "2016 年 13 英寸有带触控栏与无触控栏两款，官方分两个规格页（112003/111999），本文件合并为一条并在 cpuOptions 标注。",
+      "suggestion": "若需精确到无触控栏版本，可单独建「MacBook Pro 13（无触控栏）」条目。",
+      "sourceUrl": "https://support.apple.com/zh-cn/111999"
+    },
+    {
+      "model": "MacBook Pro 14 2025 / 16 2026 首发价",
+      "issue": "Apple 中国官网商城 2026 年 10 月页面显示 14 英寸 M5 起售价 15999 元、16 英寸起售价 24999 元，与 2025 年发布时的媒体口径（14 英寸 12999 元起）存在差异，可能为后续调价。",
+      "suggestion": "价格仅作参考写入 notes，采购下单前以 apple.com.cn 实时价格为准。",
+      "sourceUrl": "https://www.apple.com.cn/shop/buy-mac/macbook-pro/14-英寸-m5"
+    },
+    {
+      "model": "MacBook Pro 13 2019（1.4GHz 两个雷雳 3 端口）",
+      "issue": "2019 年 7 月 Apple 另推出 1.4GHz 八代 i5、两个雷雳 3 端口的 13 英寸入门款（support.apple.com/zh-cn/111945），本文件仅收录四个雷雳 3 端口版本。",
+      "suggestion": "若覆盖入门价位段，可补充该机型为独立条目。",
+      "sourceUrl": "https://support.apple.com/zh-cn/111945"
+    }
+  ]
+}

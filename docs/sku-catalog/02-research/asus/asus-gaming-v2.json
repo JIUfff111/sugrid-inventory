@@ -1,0 +1,1880 @@
+{
+  "scope": {
+    "productType": "笔记本电脑",
+    "brands": [
+      "华硕",
+      "ROG"
+    ],
+    "seriesCovered": [
+      "华硕天选（TUF Gaming）2020-2026",
+      "ROG 枪神（国行，Strix SCAR 系）2018-2026",
+      "ROG 魔霸/魔霸 Plus（国行，Strix G 系）2019-2026",
+      "ROG 冰刃双屏（Zephyrus Duo）2019-2026",
+      "ROG 幻（Zephyrus G/M/Flow/Air）2020-2026"
+    ],
+    "yearRange": "2018-2026（2016-2017 未检索到国行命名与上市来源，列入 uncertain）",
+    "researchDate": "2026-10-23（首轮）/ 2026-10-26（补齐）",
+    "checkedAt": "2026-10-26",
+    "modelYearConcept": "上市年份：以 ZOL 产品页「上市时间」字段、厂商官方发布/开售报道为准；不用网页发布日期充当型号年份",
+    "displayNameRule": "显示名 = brand + 空格 + model + 空格 + modelYear，例如「ROG 枪神7 2023」「华硕 天选4 2023」",
+    "priceRule": "价格均为来源标注的中国大陆行货首发价/参考报价/电商在售价（人民币），放入配置组合 notes 并注明日期；不是机器采购价",
+    "modelCount": 30,
+    "configComboCount": 44,
+    "excluded": "灵耀/a豆/无畏轻薄本、平板、台式机、显示器、外设均不在范围内",
+    "sources": [
+      {
+        "domain": "asus.com.cn",
+        "type": "厂商官方（华硕官网/华硕商城）",
+        "example": "https://www.asus.com.cn/"
+      },
+      {
+        "domain": "rog.asus.com.cn",
+        "type": "厂商官方（ROG 官网规格页）",
+        "example": "https://rog.asus.com.cn/laptops/rog-zephyrus/rog-zephyrus-duo-2026/"
+      },
+      {
+        "domain": "detail.zol.com.cn / nb.zol.com.cn / m.zol.com.cn / wap.zol.com.cn / s.zol.com.cn",
+        "type": "中关村在线（产品库/行情，含上市时间字段）",
+        "example": "https://detail.zol.com.cn/notebook/index1480172.shtml"
+      },
+      {
+        "domain": "ithome.com",
+        "type": "IT之家（发布/开售报道）",
+        "example": "https://www.ithome.com/0/674/929.htm"
+      },
+      {
+        "domain": "product.pconline.com.cn / g.pconline.com.cn",
+        "type": "太平洋电脑网产品库",
+        "example": "https://product.pconline.com.cn/notebook/rog/2641999_detail.html"
+      },
+      {
+        "domain": "pchome.net",
+        "type": "PChome 电脑之家（新品报道）",
+        "example": "https://m.pchome.net/article/content-2195345.html"
+      },
+      {
+        "domain": "baike.baidu.com",
+        "type": "百度百科（上市时间交叉核验）",
+        "example": "https://baike.baidu.com/item/华硕天选7/67852083"
+      },
+      {
+        "domain": "toutiao.com / new.qq.com / geekpark.net / ifeng.com / itheat.com / chinadaily.com.cn",
+        "type": "媒体首发报道",
+        "example": "https://m.toutiao.com/article/7642986923216192036"
+      },
+      {
+        "domain": "jd.com / tmall.com",
+        "type": "电商在售页面（京东自营/天猫旗舰店）",
+        "example": "https://union-click.jd.com/"
+      }
+    ],
+    "notes": "同一型号不同屏幕/配色/平台变体在 notes 说明；配置组合仅收录来源证明确实销售过的搭配，未做笛卡尔积；2016/2017 及证据不足型号见 uncertain。2026-10-26 补齐幻14/幻16/幻Air/冰刃7双屏/魔霸6/魔霸新锐/枪神9 系列，并把首轮写在 notes 中的配置组合结构化。"
+  },
+  "models": [
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选",
+      "displayName": "华硕 天选 2020",
+      "modelYear": 2020,
+      "cpuOptions": [
+        "AMD 锐龙7 4800H",
+        "AMD 锐龙9 4900H",
+        "AMD 锐龙5 4600H"
+      ],
+      "ramOptions": [
+        "8GB DDR4 3200MHz",
+        "16GB DDR4 3200MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce GTX 1650Ti 4GB",
+        "NVIDIA GeForce GTX 1660Ti 6GB",
+        "NVIDIA GeForce RTX 2060 6GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz IPS"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/29470_1.html",
+      "sourceTitle": "华硕天选FA506 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2020-03（ZOL 系列页），2020-03-26 京东独家首发，首发价 6299 元（R7-4800H+8GB+512GB+GTX1660Ti）/6599 元（R7-4800H+8GB+512GB+RTX2060）（nb.zol.com.cn/740/7403076.html）。ZOL 系列共 10 款，含 R5 4600H/R7 4800H/R9 4900H 与 GTX1650Ti/GTX1660Ti/RTX2060 组合；2.5kg；冰川散热架构。别名 FA506/FA506IU/FA506IV/华硕天选游戏本；海外系列名 TUF Gaming。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选2",
+      "displayName": "华硕 天选2 2021",
+      "modelYear": 2021,
+      "cpuOptions": [
+        "AMD 锐龙7 5800H",
+        "AMD 锐龙9 5900HX",
+        "AMD 锐龙7 4800H"
+      ],
+      "ramOptions": [
+        "16GB DDR4 3200MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3050Ti 4GB",
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3070 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%DCI-P3",
+        "15.6英寸 1920x1080 144Hz",
+        "15.6英寸 1920x1080 240Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1384329.shtml",
+      "sourceTitle": "华硕天选2(R9 5900HX/16GB/512GB/RTX3060/165Hz) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2021-08（ZOL）。升级版（R9 5900HX+RTX3070+16GB+512GB+2.5K 165Hz）2021-08-05 开售，首发价 9999 元（中关村在线/腾讯网）。ZOL 系列含 144Hz/165Hz/240Hz 多屏幕版本与 R7 4800H+RTX3050 等配置（2021-09，6699 元）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选3",
+      "displayName": "华硕 天选3 2022",
+      "modelYear": 2022,
+      "cpuOptions": [
+        "Intel 酷睿i7 12700H",
+        "Intel 酷睿i5 12500H"
+      ],
+      "ramOptions": [
+        "16GB DDR5 4800MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3050 4GB",
+        "NVIDIA GeForce RTX 3050Ti 4GB",
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3070 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%DCI-P3 3ms",
+        "15.6英寸 2560x1440 144Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37546_1.html",
+      "sourceTitle": "华硕天选3 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2022-02-11（ZOL，当晚 22 点开售）。RTX3060/3070 为 140W 满血、RTX3050 系 95W，支持双显三模切换；2.2kg、90Wh。同场发布天选3 Plus（17.3 英寸 360Hz）与天选3 Air，未单列（见 uncertain）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选4",
+      "displayName": "华硕 天选4 2023",
+      "modelYear": 2023,
+      "cpuOptions": [
+        "Intel 酷睿i9 13900H",
+        "Intel 酷睿i7 13700H",
+        "Intel 酷睿i5 13500H",
+        "Intel 酷睿i7 12700H",
+        "AMD 锐龙9 7940H"
+      ],
+      "ramOptions": [
+        "16GB DDR5 4800MHz",
+        "16GB DDR4 3200MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 300nits",
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1467/1466071/index.html",
+      "sourceTitle": "华硕天选4 13代酷睿版 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2023-02（ZOL）。酷睿 13 代为 DDR5-4800，12代酷睿版为 DDR4-3200；锐龙版（R9 7940H）2023-04-27 开售。同代另有天选4 Plus（17.3 英寸 360Hz/240Hz，R9 7940H/i9 13900H+RTX4070，9499 元）与天选4R（R7 7735H+RX7600S，7499 元），未单列（见 uncertain）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选5",
+      "displayName": "华硕 天选5 2024",
+      "modelYear": 2024,
+      "cpuOptions": [
+        "AMD 锐龙7 8845H",
+        "AMD 锐龙9 8945H"
+      ],
+      "ramOptions": [
+        "16GB DDR5 5600MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 3ms 100%DCI-P3"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/digital_tv/index1982530.shtml",
+      "sourceTitle": "华硕天选5 锐龙版 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2024-01（ZOL 系列共 5 款）；90Wh 电池，支持独显直连；ZOL 参考报价区间 6799-8799 元。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选5 Pro",
+      "displayName": "华硕 天选5 Pro 2024",
+      "modelYear": 2024,
+      "cpuOptions": [
+        "Intel 酷睿i9 14900HX",
+        "Intel 酷睿i9 13980HX",
+        "Intel 酷睿i7 13650HX",
+        "AMD 锐龙9 7940HX"
+      ],
+      "ramOptions": [
+        "16GB DDR5 5600MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 400nits 100%sRGB"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1975420.shtml",
+      "sourceTitle": "华硕天选5 Pro(i9 14900HX/16GB/1TB/RTX4070) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2024-01-23（ZOL 系列共 6 款）；16 英寸 16:10 新模具。锐龙版（R9 7940HX）见华硕官网 FA607 系列 techspec，ZOL 系列页仅列酷睿版。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选6",
+      "displayName": "华硕 天选6 2025",
+      "modelYear": 2025,
+      "cpuOptions": [
+        "AMD 锐龙 AI 9 HX 370",
+        "AMD 锐龙7 H 260"
+      ],
+      "ramOptions": [
+        "16GB DDR5 5600MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5050 8GB",
+        "NVIDIA GeForce RTX 5060 8GB",
+        "NVIDIA GeForce RTX 5070 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 400nits 100%sRGB",
+        "16英寸 1920x1280 165Hz"
+      ],
+      "sourceUrl": "https://m.ithome.com/html/852566.htm",
+      "sourceTitle": "华硕推出新款天选 6 游戏本：锐龙 AI 9 HX 370 + RTX 5070，10499 元 - IT之家",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2025-05（pconline）。RTX5070 版 2025-05-16 开售，首发价 10499 元、国补价 8499 元（IT之家）；115W 满血 RTX5070，双烤 160W（手动 170W）；2.2kg、1.79cm、180° 开合。锐龙7 H 260+RTX5050 入门款为 16 英寸 1920x1280 165Hz 屏（京东在售）。同代天选6 Pro（i7-14650HX/Ultra9 275HX+RTX5060/5070）未单列（见 uncertain）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选7",
+      "displayName": "华硕 天选7 2026",
+      "modelYear": 2026,
+      "cpuOptions": [
+        "AMD 锐龙7 H 260"
+      ],
+      "ramOptions": [
+        "16GB DDR5"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5050 8GB",
+        "NVIDIA GeForce RTX 5060 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz OLED 1100nits 0.2ms"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083",
+      "sourceTitle": "华硕天选7 - 百度百科",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "2026-05-08 天选新品发布会推出天选7/天选7 Pro/天选7 Pro Max；标准版 2026-05-30 京东上架、06-01 上市（百度百科）。16 英寸 2.5K 165Hz OLED，峰值 1100nits，VESA DisplayHDR True Black 1000，180° 开合；约 2.1kg、17.9mm、90Wh。价格为华硕商城页面价（2026-10-23 检索）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选7 Pro",
+      "displayName": "华硕 天选7 Pro 2026",
+      "modelYear": 2026,
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 7 251HX",
+        "Intel 酷睿 Ultra 7 255HX",
+        "Intel 酷睿 Ultra 9 290HX Plus",
+        "AMD 锐龙9 9955HX"
+      ],
+      "ramOptions": [
+        "16GB DDR5"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5060 8GB",
+        "NVIDIA GeForce RTX 5070 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 300Hz 500nits 100%DCI-P3 AGLR"
+      ],
+      "sourceUrl": "https://www.asus.com.cn/",
+      "sourceTitle": "华硕商城 ASUSMALL（天选系列在售配置）",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "2026-05-08 发布、05-15 上市（百度百科/PChome）。16 英寸 2.5K 300Hz 500nits 100%DCI-P3，AGLR 抗反射；2.25kg、17.9mm、90Wh；整机 180W（CPU 单烤 90W、GPU 115W）；酷睿/锐龙双平台，雷电4+全功能 USB-C+3×USB-A+HDMI2.1 FRL+RJ45。价格为华硕商城页面价（2026-10-23 检索，不同页面快照存在差异）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选7 Pro Max",
+      "displayName": "华硕 天选7 Pro Max 2026",
+      "modelYear": 2026,
+      "cpuOptions": [
+        "AMD 锐龙9 9955HX"
+      ],
+      "ramOptions": [
+        "16GB DDR5 5600MHz",
+        "32GB DDR5 5600MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5060 8GB",
+        "NVIDIA GeForce RTX 5070 8GB",
+        "NVIDIA GeForce RTX 5070Ti 12GB"
+      ],
+      "storageOptions": [
+        "1TB PCIe 4.0 SSD"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600 300Hz 500nits 100%DCI-P3"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html",
+      "sourceTitle": "华硕天选7 Pro Max(R9-9955HX/32GB/1TB/RTX5070Ti/2.5K/300Hz) - 太平洋科技产品库",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "2026-05-07 京东官方旗舰店上架、05-08 发布会、05-15 上市（PChome/百度百科）。18 英寸 2.5K 300Hz 500nits 100%DCI-P3 防眩光；R9 9955HX（16 核 32 线程）；整机 180W（CPU 单烤 90W、GPU 单烤 115W）；2.7kg、1.89cm、90Wh、Wi-Fi 6E。RTX5070/5070Ti 配 8GB 显存（PChome）；华硕商城仅见 RTX5060 配置标价 12499 元。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神2|2018",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神2",
+      "displayName": "ROG 枪神2 2018",
+      "modelYear": 2018,
+      "cpuOptions": [
+        "Intel 酷睿i7 8750H"
+      ],
+      "ramOptions": [
+        "16GB DDR4"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce GTX 1070 8GB",
+        "NVIDIA GeForce GTX 1060 6GB"
+      ],
+      "storageOptions": [
+        "256GB+1TB 混合硬盘(SSD+HDD)"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/tablepc/index1218113.shtml",
+      "sourceTitle": "ROG 枪神2 GL504GS8750(16GB/256GB+1TB) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2018-06（ZOL 商城页）。GL504GS8750（i7-8750H+GTX1070 8GB+16GB+256GB+1TB）参考报价 14999 元，2021-02-01 停产；2.4kg、66Wh。别名 STRIX SCAR II/枪神II/GL504GS。2016/2017 首代枪神国行命名无来源（见 uncertain）。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神3|2019",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神3",
+      "displayName": "ROG 枪神3 2019",
+      "modelYear": 2019,
+      "cpuOptions": [
+        "Intel 酷睿i7 9750H"
+      ],
+      "ramOptions": [
+        "16GB DDR4 2666MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 2060 6GB",
+        "NVIDIA GeForce RTX 2070 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "1TB+1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 240Hz 3ms 窄边框"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/digital_camcorder/index1272834.shtml",
+      "sourceTitle": "ROG 枪神3(i7 9750H/16GB/1TB/RTX2070) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2019-05（ZOL）。2019-04 京东预售：RTX2060 版 16999 元、RTX2070 版 18999 元（nb.zol.com.cn/717/7170046.html）；ZOL 参考报价 RTX2060 13999 元、RTX2070 16998/16999 元。2.57kg；ROG Boost 满血显卡；别名 S5D。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸3|2019",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "魔霸3",
+      "displayName": "ROG 魔霸3 2019",
+      "modelYear": 2019,
+      "cpuOptions": [
+        "Intel 酷睿i7 9750H"
+      ],
+      "ramOptions": [
+        "16GB DDR4 2666MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce GTX 1660Ti 6GB",
+        "NVIDIA GeForce RTX 2060 6GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz IPS 80%屏占比"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1270668.shtml",
+      "sourceTitle": "ROG 魔霸3(i7 9750H/16GB/512GB/RTX2060) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2019-04（ZOL）；魔霸系列国行首代。市场价 9999 元（GTX1660Ti），ZOL 参考报价 12999 元（RTX2060），经销商曾报 9699/11999 元；2.395kg。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神4|2020",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神4",
+      "displayName": "ROG 枪神4 2020",
+      "modelYear": 2020,
+      "cpuOptions": [
+        "Intel 酷睿i7 10875H"
+      ],
+      "ramOptions": [
+        "16GB DDR4 3200MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 2070 Super 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 300Hz 3ms 100%sRGB"
+      ],
+      "sourceUrl": "https://m.ithome.com/html/490187.htm",
+      "sourceTitle": "ROG 枪神 4 游戏本发布：8 核 i7-10875H + 300Hz 屏 - IT之家",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2020-05（PChome product.pchome.net/notebook/index/1147461.html）。2020-06-01 预约、06-11 开卖，到手价不高于 16999 元（IT之家）；RTX2070 Super 为 115W 满血版，预留双 M.2 支持 RAID 0。同代另有枪神4 Plus（17.3 英寸）及 i9-10980HK+RTX2080 Super 高配，未单列。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神5|2021",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神5",
+      "displayName": "ROG 枪神5 2021",
+      "modelYear": 2021,
+      "cpuOptions": [
+        "AMD 锐龙9 5900HX"
+      ],
+      "ramOptions": [
+        "32GB DDR4 3200MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3070 8GB",
+        "NVIDIA GeForce RTX 3080 16GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 300Hz 3ms 100%sRGB",
+        "17.3英寸 1920x1080 360Hz（枪神5 Plus）"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/wireless_router/index1356087.shtml",
+      "sourceTitle": "ROG 枪神5(R9 5900HX/32GB/1TB/RTX3070) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2021-02（ZOL）。首发价 16999 元（15.6 英寸）/17999 元（枪神5 Plus 17.3 英寸 360Hz）（nb.zol.com.cn/761/7616990.html）；RTX3070/3080 均为 130W；ZOL 参考报价 16399 元，京东曾售 18599 元；90Wh、光轴机械键盘。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸5R|2021",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "魔霸5R",
+      "displayName": "ROG 魔霸5R 2021",
+      "modelYear": 2021,
+      "cpuOptions": [
+        "AMD 锐龙9 5900HX"
+      ],
+      "ramOptions": [
+        "16GB DDR4 3200MHz"
+      ],
+      "gpuOptions": [
+        "AMD Radeon RX 6800M 12GB"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 300Hz 3ms 100%sRGB FreeSync Premium"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/772/7727698.html",
+      "sourceTitle": "190W性能核弹释放信仰之力 ROG魔霸5R真香抢购 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2021-07（ZOL 商城页 shop.zol.com/shop_189529/38448246.html）。2021-07-15 首发开售 12999 元（中关村在线/热点科技 itheat.com/view/25671.html）；ROG×AMD 双 A 平台，CPU 90W，综合功耗 190W（手动模式），CPU/GPU 双液金；90Wh。同代魔霸5R Plus（17.3 英寸 2560x1440）约 13999 元，未单列。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神6|2022",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神6",
+      "displayName": "ROG 枪神6 2022",
+      "modelYear": 2022,
+      "cpuOptions": [
+        "Intel 酷睿i9 12900H",
+        "Intel 酷睿i7 12700H"
+      ],
+      "ramOptions": [
+        "16GB DDR5 4800MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3070Ti 8GB",
+        "NVIDIA GeForce RTX 3080Ti 16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 240Hz 100%DCI-P3 3ms 杜比视界"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/41373/param_10702143_0_1.html",
+      "sourceTitle": "ROG 枪神6配置 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2022-01（ZOL）。2022-02-10 开卖：枪神6 i9-12900H+RTX3070Ti 首发 14999 元、到手价 14999 元（m.zol.com.cn/article/7864572.html、nb.zol.com.cn/789/7890706.html），ZOL 参考报价 15499 元；RTX3070Ti 为 150W 满功耗，支持双显三模。RTX3080Ti 为枪神6 Plus 配置（22499 元），未单列。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神7",
+      "displayName": "ROG 枪神7 2023",
+      "modelYear": 2023,
+      "cpuOptions": [
+        "Intel 酷睿i9 13980HX"
+      ],
+      "ramOptions": [
+        "16GB DDR5 4800MHz",
+        "32GB DDR5 4800MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB",
+        "NVIDIA GeForce RTX 4080 12GB",
+        "NVIDIA GeForce RTX 4090 16GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits 100%DCI-P3 星云屏"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10736308_1.html",
+      "sourceTitle": "ROG 枪神7 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2023-02（ZOL）。2023-02-22 首发：枪神7（16 英寸）RTX4060 10999 元、RTX4070 13999 元（ithome.com/0/674/929.htm；中国日报报道到手价 11499 元起）；枪神7 Plus（18 英寸）12499/14999 元。RTX4060/4070 为 140W；超竞版（G634）RTX4080/4090 为 175W，ZOL 参考报价 17999/21999 元；冰川散热架构 3.0。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸7 Plus|2023",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "魔霸7 Plus",
+      "displayName": "ROG 魔霸7 Plus 2023",
+      "modelYear": 2023,
+      "cpuOptions": [
+        "AMD 锐龙9 7845HX"
+      ],
+      "ramOptions": [
+        "16GB DDR5 4800MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB"
+      ],
+      "storageOptions": [
+        "1TB PCIe 4.0 SSD"
+      ],
+      "screenOptions": [
+        "17.3英寸 2560x1440 240Hz 3ms 300nits 100%DCI-P3 杜比视界"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1481/1480278/index.html",
+      "sourceTitle": "ROG 魔霸7 Plus(R9 7845HX/16GB/1TB/RTX4060) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2023-03（ZOL）。2023-03-15 开售，首发价 9999 元（RTX4060）/11999 元（RTX4070）（nb.zol.com.cn/813/8138399.html，含华硕商城商品页链接）；ZOL 参考报价 10499/12999 元；140W 满功耗、双显三模；2.8kg。同代魔霸7 Plus 超能版（R9 7945HX+RTX4080/4090 175W）未单列。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神8|2024",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神8",
+      "displayName": "ROG 枪神8 2024",
+      "modelYear": 2024,
+      "cpuOptions": [
+        "Intel 酷睿i9 14900HX"
+      ],
+      "ramOptions": [
+        "16GB DDR5 5600MHz"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB",
+        "NVIDIA GeForce RTX 4080 12GB",
+        "NVIDIA GeForce RTX 4090 16GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits 100%DCI-P3 星云屏",
+        "16英寸 2560x1600 Mini LED 星云原画屏 2000+分区 1100nits"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1977457.shtml",
+      "sourceTitle": "ROG 枪神8(i9 14900HX/16GB/1TB/RTX4060) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2024-01（ZOL）；CES 2024 发布，京东开售 11499 元起（diy.zol.com.cn/850/8508075.html）；ZOL 参考报价 RTX4060 11999 元、RTX4070 13999 元；系列（枪神8/Plus）售价区间 11499-22999 元，至高 64GB DDR5 5600+4TB PCIe4.0、RTX4090；官方规格页 rog.asus.com.cn/laptops/rog-strix/rog-strix-g16-2024/spec/。枪神8 Plus/超竞版未单列。",
+      "category": "游戏本"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻14|2021",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "幻14",
+      "displayName": "ROG 幻14 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙9 5900HS"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3060 6GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1440 120Hz IPS 100%DCI-P3"
+      ],
+      "sourceUrl": "https://product.yesky.com/product/1155/1155626/param.shtml",
+      "sourceTitle": "ROG 幻14 2021(R9 5900HS/16GB/512GB/RTX3060)参数 - 天极产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "上市 2021-05（天极/PChome 产品库上市时间 2021-05-22）。16GB DDR4 3200MHz（8GB×2，板载 8GB + 1 插槽）、1.6kg、18.6mm、76Wh、100W PD 快充；首发价 10999 元（京东预约价 11999 元，6 月 1 日首发 10999 元，搜狐/电商报道）。同代另有幻14 经典版（无 LED 点阵）与幻14 星空版，配置相同、A 面不同，未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻16|2022",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "幻16",
+      "displayName": "ROG 幻16 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿i7 12700H",
+        "Intel 酷睿i9 12900H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3080Ti 16GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 500nits 100%DCI-P3 星云屏"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/602/253.htm",
+      "sourceTitle": "首发 9999 元，ROG 幻 16 2022 款今晚开售：i7-12700H + RTX 3060，2K 165Hz 屏 - IT之家",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022-01-25 发布、2022-02-10 0 点开售（IT之家）。i7-12700H+RTX 3060（120W）+16GB DDR5-4800+512GB PCIe4.0 首发 9999 元（日常价 11499 元）；2022-03-15 追加 i9-12900H+RTX 3080Ti 16GB+32GB DDR5+1TB 版本，首发 22999 元（百度百科）。90Wh、100W PD、2.5G 网口、雷电4。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻14 Air|2024",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "幻14 Air",
+      "displayName": "ROG 幻14 Air 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙9 8945HS"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz OLED 0.2ms 500nits"
+      ],
+      "sourceUrl": "https://rog.asus.com.cn/laptops/rog-zephyrus/rog-zephyrus-g14-2024/",
+      "sourceTitle": "ROG 玩家国度 幻14 Air GA403 - ROG 官网产品页",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024-01 发布会发布、2024-02-27 开售（电脑报/网易）。R9 8945HS+RTX 4050 6GB+16GB+1TB 首发 10499 元；R9 8945HS+RTX 4060 8GB+32GB+1TB 首发 12499 元（铂月白/日蚀灰）。1.5kg、15.9mm、CNC 铝合金、光线矩阵 A 面；官方规格页标注 RTX 4060、2880×1800 120Hz OLED。定位「专业性能轻薄本」，按游戏本归类。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻16 Air|2024",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "幻16 Air",
+      "displayName": "ROG 幻16 Air 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 9 185H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 100%DCI-P3 OLED 星云屏"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/IRAB7H2T05118EDB.html",
+      "sourceTitle": "ROG 幻 14/16 Air笔电开启预约抢购：专业性能轻薄本，首发10499元起 - 网易",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024-02 开售（网易/超能网）。Ultra 9 185H+RTX 4060 8GB+32GB+1TB 首发 13499 元；Ultra 9 185H+RTX 4070 8GB+32GB+1TB 首发 14999 元。1.85kg、14.9mm、90Wh、6 扬声器、杜比视界/全景声。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|冰刃7双屏|2023",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "冰刃7双屏",
+      "displayName": "ROG 冰刃7双屏 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙9 7945HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4070 8GB",
+        "NVIDIA GeForce RTX 4080 12GB",
+        "NVIDIA GeForce RTX 4090 16GB"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "4TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz Mini LED 1100nits + 14.1英寸 3840x1100 副屏"
+      ],
+      "sourceUrl": "https://news.qq.com/rain/a/20230313A03DM900",
+      "sourceTitle": "ROG冰刃7双屏游戏本上架：配备240Hz Mini-LED屏，起售价29999元 - 腾讯新闻",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023-02 发布、2023-03-15 首发（腾讯新闻/ZOL）。R9 7945HX（16 核 32 线程）+RTX 4070/4080/4090，最高 64GB DDR5-4800 + 4TB PCIe4.0，起售价 29999 元；顶配 RTX 4090+64GB+4TB 首发 54999 元。主屏 16 英寸 2560×1600 240Hz Mini LED 1024 分区 1100nits，副屏 14.1 英寸 3840×1100 触控（支持触控笔）。2.5kg、90Wh、100W PD。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸新锐|2024",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "魔霸新锐",
+      "displayName": "ROG 魔霸新锐 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿i9 13980HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4060 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 500nits 100%DCI-P3 星云屏"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/743/090.htm",
+      "sourceTitle": "10499 元，华硕 ROG 魔霸新锐 2024 游戏本上架：i9-13980HX + RTX 4060 - IT之家",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024-01-09 20:00 开售，首发到手价 10499 元（IT之家）。i9-13980HX（24 核 32 线程，CPU 单烤 135W）+RTX 4060 140W 满功耗+16GB DDR5+1TB PCIe4.0；整机 195W；预留内存插槽与 M.2，最高 64GB、支持 RAID 0。注意与「魔霸新锐 2023」（R9 7940HX 平台）区分，本行为 2024 款。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸6|2022",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "魔霸6",
+      "displayName": "ROG 魔霸6 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙9 6900HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3070Ti 8GB"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 3ms 100%DCI-P3"
+      ],
+      "sourceUrl": "https://rog.asus.com.cn/laptops/rog-strix/rog-strix-g15-2022-series/spec",
+      "sourceTitle": "ROG 魔霸6/魔霸新锐 (2022) 规格参数 - ROG 官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022-01-05 CES 发布、2022-02 开售（百度百科/ZOL）。R9 6900HX+RTX 3060 140W 版首发 11999 元；RTX 3070Ti 为 150W 满功耗。16GB DDR5-4800（单条，2×SO-DIMM，最高 64GB）、1TB PCIe4.0、90Wh、100W PD、Wi-Fi 6E+2.5G 网口。官网规格页含 G513RM/G513RW 多个 SKU 代码。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神9|2025",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神9",
+      "displayName": "ROG 枪神9 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5080 16GB",
+        "NVIDIA GeForce RTX 5090 24GB"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz 100%DCI-P3 Mini LED 1200nits"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html",
+      "sourceTitle": "ROG 枪神 9 / Plus 系列游戏本发布：最高可选酷睿 Ultra 9 275HX + RTX 5090 - 网易（转 IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025-02-25 ROG 2025 发布会发布并开启预约（网易/IT之家）。枪神9 超竞版（16 英寸）：U9-275HX+RTX 5080+32GB+1TB 日常价 24999 元（国补 22999 元）；U9-275HX+RTX 5090+32GB+1TB 日常价 29999 元（国补 27999 元）。整机 250W（CPU 75W+GPU 175W）、90Wh、双雷电5、Wi-Fi 7。本行合并记录枪神9 与枪神9 超竞版两个销售名，notes 已注明差异，如需严格拆分请见待核实表。"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神9 Plus|2025",
+      "productType": "笔记本电脑",
+      "brand": "ROG",
+      "model": "枪神9 Plus",
+      "displayName": "ROG 枪神9 Plus 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5070Ti 12GB",
+        "NVIDIA GeForce RTX 5080 16GB",
+        "NVIDIA GeForce RTX 5090 24GB"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600 240Hz 100%DCI-P3 500nits"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html",
+      "sourceTitle": "ROG 枪神 9 / Plus 系列游戏本发布：最高可选酷睿 Ultra 9 275HX + RTX 5090 - 网易（转 IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025-02-25 发布（网易/IT之家）。枪神9 Plus（18 英寸）：U9-275HX+RTX 5080+16GB+1TB 日常价 21999 元（国补 19999 元）；Plus 超竞版：RTX 5080+32GB+1TB 25999 元（国补 23999 元）、RTX 5090+64GB+2TB 33999 元（国补 31999 元）；RTX 5070Ti 版本价格待公布。250W 整机、90Wh、双雷电5。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选Air",
+      "displayName": "华硕 天选Air 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙7 8845H",
+        "AMD 锐龙 AI 9 HX 370"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 165Hz 400nits 100%sRGB"
+      ],
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/",
+      "sourceTitle": "华硕天选Air (2024) 规格参数 - 华硕官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024-07-22 发布、7 月开售（新华网/凤凰网）。天选家族首款 14 英寸：R7 8845H+RTX 4050+16GB+1TB 7299 元；R7 8845H+RTX 4060+16GB+1TB 7999 元；Ryzen AI 9 HX 370+RTX 4060+16GB+1TB 8999 元；HX 370+RTX 4060+32GB+1TB 9499 元。板载 LPDDR5X 7500（16GB 或 32GB，不可扩展）、1.46kg、16.9mm、73Wh、110W 整机释放。官网 techspec 含 FA401UU/UV/WV 三个型号代码。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "AMD 锐龙7 4800H",
+      "ram": "8GB",
+      "gpu": "NVIDIA GeForce GTX 1660Ti 6GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz IPS",
+      "sourceUrl": "https://nb.zol.com.cn/740/7403076.html",
+      "sourceTitle": "华硕天选游戏本首发：6299 元起 - 中关村在线",
+      "confidence": "high",
+      "notes": "首发价 6299 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "AMD 锐龙7 4800H",
+      "ram": "8GB",
+      "gpu": "NVIDIA GeForce RTX 2060 6GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz IPS",
+      "sourceUrl": "https://nb.zol.com.cn/740/7403076.html",
+      "sourceTitle": "华硕天选游戏本首发：6299 元起 - 中关村在线",
+      "confidence": "high",
+      "notes": "首发价 6599 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "AMD 锐龙9 5900HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3070 8GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%DCI-P3",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1384329.shtml",
+      "sourceTitle": "华硕天选2(R9 5900HX/16GB/512GB/RTX3060/165Hz) - 中关村在线",
+      "confidence": "high",
+      "notes": "2021-08-05 开售，首发价 9999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "AMD 锐龙7 4800H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3050Ti 4GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37546_1.html",
+      "sourceTitle": "华硕天选2 系列 - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "2021-09 在售，参考价 6699 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "Intel 酷睿i9 14900HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4070 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 400nits 100%sRGB",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1975420.shtml",
+      "sourceTitle": "华硕天选5 Pro(i9 14900HX/16GB/1TB/RTX4070) - 中关村在线",
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "cpu": "AMD 锐龙 AI 9 HX 370",
+      "ram": "",
+      "gpu": "NVIDIA GeForce RTX 5070 8GB",
+      "storage": "",
+      "screen": "16英寸 2560x1600 165Hz 400nits 100%sRGB",
+      "sourceUrl": "https://m.ithome.com/html/852566.htm",
+      "sourceTitle": "华硕推出新款天选 6 游戏本：锐龙 AI 9 HX 370 + RTX 5070，10499 元 - IT之家",
+      "confidence": "high",
+      "notes": "首发价 10499 元、国补价 8499 元；来源未逐项标注内存与存储容量，故留空"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神2|2018",
+      "cpu": "Intel 酷睿i7 8750H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce GTX 1070 8GB",
+      "storage": "256GB+1TB 混合硬盘(SSD+HDD)",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/tablepc/index1218113.shtml",
+      "sourceTitle": "ROG 枪神2 GL504GS8750(16GB/256GB+1TB) - 中关村在线",
+      "confidence": "high",
+      "notes": "参考报价 14999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神3|2019",
+      "cpu": "Intel 酷睿i7 9750H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 2060 6GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 240Hz 3ms",
+      "sourceUrl": "https://nb.zol.com.cn/717/7170046.html",
+      "sourceTitle": "ROG 枪神3 京东预售 - 中关村在线",
+      "confidence": "high",
+      "notes": "预售 16999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神3|2019",
+      "cpu": "Intel 酷睿i7 9750H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 2070 8GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 240Hz 3ms",
+      "sourceUrl": "https://nb.zol.com.cn/717/7170046.html",
+      "sourceTitle": "ROG 枪神3 京东预售 - 中关村在线",
+      "confidence": "high",
+      "notes": "预售 18999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸3|2019",
+      "cpu": "Intel 酷睿i7 9750H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce GTX 1660Ti 6GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz IPS",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1270668.shtml",
+      "sourceTitle": "ROG 魔霸3(i7 9750H/16GB/512GB/RTX2060) - 中关村在线",
+      "confidence": "high",
+      "notes": "市场价 9999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸3|2019",
+      "cpu": "Intel 酷睿i7 9750H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 2060 6GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz IPS",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1270668.shtml",
+      "sourceTitle": "ROG 魔霸3(i7 9750H/16GB/512GB/RTX2060) - 中关村在线",
+      "confidence": "high",
+      "notes": "参考报价 12999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神4|2020",
+      "cpu": "Intel 酷睿i7 10875H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 2070 Super 8GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 300Hz 3ms 100%sRGB",
+      "sourceUrl": "https://m.ithome.com/html/490187.htm",
+      "sourceTitle": "ROG 枪神 4 游戏本发布：8 核 i7-10875H + 300Hz 屏 - IT之家",
+      "confidence": "high",
+      "notes": "2020-06-11 开卖，到手价不高于 16999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神5|2021",
+      "cpu": "AMD 锐龙9 5900HX",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 3070 8GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 1920x1080 300Hz 3ms 100%sRGB",
+      "sourceUrl": "https://nb.zol.com.cn/761/7616990.html",
+      "sourceTitle": "ROG 枪神5 首发 - 中关村在线",
+      "confidence": "high",
+      "notes": "首发价 16999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸5R|2021",
+      "cpu": "AMD 锐龙9 5900HX",
+      "ram": "16GB",
+      "gpu": "AMD Radeon RX 6800M 12GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 300Hz 3ms 100%sRGB",
+      "sourceUrl": "https://nb.zol.com.cn/772/7727698.html",
+      "sourceTitle": "190W性能核弹释放信仰之力 ROG魔霸5R真香抢购 - 中关村在线",
+      "confidence": "high",
+      "notes": "2021-07-15 首发 12999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神6|2022",
+      "cpu": "Intel 酷睿i9 12900H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3070Ti 8GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 240Hz 100%DCI-P3",
+      "sourceUrl": "https://m.zol.com.cn/article/7864572.html",
+      "sourceTitle": "ROG 枪神6 开卖 - 中关村在线",
+      "confidence": "high",
+      "notes": "2022-02-10 首发 14999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "cpu": "Intel 酷睿i9 13980HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.ithome.com/0/674/929.htm",
+      "sourceTitle": "ROG 枪神 7 系列上架 - IT之家",
+      "confidence": "high",
+      "notes": "首发价 10999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "cpu": "Intel 酷睿i9 13980HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4070 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.ithome.com/0/674/929.htm",
+      "sourceTitle": "ROG 枪神 7 系列上架 - IT之家",
+      "confidence": "high",
+      "notes": "首发价 13999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "cpu": "Intel 酷睿i9 13980HX",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4080 12GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10736308_1.html",
+      "sourceTitle": "ROG 枪神7 超竞版 - 中关村在线",
+      "confidence": "high",
+      "notes": "参考报价 17999 元；超竞版 G634 配置，175W 显卡"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "cpu": "Intel 酷睿i9 13980HX",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4090 16GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10736308_1.html",
+      "sourceTitle": "ROG 枪神7 超竞版 - 中关村在线",
+      "confidence": "high",
+      "notes": "参考报价 21999 元；超竞版 G634 配置，175W 显卡"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸7 Plus|2023",
+      "cpu": "AMD 锐龙9 7845HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "17.3英寸 2560x1440 240Hz 300nits",
+      "sourceUrl": "https://nb.zol.com.cn/813/8138399.html",
+      "sourceTitle": "ROG 魔霸7 Plus 开售 - 中关村在线",
+      "confidence": "high",
+      "notes": "2023-03-15 首发 9999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸7 Plus|2023",
+      "cpu": "AMD 锐龙9 7845HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4070 8GB",
+      "storage": "1TB SSD",
+      "screen": "17.3英寸 2560x1440 240Hz 300nits",
+      "sourceUrl": "https://nb.zol.com.cn/813/8138399.html",
+      "sourceTitle": "ROG 魔霸7 Plus 开售 - 中关村在线",
+      "confidence": "high",
+      "notes": "2023-03-15 首发 11999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神8|2024",
+      "cpu": "Intel 酷睿i9 14900HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1977457.shtml",
+      "sourceTitle": "ROG 枪神8(i9 14900HX/16GB/1TB/RTX4060) - 中关村在线",
+      "confidence": "high",
+      "notes": "上市 11499 元起，参考报价 11999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神8|2024",
+      "cpu": "Intel 酷睿i9 14900HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4070 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1977457.shtml",
+      "sourceTitle": "ROG 枪神8(i9 14900HX/16GB/1TB/RTX4060) - 中关村在线",
+      "confidence": "high",
+      "notes": "参考报价 13999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻14|2021",
+      "cpu": "AMD 锐龙9 5900HS",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3060 6GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1440 120Hz 100%DCI-P3",
+      "sourceUrl": "https://www.sohu.com/a/466828065_223764",
+      "sourceTitle": "11999元起！ROG幻14新品上架：R9 5900HS+RTX3060 - 搜狐",
+      "confidence": "high",
+      "notes": "京东预约价 11999 元，2021-06-01 首发 10999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻14|2021",
+      "cpu": "AMD 锐龙9 5900HS",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3060 6GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1440 120Hz 100%DCI-P3",
+      "sourceUrl": "https://product.yesky.com/product/1155/1155624/",
+      "sourceTitle": "ROG 幻14 2021(R9 5900HS/16GB/1TB/RTX3060) - 天极产品库",
+      "confidence": "high",
+      "notes": "参考报价 14499 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻16|2022",
+      "cpu": "Intel 酷睿i7 12700H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3060 6GB",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz 500nits",
+      "sourceUrl": "https://www.ithome.com/0/602/253.htm",
+      "sourceTitle": "首发 9999 元，ROG 幻 16 2022 款今晚开售 - IT之家",
+      "confidence": "high",
+      "notes": "首发价 9999 元（日常价 11499 元）"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻16|2022",
+      "cpu": "Intel 酷睿i9 12900H",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 3080Ti 16GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz 500nits",
+      "sourceUrl": "https://baike.baidu.com/item/rog%20%E5%B9%BB16/59980534",
+      "sourceTitle": "ROG 幻16 - 百度百科",
+      "confidence": "high",
+      "notes": "2022-03-15 开售，首发价 22999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻14 Air|2024",
+      "cpu": "AMD 锐龙9 8945HS",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4050 6GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://www.163.com/dy/article/IRAB7H2T05118EDB.html",
+      "sourceTitle": "ROG 幻 14/16 Air笔电开启预约抢购 - 网易",
+      "confidence": "high",
+      "notes": "首发价 10499 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻14 Air|2024",
+      "cpu": "AMD 锐龙9 8945HS",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz OLED",
+      "sourceUrl": "https://www.163.com/dy/article/IRAB7H2T05118EDB.html",
+      "sourceTitle": "ROG 幻 14/16 Air笔电开启预约抢购 - 网易",
+      "confidence": "high",
+      "notes": "首发价 12499 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻16 Air|2024",
+      "cpu": "Intel 酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz OLED",
+      "sourceUrl": "https://www.163.com/dy/article/IRAB7H2T05118EDB.html",
+      "sourceTitle": "ROG 幻 14/16 Air笔电开启预约抢购 - 网易",
+      "confidence": "high",
+      "notes": "首发价 13499 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|幻16 Air|2024",
+      "cpu": "Intel 酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4070 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz OLED",
+      "sourceUrl": "https://www.163.com/dy/article/IRAB7H2T05118EDB.html",
+      "sourceTitle": "ROG 幻 14/16 Air笔电开启预约抢购 - 网易",
+      "confidence": "high",
+      "notes": "首发价 14999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|冰刃7双屏|2023",
+      "cpu": "AMD 锐龙9 7945HX",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4080 12GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz Mini LED + 14.1英寸 3840x1100",
+      "sourceUrl": "https://news.qq.com/rain/a/20230313A03DM900",
+      "sourceTitle": "ROG冰刃7双屏游戏本上架 - 腾讯新闻",
+      "confidence": "high",
+      "notes": "起售价 29999 元（2023-03-15 首发）"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|冰刃7双屏|2023",
+      "cpu": "AMD 锐龙9 7945HX",
+      "ram": "64GB",
+      "gpu": "NVIDIA GeForce RTX 4090 16GB",
+      "storage": "4TB SSD",
+      "screen": "16英寸 2560x1600 240Hz Mini LED + 14.1英寸 3840x1100",
+      "sourceUrl": "https://news.qq.com/rain/a/20230313A04HYH00",
+      "sourceTitle": "CPU、显卡、内存全都满配 ROG冰刃7双屏游戏本54999元首发 - 腾讯新闻",
+      "confidence": "high",
+      "notes": "首发价 54999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸新锐|2024",
+      "cpu": "Intel 酷睿i9 13980HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.ithome.com/0/743/090.htm",
+      "sourceTitle": "10499 元，华硕 ROG 魔霸新锐 2024 游戏本上架 - IT之家",
+      "confidence": "high",
+      "notes": "首发到手价 10499 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸6|2022",
+      "cpu": "AMD 锐龙9 6900HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3060 6GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%DCI-P3",
+      "sourceUrl": "https://baike.baidu.com/item/rog%E9%AD%94%E9%9C%B86/59804629",
+      "sourceTitle": "ROG魔霸6 - 百度百科",
+      "confidence": "high",
+      "notes": "首发价 11999 元（RTX 3060 140W）"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|魔霸6|2022",
+      "cpu": "AMD 锐龙9 6900HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 3070Ti 8GB",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz 100%DCI-P3",
+      "sourceUrl": "https://rog.asus.com.cn/laptops/rog-strix/rog-strix-g15-2022-series/spec",
+      "sourceTitle": "ROG 魔霸6/魔霸新锐 (2022) 规格参数 - ROG 官网",
+      "confidence": "high",
+      "notes": "官网规格页 G513RW 配置，150W RTX 3070Ti"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神9|2025",
+      "cpu": "Intel 酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 5080 16GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz Mini LED 1200nits",
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html",
+      "sourceTitle": "ROG 枪神 9 / Plus 系列游戏本发布 - 网易",
+      "confidence": "high",
+      "notes": "日常价 24999 元，国补价 22999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神9|2025",
+      "cpu": "Intel 酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 5090 24GB",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz Mini LED 1200nits",
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html",
+      "sourceTitle": "ROG 枪神 9 / Plus 系列游戏本发布 - 网易",
+      "confidence": "high",
+      "notes": "日常价 29999 元，国补价 27999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神9 Plus|2025",
+      "cpu": "Intel 酷睿 Ultra 9 275HX",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 5080 16GB",
+      "storage": "1TB SSD",
+      "screen": "18英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html",
+      "sourceTitle": "ROG 枪神 9 / Plus 系列游戏本发布 - 网易",
+      "confidence": "high",
+      "notes": "日常价 21999 元，国补价 19999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|ROG|枪神9 Plus|2025",
+      "cpu": "Intel 酷睿 Ultra 9 275HX",
+      "ram": "64GB",
+      "gpu": "NVIDIA GeForce RTX 5090 24GB",
+      "storage": "2TB SSD",
+      "screen": "18英寸 2560x1600 240Hz 500nits",
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html",
+      "sourceTitle": "ROG 枪神 9 / Plus 系列游戏本发布 - 网易",
+      "confidence": "high",
+      "notes": "日常价 34999 元，国补价 31999 元；枪神9 Plus 超竞版"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "AMD 锐龙7 8845H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4050 6GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz 400nits",
+      "sourceUrl": "https://www.163.com/dy/article/J7PB233005118EDB.html",
+      "sourceTitle": "华硕发布天选Air 2024笔记本 - 网易",
+      "confidence": "high",
+      "notes": "首发价 7299 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "AMD 锐龙7 8845H",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz 400nits",
+      "sourceUrl": "https://www.163.com/dy/article/J7PB233005118EDB.html",
+      "sourceTitle": "华硕发布天选Air 2024笔记本 - 网易",
+      "confidence": "high",
+      "notes": "首发价 7999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "AMD 锐龙 AI 9 HX 370",
+      "ram": "16GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz 400nits",
+      "sourceUrl": "https://www.163.com/dy/article/J7PB233005118EDB.html",
+      "sourceTitle": "华硕发布天选Air 2024笔记本 - 网易",
+      "confidence": "high",
+      "notes": "首发价 8999 元"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "AMD 锐龙 AI 9 HX 370",
+      "ram": "32GB",
+      "gpu": "NVIDIA GeForce RTX 4060 8GB",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz 400nits",
+      "sourceUrl": "https://www.163.com/dy/article/J7PB233005118EDB.html",
+      "sourceTitle": "华硕发布天选Air 2024笔记本 - 网易",
+      "confidence": "high",
+      "notes": "首发价 9499 元"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "华硕天选",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "天选FA506",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "型号代码",
+      "note": "FA506IU/FA506IV 等子型号"
+    },
+    {
+      "alias": "TUF Gaming F15/A15",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "英文名",
+      "note": "海外同代系列名"
+    },
+    {
+      "alias": "华硕天选2",
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "华硕天选3",
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "华硕天选4",
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "华硕天选5",
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "天选5Pro",
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "华硕天选6",
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "华硕天选7",
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "天选7Pro",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "天选7 ProMax",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "华硕天选Air",
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "TUF Gaming A14",
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "aliasType": "英文名",
+      "note": "2024 款 14 英寸"
+    },
+    {
+      "alias": "ROG枪神2",
+      "modelKey": "笔记本电脑|ROG|枪神2|2018",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "STRIX SCAR II",
+      "modelKey": "笔记本电脑|ROG|枪神2|2018",
+      "aliasType": "英文名",
+      "note": ""
+    },
+    {
+      "alias": "ROG枪神3",
+      "modelKey": "笔记本电脑|ROG|枪神3|2019",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "ROG枪神4",
+      "modelKey": "笔记本电脑|ROG|枪神4|2020",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "ROG枪神5",
+      "modelKey": "笔记本电脑|ROG|枪神5|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "ROG枪神6",
+      "modelKey": "笔记本电脑|ROG|枪神6|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "ROG枪神7",
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "枪神7 超竞版",
+      "modelKey": "笔记本电脑|ROG|枪神7|2023",
+      "aliasType": "销售名称",
+      "note": "G634，RTX4080/4090 175W 版本"
+    },
+    {
+      "alias": "ROG枪神8",
+      "modelKey": "笔记本电脑|ROG|枪神8|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "ROG枪神9",
+      "modelKey": "笔记本电脑|ROG|枪神9|2025",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "枪神9 超竞版",
+      "modelKey": "笔记本电脑|ROG|枪神9|2025",
+      "aliasType": "销售名称",
+      "note": "16 英寸光显矩阵版"
+    },
+    {
+      "alias": "枪神9Plus",
+      "modelKey": "笔记本电脑|ROG|枪神9 Plus|2025",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "ROG魔霸3",
+      "modelKey": "笔记本电脑|ROG|魔霸3|2019",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "魔霸5R",
+      "modelKey": "笔记本电脑|ROG|魔霸5R|2021",
+      "aliasType": "常见搜索写法",
+      "note": "ROG×AMD 双 A 平台"
+    },
+    {
+      "alias": "ROG魔霸6",
+      "modelKey": "笔记本电脑|ROG|魔霸6|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "魔霸7Plus",
+      "modelKey": "笔记本电脑|ROG|魔霸7 Plus|2023",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "ROG魔霸新锐",
+      "modelKey": "笔记本电脑|ROG|魔霸新锐|2024",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "魔霸新锐2024",
+      "modelKey": "笔记本电脑|ROG|魔霸新锐|2024",
+      "aliasType": "年份写法",
+      "note": ""
+    },
+    {
+      "alias": "ROG幻14",
+      "modelKey": "笔记本电脑|ROG|幻14|2021",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Zephyrus G14",
+      "modelKey": "笔记本电脑|ROG|幻14|2021",
+      "aliasType": "英文名",
+      "note": ""
+    },
+    {
+      "alias": "ROG幻16",
+      "modelKey": "笔记本电脑|ROG|幻16|2022",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Zephyrus G16",
+      "modelKey": "笔记本电脑|ROG|幻16|2022",
+      "aliasType": "英文名",
+      "note": ""
+    },
+    {
+      "alias": "幻14Air",
+      "modelKey": "笔记本电脑|ROG|幻14 Air|2024",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "Zephyrus G14 Air",
+      "modelKey": "笔记本电脑|ROG|幻14 Air|2024",
+      "aliasType": "英文名",
+      "note": ""
+    },
+    {
+      "alias": "幻16Air",
+      "modelKey": "笔记本电脑|ROG|幻16 Air|2024",
+      "aliasType": "无空格简称",
+      "note": ""
+    },
+    {
+      "alias": "ROG冰刃7",
+      "modelKey": "笔记本电脑|ROG|冰刃7双屏|2023",
+      "aliasType": "常见搜索写法",
+      "note": ""
+    },
+    {
+      "alias": "Zephyrus Duo 16",
+      "modelKey": "笔记本电脑|ROG|冰刃7双屏|2023",
+      "aliasType": "英文名",
+      "note": ""
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "2016-2017 ROG 国行早期型号（GFX/GL502/GL702 等）",
+      "issue": "未检索到国行「枪神/魔霸」命名与 2016-2017 上市年份的可访问一手来源，仅有海外型号资料。",
+      "suggestion": "如确需 2016-2017 游戏本，请以华硕中国官网存档页或当年国行发布会报道核实命名后再收录。",
+      "sourceUrl": ""
+    },
+    {
+      "model": "天选3 Plus / 天选3 Air",
+      "issue": "2022-02 与天选3 同场发布，但未找到独立可访问规格页，配置与天选3 高度重叠。",
+      "suggestion": "以华硕官网 FA507/FA517 系列 techspec 核实后单独收录；暂不并入天选3。",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37546_1.html"
+    },
+    {
+      "model": "天选4 Plus / 天选4R",
+      "issue": "天选4 的衍生型号（17.3 英寸 360Hz；R7 7735H+RX7600S），仅有媒体报价 9499/7499 元，缺独立规格页。",
+      "suggestion": "补充官网 techspec 或京东自营 SKU 页后单独收录，不要与天选4 合并。",
+      "sourceUrl": "https://wap.zol.com.cn/1467/1466071/index.html"
+    },
+    {
+      "model": "天选6 Pro",
+      "issue": "i7-14650HX/Ultra 9 275HX + RTX5060/5070 版本，未找到独立规格页，仅出现在媒体汇总中。",
+      "suggestion": "以华硕官网 2025 款 techspec 核实后收录。",
+      "sourceUrl": "https://m.ithome.com/html/852566.htm"
+    },
+    {
+      "model": "枪神4 Plus / 枪神6 Plus / 枪神8 Plus / 枪神8 超竞版",
+      "issue": "与标准版同年发布的大屏或高配变体，配置和价格散见于媒体，缺独立可访问规格页；本目录仅在标准版 notes 中记录，未单列。",
+      "suggestion": "如采购需要 17.3/18 英寸版本，请按官网规格页单独建档。",
+      "sourceUrl": ""
+    },
+    {
+      "model": "魔霸5R Plus / 魔霸7 Plus 超能版",
+      "issue": "同上：衍生高配版本，媒体价 13999 元/未标价，缺独立规格页。",
+      "suggestion": "补充官网规格页后单独收录。",
+      "sourceUrl": ""
+    },
+    {
+      "model": "魔霸新锐 2023",
+      "issue": "2023 款为 R9 7940HX 平台，与 2024 款（i9-13980HX）为不同机型；本次仅收录 2024 款，2023 款缺可靠规格页。",
+      "suggestion": "以 ROG 官网 2023 款规格页核实后补录，注意不要与 2024 款合并。",
+      "sourceUrl": ""
+    },
+    {
+      "model": "枪神7 Plus",
+      "issue": "18 英寸版本，媒体价 12499/14999 元，但未找到独立规格页；与枪神7 同代不同尺寸。",
+      "suggestion": "如需 18 英寸，按官网 G834 规格页单独建档。",
+      "sourceUrl": "https://www.ithome.com/0/674/929.htm"
+    },
+    {
+      "model": "幻16 2023 / 幻14 2023 / 幻13 系列",
+      "issue": "2023 款幻系列（含星空版、翻转版）未在本轮检索到稳定规格页，暂未收录。",
+      "suggestion": "以 ROG 官网 2023 款产品页核实后补录；2023 与 2024 款模具不同，不要合并。",
+      "sourceUrl": ""
+    },
+    {
+      "model": "枪神9 与枪神9 超竞版 的 SKU 边界",
+      "issue": "媒体与电商常把 16 英寸的枪神9 与枪神9 超竞版混用；两者 A 面光显矩阵与部分配置不同。本目录合并为「枪神9」并在 notes 说明。",
+      "suggestion": "导入前确认采购实物是否为超竞版；如需严格区分，请拆分并补充各自规格页。",
+      "sourceUrl": "https://www.163.com/dy/article/JPB4DTQ00511CEBF.html"
+    }
+  ]
+}

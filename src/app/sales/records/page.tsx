@@ -15,7 +15,7 @@ type Movement = {id:string;inventoryId:string;sn:string;createdAt:string;movemen
 type Detail = {order:SalesOrder;afterSales:AfterSale[];movements:Movement[]};
 const emptyFilters: SalesFilters = {search:'',dateFrom:'',dateTo:'',channel:'',warehouseId:'',status:''};
 const money = (value:number) => `¥${Number(value || 0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
-const movementNames: Record<string,string> = {sale:'销售出库',sale_cancel:'销售撤销',purchase_in:'采购入库',purchase_inbound:'采购入库',opening_balance:'历史初始化',exchange_in:'换货原机入库',exchange_out:'换货替换机交付',customer_return:'客户退货入库',after_sale_received:'售后收到',after_sale_receive:'售后收到',after_sale_created:'售后登记',after_sale_repair:'维修完成',transfer_out:'调拨出库',transfer_in:'调拨入库',rental_out:'租赁出库',rental_return:'租赁归还'};
+const movementNames: Record<string,string> = {asset_change:'资产配置变更',sale:'销售出库',sale_cancel:'销售撤销',purchase_in:'采购入库',purchase_inbound:'采购入库',opening_balance:'历史初始化',exchange_in:'换货原机入库',exchange_out:'换货替换机交付',customer_return:'客户退货入库',after_sale_received:'售后收到',after_sale_receive:'售后收到',after_sale_created:'售后登记',after_sale_repair:'维修完成',transfer_out:'调拨出库',transfer_in:'调拨入库',rental_out:'租赁出库',rental_return:'租赁归还'};
 const resolutionNames: Record<string,string> = {repair:'维修',exchange:'换货',customer_return:'退货退款'};
 const afterSaleStatuses: Record<string,string> = {created:'待收机',received:'已收机',processing:'处理中',resolved:'已完成',cancelled:'已取消'};
 function Status({value}:{value:string}) { return <span className={`inline-flex whitespace-nowrap rounded-full px-2 py-1 text-[11px] ${value === 'cancelled'?'bg-ink-soft/10 text-ink-soft':'bg-success/10 text-success'}`}>{value === 'cancelled'?'已撤销':'有效销售'}</span>; }
