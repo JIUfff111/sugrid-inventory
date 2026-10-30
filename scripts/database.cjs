@@ -568,7 +568,6 @@ function seedDatabase(db) {
 
 }
 
-
 function applyVersionedMigrations(db) {
   db.exec(`CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, name TEXT NOT NULL, appliedAt TEXT NOT NULL DEFAULT (datetime('now')))`);
   const migrate = (version, name, run) => {
@@ -708,6 +707,39 @@ function applyVersionedMigrations(db) {
       ON purchase_items(recordedBy, skuId, deleted);
     `);
   });
+  migrate(9, 'separate manually maintained SKU catalog', () => {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS manual_skus (
+        id TEXT PRIMARY KEY,
+        productType TEXT NOT NULL,
+        brand TEXT NOT NULL,
+        model TEXT NOT NULL,
+        year INTEGER,
+        isActive INTEGER NOT NULL DEFAULT 1,
+        deleted INTEGER NOT NULL DEFAULT 0,
+        createdBy TEXT,
+        updatedBy TEXT,
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        updatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        FOREIGN KEY (createdBy) REFERENCES users(id),
+        FOREIGN KEY (updatedBy) REFERENCES users(id)
+      );
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_manual_skus_identity
+        ON manual_skus(productType, lower(trim(brand)), lower(trim(model)), COALESCE(year, 0))
+        WHERE deleted = 0;
+      CREATE INDEX IF NOT EXISTS idx_manual_skus_active
+        ON manual_skus(isActive, productType, brand, model)
+        WHERE deleted = 0;
+    `);
+    add('purchase_items', 'manualSkuId', 'TEXT REFERENCES manual_skus(id)');
+    add('inventory', 'manualSkuId', 'TEXT REFERENCES manual_skus(id)');
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_purchase_items_manual_sku
+        ON purchase_items(manualSkuId, deleted);
+      CREATE INDEX IF NOT EXISTS idx_inventory_manual_sku
+        ON inventory(manualSkuId, deleted);
+    `);
+  });
   migrate(10, 'normalize built-in SKU option labels', () => {
     const rows = db.prepare('SELECT id, cpuOptions, gpuOptions, screenOptions FROM skus').all();
     const update = db.prepare(`
@@ -750,6 +782,50 @@ function applyVersionedMigrations(db) {
     }
     console.log(`SKU 配置格式升级：已清洗 ${changed} 条型号记录；保留 ${skippedFields} 个异常字段供核查`);
   });
+  migrate(11, 'system data management audit and inventory deletion metadata', () => {
+    add('inventory', 'deletedAt', 'TEXT');
+    add('inventory', 'deletedBy', 'TEXT');
+    add('inventory', 'deletionReason', 'TEXT');
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS data_management_audit (
+        id TEXT PRIMARY KEY,
+        actorId TEXT NOT NULL,
+        action TEXT NOT NULL,
+        resource TEXT NOT NULL,
+        recordId TEXT,
+        recordCount INTEGER NOT NULL DEFAULT 0,
+        fileName TEXT,
+        fileSha256 TEXT,
+        summary TEXT,
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        FOREIGN KEY (actorId) REFERENCES users(id)
+      );
+      CREATE INDEX IF NOT EXISTS idx_data_management_audit_time
+        ON data_management_audit(createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_data_management_audit_resource
+        ON data_management_audit(resource, action, createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_inventory_deleted_time
+        ON inventory(deleted, deletedAt);
+    `);
+  });
+  migrate(12, 'stable ids for user warehouse permissions', () => {
+    if (!db.pragma('table_info(user_warehouses)').some(row => row.name === 'id')) {
+      db.exec('ALTER TABLE user_warehouses ADD COLUMN id TEXT');
+      const rows = db.prepare('SELECT userId, warehouseId FROM user_warehouses WHERE id IS NULL').all();
+      const update = db.prepare('UPDATE user_warehouses SET id = ? WHERE userId = ? AND warehouseId = ?');
+      for (const row of rows) update.run('uw_' + Buffer.from(row.userId + '|' + row.warehouseId).toString('base64url'), row.userId, row.warehouseId);
+    }
+    db.exec(`
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_user_warehouses_id ON user_warehouses(id);
+      CREATE TRIGGER IF NOT EXISTS user_warehouses_assign_id AFTER INSERT ON user_warehouses
+      WHEN NEW.id IS NULL
+      BEGIN
+        UPDATE user_warehouses SET id = 'uw_' || hex(NEW.userId || '|' || NEW.warehouseId)
+        WHERE userId = NEW.userId AND warehouseId = NEW.warehouseId AND id IS NULL;
+      END;
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };
+

@@ -15,7 +15,7 @@ import Toast from '@/components/Toast';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
-import { formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
 interface PurchaseOrder {
   id: string;
@@ -34,6 +34,7 @@ interface PurchaseOrder {
 interface MachineItem {
   id: string;
   skuId?: string;
+  manualSkuId?: string;
   productType: string;
   brand: string;
   model: string;
@@ -517,6 +518,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           ...item,
           id: item.id || `loaded_${index}_${Date.now()}`,
           skuId: item.skuId || undefined,
+          manualSkuId: item.manualSkuId || undefined,
           productType: item.productType || '笔记本电脑',
           brand: item.brand || '',
           model: item.model || '',
@@ -936,9 +938,9 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                         </span>
                       </div>
                       <div className="text-[12px] text-ink-soft space-y-1">
-                        <div>{item.cpu} / {item.ram} / {item.storage}</div>
+                        <div>{formatCPUDisplay(item.cpu)} / {item.ram} / {item.storage}</div>
                         <div className="flex flex-wrap gap-2">
-                          {item.screen && <span>屏幕: {item.screen}</span>}
+                          {item.screen && <span>屏幕: {formatScreenDisplay(item.screen)}</span>}
                           {item.gpu && <span>显卡: {formatGPUDisplay(item.gpu)}</span>}
                           {item.touchScreen !== undefined && (
                             <span>触屏: {item.touchScreen ? '是' : '否'}</span>
@@ -1010,6 +1012,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                               value={editingMachineDraft[field] as string}
                               onChange={(event) => updateEditingMachineDraft(field, event.target.value)}
                               placeholder={placeholder}
+                              readOnly={Boolean(editingMachineDraft.manualSkuId && ['productType', 'brand', 'model'].includes(field))}
                               className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                             />
                           </label>
@@ -1022,11 +1025,13 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                             max="2100"
                             value={editingMachineDraft.year || ''}
                             onChange={(event) => updateEditingMachineDraft('year', event.target.value ? Number(event.target.value) : undefined)}
+                            readOnly={Boolean(editingMachineDraft.manualSkuId)}
                             placeholder="如：2020（可选）"
                             className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                           />
                         </label>
                       </div>
+                      {editingMachineDraft.manualSkuId && <p className="text-[11px] text-ink-soft">品牌、型号与年份由独立手工 SKU 库管理；如需修改，请到手工 SKU 库更新档案。</p>}
 
                       <div>
                         <span className="block text-[12px] font-medium text-ink-deep mb-1.5">触屏</span>
@@ -1231,3 +1236,4 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     </>
   );
 }
+

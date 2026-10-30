@@ -21,7 +21,7 @@ import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
 import { formatProductName } from '@/lib/product-name';
-import { formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
 type InventoryItem = {
   id: string;
@@ -106,7 +106,7 @@ async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 function machineSummary(item: InventoryItem | ReturnItem) {
-  const config = [item.cpu, item.ram, formatGPUDisplay(item.gpu), item.storage, item.screen].filter(Boolean).join(' / ');
+  const config = [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, formatScreenDisplay(item.screen)].filter(Boolean).join(' / ');
   return config || '配置待补充';
 }
 
@@ -385,3 +385,4 @@ function StatTile({ icon, label, value, tone }: { icon: ReactNode; label: string
 function DetailTile({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return <div className="rounded-xl border border-line/70 bg-white/40 px-3 py-3"><div className="flex items-center gap-2 text-xs text-ink-soft">{icon}{label}</div><p className="mt-2 truncate text-sm font-medium text-ink-deep">{value}</p></div>;
 }
+

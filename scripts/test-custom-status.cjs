@@ -19,7 +19,7 @@ async function main() {
     const database=load('src/lib/db.ts');db=database.default;let token;
     const api=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':api,'next/headers':{cookies:async()=>({get:()=>token?{value:token}:undefined})}});
-    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);
+    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});
     const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/analysis','inventory/movements'];
     const routes=Object.fromEntries(names.map(name=>[name,load(`src/app/api/${name}/route.ts`,deps)]));
     async function call(name,method,body,expected=200,query='') {
@@ -112,3 +112,4 @@ async function main() {
   }
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
+

@@ -9,7 +9,7 @@ import { Plus, Trash2, X, Check } from 'lucide-react';
 import Toast from '@/components/Toast';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
-import { formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
 interface BatchInputProps {
   presetConfig?: {
@@ -197,7 +197,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   </div>
                   <div>
                     <span className="text-ink-soft">CPU：</span>
-                    <span className="font-medium text-ink-deep">{presetConfig.cpu}</span>
+                    <span className="font-medium text-ink-deep">{formatCPUDisplay(presetConfig.cpu)}</span>
                   </div>
                   <div>
                     <span className="text-ink-soft">内存：</span>
@@ -216,7 +216,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   {presetConfig.screen && (
                     <div>
                       <span className="text-ink-soft">屏幕：</span>
-                      <span className="font-medium text-ink-deep">{presetConfig.screen}</span>
+                      <span className="font-medium text-ink-deep">{formatScreenDisplay(presetConfig.screen)}</span>
                     </div>
                   )}
                   <div>
@@ -580,3 +580,4 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     </>
   );
 }
+

@@ -168,6 +168,13 @@ export default function TopNav({ user }: { user: SessionUser }) {
     return false;
   };
 
+  const visibleNav = NAV.map(item => {
+    const children = item.label === '设置' && user.isSystemAccount
+      ? [...(item.children || []), { label: '数据管理', href: '/settings/data', icon: 'M4 4h16v16H4zM8 8h8M8 12h8M8 16h5' }]
+      : item.children || [];
+    return { ...item, children: children.filter(child => canVisit(user.role, child.href)) };
+  });
+
   return (
     <nav
       ref={navRef}
@@ -188,7 +195,7 @@ export default function TopNav({ user }: { user: SessionUser }) {
           {/* 主导航 */}
           <div className="flex shrink-0 items-center gap-0.5 lg:gap-1">
             {user.role === 'admin' && <Link href="/" aria-current={pathname === '/' ? 'page' : undefined} className={`flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-2 text-[12px] font-medium transition-colors lg:gap-2 lg:px-3 lg:text-[13px] ${pathname === '/' ? 'bg-primary/8 text-primary' : 'text-ink hover:bg-white/60 hover:text-ink-deep'}`}><House className="h-4 w-4" /><span>首页</span></Link>}
-            {NAV.map(item => ({ ...item, children: item.children?.filter(child => canVisit(user.role, child.href)) })).filter(item => item.children?.length).map((item) => {
+            {visibleNav.filter(item => item.children?.length).map((item) => {
               const active = isActive(item);
               const children = item.children ?? [];
               const hasChildren = children.length > 0;
@@ -357,3 +364,4 @@ export default function TopNav({ user }: { user: SessionUser }) {
     </nav>
   );
 }
+
