@@ -7,16 +7,22 @@
 在项目目录执行：
 
 ```powershell
-npm install
+npm ci
+npm run db:init
 npm run dev -- --hostname 0.0.0.0 --port 3000
 ```
 
-生产运行先完成构建：
+生产部署或更新源码时，先停止原服务，再逐条执行；每条成功后才继续下一条：
 
 ```powershell
+git pull origin main
+npm ci
+npm run db:init
 npm run build
 npm run start -- --hostname 0.0.0.0 --port 3000
 ```
+
+`npm start` 只启动已有的生产构建。`.next` 不随 Git 分发；首次安装、更新源码或清理构建目录后都需要先完成 `npm run build`。如果出现 `Could not find a production build`，先查看构建是否成功，不需要删除数据库。
 
 本机访问 `http://127.0.0.1:3000`，局域网访问 `http://服务器局域网IP:3000`。局域网访问需要主机防火墙允许相应端口。
 
