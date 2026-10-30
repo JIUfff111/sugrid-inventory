@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import LabelCanvas, { labelDimensions, type CanvasElement, type CanvasField } from '@/components/LabelCanvas';
 import { useWorkspace } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
+import { createPrintJobId } from '@/lib/print-job-id';
 import { formatCPUDisplay, formatGPUDisplay } from '@/lib/sku-display';
 
 type PrintTemplate = {
@@ -79,7 +80,7 @@ export function useInventoryLabelPrinter() {
       }
       if (collected.size !== wanted.size) throw new Error('部分入库机器未找到，请在库存清单重新选择后打印');
       if (!activeRef.current) throw new Error('打印已暂停，请返回此标签后重试');
-      setJob({ id: crypto.randomUUID(), template, items: ids.map((id) => collected.get(id)!) });
+      setJob({ id: createPrintJobId(), template, items: ids.map((id) => collected.get(id)!) });
       await document.fonts.ready;
       const deadline = performance.now() + 10000;
       while (true) {

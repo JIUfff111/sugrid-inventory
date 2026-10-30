@@ -21,6 +21,7 @@ import {
 import CustomSelect from '@/components/CustomSelect';
 import LabelCanvas, { labelDimensions as dimensions, labelFieldBox } from '@/components/LabelCanvas';
 import { formatProductName } from '@/lib/product-name';
+import { createPrintJobId } from '@/lib/print-job-id';
 import { formatCPUDisplay, formatGPUDisplay } from '@/lib/sku-display';
 
 type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate';
@@ -376,7 +377,7 @@ export default function PrintLabelsPage() {
     }
     const saved = await saveDraft();
     if (!saved) return;
-    const params = new URLSearchParams({ ids: sample.id, templateId: saved.id, autoPrint: '1', printJob: crypto.randomUUID() });
+    const params = new URLSearchParams({ ids: sample.id, templateId: saved.id, autoPrint: '1', printJob: createPrintJobId() });
     router.push(`/settings/print/preview?${params.toString()}`);
   };
 
