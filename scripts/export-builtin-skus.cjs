@@ -1,6 +1,7 @@
 const Database = require('better-sqlite3');
 const fs = require('node:fs');
 const path = require('node:path');
+const { normalizeCatalog } = require('./sku-catalog/normalize-options.cjs');
 
 const args = process.argv.slice(2);
 const getArg = (name) => {
@@ -57,7 +58,7 @@ try {
   });
 
   if (!skus.length) throw new Error('No active SKU rows found.');
-  const catalog = { schemaVersion: 1, skus };
+  const catalog = normalizeCatalog({ schemaVersion: 1, skus });
   if (write) {
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, `${JSON.stringify(catalog, null, 2)}\n`, 'utf8');

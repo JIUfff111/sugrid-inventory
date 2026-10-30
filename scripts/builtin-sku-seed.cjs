@@ -1,5 +1,6 @@
 const { createHash } = require('node:crypto');
 const catalog = require('./sku-catalog/builtin-sku-catalog.json');
+const { normalizeSku } = require('./sku-catalog/normalize-options.cjs');
 
 /** Load the tracked public model catalog only into an empty built-in SKU table. */
 function seedBuiltinSkus(db) {
@@ -18,7 +19,8 @@ function seedBuiltinSkus(db) {
     if (existingCount > 0) return 0;
 
     let inserted = 0;
-    for (const sku of catalog.skus) {
+    for (const sourceSku of catalog.skus) {
+      const sku = normalizeSku(sourceSku);
       const identity = JSON.stringify([sku.productType, sku.brand, sku.model, sku.year]);
       const id = `builtin_sku_${createHash('sha256').update(identity).digest('hex').slice(0, 24)}`;
       inserted += insert.run(
