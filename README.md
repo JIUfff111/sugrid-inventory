@@ -12,15 +12,23 @@ npm run db:init
 npm run dev -- --hostname 0.0.0.0 --port 3000
 ```
 
-生产部署或更新源码时，先停止原服务，再逐条执行；每条成功后才继续下一条：
+生产部署或更新源码时，先停止原服务。下面的 Git Bash / Bash 命令使用 `&&`，任一步失败都会停止后续安装、构建和启动：
 
-```powershell
-git pull origin main
-npm ci
-npm run db:init
-npm run build
+```bash
+git pull --ff-only origin main &&
+npm ci &&
+npm run db:init &&
+npm run build &&
 npm run start -- --hostname 0.0.0.0 --port 3000
 ```
+
+如果更新提示本地 `package-lock.json` 将被覆盖，先备份它，再重新执行上面的更新命令：
+
+```bash
+git stash push -m "backup-lock-before-update" -- package-lock.json
+```
+
+该备份会保留在 `git stash list` 中；更新后使用仓库的新锁文件，不需要重新应用旧锁文件。不要删除数据库或使用 `git reset --hard` 来解决锁文件冲突。Windows PowerShell 5 不支持 `&&`，可以使用 Git Bash 执行此流程，或手动逐条检查命令退出结果。
 
 `npm start` 只启动已有的生产构建。`.next` 不随 Git 分发；首次安装、更新源码或清理构建目录后都需要先完成 `npm run build`。如果出现 `Could not find a production build`，先查看构建是否成功，不需要删除数据库。
 

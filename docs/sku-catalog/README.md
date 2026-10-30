@@ -12,15 +12,17 @@
 
 目录快照位于 `scripts/sku-catalog/builtin-sku-catalog.json`，只包含产品类型、品牌、型号、年份及按界面短格式清洗后的 CPU、内存、显卡、存储和屏幕选项，不包含数据库 ID、价格、创建人、库存和采购/销售数据。首次初始化空数据库时，`npm run db:init` 和应用服务会自动加载；已有数据库运行 `npm run db:init` 时会幂等清洗已有 SKU 的配置字段，不覆盖型号、库存或业务记录。原始长描述仍保留在 `01-deliverables/` 交付资料中供核验。
 
-已有安装升级时，先停止服务，再逐条运行以下生产部署命令；每条成功后才继续下一条，无需删除 `data/inventory.db`：
+已有安装升级时，先停止服务，在 Git Bash / Bash 中运行以下生产部署命令；`&&` 保证任一步失败时停止，无需删除 `data/inventory.db`：
 
-```powershell
-git pull origin main
-npm ci
-npm run db:init
-npm run build
+```bash
+git pull --ff-only origin main &&
+npm ci &&
+npm run db:init &&
+npm run build &&
 npm run start -- --hostname 0.0.0.0 --port 3000
 ```
+
+如果 Git 提示本地 `package-lock.json` 会被覆盖，先执行 `git stash push -m "backup-lock-before-update" -- package-lock.json` 保存旧锁，再重试上面的命令。旧锁保留在 stash 中，不要重新覆盖仓库的新锁。PowerShell 5 用户请使用 Git Bash 执行此命令链。
 
 第 10 版迁移会输出清洗的型号记录数量，并在完成时显示实际数据库路径（如设置了 `INVENTORY_DB_PATH`，以该路径为准）。它只改 SKU 的 CPU、显卡、屏幕选项及变更时间，不覆盖型号身份、价格、采购销售快照和库存。无法解析的 JSON 或未知屏幕描述保留原值。`db:init` 不生成生产构建；出现 `Could not find a production build` 时，需要先成功执行 `npm run build`，再启动。
 
