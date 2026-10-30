@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight, Search, Check, Plus, TrendingUp, X } from 'lucide-react';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
-import { formatCPUDisplay, formatGPUDisplay, getSKUProductType, uniqueCPUOptions, uniqueGPUOptions } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, uniqueCPUOptions, uniqueGPUOptions, uniqueScreenOptions } from '@/lib/sku-display';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
 import { formatProductName } from '@/lib/product-name';
 
@@ -280,11 +280,11 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
 
     onSelect({
       sku: selectedSKU,
-      cpu: selectedCpu,
+      cpu: formatCPUDisplay(selectedCpu),
       ram: selectedRam,
-      gpu: selectedGpu,
+      gpu: formatGPUDisplay(selectedGpu),
       storage: selectedStorage,
-      screen: selectedScreen,
+      screen: formatScreenDisplay(selectedScreen),
       touchScreen: selectedTouchScreen ?? undefined, // 未选择时传 undefined
       sn: normalizedSN,
       purchasePrice: singlePrice,
@@ -311,11 +311,11 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
 
     onBatchSelect({
       sku: selectedSKU,
-      cpu: selectedCpu,
+      cpu: formatCPUDisplay(selectedCpu),
       ram: selectedRam,
-      gpu: selectedGpu,
+      gpu: formatGPUDisplay(selectedGpu),
       storage: selectedStorage,
-      screen: selectedScreen,
+      screen: formatScreenDisplay(selectedScreen),
       touchScreen: selectedTouchScreen ?? undefined, // 未选择时传 undefined
       skuRemark: skuRemark.trim() || undefined // 补充信息
     });
@@ -711,7 +711,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                       屏幕分辨率
                     </label>
                     <div className="grid grid-cols-2 gap-2">
-                      {selectedSKU.screenOptions.map(option => (
+                      {uniqueScreenOptions(selectedSKU.screenOptions).map(option => (
                         <button
                           key={option}
                           onClick={() => setSelectedScreen(selectedScreen === option ? '' : option)}
@@ -722,7 +722,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                                     }`}
                         >
                           {selectedScreen === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                          {option}
+                          {formatScreenDisplay(option)}
                         </button>
                       ))}
                     </div>

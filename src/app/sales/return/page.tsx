@@ -21,7 +21,7 @@ import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
 import { formatProductName } from '@/lib/product-name';
-import { formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
 type InventoryItem = {
   id: string;
@@ -106,7 +106,7 @@ async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 function machineSummary(item: InventoryItem | ReturnItem) {
-  const config = [item.cpu, item.ram, formatGPUDisplay(item.gpu), item.storage, item.screen].filter(Boolean).join(' / ');
+  const config = [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, formatScreenDisplay(item.screen)].filter(Boolean).join(' / ');
   return config || '配置待补充';
 }
 

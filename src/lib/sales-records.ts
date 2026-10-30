@@ -1,6 +1,6 @@
 import type Database from 'better-sqlite3';
 import { formatProductName } from '@/lib/product-name';
-import { formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
 type Row = Record<string, unknown>;
 export interface SalesFilters { search: string; dateFrom: string; dateTo: string; channel: string; warehouseId: string; status: string; }
@@ -79,7 +79,7 @@ export function querySalesRecords(db: Database.Database, filters: SalesFilters) 
       if (filters.warehouseId && warehouseId !== filters.warehouseId) continue;
       const itemType = deliveryType(source);
       const product = salesProduct(source);
-      const config = [text(source.cpu), text(source.ram), text(source.storage), formatGPUDisplay(text(source.gpu)), text(source.screen)].filter(Boolean).join(' / ') || '历史配置未记录';
+      const config = [formatCPUDisplay(text(source.cpu)), text(source.ram), text(source.storage), formatGPUDisplay(text(source.gpu)), formatScreenDisplay(text(source.screen))].filter(Boolean).join(' / ') || '历史配置未记录';
       const searchable = [source.sn, product, config, source.gpu, record.recordNo, record.saleOrderNo, record.trackingNo, record.saleChannel].map(text).join(' ').toLocaleLowerCase();
       if (!terms.every(term => searchable.includes(term))) continue;
       const line: SalesMachine = {

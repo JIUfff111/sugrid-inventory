@@ -6,7 +6,7 @@ import LabelCanvas, { labelDimensions, type CanvasElement, type CanvasField } fr
 import { useWorkspace } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
 import { createPrintJobId } from '@/lib/print-job-id';
-import { formatCPUDisplay, formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
 type PrintTemplate = {
   id: string;
@@ -118,7 +118,7 @@ export function useInventoryLabelPrinter() {
     <div id={printRootId} data-print-job={job.id} aria-hidden="true">{job.items.map((item) => <article key={item.id} className="direct-print-tag">
       <LabelCanvas template={job.template} values={{
         product: formatProductName(item),
-        config: [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充',
+        config: [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充',
         sn: item.sn,
         purchasePrice: `¥${Number(item.purchasePrice).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
         supplier: item.supplierName || '-',

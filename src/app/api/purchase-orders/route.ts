@@ -24,6 +24,7 @@ import {
 type PurchaseItemInput = {
   id?: string;
   skuId?: string;
+  manualSkuId?: string;
   productType?: string;
   brand?: string;
   model?: string;
@@ -43,6 +44,7 @@ type PurchaseItemInput = {
 type NormalizedItem = {
   id: string;
   skuId: string | null;
+  manualSkuId: string | null;
   productType: string;
   brand: string;
   model: string;
@@ -91,6 +93,7 @@ type OrderRow = {
 type PurchaseItemRow = {
   id: string;
   skuId: string | null;
+  manualSkuId: string | null;
   productType: string;
   brand: string;
   model: string;
@@ -144,6 +147,7 @@ function normalizeItems(items: unknown): NormalizedItem[] {
   return items.map((item: PurchaseItemInput) => ({
     id: typeof item?.id === 'string' ? item.id.trim() : '',
     skuId: typeof item?.skuId === 'string' ? item.skuId.trim() || null : null,
+    manualSkuId: typeof item?.manualSkuId === 'string' ? item.manualSkuId.trim() || null : null,
     productType: String(item?.productType || '笔记本电脑').trim(),
     brand: canonicalSKUBrand(String(item?.brand || '')),
     model: String(item?.model || '').trim(),
@@ -168,6 +172,7 @@ function normalizeItems(items: unknown): NormalizedItem[] {
 }
 
 function resolveMatchedSkuId(item: NormalizedItem): string | null {
+  if (item.manualSkuId) return null;
   const candidates = db.prepare(`
     SELECT id, productType FROM skus
     WHERE deleted = 0 AND brand = ? AND model = ? AND year IS ?
@@ -175,6 +180,27 @@ function resolveMatchedSkuId(item: NormalizedItem): string | null {
   `).all(item.brand, item.model, item.year, item.skuId || '') as Array<{ id: string; productType: string }>;
   const productType = getSKUProductType(item.productType);
   return candidates.find((candidate) => getSKUProductType(candidate.productType) === productType)?.id || null;
+}
+
+function validateManualSkuReferences(items: NormalizedItem[], orderId?: string): string | null {
+  for (const item of items) {
+    if (!item.manualSkuId) continue;
+    if (item.skuId) return '手工 SKU 不能同时关联内置 SKU';
+    const sku = db.prepare(`
+      SELECT productType, brand, model, year, isActive, deleted FROM manual_skus
+      WHERE id = ?
+    `).get(item.manualSkuId) as { productType: string; brand: string; model: string; year: number | null; isActive: number; deleted: number } | undefined;
+    if (!sku) return '手工 SKU 已停用或不存在，请重新选择';
+    const existingDraftReference = Boolean(orderId && item.id && db.prepare(`
+      SELECT 1 FROM purchase_items WHERE id = ? AND purchaseOrderId = ? AND manualSkuId = ? AND deleted = 0
+    `).get(item.id, orderId, item.manualSkuId));
+    if ((!sku.isActive || sku.deleted) && !existingDraftReference) return '手工 SKU 已停用或不存在，请重新选择';
+    if (getSKUProductType(sku.productType) !== getSKUProductType(item.productType) ||
+        canonicalSKUBrand(sku.brand) !== item.brand || sku.model !== item.model || (sku.year ?? null) !== item.year) {
+      return '手工 SKU 与机器品牌、型号或年份不一致，请重新选择';
+    }
+  }
+  return null;
 }
 
 function validateOrderFields(body: OrderBody): string | null {
@@ -231,7 +257,7 @@ function orderDetail(id: string) {
   const order = orderRow(id);
   if (!order) return undefined;
   const items = (db.prepare(`
-    SELECT id, skuId, productType, brand, model, year, cpu, ram, gpu, storage, screen,
+    SELECT id, skuId, manualSkuId, productType, brand, model, year, cpu, ram, gpu, storage, screen,
       touchScreen, sn, purchasePrice, remark, skuRemark, createdAt
     FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0 ORDER BY createdAt, id
   `).all(id) as PurchaseItemRow[]).map((item) => ({
@@ -257,16 +283,16 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
   const insertItem = db.prepare(`
     INSERT INTO purchase_items (
       id, purchaseOrderId, productType, brand, model, year, cpu, ram, gpu, storage,
-      screen, touchScreen, sn, purchasePrice, remark, skuRemark, skuId, recordedBy, createdAt
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      screen, touchScreen, sn, purchasePrice, remark, skuRemark, skuId, manualSkuId, recordedBy, createdAt
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const insertInventory = db.prepare(`
     INSERT INTO inventory (
       id, purchaseOrderId, purchaseItemId, sn, productType, brand, model, year,
       cpu, ram, gpu, storage, screen, touchScreen, purchasePrice,
       supplierId, supplierName, status, inboundDate, remark, skuRemark,
-      deleted, createdAt, updatedAt, warehouseId
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_stock', ?, ?, ?, 0, ?, ?, ?)
+      deleted, createdAt, updatedAt, warehouseId, manualSkuId
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_stock', ?, ?, ?, 0, ?, ?, ?, ?)
   `);
 
   for (const item of items) {
@@ -275,7 +301,7 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
     insertItem.run(
       itemId, order.id, item.productType, item.brand, item.model, item.year, item.cpu, item.ram,
       item.gpu, item.storage, item.screen, item.touchScreen, sn, item.purchasePrice,
-      item.remark, item.skuRemark, resolveMatchedSkuId(item), order.actorId, now
+      item.remark, item.skuRemark, resolveMatchedSkuId(item), item.manualSkuId, order.actorId, now
     );
     if (inbound) {
       const inventoryId = generateId('inv');
@@ -283,7 +309,7 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
         inventoryId, order.id, itemId, sn, item.productType, item.brand, item.model, item.year,
         item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen,
         item.purchasePrice, order.supplierId, order.supplierName, order.purchaseDate,
-        item.remark, item.skuRemark, now, now, order.warehouseId
+        item.remark, item.skuRemark, now, now, order.warehouseId, item.manualSkuId
       );
       recordInbound(inventoryId, order, now);
     }
@@ -298,7 +324,7 @@ function replaceDraftItemsAndInventory(
 ) {
   const existing = db.prepare(`
     SELECT id, purchaseOrderId, productType, brand, model, year, cpu, ram, gpu, storage,
-      screen, touchScreen, sn, purchasePrice, remark, skuRemark, createdAt, deleted
+      screen, touchScreen, sn, purchasePrice, remark, skuRemark, manualSkuId, createdAt, deleted
     FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0
   `).all(order.id) as DraftItemRow[];
   const existingById = new Map(existing.map((item) => [item.id, item]));
@@ -319,22 +345,22 @@ function replaceDraftItemsAndInventory(
   const updateItem = db.prepare(`
     UPDATE purchase_items SET productType = ?, brand = ?, model = ?, year = ?, cpu = ?, ram = ?,
       gpu = ?, storage = ?, screen = ?, touchScreen = ?, sn = ?, purchasePrice = ?,
-      remark = ?, skuRemark = ?, skuId = ?, deleted = 0
+      remark = ?, skuRemark = ?, skuId = ?, manualSkuId = ?, deleted = 0
     WHERE id = ? AND purchaseOrderId = ?
   `);
   const insertItem = db.prepare(`
     INSERT INTO purchase_items (
       id, purchaseOrderId, productType, brand, model, year, cpu, ram, gpu, storage,
-      screen, touchScreen, sn, purchasePrice, remark, skuRemark, skuId, recordedBy, deleted, createdAt
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
+      screen, touchScreen, sn, purchasePrice, remark, skuRemark, skuId, manualSkuId, recordedBy, deleted, createdAt
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
   `);
   const insertInventory = db.prepare(`
     INSERT INTO inventory (
       id, purchaseOrderId, purchaseItemId, sn, productType, brand, model, year,
       cpu, ram, gpu, storage, screen, touchScreen, purchasePrice,
       supplierId, supplierName, status, inboundDate, remark, skuRemark,
-      deleted, createdAt, updatedAt, warehouseId
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_stock', ?, ?, ?, 0, ?, ?, ?)
+      deleted, createdAt, updatedAt, warehouseId, manualSkuId
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_stock', ?, ?, ?, 0, ?, ?, ?, ?)
   `);
 
   for (const item of items) {
@@ -345,13 +371,13 @@ function replaceDraftItemsAndInventory(
       updateItem.run(
         item.productType, item.brand, item.model, item.year, item.cpu, item.ram, item.gpu,
         item.storage, item.screen, item.touchScreen, sn, item.purchasePrice,
-        item.remark, item.skuRemark, skuId, itemId, order.id,
+        item.remark, item.skuRemark, skuId, item.manualSkuId, itemId, order.id,
       );
     } else {
       insertItem.run(
         itemId, order.id, item.productType, item.brand, item.model, item.year, item.cpu, item.ram,
         item.gpu, item.storage, item.screen, item.touchScreen, sn, item.purchasePrice,
-        item.remark, item.skuRemark, skuId, order.actorId, now,
+        item.remark, item.skuRemark, skuId, item.manualSkuId, order.actorId, now,
       );
     }
     if (inbound) {
@@ -360,7 +386,7 @@ function replaceDraftItemsAndInventory(
         inventoryId, order.id, itemId, sn, item.productType, item.brand, item.model, item.year,
         item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen,
         item.purchasePrice, order.supplierId, order.supplierName, order.purchaseDate,
-        item.remark, item.skuRemark, now, now, order.warehouseId,
+        item.remark, item.skuRemark, now, now, order.warehouseId, item.manualSkuId,
       );
       recordInbound(inventoryId, order, now);
     }
@@ -396,6 +422,8 @@ export async function POST(request: NextRequest) {
     const items = normalizeItems(body.items);
     const itemError = validateItems(items, status === 'completed');
     if (itemError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, itemError), { status: 400 });
+    const manualSkuError = validateManualSkuReferences(items);
+    if (manualSkuError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, manualSkuError), { status: 400 });
     const supplier = findSupplier(String(body.supplierId).trim());
     if (!supplier) return NextResponse.json(errorResponse(ErrorCode.SUPPLIER_NOT_FOUND, '供应商不存在'), { status: 400 });
     const conflict = checkSnConflicts(items);
@@ -561,6 +589,8 @@ export async function PATCH(request: NextRequest) {
     const items = normalizeItems(body.items);
     const itemError = validateItems(items, action === 'inbound');
     if (itemError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, itemError), { status: 400 });
+    const manualSkuError = validateManualSkuReferences(items, id);
+    if (manualSkuError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, manualSkuError), { status: 400 });
     const existingItems = db.prepare('SELECT id FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0').all(id) as Array<{ id: string }>;
     const existingItemIds = new Set(existingItems.map((item) => item.id));
     const incomingIds = new Set<string>();

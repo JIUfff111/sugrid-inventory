@@ -8,6 +8,7 @@ import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
 import { formatProductName } from '@/lib/product-name';
+import { formatCPUDisplay } from '@/lib/sku-display';
 
 type InventoryItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; storage: string; purchasePrice: number; supplierName: string };
 type Rental = { id: string; rentalNo: string; inventoryId: string; sn: string; brand: string; model: string; year: number | null; config: string; customerName: string; customerPhone: string; customerAddress: string; rentalStartDate: string; rentalEndDate: string; rentalType: string; rentalUnitPrice: number; rentalDuration: number; rentalTotalPrice: number; deposit: number; status: string; returnDate: string | null; returnType: string | null; remark: string | null };
@@ -23,7 +24,7 @@ function dateInput(offset = 0) {
 function dueLabel(rental: Rental) { if (rental.status !== 'renting') return ''; const days = Math.ceil((new Date(rental.rentalEndDate + 'T00:00:00').getTime() - new Date(dateInput() + 'T00:00:00').getTime()) / 86400000); return days < 0 ? '已逾期 ' + (-days) + ' 天' : days === 0 ? '今日到期' : days <= 3 ? days + ' 天内到期' : ''; }
 
 function money(value: number) { return '¥' + Number(value || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-function configText(item: Pick<InventoryItem, 'cpu' | 'ram' | 'storage'>) { return [item.cpu, item.ram, item.storage].filter(Boolean).join(' · ') || '配置待补充'; }
+function configText(item: Pick<InventoryItem, 'cpu' | 'ram' | 'storage'>) { return [formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '配置待补充'; }
 function productName(item: { brand: string; model: string; year?: number | null }) { return formatProductName(item); }
 
 function ModalShell({ title, subtitle, onClose, children, footer }: { title: string; subtitle?: string; onClose: () => void; children: ReactNode; footer?: ReactNode }) {

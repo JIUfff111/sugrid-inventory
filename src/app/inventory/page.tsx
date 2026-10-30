@@ -14,8 +14,9 @@ import MachineSearchInput from '@/components/MachineSearchInput';
 import InventoryStatusDialog, { type InventoryStatusDefinition, type InventoryStatusRecord } from '@/components/InventoryStatusDialog';
 import { WorkspaceSection, useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import InventoryMovementTimeline from '@/components/InventoryMovementTimeline';
+import InventoryPurgeDialog from '@/components/InventoryPurgeDialog';
 import { formatProductName } from '@/lib/product-name';
-import { formatGPUDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 import { InventoryMovementsWorkspace } from '@/app/inventory/movements/page';
 import { TransfersWorkspace } from '@/app/transfers/page';
 import {
@@ -41,6 +42,7 @@ import {
   Settings2,
   Wrench,
   Table2,
+  Trash2,
   X,
 } from 'lucide-react';
 
@@ -233,6 +235,7 @@ export default function InventoryPage() {
   const [checkedIds, setCheckedIds] = useState<Set<string>>(() => new Set());
   const [statusDialog, setStatusDialog] = useState<{ mode: 'register' | 'restore' | 'manage'; machine?: InventoryItem } | null>(null);
   const [assetChangeMachine, setAssetChangeMachine] = useState<InventoryItem | null>(null);
+  const [purgeMachine, setPurgeMachine] = useState<InventoryItem | null>(null);
   const [movementRevision, setMovementRevision] = useState(0);
   useWorkspaceDirty(!!selected && remark !== (selected.remark || ''));
 
@@ -324,6 +327,7 @@ export default function InventoryPage() {
 
   const itemStatusLabel = (item: InventoryItem) => item.customStatusName && (item.status === 'custom' || item.status === 'returning') ? `${item.status === 'returning' ? '退货中 · ' : ''}${item.customStatusName}` : statusLabel(item.status);
   const itemStatusStyle = (item: InventoryItem) => item.status === 'custom' && item.customStatusColor ? { color: item.customStatusColor, backgroundColor: `${item.customStatusColor}12`, borderColor: `${item.customStatusColor}40` } : undefined;
+  const isSystemAccount = user?.isSystemAccount === true;
   const statusChanged = () => { setReloadKey(n => n + 1); setSelected(null); };
 
   const submitSearch = (event?: FormEvent) => {
@@ -566,7 +570,7 @@ export default function InventoryPage() {
                   <tr key={item.id} onClick={() => openDetails(item)} className="cursor-pointer">
                     <td onClick={(event) => event.stopPropagation()}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>
                     <td><div className="font-medium text-ink-deep">{productName(item)}</div><div className="text-[11px] text-ink-soft mt-1">{item.productType || '未分类'}</div></td>
-                    <td><div className="text-[12px] text-ink">{[item.cpu, item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), item.screen, item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
+                    <td><div className="text-[12px] text-ink">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
                     <td><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span></td>
                     <td><div className="text-[12px] text-ink">{item.supplierName || '-'}</div><div className="font-mono text-[11px] text-ink-soft mt-1">{item.purchaseNo || '-'}</div><div className="mt-1 text-[11px] text-primary">{item.warehouseName || warehouses.find(w => w.id === item.warehouseId)?.name || '未分仓'}</div></td>
                     <td className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</td>
@@ -590,7 +594,7 @@ export default function InventoryPage() {
                   <div className="flex shrink-0 items-center gap-2"><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span></div>
                 </div>
                 <p className="mt-3 text-xs text-ink-soft">{machineDestination(item)}</p><div className="mt-4 space-y-2 text-[12px]">
-                  <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">配置</span><span className="truncate text-right text-ink-deep">{[item.cpu, item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</span></div>
+                  <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">配置</span><span className="truncate text-right text-ink-deep">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">SN / IMEI</span><span className="truncate font-mono text-right text-ink-deep">{item.sn}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">供应商</span><span className="truncate text-right text-ink-deep">{item.supplierName || '-'}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">采购价</span><span className="font-mono font-semibold text-ink-deep">{formatMoney(item.purchasePrice)}</span></div>
@@ -617,9 +621,9 @@ export default function InventoryPage() {
             <header className="flex items-start justify-between border-b border-line px-5 py-4"><div><div className="flex items-center gap-2"><h2 className="text-base font-semibold text-ink-deep">库存详情</h2><span className={statusClass(selected.status)} style={itemStatusStyle(selected)}>{itemStatusLabel(selected)}</span></div><p className="mt-1 font-mono text-[12px] text-ink-soft">{selected.sn}</p></div><button type="button" onClick={closeDetails} title="关闭" aria-label="关闭" className="p-2 text-ink-soft hover:bg-white/70 rounded-lg"><X className="w-4 h-4" /></button></header>
 
             <div className="flex-1 overflow-y-auto p-5">
-              <div className="mb-5 rounded-xl border border-line/70 bg-white/45 p-4"><div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-ink-deep"><Pencil className="w-4 h-4 text-primary" />{productName(selected)}</div><dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-[12px]"><DetailField label="所在仓库" value={selected.warehouseName || warehouses.find(w => w.id === selected.warehouseId)?.name} /><DetailField label="产品类型" value={selected.productType} /><DetailField label="品牌型号" value={productName(selected)} /><DetailField label="采购价格" value={formatMoney(selected.purchasePrice)} /><DetailField label="CPU" value={selected.cpu} /><DetailField label="内存" value={selected.ram} /><DetailField label="显卡" value={formatGPUDisplay(selected.gpu)} /><DetailField label="硬盘" value={selected.storage} /><DetailField label="屏幕" value={selected.screen} /><DetailField label="触屏" value={selected.touchScreen === null ? '未填写' : selected.touchScreen ? '是' : '否'} /><DetailField label="供应商" value={selected.supplierName} /><DetailField label="采购单号" value={selected.purchaseNo} /><DetailField label="入库日期" value={formatDate(selected.inboundDate)} /><DetailField label={selected.status === 'in_stock' || selected.status === 'custom' ? '在库天数' : '入库距今'} value={`${Math.max(0, Number(selected.inboundDays || 0))} 天`} />{selected.soldDate && <DetailField label="售出日期" value={formatDate(selected.soldDate)} />}{selected.sellingPrice !== null && <DetailField label="销售价格" value={formatMoney(selected.sellingPrice)} />}</dl></div>
+              <div className="mb-5 rounded-xl border border-line/70 bg-white/45 p-4"><div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-ink-deep"><Pencil className="w-4 h-4 text-primary" />{productName(selected)}</div><dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-[12px]"><DetailField label="所在仓库" value={selected.warehouseName || warehouses.find(w => w.id === selected.warehouseId)?.name} /><DetailField label="产品类型" value={selected.productType} /><DetailField label="品牌型号" value={productName(selected)} /><DetailField label="采购价格" value={formatMoney(selected.purchasePrice)} /><DetailField label="CPU" value={formatCPUDisplay(selected.cpu)} /><DetailField label="内存" value={selected.ram} /><DetailField label="显卡" value={formatGPUDisplay(selected.gpu)} /><DetailField label="硬盘" value={selected.storage} /><DetailField label="屏幕" value={formatScreenDisplay(selected.screen)} /><DetailField label="触屏" value={selected.touchScreen === null ? '未填写' : selected.touchScreen ? '是' : '否'} /><DetailField label="供应商" value={selected.supplierName} /><DetailField label="采购单号" value={selected.purchaseNo} /><DetailField label="入库日期" value={formatDate(selected.inboundDate)} /><DetailField label={selected.status === 'in_stock' || selected.status === 'custom' ? '在库天数' : '入库距今'} value={`${Math.max(0, Number(selected.inboundDays || 0))} 天`} />{selected.soldDate && <DetailField label="售出日期" value={formatDate(selected.soldDate)} />}{selected.sellingPrice !== null && <DetailField label="销售价格" value={formatMoney(selected.sellingPrice)} />}</dl></div>
               <section className="mb-5 rounded-xl border border-primary/15 bg-primary/5 p-4"><p className="text-xs text-ink-soft">当前去向</p><p className="mt-2 text-sm text-ink-deep">{machineDestination(selected)}</p>{selected.afterSaleId && isAdmin && <Link href={`/after-sales?recordId=${encodeURIComponent(selected.afterSaleId)}`} className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary">查看关联售后单 {selected.afterSaleNo}</Link>}{isAdmin && <Link href={`/sales/records?search=${encodeURIComponent(selected.sn)}`} className="mt-3 flex text-xs font-medium text-primary">查询本机销售历史</Link>}</section>{selected.statusRecord && <section className="mb-5 rounded-xl border border-line/70 bg-white/60 p-4"><h3 className="mb-3 text-sm font-medium">当前状态登记</h3><dl className="grid grid-cols-2 gap-3 text-xs"><DetailField label="原因" value={selected.statusRecord.reason} /><DetailField label="当前地点" value={selected.statusRecord.location} /><DetailField label="负责人" value={selected.statusRecord.responsiblePerson} /><DetailField label="预计归还" value={formatDate(selected.statusRecord.expectedReturnDate)} /><DetailField label="登记时间" value={formatDate(selected.statusRecord.createdAt || selected.statusRecord.startedAt)} /><DetailField label="业务权限" value={selected.allowStockOperations ? '允许参与在库业务' : '暂停参与在库业务'} /></dl>{selected.statusRecord.remark && <p className="mt-3 whitespace-pre-wrap text-xs text-ink-soft">{selected.statusRecord.remark}</p>}</section>}
-              {isAdmin && (selected.status === 'in_stock' || selected.status === 'custom') && <div className="mb-4 flex flex-wrap gap-2">{selected.status === 'in_stock' && <button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => setAssetChangeMachine(selected)}><MemoryStick className="h-4 w-4" />资产变更</button>}<button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => setStatusDialog({ mode: selected.status === 'custom' ? 'restore' : 'register', machine: selected })}><Wrench className="h-4 w-4" />{selected.status === 'custom' ? '恢复在库' : '登记机器状态'}</button></div>}
+              {isAdmin && (selected.status === 'in_stock' || selected.status === 'custom') && <div className="mb-4 flex flex-wrap gap-2">{selected.status === 'in_stock' && <button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => setAssetChangeMachine(selected)}><MemoryStick className="h-4 w-4" />资产变更</button>}<button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => setStatusDialog({ mode: selected.status === 'custom' ? 'restore' : 'register', machine: selected })}><Wrench className="h-4 w-4" />{selected.status === 'custom' ? '恢复在库' : '登记机器状态'}</button>{isSystemAccount && selected.status === 'in_stock' && <button type="button" className="inline-flex items-center gap-1.5 rounded-lg border border-danger/20 px-3 py-2 text-xs text-danger transition hover:bg-danger/5" onClick={() => setPurgeMachine(selected)}><Trash2 className="h-4 w-4" />永久删除</button>}</div>}
               <label htmlFor="inventory-remark" className="mb-2 block text-[13px] font-medium text-ink-deep">备注</label><textarea id="inventory-remark" value={remark} onChange={(event) => setRemark(event.target.value)} rows={5} placeholder="添加库存备注" disabled={!isAdmin} className="field resize-y" />
               {remarkError && <p role="alert" className="mt-2 text-[12px] text-danger">{remarkError}</p>}
               <InventoryMovementTimeline key={`${selected.id}:${movementRevision}`} inventoryId={selected.id} onViewAll={() => selectWorkspace('movements', selected.sn)} />{selected.skuRemark && <div className="mt-4 rounded-lg bg-primary/5 px-3 py-2 text-[12px] text-ink-soft">SKU 补充信息：{selected.skuRemark}</div>}
@@ -631,6 +635,7 @@ export default function InventoryPage() {
       )}
       {assetChangeMachine && <InventoryAssetChangeDialog key={assetChangeMachine.id} machine={assetChangeMachine} onClose={() => setAssetChangeMachine(null)} onSaved={assetChanged} />}
       {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
+      {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
       </WorkspaceSection>
       <WorkspaceSection active={activeWorkspace === 'movements'}><InventoryMovementsWorkspace initialSearch={movementSearch} /></WorkspaceSection>
       <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>

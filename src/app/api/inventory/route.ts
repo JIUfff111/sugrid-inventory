@@ -1,5 +1,5 @@
 import { serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
-import { requireUser, warehouseScope, authErrorResponse, assertWarehouseAccess } from '@/lib/auth';
+import { requireUser, requireSystemAccount, warehouseScope, authErrorResponse, assertWarehouseAccess } from '@/lib/auth';
 /**
  * 在库清单 API
  * GET   /api/inventory                 获取库存列表（支持分页、搜索、状态筛选）
@@ -7,6 +7,8 @@ import { requireUser, warehouseScope, authErrorResponse, assertWarehouseAccess }
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import path from 'node:path';
+import { randomUUID } from 'node:crypto';
 import db from '@/lib/db';
 import {
   successResponse,
@@ -16,6 +18,8 @@ import {
   createPaginatedResponse,
   formatDateTime,
 } from '@/lib/api-helpers';
+import { verifyPassword } from '@/lib/auth';
+import { createPurgeBackup, getPurgeCandidate } from '@/lib/inventory-purge';
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
@@ -361,5 +365,66 @@ export async function PATCH(request: NextRequest) {
       errorResponse(ErrorCode.DATABASE_ERROR, getErrorMessage(error, '更新库存备注失败')),
       { status: 500 }
     );
+  }
+}
+
+/** Permanently remove one ordinary in-stock machine and its machine-only history. */
+export async function DELETE(request: NextRequest) {
+  try {
+    const user = await requireSystemAccount();
+    const id = new URL(request.url).searchParams.get('id')?.trim() || '';
+    if (!id) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '库存 ID 不能为空'), { status: 400 });
+
+    const candidate = getPurgeCandidate(id);
+    if (!candidate) return NextResponse.json(errorResponse(ErrorCode.INVENTORY_NOT_FOUND, '库存记录不存在'), { status: 404 });
+    assertWarehouseAccess(user, candidate.warehouseId);
+    if (candidate.reasons.length) {
+      return NextResponse.json(errorResponse(ErrorCode.CANNOT_DELETE_IN_USE, '该机器存在业务关联，无法永久删除', {
+        reasons: candidate.reasons,
+        references: candidate.references,
+      }), { status: 409 });
+    }
+
+    let body: Record<string, unknown> = {};
+    try { body = await request.json() as Record<string, unknown>; } catch { /* body is validated below */ }
+    const confirmation = typeof body.confirmText === 'string' ? body.confirmText.trim() : '';
+    const password = typeof body.password === 'string' ? body.password : '';
+    const reason = typeof body.reason === 'string' ? body.reason.trim() : '';
+    if (confirmation !== '永久删除') {
+      return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '请输入“永久删除”确认操作'), { status: 400 });
+    }
+    if (!password) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '请输入当前密码'), { status: 400 });
+    if (reason.length > 200) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '删除原因不能超过 200 个字符'), { status: 400 });
+    const stored = db.prepare('SELECT password FROM users WHERE id = ? AND status = \'active\'').get(user.id) as { password: string } | undefined;
+    if (!stored || !verifyPassword(password, stored.password)) {
+      return NextResponse.json(errorResponse(ErrorCode.FORBIDDEN, '当前密码不正确'), { status: 403 });
+    }
+
+    const backup = await createPurgeBackup();
+    const now = formatDateTime();
+    const summary = { sn: candidate.sn, purchaseOrderId: candidate.purchaseOrderId, purchaseItemId: candidate.purchaseItemId, reason: reason || null, backupFile: path.basename(backup.path), backupSha256: backup.sha256 };
+    db.transaction(() => {
+      const fresh = getPurgeCandidate(id);
+      if (!fresh) throw new Error('库存记录不存在');
+      if (fresh.reasons.length) throw new Error(fresh.reasons.join('；'));
+      db.prepare('DELETE FROM inventory_status_records WHERE inventoryId = ?').run(id);
+      db.prepare('DELETE FROM inventory_movements WHERE inventoryId = ?').run(id);
+      const deleted = db.prepare("DELETE FROM inventory WHERE id = ? AND deleted = 0 AND status = 'in_stock'").run(id);
+      if (deleted.changes !== 1) throw new Error('机器状态已变化，请刷新后重试');
+      db.prepare(`
+        INSERT INTO data_management_audit (id, actorId, action, resource, recordId, recordCount, summary, createdAt)
+        VALUES (?, ?, 'inventory_purge', 'inventory', ?, 1, ?, ?)
+      `).run(randomUUID(), user.id, id, JSON.stringify(summary), now);
+    })();
+
+    return NextResponse.json(successResponse({ id, sn: candidate.sn, backupFile: path.basename(backup.path), backupSha256: backup.sha256, message: '机器及其生命周期记录已永久删除，采购历史已保留' }));
+  } catch (error: unknown) {
+    const authFailure = authErrorResponse(error);
+    if (authFailure) return authFailure;
+    if (error instanceof Error && /机器存在|当前状态|关联记录|不存在/.test(error.message)) {
+      return NextResponse.json(errorResponse(ErrorCode.CANNOT_DELETE_IN_USE, error.message), { status: 409 });
+    }
+    console.error('DELETE /api/inventory error:', error);
+    return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, getErrorMessage(error, '永久删除机器失败')), { status: 500 });
   }
 }

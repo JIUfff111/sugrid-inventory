@@ -4,14 +4,26 @@
  */
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { Check, Plus, X } from 'lucide-react';
 import Toast from '@/components/Toast';
-import { useWorkspaceDirty } from '@/components/WorkspaceContext';
+import CustomSelect, { type SelectOption } from '@/components/CustomSelect';
+import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+
+type ManualSKU = {
+  id: string;
+  productType: string;
+  brand: string;
+  model: string;
+  year: number | null;
+};
 
 interface ManualInputProps {
   selectedMachineCount?: number;
   onConfirm: (machine: {
+    manualSkuId: string;
     productType: string;
     brand: string;
     model: string;
@@ -30,8 +42,13 @@ interface ManualInputProps {
 }
 
 export default function ManualInput({ onConfirm, onCancel, selectedMachineCount = 0 }: ManualInputProps) {
+  const { active } = useWorkspace();
+  const [manualSKUs, setManualSKUs] = useState<ManualSKU[]>([]);
+  const [loadingSKUs, setLoadingSKUs] = useState(true);
+  const [skuLoadError, setSkuLoadError] = useState('');
   const [formData, setFormData] = useState({
     productType: '笔记本电脑',
+    manualSkuId: '',
     brand: '',
     model: '',
     year: undefined as number | undefined,
@@ -51,17 +68,85 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
   } | null>(null);
   useWorkspaceDirty(Boolean(formData.brand || formData.model || formData.sn || formData.purchasePrice || formData.remark));
 
+  useEffect(() => {
+    if (!active) return;
+    const controller = new AbortController();
+    setLoadingSKUs(true);
+    setSkuLoadError('');
+    fetch(`/api/manual-skus?productType=${encodeURIComponent(formData.productType)}`, {
+      cache: 'no-store',
+      signal: controller.signal,
+    }).then(async (response) => {
+      const payload = await response.json();
+      if (!response.ok || !payload.success) throw new Error(payload.error?.message || '加载手工 SKU 失败');
+      if (controller.signal.aborted) return;
+      setManualSKUs(Array.isArray(payload.data?.items) ? payload.data.items : []);
+    }).catch((error: unknown) => {
+      if (!controller.signal.aborted) {
+        setSkuLoadError(error instanceof Error ? error.message : '加载手工 SKU 失败');
+        setManualSKUs([]);
+      }
+    }).finally(() => {
+      if (!controller.signal.aborted) setLoadingSKUs(false);
+    });
+    return () => controller.abort();
+  }, [active, formData.productType]);
+
+  const brands = useMemo(() => [...new Set(manualSKUs.map((sku) => sku.brand))].sort((a, b) => a.localeCompare(b, 'zh-CN')), [manualSKUs]);
+  const brandOptions: SelectOption[] = brands.map((brand) => ({ value: brand, label: brand }));
+  const modelOptions: SelectOption[] = manualSKUs
+    .filter((sku) => sku.brand === formData.brand)
+    .map((sku) => ({ value: sku.id, label: sku.year ? `${sku.model} ${sku.year}` : sku.model }))
+    .sort((a, b) => a.label.localeCompare(b.label, 'zh-CN'));
+
+  const setProductType = (productType: string) => setFormData((current) => ({
+    ...current,
+    productType,
+    brand: '',
+    model: '',
+    year: undefined,
+    manualSkuId: '',
+  }));
+
+  const setBrand = (brand: string) => setFormData((current) => ({
+    ...current,
+    brand,
+    model: '',
+    year: undefined,
+    manualSkuId: '',
+  }));
+
+  const setManualSku = (id: string) => {
+    const sku = manualSKUs.find((candidate) => candidate.id === id);
+    if (!sku) {
+      setFormData((current) => ({ ...current, manualSkuId: '', model: '', year: undefined }));
+      return;
+    }
+    setFormData((current) => ({
+      ...current,
+      manualSkuId: sku.id,
+      brand: sku.brand,
+      model: sku.model,
+      year: sku.year ?? undefined,
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent | React.MouseEvent, mode: 'close' | 'continue') => {
     e.preventDefault();
     
     // 验证必填字段
-    if (!formData.brand || !formData.model || !formData.cpu || !formData.ram || 
+    if (!formData.manualSkuId || !formData.brand || !formData.model || !formData.cpu || !formData.ram ||
         !formData.storage || !formData.sn || !formData.purchasePrice) {
-      setToast({ message: '请填写所有必填字段', type: 'warning' });
+      setToast({ message: '请选择手工 SKU 库中的品牌和型号，并填写必填配置', type: 'warning' });
       return;
     }
-    
-    onConfirm(formData, mode);
+
+    onConfirm({
+      ...formData,
+      cpu: formatCPUDisplay(formData.cpu),
+      gpu: formatGPUDisplay(formData.gpu),
+      screen: formatScreenDisplay(formData.screen),
+    }, mode);
 
     if (mode === 'continue') {
       setFormData((current) => ({
@@ -112,7 +197,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                 <div className="flex gap-3">
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, productType: '笔记本电脑' })}
+                    onClick={() => setProductType('笔记本电脑')}
                     className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
                               ${formData.productType === '笔记本电脑'
                                 ? 'bg-primary text-white'
@@ -123,7 +208,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, productType: '平板电脑' })}
+                    onClick={() => setProductType('平板电脑')}
                     className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
                               ${formData.productType === '平板电脑'
                                 ? 'bg-primary text-white'
@@ -135,52 +220,42 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                 </div>
               </div>
 
-              {/* 品牌和型号 */}
-              <div className="grid grid-cols-2 gap-4">
+              {/* 品牌和型号仅从独立的手工 SKU 库选择 */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
                     品牌 <span className="text-danger">*</span>
                   </label>
-                  <input
-                    type="text"
+                  <CustomSelect
                     value={formData.brand}
-                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                    placeholder="如：ThinkPad"
-                    className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
-                             placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
-                             focus:ring-primary/20 focus:border-primary transition-all"
+                    onChange={setBrand}
+                    options={brandOptions}
+                    placeholder={loadingSKUs ? '正在加载手工 SKU…' : '请选择品牌'}
+                    searchable
                     required
+                    disabled={loadingSKUs || Boolean(skuLoadError) || brandOptions.length === 0}
+                    aria-label="选择手工 SKU 品牌"
                   />
                 </div>
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
                     型号 <span className="text-danger">*</span>
                   </label>
-                  <input
-                    type="text"
-                    value={formData.model}
-                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                    placeholder="如：T14 Gen3"
-                    className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
-                             placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
-                             focus:ring-primary/20 focus:border-primary transition-all"
+                  <CustomSelect
+                    value={formData.manualSkuId}
+                    onChange={setManualSku}
+                    options={modelOptions}
+                    placeholder={!formData.brand ? '请先选择品牌' : '请选择型号'}
+                    searchable
                     required
+                    disabled={!formData.brand || loadingSKUs || modelOptions.length === 0}
+                    aria-label="选择手工 SKU 型号"
                   />
                 </div>
-                <div>
-                  <label className="block text-[13px] font-medium text-ink-deep mb-2">型号年份</label>
-                  <input
-                    type="number"
-                    min="1980"
-                    max="2100"
-                    value={formData.year || ''}
-                    onChange={(e) => setFormData({ ...formData, year: e.target.value ? Number(e.target.value) : undefined })}
-                    placeholder="如：2020（可选）"
-                    className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
-                             placeholder:text-ink-soft/50 focus:outline-none focus:ring-2
-                             focus:ring-primary/20 focus:border-primary transition-all"
-                  />
-                </div>
+                <p className="sm:col-span-2 -mt-2 text-[11px] text-ink-soft">
+                  {skuLoadError ? <span className="text-danger">{skuLoadError}</span> : manualSKUs.length === 0 && !loadingSKUs ? '当前产品类型尚无手工 SKU，请先在手工 SKU 库中建档。' : '型号年份由手工 SKU 档案统一维护。'}{' '}
+                  <Link href="/settings/manual-skus" className="font-medium text-primary hover:underline">管理手工 SKU 库</Link>
+                </p>
               </div>
 
               {/* CPU 和内存 */}

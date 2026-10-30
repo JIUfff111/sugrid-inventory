@@ -234,6 +234,15 @@ export async function requireRole(...roles: UserRole[]): Promise<AuthUser> {
   return user;
 }
 
+/** Require the protected built-in administrator, not merely an admin role. */
+export async function requireSystemAccount(): Promise<AuthUser> {
+  const user = await requireUser();
+  if (!user.isSystemAccount || user.role !== 'admin') {
+    throw new AuthError('FORBIDDEN', '仅内置系统管理员可以执行此操作');
+  }
+  return user;
+}
+
 export function publicUser(user: AuthUser) {
   return {
     id: user.id,

@@ -19,7 +19,7 @@ async function run() {
     const fixture=createFixture(db),database={__esModule:true,default:db},helpers=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers,'next/headers':{cookies:async()=>({get:()=>undefined})}});
     let user=auth.getUserById(fixture.adminId);
-    const route=load('src/app/api/inventory/route.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers,'@/lib/auth':{...auth,requireUser:async()=>user},'@/lib/inventory-status':load('src/lib/inventory-status.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers})});
+    const route=load('src/app/api/inventory/route.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers,'@/lib/auth':{...auth,requireUser:async()=>user},'@/lib/inventory-status':load('src/lib/inventory-status.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers}),'@/lib/inventory-purge':load('src/lib/inventory-purge.ts',{'@/lib/db':database})});
     async function query(params='',status=200) { const response=await route.GET(new NextRequest('http://localhost/api/inventory?pageSize=100'+params));const body=await response.json();assert.equal(response.status,status,JSON.stringify(body));return body.data; }
     const all=await query('&status=all');
     assert.equal(all.items.length,56);assert.equal(all.total,56);assert.equal(new Set(all.items.map(i=>i.id)).size,56);
