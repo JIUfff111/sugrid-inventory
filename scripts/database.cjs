@@ -1,4 +1,5 @@
 const { randomBytes, scryptSync } = require('node:crypto');
+const { normalizeList, formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } = require('./sku-catalog/normalize-options.cjs');
 function hashPassword(password) { const salt = randomBytes(16); return 'scrypt$16384$8$1$' + salt.toString('base64url') + '$' + scryptSync(password, salt, 64, {N:16384,r:8,p:1}).toString('base64url'); }
 function initDatabase(db) {
   // 创建用户表
@@ -706,6 +707,48 @@ function applyVersionedMigrations(db) {
       CREATE INDEX IF NOT EXISTS idx_purchase_items_recorded_sku
       ON purchase_items(recordedBy, skuId, deleted);
     `);
+  });
+  migrate(10, 'normalize built-in SKU option labels', () => {
+    const rows = db.prepare('SELECT id, cpuOptions, gpuOptions, screenOptions FROM skus').all();
+    const update = db.prepare(`
+      UPDATE skus
+      SET cpuOptions = ?, gpuOptions = ?, screenOptions = ?, updatedAt = ?
+      WHERE id = ?
+    `);
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+    let changed = 0;
+    let skippedFields = 0;
+    const normalizeOptions = (value, formatter) => {
+      if (value === null || value === '') return value;
+      try {
+        const parsed = JSON.parse(value);
+        if (!Array.isArray(parsed) || parsed.some((item) => typeof item !== 'string')) {
+          skippedFields++;
+          return value;
+        }
+        return JSON.stringify(normalizeList(parsed, (option) => {
+          const normalized = formatter(option);
+          return normalized === '规格待核实' && option.trim() !== '规格待核实'
+            ? option
+            : normalized;
+        }));
+      } catch {
+        skippedFields++;
+        return value;
+      }
+    };
+    for (const row of rows) {
+      // Leave an unreadable field intact while still upgrading valid fields.
+      const normalizedCPU = normalizeOptions(row.cpuOptions, formatCPUDisplay);
+      const normalizedGPU = normalizeOptions(row.gpuOptions, formatGPUDisplay);
+      const normalizedScreen = normalizeOptions(row.screenOptions, formatScreenDisplay);
+      if (normalizedCPU !== row.cpuOptions || normalizedGPU !== row.gpuOptions ||
+          normalizedScreen !== row.screenOptions) {
+        update.run(normalizedCPU, normalizedGPU, normalizedScreen, now, row.id);
+        changed++;
+      }
+    }
+    console.log(`SKU 配置格式升级：已清洗 ${changed} 条型号记录；保留 ${skippedFields} 个异常字段供核查`);
   });
 }
 

@@ -39,6 +39,7 @@ assert.equal(formatCPUDisplay('英特尔第 10 代酷睿 i5'), '第10代 I5');
 assert.equal(formatCPUDisplay('英特尔第 11 代酷睿 i5（来源未列具体型号）'), '第11代 I5');
 assert.equal(formatCPUDisplay('Core Ultra 7 155H'), 'Ultra 7 155H');
 assert.equal(formatCPUDisplay('AMD Ryzen AI 7 PRO 350'), 'R7 AI-350');
+assert.equal(formatCPUDisplay('AMD Ryzen AI 9 HX 370'), 'R9 AI-HX370');
 assert.equal(formatCPUDisplay('AMD 锐龙 7 H 255'), 'R7-H255');
 assert.equal(formatCPUDisplay(null), '');
 assert.equal(formatGPUDisplay('NVIDIA GeForce RTX 4060'), 'RTX 4060');
@@ -76,6 +77,9 @@ assert.equal(formatScreenDisplay('16英寸 1920x1200 60Hz'), 'FHD+');
 assert.equal(formatScreenDisplay('15.6英寸 1920x1080 144Hz'), 'FHD');
 assert.equal(formatScreenDisplay('屏幕规格未列出'), '规格待核实');
 assert.equal(formatScreenDisplay(''), '');
+for (const screen of ['HD', 'FHD', 'FHD+', '2K', '2.5K', '2.8K', '3K', '3.2K', '4K']) {
+  assert.equal(formatScreenDisplay(screen), screen);
+}
 assert.deepEqual(uniqueScreenOptions(['16英寸 2560x1600 165Hz', '14英寸 2560x1600 60Hz', '1920x1080']), ['16英寸 2560x1600 165Hz', '1920x1080']);
 
 const sourceOptions = [

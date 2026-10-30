@@ -15,8 +15,8 @@ function formatCPUDisplay(option) {
   const ryzen = value.match(/^(?:AMD\s*)?(?:Ryzen|锐龙)\s*([3579])\s*(?:PRO\s*)?([a-z0-9]+)$/i);
   if (ryzen) return `R${ryzen[1]}-${ryzen[2].toUpperCase()}`;
 
-  const ryzenAI = value.match(/^(?:AMD\s*)?(?:Ryzen|锐龙)\s*AI\s*(?:([35679])\s*)?(?:H[X]?\s*)?(?:PRO\s*)?([a-z0-9]+)$/i);
-  if (ryzenAI) return `${ryzenAI[1] ? `R${ryzenAI[1]}` : 'R'} AI-${ryzenAI[2].toUpperCase()}`;
+  const ryzenAI = value.match(/^(?:AMD\s*)?(?:Ryzen|锐龙)\s*AI\s*(?:([35679])\s*)?(H[X]?\s*)?(?:PRO\s*)?([a-z0-9]+)$/i);
+  if (ryzenAI) return `${ryzenAI[1] ? `R${ryzenAI[1]}` : 'R'} AI-${(ryzenAI[2] || '').trim().toUpperCase()}${ryzenAI[3].toUpperCase()}`;
 
   const ryzenH = value.match(/^(?:AMD\s*)?(?:Ryzen|锐龙)\s*([3579])\s*(H[X]?)\s*([a-z0-9]+)$/i);
   if (ryzenH) return `R${ryzenH[1]}-${ryzenH[2].toUpperCase()}${ryzenH[3].toUpperCase()}`;
@@ -83,7 +83,7 @@ function formatScreenDisplay(option) {
     return '规格待核实';
   }
 
-  const namedResolution = value.match(/\b(4K|3\.2K|3K|2\.8K|2\.5K|2K|FHD\+|FHD|WQXGA|WUXGA|QHD\+|QHD|WQHD|UHD)\b/i);
+  const namedResolution = value.match(/\b(4K|3\.2K|3K|2\.8K|2\.5K|2K|FHD\+|FHD|WQXGA|WUXGA|QHD\+|QHD|WQHD|UHD|HD)(?![a-z0-9+])/i);
   if (!namedResolution) return '规格待核实';
   const name = namedResolution[1].toUpperCase();
   if (name === 'UHD') return '4K';

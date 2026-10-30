@@ -9,4 +9,4 @@ const db = new Database(file);
 db.pragma('foreign_keys = ON');
 db.pragma('journal_mode = WAL');
 db.pragma('busy_timeout = 5000');
-try { initDatabase(db); seedBuiltinSkus(db); seedDatabase(db); console.log('数据库迁移完成'); } finally { db.close(); }
+try { initDatabase(db); seedBuiltinSkus(db); seedDatabase(db); console.log(`数据库迁移完成：${path.resolve(file)}`); } finally { db.close(); }
