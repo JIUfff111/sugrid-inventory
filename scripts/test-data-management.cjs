@@ -177,6 +177,42 @@ async function main() {
     assert(db.prepare("SELECT 1 FROM users WHERE id='partial-new-user'").get());
     assert.equal(db.prepare("SELECT COUNT(*) AS n FROM users WHERE username='admin'").get().n, 1);
 
+    db.prepare("INSERT INTO label_templates (id,templateName,templateType,width,height,orientation,fields,isDefault,createdBy) VALUES ('dm-template','冲突模板','inventory',100,50,'portrait','[]',0,?)").run(adminId);
+    const partialTemplateContent = JSON.stringify({ resources: { label_templates: [
+      { id: 'partial-template-conflict', templateName: '冲突模板', templateType: 'inventory', width: 100, height: 50, orientation: 'portrait', fields: '[]' },
+      { id: 'partial-template-new', templateName: '新增模板', templateType: 'inventory', width: 100, height: 50, orientation: 'portrait', fields: '[]' },
+    ] } });
+    const partialTemplatePreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'label_templates', mode: 'insert', content: partialTemplateContent,
+    });
+    assert.equal(partialTemplatePreview.reports[0].valid, 1);
+    assert.equal(partialTemplatePreview.reports[0].conflicts, 1);
+    assert.equal(partialTemplatePreview.reports[0].errors.length, 0);
+    assert.equal(partialTemplatePreview.canApply, true);
+    const partialTemplateImport = await call(routes.import.POST, '/api/data-management/import', 'POST', {
+      resource: 'label_templates', mode: 'insert', fileName: 'partial-templates.json', content: partialTemplateContent,
+    });
+    assert.equal(partialTemplateImport.inserted, 1);
+    assert(db.prepare("SELECT 1 FROM label_templates WHERE id='partial-template-new'").get());
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM label_templates WHERE templateName='冲突模板'").get().n, 1);
+
+    const partialWarehouseContent = JSON.stringify({ resources: { warehouses: [
+      { id: 'partial-warehouse-conflict', code: 'MAIN-IMPORT', name: '总仓', status: 'active' },
+      { id: 'partial-warehouse-new', code: 'NEW-IMPORT', name: '新导入仓', status: 'active' },
+    ] } });
+    const partialWarehousePreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'warehouses', mode: 'insert', content: partialWarehouseContent,
+    });
+    assert.equal(partialWarehousePreview.reports[0].valid, 1);
+    assert.equal(partialWarehousePreview.reports[0].conflicts, 1);
+    assert.equal(partialWarehousePreview.reports[0].errors.length, 0);
+    const partialWarehouseImport = await call(routes.import.POST, '/api/data-management/import', 'POST', {
+      resource: 'warehouses', mode: 'insert', fileName: 'partial-warehouses.json', content: partialWarehouseContent,
+    });
+    assert.equal(partialWarehouseImport.inserted, 1);
+    assert(db.prepare("SELECT 1 FROM warehouses WHERE id='partial-warehouse-new'").get());
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM warehouses WHERE name='总仓'").get().n, 1);
+
     const systemUserUpsert = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
       resource: 'users', mode: 'upsert', content: { id: adminId, username: 'admin', role: 'warehouse_manager', status: 'active' },
     });
