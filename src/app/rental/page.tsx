@@ -11,7 +11,8 @@ import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay } from '@/lib/sku-display';
 
 type InventoryItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; storage: string; purchasePrice: number; supplierName: string };
-type Rental = { id: string; rentalNo: string; inventoryId: string; sn: string; brand: string; model: string; year: number | null; config: string; customerName: string; customerPhone: string; customerAddress: string; rentalStartDate: string; rentalEndDate: string; rentalType: string; rentalUnitPrice: number; rentalDuration: number; rentalTotalPrice: number; deposit: number; status: string; returnDate: string | null; returnType: string | null; remark: string | null };
+type Rental = { id: string; rentalOrderId: string | null; rentalNo: string; displayRentalNo?: string; orderMachineCount?: number; inventoryId: string; sn: string; brand: string; model: string; year: number | null; config: string; customerName: string; customerPhone: string; customerAddress: string; rentalStartDate: string; rentalEndDate: string; rentalType: string; rentalUnitPrice: number; rentalDuration: number; rentalTotalPrice: number; deposit: number; status: string; returnDate: string | null; returnType: string | null; remark: string | null };
+type RentalTerms = { rentalUnitPrice: string; deposit: string };
 type ToastMessage = { text: string; tone: 'success' | 'error' };
 
 function dateInput(offset = 0) {
@@ -39,7 +40,8 @@ export default function RentalPage() {
   const [search, setSearch] = useState('');
   const [machineSearch, setMachineSearch] = useState('');
   const [status, setStatus] = useState('all');
-  const [selectedId, setSelectedId] = useState('');
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [rentalTerms, setRentalTerms] = useState<Record<string, RentalTerms>>({});
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
@@ -68,6 +70,8 @@ export default function RentalPage() {
   }, []);
 
   const loadController = useRef<AbortController | null>(null);
+  const selectedIdsRef = useRef<string[]>([]);
+  useEffect(() => { selectedIdsRef.current = selectedIds; }, [selectedIds]);
   const loadData = useCallback(async () => {
     loadController.current?.abort(); const controller = new AbortController(); loadController.current = controller;
     setLoading(true);
@@ -91,13 +95,13 @@ export default function RentalPage() {
       const summaryPagePayloads = await Promise.all(summaryPageResponses.map((response) => response.json()));
       const failedSummaryPage = summaryPageResponses.findIndex((response, index) => !response.ok || !summaryPagePayloads[index]?.success);
       if (failedSummaryPage !== -1) throw new Error(summaryPagePayloads[failedSummaryPage]?.error?.message || '加载租赁统计失败');
-      setInventory(current => { const next: InventoryItem[] = inventoryPayload.data?.items || []; return [...next, ...current.filter(item => item.id === selectedId && !next.some(row => row.id === item.id))]; });
+      setInventory(current => { const next: InventoryItem[] = inventoryPayload.data?.items || []; return [...next, ...current.filter(item => selectedIdsRef.current.includes(item.id) && !next.some(row => row.id === item.id))]; });
       setRentals(rentalsPayload.data?.items || []);
       setSummaryRentals([...(summaryPayload.data?.items || []), ...summaryPagePayloads.flatMap((payload) => payload.data?.items || [])]);
     } catch (loadError) {
       if (!controller.signal.aborted) notify(loadError instanceof Error ? loadError.message : '加载租赁数据失败', 'error');
     } finally { if (!controller.signal.aborted) setLoading(false); }
-  }, [machineSearch, search, status, selectedId]);
+  }, [machineSearch, search, status]);
 
   useEffect(() => {
     if (!active) return;
@@ -120,9 +124,9 @@ export default function RentalPage() {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
-  const selectedMachine = useMemo(() => inventory.find((item) => item.id === selectedId), [inventory, selectedId]);
-  const validity = useMachineEligibility(selectedMachine && createOpen ? [selectedMachine] : [], 'rental');
-  useWorkspaceDirty(Boolean((createOpen && (selectedId || customerName || customerPhone || customerAddress || unitPrice || deposit || remark || rentalType !== 'day')) || returnOpen));
+  const selectedMachines = useMemo(() => inventory.filter(item => selectedIds.includes(item.id)), [inventory, selectedIds]);
+  const validity = useMachineEligibility(selectedMachines.map(({ id, sn }) => ({ id, sn })), 'rental');
+  useWorkspaceDirty(Boolean((createOpen && (selectedIds.length || customerName || customerPhone || customerAddress || remark || rentalType !== 'day')) || returnOpen));
   const duration = useMemo(() => {
     const start = new Date(startDate + 'T00:00:00').getTime();
     const end = new Date(endDate + 'T00:00:00').getTime();
@@ -133,26 +137,37 @@ export default function RentalPage() {
     }
     return Math.max(1, Math.floor((end - start) / 86400000) + 1);
   }, [startDate, endDate, rentalType]);
-  const totalPrice = duration * (Number(unitPrice) || 0);
+  const totalPrice = duration * selectedIds.reduce((sum, id) => sum + (Number(rentalTerms[id]?.rentalUnitPrice) || 0), 0);
   const rentingCount = summaryRentals.filter((rental) => rental.status === 'renting').length;
   const returnedCount = summaryRentals.filter((rental) => rental.status === 'returned').length;
   const activeDeposit = summaryRentals.filter((rental) => rental.status === 'renting').reduce((sum, rental) => sum + Number(rental.deposit || 0), 0);
   const activeRent = summaryRentals.filter((rental) => rental.status === 'renting').reduce((sum, rental) => sum + Number(rental.rentalTotalPrice || 0), 0);
 
   const resetCreateForm = () => {
-    setSelectedId(''); setCustomerName(''); setCustomerPhone(''); setCustomerAddress(''); setStartDate(dateInput()); setEndDate(dateInput(1)); setRentalType('day'); setUnitPrice(''); setDeposit(''); setRemark(''); setMachineSearch('');
+    setSelectedIds([]); setRentalTerms({}); setCustomerName(''); setCustomerPhone(''); setCustomerAddress(''); setStartDate(dateInput()); setEndDate(dateInput(1)); setRentalType('day'); setUnitPrice(''); setDeposit(''); setRemark(''); setMachineSearch('');
+  };
+
+  const addMachine = (item: InventoryItem) => {
+    setInventory(current => [item, ...current.filter(row => row.id !== item.id)]);
+    setSelectedIds(current => current.includes(item.id) ? current : [...current, item.id]);
+    setRentalTerms(current => current[item.id] ? current : { ...current, [item.id]: { rentalUnitPrice: unitPrice, deposit } });
+  };
+
+  const updateRentalTerm = (id: string, key: keyof RentalTerms, value: string) => {
+    setRentalTerms(current => ({ ...current, [id]: { ...(current[id] || { rentalUnitPrice: '', deposit: '' }), [key]: value } }));
   };
 
   const submitRental = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!selectedId) { notify('请选择一台可租机器', 'error'); return; }
-    if (validity.checking || validity.error || validity.invalidIds.length) { notify(validity.error || '所选机器已不可租赁，请重新选择', 'error'); return; }
+    if (!selectedIds.length) { notify('请至少选择一台可租机器', 'error'); return; }
+    if (selectedIds.some(id => !(Number(rentalTerms[id]?.rentalUnitPrice) > 0) || !(Number(rentalTerms[id]?.deposit || 0) >= 0))) { notify('请检查每台机器的租赁单价和押金', 'error'); return; }
+    if (validity.checking || validity.error || validity.invalidIds.length) { notify(validity.error || '所选机器已不可租赁，请移除失效机器后重试', 'error'); return; }
     setSubmitting(true);
     try {
-      const response = await fetch('/api/rentals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ inventoryId: selectedId, customerName, customerPhone, customerAddress, rentalStartDate: startDate, rentalEndDate: endDate, rentalType, rentalUnitPrice: Number(unitPrice), deposit: Number(deposit || 0), remark }) });
+      const response = await fetch('/api/rentals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selectedIds.map(inventoryId => ({ inventoryId, rentalUnitPrice: Number(rentalTerms[inventoryId]?.rentalUnitPrice), deposit: Number(rentalTerms[inventoryId]?.deposit || 0) })), customerName, customerPhone, customerAddress, rentalStartDate: startDate, rentalEndDate: endDate, rentalType, remark }) });
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error(payload.error?.message || '创建租赁记录失败');
-      setCreateOpen(false); resetCreateForm(); notify('租赁单 ' + payload.data.rentalNo + ' 已创建');
+      setCreateOpen(false); resetCreateForm(); notify('租赁单 ' + payload.data.rentalNo + ' 已创建，共 ' + payload.data.count + ' 台');
       await loadData();
     } catch (submitError) { notify(submitError instanceof Error ? submitError.message : '创建租赁记录失败', 'error'); } finally { setSubmitting(false); }
   };
@@ -207,7 +222,7 @@ export default function RentalPage() {
       </div>
       {loading && rentals.length === 0 ? <div className="px-5 py-14 text-center text-sm text-ink-soft">正在加载租赁记录...</div> : rentals.length === 0 ? <div className="px-5 py-14 text-center"><p className="text-sm font-medium text-ink-deep">{search || status !== 'all' ? '没有符合条件的租赁记录' : '暂无租赁记录'}</p><p className="mt-1 text-xs text-ink-soft">{search || status !== 'all' ? '调整关键词或状态后重试' : '创建租赁后，机器和归还状态会在这里跟踪'}</p></div> : <div className="divide-y divide-line/70">
         {rentals.map((rental) => <button type="button" key={rental.id} onClick={() => { setSelectedRental(rental); setReturnOpen(false); }} className="grid w-full gap-3 px-4 py-4 text-left transition-colors hover:bg-white/45 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-center sm:px-5">
-          <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-sm font-semibold text-ink-deep">{rental.rentalNo}</span><span className={'status-pill ' + (rental.status === 'renting' ? 'warn' : 'ok')}>{rental.status === 'renting' ? '租赁中' : '已归还'}</span>{dueLabel(rental) && <span className={'status-pill ' + (dueLabel(rental).startsWith('已逾期') || dueLabel(rental) === '今日到期' ? 'danger' : 'warn')}>{dueLabel(rental)}</span>}</div><p className="mt-1 truncate text-[13px] text-ink-deep">{productName(rental)}</p><p className="mt-0.5 truncate font-mono text-[11px] text-ink-soft">{rental.sn} · {rental.config || '配置待补充'}</p></div>
+          <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-sm font-semibold text-ink-deep">{rental.displayRentalNo || rental.rentalNo}</span>{Number(rental.orderMachineCount) > 1 && <span className="status-pill info">同单 {rental.orderMachineCount} 台</span>}<span className={'status-pill ' + (rental.status === 'renting' ? 'warn' : 'ok')}>{rental.status === 'renting' ? '租赁中' : '已归还'}</span>{dueLabel(rental) && <span className={'status-pill ' + (dueLabel(rental).startsWith('已逾期') || dueLabel(rental) === '今日到期' ? 'danger' : 'warn')}>{dueLabel(rental)}</span>}</div><p className="mt-1 truncate text-[13px] text-ink-deep">{productName(rental)}</p><p className="mt-0.5 truncate font-mono text-[11px] text-ink-soft">{rental.sn} · {rental.config || '配置待补充'}</p></div>
           <div className="text-xs text-ink-soft"><p>{rental.customerName} · {rental.customerPhone}</p><p className="mt-1">{rental.rentalStartDate} 至 {rental.rentalEndDate}</p></div>
           <div className="text-xs"><p className="font-medium text-ink-deep">{money(rental.rentalTotalPrice)} <span className="font-normal text-ink-soft">/ {rental.rentalDuration}{rental.rentalType === 'month' ? '月' : '日'}</span></p><p className="mt-1 text-ink-soft">押金 {money(rental.deposit)}</p></div>
           <span className="hidden text-xs text-primary sm:block">查看详情 →</span>
@@ -215,14 +230,15 @@ export default function RentalPage() {
       </div>}
     </section>
 
-    {createOpen && <ModalShell title="新建租赁" subtitle="选择一台在库机器，并填写客户和租赁周期" onClose={() => setCreateOpen(false)} footer={<><button type="button" onClick={() => setCreateOpen(false)} className="btn-ghost">取消</button><button form="rental-create-form" type="submit" disabled={submitting || validity.checking || !!validity.error || validity.invalidIds.length > 0} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{submitting ? '提交中...' : '开始租赁'}</button></>}>
+    {createOpen && <ModalShell title="新建租赁" subtitle="可一次选择多台机器，同单共用客户和租期，租金与押金逐台登记" onClose={() => setCreateOpen(false)} footer={<><span className="mr-auto self-center text-xs text-ink-soft">已选择 {selectedIds.length} 台</span><button type="button" onClick={() => setCreateOpen(false)} className="btn-ghost">取消</button><button form="rental-create-form" type="submit" disabled={submitting || !selectedIds.length || validity.checking || !!validity.error || validity.invalidIds.length > 0} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{submitting ? '提交中...' : `开始租赁 ${selectedIds.length || ''}`}</button></>}>
       <form id="rental-create-form" onSubmit={submitRental} className="space-y-5">
-        <section><div className="mb-2 flex items-center justify-between gap-3"><div><h3 className="text-sm font-semibold text-ink-deep">选择在库机器 <span className="text-danger">*</span></h3><p className="mt-1 text-xs text-ink-soft">仅显示当前可租机器</p></div>{selectedMachine && <span className="status-pill ok">已选</span>}</div>
-          <MachineSearchInput<InventoryItem> value={machineSearch} onChange={setMachineSearch} endpoint="/api/inventory/lookup?context=rental" onSelect={item => { setInventory(current => [item, ...current.filter(row => row.id !== item.id)]); setSelectedId(item.id); setMachineSearch(item.sn); }} onSearch={setMachineSearch} ariaLabel="搜索可租机器" />
-          <div className="mt-2 max-h-48 overflow-y-auto rounded-xl border border-line/80 bg-white/55">{inventory.length === 0 ? <p className="p-4 text-center text-xs text-ink-soft">暂无可租机器</p> : inventory.map((item) => <button type="button" key={item.id} onClick={() => setSelectedId(item.id)} className={'flex w-full items-center justify-between gap-3 border-b border-line/70 px-3 py-3 text-left last:border-0 ' + (selectedId === item.id ? 'bg-primary/10' : 'hover:bg-white/70')}><span className="min-w-0"><span className="block truncate text-[13px] font-medium text-ink-deep">{productName(item)}</span><span className="mt-1 block truncate font-mono text-[11px] text-ink-soft">{item.sn} · {configText(item)}</span></span><span className="shrink-0 text-xs text-ink-deep">{money(item.purchasePrice)}</span></button>)}</div>
+        <section><div className="mb-2"><h3 className="text-sm font-semibold text-ink-deep">选择在库机器 <span className="text-danger">*</span></h3><p className="mt-1 text-xs text-ink-soft">输入 SN 后四位或型号搜索，选中后可继续添加其他机器</p></div>
+          <MachineSearchInput<InventoryItem> value={machineSearch} onChange={setMachineSearch} endpoint="/api/inventory/lookup?context=rental" onSelect={item => { addMachine(item); setMachineSearch(''); }} onSearch={setMachineSearch} ariaLabel="搜索可租机器" />
+          <div className="mt-2 grid gap-2 rounded-xl border border-line/70 bg-white/40 p-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end"><label className="text-[10px] text-ink-soft">批量单价<input type="number" min="0.01" step="0.01" value={unitPrice} onChange={event => setUnitPrice(event.target.value)} className="field mt-1 !px-2 !py-1.5 text-xs" placeholder="应用到新选机器" /></label><label className="text-[10px] text-ink-soft">批量押金<input type="number" min="0" step="0.01" value={deposit} onChange={event => setDeposit(event.target.value)} className="field mt-1 !px-2 !py-1.5 text-xs" placeholder="选填，默认 0" /></label><button type="button" className="btn-secondary py-1.5 text-xs" disabled={!selectedIds.length} onClick={() => setRentalTerms(Object.fromEntries(selectedIds.map(id => [id, { rentalUnitPrice: unitPrice, deposit }])))}>应用到已选</button></div>
+          {selectedMachines.length > 0 && <div className="mt-3 overflow-hidden rounded-xl border border-primary/20 bg-primary/5"><div className="flex items-center justify-between border-b border-primary/10 px-3 py-2"><span className="text-xs font-semibold text-ink-deep">已选 {selectedMachines.length} 台</span><button type="button" className="text-xs text-primary" onClick={() => { setSelectedIds([]); setRentalTerms({}); }}>清空</button></div><div className="max-h-64 divide-y divide-line/70 overflow-y-auto">{selectedMachines.map(item => { const invalid = validity.invalidIds.includes(item.id); const terms = rentalTerms[item.id] || { rentalUnitPrice: '', deposit: '' }; return <div key={item.id} className="grid gap-2 p-3 sm:grid-cols-[minmax(0,1fr)_105px_105px_auto] sm:items-center"><div className="min-w-0"><p className="truncate text-xs font-medium text-ink-deep">{productName(item)}{invalid && <span className="ml-2 text-danger">已不可租</span>}</p><p className="mt-0.5 truncate font-mono text-[11px] text-ink-soft">{item.sn} · {configText(item)}</p></div><label className="text-[10px] text-ink-soft">单价<input type="number" min="0.01" step="0.01" value={terms.rentalUnitPrice} onChange={event => updateRentalTerm(item.id, 'rentalUnitPrice', event.target.value)} className="field mt-1 !px-2 !py-1.5 text-xs" required /></label><label className="text-[10px] text-ink-soft">押金<input type="number" min="0" step="0.01" value={terms.deposit} onChange={event => updateRentalTerm(item.id, 'deposit', event.target.value)} className="field mt-1 !px-2 !py-1.5 text-xs" /></label><button type="button" onClick={() => { setSelectedIds(ids => ids.filter(id => id !== item.id)); setRentalTerms(current => { const next = { ...current }; delete next[item.id]; return next; }); }} className="btn-ghost justify-self-end p-2 text-ink-soft hover:text-danger" aria-label={`移除 ${item.sn}`}><X className="h-4 w-4" /></button></div>; })}</div></div>}
+          <div className="mt-2 max-h-40 overflow-y-auto rounded-xl border border-line/80 bg-white/55">{inventory.length === 0 ? <p className="p-4 text-center text-xs text-ink-soft">输入 SN 后四位或型号查找可租机器</p> : inventory.map((item) => { const chosen = selectedIds.includes(item.id); return <button type="button" key={item.id} disabled={chosen} onClick={() => addMachine(item)} className={'flex w-full items-center justify-between gap-3 border-b border-line/70 px-3 py-2.5 text-left last:border-0 ' + (chosen ? 'bg-primary/5 opacity-60' : 'hover:bg-white/70')}><span className="min-w-0"><span className="block truncate text-xs font-medium text-ink-deep">{productName(item)}</span><span className="mt-0.5 block truncate font-mono text-[10px] text-ink-soft">{item.sn} · {configText(item)}</span></span><span className="shrink-0 text-xs font-medium text-primary">{chosen ? '已添加' : '添加'}</span></button>; })}</div>
         </section>
-        {(validity.error || validity.invalidIds.length > 0) && <p role="alert" className="rounded-xl bg-danger/5 p-3 text-xs text-danger">{validity.error || '所选机器状态已变化，请重新选择机器。'}</p>}
-        {selectedMachine && <div className="rounded-xl border border-primary/15 bg-primary/5 px-3 py-2.5 text-xs text-ink-deep">已选择：{productName(selectedMachine)} · {selectedMachine.sn}</div>}
+        {(validity.error || validity.invalidIds.length > 0) && <p role="alert" className="rounded-xl bg-danger/5 p-3 text-xs text-danger">{validity.error || '部分所选机器状态已变化，请移除不可租机器后重试。'}</p>}
         <section className="grid gap-3 sm:grid-cols-2">
           <label className="text-xs text-ink-soft">客户姓名 <span className="text-danger">*</span><input value={customerName} onChange={(event) => setCustomerName(event.target.value)} className="field mt-1.5" required /></label>
           <label className="text-xs text-ink-soft">联系电话 <span className="text-danger">*</span><input type="tel" value={customerPhone} onChange={(event) => setCustomerPhone(event.target.value)} className="field mt-1.5" required /></label>
@@ -230,15 +246,13 @@ export default function RentalPage() {
           <label className="text-xs text-ink-soft">开始日期<input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} className="field mt-1.5" required /></label>
           <label className="text-xs text-ink-soft">结束日期<input type="date" value={endDate} min={startDate} onChange={(event) => setEndDate(event.target.value)} className="field mt-1.5" required /></label>
           <label className="text-xs text-ink-soft">计费方式<div className="mt-1.5"><CustomSelect value={rentalType} onChange={setRentalType} options={typeOptions} /></div></label>
-          <label className="text-xs text-ink-soft">单价<input type="number" min="0.01" step="0.01" value={unitPrice} onChange={(event) => setUnitPrice(event.target.value)} className="field mt-1.5" required /></label>
-          <label className="text-xs text-ink-soft">押金<input type="number" min="0" step="0.01" value={deposit} onChange={(event) => setDeposit(event.target.value)} className="field mt-1.5" placeholder="0.00" /></label>
           <label className="text-xs text-ink-soft">备注<input value={remark} onChange={(event) => setRemark(event.target.value)} className="field mt-1.5" /></label>
         </section>
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-primary/5 px-4 py-3"><span className="text-xs text-ink-soft">预计 {duration || '-'} 个{rentalType === 'month' ? '月' : '日'}计费单位</span><span className="text-xs text-ink-soft">预计租金 <b className="ml-1 font-mono text-sm text-ink-deep">{money(totalPrice)}</b></span></div>
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-primary/5 px-4 py-3"><span className="text-xs text-ink-soft">预计 {duration || '-'} 个{rentalType === 'month' ? '月' : '日'}计费单位 · {selectedMachines.length} 台</span><span className="text-xs text-ink-soft">本单预计租金 <b className="ml-1 font-mono text-sm text-ink-deep">{money(totalPrice)}</b></span></div>
       </form>
     </ModalShell>}
 
-    {selectedRental && <ModalShell title={selectedRental.rentalNo} subtitle="租赁详情" onClose={() => { setSelectedRental(null); setReturnOpen(false); }} footer={selectedRental.status === 'renting' && !returnOpen ? <><button type="button" onClick={() => setSelectedRental(null)} className="btn-ghost">关闭</button><button type="button" onClick={() => { setReturnDate(dateInput()); setReturnOpen(true); }} className="btn-primary inline-flex items-center gap-2"><RotateCcw className="h-4 w-4" />完成归还</button></> : returnOpen ? <><button type="button" onClick={() => setReturnOpen(false)} className="btn-ghost">返回详情</button><button form="rental-return-form" type="submit" disabled={returning} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{returning ? '处理中...' : '确认归还'}</button></> : <button type="button" onClick={() => setSelectedRental(null)} className="btn-primary">关闭</button>}>
+    {selectedRental && <ModalShell title={selectedRental.displayRentalNo || selectedRental.rentalNo} subtitle="租赁明细 · 当前机器可单独归还" onClose={() => { setSelectedRental(null); setReturnOpen(false); }} footer={selectedRental.status === 'renting' && !returnOpen ? <><button type="button" onClick={() => setSelectedRental(null)} className="btn-ghost">关闭</button><button type="button" onClick={() => { setReturnDate(dateInput()); setReturnOpen(true); }} className="btn-primary inline-flex items-center gap-2"><RotateCcw className="h-4 w-4" />完成归还</button></> : returnOpen ? <><button type="button" onClick={() => setReturnOpen(false)} className="btn-ghost">返回详情</button><button form="rental-return-form" type="submit" disabled={returning} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{returning ? '处理中...' : '确认归还'}</button></> : <button type="button" onClick={() => setSelectedRental(null)} className="btn-primary">关闭</button>}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-2"><span className={'status-pill ' + (selectedRental.status === 'renting' ? 'warn' : 'ok')}>{selectedRental.status === 'renting' ? '租赁中' : '已归还'}</span>{dueLabel(selectedRental) && <span className="status-pill danger">{dueLabel(selectedRental)}</span>}<span className="font-mono text-xs text-ink-soft">SN：{selectedRental.sn}</span></div>
         <section className="rounded-xl border border-line/80 bg-white/45 p-4"><h3 className="text-sm font-semibold text-ink-deep">机器信息</h3><p className="mt-2 text-sm text-ink-deep">{productName(selectedRental)}</p><p className="mt-1 text-xs text-ink-soft">{selectedRental.config || '配置待补充'}</p></section>

@@ -87,6 +87,9 @@ async function main() {
       VALUES ('dm-machine','dm-order','dm-item','PURGE-SN-001','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K',1000,'dm-supplier','数据管理供应商','in_stock','2026-10-30','warehouse_main')`).run();
     db.prepare(`INSERT INTO inventory_movements (id,inventoryId,warehouseId,movementType,referenceType,referenceId,actorId,note)
       VALUES ('dm-movement','dm-machine','warehouse_main','asset_change','inventory','dm-machine',?,'test')`).run(adminId);
+    db.prepare(`INSERT INTO rental_orders
+      (id,rentalNo,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,createdBy)
+      VALUES ('dm-rental-order','DM-RENTAL-001','租赁客户','10000000000','测试地址','2026-10-30','2026-10-31','day',?)`).run(adminId);
 
     const resources = await call(routes.resources.GET, '/api/data-management/resources');
     assert(resources.some(item => item.key === 'login_events'));
@@ -109,6 +112,18 @@ async function main() {
     });
     assert.equal(duplicatePreview.reports[0].conflicts, 1);
     assert.equal(duplicatePreview.canApply, false);
+
+    const duplicateRentalOrderPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'rental_orders', mode: 'insert', content: {
+        id: 'dm-rental-order-copy', rentalNo: 'DM-RENTAL-001', customerName: '租赁客户', customerPhone: '10000000000',
+        customerAddress: '测试地址', rentalStartDate: '2026-10-30', rentalEndDate: '2026-10-31', rentalType: 'day', createdBy: adminId,
+      },
+    });
+    assert.equal(duplicateRentalOrderPreview.reports[0].valid, 0);
+    assert.equal(duplicateRentalOrderPreview.reports[0].conflicts, 1);
+    assert.equal(duplicateRentalOrderPreview.reports[0].errors.length, 0);
+    assert(duplicateRentalOrderPreview.reports[0].conflictDetails.some(detail => detail.message.includes('rentalNo 已存在')));
+    assert.equal(duplicateRentalOrderPreview.canApply, false);
 
     const typoPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
       resource: 'suppliers', mode: 'insert', content: { id: 'dm-typo', supplierName: '字段检查', status: 'active', supplierNmae: '错误拼写' },

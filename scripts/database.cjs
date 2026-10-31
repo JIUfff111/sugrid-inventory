@@ -825,6 +825,40 @@ function applyVersionedMigrations(db) {
       END;
     `);
   });
+  migrate(13, 'group multiple rental machines under one rental order', () => {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS rental_orders (
+        id TEXT PRIMARY KEY,
+        rentalNo TEXT NOT NULL UNIQUE,
+        customerName TEXT NOT NULL,
+        customerPhone TEXT NOT NULL,
+        customerAddress TEXT NOT NULL,
+        rentalStartDate TEXT NOT NULL,
+        rentalEndDate TEXT NOT NULL,
+        rentalType TEXT NOT NULL,
+        remark TEXT,
+        createdBy TEXT NOT NULL,
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        updatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        FOREIGN KEY (createdBy) REFERENCES users(id)
+      );
+    `);
+    add('rental_records', 'rentalOrderId', 'TEXT REFERENCES rental_orders(id)');
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_rental_orders_created ON rental_orders(createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_rental_records_order ON rental_records(rentalOrderId, createdAt);
+    `);
+    const legacy = db.prepare('SELECT * FROM rental_records WHERE rentalOrderId IS NULL').all();
+    const insertOrder = db.prepare(`INSERT OR IGNORE INTO rental_orders
+      (id,rentalNo,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,remark,createdBy,createdAt,updatedAt)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`);
+    const linkRental = db.prepare('UPDATE rental_records SET rentalOrderId = ? WHERE id = ? AND rentalOrderId IS NULL');
+    for (const row of legacy) {
+      const orderId = 'rental_order_' + row.id;
+      insertOrder.run(orderId,row.rentalNo,row.customerName,row.customerPhone,row.customerAddress,row.rentalStartDate,row.rentalEndDate,row.rentalType,row.remark,row.createdBy,row.createdAt,row.updatedAt);
+      linkRental.run(orderId,row.id);
+    }
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

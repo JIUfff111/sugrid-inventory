@@ -76,7 +76,7 @@ function authError(error: unknown) {
 function rentalNo() {
   const date = formatDateTime().slice(0, 10).replace(/-/g, '');
   const prefix = `租${date}`;
-  const row = db.prepare('SELECT rentalNo FROM rental_records WHERE rentalNo LIKE ? ORDER BY rentalNo DESC LIMIT 1').get(`${prefix}%`) as { rentalNo: string } | undefined;
+  const row = db.prepare('SELECT rentalNo FROM rental_orders WHERE rentalNo LIKE ? ORDER BY rentalNo DESC LIMIT 1').get(`${prefix}%`) as { rentalNo: string } | undefined;
   const last = row ? Number.parseInt(row.rentalNo.slice(prefix.length), 10) : 0;
   return `${prefix}${String(Number.isFinite(last) ? last + 1 : 1).padStart(3, '0')}`;
 }
@@ -157,13 +157,15 @@ export async function GET(request: NextRequest) {
       params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern);
     }
     const where = `WHERE ${conditions.join(' AND ')}`;
-    const count = db.prepare(`SELECT COUNT(*) AS total FROM rental_records r LEFT JOIN inventory i ON i.id = r.inventoryId ${where}`).get(...params) as { total: number };
+    const count = db.prepare(`SELECT COUNT(*) AS total FROM rental_records r LEFT JOIN inventory i ON i.id = r.inventoryId LEFT JOIN rental_orders ro ON ro.id = r.rentalOrderId ${where}`).get(...params) as { total: number };
     const safePage = Math.min(page, Math.max(1, Math.ceil(Number(count.total) / pageSize)));
-    const rows = db.prepare(`SELECT r.*, i.year AS year,
+    const rows = db.prepare(`SELECT r.*, COALESCE(ro.rentalNo, r.rentalNo) AS displayRentalNo,
+      (SELECT COUNT(*) FROM rental_records siblings WHERE siblings.rentalOrderId = r.rentalOrderId AND siblings.deleted = 0) AS orderMachineCount,
+      i.year AS year,
       CAST(julianday(date(r.rentalEndDate)) - julianday(date('now', 'localtime')) AS INTEGER) AS daysUntilDue,
       CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) < date('now', 'localtime') THEN 1 ELSE 0 END AS isOverdue,
       CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) >= date('now', 'localtime') AND date(r.rentalEndDate) <= date('now', 'localtime', '+3 day') THEN 1 ELSE 0 END AS isDueSoon
-      FROM rental_records r LEFT JOIN inventory i ON i.id = r.inventoryId ${where} ORDER BY r.rentalEndDate ASC, r.createdAt DESC LIMIT ? OFFSET ?`).all(...params, pageSize, (safePage - 1) * pageSize) as Array<RentalRow & { id: string }>;
+      FROM rental_records r LEFT JOIN inventory i ON i.id = r.inventoryId LEFT JOIN rental_orders ro ON ro.id = r.rentalOrderId ${where} ORDER BY r.rentalEndDate ASC, r.createdAt DESC LIMIT ? OFFSET ?`).all(...params, pageSize, (safePage - 1) * pageSize) as Array<RentalRow & { id: string }>;
     const withMovements = rows.map((row) => ({
       ...row,
       dueStatus: Number(row.isOverdue) ? 'overdue' : Number(row.isDueSoon) ? 'due_soon' : 'normal',
@@ -180,46 +182,70 @@ export async function POST(request: NextRequest) {
   try {
     const user = await requireRole('admin');
     const body = await request.json() as Record<string, unknown>;
-    const inventoryId = String(body.inventoryId || '').trim();
+    const rawItems = Array.isArray(body.items) ? body.items : Array.isArray(body.inventoryIds) ? body.inventoryIds.map(inventoryId => ({ inventoryId })) : body.inventoryId ? [{ inventoryId: body.inventoryId }] : [];
+    const itemInputs = rawItems.map((item) => typeof item === 'string' ? { inventoryId: item } : item && typeof item === 'object' ? item as Record<string, unknown> : {});
+    const inventoryIds = itemInputs.map(item => String(item.inventoryId || '').trim());
+    if (!inventoryIds.length) return jsonError(ErrorCode.VALIDATION_ERROR, '请至少选择一台租赁机器');
+    if (inventoryIds.length > 100) return jsonError(ErrorCode.VALIDATION_ERROR, '单次最多选择 100 台机器');
+    if (inventoryIds.some(id => !id) || new Set(inventoryIds).size !== inventoryIds.length) return jsonError(ErrorCode.VALIDATION_ERROR, '机器选择无效或包含重复机器');
     const customerName = String(body.customerName || '').trim();
     const customerPhone = String(body.customerPhone || '').trim();
     const customerAddress = String(body.customerAddress || '').trim();
     const rentalStartDate = String(body.rentalStartDate || '').trim();
     const rentalEndDate = String(body.rentalEndDate || '').trim();
     const rentalType = body.rentalType === 'month' ? 'month' : 'day';
-    const rentalUnitPrice = Number(body.rentalUnitPrice);
-    const deposit = Number(body.deposit || 0);
-    if (!inventoryId || !customerName || !customerPhone || !customerAddress || !rentalStartDate || !rentalEndDate) return jsonError(ErrorCode.VALIDATION_ERROR, '请填写完整的租赁和客户信息');
-    if (!Number.isFinite(rentalUnitPrice) || rentalUnitPrice <= 0) return jsonError(ErrorCode.VALIDATION_ERROR, '请输入有效的租赁单价');
-    if (!Number.isFinite(deposit) || deposit < 0) return jsonError(ErrorCode.VALIDATION_ERROR, '押金格式不正确');
+    if (!customerName || !customerPhone || !customerAddress || !rentalStartDate || !rentalEndDate) return jsonError(ErrorCode.VALIDATION_ERROR, '请填写完整的租赁和客户信息');
+    const lineInputs = itemInputs.map(item => ({
+      inventoryId: String(item.inventoryId || '').trim(),
+      rentalUnitPrice: Number(item.rentalUnitPrice ?? body.rentalUnitPrice),
+      deposit: Number(item.deposit ?? body.deposit ?? 0),
+    }));
+    if (lineInputs.some(item => !Number.isFinite(item.rentalUnitPrice) || item.rentalUnitPrice <= 0)) return jsonError(ErrorCode.VALIDATION_ERROR, '请为每台机器填写有效的租赁单价');
+    if (lineInputs.some(item => !Number.isFinite(item.deposit) || item.deposit < 0)) return jsonError(ErrorCode.VALIDATION_ERROR, '每台机器的押金格式不正确');
     const duration = rentalDuration(rentalStartDate, rentalEndDate, rentalType);
     if (!duration) return jsonError(ErrorCode.VALIDATION_ERROR, '租赁结束日期不能早于开始日期');
 
-    const inventory = db.prepare(`${inventorySelect} WHERE i.id = ? AND i.deleted = 0`).get(inventoryId) as InventoryRow | undefined;
-    if (!inventory) return jsonError(ErrorCode.INVENTORY_NOT_FOUND, '库存机器不存在', 404);
-    const config = [inventory.cpu, inventory.ram, inventory.gpu, inventory.storage, inventory.screen].filter(Boolean).join(' / ') || '配置待补充';
-    const id = generateId('rental');
+    const inventoryById = new Map<string, InventoryRow>();
+    for (const inventoryId of inventoryIds) {
+      const inventory = db.prepare(`${inventorySelect} WHERE i.id = ? AND i.deleted = 0`).get(inventoryId) as InventoryRow | undefined;
+      if (!inventory) return jsonError(ErrorCode.INVENTORY_NOT_FOUND, `未找到机器 ${inventoryId}`, 404);
+      inventoryById.set(inventoryId, inventory);
+    }
+    const orderId = generateId('rental_order');
     const now = formatDateTime();
     const no = rentalNo();
+    const orderTotal = lineInputs.reduce((sum, item) => sum + item.rentalUnitPrice * duration, 0);
+    const createdItems: Array<{ id: string; inventoryId: string; rentalNo: string; rentalUnitPrice: number; deposit: number }> = [];
     db.transaction(() => {
-      assertStockEligible(inventoryId);
-      endCustomStatus(inventoryId,user.id,'租赁出库','rental',id,'renting');
+      db.prepare(`INSERT INTO rental_orders
+        (id,rentalNo,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,remark,createdBy,createdAt,updatedAt)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).run(orderId,no,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,String(body.remark || '').trim() || null,user.id,now,now);
       const update = db.prepare("UPDATE inventory SET status = 'renting', rentalRecordId = ?, updatedAt = ? WHERE id = ? AND status IN ('in_stock','custom') AND deleted = 0");
-      if (update.run(id, now, inventoryId).changes !== 1) throw new Error('机器状态已发生变化，请刷新后重试');
-      db.prepare(`INSERT INTO rental_records (
-        id, rentalNo, inventoryId, sn, brand, model, config, purchasePrice,
+      const insertRental = db.prepare(`INSERT INTO rental_records (
+        id, rentalOrderId, rentalNo, inventoryId, sn, brand, model, config, purchasePrice,
         customerName, customerPhone, customerAddress, rentalStartDate, rentalEndDate,
         rentalType, rentalUnitPrice, rentalDuration, rentalTotalPrice, deposit,
         status, remark, deleted, createdBy, createdAt, updatedAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'renting', ?, 0, ?, ?, ?)`).run(
-        id, no, inventory.id, inventory.sn, inventory.brand, inventory.model, config, inventory.purchasePrice,
-        customerName, customerPhone, customerAddress, rentalStartDate, rentalEndDate,
-        rentalType, rentalUnitPrice, duration, rentalUnitPrice * duration, deposit,
-        String(body.remark || '').trim() || null, user.id, now, now,
-      );
-      addRentalMovement(inventoryId, id, 'rental_out', user.id, '租赁出库', now);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'renting', ?, 0, ?, ?, ?)`);
+      for (const [index, line] of lineInputs.entries()) {
+        assertStockEligible(line.inventoryId);
+        const inventory = inventoryById.get(line.inventoryId)!;
+        const id = generateId('rental');
+        const config = [inventory.cpu, inventory.ram, inventory.gpu, inventory.storage, inventory.screen].filter(Boolean).join(' / ') || '配置待补充';
+        const itemNo = `${no}-${String(index + 1).padStart(2, '0')}`;
+        endCustomStatus(line.inventoryId,user.id,'租赁出库','rental',id,'renting');
+        if (update.run(id, now, line.inventoryId).changes !== 1) throw new Error('机器状态已发生变化，请刷新后重试');
+        insertRental.run(
+          id, orderId, itemNo, inventory.id, inventory.sn, inventory.brand, inventory.model, config, inventory.purchasePrice,
+          customerName, customerPhone, customerAddress, rentalStartDate, rentalEndDate,
+          rentalType, line.rentalUnitPrice, duration, line.rentalUnitPrice * duration, line.deposit,
+          String(body.remark || '').trim() || null, user.id, now, now,
+        );
+        addRentalMovement(line.inventoryId, id, 'rental_out', user.id, '租赁出库 · ' + no, now);
+        createdItems.push({ id, inventoryId: inventory.id, rentalNo: itemNo, rentalUnitPrice: line.rentalUnitPrice, deposit: line.deposit });
+      }
     })();
-    return NextResponse.json(successResponse({ id, rentalNo: no, duration, totalPrice: rentalUnitPrice * duration }), { status: 201 });
+    return NextResponse.json(successResponse({ id: createdItems.length === 1 ? createdItems[0].id : orderId, rentalOrderId: orderId, rentalNo: no, count: lineInputs.length, duration, totalPrice: orderTotal, items: createdItems }), { status: 201 });
   } catch (error) {
     const response = authError(error); if (response) return response;
     const message = messageOf(error,'创建租赁记录失败');

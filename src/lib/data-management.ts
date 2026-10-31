@@ -82,9 +82,14 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
     fields: ['id', 'salesRecordId', 'saleRecordId', 'inventoryId', 'sn', 'purchasePrice', 'sellingPrice', 'profit', 'warehouseId', 'snapshot', 'afterSaleId', 'itemType', 'originalInventoryId', 'remark', 'createdAt'],
     writable: ['remark'], deletable: false, creatable: false, searchFields: ['sn', 'salesRecordId', 'inventoryId', 'itemType'], orderBy: 'createdAt DESC', required: ['salesRecordId', 'inventoryId', 'sn'],
   },
+  rental_orders: {
+    key: 'rental_orders', label: '租赁主单', table: 'rental_orders',
+    fields: ['id', 'rentalNo', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'remark', 'createdBy', 'createdAt', 'updatedAt'],
+    writable: ['remark'], deletable: false, creatable: false, searchFields: ['rentalNo', 'customerName', 'customerPhone'], orderBy: 'createdAt DESC', required: ['rentalNo', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'createdBy'],
+  },
   rental_records: {
     key: 'rental_records', label: '租赁记录', table: 'rental_records',
-    fields: ['id', 'rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit', 'status', 'returnDate', 'returnType', 'sellingPrice', 'priceDifference', 'saleChannel', 'saleOrderNo', 'salesRecordId', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
+    fields: ['id', 'rentalOrderId', 'rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit', 'status', 'returnDate', 'returnType', 'sellingPrice', 'priceDifference', 'saleChannel', 'saleOrderNo', 'salesRecordId', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
     writable: ['remark'], deletable: false, creatable: false, searchFields: ['rentalNo', 'sn', 'brand', 'model', 'customerName', 'customerPhone', 'status'], orderBy: 'createdAt DESC', required: ['rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit'],
   },
   after_sale_records: {
@@ -226,6 +231,7 @@ const IMPORT_USER_REFERENCE_FIELDS: Record<string, string[]> = {
   purchase_items: ['recordedBy'],
   sales_records: ['createdBy', 'cancelledBy'],
   rental_records: ['createdBy'],
+  rental_orders: ['createdBy'],
   after_sale_records: ['createdBy', 'receivedBy'],
   after_sale_stock: ['receivedBy'],
   return_orders: ['createdBy'],
@@ -344,6 +350,7 @@ const IMPORT_UNIQUE_FIELDS: Record<string, string[]> = {
   purchase_items: ['sn'],
   inventory: ['sn'],
   sales_records: ['recordNo'],
+  rental_orders: ['rentalNo'],
   rental_records: ['rentalNo'],
   after_sale_records: ['afterSaleNo'],
   return_orders: ['returnNo'],
@@ -375,7 +382,8 @@ const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column
     salesRecordId: { table: 'sales_records' }, saleRecordId: { table: 'sales_records' },
     inventoryId: { table: 'inventory' }, afterSaleId: { table: 'after_sale_records' }, originalInventoryId: { table: 'inventory' },
   },
-  rental_records: { inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' }, createdBy: { table: 'users' } },
+  rental_records: { rentalOrderId: { table: 'rental_orders' }, inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' }, createdBy: { table: 'users' } },
+  rental_orders: { createdBy: { table: 'users' } },
   after_sale_records: {
     inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' },
     replacementInventoryId: { table: 'inventory' }, createdBy: { table: 'users' },

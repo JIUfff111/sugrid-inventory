@@ -60,6 +60,7 @@ const fallbackResources: Resource[] = [
   { key: 'sales_records', label: '销售记录', description: '销售出库历史', creatable: false, deletable: false },
   { key: 'sales_record_items', label: '销售明细', description: '销售机器快照', creatable: false, deletable: false },
   { key: 'rental_records', label: '租赁记录', description: '租赁出库和归还', creatable: false, deletable: false },
+  { key: 'rental_orders', label: '租赁主单', description: '同次租赁的客户与租期信息', creatable: false, deletable: false },
   { key: 'after_sale_records', label: '售后记录', description: '售后处理和暂存', creatable: false, deletable: false },
   { key: 'after_sale_stock', label: '售后暂存', description: '售后收到的机器', creatable: false, deletable: false },
   { key: 'return_orders', label: '供应商退货', description: '供应商退货记录', creatable: false, deletable: false },

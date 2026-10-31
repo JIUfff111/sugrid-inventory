@@ -76,7 +76,7 @@ async function main() {
     const chinaToday = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
     const shiftDate = (days) => new Date(Date.parse(`${chinaToday}T00:00:00Z`) + days * 86400000).toISOString().slice(0, 10);
 
-    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE'];
+    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2'];
     const purchase = await call('purchase-orders', 'POST', {
       supplierId: 'flow-supplier', supplierOrderNo: 'FLOW-PO', purchaseDate: chinaToday, purchasedBy: 'flow-admin',
       status: 'completed', warehouseId: mainWarehouse,
@@ -84,6 +84,16 @@ async function main() {
     }, 201);
     assert.equal(purchase.inventoryIds.length, sns.length);
     const inventory = (sn) => db.prepare('SELECT * FROM inventory WHERE sn=?').get(sn);
+    db.prepare(`INSERT INTO rental_records
+      (id,rentalNo,inventoryId,sn,brand,model,config,purchasePrice,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,rentalUnitPrice,rentalDuration,rentalTotalPrice,deposit,status,deleted,createdBy,createdAt,updatedAt)
+      VALUES ('legacy-rental','租LEGACY0001',?,'RTN-OUTSIDE','ThinkPad','X13','16GB / 512GB',1000,'历史客户','10000000000','测试地址',?,?, 'day',10,1,10,100,'returned',0,'flow-admin',?,?)`)
+      .run(inventory('RTN-OUTSIDE').id, chinaToday, chinaToday, chinaToday + ' 00:00:00', chinaToday + ' 00:00:00');
+    db.prepare('DELETE FROM schema_migrations WHERE version = 13').run();
+    db.exec('DROP TABLE rental_orders');
+    database.initDatabase();
+    const migratedLegacy = db.prepare('SELECT rentalOrderId FROM rental_records WHERE id = ?').get('legacy-rental');
+    assert(migratedLegacy.rentalOrderId, 'legacy rental should receive a compatible one-machine rental order');
+    assert.equal(db.prepare('SELECT rentalNo FROM rental_orders WHERE id = ?').get(migratedLegacy.rentalOrderId).rentalNo, '租LEGACY0001');
     const addRental = async (sn, endDate) => call('rentals', 'POST', {
       inventoryId: inventory(sn).id, customerName: '测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
       rentalStartDate: shiftDate(-30), rentalEndDate: endDate, rentalType: 'day', rentalUnitPrice: 10, deposit: 100,
@@ -98,6 +108,47 @@ async function main() {
     assert.equal(inventory('RTN-RETURN').rentalRecordId, null);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='rental_return' AND referenceId=? AND actorId='flow-admin'").get(returnedRental.id).n, 1);
     await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return' }, 400);
+
+    const batchRental = await call('rentals', 'POST', {
+      items: [
+        { inventoryId: inventory('RTN-BATCH-1').id, rentalUnitPrice: 25, deposit: 100 },
+        { inventoryId: inventory('RTN-BATCH-2').id, rentalUnitPrice: 40, deposit: 200 },
+      ],
+      customerName: '批量测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
+      rentalStartDate: chinaToday, rentalEndDate: shiftDate(2), rentalType: 'day',
+    }, 201);
+    assert.equal(batchRental.count, 2);
+    assert.equal(batchRental.totalPrice, 195);
+    const batchItems = db.prepare('SELECT * FROM rental_records WHERE rentalOrderId = ? ORDER BY sn').all(batchRental.id);
+    assert.equal(batchItems.length, 2);
+    assert(batchItems.every(item => item.rentalNo !== batchRental.rentalNo));
+    assert.deepEqual(batchItems.map(item => item.sn), ['RTN-BATCH-1', 'RTN-BATCH-2']);
+    assert.equal(inventory('RTN-BATCH-1').status, 'renting');
+    assert.equal(inventory('RTN-BATCH-2').status, 'renting');
+    const batchList = await call('rentals', 'GET', undefined, 200, `?search=${encodeURIComponent(batchRental.rentalNo)}`);
+    assert.equal(batchList.items.length, 2);
+    assert(batchList.items.every(item => item.displayRentalNo === batchRental.rentalNo && item.orderMachineCount === 2));
+    const firstReturn = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'return', returnDate: chinaToday, returnType: '正常归还' });
+    assert.equal(firstReturn.status, 'returned');
+    assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[0].id).status, 'returned');
+    assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'renting');
+    assert.equal(inventory(batchItems[0].sn).status, 'in_stock');
+    assert.equal(inventory(batchItems[1].sn).status, 'renting');
+    const ordersBeforeRejectedBatch = Number(db.prepare('SELECT COUNT(*) n FROM rental_orders').get().n);
+    await call('rentals', 'POST', {
+      items: [
+        { inventoryId: batchItems[0].inventoryId, rentalUnitPrice: 10, deposit: 0 },
+        { inventoryId: batchItems[1].inventoryId, rentalUnitPrice: 10, deposit: 0 },
+      ],
+      customerName: '部分冲突回滚', customerPhone: '10000000000', customerAddress: '测试地址',
+      rentalStartDate: chinaToday, rentalEndDate: shiftDate(1), rentalType: 'day',
+    }, 400);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM rental_orders').get().n, ordersBeforeRejectedBatch);
+    assert.equal(inventory(batchItems[0].sn).status, 'in_stock');
+    await call('rentals', 'POST', {
+      items: [{ inventoryId: inventory('RTN-BATCH-2').id, rentalUnitPrice: 10, deposit: 0 }, { inventoryId: inventory('RTN-BATCH-2').id, rentalUnitPrice: 10, deposit: 0 }],
+      customerName: '重复机器', customerPhone: '10000000000', customerAddress: '测试地址', rentalStartDate: chinaToday, rentalEndDate: shiftDate(1), rentalType: 'day',
+    }, 400);
 
     const dueThree = await addRental('RTN-D3', shiftDate(3));
     const dueToday = await addRental('RTN-TODAY', chinaToday);
@@ -191,7 +242,7 @@ async function main() {
 
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
     assert.deepEqual(db.pragma('foreign_key_check'), []);
-    console.log('PASS real SQLite rental/transfer/alert regression: rental return and movement, 3-day/today/overdue alerts, 24-hour after-sale alert, warehouse-manager transfer scope/approval denial, admin completion and paired movements, transaction rollback, FK/integrity');
+    console.log('PASS real SQLite rental/transfer/alert regression: legacy rental migration, multi-machine rental and separate pricing, single-item return, duplicate rejection, 3-day/today/overdue alerts, 24-hour after-sale alert, transfer permissions/movements, transaction rollback, FK/integrity');
   } finally {
     if (db?.open) db.close();
     if (oldPath === undefined) delete process.env.INVENTORY_DB_PATH;
