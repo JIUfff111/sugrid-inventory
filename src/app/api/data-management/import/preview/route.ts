@@ -9,8 +9,14 @@ export type ImportCheck = {
   total: number;
   valid: number;
   conflicts: number;
+  conflictIndexes: number[];
+  conflictDetails: Array<{ index: number; message: string }>;
   errors: Array<{ index: number; message: string }>;
 };
+
+function isAutoSkippableConflict(message: string) {
+  return message.includes('已存在') || message.includes('在导入文件中重复');
+}
 
 export async function buildImportReport(resourceKey: string | null, content: unknown, mode: 'insert' | 'upsert' = 'insert') {
   const payload = importPayload(resourceKey, content);
@@ -43,7 +49,7 @@ export async function buildImportReport(resourceKey: string | null, content: unk
   for (const group of payload) {
     const resource = getResource(group.resource);
     if (!resource) continue;
-    const report: ImportCheck = { resource: group.resource, total: group.records.length, valid: 0, conflicts: 0, errors: [] };
+    const report: ImportCheck = { resource: group.resource, total: group.records.length, valid: 0, conflicts: 0, conflictIndexes: [], conflictDetails: [], errors: [] };
     group.records.forEach((value, index) => {
       if (!value || typeof value !== 'object' || Array.isArray(value)) { report.errors.push({ index, message: '记录必须是对象' }); return; }
       const raw = value as Record<string, unknown>;
@@ -54,7 +60,11 @@ export async function buildImportReport(resourceKey: string | null, content: unk
       }
       if (id && recordExists(resource, id)) {
         report.conflicts += 1;
-        if (mode === 'insert') { report.errors.push({ index, message: `ID ${id} 已存在` }); return; }
+        if (mode === 'insert') {
+          report.conflictIndexes.push(index);
+          report.conflictDetails.push({ index, message: `ID ${id} 已存在，已跳过` });
+          return;
+        }
       }
       const effectiveMode = mode === 'upsert' && id ? 'upsert' : 'insert';
       const errors = validateImportRecord(resource, raw, { mode: effectiveMode, incomingIds, seenUnique, payloadRecords });
@@ -77,12 +87,27 @@ export async function buildImportReport(resourceKey: string | null, content: unk
           if (duplicate && !(effectiveMode === 'upsert' && id && String(duplicate.id) === id)) errors.push('该账号已拥有此仓库权限');
         }
       }
-      if (errors.length) { report.errors.push({ index, message: errors.join('；') }); return; }
+      if (errors.length) {
+        if (mode === 'insert') {
+          const conflictErrors = errors.filter(isAutoSkippableConflict);
+          const blockingErrors = errors.filter(error => !isAutoSkippableConflict(error));
+          if (conflictErrors.length && !blockingErrors.length) {
+            report.conflicts += 1;
+            report.conflictIndexes.push(index);
+            report.conflictDetails.push({ index, message: `${conflictErrors.join('；')}，已跳过` });
+            return;
+          }
+          report.errors.push({ index, message: [...blockingErrors, ...conflictErrors].join('；') });
+          return;
+        }
+        report.errors.push({ index, message: errors.join('；') });
+        return;
+      }
       report.valid += 1;
     });
     reports.push(report);
   }
-  if (!reports.length) reports.push({ resource: resourceKey || 'all', total: 0, valid: 0, conflicts: 0, errors: [{ index: 0, message: '未识别到可导入的数据资源' }] });
+  if (!reports.length) reports.push({ resource: resourceKey || 'all', total: 0, valid: 0, conflicts: 0, conflictIndexes: [], conflictDetails: [], errors: [{ index: 0, message: '未识别到可导入的数据资源' }] });
   return reports;
 }
 
@@ -92,7 +117,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json() as { resource?: string; content?: unknown; mode?: 'insert' | 'upsert' };
     if (body.content === undefined) return NextResponse.json(errorResponse('VALIDATION_ERROR', '导入内容不能为空'), { status: 400 });
     const reports = await buildImportReport(body.resource?.trim() || null, body.content, body.mode === 'upsert' ? 'upsert' : 'insert');
-    return NextResponse.json(successResponse({ reports, canApply: reports.every((report) => report.errors.length === 0 && report.valid > 0) }));
+    return NextResponse.json(successResponse({ reports, canApply: reports.every((report) => report.errors.length === 0) && reports.some((report) => report.valid > 0) }));
   } catch (error) {
     const failure = authErrorResponse(error);
     if (failure) return failure;

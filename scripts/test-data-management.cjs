@@ -158,6 +158,25 @@ async function main() {
     assert.equal(stringFullJsonPreview.reports[0].valid, 1);
     assert.equal(stringFullJsonPreview.reports[0].errors.length, 0);
 
+    const partialUserContent = JSON.stringify({ resources: { users: [
+      { id: 'partial-conflict', username: 'admin', realName: '冲突账号', role: 'admin', status: 'active' },
+      { id: 'partial-new-user', username: 'partial-new-user', realName: '新增账号', role: 'admin', status: 'active' },
+    ] } });
+    const partialUserPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'users', mode: 'insert', content: partialUserContent,
+    });
+    assert.equal(partialUserPreview.reports[0].valid, 1);
+    assert.equal(partialUserPreview.reports[0].conflicts, 1);
+    assert.equal(partialUserPreview.reports[0].errors.length, 0);
+    assert.equal(partialUserPreview.canApply, true);
+    assert(partialUserPreview.reports[0].conflictDetails.some(detail => detail.message.includes('账号已存在')));
+    const partialUserImport = await call(routes.import.POST, '/api/data-management/import', 'POST', {
+      resource: 'users', mode: 'insert', fileName: 'partial-users.json', content: partialUserContent,
+    });
+    assert.equal(partialUserImport.inserted, 1);
+    assert(db.prepare("SELECT 1 FROM users WHERE id='partial-new-user'").get());
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM users WHERE username='admin'").get().n, 1);
+
     const systemUserUpsert = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
       resource: 'users', mode: 'upsert', content: { id: adminId, username: 'admin', role: 'warehouse_manager', status: 'active' },
     });

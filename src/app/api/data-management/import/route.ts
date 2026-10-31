@@ -76,7 +76,10 @@ export async function POST(request: NextRequest) {
       for (const group of payload) {
         const resource = getResource(group.resource);
         if (!resource) throw new Error(`未知资源 ${group.resource}`);
-        for (const value of group.records) {
+        const report = reports.find(item => item.resource === group.resource);
+        const skippedIndexes = new Set(mode === 'insert' ? report?.conflictIndexes || [] : []);
+        for (const [index, value] of group.records.entries()) {
+          if (skippedIndexes.has(index)) continue;
           if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('导入记录格式不正确');
           const raw = value as Record<string, unknown>;
           const id = typeof raw.id === 'string' ? raw.id.trim() : '';
