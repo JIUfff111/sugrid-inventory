@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authErrorResponse, requireSystemAccount } from '@/lib/auth';
 import { errorResponse, successResponse } from '@/lib/api-helpers';
 import db from '@/lib/db';
-import { getResource, importPayload, recordExists, validateImportRecord, validateManagedUserMutation } from '@/lib/data-management';
+import { getResource, importPayload, normalizeImportRecord, recordExists, validateImportRecord, validateManagedUserMutation } from '@/lib/data-management';
 
 export type ImportCheck = {
   resource: string;
@@ -11,6 +11,7 @@ export type ImportCheck = {
   conflicts: number;
   conflictIndexes: number[];
   conflictDetails: Array<{ index: number; message: string }>;
+  warnings: string[];
   errors: Array<{ index: number; message: string }>;
 };
 
@@ -18,7 +19,7 @@ function isAutoSkippableConflict(message: string) {
   return message.includes('已存在') || message.includes('在导入文件中重复');
 }
 
-export async function buildImportReport(resourceKey: string | null, content: unknown, mode: 'insert' | 'upsert' = 'insert') {
+export async function buildImportReport(resourceKey: string | null, content: unknown, mode: 'insert' | 'upsert' = 'insert', actorId?: string) {
   const payload = importPayload(resourceKey, content);
   const reports: ImportCheck[] = [];
   const incomingIds = new Map<string, Set<string>>();
@@ -50,10 +51,12 @@ export async function buildImportReport(resourceKey: string | null, content: unk
   for (const group of payload) {
     const resource = getResource(group.resource);
     if (!resource) continue;
-    const report: ImportCheck = { resource: group.resource, total: group.records.length, valid: 0, conflicts: 0, conflictIndexes: [], conflictDetails: [], errors: [] };
+    const report: ImportCheck = { resource: group.resource, total: group.records.length, valid: 0, conflicts: 0, conflictIndexes: [], conflictDetails: [], warnings: [], errors: [] };
     group.records.forEach((value, index) => {
       if (!value || typeof value !== 'object' || Array.isArray(value)) { report.errors.push({ index, message: '记录必须是对象' }); return; }
-      const raw = value as Record<string, unknown>;
+      const normalized = normalizeImportRecord(resource, value as Record<string, unknown>, actorId, incomingIds);
+      const raw = normalized.record;
+      report.warnings.push(...normalized.warnings.map(warning => `第 ${index + 1} 条：${warning}`));
       const id = typeof raw.id === 'string' ? raw.id.trim() : '';
       if (id && duplicateIds.get(group.resource)?.has(id)) {
         report.errors.push({ index, message: `导入文件中 ID ${id} 重复` });
@@ -104,16 +107,16 @@ export async function buildImportReport(resourceKey: string | null, content: unk
     });
     reports.push(report);
   }
-  if (!reports.length) reports.push({ resource: resourceKey || 'all', total: 0, valid: 0, conflicts: 0, conflictIndexes: [], conflictDetails: [], errors: [{ index: 0, message: '未识别到可导入的数据资源' }] });
+  if (!reports.length) reports.push({ resource: resourceKey || 'all', total: 0, valid: 0, conflicts: 0, conflictIndexes: [], conflictDetails: [], warnings: [], errors: [{ index: 0, message: '未识别到可导入的数据资源' }] });
   return reports;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    await requireSystemAccount();
+    const actor = await requireSystemAccount();
     const body = await request.json() as { resource?: string; content?: unknown; mode?: 'insert' | 'upsert' };
     if (body.content === undefined) return NextResponse.json(errorResponse('VALIDATION_ERROR', '导入内容不能为空'), { status: 400 });
-    const reports = await buildImportReport(body.resource?.trim() || null, body.content, body.mode === 'upsert' ? 'upsert' : 'insert');
+    const reports = await buildImportReport(body.resource?.trim() || null, body.content, body.mode === 'upsert' ? 'upsert' : 'insert', actor.id);
     return NextResponse.json(successResponse({ reports, canApply: reports.every((report) => report.errors.length === 0) && reports.some((report) => report.valid > 0) }));
   } catch (error) {
     const failure = authErrorResponse(error);

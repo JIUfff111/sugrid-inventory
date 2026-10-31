@@ -213,6 +213,29 @@ async function main() {
     assert(db.prepare("SELECT 1 FROM warehouses WHERE id='partial-warehouse-new'").get());
     assert.equal(db.prepare("SELECT COUNT(*) AS n FROM warehouses WHERE name='总仓'").get().n, 1);
 
+    db.prepare(`INSERT INTO sales_channels
+      (id,channelName,channelType,contactInfo,remark,status,usageCount,deleted,createdBy,createdAt,updatedAt)
+      VALUES ('partial-channel-conflict','已存在渠道','测试渠道',NULL,NULL,'active',0,0,?,?,?)`)
+      .run(adminId, '2026-10-30 00:00:00', '2026-10-30 00:00:00');
+    const partialChannelContent = JSON.stringify({ resources: { sales_channels: [
+      { id: 'partial-channel-conflict', channelName: '已存在渠道', channelType: '测试渠道', status: 'active', createdBy: 'source-account-not-in-this-db' },
+      { id: 'partial-channel-new', channelName: '新增渠道', channelType: '测试渠道', status: 'active', createdBy: 'source-account-not-in-this-db' },
+    ] } });
+    const partialChannelPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'sales_channels', mode: 'insert', content: partialChannelContent,
+    });
+    assert.equal(partialChannelPreview.reports[0].valid, 1);
+    assert.equal(partialChannelPreview.reports[0].conflicts, 1);
+    assert.equal(partialChannelPreview.reports[0].errors.length, 0);
+    assert.equal(partialChannelPreview.canApply, true);
+    assert(partialChannelPreview.reports[0].warnings.some(warning => warning.includes('创建人缺少对应账号')));
+    const partialChannelImport = await call(routes.import.POST, '/api/data-management/import', 'POST', {
+      resource: 'sales_channels', mode: 'insert', fileName: 'partial-sales-channels.json', content: partialChannelContent,
+    });
+    assert.equal(partialChannelImport.inserted, 1);
+    assert(db.prepare("SELECT createdBy FROM sales_channels WHERE id='partial-channel-new'").get().createdBy === adminId);
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM sales_channels WHERE channelName='已存在渠道'").get().n, 1);
+
     const systemUserUpsert = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
       resource: 'users', mode: 'upsert', content: { id: adminId, username: 'admin', role: 'warehouse_manager', status: 'active' },
     });

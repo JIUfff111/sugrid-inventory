@@ -215,6 +215,71 @@ export function normalizeValue(value: unknown) {
   return value;
 }
 
+const IMPORT_USER_REFERENCE_FIELDS: Record<string, string[]> = {
+  user_warehouses: ['createdBy'],
+  warehouses: ['createdBy'],
+  suppliers: ['createdBy'],
+  sales_channels: ['createdBy'],
+  skus: ['createdBy'],
+  manual_skus: ['createdBy', 'updatedBy'],
+  purchase_orders: ['supplierId', 'purchasedBy', 'createdBy'],
+  purchase_items: ['recordedBy'],
+  sales_records: ['createdBy', 'cancelledBy'],
+  rental_records: ['createdBy'],
+  after_sale_records: ['createdBy', 'receivedBy'],
+  after_sale_stock: ['receivedBy'],
+  return_orders: ['createdBy'],
+  return_receipts: ['receivedBy'],
+  transfers: ['createdBy', 'approvedBy'],
+  inventory_movements: ['actorId'],
+  inventory_status_definitions: ['createdBy', 'updatedBy'],
+  inventory_status_records: ['createdBy', 'closedBy'],
+  label_templates: ['createdBy'],
+  login_events: ['userId'],
+  data_management_audit: ['actorId'],
+};
+
+const IMPORT_AUDIT_FALLBACK_FIELDS = new Set(['createdBy', 'updatedBy', 'recordedBy', 'purchasedBy', 'actorId']);
+const IMPORT_AUDIT_FIELD_LABELS: Record<string, string> = {
+  createdBy: '创建人', updatedBy: '最后修改人', recordedBy: '录入人', purchasedBy: '采购人', actorId: '操作人',
+  receivedBy: '接收人', approvedBy: '审批人', cancelledBy: '撤销人', closedBy: '结束人', userId: '用户',
+};
+
+export type ImportNormalization = { record: Record<string, unknown>; warnings: string[] };
+
+/**
+ * A resource export can be moved between databases where the source account
+ * IDs do not exist. Audit references are metadata, so keep them when they
+ * resolve and use the importing system administrator when they do not. Business
+ * references such as supplierId, warehouseId, and inventoryId stay strict.
+ */
+export function normalizeImportRecord(
+  resource: DataResource,
+  raw: Record<string, unknown>,
+  actorId: string | undefined,
+  incomingIds: Map<string, Set<string>> = new Map(),
+): ImportNormalization {
+  const record = { ...raw };
+  const warnings: string[] = [];
+  if (!actorId) return { record, warnings };
+  const userIds = incomingIds.get('users') || new Set<string>();
+  for (const field of IMPORT_USER_REFERENCE_FIELDS[resource.key] || []) {
+    if (!resource.fields.includes(field)) continue;
+    const value = record[field];
+    const missing = value === undefined || value === null || String(value).trim() === '';
+    const resolves = !missing && (userIds.has(String(value).trim()) || Boolean(db.prepare('SELECT 1 FROM users WHERE id = ?').get(String(value).trim())));
+    if (!missing && resolves) continue;
+    if (IMPORT_AUDIT_FALLBACK_FIELDS.has(field)) {
+      record[field] = actorId;
+      warnings.push(`${IMPORT_AUDIT_FIELD_LABELS[field] || field}缺少对应账号，已使用当前操作人`);
+    } else if (!missing) {
+      record[field] = null;
+      warnings.push(`${IMPORT_AUDIT_FIELD_LABELS[field] || field}缺少对应账号，已留空`);
+    }
+  }
+  return { record, warnings };
+}
+
 export function listResource(resource: DataResource, query: URLSearchParams) {
   const page = Math.max(1, Number.parseInt(query.get('page') || '1', 10) || 1);
   const pageSize = Math.min(100, Math.max(1, Number.parseInt(query.get('pageSize') || '20', 10) || 20));

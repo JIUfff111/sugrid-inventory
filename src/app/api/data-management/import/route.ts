@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { authErrorResponse, hashPassword, requireSystemAccount } from '@/lib/auth';
 import { errorResponse, generateId, formatDateTime, successResponse } from '@/lib/api-helpers';
 import db from '@/lib/db';
-import { createBackup, getResource, importPayload, normalizeValue, sanitizeRecord, validateManagedUserMutation, writeAudit, dbIntegrityErrors } from '@/lib/data-management';
+import { createBackup, getResource, importPayload, normalizeImportRecord, normalizeValue, sanitizeRecord, validateManagedUserMutation, writeAudit, dbIntegrityErrors } from '@/lib/data-management';
 import { buildImportReport } from './preview/route';
 
 function insertRecord(resource: ReturnType<typeof getResource>, raw: Record<string, unknown>, actorId: string) {
@@ -54,11 +54,21 @@ export async function POST(request: NextRequest) {
     if (body.content === undefined) return NextResponse.json(errorResponse('VALIDATION_ERROR', '导入内容不能为空'), { status: 400 });
     const mode = body.mode === 'upsert' ? 'upsert' : 'insert';
     const resourceKey = body.resource?.trim() || null;
-    const reports = await buildImportReport(resourceKey, body.content, mode);
+    const reports = await buildImportReport(resourceKey, body.content, mode, actor.id);
     const failed = reports.some((report) => report.errors.length > 0);
     if (failed) return NextResponse.json(errorResponse('VALIDATION_ERROR', '导入预览存在错误，请修正后再提交', { reports }), { status: 400 });
     const backup = await createBackup(actor.id, 'before-import');
     const payload = importPayload(resourceKey, body.content);
+    const incomingUserIds = new Set<string>();
+    for (const group of payload) {
+      if (group.resource !== 'users') continue;
+      for (const record of group.records) {
+        if (record && typeof record === 'object' && !Array.isArray(record) && typeof (record as Record<string, unknown>).id === 'string') {
+          incomingUserIds.add(String((record as Record<string, unknown>).id).trim());
+        }
+      }
+    }
+    const incomingIds = new Map<string, Set<string>>([['users', incomingUserIds]]);
     const sourceText = typeof body.content === 'string' ? body.content : JSON.stringify(body.content);
     const fileSha256 = createHash('sha256').update(sourceText, 'utf8').digest('hex');
     const incomingAssignments = new Set<string>();
@@ -81,7 +91,7 @@ export async function POST(request: NextRequest) {
         for (const [index, value] of group.records.entries()) {
           if (skippedIndexes.has(index)) continue;
           if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('导入记录格式不正确');
-          const raw = value as Record<string, unknown>;
+          const raw = normalizeImportRecord(resource, value as Record<string, unknown>, actor.id, incomingIds).record;
           const id = typeof raw.id === 'string' ? raw.id.trim() : '';
           if (mode === 'upsert' && id && db.prepare(`SELECT 1 FROM ${resource.table} WHERE id = ?`).get(id)) {
             if (resource.key === 'user_warehouses') {
