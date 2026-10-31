@@ -138,6 +138,26 @@ async function main() {
     });
     assert(duplicateIdPreview.reports[0].errors.some(error => error.message.includes('ID same-id 重复')));
 
+    const stringJsonPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'users', mode: 'insert', content: JSON.stringify({
+        schemaVersion: 12,
+        resources: { users: [{ id: 'json-user', username: 'json-user', realName: 'JSON 导入', role: 'admin', status: 'active' }] },
+      }),
+    });
+    assert.equal(stringJsonPreview.reports[0].resource, 'users');
+    assert.equal(stringJsonPreview.reports[0].valid, 1);
+    assert.equal(stringJsonPreview.reports[0].errors.length, 0);
+
+    const stringFullJsonPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      mode: 'insert', content: JSON.stringify({
+        schemaVersion: 12,
+        resources: { suppliers: [{ id: 'json-supplier', supplierName: 'JSON 全量导入', status: 'active' }] },
+      }),
+    });
+    assert.equal(stringFullJsonPreview.reports[0].resource, 'suppliers');
+    assert.equal(stringFullJsonPreview.reports[0].valid, 1);
+    assert.equal(stringFullJsonPreview.reports[0].errors.length, 0);
+
     const systemUserUpsert = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
       resource: 'users', mode: 'upsert', content: { id: adminId, username: 'admin', role: 'warehouse_manager', status: 'active' },
     });

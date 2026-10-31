@@ -529,6 +529,21 @@ export function toCsv(rows: Record<string, unknown>[]) {
 }
 
 export function importPayload(resourceKey: string | null, content: unknown) {
+  if (typeof content === 'string') {
+    const trimmed = content.trim();
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        return importPayload(resourceKey, JSON.parse(trimmed));
+      } catch {
+        // Invalid JSON can still be a CSV file whose first cell starts with a brace.
+      }
+    }
+    if (resourceKey && getResource(resourceKey)) return [{ resource: resourceKey, records: parseCsv(content) }];
+    return [];
+  }
+  if (Array.isArray(content)) {
+    return resourceKey && getResource(resourceKey) ? [{ resource: resourceKey, records: content }] : [];
+  }
   if (typeof content === 'object' && content !== null && !Array.isArray(content)) {
     const bundle = content as Record<string, unknown>;
     if (resourceKey) {
@@ -539,7 +554,6 @@ export function importPayload(resourceKey: string | null, content: unknown) {
     }
     return Object.entries(bundle.resources || bundle).filter(([key, value]) => getResource(key) && Array.isArray(value)).map(([resource, records]) => ({ resource, records: records as unknown[] }));
   }
-  if (typeof content === 'string' && resourceKey && getResource(resourceKey)) return [{ resource: resourceKey, records: parseCsv(content) }];
   return [];
 }
 
