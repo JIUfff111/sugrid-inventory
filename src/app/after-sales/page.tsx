@@ -275,3 +275,4 @@ export default function AfterSalesPage() {
 function DetailValue({ label, value }: { label: string; value: string }) {
   return <div className="rounded-xl border border-line/70 bg-white/35 px-3 py-2.5"><p className="text-[11px] text-ink-soft">{label}</p><p className="mt-1 break-words text-[13px] text-ink-deep">{value}</p></div>;
 }
+

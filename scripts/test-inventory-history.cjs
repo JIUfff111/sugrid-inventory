@@ -40,3 +40,4 @@ async function run() {
   }finally{db.close();}
 }
 run().catch(error=>{console.error(error);process.exitCode=1;});
+

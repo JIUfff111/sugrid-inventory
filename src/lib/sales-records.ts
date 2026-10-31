@@ -137,3 +137,4 @@ export function salesCsv(result: ReturnType<typeof querySalesRecords>, view: str
   const cell = (value: unknown) => { let valueText = text(value); if (/^[=+@\-\t\r]/.test(valueText)) valueText = `'${valueText}`; return `"${valueText.replaceAll('"','""')}"`; };
   return '\ufeff' + [header,...rows].map(row => row.map(cell).join(',')).join('\r\n');
 }
+

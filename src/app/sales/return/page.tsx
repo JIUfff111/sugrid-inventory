@@ -385,3 +385,4 @@ function StatTile({ icon, label, value, tone }: { icon: ReactNode; label: string
 function DetailTile({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return <div className="rounded-xl border border-line/70 bg-white/40 px-3 py-3"><div className="flex items-center gap-2 text-xs text-ink-soft">{icon}{label}</div><p className="mt-2 truncate text-sm font-medium text-ink-deep">{value}</p></div>;
 }
+

@@ -460,3 +460,4 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
     </>
   );
 }
+

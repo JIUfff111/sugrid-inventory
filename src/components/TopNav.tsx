@@ -364,3 +364,4 @@ export default function TopNav({ user }: { user: SessionUser }) {
     </nav>
   );
 }
+

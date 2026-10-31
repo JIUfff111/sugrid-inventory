@@ -878,3 +878,4 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
     </>
   );
 }
+

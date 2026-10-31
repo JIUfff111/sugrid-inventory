@@ -580,3 +580,4 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     </>
   );
 }
+

@@ -209,3 +209,4 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
 export default function ClientLayout({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Loading />}><AuthenticatedLayout>{children}</AuthenticatedLayout></Suspense>;
 }
+

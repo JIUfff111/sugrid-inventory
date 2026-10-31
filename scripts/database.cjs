@@ -828,3 +828,4 @@ function applyVersionedMigrations(db) {
 }
 
 module.exports = { initDatabase, seedDatabase };
+

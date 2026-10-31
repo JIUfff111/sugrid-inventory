@@ -286,3 +286,4 @@ export function warehouseScope(user: AuthUser, requestedId?: string | null, alia
   const ids = user.warehouses.filter(w => w.status === 'active').map(w => w.id);
   return ids.length ? { sql: column + ' IN (' + ids.map(() => '?').join(',') + ')', params: ids } : { sql: '0 = 1', params: [] };
 }
+
