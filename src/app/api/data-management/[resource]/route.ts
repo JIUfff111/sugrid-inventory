@@ -78,6 +78,7 @@ export async function POST(request: NextRequest, { params }: Params) {
       mode: 'insert',
       incomingIds: new Map([[resource.key, new Set([id])]]),
       seenUnique: new Map(),
+      seenComposite: new Map(),
     });
     if (inputErrors.length) return bad(inputErrors.join('；'));
     const data = sanitizeRecord(source, resource);
@@ -148,7 +149,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     if (errors.length) return bad(errors.join('；'));
     if (!recordExists(resource, id)) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '记录不存在'), { status: 404 });
     const relationshipErrors = validateImportRecord(resource, { ...data, id }, {
-      mode: 'upsert', incomingIds: new Map(), seenUnique: new Map(),
+      mode: 'upsert', incomingIds: new Map(), seenUnique: new Map(), seenComposite: new Map(),
     });
     if (relationshipErrors.length) return bad(relationshipErrors.join('；'));
     if (resource.key === 'user_warehouses') {

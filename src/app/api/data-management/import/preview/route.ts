@@ -46,6 +46,7 @@ export async function buildImportReport(resourceKey: string | null, content: unk
     duplicateIds.set(group.resource, new Set([...counts].filter(([, count]) => count > 1).map(([id]) => id)));
   }
   const seenUnique = new Map<string, Map<string, Map<string, string>>>();
+  const seenComposite = new Map<string, Map<string, string>>();
   for (const group of payload) {
     const resource = getResource(group.resource);
     if (!resource) continue;
@@ -67,7 +68,7 @@ export async function buildImportReport(resourceKey: string | null, content: unk
         }
       }
       const effectiveMode = mode === 'upsert' && id ? 'upsert' : 'insert';
-      const errors = validateImportRecord(resource, raw, { mode: effectiveMode, incomingIds, seenUnique, payloadRecords });
+      const errors = validateImportRecord(resource, raw, { mode: effectiveMode, incomingIds, seenUnique, seenComposite, payloadRecords });
       if (resource.key === 'users') {
         const current = id ? db.prepare('SELECT id, role, status, isSystemAccount FROM users WHERE id = ?').get(id) as { id: string; role: string; status: string; isSystemAccount: number } | undefined : undefined;
         const userData = effectiveMode === 'insert' ? { ...raw, status: 'pending', isSystemAccount: 0 } : raw;
@@ -82,10 +83,6 @@ export async function buildImportReport(resourceKey: string | null, content: unk
         const warehouse = db.prepare('SELECT status FROM warehouses WHERE id = ?').get(warehouseId) as { status: string } | undefined;
         if (user?.role === 'admin') errors.push('管理员已拥有全部仓库权限，无需单独分配');
         if (warehouse && warehouse.status !== 'active') errors.push('只能给账号分配启用中的仓库');
-        if (userId && warehouseId) {
-          const duplicate = db.prepare('SELECT id FROM user_warehouses WHERE userId = ? AND warehouseId = ?').get(userId, warehouseId) as { id: string } | undefined;
-          if (duplicate && !(effectiveMode === 'upsert' && id && String(duplicate.id) === id)) errors.push('该账号已拥有此仓库权限');
-        }
       }
       if (errors.length) {
         if (mode === 'insert') {

@@ -285,6 +285,8 @@ const IMPORT_UNIQUE_FIELDS: Record<string, string[]> = {
   return_receipts: ['receiptNo'],
   transfers: ['transferNo'],
   inventory_status_definitions: ['name'],
+  label_templates: ['templateName'],
+  after_sale_stock: ['afterSaleId'],
 };
 
 const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column?: string }>> = {
@@ -340,11 +342,96 @@ type ImportValidationContext = {
   mode: 'insert' | 'upsert';
   incomingIds: Map<string, Set<string>>;
   seenUnique: Map<string, Map<string, Map<string, string>>>;
+  seenComposite: Map<string, Map<string, string>>;
   payloadRecords?: Map<string, Map<string, Record<string, unknown>>>;
 };
 
 function nonEmptyImportValue(value: unknown) {
   return value !== undefined && value !== null && String(value).trim() !== '';
+}
+
+function compositeIdentity(values: unknown[]) {
+  return values.map(value => value === undefined || value === null ? '' : String(value).trim().toLocaleLowerCase()).join('\u0000');
+}
+
+function validateImportCompositeConflicts(resource: DataResource, raw: Record<string, unknown>, context: ImportValidationContext) {
+  const id = typeof raw.id === 'string' ? raw.id.trim() : '';
+  const errors: string[] = [];
+  const check = (rule: string, identity: string | null, label: string, findExisting: () => { id?: string } | undefined) => {
+    if (!identity) return;
+    const seen = context.seenComposite.get(rule) || new Map<string, string>();
+    const previousId = seen.get(identity);
+    if (previousId && previousId !== id) errors.push(`${label}在导入文件中重复`);
+    if (!previousId) seen.set(identity, id || `row:${seen.size}`);
+    context.seenComposite.set(rule, seen);
+    const existing = findExisting();
+    if (existing && !(context.mode === 'upsert' && id && existing.id === id)) errors.push(`${label}已存在`);
+  };
+
+  if (resource.key === 'manual_skus' && ['productType', 'brand', 'model'].every(field => nonEmptyImportValue(raw[field]))) {
+    const productType = String(raw.productType).trim();
+    const brand = String(raw.brand).trim();
+    const model = String(raw.model).trim();
+    const year = nonEmptyImportValue(raw.year) ? Number(raw.year) : null;
+    check(
+      'manual_skus_identity',
+      compositeIdentity([productType, brand, model, year || 0]),
+      '手工 SKU 身份',
+      () => db.prepare(`SELECT id FROM manual_skus
+        WHERE deleted = 0 AND productType = ? AND lower(trim(brand)) = lower(trim(?))
+          AND lower(trim(model)) = lower(trim(?)) AND COALESCE(year, 0) = COALESCE(?, 0)
+        LIMIT 1`).get(productType, brand, model, year) as { id?: string } | undefined,
+    );
+  }
+
+  if (resource.key === 'skus' && ['productType', 'brand', 'model'].every(field => nonEmptyImportValue(raw[field]))) {
+    const productType = String(raw.productType).trim();
+    const brand = String(raw.brand).trim();
+    const model = String(raw.model).trim();
+    const year = nonEmptyImportValue(raw.year) ? Number(raw.year) : null;
+    check(
+      'skus_identity',
+      compositeIdentity([productType, brand, model, year || 0]),
+      '内置 SKU 身份',
+      () => db.prepare(`SELECT id FROM skus
+        WHERE deleted = 0 AND productType = ? AND lower(trim(brand)) = lower(trim(?))
+          AND lower(trim(model)) = lower(trim(?)) AND COALESCE(year, 0) = COALESCE(?, 0)
+        LIMIT 1`).get(productType, brand, model, year) as { id?: string } | undefined,
+    );
+  }
+
+  if (resource.key === 'user_warehouses' && nonEmptyImportValue(raw.userId) && nonEmptyImportValue(raw.warehouseId)) {
+    const userId = String(raw.userId).trim();
+    const warehouseId = String(raw.warehouseId).trim();
+    check(
+      'user_warehouses_assignment',
+      compositeIdentity([userId, warehouseId]),
+      '仓库权限',
+      () => db.prepare('SELECT id FROM user_warehouses WHERE userId = ? AND warehouseId = ? LIMIT 1').get(userId, warehouseId) as { id?: string } | undefined,
+    );
+  }
+
+  if (resource.key === 'warehouses' && nonEmptyImportValue(raw.name) && String(raw.status || 'active') !== 'disabled') {
+    const name = String(raw.name).trim();
+    check(
+      'warehouses_name',
+      compositeIdentity([name]),
+      '仓库名称',
+      () => db.prepare("SELECT id FROM warehouses WHERE lower(trim(name)) = lower(trim(?)) AND status <> 'disabled' LIMIT 1").get(name) as { id?: string } | undefined,
+    );
+  }
+
+  if (resource.key === 'inventory_status_records' && nonEmptyImportValue(raw.inventoryId) && !nonEmptyImportValue(raw.closedAt)) {
+    const inventoryId = String(raw.inventoryId).trim();
+    check(
+      'inventory_status_records_active',
+      compositeIdentity([inventoryId]),
+      '机器进行中的自定义状态',
+      () => db.prepare('SELECT id FROM inventory_status_records WHERE inventoryId = ? AND closedAt IS NULL LIMIT 1').get(inventoryId) as { id?: string } | undefined,
+    );
+  }
+
+  return errors;
 }
 
 export function validateImportRecord(
@@ -384,6 +471,7 @@ export function validateImportRecord(
     const existsInDatabase = Boolean(db.prepare(`SELECT 1 FROM ${foreignKey.table} WHERE id = ?`).get(value));
     if (!existsInPayload && !existsInDatabase) errors.push(`字段 ${field} 引用不存在的 ${foreignKey.table}：${value}`);
   }
+  errors.push(...validateImportCompositeConflicts(resource, raw, context));
   if (resource.key === 'user_warehouses' && nonEmptyImportValue(raw.warehouseId)) {
     const warehouseId = String(raw.warehouseId).trim();
     const incomingWarehouse = context.payloadRecords?.get('warehouses')?.get(warehouseId);
