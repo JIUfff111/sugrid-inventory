@@ -116,7 +116,7 @@ function initDatabase(db) {
       gpu TEXT,
       storage TEXT NOT NULL,
       screen TEXT NOT NULL,
-      sn TEXT UNIQUE NOT NULL,
+      sn TEXT NOT NULL,
       purchasePrice REAL NOT NULL,
       remark TEXT,
       deleted INTEGER NOT NULL DEFAULT 0,
@@ -127,7 +127,7 @@ function initDatabase(db) {
 
   // 创建索引：采购明细的 SN
   db.exec(`
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_purchase_items_sn ON purchase_items(sn)
+    CREATE INDEX IF NOT EXISTS idx_purchase_items_sn ON purchase_items(sn)
   `);
 
   // 创建库存表
@@ -574,6 +574,22 @@ function applyVersionedMigrations(db) {
     if (db.prepare('SELECT version FROM schema_migrations WHERE version = ?').get(version)) return;
     db.transaction(() => { run(); db.prepare('INSERT INTO schema_migrations (version, name) VALUES (?, ?)').run(version, name); })();
   };
+  const migrateWithoutForeignKeys = (version, name, run) => {
+    if (db.prepare('SELECT version FROM schema_migrations WHERE version = ?').get(version)) return;
+    const foreignKeys = db.pragma('foreign_keys', { simple: true });
+    const legacyAlterTable = db.pragma('legacy_alter_table', { simple: true });
+    db.pragma('foreign_keys = OFF');
+    db.pragma('legacy_alter_table = ON');
+    try {
+      db.transaction(() => {
+        run();
+        db.prepare('INSERT INTO schema_migrations (version, name) VALUES (?, ?)').run(version, name);
+      })();
+    } finally {
+      db.pragma(`legacy_alter_table = ${legacyAlterTable ? 'ON' : 'OFF'}`);
+      db.pragma(`foreign_keys = ${foreignKeys ? 'ON' : 'OFF'}`);
+    }
+  };
   const add = (table, name, definition) => {
     if (!db.pragma('table_info(' + table + ')').some(row => row.name === name)) db.exec(`ALTER TABLE ${table} ADD COLUMN ${name} ${definition}`);
   };
@@ -876,6 +892,68 @@ function applyVersionedMigrations(db) {
         ON inventory_edit_logs(inventoryId, createdAt DESC);
       CREATE INDEX IF NOT EXISTS idx_inventory_edit_logs_actor_time
         ON inventory_edit_logs(actorId, createdAt DESC);
+    `);
+  });
+  migrate(15, 'standardize built-in SKU RAM options', () => {
+    const options = JSON.stringify(['8GB', '16GB', '24GB', '32GB']);
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+    db.prepare(`
+      UPDATE skus
+      SET ramOptions = ?, updatedAt = ?
+      WHERE id GLOB 'builtin_sku_*'
+        AND COALESCE(ramOptions, '') <> ?
+    `).run(options, now, options);
+  });
+  migrateWithoutForeignKeys(16, 'release inventory-purged purchase SNs while preserving purchase history', () => {
+    const uniqueSnIndex = db.pragma('index_list(purchase_items)').some(index => {
+      if (!index.unique || index.origin === 'pk') return false;
+      const safeName = String(index.name).replaceAll('"', '""');
+      const columns = db.pragma(`index_info("${safeName}")`);
+      return columns.length === 1 && columns[0].name === 'sn';
+    });
+
+    if (uniqueSnIndex) {
+      const columns = [
+        'id', 'purchaseOrderId', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu',
+        'storage', 'screen', 'sn', 'purchasePrice', 'remark', 'deleted', 'createdAt', 'touchScreen',
+        'skuRemark', 'skuId', 'recordedBy', 'manualSkuId',
+      ];
+      db.exec(`
+        ALTER TABLE purchase_items RENAME TO purchase_items_before_sn_release;
+        CREATE TABLE purchase_items (
+          id TEXT PRIMARY KEY,
+          purchaseOrderId TEXT NOT NULL,
+          productType TEXT NOT NULL,
+          brand TEXT NOT NULL,
+          model TEXT NOT NULL,
+          year INTEGER,
+          cpu TEXT NOT NULL,
+          ram TEXT NOT NULL,
+          gpu TEXT,
+          storage TEXT NOT NULL,
+          screen TEXT NOT NULL,
+          sn TEXT NOT NULL,
+          purchasePrice REAL NOT NULL,
+          remark TEXT,
+          deleted INTEGER NOT NULL DEFAULT 0,
+          createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+          touchScreen INTEGER,
+          skuRemark TEXT,
+          skuId TEXT,
+          recordedBy TEXT,
+          manualSkuId TEXT REFERENCES manual_skus(id),
+          FOREIGN KEY (purchaseOrderId) REFERENCES purchase_orders(id) ON DELETE CASCADE
+        );
+      `);
+      db.exec(`INSERT INTO purchase_items (${columns.join(',')})
+        SELECT ${columns.join(',')} FROM purchase_items_before_sn_release;`);
+      db.exec('DROP TABLE purchase_items_before_sn_release');
+    }
+
+    db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_purchase_items_sn ON purchase_items(sn);
+      CREATE INDEX IF NOT EXISTS idx_purchase_items_recorded_sku ON purchase_items(recordedBy, skuId, deleted);
+      CREATE INDEX IF NOT EXISTS idx_purchase_items_manual_sku ON purchase_items(manualSkuId, deleted);
     `);
   });
 }

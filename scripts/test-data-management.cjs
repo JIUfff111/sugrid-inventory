@@ -64,7 +64,13 @@ async function main() {
       importPreview: previewImport,
       import: load('src/app/api/data-management/import/route.ts', { ...routeDeps, './preview/route': previewImport }),
       inventory: load('src/app/api/inventory/route.ts', routeDeps),
+      inventoryEdit: load('src/app/api/inventory/edit/route.ts', routeDeps),
       purgePreview: load('src/app/api/inventory/purge-preview/route.ts', routeDeps),
+      purchaseOrders: load('src/app/api/purchase-orders/route.ts', {
+        ...routeDeps,
+        '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
+        '@/lib/sku-display': load('src/lib/sku-display.ts'),
+      }),
     };
     const request = (url, method = 'GET', body) => new NextRequest(`http://localhost${url}`, {
       method,
@@ -80,6 +86,9 @@ async function main() {
 
     const adminId = db.prepare("SELECT id FROM users WHERE username = 'admin'").get().id;
     token = auth.createSession(adminId);
+    const purchaseItemIndexes = db.pragma('index_list(purchase_items)');
+    assert(!purchaseItemIndexes.some(index => index.unique && db.pragma(`index_info("${String(index.name).replaceAll('"', '""')}")`).some(column => column.name === 'sn')),
+      'purchase history SNs must not be protected by a permanent uniqueness constraint');
     assert(!dataManagement.DATA_RESOURCES.users.fields.includes('password'));
     const nestedSanitized = JSON.parse(dataManagement.sanitizeRow({ payload: JSON.stringify([{ password: 'secret', token_hash: 'secret', visible: 'ok' }]) }).payload);
     assert.deepEqual(nestedSanitized, [{ visible: 'ok' }]);
@@ -89,6 +98,7 @@ async function main() {
     db.prepare(`INSERT INTO purchase_orders
       (id,purchaseNo,supplierOrderNo,supplierId,supplierName,purchaseDate,purchasedBy,createdBy)
       VALUES ('dm-order','DM-ORDER','', 'dm-supplier','数据管理供应商','2026-10-30',?,?)`).run(adminId, adminId);
+    db.prepare("UPDATE purchase_orders SET isInbounded=1 WHERE id='dm-order'").run();
     db.prepare(`INSERT INTO purchase_items
       (id,purchaseOrderId,productType,brand,model,cpu,ram,storage,screen,sn,purchasePrice)
       VALUES ('dm-item','dm-order','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K','PURGE-SN-001',1000)`).run();
@@ -97,6 +107,14 @@ async function main() {
       VALUES ('dm-machine','dm-order','dm-item','PURGE-SN-001','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K',1000,'dm-supplier','数据管理供应商','in_stock','2026-10-30','warehouse_main')`).run();
     db.prepare(`INSERT INTO inventory_movements (id,inventoryId,warehouseId,movementType,referenceType,referenceId,actorId,note)
       VALUES ('dm-movement','dm-machine','warehouse_main','asset_change','inventory','dm-machine',?,'test')`).run(adminId);
+
+    // Recreate a legacy unique SN index to exercise the versioned table rebuild against retained rows and foreign keys.
+    db.exec('CREATE UNIQUE INDEX legacy_purchase_item_sn_unique ON purchase_items(sn)');
+    db.prepare('DELETE FROM schema_migrations WHERE version=16').run();
+    initDatabase(db);
+    assert.equal(db.prepare("SELECT sn FROM purchase_items WHERE id='dm-item'").get().sn, 'PURGE-SN-001');
+    assert.equal(db.prepare("SELECT purchaseItemId FROM inventory WHERE id='dm-machine'").get().purchaseItemId, 'dm-item');
+    assert.deepEqual(db.pragma('foreign_key_check'), [], 'SN migration must preserve inventory foreign keys');
     db.prepare(`INSERT INTO rental_orders
       (id,rentalNo,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,createdBy)
       VALUES ('dm-rental-order','DM-RENTAL-001','租赁客户','10000000000','测试地址','2026-10-30','2026-10-31','day',?)`).run(adminId);
@@ -315,6 +333,47 @@ async function main() {
     assert.equal(db.prepare("SELECT COUNT(*) AS n FROM data_management_audit WHERE action='inventory_purge'").get().n, 1);
     const purgeAudit = JSON.parse(db.prepare("SELECT summary FROM data_management_audit WHERE action='inventory_purge'").get().summary);
     assert.match(purgeAudit.backupSha256, /^[a-f0-9]{64}$/);
+
+    const reentered = await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', {
+      supplierId: 'dm-supplier', purchaseDate: '2026-11-01', purchasedBy: adminId, status: 'completed',
+      items: [{ productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', cpu: 'I5-10210U', ram: '16GB', storage: '512GB', screen: '2.5K', sn: 'PURGE-SN-001', purchasePrice: 1000 }],
+    }, 201);
+    assert.equal(reentered.itemCount, 1, 'a purged machine SN should be accepted for a new inbound purchase');
+    const reenteredInventoryId = reentered.inventoryIds[0];
+    const oldPurchaseDetail = await call(routes.purchaseOrders.GET, '/api/purchase-orders?id=dm-order', 'GET', undefined, 200);
+    assert.equal(oldPurchaseDetail.items[0].sn, 'PURGE-SN-001', 'the original purchase SN remains available in its history');
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM purchase_items WHERE sn='PURGE-SN-001'").get().n, 2);
+
+    const editedPrice = await call(routes.inventoryEdit.POST, '/api/inventory/edit', 'POST', {
+      inventoryId: reenteredInventoryId, expectedSn: 'PURGE-SN-001', fields: {
+        sn: 'PURGE-SN-001', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: null,
+        cpu: 'I5-10210U', ram: '16GB', gpu: '', storage: '512GB', screen: '2.5K', touchScreen: null, purchasePrice: 1234.5,
+      },
+    });
+    assert.equal(editedPrice.item.purchasePrice, 1234.5);
+    const reenteredPurchaseItemId = db.prepare('SELECT purchaseItemId FROM inventory WHERE id=?').get(reenteredInventoryId).purchaseItemId;
+    assert.equal(db.prepare('SELECT purchasePrice FROM purchase_items WHERE id=?').get(reenteredPurchaseItemId).purchasePrice, 1000);
+    assert.equal(db.prepare('SELECT purchasePrice FROM purchase_items WHERE purchaseOrderId=?').get(reentered.id).purchasePrice, 1000,
+      'editing inventory purchase price must not rewrite procurement history');
+    assert.equal(JSON.parse(db.prepare('SELECT afterData FROM inventory_edit_logs WHERE inventoryId=?').get(reenteredInventoryId).afterData).purchasePrice, 1234.5,
+      'purchase price changes must be captured in the machine edit history');
+    await call(routes.inventoryEdit.POST, '/api/inventory/edit', 'POST', {
+      inventoryId: reenteredInventoryId, expectedSn: 'PURGE-SN-001', fields: {
+        sn: 'PURGE-SN-001', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: null,
+        cpu: 'I5-10210U', ram: '16GB', gpu: '', storage: '512GB', screen: '2.5K', touchScreen: null, purchasePrice: -1,
+      },
+    }, 400);
+    assert.equal(db.prepare('SELECT purchasePrice FROM inventory WHERE id=?').get(reenteredInventoryId).purchasePrice, 1234.5,
+      'invalid purchase prices must not partially update the machine');
+
+    await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', {
+      supplierId: 'dm-supplier', purchaseDate: '2026-11-01', purchasedBy: adminId, status: 'draft',
+      items: [{ productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', cpu: 'I5-10210U', ram: '16GB', storage: '512GB', screen: '2.5K', sn: 'DRAFT-SN-001', purchasePrice: 1000 }],
+    }, 201);
+    await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', {
+      supplierId: 'dm-supplier', purchaseDate: '2026-11-01', purchasedBy: adminId, status: 'completed',
+      items: [{ productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', cpu: 'I5-10210U', ram: '16GB', storage: '512GB', screen: '2.5K', sn: 'DRAFT-SN-001', purchasePrice: 1000 }],
+    }, 400);
 
     db.prepare(`INSERT INTO inventory
       (id,purchaseOrderId,purchaseItemId,sn,productType,brand,model,cpu,ram,storage,screen,purchasePrice,supplierId,supplierName,status,inboundDate,warehouseId)

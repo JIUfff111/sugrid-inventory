@@ -350,7 +350,6 @@ const IMPORT_UNIQUE_FIELDS: Record<string, string[]> = {
   suppliers: ['supplierName'],
   sales_channels: ['channelName'],
   purchase_orders: ['purchaseNo'],
-  purchase_items: ['sn'],
   inventory: ['sn'],
   sales_records: ['recordNo'],
   rental_orders: ['rentalNo'],

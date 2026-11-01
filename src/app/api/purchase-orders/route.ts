@@ -237,7 +237,11 @@ function findSupplier(supplierId: string) {
 function checkSnConflicts(items: NormalizedItem[], allowedItemIds = new Set<string>()): string | null {
   for (const item of items) {
     if (!item.sn) continue;
-    const purchaseItems = db.prepare('SELECT id FROM purchase_items WHERE sn = ?').all(item.sn) as Array<{ id: string }>;
+    const purchaseItems = db.prepare(`
+      SELECT pi.id FROM purchase_items pi
+      JOIN purchase_orders po ON po.id = pi.purchaseOrderId
+      WHERE pi.sn = ? AND pi.deleted = 0 AND po.deleted = 0 AND po.isInbounded = 0
+    `).all(item.sn) as Array<{ id: string }>;
     const purchaseItem = purchaseItems.find((row) => !allowedItemIds.has(row.id));
     const inventory = db.prepare('SELECT id FROM inventory WHERE sn = ?').get(item.sn);
     if (purchaseItem || inventory) return `SN [${item.sn}] 已存在，请检查`;

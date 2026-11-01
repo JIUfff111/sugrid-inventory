@@ -15,6 +15,7 @@ import InventoryStatusDialog, { type InventoryStatusDefinition, type InventorySt
 import { WorkspaceSection, useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import InventoryMovementTimeline from '@/components/InventoryMovementTimeline';
 import InventoryPurgeDialog from '@/components/InventoryPurgeDialog';
+import CopyTextButton from '@/components/CopyTextButton';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 import { InventoryMovementsWorkspace } from '@/app/inventory/movements/page';
@@ -106,6 +107,7 @@ type InventoryEditDraft = {
   storage: string;
   screen: string;
   touchScreen: string;
+  purchasePrice: string;
 };
 
 type InventoryEditHistoryEntry = {
@@ -127,6 +129,7 @@ const inventoryEditFields: Array<[keyof InventoryEditDraft, string, string]> = [
   ['gpu', '显卡', '自定义输入'],
   ['storage', '硬盘', '自定义输入'],
   ['screen', '屏幕信息', '自定义输入，例如 1k、2.5K'],
+  ['purchasePrice', '采购价格', '请输入单台机器采购价'],
 ];
 
 function inventoryEditDraftFrom(item: InventoryItem): InventoryEditDraft {
@@ -142,6 +145,7 @@ function inventoryEditDraftFrom(item: InventoryItem): InventoryEditDraft {
     storage: item.storage || '',
     screen: item.screen || '',
     touchScreen: item.touchScreen == null ? '' : String(item.touchScreen),
+    purchasePrice: String(item.purchasePrice ?? ''),
   };
 }
 
@@ -541,9 +545,14 @@ export default function InventoryPage() {
       storage: machineEditDraft.storage.trim(),
       screen: machineEditDraft.screen.trim(),
       touchScreen: machineEditDraft.touchScreen === '' ? null : Number(machineEditDraft.touchScreen),
+      purchasePrice: machineEditDraft.purchasePrice.trim() === '' ? Number.NaN : Number(machineEditDraft.purchasePrice),
     };
     if (!fields.sn || !fields.productType || !fields.brand || !fields.model) {
       setMachineEditError('SN、产品类型、品牌和型号不能为空');
+      return;
+    }
+    if (!Number.isFinite(fields.purchasePrice) || fields.purchasePrice < 0 || fields.purchasePrice > 1_000_000_000) {
+      setMachineEditError('采购价格必须是 0 至 10 亿元之间的有效金额');
       return;
     }
     if ((fields.year !== null && (!Number.isInteger(fields.year) || fields.year < 1900 || fields.year > 2100)) ||
@@ -726,7 +735,7 @@ export default function InventoryPage() {
                     <td><div className="font-medium text-ink-deep">{productName(item)}</div><div className="text-[11px] text-ink-soft mt-1">{item.productType || '未分类'}</div></td>
                     <td><div className="text-[12px] text-ink">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
                     <td className="max-w-60"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></td>
-                    <td><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span></td>
+                    <td><div className="flex items-center gap-1"><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div></td>
                     <td><div className="text-[12px] text-ink">{item.supplierName || '-'}</div><div className="font-mono text-[11px] text-ink-soft mt-1">{item.purchaseNo || '-'}</div><div className="mt-1 text-[11px] text-primary">{item.warehouseName || warehouses.find(w => w.id === item.warehouseId)?.name || '未分仓'}</div></td>
                     <td className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</td>
                     <td><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span><div className="mt-1.5 max-w-52 text-[11px] text-ink-soft">{machineDestination(item)}</div></td>
@@ -751,7 +760,7 @@ export default function InventoryPage() {
                 <p className="mt-3 text-xs text-ink-soft">{machineDestination(item)}</p><div className="mt-4 space-y-2 text-[12px]">
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">配置</span><span className="truncate text-right text-ink-deep">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</span></div>
                   <div className="flex items-start justify-between gap-3"><span className="shrink-0 text-ink-soft">备注</span><div className="min-w-0 text-right"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></div></div>
-                  <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">SN / IMEI</span><span className="truncate font-mono text-right text-ink-deep">{item.sn}</span></div>
+                  <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">SN / IMEI</span><div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono text-right text-ink-deep">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">供应商</span><span className="truncate text-right text-ink-deep">{item.supplierName || '-'}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">采购价</span><span className="font-mono font-semibold text-ink-deep">{formatMoney(item.purchasePrice)}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">入库日期</span><span className="text-ink-deep">{formatDate(item.inboundDate)}</span></div>
@@ -774,7 +783,7 @@ export default function InventoryPage() {
         <div className="fixed inset-x-0 bottom-0 top-[100px] z-50 flex justify-end" role="dialog" aria-modal="true" aria-label="库存详情">
           <button type="button" onClick={closeDetails} className="absolute inset-0 bg-ink-deep/20 backdrop-blur-[2px]" aria-label="关闭详情" />
           <aside className="drawer-panel relative z-10 flex h-full w-full max-w-[480px] flex-col bg-paper/95 backdrop-blur-xl shadow-2xl">
-            <header className="flex items-start justify-between border-b border-line px-5 py-4"><div><div className="flex items-center gap-2"><h2 className="text-base font-semibold text-ink-deep">库存详情</h2><span className={statusClass(selected.status)} style={itemStatusStyle(selected)}>{itemStatusLabel(selected)}</span></div><p className="mt-1 font-mono text-[12px] text-ink-soft">{selected.sn}</p></div><button type="button" onClick={closeDetails} title="关闭" aria-label="关闭" className="p-2 text-ink-soft hover:bg-white/70 rounded-lg"><X className="w-4 h-4" /></button></header>
+            <header className="flex items-start justify-between border-b border-line px-5 py-4"><div><div className="flex items-center gap-2"><h2 className="text-base font-semibold text-ink-deep">库存详情</h2><span className={statusClass(selected.status)} style={itemStatusStyle(selected)}>{itemStatusLabel(selected)}</span></div><div className="mt-1 flex items-center gap-1"><p className="font-mono text-[12px] text-ink-soft">{selected.sn}</p><CopyTextButton value={selected.sn} label="SN" /></div></div><button type="button" onClick={closeDetails} title="关闭" aria-label="关闭" className="p-2 text-ink-soft hover:bg-white/70 rounded-lg"><X className="w-4 h-4" /></button></header>
 
             <div className="flex-1 overflow-y-auto p-5">
               <div className="mb-5 rounded-xl border border-line/70 bg-white/45 p-4"><div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-ink-deep"><Pencil className="w-4 h-4 text-primary" />{productName(selected)}</div><dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-[12px]"><DetailField label="所在仓库" value={selected.warehouseName || warehouses.find(w => w.id === selected.warehouseId)?.name} /><DetailField label="产品类型" value={selected.productType} /><DetailField label="品牌型号" value={productName(selected)} /><DetailField label="采购价格" value={formatMoney(selected.purchasePrice)} /><DetailField label="CPU" value={formatCPUDisplay(selected.cpu)} /><DetailField label="内存" value={selected.ram} /><DetailField label="显卡" value={formatGPUDisplay(selected.gpu)} /><DetailField label="硬盘" value={selected.storage} /><DetailField label="屏幕" value={formatScreenDisplay(selected.screen)} /><DetailField label="触屏" value={selected.touchScreen === null ? '未填写' : selected.touchScreen ? '是' : '否'} /><DetailField label="供应商" value={selected.supplierName} /><DetailField label="采购单号" value={selected.purchaseNo} /><DetailField label="入库日期" value={formatDate(selected.inboundDate)} /><DetailField label={selected.status === 'in_stock' || selected.status === 'custom' ? '在库天数' : '入库距今'} value={`${Math.max(0, Number(selected.inboundDays || 0))} 天`} />{selected.soldDate && <DetailField label="售出日期" value={formatDate(selected.soldDate)} />}{selected.sellingPrice !== null && <DetailField label="销售价格" value={formatMoney(selected.sellingPrice)} />}</dl></div>
@@ -792,9 +801,9 @@ export default function InventoryPage() {
           </aside>
         </div>
       )}
-      {selected && machineEditOpen && machineEditDraft && <BusinessDialog title="编辑机器资料" description={`仅修改当前机器档案，不改写采购、销售、租赁等历史业务记录。SN：${selected.sn}`} onClose={closeMachineEditor} footer={<><button type="button" className="btn-ghost" onClick={closeMachineEditor} disabled={savingMachineEdit}>取消</button><button type="submit" form="inventory-machine-edit" className="btn-primary inline-flex items-center gap-1.5" disabled={savingMachineEdit || !machineEditDirty}><Save className="h-4 w-4" />{savingMachineEdit ? '保存中...' : '保存资料'}</button></>}>
+      {selected && machineEditOpen && machineEditDraft && <BusinessDialog title="编辑机器资料" description={`仅修改当前机器档案，不改写采购单和既有业务快照。SN：${selected.sn}`} onClose={closeMachineEditor} footer={<><button type="button" className="btn-ghost" onClick={closeMachineEditor} disabled={savingMachineEdit}>取消</button><button type="submit" form="inventory-machine-edit" className="btn-primary inline-flex items-center gap-1.5" disabled={savingMachineEdit || !machineEditDirty}><Save className="h-4 w-4" />{savingMachineEdit ? '保存中...' : '保存资料'}</button></>}>
         <form id="inventory-machine-edit" onSubmit={saveMachineEdit} className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-2">{inventoryEditFields.map(([field, label, placeholder]) => <label key={field} className="block min-w-0 text-xs font-medium text-ink-deep">{label}{['sn', 'productType', 'brand', 'model'].includes(field) && <span className="ml-1 text-danger">*</span>}<input type={field === 'year' ? 'number' : 'text'} min={field === 'year' ? 1900 : undefined} max={field === 'year' ? 2100 : undefined} maxLength={field === 'year' ? undefined : field === 'sn' ? 120 : 160} value={machineEditDraft[field]} onChange={event => { setMachineEditDraft(current => current ? { ...current, [field]: event.target.value } : current); setMachineEditError(''); }} placeholder={placeholder} className="field mt-1.5" /></label>)}
+          <div className="grid gap-3 sm:grid-cols-2">{inventoryEditFields.map(([field, label, placeholder]) => <label key={field} className="block min-w-0 text-xs font-medium text-ink-deep">{label}{['sn', 'productType', 'brand', 'model', 'purchasePrice'].includes(field) && <span className="ml-1 text-danger">*</span>}<input type={field === 'year' || field === 'purchasePrice' ? 'number' : 'text'} min={field === 'year' ? 1900 : field === 'purchasePrice' ? 0 : undefined} max={field === 'year' ? 2100 : field === 'purchasePrice' ? 1_000_000_000 : undefined} step={field === 'purchasePrice' ? '0.01' : undefined} maxLength={field === 'year' || field === 'purchasePrice' ? undefined : field === 'sn' ? 120 : 160} value={machineEditDraft[field]} onChange={event => { setMachineEditDraft(current => current ? { ...current, [field]: event.target.value } : current); setMachineEditError(''); }} placeholder={placeholder} className="field mt-1.5" /></label>)}
             <label className="block text-xs font-medium text-ink-deep">触屏<div className="mt-1.5"><CustomSelect aria-label="机器触屏状态" value={machineEditDraft.touchScreen} onChange={value => { setMachineEditDraft(current => current ? { ...current, touchScreen: value } : current); setMachineEditError(''); }} options={[{ value: '', label: '未记录' }, { value: '0', label: '非触屏' }, { value: '1', label: '触屏' }]} /></div></label>
           </div>
           <p className="text-[11px] leading-5 text-ink-soft">屏幕规格保留自定义输入；修改后列表会显示新档案，既有业务记录仍按原快照追溯。</p>

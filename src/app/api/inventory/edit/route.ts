@@ -5,7 +5,7 @@ import { assertInventoryEdit, assertInventoryView, assertWarehouseAccess, authEr
 import { errorResponse, ErrorCode, formatDateTime, successResponse } from '@/lib/api-helpers';
 import { serializeInventoryStatus } from '@/lib/inventory-status';
 
-const editableFields = ['sn', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen'] as const;
+const editableFields = ['sn', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'purchasePrice'] as const;
 type EditableField = (typeof editableFields)[number];
 type MachineData = Record<EditableField, string | number | null>;
 
@@ -48,7 +48,7 @@ function normalizeMachineData(value: unknown): MachineData {
   if (Object.keys(fields).some(key => !editableFields.includes(key as EditableField))) throw new Error('机器资料包含不允许修改的字段');
   for (const key of editableFields) if (!(key in fields)) throw new Error(`缺少机器资料字段：${key}`);
 
-  const text = (key: Exclude<EditableField, 'year' | 'touchScreen'>, required = false) => {
+  const text = (key: Exclude<EditableField, 'year' | 'touchScreen' | 'purchasePrice'>, required = false) => {
     const raw = fields[key];
     if (typeof raw !== 'string') throw new Error(`${key} 格式不正确`);
     const normalized = raw.trim();
@@ -66,12 +66,16 @@ function normalizeMachineData(value: unknown): MachineData {
   }
   const touchValue = fields.touchScreen;
   if (touchValue !== null && typeof touchValue !== 'boolean' && touchValue !== 0 && touchValue !== 1) throw new Error('触屏选项格式不正确');
+  if (fields.purchasePrice === '' || fields.purchasePrice === null || fields.purchasePrice === undefined) throw new Error('采购价格不能为空');
+  const purchasePrice = Number(fields.purchasePrice);
+  if (!Number.isFinite(purchasePrice) || purchasePrice < 0 || purchasePrice > 1_000_000_000) throw new Error('采购价格必须是 0 至 10 亿元之间的有效金额');
 
   return {
     sn: text('sn', true), productType: text('productType', true), brand: text('brand', true),
     model: text('model', true), year, cpu: text('cpu'), ram: text('ram'), gpu: text('gpu'),
     storage: text('storage'), screen: text('screen'),
     touchScreen: touchValue === null ? null : touchValue === true || touchValue === 1 ? 1 : 0,
+    purchasePrice,
   };
 }
 
@@ -81,6 +85,7 @@ function machineSnapshot(row: Record<string, unknown>): MachineData {
     model: String(row.model || ''), year: row.year == null ? null : Number(row.year), cpu: String(row.cpu || ''),
     ram: String(row.ram || ''), gpu: row.gpu == null ? '' : String(row.gpu), storage: String(row.storage || ''),
     screen: String(row.screen || ''), touchScreen: row.touchScreen == null ? null : Number(row.touchScreen),
+    purchasePrice: Number(row.purchasePrice || 0),
   };
 }
 
@@ -108,8 +113,8 @@ export async function POST(request: NextRequest) {
 
       const before = machineSnapshot(current);
       if (JSON.stringify(before) === JSON.stringify(after)) return { changed: false, before, after };
-      const updated = db.prepare(`UPDATE inventory SET sn=?,productType=?,brand=?,model=?,year=?,cpu=?,ram=?,gpu=?,storage=?,screen=?,touchScreen=?,updatedAt=?
-        WHERE id=? AND sn=? AND deleted=0`).run(after.sn, after.productType, after.brand, after.model, after.year, after.cpu, after.ram, after.gpu || null, after.storage, after.screen, after.touchScreen, now, inventoryId, expectedSn);
+      const updated = db.prepare(`UPDATE inventory SET sn=?,productType=?,brand=?,model=?,year=?,cpu=?,ram=?,gpu=?,storage=?,screen=?,touchScreen=?,purchasePrice=?,updatedAt=?
+        WHERE id=? AND sn=? AND deleted=0`).run(after.sn, after.productType, after.brand, after.model, after.year, after.cpu, after.ram, after.gpu || null, after.storage, after.screen, after.touchScreen, after.purchasePrice, now, inventoryId, expectedSn);
       if (updated.changes !== 1) throw new AuthError('FORBIDDEN', '机器资料已被其他人修改，请刷新后重试');
       db.prepare('INSERT INTO inventory_edit_logs (id,inventoryId,actorId,beforeData,afterData,createdAt) VALUES (?,?,?,?,?,?)')
         .run(logId, inventoryId, user.id, JSON.stringify(before), JSON.stringify(after), now);

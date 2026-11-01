@@ -16,6 +16,7 @@ function createDatabase() {
   return db;
 }
 
+const expectedRamOptions = ['8GB', '16GB', '24GB', '32GB'];
 const fresh = createDatabase();
 try {
   assert.equal(formatCPUDisplay('AMD 锐龙 5 5600H'), 'R5-5600H');
@@ -28,11 +29,15 @@ try {
   assert.equal(catalog.skus.some((sku) => (sku.cpuOptions || []).some((value) => /^(?:Intel|英特尔|AMD|锐龙|Ryzen|Core|酷睿)\b/i.test(value))), false);
   assert.equal(catalog.skus.some((sku) => (sku.gpuOptions || []).some((value) => /笔记本电脑 GPU|\d+GB/i.test(value))), false);
   assert.equal(catalog.skus.some((sku) => (sku.screenOptions || []).some((value) => /英寸|Hz|nits|sRGB|x\d/i.test(value))), false);
+  assert.equal(catalog.skus.every((sku) => JSON.stringify(sku.ramOptions) === JSON.stringify(expectedRamOptions)), true,
+    'all built-in products must offer the standardized RAM choices');
   const inserted = seedBuiltinSkus(fresh);
   assert.equal(inserted, catalog.skus.length);
   assert.equal(fresh.prepare('SELECT COUNT(*) AS count FROM skus WHERE deleted = 0').get().count, catalog.skus.length);
   assert.equal(seedBuiltinSkus(fresh), 0, 'repeated seeding must be a no-op');
   assert.equal(fresh.prepare('SELECT COUNT(*) AS count FROM skus').get().count, catalog.skus.length);
+  assert.equal(fresh.prepare('SELECT COUNT(*) AS count FROM skus WHERE ramOptions = ?')
+    .get(JSON.stringify(expectedRamOptions)).count, catalog.skus.length);
   const first = fresh.prepare('SELECT id, createdBy, priceMin, priceMax FROM skus ORDER BY brand, model LIMIT 1').get();
   assert.match(first.id, /^builtin_sku_[a-f0-9]{24}$/);
   assert.equal(first.createdBy, null);
@@ -67,7 +72,20 @@ try {
     INSERT INTO skus(id, productType, brand, model, cpuOptions, gpuOptions, screenOptions)
     VALUES ('mixed-options', '笔记本电脑', '测试品牌', '异常字段', ?, ?, ?)
   `).run('["I5-10210U",17]', '[broken', JSON.stringify(['FHD+', 'HD', '厂商特殊屏幕（未提供分辨率）']));
+  migrationDb.prepare(`
+    INSERT INTO skus(id, productType, brand, model, ramOptions)
+    VALUES ('builtin_sku_ram_migration', '笔记本电脑', '测试品牌', '内置旧型号', '["4GB"]')
+  `).run();
+  migrationDb.prepare(`
+    INSERT INTO skus(id, productType, brand, model, ramOptions)
+    VALUES ('builtin_sku_tablet_migration', '平板电脑', '测试品牌', '内置旧平板', '["6GB"]')
+  `).run();
+  migrationDb.prepare(`
+    INSERT INTO skus(id, productType, brand, model, ramOptions)
+    VALUES ('manual_sku_ram_migration', '笔记本电脑', '测试品牌', '手工型号', '["64GB"]')
+  `).run();
   migrationDb.prepare('DELETE FROM schema_migrations WHERE version = 10').run();
+  migrationDb.prepare('DELETE FROM schema_migrations WHERE version = 15').run();
   initDatabase(migrationDb);
   const migrated = migrationDb.prepare('SELECT cpuOptions, gpuOptions, screenOptions FROM skus WHERE id = ?').get('legacy-options');
   assert.deepEqual(JSON.parse(migrated.cpuOptions), ['I7-12700H']);
@@ -77,10 +95,19 @@ try {
   assert.equal(mixed.cpuOptions, '["I5-10210U",17]', 'mixed JSON array must remain intact');
   assert.equal(mixed.gpuOptions, '[broken', 'malformed JSON must remain intact');
   assert.deepEqual(JSON.parse(mixed.screenOptions), ['FHD+', 'HD', '厂商特殊屏幕（未提供分辨率）']);
+  assert.equal(migrationDb.prepare('SELECT ramOptions FROM skus WHERE id = ?').get('builtin_sku_ram_migration').ramOptions,
+    JSON.stringify(expectedRamOptions));
+  assert.equal(migrationDb.prepare('SELECT ramOptions FROM skus WHERE id = ?').get('builtin_sku_tablet_migration').ramOptions,
+    JSON.stringify(expectedRamOptions), 'built-in non-laptop SKU options must also be updated');
+  assert.equal(migrationDb.prepare('SELECT ramOptions FROM skus WHERE id = ?').get('manual_sku_ram_migration').ramOptions,
+    '["64GB"]', 'migration must preserve non-built-in SKU options');
   migrationDb.prepare('DELETE FROM schema_migrations WHERE version = 10').run();
+  migrationDb.prepare('DELETE FROM schema_migrations WHERE version = 15').run();
   initDatabase(migrationDb);
   const rerun = migrationDb.prepare('SELECT cpuOptions, gpuOptions, screenOptions FROM skus WHERE id = ?').get('legacy-options');
   assert.deepEqual(rerun, migrated, 'option migration must be idempotent');
+  assert.equal(migrationDb.prepare('SELECT ramOptions FROM skus WHERE id = ?').get('builtin_sku_ram_migration').ramOptions,
+    JSON.stringify(expectedRamOptions), 'RAM migration must remain idempotent');
   assert.deepEqual(migrationDb.prepare('SELECT cpuOptions, gpuOptions, screenOptions FROM skus WHERE id = ?').get('mixed-options'), mixed);
 } finally {
   migrationDb.close();

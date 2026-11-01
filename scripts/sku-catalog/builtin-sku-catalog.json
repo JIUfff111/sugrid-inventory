@@ -10,8 +10,10 @@
         "联发科 Helio G99"
       ],
       "ramOptions": [
-        "4GB",
-        "6GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -32,8 +34,10 @@
         "骁龙870"
       ],
       "ramOptions": [
-        "6GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -55,8 +59,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070",
@@ -82,8 +88,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070 Ti",
@@ -112,7 +120,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -146,6 +156,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -178,7 +189,9 @@
         "I9-10980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -209,6 +222,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -239,9 +253,10 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -271,9 +286,10 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -301,7 +317,10 @@
         "I9-9880H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060",
@@ -329,7 +348,9 @@
         "I9-10980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -362,7 +383,9 @@
         "I9-10980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -391,9 +414,10 @@
         "R9-6900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050 Ti",
@@ -425,8 +449,10 @@
         "R9-7845HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4070",
@@ -453,9 +479,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -485,7 +512,9 @@
         "I7-12700H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -514,7 +543,9 @@
         "I7-13620H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -541,7 +572,9 @@
         "I9-12900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -571,7 +604,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -601,9 +636,10 @@
         "R9-7945HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4070",
@@ -627,7 +663,10 @@
         "R9-5900HS"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -649,7 +688,9 @@
         "R9-8945HS"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -673,7 +714,9 @@
         "I9-12900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -697,6 +740,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -719,7 +765,10 @@
         "I7-8750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1070",
@@ -741,7 +790,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060",
@@ -764,7 +816,10 @@
         "I7-10875H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2070 Super"
@@ -785,6 +840,9 @@
         "R9-5900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -808,7 +866,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -832,7 +893,9 @@
         "I9-13980HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -857,7 +920,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -881,9 +947,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080",
@@ -906,9 +973,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070Ti",
@@ -932,7 +1000,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1660Ti",
@@ -954,7 +1025,10 @@
         "R9-5900HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 6800M"
@@ -975,7 +1049,10 @@
         "R9-6900HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -997,7 +1074,10 @@
         "R9-7845HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -1019,7 +1099,10 @@
         "I9-13980HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -1043,7 +1126,12 @@
         "N2940",
         "N2930"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -1064,7 +1152,12 @@
       "cpuOptions": [
         "M-5Y10c"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -1091,8 +1184,10 @@
         "N3160"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1117,8 +1212,10 @@
         "N3450"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1145,8 +1242,10 @@
         "N5030"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1172,7 +1271,12 @@
         "N2930",
         "N2940"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -1197,7 +1301,10 @@
         "N3160"
       ],
       "ramOptions": [
-        "4GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1221,7 +1328,10 @@
         "N3450"
       ],
       "ramOptions": [
-        "4GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1245,8 +1355,10 @@
         "I5-8200Y"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1273,9 +1385,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1301,8 +1414,10 @@
         "I5-7300U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1327,8 +1442,10 @@
         "I5-6300U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1358,9 +1475,10 @@
         "A12-9800B"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1386,7 +1504,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1416,9 +1536,10 @@
         "A12-9800B"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1443,7 +1564,10 @@
         "R3-2300U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1470,9 +1594,10 @@
         "Athlon Gold 1MB"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1498,9 +1623,10 @@
         "I5-1235U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1526,8 +1652,10 @@
         "I7-10710U"
       ],
       "ramOptions": [
-        "4GB",
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -1557,7 +1685,10 @@
         "R5-4650U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1584,6 +1715,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -1615,7 +1747,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1643,7 +1777,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1672,7 +1807,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -1701,7 +1838,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1735,6 +1874,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -1765,7 +1905,10 @@
         "R7-7735U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1793,7 +1936,9 @@
         "Ultra 5 125H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -1826,6 +1971,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -1850,7 +1996,10 @@
         "Ultra 5 135H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -1882,8 +2031,10 @@
         "R5 AI-435"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1912,6 +2063,7 @@
         "5 320"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -1941,7 +2093,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 640",
@@ -1971,7 +2125,10 @@
         "R5-4650U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -1997,7 +2154,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2028,7 +2187,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2054,7 +2215,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2082,7 +2245,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2110,7 +2275,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2144,6 +2311,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -2174,7 +2342,10 @@
         "R7-170"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2203,6 +2374,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -2235,6 +2407,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -2261,7 +2434,9 @@
         "Ultra 5 236V"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -2294,8 +2469,10 @@
         "R7 AI-445"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2323,6 +2500,7 @@
         "7 350"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -2353,7 +2531,12 @@
         "I3-3130M",
         "I5-3320M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "710M"
@@ -2380,7 +2563,12 @@
         "I5-4210M",
         "I7-4712MQ"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -2404,7 +2592,12 @@
         "I5-5200U",
         "I7-5500U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "R5 M240",
@@ -2429,7 +2622,12 @@
         "A6-7000",
         "A8-7100"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "R7 M260DX",
         "集显",
@@ -2455,9 +2653,10 @@
         "I3-6100U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "R7 M360",
@@ -2484,9 +2683,10 @@
         "A8-8600P"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "R6 M340DX",
@@ -2517,9 +2717,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2545,8 +2746,10 @@
         "A10-9600P"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2575,9 +2778,10 @@
         "I3-7020U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 550",
@@ -2603,9 +2807,10 @@
         "R5-2500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2631,8 +2836,10 @@
         "I5-8365U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2658,7 +2865,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2684,9 +2893,10 @@
         "R7-3700U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -2713,7 +2923,12 @@
         "I3-3110M",
         "I3-3130M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "GT740M",
         "集显",
@@ -2739,7 +2954,12 @@
         "I3-4000M",
         "Pentium3560M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "GT740",
         "集显",
@@ -2765,7 +2985,12 @@
         "A8-4500M",
         "A6-5350M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "AMD HD graphics",
         "AMD HD 8570M"
@@ -2790,7 +3015,12 @@
         "I5-5200U",
         "I7-5500U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "R7 M260"
@@ -2814,7 +3044,12 @@
         "A6-7000",
         "A10-7300"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "R7 M260DX",
@@ -2841,9 +3076,10 @@
         "Celeron Processor1"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "R7 M370",
@@ -2869,8 +3105,10 @@
         "A8-8600P"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "R6 M340DX",
@@ -2900,9 +3138,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2929,8 +3168,10 @@
         "A12-9700P"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "R5 M430",
@@ -2959,8 +3200,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -2986,9 +3229,10 @@
         "R7-2700U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3014,7 +3258,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 550X",
@@ -3040,9 +3286,10 @@
         "R7-3700U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3071,8 +3318,10 @@
         "I3-5205U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3098,7 +3347,9 @@
         "Ultra 7 165U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3124,7 +3375,9 @@
         "R3-210"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3151,7 +3404,9 @@
         "Ultra 5 235U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3179,7 +3434,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3208,7 +3465,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3236,7 +3495,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3265,6 +3526,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3292,6 +3554,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3321,6 +3584,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3347,7 +3611,9 @@
         "Ultra 7 165U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3373,7 +3639,9 @@
         "R3-210"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3400,7 +3668,9 @@
         "Ultra 5 235U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3427,7 +3697,10 @@
         "Ultra 7 266V"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3454,7 +3727,10 @@
         "I7-10610U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3481,7 +3757,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3509,7 +3787,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3537,7 +3817,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3565,7 +3847,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3590,7 +3874,9 @@
         "R3-7330U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3620,6 +3906,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3649,6 +3936,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3677,7 +3965,10 @@
         "Pentium Gold 6405U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -3706,7 +3997,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3736,6 +4029,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3767,6 +4061,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3800,6 +4095,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3826,7 +4122,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3859,6 +4157,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -3884,7 +4183,10 @@
         "R5-7535U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3912,7 +4214,10 @@
         "Ultra 5 135U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3945,8 +4250,7 @@
         "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -3977,6 +4281,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4005,6 +4310,7 @@
         "R5 AI-400"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -4035,8 +4341,10 @@
         "Ultra 7 356H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4063,7 +4371,10 @@
         "R7-4750U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4092,7 +4403,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -4121,7 +4434,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4151,7 +4466,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450",
@@ -4181,7 +4498,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4214,6 +4533,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4241,6 +4561,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4272,7 +4593,9 @@
         "I7-1365U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4298,7 +4621,9 @@
         "R3-7335U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4327,7 +4652,10 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4360,8 +4688,7 @@
         "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4391,6 +4718,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4419,7 +4747,9 @@
         "R5 AI-400"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4447,6 +4777,7 @@
         "Ultra 7 356H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -4479,7 +4810,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4508,8 +4841,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4538,7 +4873,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4564,9 +4901,9 @@
         "I5-8365U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4595,7 +4932,12 @@
         "I7-4600M",
         "I5-4210M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -4618,7 +4960,12 @@
         "I7-5500U",
         "I5-5200U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "R5 M240"
@@ -4646,8 +4993,10 @@
         "I7-6600U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -4679,9 +5028,10 @@
         "I5-6300U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "R5 M430",
@@ -4713,7 +5063,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -4743,9 +5095,10 @@
         "I3-4305U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -4773,7 +5126,12 @@
         "I3-4000M",
         "I7-4600M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -4799,8 +5157,10 @@
         "I7-6600U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4833,9 +5193,10 @@
         "I7-6600U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -4866,7 +5227,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -4896,7 +5259,10 @@
         "I3-4305U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -4923,7 +5289,9 @@
         "I5-8400H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -4953,9 +5321,10 @@
         "Xeon E-2276M"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro T2000 Max-Q",
@@ -4988,8 +5357,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro T2000 Max-Q",
@@ -5018,7 +5387,9 @@
         "I9-11950H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5051,7 +5422,9 @@
         "I9-12900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5084,9 +5457,10 @@
         "I7-13800H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2000",
@@ -5119,8 +5493,10 @@
         "Ultra 7 165H"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3000",
@@ -5151,9 +5527,10 @@
         "Ultra 5 235H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX PRO 2000",
@@ -5183,9 +5560,10 @@
         "Ultra X9 388H"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB",
-        "96GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX PRO 2000",
@@ -5211,7 +5589,9 @@
         "R7-4750U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5241,7 +5621,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro P520"
@@ -5265,7 +5647,10 @@
         "R7-5850U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -5293,7 +5678,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -5319,7 +5705,10 @@
         "R5-6650U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -5346,7 +5735,10 @@
         "I7-1280P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro T550",
@@ -5373,9 +5765,10 @@
         "R5-7040U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -5401,7 +5794,10 @@
         "I7-1370P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -5427,6 +5823,9 @@
         "R5-8640HS"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5454,10 +5853,10 @@
         "Ultra 5 135H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -5485,11 +5884,10 @@
         "R5 AI-300"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "48GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -5516,11 +5914,10 @@
         "Ultra 5 235H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB",
-        "96GB"
+        "32GB"
       ],
       "gpuOptions": [
         "RTX PRO 500",
@@ -5550,10 +5947,10 @@
         "R AI-400"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "48GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -5581,9 +5978,10 @@
         "Ultra 5 336H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX PRO 1000",
@@ -5615,7 +6013,10 @@
         "I9-10980HK"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro RTX 4000 Max-Q",
@@ -5649,9 +6050,10 @@
         "I5-11500H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX A2000",
@@ -5683,8 +6085,10 @@
         "I7-10810U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro P520"
@@ -5710,7 +6114,10 @@
         "I5-1135G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro T500",
@@ -5741,8 +6148,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro P620",
@@ -5769,7 +6176,9 @@
         "I7-11850H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5797,7 +6206,9 @@
         "R5-6650H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5826,6 +6237,9 @@
         "I9-12900H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5856,6 +6270,9 @@
         "I9-12900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5890,6 +6307,9 @@
         "I7-14700HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5922,9 +6342,10 @@
         "Ultra 5 245HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB",
-        "128GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX PRO 5000",
@@ -5952,6 +6373,9 @@
         "R5-6650U"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -5979,6 +6403,8 @@
         "I7-1280P"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
         "32GB"
       ],
@@ -6008,9 +6434,10 @@
         "R5-7040U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -6036,7 +6463,10 @@
         "I7-1360P"
       ],
       "ramOptions": [
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX A500",
@@ -6064,8 +6494,10 @@
         "Ultra 7 165H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 500",
@@ -6093,11 +6525,10 @@
         "R5 AI-300"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "48GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -6124,10 +6555,10 @@
         "Ultra 5 235H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -6157,10 +6588,10 @@
         "R AI-400"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -6191,9 +6622,10 @@
         "Ultra X9 388H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Intel Arc B390",
@@ -6223,7 +6655,9 @@
         "R9-7940HS"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6253,7 +6687,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6282,7 +6718,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6311,10 +6749,10 @@
         "Ultra 5 225H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX PRO 1000",
@@ -6345,9 +6783,10 @@
         "I5-10400H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro T2000",
@@ -6378,7 +6817,9 @@
         "I7-11850H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6408,7 +6849,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro M500M",
@@ -6434,7 +6877,10 @@
         "I7-8665U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro P520"
@@ -6462,6 +6908,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6491,6 +6938,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6521,6 +6969,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6550,9 +6999,9 @@
         "I7-6600U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6581,7 +7030,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro P1000",
@@ -6611,6 +7062,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6639,10 +7091,10 @@
         "I5-9400H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "128GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro RTX 3000",
@@ -6673,7 +7125,10 @@
         "I7-8665U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro P520"
@@ -6701,6 +7156,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6733,6 +7189,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6761,7 +7218,9 @@
         "I7-8750H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -6793,9 +7252,10 @@
         "I7-9850H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Quadro T2000",
@@ -6827,7 +7287,12 @@
         "I3-3217U",
         "I5-3437U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "AMD HD 8670M"
@@ -6854,7 +7319,12 @@
         "I5-4210U",
         "I3-4030U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "AMD HD 8670M",
         "集显"
@@ -6879,7 +7349,12 @@
         "I7-3537U",
         "I3-3217U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "AMD HD 8670M"
@@ -6905,7 +7380,12 @@
         "I7-4510U",
         "I5-4210U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "AMD HD 8670M",
         "集显"
@@ -6932,7 +7412,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -6961,7 +7442,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -6989,7 +7472,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7045,6 +7530,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7078,8 +7564,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "40GB",
-        "48GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7104,7 +7590,10 @@
         "R7-7840U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7134,7 +7623,10 @@
         "I7-1370P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7159,7 +7651,10 @@
         "R7-8840U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7188,7 +7683,10 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7214,6 +7712,7 @@
         "R5 AI-300"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -7251,10 +7750,10 @@
         "Ultra 5 140T"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7283,6 +7782,7 @@
         "R5 AI-400"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -7314,7 +7814,9 @@
         "Ultra 5 338H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7343,6 +7845,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7371,7 +7874,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7400,9 +7904,10 @@
         "Ultra 7 265H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7432,7 +7937,9 @@
         "Ultra 7 366H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7458,7 +7965,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7486,7 +7995,9 @@
         "I7-10810U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7515,7 +8026,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7543,6 +8056,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7567,7 +8081,9 @@
         "R5-6650U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7601,6 +8117,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7625,6 +8142,9 @@
         "R7-7840U"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7654,7 +8174,9 @@
         "I7-1370P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7683,7 +8205,9 @@
         "Ultra 7 165H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7711,9 +8235,10 @@
         "R7 AI-360"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7747,9 +8272,10 @@
         "Ultra 5 235U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7777,9 +8303,10 @@
         "Snapdragon X Plus"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7807,10 +8334,10 @@
         "R6 AI-440"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -7838,7 +8365,9 @@
         "Ultra 7 366H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7864,7 +8393,9 @@
         "Snapdragon X2"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -7893,7 +8424,10 @@
         "I7-10810U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX330",
@@ -7922,8 +8456,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "48GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -7955,9 +8489,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "128GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2080 SUPER Max-Q",
@@ -7988,7 +8521,9 @@
         "I5-11500H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8020,6 +8555,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8049,6 +8585,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8074,6 +8611,9 @@
         "I7-12700H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8098,7 +8638,9 @@
         "R7-6850U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8132,6 +8674,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8158,7 +8701,9 @@
         "R5-7540U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8189,7 +8734,10 @@
         "I7-1370P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8217,7 +8765,10 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8243,6 +8794,7 @@
         "R5 AI-300"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -8276,10 +8828,10 @@
         "Ultra 5 235H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8308,6 +8860,7 @@
         "R5 AI-400"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -8337,9 +8890,10 @@
         "Ultra 5 338H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8367,11 +8921,10 @@
         "Ultra 5 245HX"
       ],
       "ramOptions": [
-        "32GB",
-        "48GB",
-        "64GB",
-        "96GB",
-        "128GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080",
@@ -8397,9 +8950,10 @@
         "Ultra 7 255H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070",
@@ -8425,8 +8979,10 @@
         "Ultra 7 356H"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070",
@@ -8453,7 +9009,12 @@
         "I3-4010U",
         "I7-4500U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "GT 720M"
@@ -8485,7 +9046,12 @@
         "I3-4100M",
         "I7-4710MQ"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "GT 730M"
@@ -8510,7 +9076,12 @@
         "I7-4600U",
         "I5-4210U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "GT 730M"
@@ -8535,7 +9106,12 @@
         "I5-4300U",
         "I3-5010U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -8558,7 +9134,12 @@
         "I7-5600U",
         "I5-5200U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -8584,9 +9165,9 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8614,9 +9195,10 @@
         "I5-6300HQ"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8642,10 +9224,10 @@
         "I5-6300U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "12GB",
-        "20GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -8676,9 +9258,9 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8706,9 +9288,10 @@
         "I7-7820HQ"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8738,7 +9321,10 @@
         "I7-7600U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -8769,6 +9355,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8802,7 +9389,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX150",
@@ -8833,7 +9421,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -8862,8 +9452,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "48GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250",
@@ -8892,6 +9482,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -8918,7 +9509,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -8943,7 +9536,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -8975,7 +9570,12 @@
         "I3-4100M",
         "I7-4710MQ"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显",
         "GT 730M"
@@ -8999,7 +9599,12 @@
         "I7-5600U",
         "I5-5200U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "940M",
         "集显"
@@ -9025,9 +9630,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "940MX",
@@ -9057,9 +9663,10 @@
         "I7-6600U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -9089,7 +9696,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -9118,7 +9727,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "40GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -9151,7 +9761,12 @@
         "I7-4910MQ",
         "I5-4210M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "Quadro K1100M",
         "Quadro K2100M",
@@ -9177,7 +9792,12 @@
         "I7-4910MQ",
         "I5-4210M"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "Quadro K1100M",
         "Quadro K2100M"
@@ -9201,7 +9821,12 @@
         "I7-5500U",
         "I5-5300U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "Quadro K620M",
         "集显"
@@ -9234,7 +9859,9 @@
         "Ultra 5 140T"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9262,8 +9889,10 @@
         "Ultra X7 368H"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -9290,7 +9919,9 @@
         "Ultra 5 125U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9317,7 +9948,12 @@
         "I7-4600U",
         "I5-4210U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -9342,7 +9978,12 @@
         "I7-5500U",
         "N5321"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -9367,9 +10008,10 @@
         "I5-6300U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9400,7 +10042,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9428,7 +10072,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9458,7 +10104,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9489,7 +10137,9 @@
         "I7-1280P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9520,7 +10170,9 @@
         "I5-1350P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9549,9 +10201,10 @@
         "Ultra 5 125H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9586,7 +10239,9 @@
         "Ultra 5 140T"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9617,9 +10272,10 @@
         "Ultra 7 356H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
-        "32GB",
-        "64GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -9650,7 +10306,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9678,6 +10336,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9708,7 +10367,10 @@
         "I7-8850H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050 Ti Max-Q",
@@ -9738,8 +10400,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650 Max-Q",
@@ -9766,9 +10428,10 @@
         "I5-10400H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650 Ti Max-Q",
@@ -9797,6 +10460,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9827,9 +10491,10 @@
         "I9-12900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -9861,7 +10526,10 @@
         "I7-1260U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9884,7 +10552,10 @@
         "I5-L16G7"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9910,7 +10581,10 @@
         "I7-1180G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9937,7 +10611,9 @@
         "I5-1250P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -9964,7 +10640,10 @@
         "I5-1350P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -9991,7 +10670,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10017,9 +10698,10 @@
         "I5-6300U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10046,7 +10728,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10073,7 +10757,10 @@
         "I7-8650U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10103,7 +10790,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10132,7 +10821,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10160,6 +10851,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10191,7 +10883,9 @@
         "I5-1250P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10222,7 +10916,9 @@
         "I5-1350P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10251,7 +10947,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10275,7 +10973,9 @@
         "Ultra 5 134U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10302,7 +11002,10 @@
         "Ultra 7 165U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10326,9 +11029,10 @@
         "Ultra 5 335"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10353,7 +11057,10 @@
         "R7-4750U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10382,7 +11089,10 @@
         "I7-10810U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10411,6 +11121,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10440,6 +11151,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10466,6 +11178,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10498,7 +11211,9 @@
         "I7-1265U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10524,7 +11239,9 @@
         "R5-7545U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10556,7 +11273,9 @@
         "I7-1370P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10585,7 +11304,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10611,7 +11332,9 @@
         "R5 AI-300"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10640,7 +11363,9 @@
         "Ultra 7 265U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10672,7 +11397,9 @@
         "R6 AI-440"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10701,7 +11428,9 @@
         "Ultra 5 336H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10731,7 +11460,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10758,7 +11489,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10784,7 +11517,9 @@
         "I7-1255U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10815,6 +11550,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10842,6 +11578,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -10867,7 +11604,12 @@
         "I5-4200U",
         "I3-4010U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -10892,7 +11634,12 @@
         "I3-5010U",
         "I5-5200U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -10919,8 +11666,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10954,7 +11703,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -10986,7 +11737,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11016,7 +11769,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11047,7 +11802,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11074,7 +11831,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11100,7 +11859,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11127,7 +11888,9 @@
         "Ultra 7 268V"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -11156,7 +11919,9 @@
         "Ultra 5 238V"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -11184,8 +11949,10 @@
         "Ultra X7 368H"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Intel Arc B390",
@@ -11211,7 +11978,12 @@
         "I5-4300U",
         "I3-4010U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -11235,7 +12007,12 @@
         "N2930",
         "N2940"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -11257,8 +12034,10 @@
         "M-5Y10c"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11285,8 +12064,10 @@
         "Pentium Graphite"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11311,8 +12092,10 @@
         "N3450i3"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11339,7 +12122,10 @@
         "N5030"
       ],
       "ramOptions": [
-        "4GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11365,7 +12151,10 @@
         "N3160"
       ],
       "ramOptions": [
-        "4GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11388,7 +12177,10 @@
         "Celeron N3450"
       ],
       "ramOptions": [
-        "4GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11414,7 +12206,12 @@
         "I7-5500U",
         "I3-5005U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -11437,7 +12234,12 @@
         "I5-5200U",
         "I3-5010U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "840M",
         "集显",
@@ -11462,7 +12264,12 @@
         "I7-5500U",
         "I3-5010U"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "840M",
         "集显"
@@ -11489,9 +12296,10 @@
         "I7-6600U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11517,9 +12325,10 @@
         "I7-7600U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11545,8 +12354,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11571,7 +12382,9 @@
         "R5-6650U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -11596,9 +12409,10 @@
         "R5-7540U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11623,7 +12437,9 @@
         "R9-6950H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -11650,9 +12466,10 @@
         "R9-7940HS"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -11678,8 +12495,10 @@
         "m7"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11703,7 +12522,10 @@
         "I7-8565U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -11727,7 +12549,10 @@
         "I7-11370H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11749,7 +12574,10 @@
         "I7-8565U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -11772,7 +12600,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -11795,7 +12626,10 @@
         "I7-1260P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11817,7 +12651,10 @@
         "I7-1360P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11839,6 +12676,9 @@
         "Ultra 5 125H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -11861,7 +12701,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -11883,6 +12725,8 @@
         "麒麟 X90"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
         "32GB"
       ],
@@ -11907,7 +12751,10 @@
         "I7-11370H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11930,7 +12777,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11953,7 +12803,10 @@
         "I9-12900H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -11977,7 +12830,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12000,7 +12855,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -12025,7 +12883,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -12048,7 +12908,10 @@
         "R7-4700U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12070,7 +12933,10 @@
         "I7-1260P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12092,7 +12958,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12113,7 +12982,10 @@
         "I5-13420H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12136,8 +13008,10 @@
         "I5-7Y54"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12160,7 +13034,10 @@
         "高通骁龙 850"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12184,7 +13061,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12208,7 +13087,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12233,8 +13114,10 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12258,7 +13141,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -12283,7 +13168,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -12307,7 +13194,10 @@
         "I7-10510U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -12331,7 +13221,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12354,7 +13247,10 @@
         "I7-1260P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12376,7 +13272,9 @@
         "I7-1360P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12400,7 +13298,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12423,7 +13323,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12445,8 +13348,10 @@
         "I5-1355U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12465,6 +13370,9 @@
         "R7-8845H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12487,7 +13395,10 @@
         "R5-7530U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12510,7 +13421,10 @@
         "I7-10510U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -12535,7 +13449,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650Ti",
@@ -12560,7 +13476,10 @@
         "R7-4800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050Ti",
@@ -12586,7 +13505,10 @@
         "I5-12500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -12614,7 +13536,10 @@
         "R9-7940H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -12640,7 +13565,10 @@
         "R9-8945H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -12667,7 +13595,10 @@
         "R9-7940HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -12691,7 +13622,10 @@
         "R7-H260"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5050",
@@ -12716,7 +13650,10 @@
         "R7-H260"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5050",
@@ -12741,7 +13678,10 @@
         "R9-9955HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060",
@@ -12764,7 +13704,9 @@
         "R9-9955HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12789,7 +13731,9 @@
         "R9 AI-370"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12813,6 +13757,7 @@
         "Ultra 5 325"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -12838,7 +13783,10 @@
         "R7-5700U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12859,7 +13807,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12880,7 +13831,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12902,7 +13856,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -12924,7 +13881,10 @@
         "I5-11300H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -12948,7 +13908,10 @@
         "I7-8565U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX150"
@@ -12970,7 +13933,9 @@
         "I7-1355U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -12994,7 +13959,10 @@
         "I7-1260P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13016,6 +13984,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13037,6 +14008,9 @@
         "Ultra 9 285H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13059,6 +14033,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13080,7 +14057,12 @@
       "cpuOptions": [
         "Ultra 9 285H"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "集显"
       ],
@@ -13101,6 +14083,9 @@
         "Ultra X9 388H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13124,7 +14109,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13148,6 +14135,9 @@
         "R9 AI-370"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13170,6 +14160,9 @@
         "Ultra 7 258V"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13191,6 +14184,9 @@
         "R9 AI-465"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13213,7 +14209,10 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13236,7 +14235,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13259,7 +14260,10 @@
         "R5-6600U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13281,7 +14285,10 @@
         "I7-8750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050Ti"
@@ -13302,6 +14309,9 @@
         "I9-13905H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13324,7 +14334,9 @@
         "I7-1165G7"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13348,7 +14360,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13372,7 +14386,10 @@
         "R7-6800U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13395,7 +14412,10 @@
         "R7-7730U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13416,7 +14436,10 @@
         "R7-8845H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -13438,7 +14461,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -13460,7 +14485,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060"
@@ -13482,7 +14510,9 @@
         "I7-10875H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13507,9 +14537,10 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -13534,7 +14565,10 @@
         "I9-13900HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4070",
@@ -13556,9 +14590,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4070",
@@ -13581,8 +14616,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070 Ti",
@@ -13606,7 +14643,9 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13629,6 +14668,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13651,7 +14693,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080",
@@ -13673,7 +14718,10 @@
         "Ultra 9 290HX Plus"
       ],
       "ramOptions": [
-        "256GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5090"
@@ -13696,9 +14744,10 @@
         "I7-7700HQ"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1060"
@@ -13721,7 +14770,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1060"
@@ -13743,7 +14794,10 @@
         "I7-10870H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1660 Ti",
@@ -13767,7 +14821,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -13793,7 +14850,9 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13820,7 +14879,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13844,6 +14905,9 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13865,8 +14929,10 @@
         "Ultra 9 386H"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070"
@@ -13888,6 +14954,9 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -13910,7 +14979,10 @@
         "I7-7700HQ"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050",
@@ -13933,7 +15005,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1660 Ti",
@@ -13957,7 +15031,10 @@
         "I9-13900H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2050",
@@ -13981,7 +15058,10 @@
         "R7-8845HS"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -14008,7 +15088,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -14031,7 +15113,10 @@
         "I7-11800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -14054,7 +15139,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -14078,7 +15166,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -14101,8 +15192,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14125,7 +15218,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -14149,7 +15245,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14172,7 +15270,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14196,7 +15297,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14220,7 +15323,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -14244,7 +15349,10 @@
         "I7-7Y75"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14266,7 +15374,10 @@
         "I7-8500Y"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14287,7 +15398,9 @@
         "5 210H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14313,7 +15426,10 @@
         "I7-13700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14335,7 +15451,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14357,6 +15475,9 @@
         "Ultra 5 125H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14378,6 +15499,9 @@
         "Ultra X7 358H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14401,6 +15525,9 @@
         "7 240H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14422,6 +15549,9 @@
         "Ultra 7 355"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14443,6 +15573,9 @@
         "7 240H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14464,7 +15597,10 @@
         "I7-13620H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14486,7 +15622,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14508,7 +15647,10 @@
         "I7-1260P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14530,7 +15672,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14552,7 +15697,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14574,7 +15722,10 @@
         "I7-1260P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14596,7 +15747,9 @@
         "I7-1260P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14620,7 +15773,9 @@
         "I7-11370H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14645,7 +15800,10 @@
         "I7-10510U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -14670,7 +15828,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14694,7 +15854,10 @@
         "I7-8565U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -14718,7 +15881,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14741,7 +15907,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14764,7 +15933,9 @@
         "5 220H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14791,7 +15962,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX350",
@@ -14817,7 +15990,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14841,7 +16016,10 @@
         "I5-10210U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -14866,7 +16044,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14890,7 +16070,10 @@
         "I7-11390H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14914,7 +16097,10 @@
         "I5-1035G1"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX350"
@@ -14937,7 +16123,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -14960,7 +16149,9 @@
         "5 220H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -14986,7 +16177,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15011,7 +16204,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15035,7 +16230,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15060,7 +16258,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15085,7 +16285,9 @@
         "Ultra 7 255H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15110,6 +16312,9 @@
         "Ultra 5 338H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15134,7 +16339,10 @@
         "I7-11390H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450",
@@ -15159,7 +16367,10 @@
         "R7-5700U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15183,7 +16394,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15207,8 +16421,10 @@
         "I7-11370H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15233,7 +16449,10 @@
         "I7-12650H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15258,7 +16477,10 @@
         "R5-7640HS"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15282,8 +16504,10 @@
         "I7-11390H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450",
@@ -15308,8 +16532,10 @@
         "R5-5600H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15333,7 +16559,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15358,6 +16587,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15382,6 +16614,9 @@
         "Ultra 7 255H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15407,6 +16642,9 @@
         "Ultra 5 338H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15430,7 +16668,10 @@
         "I5-11260H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -15453,7 +16694,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -15477,7 +16721,10 @@
         "I7-12650H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -15502,7 +16749,10 @@
         "I7-14650HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -15526,7 +16776,10 @@
         "I7-12650H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3070 Ti",
@@ -15550,7 +16803,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -15575,8 +16831,10 @@
         "I5-10200H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650 Ti",
@@ -15602,7 +16860,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15624,7 +16884,10 @@
         "I7-11370H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15647,7 +16910,10 @@
         "Qualcomm Snapdragon 8cx Gen2"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15671,7 +16937,10 @@
         "I7-1250U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15695,7 +16964,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15721,7 +16993,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15746,6 +17021,9 @@
         "Ultra 5 338H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -15772,7 +17050,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1060",
@@ -15799,8 +17079,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "16GB（8GB×2）",
-        "8GB（8GB×1）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1060",
@@ -15826,7 +17106,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060",
@@ -15852,10 +17134,10 @@
         "I3-8130U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "8GB（8GB×1）",
-        "4GB（4GB×1）"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX110",
@@ -15882,8 +17164,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "16GB（8GB×2）",
-        "8GB（4GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250",
@@ -15908,8 +17190,10 @@
         "I7-11370H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450",
@@ -15934,8 +17218,10 @@
         "I7-11390H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -15960,8 +17246,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -15986,8 +17274,10 @@
         "I5-11320H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450",
@@ -16012,7 +17302,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -16037,8 +17330,10 @@
         "I7-11390H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "16GB（8GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450",
@@ -16065,8 +17360,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "16GB（8GB×2）",
-        "8GB（4GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250",
@@ -16092,7 +17387,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX350"
@@ -16118,8 +17415,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "16GB（8GB×2）",
-        "8GB（8GB×1）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050 Max-Q"
@@ -16142,7 +17439,10 @@
         "I7-11370H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -16166,9 +17466,10 @@
         "I5-11300H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "32GB（16GB×2）"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050 Ti"
@@ -16193,7 +17494,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -16217,8 +17520,10 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -16242,8 +17547,10 @@
         "I5-8200Y"
       ],
       "ramOptions": [
-        "4GB",
-        "4GB（4GB×1）"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -16267,7 +17574,10 @@
         "M3-7Y30"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "940MX",
@@ -16291,7 +17601,10 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "940MX"
@@ -16315,7 +17628,9 @@
         "I7-1185G7"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16338,7 +17653,10 @@
         "I7-1360P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -16359,7 +17677,9 @@
         "I7-1185G7"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16384,7 +17704,10 @@
         "I7-1280P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -16405,7 +17728,9 @@
         "I7-1360P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16429,7 +17754,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 5500M"
@@ -16451,7 +17778,10 @@
         "R7-7735HS"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 6550M"
@@ -16473,7 +17803,10 @@
         "R7-4800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 5500M"
@@ -16494,7 +17827,10 @@
         "I7-11800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3070"
@@ -16515,7 +17851,10 @@
         "I7-11800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3070"
@@ -16537,7 +17876,9 @@
         "I9-13980HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16563,7 +17904,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16587,6 +17930,9 @@
         "I7-14700HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16608,7 +17954,10 @@
         "I7-10710U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650 Max-Q"
@@ -16631,7 +17980,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16653,6 +18004,9 @@
         "Ultra 7 355"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16674,6 +18028,9 @@
         "Ultra 7 258V"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16696,7 +18053,10 @@
         "I7-1185G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -16719,7 +18079,9 @@
         "I7-1280P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16742,6 +18104,9 @@
         "I7-1185G7"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16764,6 +18129,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16787,6 +18155,9 @@
         "Ultra 9 285H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16809,6 +18180,9 @@
         "Ultra 9 288V"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16831,7 +18205,9 @@
         "I7-13700H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16855,9 +18231,10 @@
         "I9-10980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2070",
@@ -16883,9 +18260,10 @@
         "I9-13980HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -16911,7 +18289,9 @@
         "I7-9750H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16936,6 +18316,9 @@
         "I9-11980HK"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -16959,8 +18342,10 @@
         "I9-13980HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4080",
@@ -16983,8 +18368,10 @@
         "Ultra 9 285HX"
       ],
       "ramOptions": [
-        "64GB",
-        "96GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080",
@@ -17009,7 +18396,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050 Ti Max-Q"
@@ -17032,7 +18421,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -17056,7 +18447,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650"
@@ -17078,7 +18472,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -17103,7 +18499,9 @@
         "I7-13620H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17134,7 +18532,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060",
@@ -17159,9 +18558,10 @@
         "I9-8950HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1070",
@@ -17186,9 +18586,10 @@
         "I9-9900K"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "64GB",
-        "128GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2070",
@@ -17213,7 +18614,10 @@
         "I9-12900HX"
       ],
       "ramOptions": [
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3070 Ti",
@@ -17235,8 +18639,10 @@
         "Ultra 9 290HX Plus"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080"
@@ -17258,9 +18664,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB",
-        "192GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4080",
@@ -17284,7 +18691,10 @@
         "Ultra 9 285HX"
       ],
       "ramOptions": [
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080",
@@ -17309,7 +18719,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -17333,7 +18745,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -17358,7 +18772,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17380,7 +18796,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17401,7 +18819,10 @@
         "I5-13420H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17423,7 +18844,10 @@
         "I7-10510U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -17445,7 +18869,10 @@
         "I5-13420H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17466,7 +18893,9 @@
         "I7-8750H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17490,7 +18919,9 @@
         "I9-10980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17518,7 +18949,9 @@
         "I7-9750H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17544,8 +18977,10 @@
         "I9-11980HK"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -17572,7 +19007,10 @@
         "I7-11375H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060 Max-Q",
@@ -17594,7 +19032,9 @@
         "Ultra 9 285H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17617,7 +19057,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17645,7 +19087,10 @@
         "R9-9955HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060",
@@ -17668,7 +19113,10 @@
         "I7-14650HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -17690,7 +19138,9 @@
         "I7-13620H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17715,7 +19165,10 @@
         "I7-8750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050",
@@ -17739,7 +19192,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -17766,7 +19222,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -17790,7 +19248,10 @@
         "I7-11800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -17815,7 +19276,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050 Ti",
@@ -17837,7 +19301,9 @@
         "I7-13700HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17863,7 +19329,9 @@
         "R7-7840H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17886,7 +19354,10 @@
         "I7-6500U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17910,7 +19381,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17936,7 +19409,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -17963,6 +19438,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -17987,7 +19463,9 @@
         "I7-12700H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18014,7 +19492,9 @@
         "R5-7535U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18040,8 +19520,10 @@
         "I7-10510U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18068,7 +19550,9 @@
         "I7-1260P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18094,6 +19578,7 @@
         "R7-H255"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -18121,7 +19606,9 @@
         "I7-1360P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18147,7 +19634,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18170,7 +19659,10 @@
         "I5-1035G1"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -18195,7 +19687,10 @@
         "R7-5825U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -18217,7 +19712,10 @@
         "I5-8265U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18242,7 +19740,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18267,7 +19768,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18295,8 +19799,10 @@
         "R3-3200U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18322,7 +19828,10 @@
         "I5-1135G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450"
@@ -18344,7 +19853,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18367,7 +19878,9 @@
         "Ultra 5 225H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18390,7 +19903,10 @@
         "I7-13700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18413,7 +19929,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18436,6 +19954,9 @@
         "Ultra X7 358H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18457,6 +19978,9 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18481,7 +20005,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18509,7 +20035,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18535,7 +20063,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18561,7 +20091,9 @@
         "R9-8945HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18588,7 +20120,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "12GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050",
@@ -18614,7 +20148,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050",
@@ -18640,7 +20176,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050",
@@ -18667,7 +20205,9 @@
         "I9-9980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18695,7 +20235,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -18722,7 +20264,9 @@
         "I7-11800H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18750,7 +20294,9 @@
         "I7-11800H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18775,7 +20321,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -18802,7 +20351,9 @@
         "I9-12900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18830,7 +20381,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -18857,7 +20411,9 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18884,7 +20440,9 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -18908,7 +20466,10 @@
         "R7-7840H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -18932,7 +20493,10 @@
         "I5-8250U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18955,7 +20519,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -18981,7 +20548,9 @@
         "I9-10885H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19010,7 +20579,9 @@
         "I9-12900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19038,7 +20609,9 @@
         "Ultra 7 155U"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19064,7 +20637,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -19092,6 +20667,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19119,7 +20695,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -19142,7 +20720,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19169,9 +20749,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -19197,7 +20778,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -19223,9 +20806,10 @@
         "I7-8665U"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -19250,7 +20834,9 @@
         "I7-1360P"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19274,7 +20860,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19302,8 +20890,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19332,8 +20920,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19361,9 +20949,10 @@
         "I9-12900HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -19389,7 +20978,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19417,6 +21008,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19445,6 +21037,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19471,9 +21064,10 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19504,8 +21098,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19534,8 +21128,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050",
@@ -19561,9 +21155,10 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -19590,8 +21185,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19614,8 +21211,10 @@
         "I7-10510U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19641,7 +21240,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX450"
@@ -19663,7 +21264,9 @@
         "I7-11800H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19688,7 +21291,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -19710,9 +21316,10 @@
         "Ultra 7 265H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -19739,8 +21346,8 @@
       ],
       "ramOptions": [
         "8GB",
-        "12GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19770,6 +21377,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19797,7 +21405,9 @@
         "I7-12700H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19828,6 +21438,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19861,6 +21472,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19893,6 +21505,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19922,9 +21535,9 @@
         "I7-8750H"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19954,10 +21567,9 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "4GB",
         "8GB",
-        "12GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -19984,6 +21596,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20009,6 +21622,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20040,6 +21654,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20069,6 +21684,7 @@
       "ramOptions": [
         "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20099,7 +21715,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20122,7 +21740,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -20146,8 +21767,10 @@
         "I7-1065G7"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -20174,7 +21797,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -20199,7 +21824,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -20224,7 +21852,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -20250,7 +21881,9 @@
         "I7-13700H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20275,7 +21908,10 @@
         "I5-12450H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20296,7 +21932,10 @@
         "R7-7735H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20317,7 +21956,10 @@
         "Ultra 5 226V"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20338,7 +21980,10 @@
         "I7-12650H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20360,7 +22005,9 @@
         "R7-8845HS"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20384,6 +22031,9 @@
         "R7-H255"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20406,7 +22056,9 @@
         "I5-12500H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20430,7 +22082,9 @@
         "I5-12450H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20453,7 +22107,10 @@
         "I7-13700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -20474,6 +22131,9 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20495,6 +22155,9 @@
         "I9-13900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20518,6 +22181,9 @@
         "Ultra 7 255H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20539,7 +22205,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -20560,7 +22229,10 @@
         "I7-12650H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -20582,7 +22254,10 @@
         "I7-12800HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -20606,7 +22281,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1060"
@@ -20629,8 +22306,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4080",
@@ -20653,8 +22332,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070 Ti",
@@ -20678,7 +22359,10 @@
         "Ultra 9 290HX Plus"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [],
       "storageOptions": [
@@ -20697,7 +22381,10 @@
         "R9-9955HX3D"
       ],
       "ramOptions": [
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5090"
@@ -20719,7 +22406,10 @@
         "R5-7640H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -20744,7 +22434,9 @@
         "R9-7940HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20769,6 +22461,7 @@
         "R7-H255"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -20795,7 +22488,9 @@
         "R7-7435H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20820,7 +22515,9 @@
         "R9-7940H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20844,7 +22541,10 @@
         "R7-7735H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -20866,6 +22566,9 @@
         "I7-9750H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20889,7 +22592,9 @@
         "I9-11900H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -20914,7 +22619,10 @@
         "I5-6200U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20935,7 +22643,10 @@
         "5205U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20956,7 +22667,10 @@
         "Ultra 5 125H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -20977,7 +22691,10 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 950M"
@@ -20998,7 +22715,10 @@
         "Ultra 5 125H"
       ],
       "ramOptions": [
-        "24GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21019,7 +22739,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1660Ti"
@@ -21040,7 +22763,10 @@
         "I7-10750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060"
@@ -21061,7 +22787,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2070"
@@ -21082,7 +22811,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -21105,8 +22836,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
-        "32GB",
-        "96GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5090"
@@ -21129,7 +22862,10 @@
         "7-240H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060"
@@ -21151,7 +22887,10 @@
         "I7-13700HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060",
@@ -21173,7 +22912,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -21194,7 +22936,10 @@
         "Ultra 9 290HX Plus"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070"
@@ -21215,7 +22960,10 @@
         "7-240H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5070"
@@ -21236,7 +22984,10 @@
         "I5-11400"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -21257,7 +23008,10 @@
         "I5-10400"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2070"
@@ -21278,7 +23032,10 @@
         "I5-9300H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1660Ti"
@@ -21299,7 +23056,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1660Ti"
@@ -21320,7 +23080,10 @@
         "I7-8750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1060"
@@ -21341,7 +23104,10 @@
         "I5-11260H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -21362,7 +23128,10 @@
         "I7-10870H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -21384,7 +23153,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060"
@@ -21406,7 +23177,10 @@
         "I5-8265U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -21427,7 +23201,10 @@
         "I5-8265U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -21448,7 +23225,10 @@
         "I7-8565U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -21470,7 +23250,10 @@
         "I7-13700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4050",
@@ -21492,7 +23275,10 @@
         "I5-1135G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21517,7 +23303,10 @@
         "R7-4800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -21541,7 +23330,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -21564,6 +23356,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -21585,6 +23380,9 @@
         "Ultra 7 355"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -21607,7 +23405,10 @@
         "I7-1280P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21629,7 +23430,9 @@
         "R7-7840S"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -21651,6 +23454,9 @@
         "高通骁龙 X Plus"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -21674,7 +23480,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21696,7 +23504,10 @@
         "I7-1065G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21718,7 +23529,10 @@
         "I5-1135G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21741,7 +23555,10 @@
         "R7-6800HS"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -21763,6 +23580,9 @@
         "I9-13905H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -21786,7 +23606,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21810,7 +23632,10 @@
         "R5-3500U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -21837,7 +23662,10 @@
         "R7-4800U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -21860,7 +23688,10 @@
         "I5-12450H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21883,7 +23714,10 @@
         "M3-6Y30"
       ],
       "ramOptions": [
-        "4GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -21907,8 +23741,10 @@
         "I7-7500U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "940MX"
@@ -21931,7 +23767,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX150"
@@ -21953,7 +23792,10 @@
         "I5-10210U"
       ],
       "ramOptions": [
-        "12GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -21976,7 +23818,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22000,7 +23844,10 @@
         "R7-5800U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22022,7 +23869,10 @@
         "I5-1240P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22044,7 +23894,10 @@
         "I5-8250U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX150"
@@ -22066,7 +23919,10 @@
         "R5-5500U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22089,7 +23945,10 @@
         "I5-1240P"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22114,7 +23973,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -22137,7 +23998,10 @@
         "R5-4600U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -22163,7 +24027,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -22189,7 +24056,10 @@
         "R7-6800HS"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22211,7 +24081,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -22234,7 +24107,9 @@
         "Ultra 9 185H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22257,6 +24132,9 @@
         "Ultra 5 225H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22279,6 +24157,9 @@
         "Ultra 7 356H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22300,7 +24181,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -22325,7 +24209,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -22351,7 +24238,9 @@
         "R7-7735HS"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22378,7 +24267,9 @@
         "R7-8845H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22400,6 +24291,9 @@
         "Ultra 9 285H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22423,6 +24317,9 @@
         "Ultra 7 356H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22446,8 +24343,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "4GB",
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -22470,7 +24369,10 @@
         "R7-4800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -22493,7 +24395,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -22514,7 +24419,10 @@
         "R7-4800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060"
@@ -22536,7 +24444,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050Ti",
@@ -22558,7 +24469,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050Ti"
@@ -22579,7 +24493,10 @@
         "R7-7840H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -22600,7 +24517,10 @@
         "R7-8845H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -22621,7 +24541,9 @@
         "R9-8945HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22645,7 +24567,10 @@
         "R9-8940HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060"
@@ -22668,7 +24593,9 @@
         "R9-5900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22694,7 +24621,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -22716,7 +24646,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3070Ti"
@@ -22737,7 +24670,10 @@
         "R9-7945HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -22758,7 +24694,9 @@
         "R9-7945HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22780,7 +24718,9 @@
         "R9-8945HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22805,7 +24745,9 @@
         "R9-9955HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -22828,7 +24770,10 @@
         "R7-4800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060 Max-Q"
@@ -22849,7 +24794,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050Ti"
@@ -22870,7 +24818,10 @@
         "R7-6800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RX 6800S"
@@ -22892,7 +24843,10 @@
         "R7-7840H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -22915,7 +24869,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050Ti",
@@ -22940,7 +24896,10 @@
         "I7-9750H"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -22964,7 +24923,10 @@
         "I7-10750H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -22988,7 +24950,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1050Ti",
@@ -23014,7 +24978,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060",
@@ -23041,7 +25007,10 @@
         "I7-10875H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -23067,7 +25036,10 @@
         "I7-11800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050Ti",
@@ -23089,7 +25061,10 @@
         "I5-12500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -23111,7 +25086,10 @@
         "I7-13700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -23132,7 +25110,9 @@
         "I7-14650HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23155,6 +25135,9 @@
         "Ultra 7 255HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23177,9 +25160,10 @@
         "Ultra 7 255HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060",
@@ -23201,7 +25185,12 @@
       "cpuOptions": [
         "I7-9750H"
       ],
-      "ramOptions": [],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
       "gpuOptions": [
         "RTX 2060",
         "RTX 2070 Max-Q",
@@ -23221,9 +25210,10 @@
         "I7-10875H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2070 Super Max-Q",
@@ -23246,7 +25236,9 @@
         "I7-11800H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23271,7 +25263,10 @@
         "I7-11800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050Ti",
@@ -23294,7 +25289,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060",
@@ -23316,7 +25314,10 @@
         "I9-13900HX"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 4060"
@@ -23337,7 +25338,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23362,6 +25365,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23387,9 +25393,10 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060",
@@ -23412,8 +25419,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5080",
@@ -23437,8 +25446,10 @@
         "Ultra 9 275HX"
       ],
       "ramOptions": [
-        "32GB",
-        "64GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 5060",
@@ -23462,7 +25473,10 @@
         "I7-10875H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 2060 Max-Q"
@@ -23483,7 +25497,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3060"
@@ -23504,6 +25521,9 @@
         "I9-13900H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23526,6 +25546,9 @@
         "I9-14900HX"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -23550,7 +25573,10 @@
         "M7-6Y75"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23575,7 +25601,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23598,7 +25626,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23623,7 +25653,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23649,7 +25681,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23675,7 +25708,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23699,6 +25733,7 @@
         "Apple M4"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -23725,6 +25760,7 @@
         "Apple M5"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -23754,7 +25790,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23779,7 +25817,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23805,7 +25845,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23831,7 +25872,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23855,6 +25897,7 @@
         "Apple M4"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -23881,6 +25924,7 @@
         "Apple M5"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -23911,7 +25955,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23938,7 +25984,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23964,7 +26012,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -23990,7 +26040,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24015,7 +26067,9 @@
         "I7-1068NG7"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24041,7 +26095,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24067,7 +26123,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "24GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24092,9 +26149,10 @@
         "Apple M1 Max"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24121,12 +26179,10 @@
         "Apple M4 Max"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
-        "36GB",
-        "48GB",
-        "64GB",
-        "128GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24150,6 +26206,7 @@
         "Apple M5"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -24177,11 +26234,10 @@
         "Apple M5 Max"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
-        "36GB",
-        "48GB",
-        "64GB",
-        "128GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24206,10 +26262,10 @@
         "Apple M2 Max"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24238,13 +26294,8 @@
       "ramOptions": [
         "8GB",
         "16GB",
-        "18GB",
         "24GB",
-        "36GB",
-        "48GB",
-        "64GB",
-        "96GB",
-        "128GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24270,7 +26321,10 @@
         "I7-6920HQ"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Radeon Pro 450",
@@ -24298,7 +26352,10 @@
         "I7-7920HQ"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Radeon Pro 555",
@@ -24325,7 +26382,9 @@
         "I9-8950HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24356,7 +26415,9 @@
         "I9-9980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24387,9 +26448,10 @@
         "I9-9980HK"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "Radeon Pro 5300M",
@@ -24417,9 +26479,10 @@
         "Apple M1 Max"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24445,11 +26508,10 @@
         "Apple M4 Max"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
-        "36GB",
-        "48GB",
-        "64GB",
-        "128GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24475,11 +26537,10 @@
         "Apple M5 Max"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
-        "36GB",
-        "48GB",
-        "64GB",
-        "128GB"
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24504,10 +26565,10 @@
         "Apple M2 Max"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
-        "32GB",
-        "64GB",
-        "96GB"
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24533,12 +26594,10 @@
         "Apple M3 Max"
       ],
       "ramOptions": [
-        "18GB",
-        "36GB",
-        "48GB",
-        "64GB",
-        "96GB",
-        "128GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24564,7 +26623,10 @@
         "I7-8550U"
       ],
       "ramOptions": [
-        "8GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24590,7 +26652,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24614,7 +26678,10 @@
         "R7-4700U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24636,7 +26703,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24659,7 +26729,10 @@
         "I7-12650H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24682,7 +26755,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24704,7 +26780,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "RTX 3050"
@@ -24729,7 +26808,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24753,7 +26834,10 @@
         "R7-4700U"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -24775,7 +26859,10 @@
         "I7-1165G7"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24798,7 +26885,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -24822,7 +26912,9 @@
         "Ultra X7 358H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24844,7 +26936,10 @@
         "R7-5800H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "GTX 1650",
@@ -24867,7 +26962,9 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24890,6 +26987,9 @@
         "Ultra 7 255H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24914,7 +27014,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "MX250"
@@ -24937,6 +27039,8 @@
         "Ultra 9 285H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
         "32GB"
       ],
@@ -24961,6 +27065,9 @@
         "Ultra X9 388H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
         "32GB"
       ],
       "gpuOptions": [
@@ -24983,6 +27090,7 @@
         "Ultra 7 155H"
       ],
       "ramOptions": [
+        "8GB",
         "16GB",
         "24GB",
         "32GB"
@@ -25009,6 +27117,8 @@
         "Ultra X9 388H"
       ],
       "ramOptions": [
+        "8GB",
+        "16GB",
         "24GB",
         "32GB"
       ],
@@ -25032,7 +27142,10 @@
         "I7-11390H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -25055,7 +27168,10 @@
         "I7-12700H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显",
@@ -25079,7 +27195,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25102,7 +27220,10 @@
         "I5-12500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25123,7 +27244,10 @@
         "Ultra 5 325"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25145,7 +27269,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25169,7 +27296,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25192,7 +27321,10 @@
         "I5-12500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25214,7 +27346,9 @@
       ],
       "ramOptions": [
         "8GB",
-        "16GB"
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
@@ -25235,7 +27369,10 @@
         "I5-13500H"
       ],
       "ramOptions": [
-        "16GB"
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
       ],
       "gpuOptions": [
         "集显"
