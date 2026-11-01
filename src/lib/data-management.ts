@@ -60,7 +60,7 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   purchase_orders: {
     key: 'purchase_orders', label: '采购单', table: 'purchase_orders',
     fields: ['id', 'purchaseNo', 'supplierOrderNo', 'supplierId', 'supplierName', 'purchaseDate', 'purchasedBy', 'totalAmount', 'totalQuantity', 'isInbounded', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
-    writable: ['supplierOrderNo', 'remark'], deletable: false, creatable: false, searchFields: ['purchaseNo', 'supplierOrderNo', 'supplierName', 'purchaseDate', 'remark'], orderBy: 'createdAt DESC', required: ['purchaseNo', 'supplierId', 'supplierName', 'purchaseDate', 'purchasedBy'],
+    writable: ['supplierOrderNo', 'remark'], creatable: false, searchFields: ['purchaseNo', 'supplierOrderNo', 'supplierName', 'purchaseDate', 'remark'], orderBy: 'createdAt DESC', required: ['purchaseNo', 'supplierId', 'supplierName', 'purchaseDate', 'purchasedBy'],
   },
   purchase_items: {
     key: 'purchase_items', label: '采购明细', table: 'purchase_items',
@@ -637,7 +637,7 @@ export function parseCsv(text: string): Record<string, unknown>[] {
 }
 
 export function deletionReferences(resource: DataResource, id: string) {
-  const relations: Record<string, Array<{ table: string; field: string; label: string }>> = {
+  const relations: Record<string, Array<{ table: string; field: string; label: string; condition?: string }>> = {
     suppliers: [{ table: 'purchase_orders', field: 'supplierId', label: '采购单' }],
     warehouses: [
       { table: 'inventory', field: 'warehouseId', label: '库存机器' },
@@ -651,7 +651,7 @@ export function deletionReferences(resource: DataResource, id: string) {
       { table: 'inventory', field: 'manualSkuId', label: '库存机器' },
     ],
     purchase_orders: [
-      { table: 'purchase_items', field: 'purchaseOrderId', label: '采购明细' },
+      { table: 'purchase_items', field: 'purchaseOrderId', label: '采购明细', condition: 'deleted = 0' },
       { table: 'inventory', field: 'purchaseOrderId', label: '库存机器' },
       { table: 'return_orders', field: 'purchaseOrderId', label: '供应商退货' },
     ],
@@ -674,7 +674,8 @@ export function deletionReferences(resource: DataResource, id: string) {
   };
   const found: Array<{ label: string; count: number }> = [];
   for (const relation of relations[resource.key] || []) {
-    const count = Number((db.prepare(`SELECT COUNT(*) AS total FROM ${relation.table} WHERE ${relation.field} = ?`).get(id) as { total: number }).total || 0);
+    const condition = relation.condition ? ` AND ${relation.condition}` : '';
+    const count = Number((db.prepare(`SELECT COUNT(*) AS total FROM ${relation.table} WHERE ${relation.field} = ?${condition}`).get(id) as { total: number }).total || 0);
     if (count) found.push({ label: relation.label, count });
   }
   return found;

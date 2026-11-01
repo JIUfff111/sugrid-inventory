@@ -93,12 +93,43 @@ async function main() {
 
     const resources = await call(routes.resources.GET, '/api/data-management/resources');
     assert(resources.some(item => item.key === 'login_events'));
+    assert.equal(resources.find(item => item.key === 'purchase_orders')?.deletable, true);
     for (const resource of dataManagement.DATA_RESOURCE_KEYS) {
       const listed = await call(routes.resource.GET, `/api/data-management/${resource}?pageSize=1`, 'GET', undefined, 200, { params: Promise.resolve({ resource }) });
       assert(Array.isArray(listed.items), `${resource} should return a row list`);
     }
     const inventoryRows = await call(routes.resource.GET, '/api/data-management/inventory?search=PURGE-SN-001', 'GET', undefined, 200, { params: Promise.resolve({ resource: 'inventory' }) });
     assert.equal(inventoryRows.items.length, 1);
+
+    const linkedOrderPreview = await call(routes.resource.GET, '/api/data-management/purchase_orders?id=dm-order', 'GET', undefined, 200, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert(linkedOrderPreview.references.some(reference => reference.label === '库存机器' && reference.count === 1));
+    await call(routes.resource.DELETE, '/api/data-management/purchase_orders?id=dm-order', 'DELETE', undefined, 409, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert.equal(db.prepare("SELECT deleted FROM purchase_orders WHERE id='dm-order'").get().deleted, 0);
+
+    db.prepare(`INSERT INTO purchase_orders
+      (id,purchaseNo,supplierOrderNo,supplierId,supplierName,purchaseDate,purchasedBy,createdBy,totalQuantity,totalAmount,isInbounded)
+      VALUES ('dm-draft-order','DM-DRAFT','', 'dm-supplier','数据管理供应商','2026-10-30',?,?,1,1000,0)`).run(adminId, adminId);
+    db.prepare(`INSERT INTO purchase_items
+      (id,purchaseOrderId,productType,brand,model,cpu,ram,storage,screen,sn,purchasePrice)
+      VALUES ('dm-draft-item','dm-draft-order','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K','DRAFT-SN-001',1000)`).run();
+    const draftPreview = await call(routes.resource.GET, '/api/data-management/purchase_orders?id=dm-draft-order', 'GET', undefined, 200, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert(draftPreview.references.some(reference => reference.label === '采购明细' && reference.count === 1));
+    const deletedDraft = await call(routes.resource.DELETE, '/api/data-management/purchase_orders?id=dm-draft-order', 'DELETE', undefined, 200, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert.match(deletedDraft.message, /1 条采购明细/);
+    assert.equal(db.prepare("SELECT deleted FROM purchase_orders WHERE id='dm-draft-order'").get().deleted, 1);
+    assert.equal(db.prepare("SELECT deleted FROM purchase_items WHERE id='dm-draft-item'").get().deleted, 1);
+    const purchaseDeleteAudit = JSON.parse(db.prepare("SELECT summary FROM data_management_audit WHERE action='delete' AND resource='purchase_orders' AND recordId='dm-draft-order'").get().summary);
+    assert.equal(purchaseDeleteAudit.purchaseItemCount, 1);
+    assert(purchaseDeleteAudit.backup);
+
+    db.prepare(`INSERT INTO purchase_orders
+      (id,purchaseNo,supplierOrderNo,supplierId,supplierName,purchaseDate,purchasedBy,createdBy)
+      VALUES ('dm-return-order','DM-RETURN','', 'dm-supplier','数据管理供应商','2026-10-30',?,?)`).run(adminId, adminId);
+    db.prepare(`INSERT INTO return_orders
+      (id,returnNo,items,purchaseOrderId,purchaseOrderNo,supplierId,supplierName,returnReason,refundAmount,createdBy)
+      VALUES ('dm-return','DM-RETURN-001','[]','dm-return-order','DM-RETURN','dm-supplier','数据管理供应商','test',0,?)`).run(adminId);
+    await call(routes.resource.DELETE, '/api/data-management/purchase_orders?id=dm-return-order', 'DELETE', undefined, 409, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert.equal(db.prepare("SELECT deleted FROM purchase_orders WHERE id='dm-return-order'").get().deleted, 0);
 
     const exportResponse = await routes.export.GET(request('/api/data-management/export?resource=inventory&format=json&search=PURGE-SN-001'));
     assert.equal(exportResponse.status, 200);

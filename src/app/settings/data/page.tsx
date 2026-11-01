@@ -54,7 +54,7 @@ const fallbackResources: Resource[] = [
   { key: 'sales_channels', label: '销售渠道', description: '销售渠道配置' },
   { key: 'skus', label: '内置 SKU', description: '系统内置型号目录' },
   { key: 'manual_skus', label: '手工 SKU', description: '独立维护的型号目录' },
-  { key: 'purchase_orders', label: '采购单', description: '采购业务记录', creatable: false, deletable: false },
+  { key: 'purchase_orders', label: '采购单', description: '采购业务记录（无关联库存或退货时可删除）', creatable: false },
   { key: 'purchase_items', label: '采购明细', description: '采购机器明细', creatable: false },
   { key: 'inventory', label: '库存机器', description: '机器档案和在库状态', creatable: false, deletable: false },
   { key: 'sales_records', label: '销售记录', description: '销售出库历史', creatable: false, deletable: false },
@@ -193,6 +193,11 @@ export default function DataManagementPage() {
   const creatable = selectedResource?.creatable !== false;
   const deletable = selectedResource?.deletable !== false;
   const supportsWarehouseFilter = selectedResource?.fields?.includes('warehouseId') || selectedResource?.key === 'user_warehouses';
+  const deleteMessage = selectedResource?.key === 'purchase_orders'
+    ? `将采购单及 ${deleteReferences.find(reference => reference.label === '采购明细')?.count || 0} 条未删除采购明细一起标记为已删除。操作前会自动备份并记录审计；关联机器 SN 历史会保留。`
+    : deleteReferences.length
+      ? `检测到关联数据：${deleteReferences.map(reference => `${reference.label} ${reference.count} 条`).join('、')}。服务器会阻止删除存在业务关联的记录。`
+      : '未检测到关联数据。确认后服务器仍会在事务中再次校验，业务历史记录不会被强制级联删除。';
 
   function openEditor(item?: Row) {
     if (!item && !creatable) {
@@ -246,7 +251,15 @@ export default function DataManagementPage() {
       const payload = await response.json() as ApiPayload;
       if (!response.ok || !payload.success) throw new Error(messageOf(payload, '获取关联预览失败'));
       const data = normalizeData(payload) as ApiPayload['data'] & { references?: Array<{ label: string; count: number }> };
-      setDeleteReferences(data.references || []);
+      const references = data.references || [];
+      if (selected === 'purchase_orders') {
+        const blockers = references.filter(reference => reference.label !== '采购明细');
+        if (blockers.length) {
+          setToast({ type: 'error', message: `该采购单仍关联${blockers.map(reference => `${reference.label} ${reference.count} 条`).join('、')}，请先按业务流程处理关联记录。` });
+          return;
+        }
+      }
+      setDeleteReferences(references);
       setDeleteTarget(item);
     } catch (previewError) {
       setToast({ type: 'error', message: previewError instanceof Error ? previewError.message : '获取关联预览失败' });
@@ -327,7 +340,7 @@ export default function DataManagementPage() {
     {editorOpen && <BusinessDialog title={editing ? `编辑${selectedResource?.label || '记录'}` : `新增${selectedResource?.label || '记录'}`} description="仅允许修改资源白名单中的字段，系统字段和认证敏感字段不会被写入。" onClose={closeEditor} footer={<><button type="button" className="btn-ghost" onClick={closeEditor} disabled={busy}>取消</button><button type="submit" form="data-editor-form" className="btn-primary" disabled={busy}>{busy ? '保存中…' : '保存'}</button></>}><form id="data-editor-form" onSubmit={saveEditor} className="space-y-3"><label className="block text-sm text-ink-deep">记录 JSON<textarea className="field mt-2 min-h-[320px] resize-y font-mono text-xs leading-5" value={draft} onChange={event => setDraft(event.target.value)} spellCheck={false} /></label><p className="text-xs leading-5 text-ink-soft">只读字段：{Array.from(readOnlyKeys).join('、')}。保存前会再次执行关联、唯一性和权限校验。</p></form></BusinessDialog>}
     {importOpen && <BusinessDialog title="导入数据" description="先预览校验，确认后会跳过已存在的冲突记录，并在事务中导入其余有效记录。缺失的审计账号会改用当前操作人。" onClose={() => { if (!importBusy) setImportOpen(false); }} footer={<><button type="button" className="btn-ghost" onClick={() => setImportOpen(false)} disabled={importBusy}>取消</button>{preview && <button type="button" className="btn-primary" onClick={() => void applyImport()} disabled={importBusy || preview.canApply === false}>{importBusy ? '导入中…' : '确认导入'}</button>}</>}><div className="space-y-4"><label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-primary/30 bg-primary/5 p-6 text-sm text-primary transition hover:bg-primary/10"><FileUp className="h-5 w-5" />{importFile ? importFile.name : '选择 JSON 或 CSV 文件'}<input type="file" accept=".json,.csv,application/json,text/csv" className="hidden" onChange={event => void readImportFile(event)} /></label><CustomSelect value={importResource} onChange={value => { setImportResource(value); setPreview(null); }} options={[{ value: 'all', label: '全量 JSON 数据包' }, ...resources.map(resource => ({ value: resource.key, label: resource.label }))]} aria-label="导入资源" /><CustomSelect value={importMode} onChange={value => { setImportMode(value); setPreview(null); }} options={[{ value: 'insert', label: '仅新增（推荐）' }, { value: 'upsert', label: '按 ID 更新或新增' }]} aria-label="导入模式" />{importFile && <div className="flex items-center justify-between rounded-xl bg-white/60 px-3 py-2 text-xs text-ink-soft"><span>{importContent.length.toLocaleString()} 字符 · 资源：{importResource === 'all' ? '全量数据' : resources.find(resource => resource.key === importResource)?.label || importResource}</span><button type="button" className="btn-ghost p-1" onClick={() => { setImportFile(null); setImportContent(''); setPreview(null); }} aria-label="移除文件"><X className="h-4 w-4" /></button></div>}<button type="button" className="btn-secondary inline-flex w-full items-center justify-center gap-2" disabled={!importFile || importBusy} onClick={() => void previewImport()}><ShieldCheck className="h-4 w-4" />{importBusy ? '校验中…' : '预览校验'}</button>{preview && <div className="rounded-xl border border-line/70 bg-white/60 p-4 text-sm"><p className="font-medium text-ink-deep">预览结果</p><div className="mt-2 grid grid-cols-2 gap-2 text-xs text-ink-soft"><span>新增：{preview.created ?? 0}</span><span>更新：{preview.updated ?? 0}</span><span>冲突：{preview.conflicts ?? 0}</span><span>错误：{preview.errors?.length ?? 0}</span></div>{preview.summary && <p className="mt-3 text-xs text-ink-soft">{preview.summary}</p>}{preview.conflicts ? <><p className="mt-3 text-xs text-warning">已跳过 {preview.conflicts} 条冲突记录，其余有效记录仍可导入。</p>{preview.conflictDetails?.length ? <ul className="mt-2 space-y-1 text-xs text-warning">{preview.conflictDetails.slice(0, 8).map((item, index) => <li key={index}>{item}</li>)}</ul> : null}</> : null}{preview.warnings?.length ? <ul className="mt-3 space-y-1 text-xs text-ink-soft">{preview.warnings.slice(0, 8).map((item, index) => <li key={index}>{item}</li>)}</ul> : null}{preview.errors?.length ? <ul className="mt-3 space-y-1 text-xs text-danger">{preview.errors.slice(0, 8).map((item, index) => <li key={index}>{item}</li>)}</ul> : null}</div>}</div></BusinessDialog>}
     <ConfirmDialog isOpen={discardConfirm} title="放弃未保存的编辑？" message="当前 JSON 尚未保存，关闭后这些修改会丢失。" cancelText="继续编辑" confirmText="关闭并放弃" danger onCancel={() => setDiscardConfirm(false)} onConfirm={discardEditor} />
-    <ConfirmDialog isOpen={!!deleteTarget} title={`删除${selectedResource?.label || '记录'}？`} message={deleteReferences.length ? `检测到关联数据：${deleteReferences.map(reference => `${reference.label} ${reference.count} 条`).join('、')}。服务器会阻止删除存在业务关联的记录。` : '未检测到关联数据。确认后服务器仍会在事务中再次校验，业务历史记录不会被强制级联删除。'} confirmText={busy ? '处理中…' : '确认删除'} danger onCancel={() => { if (!busy) { setDeleteTarget(null); setDeleteReferences([]); } }} onConfirm={() => void remove()} />
+    <ConfirmDialog isOpen={!!deleteTarget} title={`删除${selectedResource?.label || '记录'}？`} message={deleteMessage} confirmText={busy ? '处理中…' : '确认删除'} danger onCancel={() => { if (!busy) { setDeleteTarget(null); setDeleteReferences([]); } }} onConfirm={() => void remove()} />
     {toast && active && <Toast isOpen type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
   </div>;
 }

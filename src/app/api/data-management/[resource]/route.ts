@@ -243,6 +243,39 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     const activeFilter = resource.fields.includes('deleted') ? ' AND deleted = 0' : '';
     const row = db.prepare(`SELECT * FROM ${resource.table} WHERE id = ?${activeFilter}`).get(id) as Record<string, unknown> | undefined;
     if (!row) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '记录不存在'), { status: 404 });
+    if (resource.key === 'purchase_orders') {
+      const getBlockers = () => deletionReferences(resource, id).filter(reference => reference.label !== '采购明细');
+      const initialBlockers = getBlockers();
+      if (initialBlockers.length) {
+        const details = initialBlockers.map(item => `${item.label} ${item.count} 条`).join('、');
+        return NextResponse.json(errorResponse(ErrorCode.CANNOT_DELETE_IN_USE, `采购单仍有关联业务记录，无法删除：${details}`, { references: initialBlockers }), { status: 409 });
+      }
+      const backup = await createBackup(actor.id, 'before-data-delete');
+      const now = formatDateTime();
+      const result = db.transaction(() => {
+        const fresh = db.prepare('SELECT id FROM purchase_orders WHERE id = ? AND deleted = 0').get(id) as { id: string } | undefined;
+        if (!fresh) return { missing: true as const };
+        const blockers = getBlockers();
+        if (blockers.length) return { blockers };
+        const details = db.prepare('UPDATE purchase_items SET deleted = 1 WHERE purchaseOrderId = ? AND deleted = 0').run(id);
+        const changed = db.prepare('UPDATE purchase_orders SET deleted = 1, updatedAt = ? WHERE id = ? AND deleted = 0').run(now, id);
+        if (changed.changes !== 1) throw new Error('采购单已发生变化，请刷新后重试');
+        writeAudit(actor.id, 'delete', resource.key, id, {
+          recordCount: 1 + details.changes,
+          mode: 'logical',
+          purchaseItemCount: details.changes,
+          backup: backup.fileName,
+        });
+        return { deletedItems: details.changes };
+      })();
+      if ('missing' in result) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '采购单已不存在或已删除'), { status: 404 });
+      if ('blockers' in result && result.blockers?.length) {
+        const blockers = result.blockers;
+        const details = blockers.map(item => `${item.label} ${item.count} 条`).join('、');
+        return NextResponse.json(errorResponse(ErrorCode.CANNOT_DELETE_IN_USE, `采购单仍有关联业务记录，无法删除：${details}`, { references: blockers }), { status: 409 });
+      }
+      return NextResponse.json(successResponse({ id, message: `采购单及 ${result.deletedItems} 条采购明细已标记删除` }));
+    }
     if (resource.key === 'users' && Number(row.isSystemAccount) === 1) return NextResponse.json(errorResponse(ErrorCode.FORBIDDEN, '不能删除内置系统管理员'), { status: 403 });
     if (resource.key === 'users') {
       if (id === actor.id) return bad('不能删除当前登录账号', 409);
