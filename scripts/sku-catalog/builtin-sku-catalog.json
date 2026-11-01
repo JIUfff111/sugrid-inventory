@@ -13473,7 +13473,9 @@
       "cpuOptions": [
         "R7-5800H",
         "R9-5900HX",
-        "R7-4800H"
+        "R7-4800H",
+        "I7-11800H",
+        "I5-11400H"
       ],
       "ramOptions": [
         "8GB",
@@ -13484,7 +13486,8 @@
       "gpuOptions": [
         "RTX 3050Ti",
         "RTX 3060",
-        "RTX 3070"
+        "RTX 3070",
+        "RTX 3050"
       ],
       "storageOptions": [
         "512GB SSD",
@@ -13502,7 +13505,8 @@
       "year": 2022,
       "cpuOptions": [
         "I7-12700H",
-        "I5-12500H"
+        "I5-12500H",
+        "R7-6800H"
       ],
       "ramOptions": [
         "8GB",
@@ -13520,7 +13524,8 @@
         "512GB SSD"
       ],
       "screenOptions": [
-        "2.5K"
+        "2.5K",
+        "FHD"
       ]
     },
     {
@@ -13533,7 +13538,8 @@
         "I7-13700H",
         "I5-13500H",
         "I7-12700H",
-        "R9-7940H"
+        "R9-7940H",
+        "R7-7735H"
       ],
       "ramOptions": [
         "8GB",
@@ -13544,7 +13550,8 @@
       "gpuOptions": [
         "RTX 4050",
         "RTX 4060",
-        "RTX 4070"
+        "RTX 4070",
+        "RX 7600S"
       ],
       "storageOptions": [
         "512GB SSD",
@@ -13580,7 +13587,8 @@
         "1TB SSD"
       ],
       "screenOptions": [
-        "2.5K"
+        "2.5K",
+        "FHD"
       ]
     },
     {
@@ -13592,7 +13600,9 @@
         "I9-14900HX",
         "I9-13980HX",
         "I7-13650HX",
-        "R9-7940HX"
+        "R9-7940HX",
+        "R9-7845HX",
+        "I7-14650HX"
       ],
       "ramOptions": [
         "8GB",
@@ -13609,7 +13619,8 @@
         "1TB SSD"
       ],
       "screenOptions": [
-        "2.5K"
+        "2.5K",
+        "FHD+"
       ]
     },
     {
@@ -13619,7 +13630,10 @@
       "year": 2025,
       "cpuOptions": [
         "R9 AI-370",
-        "R7-H260"
+        "R7-H260",
+        "R9 AI-HX370",
+        "R7 H 260",
+        "AI 9 HX 370"
       ],
       "ramOptions": [
         "8GB",
@@ -13647,7 +13661,8 @@
       "model": "天选7",
       "year": 2026,
       "cpuOptions": [
-        "R7-H260"
+        "R7-H260",
+        "R7 H 260"
       ],
       "ramOptions": [
         "8GB",
@@ -13660,7 +13675,8 @@
         "RTX 5060"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -13675,7 +13691,8 @@
         "Ultra 7 251HX",
         "Ultra 7 255HX",
         "Ultra 9 290HX Plus",
-        "R9-9955HX"
+        "R9-9955HX",
+        "I7-14650HX"
       ],
       "ramOptions": [
         "8GB",
@@ -13715,7 +13732,8 @@
         "RTX 5070Ti"
       ],
       "storageOptions": [
-        "1TB PCIe 4.0 SSD"
+        "1TB PCIe 4.0 SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -13728,7 +13746,9 @@
       "year": 2024,
       "cpuOptions": [
         "R7-8845H",
-        "R9 AI-370"
+        "R9 AI-370",
+        "R9 AI-HX370",
+        "AI 9 HX 370"
       ],
       "ramOptions": [
         "8GB",
@@ -13742,7 +13762,8 @@
       ],
       "storageOptions": [
         "512GB SSD",
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -15874,11 +15895,14 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 14 2023",
+      "model": "Redmi Book 14",
       "year": 2023,
       "cpuOptions": [
         "I5-12500H",
-        "I7-12700H"
+        "I7-12700H",
+        "I5-13500H",
+        "I5-13420H",
+        "I7-13620H"
       ],
       "ramOptions": [
         "8GB",
@@ -15894,14 +15918,19 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.8K",
+        "2K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 14 2024",
+      "model": "Redmi Book 14",
       "year": 2024,
       "cpuOptions": [
         "I5-13500H"
@@ -15927,10 +15956,10 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 14 2025",
+      "model": "Redmi Book 14",
       "year": 2025,
       "cpuOptions": [
-        "5 220H"
+        "Core 5 220H"
       ],
       "ramOptions": [
         "8GB",
@@ -15946,14 +15975,18 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.8K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 14 Ⅱ",
+      "model": "Redmi Book 14 II",
       "year": 2020,
       "cpuOptions": [
         "I5-1035G1",
@@ -15982,7 +16015,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 14 Ⅱ锐龙版",
+      "model": "Redmi Book 14 II 锐龙版",
       "year": 2020,
       "cpuOptions": [
         "R5-4500U",
@@ -16036,7 +16069,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 14锐龙版",
+      "model": "Redmi Book 14 锐龙版",
       "year": 2019,
       "cpuOptions": [
         "R7-3700U",
@@ -16117,7 +16150,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 16 2024",
+      "model": "Redmi Book 16",
       "year": 2024,
       "cpuOptions": [
         "I5-13500H"
@@ -16143,10 +16176,11 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book 16 2025",
+      "model": "Redmi Book 16",
       "year": 2025,
       "cpuOptions": [
-        "5 220H"
+        "Core 5 220H",
+        "Core 5 210H"
       ],
       "ramOptions": [
         "8GB",
@@ -16162,9 +16196,14 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K",
+        "FHD+"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16227,7 +16266,9 @@
       "year": 2021,
       "cpuOptions": [
         "I5-1135G7",
-        "I7-1165G7"
+        "I7-1165G7",
+        "I5-11300H",
+        "I7-11370H"
       ],
       "ramOptions": [
         "8GB",
@@ -16244,14 +16285,17 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 14 2024",
+      "model": "Redmi Book Pro 14",
       "year": 2024,
       "cpuOptions": [
         "Ultra 5 125H",
@@ -16271,14 +16315,18 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.8K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 14 2025",
+      "model": "Redmi Book Pro 14",
       "year": 2025,
       "cpuOptions": [
         "Ultra 5 225H",
@@ -16298,18 +16346,23 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.8K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 14 2026",
+      "model": "Redmi Book Pro 14",
       "year": 2026,
       "cpuOptions": [
         "Ultra 5 325",
-        "Ultra 5 338H"
+        "Ultra 5 338H",
+        "Ultra 5 325H",
+        "Ultra X7 358H"
       ],
       "ramOptions": [
         "8GB",
@@ -16325,9 +16378,12 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.8K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16387,7 +16443,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 14 锐龙版 2022",
+      "model": "Redmi Book Pro 14 锐龙版",
       "year": 2022,
       "cpuOptions": [
         "R5-6600H",
@@ -16400,16 +16456,20 @@
         "32GB"
       ],
       "gpuOptions": [
-        "集显"
+        "集显",
+        "RTX 2050"
       ],
       "storageOptions": [
         "256GB",
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16435,18 +16495,22 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3.2K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 15 2022",
+      "model": "Redmi Book Pro 15",
       "year": 2022,
       "cpuOptions": [
         "I5-12450H",
-        "I7-12650H"
+        "I7-12650H",
+        "I5-12500H"
       ],
       "ramOptions": [
         "8GB",
@@ -16463,14 +16527,17 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3.2K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 15 2023 锐龙版",
+      "model": "Redmi Book Pro 15 锐龙版",
       "year": 2023,
       "cpuOptions": [
         "R7-7840HS",
@@ -16490,9 +16557,12 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3.2K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16552,7 +16622,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 15 锐龙版 2022",
+      "model": "Redmi Book Pro 15 锐龙版",
       "year": 2022,
       "cpuOptions": [
         "R5-6600H",
@@ -16580,7 +16650,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 16 2024 酷睿版",
+      "model": "Redmi Book Pro 16 酷睿版",
       "year": 2024,
       "cpuOptions": [
         "Ultra 5 125H",
@@ -16600,14 +16670,18 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 16 2025(Ult..",
+      "model": "Redmi Book Pro 16",
       "year": 2025,
       "cpuOptions": [
         "Ultra 5 225H",
@@ -16627,14 +16701,18 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3K",
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi Book Pro 16 2026",
+      "model": "Redmi Book Pro 16",
       "year": 2026,
       "cpuOptions": [
         "Ultra 5 325",
@@ -16662,7 +16740,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi G 2021",
+      "model": "Redmi G",
       "year": 2021,
       "cpuOptions": [
         "I5-11260H"
@@ -16674,21 +16752,25 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3050"
+        "RTX 3050",
+        "RTX 3050 Ti"
       ],
       "storageOptions": [
         "256GB",
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "FHD"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi G 2021锐龙版",
+      "model": "Redmi G 锐龙版",
       "year": 2021,
       "cpuOptions": [
         "R7-5800H"
@@ -16700,21 +16782,25 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3060"
+        "RTX 3060",
+        "RTX 3050 Ti"
       ],
       "storageOptions": [
         "256GB",
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "FHD"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi G 2022",
+      "model": "Redmi G",
       "year": 2022,
       "cpuOptions": [
         "I5-12450H",
@@ -16735,14 +16821,17 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "Redmi G Pro 2024",
+      "model": "Redmi G Pro",
       "year": 2024,
       "cpuOptions": [
         "I9-14900HX",
@@ -16762,9 +16851,12 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16773,7 +16865,8 @@
       "year": 2022,
       "cpuOptions": [
         "I9-12900H",
-        "I7-12650H"
+        "I7-12650H",
+        "I7-12700H"
       ],
       "ramOptions": [
         "8GB",
@@ -16790,9 +16883,12 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16816,9 +16912,12 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -16852,7 +16951,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "RedmiBook 14",
+      "model": "Redmi Book 14",
       "year": null,
       "cpuOptions": [
         "I5-1135G7",
@@ -16877,7 +16976,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "RedmiBook Pro 15",
+      "model": "Redmi Book Pro 15",
       "year": null,
       "cpuOptions": [
         "I5-11300H",
@@ -16950,14 +17049,17 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.8K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米Air 13.3英寸 2019款",
+      "model": "小米Air 13.3英寸",
       "year": 2019,
       "cpuOptions": [
         "I5-8250U",
@@ -16986,7 +17088,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米Book Pro 14 2022 锐龙版",
+      "model": "Xiaomi Book Pro 14 锐龙版",
       "year": 2022,
       "cpuOptions": [
         "R5-6600H",
@@ -17013,7 +17115,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米Book Pro 14 2026",
+      "model": "Xiaomi Book Pro 14",
       "year": 2026,
       "cpuOptions": [
         "Ultra 5 325",
@@ -17034,9 +17136,12 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -17098,7 +17203,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米游戏本2019款",
+      "model": "小米游戏本",
       "year": 2019,
       "cpuOptions": [
         "I7-9750H",
@@ -17183,11 +17288,12 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 14 2021款",
+      "model": "小米笔记本 Pro 14",
       "year": 2021,
       "cpuOptions": [
         "I5-11300H",
-        "I7-11370H"
+        "I7-11370H",
+        "I7-11390H"
       ],
       "ramOptions": [
         "8GB",
@@ -17204,14 +17310,17 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 14 增强版 2021款",
+      "model": "小米笔记本 Pro 14 增强版",
       "year": 2021,
       "cpuOptions": [
         "I5-11320H",
@@ -17239,7 +17348,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 14 锐龙版 2021款",
+      "model": "小米笔记本 Pro 14 锐龙版",
       "year": 2021,
       "cpuOptions": [
         "R5-5600H",
@@ -17266,7 +17375,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 15 2021款",
+      "model": "小米笔记本 Pro 15",
       "year": 2021,
       "cpuOptions": [
         "I7-11370H",
@@ -17288,14 +17397,18 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3.2K",
+        "4K"
+      ]
     },
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 15 2021款 锐龙版",
+      "model": "小米笔记本 Pro 15 锐龙版",
       "year": 2021,
       "cpuOptions": [
         "R5-5600H",
@@ -17322,7 +17435,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 15 增强版 2021款",
+      "model": "小米笔记本 Pro 15 增强版",
       "year": 2021,
       "cpuOptions": [
         "I5-11320H",
@@ -17351,7 +17464,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 2019",
+      "model": "小米笔记本 Pro",
       "year": 2019,
       "cpuOptions": [
         "I7-8550U",
@@ -17379,7 +17492,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本 Pro 2020款",
+      "model": "小米笔记本 Pro",
       "year": 2020,
       "cpuOptions": [
         "I5-10210U",
@@ -17436,7 +17549,8 @@
       "model": "小米笔记本 Pro X 14",
       "year": 2021,
       "cpuOptions": [
-        "I7-11370H"
+        "I7-11370H",
+        "I5-11300H"
       ],
       "ramOptions": [
         "8GB",
@@ -17452,9 +17566,13 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "2.5K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -17479,9 +17597,13 @@
         "512GB",
         "1TB",
         "1.5TB",
-        "2TB"
+        "2TB",
+        "512GB SSD",
+        "1TB SSD"
       ],
-      "screenOptions": []
+      "screenOptions": [
+        "3.2K"
+      ]
     },
     {
       "productType": "笔记本电脑",
@@ -17513,7 +17635,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本Air",
+      "model": "Xiaomi Book Air",
       "year": 2016,
       "cpuOptions": [
         "I5-7200U",
@@ -17540,7 +17662,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本Air 12.5英寸",
+      "model": "Xiaomi Book Air 12.5英寸",
       "year": 2016,
       "cpuOptions": [
         "M3-8100Y",
@@ -17567,7 +17689,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本Air 4G版",
+      "model": "Xiaomi Book Air 4G版",
       "year": 2017,
       "cpuOptions": [
         "I7-6500U",
@@ -17595,7 +17717,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "小米",
-      "model": "小米笔记本Air LTE版",
+      "model": "Xiaomi Book Air LTE版",
       "year": 2016,
       "cpuOptions": [
         "I7-7500U"
@@ -24401,7 +24523,8 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3050"
+        "RTX 3050",
+        "GTX 1650"
       ],
       "storageOptions": [
         "512GB SSD"
@@ -24454,7 +24577,8 @@
         "RTX 3060"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "FHD"
@@ -24466,7 +24590,8 @@
       "model": "拯救者 R7000P",
       "year": 2022,
       "cpuOptions": [
-        "R7-6800H"
+        "R7-6800H",
+        "R5-6600H"
       ],
       "ramOptions": [
         "8GB",
@@ -24475,10 +24600,12 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3050Ti"
+        "RTX 3050Ti",
+        "RTX 3050"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24499,13 +24626,16 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 4060"
+        "RTX 4060",
+        "RTX 4050"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
-        "2K"
+        "2K",
+        "2.5K"
       ]
     },
     {
@@ -24526,7 +24656,8 @@
         "RTX 4060"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24552,7 +24683,8 @@
       ],
       "storageOptions": [
         "1TB SSD",
-        "2TB SSD"
+        "2TB SSD",
+        "512GB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24564,7 +24696,8 @@
       "model": "拯救者 R7000P",
       "year": 2026,
       "cpuOptions": [
-        "R9-8940HX"
+        "R9-8940HX",
+        "R9-8945HX"
       ],
       "ramOptions": [
         "8GB",
@@ -24577,7 +24710,8 @@
       ],
       "storageOptions": [
         "1TB SSD",
-        "2TB SSD"
+        "2TB SSD",
+        "512GB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24605,7 +24739,8 @@
       ],
       "storageOptions": [
         "512GB SSD",
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24631,7 +24766,8 @@
         "RTX 3070"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24652,10 +24788,12 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3070Ti"
+        "RTX 3070Ti",
+        "RTX 3060"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24667,7 +24805,8 @@
       "model": "拯救者 R9000P",
       "year": 2023,
       "cpuOptions": [
-        "R9-7945HX"
+        "R9-7945HX",
+        "R7-7745HX"
       ],
       "ramOptions": [
         "8GB",
@@ -24676,7 +24815,8 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 4060"
+        "RTX 4060",
+        "RTX 4070"
       ],
       "storageOptions": [
         "1TB SSD"
@@ -24700,10 +24840,12 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 4060"
+        "RTX 4060",
+        "RTX 4070"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24751,11 +24893,13 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 5060"
+        "RTX 5060",
+        "RTX 5070"
       ],
       "storageOptions": [
         "1TB SSD",
-        "2TB SSD"
+        "2TB SSD",
+        "512GB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24800,10 +24944,12 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3050Ti"
+        "RTX 3050Ti",
+        "RTX 3060"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -24824,7 +24970,8 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RX 6800S"
+        "RX 6800S",
+        "RX 6600S"
       ],
       "storageOptions": [
         "512GB SSD",
@@ -24852,7 +24999,8 @@
         "RTX 4060"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "3.2K"
@@ -25046,7 +25194,8 @@
         "RTX 3060"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "FHD"
@@ -25058,7 +25207,8 @@
       "model": "拯救者 Y7000P",
       "year": 2022,
       "cpuOptions": [
-        "I5-12500H"
+        "I5-12500H",
+        "I7-12700H"
       ],
       "ramOptions": [
         "8GB",
@@ -25067,7 +25217,8 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3050"
+        "RTX 3050",
+        "RTX 3050Ti"
       ],
       "storageOptions": [
         "512GB SSD",
@@ -25083,7 +25234,9 @@
       "model": "拯救者 Y7000P",
       "year": 2023,
       "cpuOptions": [
-        "I7-13700H"
+        "I7-13700H",
+        "I7-13620H",
+        "I5-13500H"
       ],
       "ramOptions": [
         "8GB",
@@ -25092,7 +25245,8 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 4060"
+        "RTX 4060",
+        "RTX 4050"
       ],
       "storageOptions": [
         "1TB SSD"
@@ -25116,7 +25270,8 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 4060"
+        "RTX 4060",
+        "RTX 4070"
       ],
       "storageOptions": [
         "1TB SSD",
@@ -25132,7 +25287,8 @@
       "model": "拯救者 Y7000P",
       "year": 2025,
       "cpuOptions": [
-        "Ultra 7 255HX"
+        "Ultra 7 255HX",
+        "I9-14900HX"
       ],
       "ramOptions": [
         "8GB",
@@ -25144,7 +25300,8 @@
         "RTX 5060"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -25157,7 +25314,9 @@
       "year": 2026,
       "cpuOptions": [
         "Ultra 7 251HX",
-        "Ultra 7 255HX"
+        "Ultra 7 255HX",
+        "I7-14650HX",
+        "I9-14900HX"
       ],
       "ramOptions": [
         "8GB",
@@ -25171,7 +25330,8 @@
       ],
       "storageOptions": [
         "1TB SSD",
-        "2TB SSD"
+        "2TB SSD",
+        "512GB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -25221,7 +25381,8 @@
       ],
       "storageOptions": [
         "512GB SSD",
-        "1TB SSD"
+        "1TB SSD",
+        "1TB SSD+512GB SSD"
       ],
       "screenOptions": [
         "FHD"
@@ -25274,7 +25435,8 @@
         "RTX 3070"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -25299,7 +25461,8 @@
         "RTX 3070Ti"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -25311,7 +25474,8 @@
       "model": "拯救者 Y9000P",
       "year": 2023,
       "cpuOptions": [
-        "I9-13900HX"
+        "I9-13900HX",
+        "I7-13650HX"
       ],
       "ramOptions": [
         "8GB",
@@ -25320,7 +25484,9 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 4060"
+        "RTX 4060",
+        "RTX 4070",
+        "RTX 4090"
       ],
       "storageOptions": [
         "1TB SSD"
@@ -25372,7 +25538,8 @@
       ],
       "gpuOptions": [
         "RTX 5060",
-        "RTX 5070"
+        "RTX 5070",
+        "RTX 5070 Ti"
       ],
       "storageOptions": [
         "1TB SSD",
@@ -25400,7 +25567,8 @@
       ],
       "gpuOptions": [
         "RTX 5060",
-        "RTX 5070Ti"
+        "RTX 5070Ti",
+        "RTX 5070"
       ],
       "storageOptions": [
         "1TB SSD",
@@ -25454,7 +25622,9 @@
       "gpuOptions": [
         "RTX 5060",
         "RTX 5070Ti",
-        "RTX 5090"
+        "RTX 5090",
+        "RTX 5080",
+        "RTX 5070 Ti"
       ],
       "storageOptions": [
         "1TB SSD",
@@ -25503,10 +25673,12 @@
         "32GB"
       ],
       "gpuOptions": [
-        "RTX 3060"
+        "RTX 3060",
+        "RTX 3070"
       ],
       "storageOptions": [
-        "512GB SSD"
+        "512GB SSD",
+        "1TB SSD"
       ],
       "screenOptions": [
         "2.5K"
@@ -25531,7 +25703,8 @@
         "RTX 4070"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "3.2K"
@@ -25556,7 +25729,8 @@
         "RTX 4070"
       ],
       "storageOptions": [
-        "1TB SSD"
+        "1TB SSD",
+        "2TB SSD"
       ],
       "screenOptions": [
         "3.2K"
@@ -25781,7 +25955,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Air 13（Intel）",
+      "model": "MacBook Air 13(Intel)",
       "year": 2020,
       "cpuOptions": [
         "I3-1000NG4",
@@ -25810,7 +25984,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Air 13（M1）",
+      "model": "MacBook Air 13(M1)",
       "year": 2020,
       "cpuOptions": [
         "Apple M1"
@@ -26088,7 +26262,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Pro 13（M1）",
+      "model": "MacBook Pro 13(M1)",
       "year": 2020,
       "cpuOptions": [
         "Apple M1"
@@ -26115,7 +26289,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Pro 13（M2）",
+      "model": "MacBook Pro 13(M2)",
       "year": 2022,
       "cpuOptions": [
         "Apple M2"
@@ -26255,7 +26429,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Pro 14（M2 Pro/M2 Max）",
+      "model": "MacBook Pro 14(M2 Pro/M2 Max)",
       "year": 2023,
       "cpuOptions": [
         "Apple M2 Pro",
@@ -26284,7 +26458,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Pro 14（M3 系列）",
+      "model": "MacBook Pro 14(M3 系列)",
       "year": 2023,
       "cpuOptions": [
         "Apple M3",
@@ -26558,7 +26732,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Pro 16（M2 Pro/M2 Max）",
+      "model": "MacBook Pro 16(M2 Pro/M2 Max)",
       "year": 2023,
       "cpuOptions": [
         "Apple M2 Pro",
@@ -26587,7 +26761,7 @@
     {
       "productType": "笔记本电脑",
       "brand": "苹果",
-      "model": "MacBook Pro 16（M3 系列）",
+      "model": "MacBook Pro 16(M3 系列)",
       "year": 2023,
       "cpuOptions": [
         "Apple M3 Pro",
@@ -27383,6 +27557,114 @@
       ],
       "screenOptions": [
         "FHD+"
+      ]
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "小米",
+      "model": "Xiaomi Book Pro 14",
+      "year": 2022,
+      "cpuOptions": [
+        "I5-1240P",
+        "I7-1260P"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集显",
+        "MX550",
+        "RTX 2050"
+      ],
+      "storageOptions": [
+        "512GB",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "2.8K"
+      ]
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "小米",
+      "model": "Xiaomi Book Pro 16",
+      "year": 2022,
+      "cpuOptions": [
+        "I5-1240P",
+        "I7-1260P"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集显",
+        "RTX 2050"
+      ],
+      "storageOptions": [
+        "512GB",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "4K"
+      ]
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "小米",
+      "model": "Xiaomi Book S 12.4",
+      "year": 2022,
+      "cpuOptions": [
+        "高通骁龙 8cx Gen 2",
+        "骁龙 8cx Gen 2"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集显"
+      ],
+      "storageOptions": [
+        "256GB",
+        "256GB SSD"
+      ],
+      "screenOptions": [
+        "2.5K"
+      ]
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "小米",
+      "model": "Redmi Book Pro 14 酷睿版",
+      "year": 2022,
+      "cpuOptions": [
+        "I5-12450H",
+        "I7-12650H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集显",
+        "MX550",
+        "RTX 2050"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "2.5K"
       ]
     }
   ]

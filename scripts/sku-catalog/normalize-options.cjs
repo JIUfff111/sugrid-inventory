@@ -21,6 +21,10 @@ function formatCPUDisplay(option) {
   const ryzenH = value.match(/^(?:AMD\s*)?(?:Ryzen|锐龙)\s*([3579])\s*(H[X]?)\s*([a-z0-9]+)$/i);
   if (ryzenH) return `R${ryzenH[1]}-${ryzenH[2].toUpperCase()}${ryzenH[3].toUpperCase()}`;
 
+  const intelCoreNumber = value.match(/^(?:(?:Intel|英特尔)\s*)?Core\s+([3579])\s+([a-z0-9]+)$/i)
+    ?? value.match(/^([3579])\s+((?:1|2)\d{2}[a-z]{0,2})$/i);
+  if (intelCoreNumber) return `Core ${intelCoreNumber[1]} ${intelCoreNumber[2].toUpperCase()}`;
+
   return value
     .replace(/^(?:(?:Intel|英特尔)\s*)?(?:Core|酷睿)\s+Ultra\s+/i, 'Ultra ')
     .replace(/^(?:Intel|英特尔)\s*(?:Core|酷睿)\s*/i, '')

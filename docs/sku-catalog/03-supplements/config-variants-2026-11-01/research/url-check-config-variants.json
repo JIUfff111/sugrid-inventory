@@ -1,0 +1,1413 @@
+{
+ "http://www.mnw.cn/news/digi/2809815.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.mnw.cn/news/digi/2809815.html"
+ },
+ "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%895/65344620": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%895/65344620",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20R7000%202020/55137025": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20R7000%202020/55137025",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/Redmi%20G游戏本2021/58553393": {
+  "status": 0,
+  "ok": false,
+  "final": "https://baike.baidu.com/item/Redmi%20G游戏本2021/58553393",
+  "error": "UnicodeEncodeError: 'ascii' codec can't encode characters in"
+ },
+ "https://baike.baidu.com/item/联想拯救者9000X/62836024": {
+  "status": 0,
+  "ok": false,
+  "final": "https://baike.baidu.com/item/联想拯救者9000X/62836024",
+  "error": "UnicodeEncodeError: 'ascii' codec can't encode characters in"
+ },
+ "http://www.kepu365.cn/dujia/shuma/83215.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.kepu365.cn/dujia/shuma/83215.html"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y7000P%202020/55233942": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y7000P%202020/55233942",
+  "error": "HTTP 403"
+ },
+ "http://tech.xjrb.net/tech/2021/1022/8072.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://tech.xjrb.net/tech/2021/1022/8072.html"
+ },
+ "https://baike.sogou.com/v209560495.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://baike.sogou.com/v209560495.htm"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y9000X%202023/63156787": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85%20Y9000X%202023/63156787",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85R9000P%202021/68135313": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85R9000P%202021/68135313",
+  "error": "HTTP 403"
+ },
+ "https://club.lenovo.com.cn/archiver/tid-7912965.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/archiver/tid-7912965.html"
+ },
+ "https://biz.zhiding.cn/2025/0102/3162372.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://biz.zhiding.cn/2025/0102/3162372.shtml"
+ },
+ "https://club.lenovo.com.cn/thread-9610471.html": {
+  "status": 404,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-9610471.html",
+  "error": "HTTP 404"
+ },
+ "https://club.lenovo.com.cn/thread-7871097-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7871097-1-1.html"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HI375mqj-ptoe0yoca5XhkjXCWu_i6pzDYOvPPnJ&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU2MTYzMTM1MQ%3D%3D%26mid%3D2247488720%26idx%3D1%26sn%3D32ac65df763407e3056db400afe1345b"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzAwNTU3ODU1MQ==&mid=2649119083&idx=2&sn=68e643aeec66da4b4d62ccb30fcd939d": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HI375mqjOqhQk88Vz_QamYnG1a__uRNLUPDOUp7p&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzAwNTU3ODU1MQ%3D%3D%26mid%3D2649119083%26idx%3D2%26sn%3D68e643aeec66da4b4d62ccb30fcd939d"
+ },
+ "https://club.lenovo.com.cn/thread-9446231-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-9446231-1-1.html"
+ },
+ "https://3w.huanqiu.com/a/c36dc8/424yqvC6NeM": {
+  "status": 200,
+  "ok": true,
+  "final": "https://3w.huanqiu.com/a/c36dc8/424yqvC6NeM"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MjM5NTAwMTI5Mg==&mid=2653065648&idx=1&sn=31ad810ce48174db420091da4321d7d7": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HI375mqj4vXMUs2V6MvUOoEk0XRfkG3bSvGEMVWv&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMjM5NTAwMTI5Mg%3D%3D%26mid%3D2653065648%26idx%3D1%26sn%3D31ad810ce48174db420091da4321d7d7"
+ },
+ "https://club.lenovo.com.cn/thread-9610137-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-9610137-1-1.html"
+ },
+ "https://detail.zol.com.cn/1433/1432120/param.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/1433/1432120/param.shtml"
+ },
+ "https://detail.zol.com.cn/ProductComp_param_1322052.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ProductComp_param_1322052.html"
+ },
+ "https://detail.zol.com.cn/ProductComp_param_1404832.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/ProductComp_param_1404832.html"
+ },
+ "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1413808.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1413808.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1384329.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1384329.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1975420.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1975420.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1432121.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1432121.shtml"
+ },
+ "https://detail.zol.com.cn/digital_tv/index1982530.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1982530.shtml"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/s?__biz=MzA4MDMzMjkwNg==&mid=2651270574&idx=4&sn=271972ba9fde9f778d3064feaf052e1e&chksm=8516f1ffec8a623344f08af3b7ec5eb59ddfff2b9b877db801875f78136e987c7c0c7c4a08d5#rd"
+ },
+ "https://detail.zol.com.cn/param_copy_2100724_blue_1_0_560.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/param_copy_2100724_blue_1_0_560.html"
+ },
+ "https://detail.zol.com.cn/series/16/29470_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/29470_1.html"
+ },
+ "https://cnews.chinadaily.com.cn/a/202609/10/WS6aa21bb3e4b09a165c7890ef.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://cnews.chinadaily.com.cn/a/202609/10/WS6aa21bb3e4b09a165c7890ef.html"
+ },
+ "https://digi.ithome.com/archiver/834/166.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://digi.ithome.com/archiver/834/166.htm"
+ },
+ "https://digi.hsw.cn/system/2022/0527/156386.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://digi.hsw.cn/system/2022/0527/156386.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html"
+ },
+ "https://detail.zol.com.cn/series/16/33488_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/33488_1.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1365015.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1365015.shtml"
+ },
+ "https://finance.sina.cn/tech/2023-03-07/detail-imyiztax3849209.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.cn/tech/2023-03-07/detail-imyiztax3849209.d.html"
+ },
+ "https://detail.zol.com.cn/notebook/index1364996.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1364996.shtml"
+ },
+ "https://detail.zol.com.cn/series/16/33490_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/33490_1.html"
+ },
+ "https://detail.zol.com.cn/Convenienttravel/index1977738.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1977738.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1573527_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1573527_detail.html"
+ },
+ "https://gfan.com/info/588298.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gfan.com/info/588298.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/redmi/1639647_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/redmi/1639647_detail.html"
+ },
+ "https://g.pconline.com.cn/zhizao/article/384692.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/zhizao/article/384692.html"
+ },
+ "https://detail.zol.com.cn/digital_camcorder/index1232927.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1232927.shtml"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1176028_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1176028_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1482107_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1482107_detail.html"
+ },
+ "https://gfan.com/info/599071.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gfan.com/info/599071.html"
+ },
+ "https://detail.zol.com.cn/series/16/37546_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/37546_1.html"
+ },
+ "https://i.ifeng.com/c/86djmdodNZH": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/86djmdodNZH"
+ },
+ "https://gz.zol.com.cn/754/7541255.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gz.zol.com.cn/754/7541255.html"
+ },
+ "https://i.ifeng.com/c/8HOvoRttepX": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8HOvoRttepX"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1617667_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1617667_detail.html"
+ },
+ "https://i.ifeng.com/c/8J6rtkhVZXO": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8J6rtkhVZXO"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1375447_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1375447_detail.html"
+ },
+ "https://item.lenovo.com.cn/product/1015790.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1015790.html"
+ },
+ "https://4pda.to/forum/index.php?p=119725797&showtopic=1028724&view=findpost": {
+  "status": 200,
+  "ok": true,
+  "final": "https://4pda.to/forum/index.php?showtopic=1028724&st=700#entry119725797"
+ },
+ "https://it.sohu.com/a/795280453_163726": {
+  "status": 200,
+  "ok": true,
+  "final": "https://it.sohu.com/a/795280453_163726"
+ },
+ "https://g.pconline.com.cn/product/notebook/lenovo/1283707_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/lenovo/1283707_detail.html"
+ },
+ "https://m.ithome.com/html/852566.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/852566.htm"
+ },
+ "https://m.ithome.com/html/957438.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/957438.htm"
+ },
+ "https://m.ithome.com/html/947941.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/947941.htm"
+ },
+ "https://item.lenovo.com.cn/product/1038129.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1038129.html"
+ },
+ "https://item.lenovo.com.cn/product/1019946.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1019946.html"
+ },
+ "https://m.lenovo.com.cn/wiki/article-50108.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/article-50108.html"
+ },
+ "https://item.lenovo.com.cn/product/1056299.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1056299.html"
+ },
+ "https://m.163.com/dy/article/HGT6R7M00511CEBF.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.163.com/dy/article/HGT6R7M00511CEBF.html"
+ },
+ "https://m.mi.com/search/list?key=小米笔记本": {
+  "status": 0,
+  "ok": false,
+  "final": "https://m.mi.com/search/list?key=小米笔记本",
+  "error": "UnicodeEncodeError: 'ascii' codec can't encode characters in"
+ },
+ "https://m.lenovo.com.cn/wiki/article-50149.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/article-50149.html"
+ },
+ "https://m.expreview.com/87045.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.expreview.com/87045.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-40222.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-40222.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-42888.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-42888.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-43581.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-43581.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-35768.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-35768.html"
+ },
+ "https://m.it168.com/article_6650518.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.it168.com/article_6650518.html"
+ },
+ "https://m.mi.com/commodity/detail/20864": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.mi.com/commodity/detail/20864"
+ },
+ "https://m.tech.china.com/digi/digi/20210226/20210226719433.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.tech.china.com/digi/digi/20210226/20210226719433.html"
+ },
+ "https://m.lenovo.com.cn/product/1013770.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1013770.html"
+ },
+ "https://m.lenovo.com.cn/wiki/article-50107.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/article-50107.html"
+ },
+ "https://m.lenovo.com.cn/wiki/product-doc-46103.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.lenovo.com.cn/wiki/product-doc-46103.html"
+ },
+ "https://m.zol.com.cn/article/6980644.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/6980644.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7825139-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7825139-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7809998-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7809998-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7787005-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7787005-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7826099-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7826099-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7920327-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7920327-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7910714-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7910714-1-1.html"
+ },
+ "https://mclub.lenovo.com.cn/archiver/tid-7904382.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/archiver/tid-7904382.html"
+ },
+ "https://mclub.lenovo.com.cn/thread-7871701-1-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://club.lenovo.com.cn/thread-7871701-1-1.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1007105.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1007105.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1013898.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1013898.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1015437.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1015437.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1016607.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1016607.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1016470.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1016470.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1020769.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1020769.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1046063.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1046063.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1020768.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1020768.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1045460.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1045460.html"
+ },
+ "https://mitem.lenovo.com.cn/product/1033248.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1033248.html"
+ },
+ "https://mi.com/prod/redmi-books/14-pro-2025/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/prod/redmi-books/14-pro-2025/specs"
+ },
+ "https://mitem.lenovo.com.cn/product/1046342.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1046342.html"
+ },
+ "https://nb.zol.com.cn/1142/11424706.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/1142/11424706.html"
+ },
+ "https://nb.zol.com.cn/1242/12423036.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/1242/12423036.html"
+ },
+ "https://nb.zol.com.cn/740/7403076.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/740/7403076.html"
+ },
+ "https://nb.zol.com.cn/765/7656260.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/765/7656260.html"
+ },
+ "https://nb.zol.com.cn/778/7780018.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/778/7780018.html"
+ },
+ "https://nb.zol.com.cn/1263/12638085.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/1263/12638085.html"
+ },
+ "https://nb.zol.com.cn/696/6964043.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/696/6964043.html"
+ },
+ "https://m.zol.com.cn/article/11261941.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/11261941.html"
+ },
+ "https://m.zol.com/shop_2194468/42135362.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_2194468/42135362.html"
+ },
+ "https://nb.zol.com.cn/887/8873483.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/887/8873483.html"
+ },
+ "https://nb.zol.com.cn/893/8938513.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/893/8938513.html"
+ },
+ "https://news.pconline.com.cn/2134/21347551.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.pconline.com.cn/2134/21347551.html"
+ },
+ "https://news.qq.com/rain/a/20230731A03VEM00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20230731A03VEM00"
+ },
+ "https://news.qq.com/rain/a/20240728A06S3E00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20240728A06S3E00"
+ },
+ "https://new.qq.com/rain/a/20240123A0A5F200": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20240123A0A5F200"
+ },
+ "https://news.smzdm.com/p/85125547/": {
+  "status": 202,
+  "ok": true,
+  "final": "https://news.smzdm.com/p/85125547/"
+ },
+ "https://news.qq.com/rain/a/20210925A02UV400": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20210925A02UV400"
+ },
+ "https://m.zol.com.cn/article/9175227.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/9175227.html"
+ },
+ "https://m.zol.com/shop_2206918/43925965.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com/shop_2206918/43925965.html"
+ },
+ "https://news.qq.com/rain/a/20250102A0660X00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20250102A0660X00"
+ },
+ "https://news.qq.com/rain/a/20260319A08F9E00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20260319A08F9E00"
+ },
+ "https://news.qq.com/rain/a/20250728A06RXM00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20250728A06RXM00"
+ },
+ "https://news.futunn.com/th/post/5523719": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.futunn.com/th/post/5523719"
+ },
+ "https://news.zol.com.cn/828/8287396.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.zol.com.cn/828/8287396.html"
+ },
+ "https://notebook.yesky.com/115/1962382615.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.yesky.com/115/1962382615.shtml"
+ },
+ "https://product.pconline.com.cn/notebook/asus/2645899_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/asus/2645899_detail.html"
+ },
+ "https://notebook.yesky.com/258/725788258.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://notebook.yesky.com/258/725788258.shtml"
+ },
+ "https://s.lenovo.com.cn/search?frompage=home&cat=293-294-297&recommendType=0&page=2&key=": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.lenovo.com.cn/search/?frompage=home&cat=293-294-297&recommendType=0&page=2&key="
+ },
+ "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85"
+ },
+ "https://s.lenovo.com.cn/search?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3%E6%8B%AF%E6%95%91%E8%80%85"
+ },
+ "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3r7000p": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.lenovo.com.cn/search/?key=%E8%81%94%E6%83%B3r7000p"
+ },
+ "https://s.zol.com.cn/shop_2186829/44394223.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_2186829/44394223.html"
+ },
+ "https://product.pconline.com.cn/null/series/440664.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/null/series/440664.html"
+ },
+ "https://tech.ifeng.com/c/81pFwL0Iipm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.ifeng.com/c/81pFwL0Iipm"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1dCk8UBmwLG1MQWjZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgYAUF1YC0gXC2oPBAJQAVsyPCwPaB9nATNrZUF8XUFrVC0JUxsVRWMEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQ4UWVEFXQ5eXBsVAGlbTAslXQcyHzBcOEonA2kAGV8WXgQAVl5fAHsXC2s2": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1dCk8UBmwLG1MQWjZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgYAUF1YC0gXC2oPBAJQAVsyPCwPaB9nATNrZUF8XUFrVC0JUxsVRWMEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQ4UWVEFXQ5eXBsVAGlbTAslXQcyHzBcOEonA2kAGV8WXgQAVl5fAHsXC2s2"
+ },
+ "https://tech.sina.cn/2020-09-13/detail-iivhvpwy6485481.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.cn/2020-09-13/detail-iivhvpwy6485481.d.html"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1dD0kXB2YOE1kcXzZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgYFVl5ZAU0fAWYKBAJQAVsyXCZcVwlLVT9qWS1uVVtJUFpHYEgTY2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdVpGXwEGXF8NAEkRUGwISFIlXQcyHzBcOEonA2kAGV8WXgQAVl5fCXsXC2s2": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1dD0kXB2YOE1kcXzZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgYFVl5ZAU0fAWYKBAJQAVsyXCZcVwlLVT9qWS1uVVtJUFpHYEgTY2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdVpGXwEGXF8NAEkRUGwISFIlXQcyHzBcOEonA2kAGV8WXgQAVl5fCXsXC2s2"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1fD04QBWsJElIUXDZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgQFUVlbDEoeCm4JBAJQAVsyDCgqUgBVBT1oeA9jFGFqBlY2aDMJVWMEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdVNBWlVXBw0IDRhFAzwNSAslXQcyHzBcOEonA2kAGV8WXgYCXFxbDHsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBzsMHglFM1pFHQQeXk0UbW0IH1gTWwcEZFxcCUkVM184YxoQPUdpFCdaYTx3aGZgQVpVXXViP1ZcexZIa28NdVlqIQYGBwhcVD0SfGhtX1h2ATYCZG5cOA": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1fD04QBWsJElIUXDZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgQFUVlbDEoeCm4JBAJQAVsyDCgqUgBVBT1oeA9jFGFqBlY2aDMJVWMEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdVNBWlVXBw0IDRhFAzwNSAslXQcyHzBcOEonA2kAGV8WXgYCXFxbDHsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBzsMHglFM1pFHQQeXk0UbW0IH1gTWwcEZFxcCUkVM184YxoQPUdpFCdaYTx3aGZgQVpVXXViP1ZcexZIa28NdVlqIQYGBwhcVD0SfGhtX1h2ATYCZG5cOA"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olWAULVlheDkoQAV8IGlgWVA8GXVpbAEIeAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwBEl8cWQAKXVdeFxJSXzI4Ux8UHn5UNxk_di1IVjFRWRBpQ3hGElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkoXUWlcHAkSDwIBXVlVD0knA244WjUWWgAGUldeDEMnAl8IHVMXWQUBVlhdDUwfM28AH2vC9KjU2PiJseHAse04K2sWbTYyVG5eOBV5AmgMGQsXX1VsCBkUUg1TQjBmGVsSXA8GUlptCkoWAW04K2tzDWMAJCQhQBd2ABIObF9WBlxnBCNbXz1ye25NHD57H0BWIDVcW09RAiRuZxJsB2NYZF5tD00WM244": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olWAULVlheDkoQAV8IGlgWVA8GXVpbAEIeAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwBEl8cWQAKXVdeFxJSXzI4Ux8UHn5UNxk_di1IVjFRWRBpQ3hGElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkoXUWlcHAkSDwIBXVlVD0knA244WjUWWgAGUldeDEMnAl8IHVMXWQUBVlhdDUwfM28AH2vC9KjU2PiJseHAse04K2sWbTYyVG5eOBV5AmgMGQsXX1VsCBkUUg1TQjBmGVsSXA8GUlptCkoWAW04K2tzDWMAJCQhQBd2ABIObF9WBlxnBCNbXz1ye25NHD57H0BWIDVcW09RAiRuZxJsB2NYZF5tD00WM244"
+ },
+ "https://tech.sina.com.cn/roll/2020-06-01/doc-iircuyvi6036431.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.com.cn/roll/2020-06-01/doc-iircuyvi6036431.shtml"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olXw8GVVteAUweB18IGlgXWgAEXF1eCk4eBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG0PHV0dXgUAUVdYFxJSXzI4ExpyR0d6E1k_eA98BRdpQiJcPXV5JFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk0RAD9YHQtAXVZWAFZcWkInA244WjUWWwcAUV1UD0gnAl8IHVMXWQUBVllZD0kTM28AH2vC": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olXw8GVVteAUweB18IGlgXWgAEXF1eCk4eBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG0PHV0dXgUAUVdYFxJSXzI4ExpyR0d6E1k_eA98BRdpQiJcPXV5JFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk0RAD9YHQtAXVZWAFZcWkInA244WjUWWwcAUV1UD0gnAl8IHVMXWQUBVllZD0kTM28AH2vC"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwEHXFxfD0kUAl8IGlsTWg4DU1taAUkTAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2kPE1oSWAELVlpcFxJSXzI4Wi1DCgN9BiY9Sy1pezxNfilUHFliJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh9EV2YIGl8VXQRRVg5ZXUonA244WjUWXQQFU1dVC3sWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwEHXFxfD0kUAl8IGlsTWg4DU1taAUkTAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2kPE1oSWAELVlpcFxJSXzI4Wi1DCgN9BiY9Sy1pezxNfilUHFliJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh9EV2YIGl8VXQRRVg5ZXUonA244WjUWXQQFU1dVC3sWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIBUVdUD0sWA18IGlscXAADXF9cCkoVBF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2YJHVodXAcAVVxaFxJSXzI4UxJLCHZZVyM_cDlxYwhOHhhvHUFgAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh5CCmgPSwgcVQFSAQ0IDhgnA244WjUVWw4AUl9aC3sWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIBUVdUD0sWA18IGlscXAADXF9cCkoVBF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2YJHVodXAcAVVxaFxJSXzI4UxJLCHZZVyM_cDlxYwhOHhhvHUFgAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh5CCmgPSwgcVQFSAQ0IDhgnA244WjUVWw4AUl9aC3sWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwQLXV1aDEkeBF8IGlscXQEEXF1cD0MSAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2YIHF0dXgcFXFteFxJSXzI4EhIQVE5AJC4_XxNVQzZjHkVCCl99AlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh4SAT9cGllCWQJXU1gNDBgnA244WjUVXAcFXF9cDXsWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwQLXV1aDEkeBF8IGlscXQEEXF1cD0MSAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2YIHF0dXgcFXFteFxJSXzI4EhIQVE5AJC4_XxNVQzZjHkVCCl99AlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh4SAT9cGllCWQJXU1gNDBgnA244WjUVXAcFXF9cDXsWMw"
+ },
+ "https://tech.sina.cn/2026-03-21/detail-inhrtucr7177719.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.cn/tech/2026-03-21/detail-inhrtucr7177719.d.html?fromtech=1"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olWAQFXFhVCkgVBl8IGlgVVAULU15UDUsSA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8BGFISXQ8HVFtdFxJSXzI4Rw0SWF1rFCY_Uj1yezlITj9uCgJCAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhsSA2cPHAlCXlYKUwkKXRsnA244WjUVXAIDXFxeAHsWM28OE1kRXgUAUl5YDk4nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsMS15BWGheExcHTg9WQgEKG1wVXQcLV25fCUoVAV84KztWPVJ-FRcYWkwWcC4KEyRAKH5dJx9ffgxEfBJtezUXH1NRMlkVbzR1VzRvcg59BAcyVG5aDkonAl8": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olWAQFXFhVCkgVBl8IGlgVVAULU15UDUsSA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8BGFISXQ8HVFtdFxJSXzI4Rw0SWF1rFCY_Uj1yezlITj9uCgJCAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhsSA2cPHAlCXlYKUwkKXRsnA244WjUVXAIDXFxeAHsWM28OE1kRXgUAUl5YDk4nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGsMS15BWGheExcHTg9WQgEKG1wVXQcLV25fCUoVAV84KztWPVJ-FRcYWkwWcC4KEyRAKH5dJx9ffgxEfBJtezUXH1NRMlkVbzR1VzRvcg59BAcyVG5aDkonAl8"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwEHXFxfD0kUAl8IGlgWXwMEUFZYDkwWBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwKHl0RVQMEU19YFxJSXzI4QgVjNX5wDTY-XjVjUW5acilCB2V3ElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkoUBT9cTl0VDlMAVQxbCEwnA244WjUWXQQFU1dVC3sWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwEHXFxfD0kUAl8IGlgWXwMEUFZYDkwWBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwKHl0RVQMEU19YFxJSXzI4QgVjNX5wDTY-XjVjUW5acilCB2V3ElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkoUBT9cTl0VDlMAVQxbCEwnA244WjUWXQQFU1dVC3sWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BAT8JK1olXwIBUVdUD0sWA18IGlsSXgACUVleDU8RB19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2gLHVsQWgUHUFhZFxJSXzIGXwRNA1l-AAsFWC5HVWMLdVp7XTZ5AS5VcCxeag0KTyYTA3t-Aw4VAShBD2M4H10WWwIDVV9eOEsWAm4JElMcVQQyUFgzCSUXCmpmHlwRClVQBgwPCRhDUzhYHmsVXDZDOl5bAEkRAmgLK1olXQAKVlpeC0kVAWoIHWsVVQIy": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BAT8JK1olXwIBUVdUD0sWA18IGlsSXgACUVleDU8RB19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2gLHVsQWgUHUFhZFxJSXzIGXwRNA1l-AAsFWC5HVWMLdVp7XTZ5AS5VcCxeag0KTyYTA3t-Aw4VAShBD2M4H10WWwIDVV9eOEsWAm4JElMcVQQyUFgzCSUXCmpmHlwRClVQBgwPCRhDUzhYHmsVXDZDOl5bAEkRAmgLK1olXQAKVlpeC0kVAWoIHWsVVQIy"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BAa4JK1olWAcKU1hbDEoWA18IGlgWXgYCUVdcD08SAl9MRANLAjZbERscSkAJHS5LRURJQl1XSwwDVFVLUzJVBQtHGF5FAEBYDAxxWh9UEw5lX14KUysDaBliZDUMXQlKOmNQSgYCXR9eHDZNRwYbH1xGWC0qaDlsCyt0UlxmGw5HDCddayp8RWdXRw5pA2RpNDBfURAVVQ5WHA5iVHAFVgxYVBEARzBQRQRIDVlXMRYcXEcXFDNYQwR3B0IOVF9eC0gXA2oBGlwRWAcyKChDfQxjSyxqciEQA1hfIjU8ShFxVWMEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQkcD1VVBFldWhxDA2cKHFwlXQcyBDBVAEMTB2cPHlwVWjYDZF5bAEkTAGwKGFkUWQIy": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BAa4JK1olWAcKU1hbDEoWA18IGlgWXgYCUVdcD08SAl9MRANLAjZbERscSkAJHS5LRURJQl1XSwwDVFVLUzJVBQtHGF5FAEBYDAxxWh9UEw5lX14KUysDaBliZDUMXQlKOmNQSgYCXR9eHDZNRwYbH1xGWC0qaDlsCyt0UlxmGw5HDCddayp8RWdXRw5pA2RpNDBfURAVVQ5WHA5iVHAFVgxYVBEARzBQRQRIDVlXMRYcXEcXFDNYQwR3B0IOVF9eC0gXA2oBGlwRWAcyKChDfQxjSyxqciEQA1hfIjU8ShFxVWMEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdQkcD1VVBFldWhxDA2cKHFwlXQcyBDBVAEMTB2cPHlwVWjYDZF5bAEkTAGwKGFkUWQIy"
+ },
+ "https://wap.zol.com.cn/1467/1466071/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1467/1466071/index.html"
+ },
+ "https://www.163.com/dy/article/J7PB233005118EDB.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.163.com/dy/article/J7PB233005118EDB.html"
+ },
+ "https://wap.zol.com.cn/1372/1371927/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1372/1371927/index.html"
+ },
+ "https://shop.zol.com/shop_214084/34696048.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_214084/34696048.html"
+ },
+ "https://www.anzhuo.cn/review/p_48585": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.anzhuo.cn/review/p_48585"
+ },
+ "https://www.asus.com.cn/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/"
+ },
+ "https://wap.zol.com.cn/list/16_34645_v_1_s2631-s4109_3.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/list/16_34645_v_1_s2631-s4109_3.html"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/"
+ },
+ "https://product.pconline.com.cn/notebook/redmi/2124447_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/redmi/2124447_detail.html"
+ },
+ "https://www.asus.com.cn/Laptops/For-Gaming/TUF-Gaming/ASUS-TUF-Gaming-A15-2022/techspec": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2022/techspec/"
+ },
+ "https://product.pconline.com.cn/notebook/asus/2909711_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/asus/2909711_detail.html"
+ },
+ "https://videocardz.com/newz/xiaomi-launches-2022-book-pro-laptops-featuring-up-to-4k-oled-display-intel-core-i5-1240p-cpu-and-rtx-2050-gpu": {
+  "status": 403,
+  "ok": true,
+  "final": "https://videocardz.com/newz/xiaomi-launches-2022-book-pro-laptops-featuring-up-to-4k-oled-display-intel-core-i5-1240p-cpu-and-rtx-2050-gpu",
+  "error": "HTTP 403"
+ },
+ "https://www.cpcw.com/014/57620c7893c5c1df.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.cpcw.com/014/57620c7893c5c1df.html"
+ },
+ "https://www.baike.com/wikiid/7652530149392941071": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.baike.com/wikiid/7652530149392941071"
+ },
+ "https://www.asus.com.cn/product-compare?ProductID=26476,20582&LevelId=Laptops-For-Home": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/product-compare?ProductID=26476,20582&LevelId=Laptops-For-Home"
+ },
+ "https://www.cww.net.cn/article?id=596851": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.cww.net.cn/article?id=596851"
+ },
+ "https://s.zol.com.cn/shop_2200750/44873503.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_2200750/44873503.html"
+ },
+ "https://s.zol.com.cn/shop_130622/42433267.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_130622/42433267.html"
+ },
+ "https://www.icpcw.com/Notebook/main/zlnbpc/3374/337419.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.icpcw.com/Notebook/main/zlnbpc/3374/337419.htm"
+ },
+ "https://www.dh3g.com/youxi-36813": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.dh3g.com/youxi-36813"
+ },
+ "https://www.itheat.com/view/17474.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.itheat.com/view/17474.html"
+ },
+ "https://www.ithome.com/0/569/847.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/569/847.htm"
+ },
+ "https://www.ithome.com/0/543/632.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/543/632.htm"
+ },
+ "https://www.ithome.com/0/632/335.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/632/335.htm"
+ },
+ "https://www.ithome.com/0/788/428.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/788/428.htm"
+ },
+ "https://www.ithome.com/0/769/262.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/769/262.htm"
+ },
+ "https://www.ithome.com/0/846/607.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/846/607.htm"
+ },
+ "https://s.zol.com.cn/shop_14045/40278738.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_14045/40278738.html"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a16-2024/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a16-2024/techspec/"
+ },
+ "https://www.ithome.com/0/930/776.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/930/776.htm"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-f15-2022/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-f15-2022/techspec/"
+ },
+ "https://www.gizmochina.com/2022/03/01/lenovo-legion-y7000p-legion-y9000p-laptops-launched-in-china/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gizmochina.com/2022/03/01/lenovo-legion-y7000p-legion-y9000p-laptops-launched-in-china/"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/fx506-tuf/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/fx506-tuf/techspec/"
+ },
+ "https://www.lenovo.com.cn/wiki-b/product-doc-47577.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki-b/product-doc-47577.html"
+ },
+ "https://www.ithome.com/html/it/572952.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/572/952.htm"
+ },
+ "https://www.lenovo.com.cn/wiki-shop/product-1055915.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki-shop/product-1055915.html"
+ },
+ "https://s.zol.com.cn/shop_197859/43012413.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://s.zol.com.cn/shop_197859/43012413.html"
+ },
+ "https://www.lenovo.com.cn/wiki-shop/product-1054239.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki-shop/product-1054239.html"
+ },
+ "https://www.lenovo.com.cn/wiki/article-182259.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/article-182259.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1030502.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1030502.html"
+ },
+ "https://www.kafan.cn/news/20644.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.kafan.cn/news/20644.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1022825.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1022825.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1035891.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1035891.html"
+ },
+ "https://www.lenovo.com.cn/wiki/article-49961.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/article-49961.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1030678.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1030678.html"
+ },
+ "https://www.lenovo.com.cn/product/1011312.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://item.lenovo.com.cn/product/1011312.html"
+ },
+ "https://www.bidianshe.com/asus/840614": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.bidianshe.com/asus/840614"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1036056.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1036056.html"
+ },
+ "https://www.lenovo.com.cn/wiki/notebook": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/notebook/"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1045582.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1045582.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1039665.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1039665.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048271.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048271.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048286.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048286.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1037377.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1037377.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1050789.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1050789.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048471.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048471.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048843.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048843.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1048844.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1048844.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1054225.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1054225.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-1058141.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-1058141.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-25521.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-25521.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-26958.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-26958.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-31189.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-31189.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-34616.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-34616.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-36111.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-36111.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-28760.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-28760.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-28986.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-28986.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-40290.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-40290.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-30127.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-30127.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-28764.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-28764.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-40222.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-40222.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-40420.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-40420.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-41773.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-41773.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-41901.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-41901.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-43576.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-43576.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-42092.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-42092.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-46384.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-46384.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-43939.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-43939.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-41948.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-41948.html"
+ },
+ "https://www.lenovo.com.cn/wiki/product-doc-44083.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.lenovo.com.cn/wiki/product-doc-44083.html"
+ },
+ "https://www.mi.com/mibook/2022/14pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/2022/14pro/specs"
+ },
+ "https://www.mi.com/mibook/14pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/14pro/specs"
+ },
+ "https://www.mi.com/mibook/2022/16pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/2022/16pro/specs"
+ },
+ "https://www.mi.com/mibook/15pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/15pro/specs"
+ },
+ "https://www.mi.com/mibook/15prox/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/15prox/specs"
+ },
+ "https://www.mi.com/mibook/14prox/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/14prox/specs"
+ },
+ "https://www.mi.com/mibook/air-13-flip/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/air-13-flip/specs"
+ },
+ "https://www.mi.com/redmi-books/14-2024/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/14-2024/specs"
+ },
+ "https://www.mi.com/redmi-books/16-pro": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/16-pro"
+ },
+ "https://www.mi.com/prod/redmi-books/16-pro-2025/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/prod/redmi-books/16-pro-2025/specs"
+ },
+ "https://www.mi.com/redmi-books/14-pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/14-pro/specs"
+ },
+ "https://www.mi.com/global/product/xiaomi-book-s-12-4/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/global/product/xiaomi-book-s-12-4/specs/"
+ },
+ "https://www.mi.com/nl/product/xiaomi-book-s-12-4/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/nl/product/xiaomi-book-s-12-4/specs/"
+ },
+ "https://www.gizmochina.com?p=606548/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gizmochina.com/2024/02/22/xiaomi-redmi-book-pro-14-16-2024-spec-price/"
+ },
+ "https://www.mi.com/redmi-books/g-pro-game/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/g-pro-game/specs"
+ },
+ "https://www.mi.com/redmi-books/pro-15-amd/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/pro-15-amd/specs"
+ },
+ "https://www.mi.com/redmi-books/14-pro/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/14-pro"
+ },
+ "https://www.mi.com/redmibook/pro14-amd/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro14-amd/specs"
+ },
+ "https://www.mi.com/shop/buy/detail?cfrom=search&product_id=20992": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/shop/buy/detail?cfrom=search&product_id=20992"
+ },
+ "https://www.mi.com/item/10000281": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro15"
+ },
+ "https://www.mi.com/redmibook/2022/redmi-g": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/2022/redmi-g"
+ },
+ "https://www.pconline.com.cn/zhizao/article/245323.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/245323.html"
+ },
+ "https://www.mi.com/redmibook/pro14-intel": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro14-intel"
+ },
+ "https://www.mi.com/redmibook/pro15-intel/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro15-intel/specs"
+ },
+ "https://www.mi.com/redmibook/game-intel/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/game-intel/specs"
+ },
+ "https://www.mizhijia.net/xmbjb/700357.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mizhijia.net/xmbjb/700357.html"
+ },
+ "https://www.pconline.com.cn/zhizao/article/320217.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/320217.html"
+ },
+ "https://www.mi.com/redmibook/game-amd/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/game-amd/specs"
+ },
+ "https://www.peopleapp.com/rmharticle/30020216500": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30020216500"
+ },
+ "https://www.peopleapp.com/rmharticle/30020345282": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30020345282"
+ },
+ "https://www.pconline.com.cn/zhizao/article/432621.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/432621.html"
+ },
+ "https://www.pconline.com.cn/zhizao/article/384692.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.pconline.com.cn/zhizao/article/384692.html"
+ },
+ "https://www.peopleapp.com/rmharticle/30024474666": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30024474666"
+ },
+ "https://www.peopleapp.com/rmharticle/30023081193": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30023081193"
+ },
+ "https://www.peopleapp.com/rmharticle/30020824002": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30020824002"
+ },
+ "https://www.sohu.com/a/480428056_114760": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/480428056_114760"
+ },
+ "https://www.sohu.com/a/556812559_115088": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/556812559_115088"
+ },
+ "https://www.toutiao.com/article/6982859251563987463/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/6982859251563987463/"
+ },
+ "https://www.toutiao.com/article/7116507993289949711/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7116507993289949711/"
+ },
+ "https://www.toutiao.com/article/7506434796239749686": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7506434796239749686"
+ },
+ "https://www.weistang.com/article-18158-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.weistang.com/article-18158-1.html"
+ },
+ "https://www.shangxianda.com/bijibendiannao/122652.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.shangxianda.com/bijibendiannao/122652.html"
+ },
+ "https://www.toutiao.com/article/7122645654467428902/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7122645654467428902/"
+ },
+ "https://www.gizmochina.com/page/2378?search=country+milf": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gizmochina.com/page/2378/?search=country%20milf"
+ },
+ "https://www.yugatech.com/hi/news/xiaomi-mi-notebook-pro-14-and-pro-15-now-official": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.yugatech.com/news/xiaomi-mi-notebook-pro-14-and-pro-15-now-official/"
+ },
+ "https://www.yugatech.com/ko/news/xiaomi-book-pro-14-16-oled-2022-now-official": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.yugatech.com/news/xiaomi-book-pro-14-16-oled-2022-now-official/"
+ },
+ "https://www.techzlab.com?p=10560/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.techzlab.com/redmi-book-pro-16-redmi-book-pro-14-2025-with-up-to-intel-core-ultra-7-255h-processor-launched/"
+ }
+}

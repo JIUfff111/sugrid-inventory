@@ -1,5 +1,6 @@
 const { randomBytes, scryptSync } = require('node:crypto');
 const { normalizeList, formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } = require('./sku-catalog/normalize-options.cjs');
+const { syncBuiltinSkuCatalog } = require('./builtin-sku-seed.cjs');
 function hashPassword(password) { const salt = randomBytes(16); return 'scrypt$16384$8$1$' + salt.toString('base64url') + '$' + scryptSync(password, salt, 64, {N:16384,r:8,p:1}).toString('base64url'); }
 function initDatabase(db) {
   // 创建用户表
@@ -1016,6 +1017,11 @@ function applyVersionedMigrations(db) {
         WHERE ti.inventoryId = OLD.id AND t.status IN ('pending','approved','in_transit'))
       BEGIN SELECT RAISE(ABORT, '该机器有进行中的调拨申请，请先处理或取消调拨'); END;
     `);
+  });
+  migrate(18, 'merge additive built-in SKU catalog updates', () => {
+    if (db.prepare('SELECT COUNT(*) AS count FROM skus').get().count === 0) return;
+    const result = syncBuiltinSkuCatalog(db);
+    console.log(`内置 SKU 目录升级：新增 ${result.inserted} 条、补充或规范 ${result.updated} 条、保留 ${result.skipped} 条本地记录`);
   });
 }
 
