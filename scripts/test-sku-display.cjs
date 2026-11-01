@@ -75,7 +75,10 @@ assert.equal(formatScreenDisplay('16英寸 3072x1920 165Hz'), '3K');
 assert.equal(formatScreenDisplay('16英寸 3840x2400 OLED'), '4K');
 assert.equal(formatScreenDisplay('16英寸 1920x1200 60Hz'), 'FHD+');
 assert.equal(formatScreenDisplay('15.6英寸 1920x1080 144Hz'), 'FHD');
-assert.equal(formatScreenDisplay('屏幕规格未列出'), '规格待核实');
+assert.equal(formatScreenDisplay('1k'), '1k');
+assert.equal(formatScreenDisplay('1K 分辨率'), '1K 分辨率');
+assert.equal(formatScreenDisplay('屏幕规格未列出'), '屏幕规格未列出');
+assert.equal(formatScreenDisplay('1024x768'), '1024x768');
 assert.equal(formatScreenDisplay(''), '');
 for (const screen of ['HD', 'FHD', 'FHD+', '2K', '2.5K', '2.8K', '3K', '3.2K', '4K']) {
   assert.equal(formatScreenDisplay(screen), screen);

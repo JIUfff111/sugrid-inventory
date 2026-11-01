@@ -21,6 +21,7 @@ try {
   assert.equal(formatCPUDisplay('AMD 锐龙 5 5600H'), 'R5-5600H');
   assert.equal(formatGPUDisplay('RTX 3060 6GB 笔记本电脑 GPU'), 'RTX 3060');
   assert.equal(formatScreenDisplay('16英寸 2560x1600 165Hz 100%sRGB 500nits'), '2.5K');
+  assert.equal(formatScreenDisplay('1k'), '1k');
   for (const screen of ['HD', 'FHD', 'FHD+', '2K', '2.5K', '2.8K', '3K', '3.2K', '4K']) {
     assert.equal(formatScreenDisplay(screen), screen, `already normalized screen ${screen} must be stable`);
   }
