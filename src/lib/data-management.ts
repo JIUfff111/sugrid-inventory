@@ -325,7 +325,10 @@ export function recordExists(resource: DataResource, id: string) {
 
 export function validateRecord(resource: DataResource, raw: Record<string, unknown>, mode: 'insert' | 'upsert' = 'insert') {
   const errors: string[] = [];
+  const isGraphicsCard = ['purchase_items', 'inventory'].includes(resource.key) && String(raw.productType || '').trim() === '显卡';
+  const computerSpecFields = new Set(['cpu', 'ram', 'storage', 'screen']);
   for (const field of resource.required || []) {
+    if (isGraphicsCard && computerSpecFields.has(field)) continue;
     if ((mode === 'insert' || Object.prototype.hasOwnProperty.call(raw, field)) && (raw[field] === undefined || raw[field] === null || String(raw[field]).trim() === '')) errors.push(`缺少必填字段 ${field}`);
   }
   for (const field of Object.keys(raw)) {

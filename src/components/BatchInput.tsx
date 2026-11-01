@@ -9,7 +9,7 @@ import { Plus, Trash2, X, Check } from 'lucide-react';
 import Toast from '@/components/Toast';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
-import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 
 interface BatchInputProps {
   presetConfig?: {
@@ -81,6 +81,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     show: false,
     message: ''
   });
+  const computerSpecsRequired = requiresComputerSpecs(baseConfig.productType);
 
   // 添加一行
   const handleAddRow = () => {
@@ -117,8 +118,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
   // 确认提交；继续录入时仅清空机器明细，保留当前通用配置。
   const handleSubmit = (mode: 'close' | 'continue') => {
     // 验证通用配置
-    if (!baseConfig.brand || !baseConfig.model || !baseConfig.cpu || 
-        !baseConfig.ram || !baseConfig.storage) {
+    if (!baseConfig.brand || !baseConfig.model ||
+        (computerSpecsRequired && (!baseConfig.cpu || !baseConfig.ram || !baseConfig.storage))) {
       setToast({ show: true, message: '请填写完整的通用配置' });
       return;
     }
@@ -236,29 +237,18 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
                     产品类型
                   </label>
-                  <div className="flex gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setBaseConfig({ ...baseConfig, productType: '笔记本电脑' })}
-                      className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
-                                ${baseConfig.productType === '笔记本电脑'
-                                  ? 'bg-primary text-white'
-                                  : 'glass hover:bg-white/60'
-                                }`}
-                    >
-                      笔记本电脑
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setBaseConfig({ ...baseConfig, productType: '平板电脑' })}
-                      className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
-                                ${baseConfig.productType === '平板电脑'
-                                  ? 'bg-primary text-white'
-                                  : 'glass hover:bg-white/60'
-                                }`}
-                    >
-                      平板电脑
-                    </button>
+                  <div className="flex flex-wrap gap-3">
+                    {SKU_PRODUCT_TYPES.map((productType) => (
+                      <button
+                        key={productType}
+                        type="button"
+                        onClick={() => setBaseConfig({ ...baseConfig, productType })}
+                        className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
+                                  ${baseConfig.productType === productType ? 'bg-primary text-white' : 'glass hover:bg-white/60'}`}
+                      >
+                        {productType}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
@@ -308,11 +298,12 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   </div>
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                      CPU <span className="text-danger">*</span>
+                      CPU {computerSpecsRequired && <span className="text-danger">*</span>}
                     </label>
                     <input
                       type="text"
                       value={baseConfig.cpu}
+                      required={computerSpecsRequired}
                       onChange={(e) => setBaseConfig({ ...baseConfig, cpu: e.target.value })}
                       placeholder="i5-1240P"
                       className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[13px]
@@ -322,11 +313,12 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   </div>
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                      内存 <span className="text-danger">*</span>
+                      内存 {computerSpecsRequired && <span className="text-danger">*</span>}
                     </label>
                     <input
                       type="text"
                       value={baseConfig.ram}
+                      required={computerSpecsRequired}
                       onChange={(e) => setBaseConfig({ ...baseConfig, ram: e.target.value })}
                       placeholder="16GB"
                       className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[13px]
@@ -354,11 +346,12 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   </div>
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                      硬盘 <span className="text-danger">*</span>
+                      硬盘 {computerSpecsRequired && <span className="text-danger">*</span>}
                     </label>
                     <input
                       type="text"
                       value={baseConfig.storage}
+                      required={computerSpecsRequired}
                       onChange={(e) => setBaseConfig({ ...baseConfig, storage: e.target.value })}
                       placeholder="512GB SSD"
                       className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[13px]

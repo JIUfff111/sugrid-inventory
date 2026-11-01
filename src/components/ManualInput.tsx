@@ -10,7 +10,7 @@ import { Check, Plus, X } from 'lucide-react';
 import Toast from '@/components/Toast';
 import CustomSelect, { type SelectOption } from '@/components/CustomSelect';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
-import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 
 type ManualSKU = {
   id: string;
@@ -98,6 +98,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
     .filter((sku) => sku.brand === formData.brand)
     .map((sku) => ({ value: sku.id, label: sku.year ? `${sku.model} ${sku.year}` : sku.model }))
     .sort((a, b) => a.label.localeCompare(b.label, 'zh-CN'));
+  const computerSpecsRequired = requiresComputerSpecs(formData.productType);
 
   const setProductType = (productType: string) => setFormData((current) => ({
     ...current,
@@ -135,8 +136,9 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
     e.preventDefault();
     
     // 验证必填字段
-    if (!formData.manualSkuId || !formData.brand || !formData.model || !formData.cpu || !formData.ram ||
-        !formData.storage || !formData.sn || !formData.purchasePrice) {
+    if (!formData.manualSkuId || !formData.brand || !formData.model ||
+        (computerSpecsRequired && (!formData.cpu || !formData.ram || !formData.storage)) ||
+        !formData.sn || !formData.purchasePrice) {
       setToast({ message: '请选择手工 SKU 库中的品牌和型号，并填写必填配置', type: 'warning' });
       return;
     }
@@ -194,29 +196,18 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                 <label className="block text-[13px] font-medium text-ink-deep mb-2">
                   产品类型 <span className="text-danger">*</span>
                 </label>
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setProductType('笔记本电脑')}
-                    className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
-                              ${formData.productType === '笔记本电脑'
-                                ? 'bg-primary text-white'
-                                : 'glass hover:bg-white/60'
-                              }`}
-                  >
-                    笔记本电脑
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setProductType('平板电脑')}
-                    className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
-                              ${formData.productType === '平板电脑'
-                                ? 'bg-primary text-white'
-                                : 'glass hover:bg-white/60'
-                              }`}
-                  >
-                    平板电脑
-                  </button>
+                <div className="flex flex-wrap gap-3">
+                  {SKU_PRODUCT_TYPES.map((productType) => (
+                    <button
+                      key={productType}
+                      type="button"
+                      onClick={() => setProductType(productType)}
+                      className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all
+                                ${formData.productType === productType ? 'bg-primary text-white' : 'glass hover:bg-white/60'}`}
+                    >
+                      {productType}
+                    </button>
+                  ))}
                 </div>
               </div>
 
@@ -262,7 +253,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
-                    CPU 处理器 <span className="text-danger">*</span>
+                    CPU 处理器 {computerSpecsRequired && <span className="text-danger">*</span>}
                   </label>
                   <input
                     type="text"
@@ -272,12 +263,12 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                     className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                              placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                              focus:ring-primary/20 focus:border-primary transition-all"
-                    required
+                    required={computerSpecsRequired}
                   />
                 </div>
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
-                    内存 <span className="text-danger">*</span>
+                    内存 {computerSpecsRequired && <span className="text-danger">*</span>}
                   </label>
                   <input
                     type="text"
@@ -287,7 +278,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                     className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                              placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                              focus:ring-primary/20 focus:border-primary transition-all"
-                    required
+                    required={computerSpecsRequired}
                   />
                 </div>
               </div>
@@ -310,7 +301,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                 </div>
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
-                    硬盘 <span className="text-danger">*</span>
+                    硬盘 {computerSpecsRequired && <span className="text-danger">*</span>}
                   </label>
                   <input
                     type="text"
@@ -320,7 +311,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                     className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                              placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                              focus:ring-primary/20 focus:border-primary transition-all"
-                    required
+                    required={computerSpecsRequired}
                   />
                 </div>
               </div>

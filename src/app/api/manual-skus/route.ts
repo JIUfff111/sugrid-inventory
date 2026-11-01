@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { authErrorResponse, requireRole } from '@/lib/auth';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
-import { getSKUProductType } from '@/lib/sku-display';
+import { getSKUProductType, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 import { ErrorCode, errorResponse, generateId, successResponse } from '@/lib/api-helpers';
 
 type ManualSKU = {
@@ -19,7 +19,7 @@ type ManualSKU = {
   updatedAt: string;
 };
 
-const ALLOWED_PRODUCT_TYPES = new Set(['笔记本电脑', '平板电脑']);
+const ALLOWED_PRODUCT_TYPES = new Set<string>(SKU_PRODUCT_TYPES);
 
 function normalizeIdentity(input: Record<string, unknown>) {
   const productType = getSKUProductType(String(input.productType || '').trim());
@@ -32,7 +32,7 @@ function normalizeIdentity(input: Record<string, unknown>) {
     year = Number(yearRaw);
     if (!Number.isInteger(year) || year < 1900 || year > 2100) return { error: '型号年份必须在 1900 至 2100 之间' };
   }
-  if (!ALLOWED_PRODUCT_TYPES.has(productType)) return { error: '产品类型只支持笔记本电脑或平板电脑' };
+  if (!ALLOWED_PRODUCT_TYPES.has(productType)) return { error: '产品类型只支持笔记本电脑、平板电脑或显卡' };
   if (!brand || brand.length > 80) return { error: '品牌不能为空且不能超过 80 个字符' };
   if (!sourceModel || sourceModel.length > 160) return { error: '型号不能为空且不能超过 160 个字符' };
 

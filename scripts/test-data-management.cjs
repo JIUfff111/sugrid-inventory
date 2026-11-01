@@ -43,6 +43,16 @@ async function main() {
     });
     const deps = { '@/lib/db': database, '@/lib/api-helpers': api, '@/lib/auth': auth };
     const dataManagement = load('src/lib/data-management.ts', deps);
+    const gpuPurchaseItemErrors = dataManagement.validateRecord(dataManagement.DATA_RESOURCES.purchase_items, {
+      purchaseOrderId: 'order', productType: '显卡', brand: '华硕', model: 'RTX 4060',
+      sn: 'GPU-IMPORT-001', purchasePrice: 2400,
+    });
+    assert.deepEqual(gpuPurchaseItemErrors, [], 'graphics-card purchase items should not require computer-only specs');
+    const laptopPurchaseItemErrors = dataManagement.validateRecord(dataManagement.DATA_RESOURCES.purchase_items, {
+      purchaseOrderId: 'order', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13',
+      sn: 'LAPTOP-IMPORT-001', purchasePrice: 2400,
+    });
+    assert(laptopPurchaseItemErrors.includes('缺少必填字段 cpu'), 'laptop spec requirements should remain enforced');
     const purge = load('src/lib/inventory-purge.ts', { '@/lib/db': database });
     const inventoryStatus = load('src/lib/inventory-status.ts', { ...deps, '@/lib/inventory-status': undefined });
     const routeDeps = { ...deps, '@/lib/data-management': dataManagement, '@/lib/inventory-purge': purge, '@/lib/inventory-status': inventoryStatus };

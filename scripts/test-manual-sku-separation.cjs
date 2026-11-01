@@ -47,7 +47,11 @@ Module._load = function(request, parent, isMain) {
   if (request === '@/lib/auth') return authHelpers;
   if (request === '@/lib/api-helpers') return responseHelpers;
   if (request === '@/lib/sku-brand') return { canonicalSKUBrand };
-  if (request === '@/lib/sku-display') return { getSKUProductType };
+  if (request === '@/lib/sku-display') return {
+    getSKUProductType,
+    SKU_PRODUCT_TYPES: ['笔记本电脑', '平板电脑', '显卡'],
+    requiresComputerSpecs: productType => getSKUProductType(productType) !== '显卡',
+  };
   if (request === 'next/server') return { NextResponse: responseMock };
   return oldLoad.call(this, request, parent, isMain);
 };
@@ -115,6 +119,25 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
 
     const listResponse = await manualSkus.GET(request('/api/manual-skus?productType=%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91'));
     assert.equal(listResponse.body.data.items.length, 1);
+
+    const gpuSkuResponse = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '显卡', brand: '华硕', model: 'RTX 4060',
+    }));
+    assert.equal(gpuSkuResponse.status, 201, JSON.stringify(gpuSkuResponse.body));
+    const gpuSkuId = gpuSkuResponse.body.data.item.id;
+
+    const gpuPurchaseResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'RTX 4060', gpu: 'RTX 4060', sn: 'GPU-SKU-TEST-0001', purchasePrice: 2400 }],
+    }));
+    assert.equal(gpuPurchaseResponse.status, 201, JSON.stringify(gpuPurchaseResponse.body));
+    const gpuInventory = db.prepare('SELECT productType, cpu, ram, storage, gpu FROM inventory WHERE sn = ?').get('GPU-SKU-TEST-0001');
+    assert.deepEqual(gpuInventory, { productType: '显卡', cpu: '', ram: '', storage: '', gpu: 'RTX 4060' });
+
+    const unsupportedTypeResponse = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '台式机', brand: 'Test', model: 'Unsupported',
+    }));
+    assert.equal(unsupportedTypeResponse.status, 400, 'only explicitly supported product types should be accepted');
     console.log('Manual SKU isolation API and purchase-link checks passed');
   } finally {
     db.close();

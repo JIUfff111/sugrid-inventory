@@ -15,7 +15,7 @@ import Toast from '@/components/Toast';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
-import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 
 interface PurchaseOrder {
   id: string;
@@ -665,15 +665,14 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
 
   const handleSaveMachineEdit = () => {
     if (!editingMachineDraft) return;
+    const computerSpecsRequired = requiresComputerSpecs(editingMachineDraft.productType);
     if (
       !editingMachineDraft.productType.trim() ||
       !editingMachineDraft.brand.trim() ||
       !editingMachineDraft.model.trim() ||
-      !editingMachineDraft.cpu.trim() ||
-      !editingMachineDraft.ram.trim() ||
-      !editingMachineDraft.storage.trim()
+      (computerSpecsRequired && (!editingMachineDraft.cpu.trim() || !editingMachineDraft.ram.trim() || !editingMachineDraft.storage.trim()))
     ) {
-      setToast({ show: true, type: 'warning', message: '请填写产品类型、品牌、型号、CPU、内存和硬盘' });
+      setToast({ show: true, type: 'warning', message: computerSpecsRequired ? '请填写产品类型、品牌、型号、CPU、内存和硬盘' : '请填写产品类型、品牌和型号' });
       return;
     }
     if (!Number.isFinite(editingMachineDraft.purchasePrice) || editingMachineDraft.purchasePrice < 0) {
@@ -1005,16 +1004,24 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                         ] as const).map(([field, label, placeholder]) => (
                           <label key={field} className="block">
                             <span className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                              {label}{['productType', 'brand', 'model', 'cpu', 'ram', 'storage'].includes(field) && <span className="text-danger"> *</span>}
+                              {label}{(field === 'productType' || field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram', 'storage'].includes(field))) && <span className="text-danger"> *</span>}
                             </span>
-                            <input
+                            {field === 'productType' ? (
+                              <CustomSelect
+                                value={String(editingMachineDraft[field])}
+                                onChange={(value) => updateEditingMachineDraft('productType', value)}
+                                options={SKU_PRODUCT_TYPES.map((value) => ({ value, label: value }))}
+                                aria-label="产品类型"
+                              />
+                            ) : <input
                               type="text"
                               value={editingMachineDraft[field] as string}
                               onChange={(event) => updateEditingMachineDraft(field, event.target.value)}
                               placeholder={placeholder}
                               readOnly={Boolean(editingMachineDraft.manualSkuId && ['productType', 'brand', 'model'].includes(field))}
+                              required={field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram', 'storage'].includes(field))}
                               className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                            />
+                            />}
                           </label>
                         ))}
                         <label className="block">

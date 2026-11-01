@@ -120,3 +120,9 @@ export function uniqueGPUOptions(options: string[]): string[] {
 export function getSKUProductType(productType: string): string {
   return productType === '游戏本' ? '笔记本电脑' : productType;
 }
+
+export const SKU_PRODUCT_TYPES = ['笔记本电脑', '平板电脑', '显卡'] as const;
+
+export function requiresComputerSpecs(productType: string): boolean {
+  return getSKUProductType(productType) !== '显卡';
+}

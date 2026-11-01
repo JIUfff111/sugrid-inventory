@@ -9,7 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
-import { getSKUProductType } from '@/lib/sku-display';
+import { getSKUProductType, requiresComputerSpecs } from '@/lib/sku-display';
 import { AuthError, requireRole } from '@/lib/auth';
 import {
   successResponse,
@@ -214,7 +214,8 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
   if (items.length === 0) return '至少添加一台机器';
   const seen = new Set<string>();
   for (const item of items) {
-    if (!item.brand || !item.model || !item.cpu || !item.ram || !item.storage) {
+    if (!item.brand || !item.model ||
+        (requiresComputerSpecs(item.productType) && (!item.cpu || !item.ram || !item.storage))) {
       return '机器配置缺少必填项';
     }
     if (!Number.isFinite(item.purchasePrice) || item.purchasePrice < 0) return '采购价格格式不正确';

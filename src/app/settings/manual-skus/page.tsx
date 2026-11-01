@@ -7,12 +7,13 @@ import ConfirmDialog from '@/components/ConfirmDialog';
 import CustomSelect from '@/components/CustomSelect';
 import Toast, { type ToastType } from '@/components/Toast';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
+import { SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 
 type ManualSKU = { id: string; productType: string; brand: string; model: string; year: number | null; isActive: number; createdAt: string; updatedAt: string };
 type Draft = { productType: string; brand: string; model: string; year: string };
 type Payload = { success?: boolean; data?: { items?: ManualSKU[]; item?: ManualSKU }; error?: { message?: string } };
 const emptyDraft: Draft = { productType: '笔记本电脑', brand: '', model: '', year: '' };
-const typeOptions = [{ value: '笔记本电脑', label: '笔记本电脑' }, { value: '平板电脑', label: '平板电脑' }];
+const typeOptions = SKU_PRODUCT_TYPES.map(value => ({ value, label: value }));
 
 export default function ManualSKUsPage() {
   const { active, user } = useWorkspace();
