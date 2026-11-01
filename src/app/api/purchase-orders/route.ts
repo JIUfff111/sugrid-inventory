@@ -215,7 +215,7 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
   const seen = new Set<string>();
   for (const item of items) {
     if (!item.brand || !item.model ||
-        (requiresComputerSpecs(item.productType) && (!item.cpu || !item.ram || (!item.storage && !item.skuId)))) {
+        (requiresComputerSpecs(item.productType) && (!item.cpu || !item.ram || (!item.storage && !item.skuId && !item.manualSkuId)))) {
       return '机器配置缺少必填项';
     }
     if (!Number.isFinite(item.purchasePrice) || item.purchasePrice < 0) return '采购价格格式不正确';

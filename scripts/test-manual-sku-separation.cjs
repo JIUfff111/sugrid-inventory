@@ -128,11 +128,20 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     }));
     assert.equal(mismatchResponse.status, 400, 'mismatched manual identity should be rejected');
 
+    const missingManualRamResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId, productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '', storage: '512GB', sn: 'MANUAL-SKU-NO-RAM', purchasePrice: 3000 }],
+    }));
+    assert.equal(missingManualRamResponse.status, 400, 'manual SKU entry should continue to require RAM');
+
     const missingManualStorageResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
       supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
       items: [{ manualSkuId, productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', sn: 'MANUAL-SKU-NO-STORAGE', purchasePrice: 3000 }],
     }));
-    assert.equal(missingManualStorageResponse.status, 400, 'manual SKU entry should continue to require storage');
+    assert.equal(missingManualStorageResponse.status, 201, JSON.stringify(missingManualStorageResponse.body));
+    const manualStorage = db.prepare(`SELECT pi.storage AS purchaseStorage, inv.storage AS inventoryStorage
+      FROM purchase_items pi JOIN inventory inv ON inv.purchaseItemId = pi.id WHERE pi.sn = ?`).get('MANUAL-SKU-NO-STORAGE');
+    assert.deepEqual(manualStorage, { purchaseStorage: '', inventoryStorage: '' }, 'manual SKU storage should be optional and persist as empty');
 
     const builtInPurchaseResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
       supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
@@ -146,7 +155,7 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     const builtinMachine = db.prepare('SELECT id FROM inventory WHERE sn=?').get('BUILTIN-SKU-NO-STORAGE');
     const editResponse = await inventoryEdit.POST(request('/api/inventory/edit', {
       inventoryId: builtinMachine.id, expectedSn: 'BUILTIN-SKU-NO-STORAGE',
-      fields: { sn: 'BUILTIN-SKU-EDITED', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null },
+      fields: { sn: 'BUILTIN-SKU-EDITED', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null, purchasePrice: 3000 },
     }));
     assert.equal(editResponse.status, 200, JSON.stringify(editResponse.body));
     assert.equal(editResponse.body.data.item.sn, 'BUILTIN-SKU-EDITED');
@@ -190,7 +199,7 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
 
     const duplicateSnResponse = await inventoryEdit.POST(request('/api/inventory/edit', {
       inventoryId: builtinMachine.id, expectedSn: 'BUILTIN-SKU-EDITED',
-      fields: { sn: 'MANUAL-SKU-TEST-0001', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null },
+      fields: { sn: 'MANUAL-SKU-TEST-0001', productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null, purchasePrice: 3000 },
     }));
     assert.equal(duplicateSnResponse.status, 409, 'duplicate machine SN changes should be rejected');
 

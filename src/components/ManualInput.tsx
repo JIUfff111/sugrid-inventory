@@ -11,6 +11,7 @@ import Toast from '@/components/Toast';
 import CustomSelect, { type SelectOption } from '@/components/CustomSelect';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
+import { COMMON_RAM_OPTIONS, COMMON_STORAGE_OPTIONS } from '@/lib/hardware-options';
 
 type ManualSKU = {
   id: string;
@@ -137,9 +138,9 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
     
     // 验证必填字段
     if (!formData.manualSkuId || !formData.brand || !formData.model ||
-        (computerSpecsRequired && (!formData.cpu || !formData.ram || !formData.storage)) ||
+        (computerSpecsRequired && (!formData.cpu || !formData.ram)) ||
         !formData.sn || !formData.purchasePrice) {
-      setToast({ message: '请选择手工 SKU 库中的品牌和型号，并填写必填配置', type: 'warning' });
+      setToast({ message: '请选择手工 SKU 品牌和型号，并填写产品要求的 CPU、内存等必填信息；硬盘选填', type: 'warning' });
       return;
     }
 
@@ -272,14 +273,18 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                   </label>
                   <input
                     type="text"
+                    list="manual-input-ram-options"
                     value={formData.ram}
                     onChange={(e) => setFormData({ ...formData, ram: e.target.value })}
-                    placeholder="如：16GB"
+                    placeholder="选择常用值或输入容量，如：16GB"
                     className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                              placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                              focus:ring-primary/20 focus:border-primary transition-all"
                     required={computerSpecsRequired}
                   />
+                  <datalist id="manual-input-ram-options">
+                    {COMMON_RAM_OPTIONS.map((option) => <option key={option} value={option} />)}
+                  </datalist>
                 </div>
               </div>
 
@@ -301,20 +306,24 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                 </div>
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
-                    硬盘 {computerSpecsRequired && <span className="text-danger">*</span>}
+                    硬盘 <span className="font-normal text-ink-soft">选填</span>
                   </label>
                   <input
                     type="text"
+                    list="manual-input-storage-options"
                     value={formData.storage}
                     onChange={(e) => setFormData({ ...formData, storage: e.target.value })}
-                    placeholder="如：512GB SSD"
+                    placeholder="选择常用值或输入容量，如：512GB SSD"
                     className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                              placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                              focus:ring-primary/20 focus:border-primary transition-all"
-                    required={computerSpecsRequired}
                   />
+                  <datalist id="manual-input-storage-options">
+                    {COMMON_STORAGE_OPTIONS.map((option) => <option key={option} value={option} />)}
+                  </datalist>
                 </div>
               </div>
+              <p className="-mt-3 text-[11px] text-ink-soft">内存、硬盘可选常用容量，也可直接输入自定义规格。</p>
 
               {/* 屏幕 */}
               <div>

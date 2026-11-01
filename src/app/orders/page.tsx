@@ -16,6 +16,7 @@ import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
+import { COMMON_RAM_OPTIONS, COMMON_STORAGE_OPTIONS } from '@/lib/hardware-options';
 
 interface PurchaseOrder {
   id: string;
@@ -489,6 +490,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const [batchPresetConfig, setBatchPresetConfig] = useState<BatchPresetConfig | null>(null); // 批量输入的预设配置
   const [editingMachineId, setEditingMachineId] = useState<string | null>(null);
   const [editingMachineDraft, setEditingMachineDraft] = useState<MachineItem | null>(null);
+  const editingMachineStorageRequired = Boolean(editingMachineDraft && requiresComputerSpecs(editingMachineDraft.productType) && !editingMachineDraft.skuId && !editingMachineDraft.manualSkuId);
   const [saving, setSaving] = useState(false); // 保存中状态
   useWorkspaceDirty(JSON.stringify({ formData, machineItems }) !== baseline || showSKUSelector || showManualInput || showBatchInput || editingMachineDraft !== null);
   const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error' | 'warning' | 'info'; message: string }>({
@@ -666,7 +668,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const handleSaveMachineEdit = () => {
     if (!editingMachineDraft) return;
     const computerSpecsRequired = requiresComputerSpecs(editingMachineDraft.productType);
-    const storageRequired = computerSpecsRequired && !editingMachineDraft.skuId;
+    const storageRequired = computerSpecsRequired && !editingMachineDraft.skuId && !editingMachineDraft.manualSkuId;
     if (
       !editingMachineDraft.productType.trim() ||
       !editingMachineDraft.brand.trim() ||
@@ -999,14 +1001,14 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                           ['brand', '品牌', '如：ThinkPad'],
                           ['model', '型号', '如：T14 Gen3'],
                           ['cpu', 'CPU 处理器', '如：i5-1240P'],
-                          ['ram', '内存', '如：16GB'],
+                          ['ram', '内存', '选择或输入，如：16GB'],
                           ['gpu', '显卡', '选填'],
-                          ['storage', '硬盘', '如：512GB'],
+                          ['storage', '硬盘', '选填，选择或输入'],
                           ['screen', '屏幕分辨率', '选填'],
                         ] as const).map(([field, label, placeholder]) => (
                           <label key={field} className="block">
                             <span className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                              {label}{(field === 'productType' || field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && requiresComputerSpecs(editingMachineDraft.productType) && !editingMachineDraft.skuId)) && <span className="text-danger"> *</span>}
+                              {label}{(field === 'productType' || field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && editingMachineStorageRequired)) && <span className="text-danger"> *</span>}
                             </span>
                             {field === 'productType' ? (
                               <CustomSelect
@@ -1017,13 +1019,16 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                               />
                             ) : <input
                               type="text"
+                              list={editingMachineDraft.manualSkuId && field === 'ram' ? 'purchase-manual-sku-ram-options' : editingMachineDraft.manualSkuId && field === 'storage' ? 'purchase-manual-sku-storage-options' : undefined}
                               value={editingMachineDraft[field] as string}
                               onChange={(event) => updateEditingMachineDraft(field, event.target.value)}
                               placeholder={placeholder}
                               readOnly={Boolean(editingMachineDraft.manualSkuId && ['productType', 'brand', 'model'].includes(field))}
-                              required={field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && requiresComputerSpecs(editingMachineDraft.productType) && !editingMachineDraft.skuId)}
+                              required={field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && editingMachineStorageRequired)}
                               className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                             />}
+                            {editingMachineDraft.manualSkuId && field === 'ram' && <datalist id="purchase-manual-sku-ram-options">{COMMON_RAM_OPTIONS.map(option => <option key={option} value={option} />)}</datalist>}
+                            {editingMachineDraft.manualSkuId && field === 'storage' && <datalist id="purchase-manual-sku-storage-options">{COMMON_STORAGE_OPTIONS.map(option => <option key={option} value={option} />)}</datalist>}
                           </label>
                         ))}
                         <label className="block">
