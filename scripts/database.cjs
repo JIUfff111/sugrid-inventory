@@ -859,6 +859,25 @@ function applyVersionedMigrations(db) {
       linkRental.run(orderId,row.id);
     }
   });
+  migrate(14, 'per-account inventory access and machine profile audit', () => {
+    add('users', 'canViewInventory', 'INTEGER NOT NULL DEFAULT 1');
+    add('users', 'canEditInventory', 'INTEGER NOT NULL DEFAULT 0');
+    db.prepare("UPDATE users SET canEditInventory = 1 WHERE role = 'admin' AND isSystemAccount = 0").run();
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS inventory_edit_logs (
+        id TEXT PRIMARY KEY,
+        inventoryId TEXT NOT NULL REFERENCES inventory(id) ON DELETE CASCADE,
+        actorId TEXT NOT NULL REFERENCES users(id),
+        beforeData TEXT NOT NULL,
+        afterData TEXT NOT NULL,
+        createdAt TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_inventory_edit_logs_machine_time
+        ON inventory_edit_logs(inventoryId, createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_inventory_edit_logs_actor_time
+        ON inventory_edit_logs(actorId, createdAt DESC);
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

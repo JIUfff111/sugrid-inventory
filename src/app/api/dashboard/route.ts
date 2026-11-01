@@ -34,8 +34,9 @@ function numberValue(value: number | null | undefined) {
 
 export async function GET() {
   try {
-    await requireRole('admin');
-    const inventory = db.prepare(`
+    const user = await requireRole('admin');
+    const canViewInventory = user.isSystemAccount || user.canViewInventory;
+    const inventory = canViewInventory ? db.prepare(`
       SELECT
         COUNT(*) AS total,
         SUM(CASE WHEN status IN ('in_stock','custom') THEN 1 ELSE 0 END) AS inStock,
@@ -44,7 +45,7 @@ export async function GET() {
         COALESCE(SUM(CASE WHEN status IN ('in_stock','custom') THEN purchasePrice ELSE 0 END), 0) AS inStockCost
       FROM inventory
       WHERE deleted = 0
-    `).get() as CountRow;
+    `).get() as CountRow : { total: 0, inStock: 0, sold: 0, returningCount: 0, inStockCost: 0 };
 
     const orderStats = db.prepare(`
       SELECT
@@ -87,21 +88,21 @@ export async function GET() {
     };
 
     const messages = [
-      ...(stats.draftOrders > 0
-        ? [{ id: 'draft-orders', tone: 'warn' as const, title: '采购草稿待处理', detail: `${stats.draftOrders} 张采购单尚未确认入库`, href: '/orders' }]
-        : []),
-      ...(stats.returning > 0
+      ...(canViewInventory && stats.returning > 0
         ? [{ id: 'returning-inventory', tone: 'danger' as const, title: '供应商退货待完成', detail: `${stats.returning} 台机器正在办理供应商退货`, href: '/sales/return' }]
         : []),
-      ...(stats.inStock === 0
+      ...(canViewInventory && stats.inStock === 0
         ? [{ id: 'empty-inventory', tone: 'info' as const, title: '当前暂无在库机器', detail: '完成采购入库后，机器会出现在库存清单中', href: '/orders' }]
+        : []),
+      ...(stats.draftOrders > 0
+        ? [{ id: 'draft-orders', tone: 'warn' as const, title: '采购草稿待处理', detail: `${stats.draftOrders} 张采购单尚未确认入库`, href: '/orders' }]
         : []),
       ...(stats.skuCount > 0
         ? [{ id: 'sku-library', tone: 'success' as const, title: '产品库已准备就绪', detail: `当前可选择 ${stats.skuCount} 个 SKU`, href: '/orders' }]
         : [{ id: 'sku-library-empty', tone: 'warn' as const, title: '产品库暂无 SKU', detail: '采购录入前请先补充产品型号', href: '/orders' }]),
     ];
 
-    return NextResponse.json(successResponse({ stats, recentOrders, messages }));
+    return NextResponse.json(successResponse({ canViewInventory, stats, recentOrders, messages }));
   } catch (error: unknown) {
     const authFailure = authErrorResponse(error);
     if (authFailure) return authFailure;

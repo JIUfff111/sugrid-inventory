@@ -23,8 +23,8 @@ export type DataResource = {
 export const DATA_RESOURCES: Record<string, DataResource> = {
   users: {
     key: 'users', label: '用户资料', table: 'users',
-    fields: ['id', 'username', 'realName', 'role', 'status', 'isSystemAccount', 'createdAt', 'updatedAt', 'deletedAt', 'deletedBy'],
-    writable: ['realName', 'role', 'status'], searchFields: ['username', 'realName', 'role', 'status'], orderBy: 'createdAt DESC', required: ['username', 'role', 'status'],
+    fields: ['id', 'username', 'realName', 'role', 'status', 'isSystemAccount', 'canViewInventory', 'canEditInventory', 'createdAt', 'updatedAt', 'deletedAt', 'deletedBy'],
+    writable: ['realName', 'role', 'status', 'canViewInventory', 'canEditInventory'], searchFields: ['username', 'realName', 'role', 'status'], orderBy: 'createdAt DESC', required: ['username', 'role', 'status'],
   },
   warehouses: {
     key: 'warehouses', label: '仓库', table: 'warehouses',

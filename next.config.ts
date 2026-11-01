@@ -19,6 +19,7 @@ const allowedDevOrigins = ["127.0.0.1", "localhost", ...interfaceHosts, ...(conf
 
 const nextConfig: NextConfig = {
   /* config options here */
+  distDir: process.env.NEXT_DIST_DIR?.trim() || '.next',
   allowedDevOrigins: [...new Set(allowedDevOrigins)],
   experimental: {
     cpus: 2,

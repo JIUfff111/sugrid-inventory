@@ -119,7 +119,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
   const handleSubmit = (mode: 'close' | 'continue') => {
     // 验证通用配置
     if (!baseConfig.brand || !baseConfig.model ||
-        (computerSpecsRequired && (!baseConfig.cpu || !baseConfig.ram || !baseConfig.storage))) {
+        (computerSpecsRequired && (!baseConfig.cpu || !baseConfig.ram))) {
       setToast({ show: true, message: '请填写完整的通用配置' });
       return;
     }
@@ -346,12 +346,11 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   </div>
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                      硬盘 {computerSpecsRequired && <span className="text-danger">*</span>}
+                      硬盘 <span className="font-normal text-ink-soft">选填</span>
                     </label>
                     <input
                       type="text"
                       value={baseConfig.storage}
-                      required={computerSpecsRequired}
                       onChange={(e) => setBaseConfig({ ...baseConfig, storage: e.target.value })}
                       placeholder="512GB SSD"
                       className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[13px]

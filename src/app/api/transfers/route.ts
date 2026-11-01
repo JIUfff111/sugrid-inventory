@@ -2,7 +2,7 @@ import { assertStockEligible, endCustomStatus } from '@/lib/inventory-status';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { errorResponse, ErrorCode, generateId, successResponse } from '@/lib/api-helpers';
-import { AuthError, requireRole } from '@/lib/auth';
+import { assertInventoryView, AuthError, requireRole } from '@/lib/auth';
 
 function authError(error: unknown) { return error instanceof AuthError ? NextResponse.json(errorResponse(error.code, error.message), { status: error.status }) : null; }
 function idsOf(value: unknown) { return Array.isArray(value) ? [...new Set(value.map((item) => typeof item === 'string' ? item.trim() : String((item as { id?: unknown })?.id || '').trim()).filter(Boolean))] : []; }
@@ -33,6 +33,7 @@ function completeTransfer(id: string, actorId: string) {
 export async function GET(request: NextRequest) {
   try {
     const user = await requireRole('admin', 'warehouse_manager');
+    assertInventoryView(user);
     const query = new URL(request.url).searchParams;
     const status = query.get('status')?.trim() || '';
     const id = query.get('id')?.trim() || '';
@@ -49,6 +50,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const user = await requireRole('admin', 'warehouse_manager');
+    assertInventoryView(user);
     const body = await request.json() as Record<string, unknown>;
     const sourceWarehouseId = String(body.sourceWarehouseId || '').trim();
     const targetWarehouseId = String(body.targetWarehouseId || '').trim();
@@ -80,6 +82,7 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const user = await requireRole('admin');
+    assertInventoryView(user);
     const body = await request.json() as Record<string, unknown>; const id = String(body.id || body.transferId || '').trim(); const action = String(body.action || '').trim();
     if (!id || !['approve', 'reject', 'complete', 'cancel', 'start_transit'].includes(action)) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '调拨操作参数无效'), { status: 400 });
     const now = new Date().toISOString();

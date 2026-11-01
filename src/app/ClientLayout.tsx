@@ -74,16 +74,16 @@ function WorkspaceHost({ user, pathname, href, testMode, children }: { user: Ses
         if (typeof item?.href !== 'string') return [];
         const path = new URL(item.href, window.location.origin).pathname;
         const route = workspaceRoutes[path];
-        return route && canVisit(user.role, path) ? [{ id: route.id, label: route.label, href: item.href, pinned: route.id === 'home' }] : [];
+        return route && canVisit(user.role, path, user.canViewInventory ?? true) ? [{ id: route.id, label: route.label, href: item.href, pinned: route.id === 'home' }] : [];
       }).filter((tab: Tab, index: number, all: Tab[]) => all.findIndex(t => t.id === tab.id) === index) : [];
     } catch { /* Invalid tab metadata never blocks the workspace. */ }
     const homeTab: Tab[] = user.role === 'admin' ? [{ id: 'home', label: '首页', href: '/', pinned: true }] : [];
     setTabs([...homeTab, ...restored.filter(tab => tab.id !== 'home')]);
     setHydrated(true);
-  }, [storageKey, user.role]);
+  }, [storageKey, user.role, user.canViewInventory]);
 
   useEffect(() => {
-    if (!hydrated || !activeRoute || !canVisit(user.role, pathname)) return;
+    if (!hydrated || !activeRoute || !canVisit(user.role, pathname, user.canViewInventory ?? true)) return;
     if (closingId.current === activeRoute.id && closingHref.current === href) return;
     closingId.current = null;
     closingHref.current = null;
@@ -94,7 +94,7 @@ function WorkspaceHost({ user, pathname, href, testMode, children }: { user: Ses
       return existing.href === href && existing.pinned === next.pinned ? current : current.map(tab => tab.id === next.id ? next : tab);
     });
     setVisited(current => current.has(activeRoute.id) ? current : new Set([...current, activeRoute.id]));
-  }, [activeRoute, href, hydrated, pathname, user.role]);
+  }, [activeRoute, href, hydrated, pathname, user.role, user.canViewInventory]);
 
   useEffect(() => {
     if (hydrated) { try { sessionStorage.setItem(storageKey, JSON.stringify(tabs)); } catch {} }
@@ -106,8 +106,8 @@ function WorkspaceHost({ user, pathname, href, testMode, children }: { user: Ses
     return () => window.removeEventListener('beforeunload', beforeUnload);
   }, [dirtyIds]);
   useEffect(() => {
-    setTabs(current => current.filter(tab => canVisit(user.role, new URL(tab.href, 'http://workspace.local').pathname)));
-  }, [user.role]);
+    setTabs(current => current.filter(tab => canVisit(user.role, new URL(tab.href, 'http://workspace.local').pathname, user.canViewInventory ?? true)));
+  }, [user.role, user.canViewInventory]);
 
   const closeTab = (id: string) => {
     if (tabs.find(tab => tab.id === id)?.pinned) return;
@@ -195,14 +195,18 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
   }, [isPublic, router, retryKey]);
   useEffect(() => {
     if (isPublic || !user) return;
-    if (aliases[pathname]) router.replace(aliases[pathname]);
-    else if (!canVisit(user.role, pathname)) router.replace('/inventory');
+    const alias = aliases[pathname];
+    if (alias && canVisit(user.role, new URL(alias, window.location.origin).pathname, user.canViewInventory ?? true)) router.replace(alias);
+    else if (alias || !canVisit(user.role, pathname, user.canViewInventory ?? true)) {
+      const fallback = canVisit(user.role, '/', user.canViewInventory ?? true) ? '/' : '/settings/account';
+      router.replace(fallback);
+    }
   }, [isPublic, pathname, router, user]);
   if (isPublic) return <main className="min-h-screen px-4">{children}</main>;
   if (checking) return <div className="flex min-h-screen items-center justify-center text-ink-soft"><LoaderCircle className="mr-2 h-5 w-5 animate-spin" />正在验证登录…</div>;
   if (!user) return <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center text-ink-soft"><WifiOff className="h-8 w-8 text-primary" /><p>{authError || '正在连接登录服务…'}</p><button type="button" onClick={() => { setChecking(true); setRetryKey(key => key + 1); }} className="btn-primary inline-flex items-center gap-2"><RefreshCw className="h-4 w-4" />重新验证</button></div>;
-  if (!canVisit(user.role, pathname) || aliases[pathname]) return <Loading />;
-  const permissionKey = `${testMode ? 'test' : 'production'}:${user.id}:${user.role}:${user.warehouses.map(warehouse => `${warehouse.id}:${warehouse.status}`).sort().join(',')}`;
+  if (!canVisit(user.role, pathname, user.canViewInventory ?? true) || aliases[pathname]) return <Loading />;
+  const permissionKey = `${testMode ? 'test' : 'production'}:${user.id}:${user.role}:${user.canViewInventory}:${user.canEditInventory}:${user.warehouses.map(warehouse => `${warehouse.id}:${warehouse.status}`).sort().join(',')}`;
   return <>{authError && <div role="alert" className="fixed bottom-4 left-1/2 z-[9999] flex w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 items-center gap-3 rounded-xl border border-warn/25 bg-white/95 p-4 text-xs shadow-lg"><WifiOff className="h-4 w-4 shrink-0 text-warn" /><span className="flex-1">{authError}</span><button type="button" onClick={() => setRetryKey(key => key + 1)} className="shrink-0 text-primary">重试</button></div>}<WorkspaceHost key={permissionKey} user={user} pathname={pathname} href={href} testMode={testMode}>{children}</WorkspaceHost></>;
 }
 

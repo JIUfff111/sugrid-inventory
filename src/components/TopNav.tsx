@@ -172,7 +172,7 @@ export default function TopNav({ user }: { user: SessionUser }) {
     const children = item.label === '设置' && user.isSystemAccount
       ? [...(item.children || []), { label: '数据管理', href: '/settings/data', icon: 'M4 4h16v16H4zM8 8h8M8 12h8M8 16h5' }]
       : item.children || [];
-    return { ...item, children: children.filter(child => canVisit(user.role, child.href)) };
+    return { ...item, children: children.filter(child => canVisit(user.role, child.href, user.canViewInventory ?? true)) };
   });
 
   return (

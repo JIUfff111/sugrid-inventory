@@ -1,5 +1,5 @@
 import { serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
-import { requireUser, warehouseScope, authErrorResponse } from '@/lib/auth';
+import { requireUser, warehouseScope, authErrorResponse, assertInventoryView } from '@/lib/auth';
 /**
  * 库存分析工作台数据
  * GET /api/inventory/analysis
@@ -53,6 +53,7 @@ function normalizeGroup(rows: GroupRow[]) {
 export async function GET(request: NextRequest) {
   try {
     const user = await requireUser();
+    assertInventoryView(user);
     const scope = warehouseScope(user, request.nextUrl.searchParams.get('warehouseId'));
     const scoped = warehouseScope(user, request.nextUrl.searchParams.get('warehouseId'),'i');
     const summary = db.prepare(`

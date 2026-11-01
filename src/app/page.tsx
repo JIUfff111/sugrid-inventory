@@ -55,6 +55,7 @@ type DashboardMessage = {
 };
 
 type DashboardPayload = {
+  canViewInventory: boolean;
   stats: DashboardStats;
   recentOrders: RecentOrder[];
   messages: DashboardMessage[];
@@ -89,7 +90,7 @@ function messageStyle(tone: DashboardMessage['tone']) {
 }
 
 export default function HomePage() {
-  const [payload, setPayload] = useState<DashboardPayload>({ stats: EMPTY_STATS, recentOrders: [], messages: [] });
+  const [payload, setPayload] = useState<DashboardPayload>({ canViewInventory: false, stats: EMPTY_STATS, recentOrders: [], messages: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [reloadKey, setReloadKey] = useState(0);
@@ -115,7 +116,7 @@ export default function HomePage() {
     void loadDashboard();
   }, [loadDashboard, reloadKey]);
 
-  const { stats, recentOrders, messages } = payload;
+  const { canViewInventory, stats, recentOrders, messages } = payload;
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6">
@@ -150,14 +151,14 @@ export default function HomePage() {
         </div>
       )}
 
-      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-label="核心指标">
-        <Link href="/inventory" className="glass card-hover group p-5">
+      <section className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${canViewInventory ? 'xl:grid-cols-4' : 'xl:grid-cols-3'}`} aria-label="核心指标">
+        {canViewInventory && <Link href="/inventory" className="glass card-hover group p-5">
           <div className="flex items-start justify-between">
             <div><p className="text-[12px] text-ink-soft">在库机器</p><p className="mt-2 font-mono text-3xl font-bold tracking-tight text-ink-deep">{stats.inStock}</p></div>
             <span className="rounded-xl bg-ok/10 p-2.5 text-ok"><Warehouse className="h-5 w-5" /></span>
           </div>
           <p className="mt-4 flex items-center gap-1 text-[12px] text-ink-soft group-hover:text-primary">查看库存清单 <ArrowRight className="h-3.5 w-3.5" /></p>
-        </Link>
+        </Link>}
 
         <Link href="/orders" className="glass card-hover group p-5">
           <div className="flex items-start justify-between">
@@ -167,13 +168,13 @@ export default function HomePage() {
           <p className="mt-4 flex items-center gap-1 text-[12px] text-ink-soft group-hover:text-primary">管理采购订单 <ArrowRight className="h-3.5 w-3.5" /></p>
         </Link>
 
-        <Link href="/inventory" className="glass card-hover group p-5">
+        {canViewInventory && <Link href="/inventory" className="glass card-hover group p-5">
           <div className="flex items-start justify-between">
             <div><p className="text-[12px] text-ink-soft">在库台账成本</p><p className="mt-2 font-mono text-2xl font-bold tracking-tight text-ink-deep">{money(stats.inStockCost)}</p></div>
             <span className="rounded-xl bg-primary/10 p-2.5 text-primary"><CircleDollarSign className="h-5 w-5" /></span>
           </div>
           <p className="mt-4 text-[12px] text-ink-soft">保留 {stats.inventoryTotal} 份机器档案</p>
-        </Link>
+        </Link>}
 
         <Link href="/orders" className="glass card-hover group p-5">
           <div className="flex items-start justify-between">
@@ -241,8 +242,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div className="glass p-5">
+      <section className={`grid grid-cols-1 gap-5 ${canViewInventory ? 'lg:grid-cols-2' : ''}`}>
+        {canViewInventory && <div className="glass p-5">
           <div className="flex items-center justify-between">
             <div><h2 className="text-[15px] font-semibold text-ink-deep">库存状态</h2><p className="mt-1 text-[12px] text-ink-soft">当前库存记录分布</p></div>
             <Link href="/inventory" className="text-[12px] font-medium text-primary hover:text-primary-deep">库存清单</Link>
@@ -252,17 +253,17 @@ export default function HomePage() {
             <div className="rounded-xl bg-primary/8 px-3 py-3"><p className="text-[11px] text-ink-soft">已售</p><p className="mt-1 font-mono text-xl font-bold text-primary">{stats.sold}</p></div>
             <div className="rounded-xl bg-danger/8 px-3 py-3"><p className="text-[11px] text-ink-soft">供应商退货中</p><p className="mt-1 font-mono text-xl font-bold text-danger">{stats.returning}</p></div>
           </div>
-        </div>
+        </div>}
 
         <div className="glass p-5">
           <div className="flex items-center justify-between">
             <div><h2 className="text-[15px] font-semibold text-ink-deep">快捷操作</h2><p className="mt-1 text-[12px] text-ink-soft">直接进入常用业务流程</p></div>
             <Truck className="h-4 w-4 text-ink-soft" />
           </div>
-          <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <div className={`mt-5 grid grid-cols-1 gap-2 ${canViewInventory ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
             <Link href="/orders" className="group flex items-center gap-2 rounded-xl border border-line bg-white/50 px-3 py-3 text-[12px] text-ink-deep transition-colors hover:border-primary/30 hover:bg-white"><ShoppingCart className="h-4 w-4 text-primary" />采购入库<ArrowRight className="ml-auto h-3.5 w-3.5 text-ink-soft group-hover:text-primary" /></Link>
             <Link href="/sales/out" className="group flex items-center gap-2 rounded-xl border border-line bg-white/50 px-3 py-3 text-[12px] text-ink-deep transition-colors hover:border-primary/30 hover:bg-white"><ArrowDownToLine className="h-4 w-4 text-primary" />销售出库<ArrowRight className="ml-auto h-3.5 w-3.5 text-ink-soft group-hover:text-primary" /></Link>
-            <Link href="/inventory" className="group flex items-center gap-2 rounded-xl border border-line bg-white/50 px-3 py-3 text-[12px] text-ink-deep transition-colors hover:border-primary/30 hover:bg-white"><Package className="h-4 w-4 text-primary" />库存台账<ArrowRight className="ml-auto h-3.5 w-3.5 text-ink-soft group-hover:text-primary" /></Link>
+            {canViewInventory && <Link href="/inventory" className="group flex items-center gap-2 rounded-xl border border-line bg-white/50 px-3 py-3 text-[12px] text-ink-deep transition-colors hover:border-primary/30 hover:bg-white"><Package className="h-4 w-4 text-primary" />库存台账<ArrowRight className="ml-auto h-3.5 w-3.5 text-ink-soft group-hover:text-primary" /></Link>}
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
-import { assertWarehouseAccess, authErrorResponse, requireRole } from '@/lib/auth';
+import { assertInventoryEdit, assertWarehouseAccess, authErrorResponse, requireRole } from '@/lib/auth';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
 
 type AssetChangeInput = {
@@ -23,6 +23,7 @@ function configuration(value: unknown, label: string): string {
 export async function POST(request: NextRequest) {
   try {
     const user = await requireRole('admin');
+    assertInventoryEdit(user);
     const body = await request.json() as AssetChangeInput;
     if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('资产变更信息无效');
     const inventoryId = typeof body.inventoryId === 'string' ? body.inventoryId.trim() : '';

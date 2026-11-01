@@ -1,5 +1,5 @@
 import { serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
-import { requireUser, requireSystemAccount, warehouseScope, authErrorResponse, assertWarehouseAccess } from '@/lib/auth';
+import { requireUser, requireSystemAccount, warehouseScope, authErrorResponse, assertWarehouseAccess, assertInventoryEdit, assertInventoryView } from '@/lib/auth';
 /**
  * 在库清单 API
  * GET   /api/inventory                 获取库存列表（支持分页、搜索、状态筛选）
@@ -189,6 +189,7 @@ function getWhere(search: string, status: string, filters: InventoryFilters = {}
 export async function GET(request: NextRequest) {
   try {
     const user = await requireUser();
+    assertInventoryView(user);
     const { searchParams } = new URL(request.url);
     const scope = warehouseScope(user, searchParams.get('warehouseId'));
     const parsedPagination = parsePaginationParams(searchParams);
@@ -313,6 +314,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const user = await requireUser();
+    assertInventoryEdit(user);
     const body = await request.json();
     const idValue = typeof body?.id === 'string' ? body.id : body?.inventoryId;
     const id = typeof idValue === 'string' ? idValue.trim() : '';

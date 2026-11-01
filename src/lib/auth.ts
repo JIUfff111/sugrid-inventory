@@ -24,6 +24,8 @@ export interface AuthUser {
   role: string;
   status: UserStatus | string;
   isSystemAccount: boolean;
+  canViewInventory: boolean;
+  canEditInventory: boolean;
   createdAt: string;
   updatedAt?: string;
   warehouses: Array<{
@@ -98,6 +100,8 @@ export function userFromRow(row: Record<string, unknown> | undefined): AuthUser 
     role: String(row.role || 'warehouse_manager'),
     status: String(row.status || 'pending'),
     isSystemAccount: Number(row.isSystemAccount || 0) === 1,
+    canViewInventory: Number(row.isSystemAccount || 0) === 1 || row.canViewInventory === undefined || Number(row.canViewInventory) === 1,
+    canEditInventory: Number(row.isSystemAccount || 0) === 1 || Number(row.canEditInventory || 0) === 1,
     createdAt: String(row.createdAt || ''),
     updatedAt: row.updatedAt == null ? undefined : String(row.updatedAt),
     warehouses: [],
@@ -208,7 +212,8 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
   if (!token) return null;
   const now = new Date().toISOString();
   const row = db.prepare(`
-    SELECT u.id, u.username, u.realName, u.role, u.status, u.isSystemAccount, u.createdAt, u.updatedAt
+    SELECT u.id, u.username, u.realName, u.role, u.status, u.isSystemAccount,
+      u.canViewInventory, u.canEditInventory, u.createdAt, u.updatedAt
     FROM sessions s JOIN users u ON u.id = s.userId
     WHERE s.tokenHash = ? AND s.revokedAt IS NULL AND s.expiresAt > ?
   `).get(hashSessionToken(token), now) as Record<string, unknown> | undefined;
@@ -251,6 +256,8 @@ export function publicUser(user: AuthUser) {
     role: user.role,
     status: user.status,
     isSystemAccount: user.isSystemAccount,
+    canViewInventory: user.canViewInventory,
+    canEditInventory: user.canEditInventory,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
     warehouses: user.warehouses,
@@ -260,7 +267,19 @@ export function publicUser(user: AuthUser) {
 
 /** Read fresh account and assignment metadata without exposing password fields. */
 export function getUserById(id: string): AuthUser | null {
-  return userFromRow(db.prepare("SELECT id, username, realName, role, status, isSystemAccount, createdAt, updatedAt FROM users WHERE id = ? AND status <> 'deleted'").get(id) as Record<string, unknown> | undefined);
+  return userFromRow(db.prepare("SELECT id, username, realName, role, status, isSystemAccount, canViewInventory, canEditInventory, createdAt, updatedAt FROM users WHERE id = ? AND status <> 'deleted'").get(id) as Record<string, unknown> | undefined);
+}
+
+export function assertInventoryView(user: AuthUser) {
+  if (!user.isSystemAccount && !user.canViewInventory) {
+    throw new AuthError('FORBIDDEN', '该账号没有查看库存机器的权限');
+  }
+}
+
+export function assertInventoryEdit(user: AuthUser) {
+  if (!user.isSystemAccount && (!user.canViewInventory || !user.canEditInventory)) {
+    throw new AuthError('FORBIDDEN', '该账号没有编辑库存机器的权限');
+  }
 }
 
 export function authErrorResponse(error: unknown) {

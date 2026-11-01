@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
-import { assertWarehouseAccess, authErrorResponse, requireRole, requireUser, warehouseScope } from '@/lib/auth';
+import { assertInventoryView, assertWarehouseAccess, authErrorResponse, requireRole, requireUser, warehouseScope } from '@/lib/auth';
 import { endCustomStatus, serializeInventoryStatus } from '@/lib/inventory-status';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
 
@@ -9,7 +9,7 @@ function failure(error: unknown) {
 }
 export async function GET(request: NextRequest) {
   try {
-    const user = await requireUser(); const inventoryId = request.nextUrl.searchParams.get('inventoryId');
+    const user = await requireUser(); assertInventoryView(user); const inventoryId = request.nextUrl.searchParams.get('inventoryId');
     const scope = warehouseScope(user,null,'i');
     const items = db.prepare(`SELECT r.*,d.name,d.color,d.allowStockOperations,i.sn,i.brand,i.model,i.year,i.warehouseId AS currentWarehouseId FROM inventory_status_records r
       JOIN inventory i ON i.id = r.inventoryId JOIN inventory_status_definitions d ON d.id = r.definitionId
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 }
 export async function POST(request: NextRequest) {
   try {
-    const user = await requireRole('admin'); const body = await request.json();
+    const user = await requireRole('admin'); assertInventoryView(user); const body = await request.json();
     const inventoryId = String(body.inventoryId || '').trim(); const definitionId = String(body.definitionId || '').trim();
     const reason = String(body.reason || '').trim(); const location = String(body.location || '').trim();
     const responsiblePerson = String(body.responsiblePerson || user.realName || user.username).trim();
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 }
 export async function PATCH(request: NextRequest) {
   try {
-    const user = await requireRole('admin'); const body = await request.json();
+    const user = await requireRole('admin'); assertInventoryView(user); const body = await request.json();
     if (body.action !== 'restore') throw new Error('不支持的状态操作');
     const resultNote = String(body.resultNote || '').trim(); if (!resultNote) throw new Error('请填写处理结果备注');
     let inventoryId = String(body.inventoryId || '').trim();

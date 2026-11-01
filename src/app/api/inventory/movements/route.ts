@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { createPaginatedResponse, errorResponse, ErrorCode, parsePaginationParams, successResponse } from '@/lib/api-helpers';
-import { AuthError, requireRole } from '@/lib/auth';
+import { AuthError, requireRole, assertInventoryView } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
     const user = await requireRole('admin', 'warehouse_manager');
+    assertInventoryView(user);
     const { searchParams } = new URL(request.url);
     const { page, pageSize } = parsePaginationParams(searchParams);
     const conditions = ['1 = 1']; const params: Array<string | number> = [];

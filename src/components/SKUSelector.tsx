@@ -266,7 +266,6 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
     return Boolean(
       selectedCpu.trim() &&
       selectedRam.trim() &&
-      selectedStorage.trim() &&
       selectedGpu.trim()
     );
   };
@@ -685,7 +684,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                   {/* 硬盘 - 统一选项 */}
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                      硬盘 <span className="text-danger">*</span>
+                      硬盘 <span className="font-normal text-ink-soft">选填</span>
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       {STORAGE_OPTIONS.map(option => (
