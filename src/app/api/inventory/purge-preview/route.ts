@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
         id: candidate.id,
         sn: candidate.sn,
         status: candidate.status,
+        deleted: candidate.deleted,
         warehouseId: candidate.warehouseId,
         purchaseNo: candidate.purchaseNo,
         supplierName: candidate.supplierName,

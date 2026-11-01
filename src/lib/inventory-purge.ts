@@ -18,6 +18,7 @@ export type PurgeCandidate = {
   id: string;
   sn: string;
   status: string;
+  deleted: number;
   warehouseId: string;
   currentStatusRecordId: string | null;
   purchaseOrderId: string;
@@ -40,17 +41,18 @@ function parseJsonItems(value: unknown): unknown[] {
 function itemReferencesMachine(value: unknown, id: string, sn: string): boolean {
   if (!value || typeof value !== 'object') return false;
   const row = value as Record<string, unknown>;
-  return [row.inventoryId, row.id, row.originalInventoryId, row.replacementInventoryId, row.sn]
-    .some(candidate => String(candidate ?? '') === id || String(candidate ?? '') === sn);
+  const linkedIds = [row.inventoryId, row.id, row.originalInventoryId, row.replacementInventoryId]
+    .map(candidate => String(candidate ?? '').trim()).filter(Boolean);
+  return linkedIds.length ? linkedIds.includes(id) : String(row.sn ?? '').trim() === sn;
 }
 
 export function getPurgeCandidate(id: string): PurgeCandidate | null {
   const machine = db.prepare(`
-    SELECT i.id, i.sn, i.status, i.warehouseId, i.currentStatusRecordId,
+    SELECT i.id, i.sn, i.status, i.deleted, i.warehouseId, i.currentStatusRecordId,
       i.purchaseOrderId, i.purchaseItemId, po.purchaseNo, i.supplierName
     FROM inventory i
     LEFT JOIN purchase_orders po ON po.id = i.purchaseOrderId
-    WHERE i.id = ? AND i.deleted = 0
+    WHERE i.id = ?
   `).get(id) as Omit<PurgeCandidate, 'references' | 'reasons'> | undefined;
   if (!machine) return null;
 

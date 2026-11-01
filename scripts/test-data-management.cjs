@@ -55,7 +55,14 @@ async function main() {
     assert(laptopPurchaseItemErrors.includes('缺少必填字段 cpu'), 'laptop spec requirements should remain enforced');
     const purge = load('src/lib/inventory-purge.ts', { '@/lib/db': database });
     const inventoryStatus = load('src/lib/inventory-status.ts', { ...deps, '@/lib/inventory-status': undefined });
-    const routeDeps = { ...deps, '@/lib/data-management': dataManagement, '@/lib/inventory-purge': purge, '@/lib/inventory-status': inventoryStatus };
+    const routeDeps = {
+      ...deps,
+      '@/lib/data-management': dataManagement,
+      '@/lib/inventory-purge': purge,
+      '@/lib/inventory-status': inventoryStatus,
+      '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
+      '@/lib/sku-display': load('src/lib/sku-display.ts'),
+    };
     const previewImport = load('src/app/api/data-management/import/preview/route.ts', routeDeps);
     const routes = {
       resources: load('src/app/api/data-management/resources/route.ts', routeDeps),
@@ -71,6 +78,7 @@ async function main() {
         '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
         '@/lib/sku-display': load('src/lib/sku-display.ts'),
       }),
+      snCheck: load('src/app/api/purchase-orders/sn-check/route.ts', routeDeps),
     };
     const request = (url, method = 'GET', body) => new NextRequest(`http://localhost${url}`, {
       method,
@@ -89,6 +97,8 @@ async function main() {
     const purchaseItemIndexes = db.pragma('index_list(purchase_items)');
     assert(!purchaseItemIndexes.some(index => index.unique && db.pragma(`index_info("${String(index.name).replaceAll('"', '""')}")`).some(column => column.name === 'sn')),
       'purchase history SNs must not be protected by a permanent uniqueness constraint');
+    const inventorySnIndex = db.prepare("SELECT sql FROM sqlite_master WHERE type='index' AND name='idx_inventory_sn'").get();
+    assert.match(inventorySnIndex.sql, /WHERE\s+deleted\s*=\s*0/i, 'inventory SN uniqueness should only apply to active records');
     assert(!dataManagement.DATA_RESOURCES.users.fields.includes('password'));
     const nestedSanitized = JSON.parse(dataManagement.sanitizeRow({ payload: JSON.stringify([{ password: 'secret', token_hash: 'secret', visible: 'ok' }]) }).payload);
     assert.deepEqual(nestedSanitized, [{ visible: 'ok' }]);
@@ -115,6 +125,9 @@ async function main() {
     assert.equal(db.prepare("SELECT sn FROM purchase_items WHERE id='dm-item'").get().sn, 'PURGE-SN-001');
     assert.equal(db.prepare("SELECT purchaseItemId FROM inventory WHERE id='dm-machine'").get().purchaseItemId, 'dm-item');
     assert.deepEqual(db.pragma('foreign_key_check'), [], 'SN migration must preserve inventory foreign keys');
+    const activeSnCheck = await call(routes.snCheck.GET, '/api/purchase-orders/sn-check?sn=PURGE-SN-001');
+    assert.equal(activeSnCheck.canUse, false, 'an active inventory archive must block reuse of its SN');
+    assert(activeSnCheck.blockedBy.some(item => item.type === 'active_inventory' && item.id === 'dm-machine'));
     db.prepare(`INSERT INTO rental_orders
       (id,rentalNo,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,createdBy)
       VALUES ('dm-rental-order','DM-RENTAL-001','租赁客户','10000000000','测试地址','2026-10-30','2026-10-31','day',?)`).run(adminId);
@@ -140,6 +153,9 @@ async function main() {
     db.prepare(`INSERT INTO purchase_items
       (id,purchaseOrderId,productType,brand,model,cpu,ram,storage,screen,sn,purchasePrice)
       VALUES ('dm-draft-item','dm-draft-order','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K','DRAFT-SN-001',1000)`).run();
+    const draftSnCheck = await call(routes.snCheck.GET, '/api/purchase-orders/sn-check?sn=DRAFT-SN-001');
+    assert.equal(draftSnCheck.canUse, false, 'an unreceived purchase draft must block reuse of its SN');
+    assert(draftSnCheck.blockedBy.some(item => item.type === 'purchase_draft' && item.id === 'dm-draft-order'));
     const draftPreview = await call(routes.resource.GET, '/api/data-management/purchase_orders?id=dm-draft-order', 'GET', undefined, 200, { params: Promise.resolve({ resource: 'purchase_orders' }) });
     assert(draftPreview.references.some(reference => reference.label === '采购明细' && reference.count === 1));
     const deletedDraft = await call(routes.resource.DELETE, '/api/data-management/purchase_orders?id=dm-draft-order', 'DELETE', undefined, 200, { params: Promise.resolve({ resource: 'purchase_orders' }) });
@@ -343,6 +359,28 @@ async function main() {
     const oldPurchaseDetail = await call(routes.purchaseOrders.GET, '/api/purchase-orders?id=dm-order', 'GET', undefined, 200);
     assert.equal(oldPurchaseDetail.items[0].sn, 'PURGE-SN-001', 'the original purchase SN remains available in its history');
     assert.equal(db.prepare("SELECT COUNT(*) AS n FROM purchase_items WHERE sn='PURGE-SN-001'").get().n, 2);
+
+    db.prepare(`INSERT INTO purchase_orders
+      (id,purchaseNo,supplierOrderNo,supplierId,supplierName,purchaseDate,purchasedBy,createdBy,totalQuantity,totalAmount,isInbounded)
+      VALUES ('soft-order','SOFT-ORDER','', 'dm-supplier','数据管理供应商','2026-10-30',?, ?,1,1000,1)`).run(adminId, adminId);
+    db.prepare(`INSERT INTO purchase_items
+      (id,purchaseOrderId,productType,brand,model,cpu,ram,storage,screen,sn,purchasePrice)
+      VALUES ('soft-item','soft-order','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K','SOFT-REMNANT-001',1000)`).run();
+    db.prepare(`INSERT INTO inventory
+      (id,purchaseOrderId,purchaseItemId,sn,productType,brand,model,cpu,ram,storage,screen,purchasePrice,supplierId,supplierName,status,inboundDate,warehouseId,deleted)
+      VALUES ('soft-machine','soft-order','soft-item','SOFT-REMNANT-001','笔记本电脑','ThinkPad','X13','I5-10210U','16GB','512GB','2.5K',1000,'dm-supplier','数据管理供应商','in_stock','2026-10-30','warehouse_main',1)`).run();
+    const softCheck = await call(routes.snCheck.GET, '/api/purchase-orders/sn-check?sn=SOFT-REMNANT-001');
+    assert.equal(softCheck.canUse, true, 'soft-deleted inventory should not block reusing its SN after migration');
+    assert.equal(softCheck.softDeletedInventory[0].id, 'soft-machine');
+    const softPreview = await call(routes.purgePreview.GET, '/api/inventory/purge-preview?id=soft-machine');
+    assert.equal(softPreview.canDelete, true, 'unreferenced soft-deleted machine should be offered for cleanup');
+    await call(routes.inventory.DELETE, '/api/inventory?id=soft-machine', 'DELETE', { password: 'admin123', confirmText: '永久删除', reason: '清理测试残留' });
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM inventory WHERE id='soft-machine'").get().n, 0);
+    const softReentry = await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', {
+      supplierId: 'dm-supplier', purchaseDate: '2026-11-01', purchasedBy: adminId, status: 'completed',
+      items: [{ productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', cpu: 'I5-10210U', ram: '16GB', storage: '512GB', screen: '2.5K', sn: 'SOFT-REMNANT-001', purchasePrice: 1000 }],
+    }, 201);
+    assert.equal(softReentry.itemCount, 1, 'cleaned soft-deleted machine SN should be accepted again');
 
     const editedPrice = await call(routes.inventoryEdit.POST, '/api/inventory/edit', 'POST', {
       inventoryId: reenteredInventoryId, expectedSn: 'PURGE-SN-001', fields: {

@@ -238,13 +238,16 @@ function checkSnConflicts(items: NormalizedItem[], allowedItemIds = new Set<stri
   for (const item of items) {
     if (!item.sn) continue;
     const purchaseItems = db.prepare(`
-      SELECT pi.id FROM purchase_items pi
+      SELECT pi.id, po.id AS orderId, po.purchaseNo FROM purchase_items pi
       JOIN purchase_orders po ON po.id = pi.purchaseOrderId
-      WHERE pi.sn = ? AND pi.deleted = 0 AND po.deleted = 0 AND po.isInbounded = 0
-    `).all(item.sn) as Array<{ id: string }>;
+      WHERE lower(trim(pi.sn)) = lower(trim(?)) AND pi.deleted = 0 AND po.deleted = 0 AND po.isInbounded = 0
+    `).all(item.sn) as Array<{ id: string; orderId: string; purchaseNo: string }>;
     const purchaseItem = purchaseItems.find((row) => !allowedItemIds.has(row.id));
-    const inventory = db.prepare('SELECT id FROM inventory WHERE sn = ?').get(item.sn);
-    if (purchaseItem || inventory) return `SN [${item.sn}] 已存在，请检查`;
+    const inventory = db.prepare('SELECT id, status FROM inventory WHERE lower(trim(sn)) = lower(trim(?)) AND deleted = 0').get(item.sn) as { id: string; status: string } | undefined;
+    const reasons: string[] = [];
+    if (inventory) reasons.push(`SN [${item.sn}] 已被有效库存档案占用（状态：${inventory.status}，档案 ID：${inventory.id}）`);
+    if (purchaseItem) reasons.push(`SN [${item.sn}] 正在未入库采购草稿 ${purchaseItem.purchaseNo || purchaseItem.orderId}（明细 ID：${purchaseItem.id}）中使用，请先编辑或删除该草稿`);
+    if (reasons.length) return reasons.join('；');
   }
   return null;
 }
@@ -474,6 +477,9 @@ export async function POST(request: NextRequest) {
     }), { status: 201 });
   } catch (error: unknown) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
+    if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
+      return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
+    }
     console.error('POST /api/purchase-orders error:', error);
     return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, errorMessage(error) || '创建采购单失败'), { status: 500 });
   }
@@ -644,6 +650,9 @@ export async function PATCH(request: NextRequest) {
     }));
   } catch (error: unknown) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
+    if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
+      return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
+    }
     console.error('PATCH /api/purchase-orders error:', error);
     return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, errorMessage(error) || '更新采购单失败'), { status: 500 });
   }

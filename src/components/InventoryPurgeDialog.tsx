@@ -12,13 +12,14 @@ type PurgeMachine = {
   model: string;
   year: string | null;
   status: string;
+  deleted?: number;
   warehouseName?: string;
   purchaseNo?: string | null;
   supplierName?: string;
 };
 
 type PurgePreview = {
-  candidate: { id: string; sn: string; status: string; purchaseNo: string | null; supplierName: string };
+  candidate: { id: string; sn: string; status: string; deleted?: number; purchaseNo: string | null; supplierName: string };
   references: Record<string, number>;
   reasons: string[];
   canDelete: boolean;
@@ -78,12 +79,12 @@ export default function InventoryPurgeDialog({ machine, onClose, onDeleted }: {
   };
 
   return <BusinessDialog
-    title="永久删除库存机器"
+    title={machine.deleted ? '清理已删除的库存档案' : '永久删除库存机器'}
     description="该操作不可在系统内撤销，删除前会自动备份当前数据库。"
     onClose={() => { if (!busy) onClose(); }}
     footer={<>
       <button type="button" className="btn-ghost" onClick={onClose} disabled={busy}>取消</button>
-      <button type="button" className="rounded-lg bg-danger px-4 py-2 text-[13px] font-medium text-white shadow-sm transition hover:bg-danger-hover disabled:cursor-not-allowed disabled:opacity-50" onClick={() => void submit()} disabled={!canSubmit}>{busy ? '删除中...' : '永久删除'}</button>
+      <button type="button" className="rounded-lg bg-danger px-4 py-2 text-[13px] font-medium text-white shadow-sm transition hover:bg-danger-hover disabled:cursor-not-allowed disabled:opacity-50" onClick={() => void submit()} disabled={!canSubmit}>{busy ? '删除中...' : machine.deleted ? '清理残留档案' : '永久删除'}</button>
     </>}
   >
     <div className="rounded-xl border border-danger/20 bg-danger/5 p-4 text-sm">
@@ -94,7 +95,7 @@ export default function InventoryPurgeDialog({ machine, onClose, onDeleted }: {
 
     {loading ? <p className="mt-4 text-sm text-ink-soft">正在检查机器关联记录...</p> : preview && (
       <div className="mt-4 space-y-3">
-        {preview.canDelete ? <p className="rounded-lg bg-success/8 px-3 py-2 text-xs text-success">确认通过：机器为普通在库，未发现销售、租赁、售后、退货或调拨关联。</p> : <div className="rounded-lg bg-danger/8 px-3 py-2 text-xs text-danger"><p className="font-medium">当前不能删除</p><ul className="mt-1 list-disc space-y-1 pl-4">{preview.reasons.map(reasonItem => <li key={reasonItem}>{reasonItem}</li>)}</ul></div>}
+        {preview.canDelete ? <p className="rounded-lg bg-success/8 px-3 py-2 text-xs text-success">确认通过：{machine.deleted ? '该已删除档案没有业务关联，可以清理并释放 SN。' : '机器为普通在库，未发现销售、租赁、售后、退货或调拨关联。'}</p> : <div className="rounded-lg bg-danger/8 px-3 py-2 text-xs text-danger"><p className="font-medium">当前不能删除</p><ul className="mt-1 list-disc space-y-1 pl-4">{preview.reasons.map(reasonItem => <li key={reasonItem}>{reasonItem}</li>)}</ul></div>}
         {preview.references.movementRecords > 0 && <p className="text-xs text-ink-soft">将清理 {preview.references.movementRecords} 条机器生命周期记录；采购单和采购明细保留。</p>}
       </div>
     )}

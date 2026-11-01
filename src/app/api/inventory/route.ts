@@ -20,6 +20,7 @@ import {
 } from '@/lib/api-helpers';
 import { verifyPassword } from '@/lib/auth';
 import { createPurgeBackup, getPurgeCandidate } from '@/lib/inventory-purge';
+import { canonicalSKUBrand } from '@/lib/sku-brand';
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
@@ -210,6 +211,18 @@ export async function GET(request: NextRequest) {
         WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(brand, '')) <> ''
         ORDER BY brand COLLATE NOCASE
       `).all(...scope.params) as Array<{ value: string }>;
+      const editBrands = db.prepare(`
+        SELECT value FROM (
+          SELECT brand AS value FROM inventory
+          WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(brand, '')) <> ''
+          UNION
+          SELECT brand AS value FROM skus
+          WHERE deleted = 0 AND TRIM(COALESCE(brand, '')) <> ''
+          UNION
+          SELECT brand AS value FROM manual_skus
+          WHERE deleted = 0 AND isActive = 1 AND TRIM(COALESCE(brand, '')) <> ''
+        ) ORDER BY value COLLATE NOCASE
+      `).all(...scope.params) as Array<{ value: string }>;
       const models = db.prepare(`
         SELECT DISTINCT model AS value FROM inventory
         WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(model, '')) <> ''
@@ -224,6 +237,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(successResponse({
         statusDefinitions,
         brands: brands.map((item) => item.value),
+        editBrands: [...new Set(editBrands.map((item) => canonicalSKUBrand(item.value)))].sort((a, b) => a.localeCompare(b, 'zh-CN')),
         models: models.map((item) => item.value),
         suppliers,
       }));
@@ -404,14 +418,14 @@ export async function DELETE(request: NextRequest) {
 
     const backup = await createPurgeBackup();
     const now = formatDateTime();
-    const summary = { sn: candidate.sn, purchaseOrderId: candidate.purchaseOrderId, purchaseItemId: candidate.purchaseItemId, reason: reason || null, backupFile: path.basename(backup.path), backupSha256: backup.sha256 };
+    const summary = { sn: candidate.sn, wasSoftDeleted: candidate.deleted === 1, purchaseOrderId: candidate.purchaseOrderId, purchaseItemId: candidate.purchaseItemId, reason: reason || null, backupFile: path.basename(backup.path), backupSha256: backup.sha256 };
     db.transaction(() => {
       const fresh = getPurgeCandidate(id);
       if (!fresh) throw new Error('库存记录不存在');
       if (fresh.reasons.length) throw new Error(fresh.reasons.join('；'));
       db.prepare('DELETE FROM inventory_status_records WHERE inventoryId = ?').run(id);
       db.prepare('DELETE FROM inventory_movements WHERE inventoryId = ?').run(id);
-      const deleted = db.prepare("DELETE FROM inventory WHERE id = ? AND deleted = 0 AND status = 'in_stock'").run(id);
+      const deleted = db.prepare("DELETE FROM inventory WHERE id = ? AND deleted = ? AND status = 'in_stock'").run(id, fresh.deleted);
       if (deleted.changes !== 1) throw new Error('机器状态已变化，请刷新后重试');
       db.prepare(`
         INSERT INTO data_management_audit (id, actorId, action, resource, recordId, recordCount, summary, createdAt)

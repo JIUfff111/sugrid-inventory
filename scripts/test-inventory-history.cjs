@@ -19,10 +19,19 @@ async function run() {
     const fixture=createFixture(db),database={__esModule:true,default:db},helpers=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers,'next/headers':{cookies:async()=>({get:()=>undefined})}});
     let user=auth.getUserById(fixture.adminId);
-    const route=load('src/app/api/inventory/route.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers,'@/lib/auth':{...auth,requireUser:async()=>user},'@/lib/inventory-status':load('src/lib/inventory-status.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers}),'@/lib/inventory-purge':load('src/lib/inventory-purge.ts',{'@/lib/db':database})});
+    const route=load('src/app/api/inventory/route.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers,'@/lib/auth':{...auth,requireUser:async()=>user},'@/lib/inventory-status':load('src/lib/inventory-status.ts',{'@/lib/db':database,'@/lib/api-helpers':helpers}),'@/lib/inventory-purge':load('src/lib/inventory-purge.ts',{'@/lib/db':database}),'@/lib/sku-brand':load('src/lib/sku-brand.ts')});
     async function query(params='',status=200) { const response=await route.GET(new NextRequest('http://localhost/api/inventory?pageSize=100'+params));const body=await response.json();assert.equal(response.status,status,JSON.stringify(body));return body.data; }
     const all=await query('&status=all');
     assert.equal(all.items.length,56);assert.equal(all.total,56);assert.equal(new Set(all.items.map(i=>i.id)).size,56);
+    const pageOne=await route.GET(new NextRequest('http://localhost/api/inventory?page=1&pageSize=20&status=all'));
+    const pageTwo=await route.GET(new NextRequest('http://localhost/api/inventory?page=2&pageSize=20&status=all'));
+    const pageThree=await route.GET(new NextRequest('http://localhost/api/inventory?page=3&pageSize=20&status=all'));
+    const [pageOneData,pageTwoData,pageThreeData]=await Promise.all([pageOne.json(),pageTwo.json(),pageThree.json()]).then(rows=>rows.map(row=>row.data));
+    assert.deepEqual([pageOneData.page,pageTwoData.page,pageThreeData.page],[1,2,3]);
+    assert.deepEqual([pageOneData.pageSize,pageTwoData.pageSize,pageThreeData.pageSize],[20,20,20]);
+    assert.deepEqual([pageOneData.items.length,pageTwoData.items.length,pageThreeData.items.length],[20,20,16]);
+    assert.equal(pageThreeData.totalPages,3);
+    assert.equal(new Set([...pageOneData.items,...pageTwoData.items,...pageThreeData.items].map(row=>row.id)).size,56,'pagination pages must not repeat or skip machines');
     for(const status of ['in_stock','sold','after_sale','returning','returned','renting','custom'])assert(all.items.some(row=>row.status===status),`${status} history missing`);
     assert.equal(all.stats.total,56);assert.equal(all.stats.inStock,9);assert.equal(all.stats.inStockCost,900);assert.equal(all.stats.available,8);
     const after=all.items.filter(row=>row.id===fixture.afterSaleMachineId);assert.equal(after.length,1);assert.equal(after[0].afterSaleId,'qa-after-stored');assert.equal(after[0].afterSaleStockStatus,'stored');

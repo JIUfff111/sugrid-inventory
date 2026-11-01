@@ -17,7 +17,7 @@ import InventoryMovementTimeline from '@/components/InventoryMovementTimeline';
 import InventoryPurgeDialog from '@/components/InventoryPurgeDialog';
 import CopyTextButton from '@/components/CopyTextButton';
 import { formatProductName } from '@/lib/product-name';
-import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 import { InventoryMovementsWorkspace } from '@/app/inventory/movements/page';
 import { TransfersWorkspace } from '@/app/transfers/page';
 import {
@@ -184,6 +184,7 @@ interface InventoryFilters {
 
 interface FilterOptions {
   brands: string[];
+  editBrands?: string[];
   models: string[];
   suppliers: Array<{ id: string; name: string }>;
   statusDefinitions?: InventoryStatusDefinition[];
@@ -267,6 +268,8 @@ export default function InventoryPage() {
   const [stats, setStats] = useState<InventoryStats>(EMPTY_STATS);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [pageJump, setPageJump] = useState('1');
   const [totalPages, setTotalPages] = useState(1);
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
@@ -301,6 +304,15 @@ export default function InventoryPage() {
   const [purgeMachine, setPurgeMachine] = useState<InventoryItem | null>(null);
   const [movementRevision, setMovementRevision] = useState(0);
   const machineEditDirty = Boolean(selected && machineEditDraft && JSON.stringify(machineEditDraft) !== JSON.stringify(inventoryEditDraftFrom(selected)));
+  const machineEditBrandOptions = [...new Set([...(filterOptions.editBrands || filterOptions.brands), machineEditDraft?.brand || ''].filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'zh-CN'));
+  const machineEditProductTypeOptions = [...new Set([...SKU_PRODUCT_TYPES, machineEditDraft?.productType || ''].filter(Boolean))];
+  useEffect(() => { setPageJump(String(page)); }, [page]);
+  const applyPageJump = () => {
+    const requested = Number.parseInt(pageJump, 10);
+    if (!Number.isFinite(requested)) { setPageJump(String(page)); return; }
+    setPage(Math.min(totalPages, Math.max(1, requested)));
+  };
   useWorkspaceDirty(Boolean((selected && remark !== (selected.remark || '')) || (machineEditOpen && machineEditDirty)));
 
   useEffect(() => {
@@ -353,7 +365,7 @@ export default function InventoryPage() {
       setLoading(true);
       setError('');
       try {
-        const params = new URLSearchParams({ page: String(page), pageSize: '20' });
+        const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
         if (search) params.set('search', search);
         if (status.startsWith('custom:')) { params.set('status', 'custom'); params.set('customStatusId', status.slice(7)); }
         else if (status) params.set('status', status);
@@ -387,7 +399,7 @@ export default function InventoryPage() {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [active, activeWorkspace, page, search, status, filters, reloadKey]);
+  }, [active, activeWorkspace, page, pageSize, search, status, filters, reloadKey]);
 
   const itemStatusLabel = (item: InventoryItem) => item.customStatusName && (item.status === 'custom' || item.status === 'returning') ? `${item.status === 'returning' ? '退货中 · ' : ''}${item.customStatusName}` : statusLabel(item.status);
   const itemStatusStyle = (item: InventoryItem) => item.status === 'custom' && item.customStatusColor ? { color: item.customStatusColor, backgroundColor: `${item.customStatusColor}12`, borderColor: `${item.customStatusColor}40` } : undefined;
@@ -774,7 +786,7 @@ export default function InventoryPage() {
         {items.length > 0 && (
           <footer className="flex items-center justify-between gap-3 border-t border-line/60 px-4 py-3 text-[12px] text-ink-soft">
             <span>共 {total} 条记录</span>
-            <div className="flex items-center gap-2"><button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page <= 1 || loading} title="上一页" aria-label="上一页" className="p-1.5 hover:bg-white/70 rounded-md"><ChevronLeft className="w-4 h-4" /></button><span className="min-w-[76px] text-center">第 {page} / {totalPages} 页</span><button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={page >= totalPages || loading} title="下一页" aria-label="下一页" className="p-1.5 hover:bg-white/70 rounded-md"><ChevronRight className="w-4 h-4" /></button></div>
+            <div className="flex flex-wrap items-center justify-end gap-2"><label className="flex items-center gap-2">每页<CustomSelect aria-label="库存每页显示条数" value={String(pageSize)} onChange={value => { setPageSize(Number(value)); setPage(1); }} options={[20, 50, 100].map(value => ({ value: String(value), label: `${value} 条` }))} /></label><button type="button" onClick={() => setPage((current) => Math.max(1, current - 1))} disabled={page <= 1 || loading} title="上一页" aria-label="上一页" className="p-1.5 hover:bg-white/70 rounded-md"><ChevronLeft className="w-4 h-4" /></button><span className="text-center">第 {page} / {totalPages} 页</span><button type="button" onClick={() => setPage((current) => Math.min(totalPages, current + 1))} disabled={page >= totalPages || loading} title="下一页" aria-label="下一页" className="p-1.5 hover:bg-white/70 rounded-md"><ChevronRight className="w-4 h-4" /></button><label className="flex items-center gap-1">跳至<input type="number" min="1" max={totalPages} value={pageJump} onChange={event => setPageJump(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') applyPageJump(); }} className="field h-8 w-16 px-2 text-center" aria-label="跳转到库存页码" />页</label><button type="button" onClick={applyPageJump} disabled={loading} className="btn-ghost px-2 py-1">跳转</button></div>
           </footer>
         )}
       </section>
@@ -803,7 +815,7 @@ export default function InventoryPage() {
       )}
       {selected && machineEditOpen && machineEditDraft && <BusinessDialog title="编辑机器资料" description={`仅修改当前机器档案，不改写采购单和既有业务快照。SN：${selected.sn}`} onClose={closeMachineEditor} footer={<><button type="button" className="btn-ghost" onClick={closeMachineEditor} disabled={savingMachineEdit}>取消</button><button type="submit" form="inventory-machine-edit" className="btn-primary inline-flex items-center gap-1.5" disabled={savingMachineEdit || !machineEditDirty}><Save className="h-4 w-4" />{savingMachineEdit ? '保存中...' : '保存资料'}</button></>}>
         <form id="inventory-machine-edit" onSubmit={saveMachineEdit} className="space-y-4">
-          <div className="grid gap-3 sm:grid-cols-2">{inventoryEditFields.map(([field, label, placeholder]) => <label key={field} className="block min-w-0 text-xs font-medium text-ink-deep">{label}{['sn', 'productType', 'brand', 'model', 'purchasePrice'].includes(field) && <span className="ml-1 text-danger">*</span>}<input type={field === 'year' || field === 'purchasePrice' ? 'number' : 'text'} min={field === 'year' ? 1900 : field === 'purchasePrice' ? 0 : undefined} max={field === 'year' ? 2100 : field === 'purchasePrice' ? 1_000_000_000 : undefined} step={field === 'purchasePrice' ? '0.01' : undefined} maxLength={field === 'year' || field === 'purchasePrice' ? undefined : field === 'sn' ? 120 : 160} value={machineEditDraft[field]} onChange={event => { setMachineEditDraft(current => current ? { ...current, [field]: event.target.value } : current); setMachineEditError(''); }} placeholder={placeholder} className="field mt-1.5" /></label>)}
+          <div className="grid gap-3 sm:grid-cols-2">{inventoryEditFields.map(([field, label, placeholder]) => <label key={field} className="block min-w-0 text-xs font-medium text-ink-deep">{label}{['sn', 'productType', 'brand', 'model', 'purchasePrice'].includes(field) && <span className="ml-1 text-danger">*</span>}{field === 'productType' ? <div className="mt-1.5"><CustomSelect aria-label="机器产品类型" value={machineEditDraft.productType} onChange={value => { setMachineEditDraft(current => current ? { ...current, productType: value } : current); setMachineEditError(''); }} options={machineEditProductTypeOptions.map(value => ({ value, label: value }))} /></div> : field === 'brand' ? <div className="mt-1.5"><CustomSelect aria-label="机器品牌" value={machineEditDraft.brand} onChange={value => { setMachineEditDraft(current => current ? { ...current, brand: value } : current); setMachineEditError(''); }} options={machineEditBrandOptions.map(value => ({ value, label: value }))} searchable /></div> : <input type={field === 'year' || field === 'purchasePrice' ? 'number' : 'text'} min={field === 'year' ? 1900 : field === 'purchasePrice' ? 0 : undefined} max={field === 'year' ? 2100 : field === 'purchasePrice' ? 1_000_000_000 : undefined} step={field === 'purchasePrice' ? '0.01' : undefined} maxLength={field === 'year' || field === 'purchasePrice' ? undefined : field === 'sn' ? 120 : 160} value={machineEditDraft[field]} onChange={event => { setMachineEditDraft(current => current ? { ...current, [field]: event.target.value } : current); setMachineEditError(''); }} placeholder={placeholder} className="field mt-1.5" />}</label>)}
             <label className="block text-xs font-medium text-ink-deep">触屏<div className="mt-1.5"><CustomSelect aria-label="机器触屏状态" value={machineEditDraft.touchScreen} onChange={value => { setMachineEditDraft(current => current ? { ...current, touchScreen: value } : current); setMachineEditError(''); }} options={[{ value: '', label: '未记录' }, { value: '0', label: '非触屏' }, { value: '1', label: '触屏' }]} /></div></label>
           </div>
           <p className="text-[11px] leading-5 text-ink-soft">屏幕规格保留自定义输入；修改后列表会显示新档案，既有业务记录仍按原快照追溯。</p>

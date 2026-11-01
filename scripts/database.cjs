@@ -956,6 +956,67 @@ function applyVersionedMigrations(db) {
       CREATE INDEX IF NOT EXISTS idx_purchase_items_manual_sku ON purchase_items(manualSkuId, deleted);
     `);
   });
+  migrateWithoutForeignKeys(17, 'allow inventory SN reuse after soft deletion', () => {
+    const columns = db.pragma('table_info(inventory)').map(column => column.name);
+    const quotedColumns = columns.map(column => `"${String(column).replaceAll('"', '""')}"`).join(',');
+    db.exec(`
+      ALTER TABLE inventory RENAME TO inventory_before_active_sn;
+      CREATE TABLE inventory (
+        id TEXT PRIMARY KEY,
+        purchaseOrderId TEXT NOT NULL,
+        purchaseItemId TEXT NOT NULL,
+        warehouseId TEXT NOT NULL DEFAULT 'warehouse_main',
+        sn TEXT NOT NULL,
+        productType TEXT NOT NULL,
+        brand TEXT NOT NULL,
+        model TEXT NOT NULL,
+        year INTEGER,
+        cpu TEXT NOT NULL,
+        ram TEXT NOT NULL,
+        gpu TEXT,
+        storage TEXT NOT NULL,
+        screen TEXT NOT NULL,
+        purchasePrice REAL NOT NULL,
+        supplierId TEXT NOT NULL,
+        supplierName TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'in_stock',
+        inboundDate TEXT NOT NULL,
+        soldDate TEXT,
+        sellingPrice REAL,
+        saleChannel TEXT,
+        saleOrderNo TEXT,
+        profit REAL,
+        rentalRecordId TEXT,
+        remark TEXT,
+        deleted INTEGER NOT NULL DEFAULT 0,
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        updatedAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        touchScreen INTEGER,
+        skuRemark TEXT,
+        currentStatusRecordId TEXT,
+        manualSkuId TEXT REFERENCES manual_skus(id),
+        deletedAt TEXT,
+        deletedBy TEXT,
+        deletionReason TEXT,
+        FOREIGN KEY (purchaseOrderId) REFERENCES purchase_orders(id),
+        FOREIGN KEY (purchaseItemId) REFERENCES purchase_items(id),
+        FOREIGN KEY (supplierId) REFERENCES suppliers(id)
+      );
+      INSERT INTO inventory (${quotedColumns}) SELECT ${quotedColumns} FROM inventory_before_active_sn;
+      DROP TABLE inventory_before_active_sn;
+      CREATE UNIQUE INDEX idx_inventory_sn ON inventory(sn) WHERE deleted = 0;
+      CREATE INDEX IF NOT EXISTS idx_inventory_status ON inventory(status, deleted);
+      CREATE INDEX IF NOT EXISTS idx_inventory_warehouse_status ON inventory(warehouseId, status, deleted);
+      CREATE INDEX IF NOT EXISTS idx_inventory_current_status ON inventory(currentStatusRecordId);
+      CREATE INDEX IF NOT EXISTS idx_inventory_manual_sku ON inventory(manualSkuId, deleted);
+      CREATE INDEX IF NOT EXISTS idx_inventory_deleted_time ON inventory(deleted, deletedAt);
+      CREATE TRIGGER IF NOT EXISTS prevent_stock_use_during_transfer BEFORE UPDATE OF status ON inventory
+      WHEN OLD.status IN ('in_stock','custom') AND NEW.status != OLD.status AND EXISTS (
+        SELECT 1 FROM transfer_items ti JOIN transfers t ON t.id = ti.transferId
+        WHERE ti.inventoryId = OLD.id AND t.status IN ('pending','approved','in_transit'))
+      BEGIN SELECT RAISE(ABORT, '该机器有进行中的调拨申请，请先处理或取消调拨'); END;
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };
