@@ -223,6 +223,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
     ? uniqueGPUOptions(['集显', ...selectedSKU.gpuOptions])
     : [];
   const cpuOptions = selectedSKU ? uniqueCPUOptions(selectedSKU.cpuOptions) : [];
+  const screenOptions = selectedSKU ? uniqueScreenOptions(selectedSKU.screenOptions) : [];
 
   // 步骤 1：选择产品类型
   const handleSelectProductType = (type: string) => {
@@ -710,21 +711,33 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                       屏幕分辨率
                     </label>
                     <div className="grid grid-cols-2 gap-2">
-                      {uniqueScreenOptions(selectedSKU.screenOptions).map(option => (
+                      {screenOptions.map(option => (
                         <button
                           key={option}
-                          onClick={() => setSelectedScreen(selectedScreen === option ? '' : option)}
+                          onClick={() => setSelectedScreen(formatScreenDisplay(selectedScreen) === formatScreenDisplay(option) ? '' : formatScreenDisplay(option))}
                           className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
-                                    ${selectedScreen === option
+                                    ${formatScreenDisplay(selectedScreen) === formatScreenDisplay(option)
                                       ? 'bg-primary text-white shadow-sm'
                                       : 'glass hover:bg-white/60'
                                     }`}
                         >
-                          {selectedScreen === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
+                          {formatScreenDisplay(selectedScreen) === formatScreenDisplay(option) && <Check className="w-3.5 h-3.5 inline mr-1" />}
                           {formatScreenDisplay(option)}
                         </button>
                       ))}
                     </div>
+                    <input
+                      type="text"
+                      list="builtin-sku-screen-options"
+                      value={selectedScreen}
+                      onChange={event => setSelectedScreen(event.target.value)}
+                      placeholder="选择屏幕规格或手动输入，如：2.5K、1k"
+                      aria-label="屏幕分辨率，可选择或手动输入"
+                      className="field mt-2"
+                    />
+                    <datalist id="builtin-sku-screen-options">
+                      {screenOptions.map(option => <option key={option} value={formatScreenDisplay(option)} />)}
+                    </datalist>
                   </div>
 
                   {/* 触屏选项 - 支持取消选择 */}

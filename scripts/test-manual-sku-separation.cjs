@@ -68,6 +68,7 @@ Module._load = function(request, parent, isMain) {
     assertStockEligible: () => ({}),
     endCustomStatus: () => {},
   };
+  if (request === '@/lib/inventory-purge') return { createPurgeBackup: () => '', getPurgeCandidate: () => null };
   if (request === 'next/server') return { NextResponse: responseMock };
   return oldLoad.call(this, request, parent, isMain);
 };
@@ -90,6 +91,7 @@ const manualSkus = loadRoute('../src/app/api/manual-skus/route.ts');
 const builtInSkus = loadRoute('../src/app/api/skus/route.ts');
 const purchaseOrders = loadRoute('../src/app/api/purchase-orders/route.ts');
 const inventoryEdit = loadRoute('../src/app/api/inventory/edit/route.ts');
+const inventoryRoute = loadRoute('../src/app/api/inventory/route.ts');
 const inventoryStatusRecords = loadRoute('../src/app/api/inventory/status-records/route.ts');
 const inventoryLookup = loadRoute('../src/app/api/inventory/lookup/route.ts');
 const inventoryAssetChange = loadRoute('../src/app/api/inventory/asset-change/route.ts');
@@ -163,6 +165,39 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     assert.equal(editResponse.body.data.history.length, 1);
     assert.equal(skuDisplay.formatScreenDisplay('1k'), '1k', 'custom screen text should remain unchanged');
     assert.equal(db.prepare('SELECT sn FROM purchase_items WHERE sn=?').get('BUILTIN-SKU-NO-STORAGE').sn, 'BUILTIN-SKU-NO-STORAGE', 'machine edits must not rewrite purchase snapshots');
+
+    db.prepare('UPDATE skus SET brand=? WHERE id=?').run('红米', builtInResponse.body.data.id);
+    const canonicalBrandResponse = await inventoryEdit.POST(request('/api/inventory/edit', {
+      inventoryId: builtinMachine.id, expectedSn: 'BUILTIN-SKU-EDITED',
+      fields: { sn: 'BUILTIN-SKU-EDITED', productType: '笔记本电脑', brand: '小米', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null, purchasePrice: 3000 },
+    }));
+    assert.equal(canonicalBrandResponse.status, 200, 'canonical Xiaomi brand should match a legacy Redmi SKU option');
+    assert.equal(canonicalBrandResponse.body.data.item.brand, '小米');
+
+    db.prepare('UPDATE inventory SET brand=? WHERE id=?').run('红米', builtinMachine.id);
+    const legacyBrandResponse = await inventoryEdit.POST(request('/api/inventory/edit', {
+      inventoryId: builtinMachine.id, expectedSn: 'BUILTIN-SKU-EDITED',
+      fields: { sn: 'BUILTIN-SKU-EDITED', productType: '笔记本电脑', brand: '红米', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k custom', touchScreen: null, purchasePrice: 3000 },
+    }));
+    assert.equal(legacyBrandResponse.status, 200, 'editing other fields should keep a legacy machine brand');
+    assert.equal(legacyBrandResponse.body.data.item.brand, '红米', 'legacy brand should not be silently canonicalized');
+
+    const filterOptionsResponse = await inventoryRoute.GET({ url: 'http://localhost/api/inventory?meta=filters' });
+    assert.equal(filterOptionsResponse.status, 200);
+    assert.equal(filterOptionsResponse.body.data.editBrands.includes('小米'), true, 'brand options should merge legacy Redmi catalog entries into Xiaomi');
+    assert.equal(filterOptionsResponse.body.data.editBrands.includes('红米'), false, 'brand options should not expose a separate Redmi choice');
+
+    const customProductTypeResponse = await inventoryEdit.POST(request('/api/inventory/edit', {
+      inventoryId: builtinMachine.id, expectedSn: 'BUILTIN-SKU-EDITED',
+      fields: { sn: 'BUILTIN-SKU-EDITED', productType: '自定义分类', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null, purchasePrice: 3000 },
+    }));
+    assert.equal(customProductTypeResponse.status, 400, 'inventory product type must use a system option');
+
+    const customBrandResponse = await inventoryEdit.POST(request('/api/inventory/edit', {
+      inventoryId: builtinMachine.id, expectedSn: 'BUILTIN-SKU-EDITED',
+      fields: { sn: 'BUILTIN-SKU-EDITED', productType: '笔记本电脑', brand: '自定义品牌', model: 'X13', year: 2020, cpu: 'I5-10210U', ram: '16GB', gpu: '集显', storage: '', screen: '1k', touchScreen: null, purchasePrice: 3000 },
+    }));
+    assert.equal(customBrandResponse.status, 400, 'inventory brand must use an SKU brand option');
 
     sessionUser = { ...systemActor, isSystemAccount: false, canViewInventory: true, canEditInventory: false };
     const readOnlyResponse = await inventoryEdit.POST(request('/api/inventory/edit', {

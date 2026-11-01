@@ -1,9 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
-import { assertInventoryEdit, assertInventoryView, assertWarehouseAccess, authErrorResponse, AuthError, requireUser } from '@/lib/auth';
+import { assertInventoryEdit, assertInventoryView, assertWarehouseAccess, authErrorResponse, AuthError, requireUser, warehouseScope } from '@/lib/auth';
 import { errorResponse, ErrorCode, formatDateTime, successResponse } from '@/lib/api-helpers';
 import { serializeInventoryStatus } from '@/lib/inventory-status';
+import { canonicalSKUBrand } from '@/lib/sku-brand';
+import { SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 
 const editableFields = ['sn', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'purchasePrice'] as const;
 type EditableField = (typeof editableFields)[number];
@@ -108,6 +110,24 @@ export async function POST(request: NextRequest) {
       if (!current) throw new AuthError('FORBIDDEN', '库存记录不存在或已删除');
       assertWarehouseAccess(user, String(current.warehouseId || ''));
       if (String(current.sn) !== expectedSn) throw new AuthError('FORBIDDEN', '机器资料已被其他人修改，请刷新后重试');
+      if (!SKU_PRODUCT_TYPES.includes(String(after.productType) as (typeof SKU_PRODUCT_TYPES)[number]) && String(after.productType) !== String(current.productType || '')) {
+        return { validationError: '产品类型必须从系统选项中选择' };
+      }
+      const currentBrand = String(current.brand || '').trim();
+      if (String(after.brand) === currentBrand) {
+        after.brand = currentBrand;
+      } else {
+        const normalizedBrand = canonicalSKUBrand(String(after.brand));
+        const inventoryScope = warehouseScope(user, null, 'i');
+        const brandRows = db.prepare(`
+          SELECT brand FROM skus WHERE deleted = 0 AND TRIM(COALESCE(brand, '')) <> ''
+          UNION SELECT brand FROM manual_skus WHERE deleted = 0 AND isActive = 1 AND TRIM(COALESCE(brand, '')) <> ''
+          UNION SELECT i.brand FROM inventory i WHERE i.deleted = 0 AND ${inventoryScope.sql} AND TRIM(COALESCE(i.brand, '')) <> ''
+        `).all(...inventoryScope.params) as Array<{ brand: string }>;
+        const knownBrand = brandRows.some(row => canonicalSKUBrand(String(row.brand || '')).toLocaleLowerCase() === normalizedBrand.toLocaleLowerCase());
+        if (!knownBrand) return { validationError: '品牌必须从 SKU 品牌选项中选择' };
+        after.brand = normalizedBrand;
+      }
       const duplicate = db.prepare('SELECT id FROM inventory WHERE lower(sn)=lower(?) AND id<>? AND deleted=0 LIMIT 1').get(after.sn, inventoryId);
       if (duplicate) return { conflict: `SN [${after.sn}] 已被其他机器使用` };
 
@@ -120,6 +140,7 @@ export async function POST(request: NextRequest) {
         .run(logId, inventoryId, user.id, JSON.stringify(before), JSON.stringify(after), now);
       return { changed: true, before, after };
     })();
+    if ('validationError' in result && typeof result.validationError === 'string') return validationError(result.validationError);
     if (result.conflict !== undefined) return conflictError(result.conflict);
 
     const item = db.prepare("SELECT i.*,COALESCE(w.name,w.warehouseName) AS warehouseName,po.purchaseNo FROM inventory i LEFT JOIN warehouses w ON w.id=i.warehouseId LEFT JOIN purchase_orders po ON po.id=i.purchaseOrderId WHERE i.id=? AND i.deleted=0").get(inventoryId) as Record<string, unknown> & { id: string };
