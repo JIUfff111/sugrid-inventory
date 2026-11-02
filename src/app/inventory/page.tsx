@@ -173,20 +173,14 @@ interface InventoryFilters {
   warehouseId: string;
   brand: string;
   model: string;
-  supplierId: string;
   inboundFrom: string;
   inboundTo: string;
-  priceMin: string;
-  priceMax: string;
-  ageMin: string;
-  ageMax: string;
 }
 
 interface FilterOptions {
   brands: string[];
   editBrands?: string[];
   models: string[];
-  suppliers: Array<{ id: string; name: string }>;
   statusDefinitions?: InventoryStatusDefinition[];
 }
 
@@ -202,16 +196,11 @@ const EMPTY_FILTERS: InventoryFilters = {
   warehouseId: '',
   brand: '',
   model: '',
-  supplierId: '',
   inboundFrom: '',
   inboundTo: '',
-  priceMin: '',
-  priceMax: '',
-  ageMin: '',
-  ageMax: '',
 };
 
-const EMPTY_FILTER_OPTIONS: FilterOptions = { brands: [], models: [], suppliers: [] };
+const EMPTY_FILTER_OPTIONS: FilterOptions = { brands: [], models: [] };
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: '在库',
@@ -450,14 +439,6 @@ export default function InventoryPage() {
       setError('入库日期范围无效，请检查开始和结束日期');
       return;
     }
-    if (filterDraft.priceMin && filterDraft.priceMax && Number(filterDraft.priceMin) > Number(filterDraft.priceMax)) {
-      setError('采购价格范围无效，请检查最低和最高价格');
-      return;
-    }
-    if (filterDraft.ageMin && filterDraft.ageMax && Number(filterDraft.ageMin) > Number(filterDraft.ageMax)) {
-      setError('库龄范围无效，请检查最小和最大天数');
-      return;
-    }
     setError('');
     setFilters({ ...filterDraft });
     setPage(1);
@@ -650,8 +631,8 @@ export default function InventoryPage() {
           <p className="text-[13px] text-ink-soft">全部机器档案与完整去向，贯通入库、销售和售后历史</p>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-3 text-[13px] text-ink-soft">
-          <span>机器档案总数 <b className="font-mono text-[15px] text-ink-deep">{stats.total}</b></span>
-          <span title="含普通在库和自定义状态；不含租赁、售后暂存和已出库机器">当前在库 <b className="font-mono text-[15px] text-success">{stats.inStock}</b></span>
+          <span title="当前用户可查看仓库内全部未删除的机器档案，包含在库、已售、租赁、售后暂存及其他历史状态">机器档案总数 <b className="font-mono text-[15px] text-ink-deep">{stats.total}</b></span>
+          <span title="只统计普通在库和自定义状态机器；不含已销售出库、租赁出库、售后暂存等状态">当前在库 <b className="font-mono text-[15px] text-success">{stats.inStock}</b></span>
           <span>已售 <b className="font-mono text-[15px] text-primary">{stats.sold}</b></span>
           <span>自定义状态 <b className="font-mono text-[15px] text-ink-deep">{stats.custom || 0}</b></span>
           <span>可参与业务 <b className="font-mono text-[15px] text-success">{stats.available ?? stats.inStock}</b></span>
@@ -700,15 +681,11 @@ export default function InventoryPage() {
       {filtersOpen && (
         <section className="glass mb-4 border border-primary/10 p-4">
           <div className="mb-3 flex items-center justify-between gap-3"><div className="flex items-center gap-2 text-[13px] font-medium text-ink-deep"><Filter className="h-4 w-4 text-primary" />组合筛选</div><span className="text-[11px] text-ink-soft">应用后会回到第 1 页</span></div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">仓库</span><CustomSelect value={filterDraft.warehouseId} onChange={value => setFilterDraft(current => ({ ...current, warehouseId: value }))} options={[{ value: '', label: '全部授权仓库' }, ...warehouses.map(w => ({ value: w.id, label: w.name }))]} placeholder="全部授权仓库" /></label><FilterSelect label="品牌" value={filterDraft.brand} options={filterOptions.brands} onChange={(value) => setFilterDraft((current) => ({ ...current, brand: value }))} />
             <FilterSelect label="型号" value={filterDraft.model} options={filterOptions.models} onChange={(value) => setFilterDraft((current) => ({ ...current, model: value }))} />
-            <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">供应商</span><CustomSelect value={filterDraft.supplierId} onChange={(value) => setFilterDraft((current) => ({ ...current, supplierId: value }))} options={[{ value: '', label: '全部供应商' }, ...filterOptions.suppliers.map((supplier) => ({ value: supplier.id, label: supplier.name }))]} placeholder="全部供应商" searchable /></label>
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">入库日期起</span><input type="date" value={filterDraft.inboundFrom} onChange={(event) => setFilterDraft((current) => ({ ...current, inboundFrom: event.target.value }))} className="field" /></label>
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">入库日期止</span><input type="date" value={filterDraft.inboundTo} onChange={(event) => setFilterDraft((current) => ({ ...current, inboundTo: event.target.value }))} className="field" /></label>
-            <NumberFilter label="采购价最低" value={filterDraft.priceMin} placeholder="例如 1000" onChange={(value) => setFilterDraft((current) => ({ ...current, priceMin: value }))} />
-            <NumberFilter label="采购价最高" value={filterDraft.priceMax} placeholder="例如 10000" onChange={(value) => setFilterDraft((current) => ({ ...current, priceMax: value }))} />
-            <div className="grid grid-cols-2 gap-2"><NumberFilter label="库龄至少（天）" value={filterDraft.ageMin} placeholder="0" onChange={(value) => setFilterDraft((current) => ({ ...current, ageMin: value }))} /><NumberFilter label="库龄最多（天）" value={filterDraft.ageMax} placeholder="365" onChange={(value) => setFilterDraft((current) => ({ ...current, ageMax: value }))} /></div>
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-end gap-2"><button type="button" onClick={resetFilters} className="btn-ghost">清空条件</button><button type="button" onClick={applyFilters} className="btn-primary inline-flex items-center gap-1.5"><Check className="h-4 w-4" />应用筛选</button></div>
         </section>
@@ -938,8 +915,4 @@ function machineDestination(item: InventoryItem) {
 
 function FilterSelect({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (value: string) => void }) {
   return <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">{label}</span><CustomSelect value={value} onChange={onChange} options={[{ value: '', label: `全部${label}` }, ...options.map((option) => ({ value: option, label: option }))]} placeholder={`全部${label}`} searchable /></label>;
-}
-
-function NumberFilter({ label, value, placeholder, onChange }: { label: string; value: string; placeholder: string; onChange: (value: string) => void }) {
-  return <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">{label}</span><input type="number" min="0" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} className="field" /></label>;
 }
