@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { createPaginatedResponse, errorResponse, ErrorCode, parsePaginationParams, successResponse } from '@/lib/api-helpers';
 import { AuthError, requireRole, assertInventoryView } from '@/lib/auth';
+import { inventoryMovementLabel } from '@/lib/inventory-movement-labels';
 
 export async function GET(request: NextRequest) {
   try {
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
     const rows = db.prepare(`SELECT m.*, i.sn, i.brand, i.model, i.year, COALESCE(w.name, w.warehouseName) AS warehouseName, COALESCE(fw.name, fw.warehouseName) AS fromWarehouseName, COALESCE(tw.name, tw.warehouseName) AS toWarehouseName, u.realName AS actorName, u.username AS actorUsername ${base} ORDER BY m.createdAt DESC ${isCsv ? 'LIMIT 10000' : 'LIMIT ? OFFSET ?'}`).all(...(isCsv ? params : [...params, pageSize, (page - 1) * pageSize]));
     if (isCsv) {
       const header = ['时间', 'SN', '品牌', '型号', '事件', '来源仓', '目标仓', '操作人', '关联单号', '备注'];
-      const lines = [header, ...(rows as Array<Record<string, unknown>>).map((row) => [row.createdAt, row.sn, row.brand, row.model, row.movementType, row.fromWarehouseName || '', row.toWarehouseName || '', row.actorName || row.actorUsername || '', row.referenceId || '', row.note || ''])].map((line) => line.map((value) => `"${String(value ?? '').replaceAll('"', '""')}"`).join(','));
+      const lines = [header, ...(rows as Array<Record<string, unknown>>).map((row) => [row.createdAt, row.sn, row.brand, row.model, inventoryMovementLabel(String(row.movementType || '')), row.fromWarehouseName || '', row.toWarehouseName || '', row.actorName || row.actorUsername || '', row.referenceId || '', row.note || ''])].map((line) => line.map((value) => `"${String(value ?? '').replaceAll('"', '""')}"`).join(','));
       return new NextResponse(`\ufeff${lines.join('\n')}`, { headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="inventory-movements.csv"' } });
     }
     return NextResponse.json(successResponse(createPaginatedResponse(rows, total, page, pageSize)));

@@ -18,7 +18,6 @@ import InventoryPurgeDialog from '@/components/InventoryPurgeDialog';
 import CopyTextButton from '@/components/CopyTextButton';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
-import { InventoryMovementsWorkspace } from '@/app/inventory/movements/page';
 import { TransfersWorkspace } from '@/app/transfers/page';
 import {
   ArrowRightLeft,
@@ -251,8 +250,7 @@ function productName(item: Pick<InventoryItem, 'brand' | 'model' | 'year'>) {
 export default function InventoryPage() {
   const router = useRouter();
   const { active, searchParams, user } = useWorkspace();
-  const [activeWorkspace, setActiveWorkspace] = useState<'list' | 'movements' | 'transfers'>('list');
-  const [movementSearch, setMovementSearch] = useState('');
+  const [activeWorkspace, setActiveWorkspace] = useState<'list' | 'transfers'>('list');
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [stats, setStats] = useState<InventoryStats>(EMPTY_STATS);
   const [total, setTotal] = useState(0);
@@ -306,17 +304,15 @@ export default function InventoryPage() {
 
   useEffect(() => {
     const view = searchParams.get('view');
-    setActiveWorkspace(view === 'movements' || view === 'transfers' ? view : 'list');
-    setMovementSearch(searchParams.get('sn') || '');
-  }, [searchParams]);
+    setActiveWorkspace(view === 'transfers' ? 'transfers' : 'list');
+    if (view === 'movements') router.replace('/inventory', { scroll: false });
+  }, [router, searchParams]);
 
-  const selectWorkspace = (workspace: 'list' | 'movements' | 'transfers', sn = '') => {
+  const selectWorkspace = (workspace: 'list' | 'transfers') => {
     setActiveWorkspace(workspace);
-    setMovementSearch(sn);
     if (workspace !== 'list') setSelected(null);
     const params = new URLSearchParams();
     if (workspace !== 'list') params.set('view', workspace);
-    if (workspace === 'movements' && sn) params.set('sn', sn);
     router.push('/inventory' + (params.size ? `?${params.toString()}` : ''), { scroll: false });
   };
 
@@ -619,7 +615,6 @@ export default function InventoryPage() {
 
   const workspaceNavigation = <div role="tablist" aria-label="库存工作区" className="mb-5 flex w-fit max-w-full gap-1 overflow-x-auto rounded-xl border border-line/70 bg-white/55 p-1">
     <button type="button" role="tab" aria-selected={activeWorkspace === 'list'} onClick={() => selectWorkspace('list')} className={'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ' + (activeWorkspace === 'list' ? 'bg-white text-primary shadow-sm' : 'text-ink-soft hover:bg-white/70')}><PackageOpen className="h-4 w-4" />库存清单</button>
-    <button type="button" role="tab" aria-selected={activeWorkspace === 'movements'} onClick={() => selectWorkspace('movements')} className={'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ' + (activeWorkspace === 'movements' ? 'bg-white text-primary shadow-sm' : 'text-ink-soft hover:bg-white/70')}><History className="h-4 w-4" />移动记录</button>
     <button type="button" role="tab" aria-selected={activeWorkspace === 'transfers'} onClick={() => selectWorkspace('transfers')} className={'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ' + (activeWorkspace === 'transfers' ? 'bg-white text-primary shadow-sm' : 'text-ink-soft hover:bg-white/70')}><ArrowRightLeft className="h-4 w-4" />库存调拨</button>
   </div>;
 
@@ -783,7 +778,7 @@ export default function InventoryPage() {
               {!canEditInventory && <p className="mt-2 text-[11px] text-ink-soft">此账号仅可查看机器资料。</p>}
               {selected.skuRemark && <div className="mt-4 rounded-lg bg-primary/5 px-3 py-2 text-[12px] text-ink-soft">SKU 补充信息：{selected.skuRemark}</div>}
               <section className="mt-5 rounded-xl border border-line/70 bg-white/45 p-4"><div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-ink-deep"><History className="h-4 w-4 text-primary" />机器资料修改记录</div>{machineEditHistoryLoading ? <p className="text-xs text-ink-soft">加载中...</p> : machineEditHistoryError ? <p role="alert" className="text-xs text-danger">{machineEditHistoryError}</p> : machineEditHistory.length === 0 ? <p className="text-xs text-ink-soft">暂无资料修改记录</p> : <div className="space-y-3">{machineEditHistory.map(entry => <article key={entry.id} className="border-t border-line/60 pt-3 first:border-0 first:pt-0"><p className="text-[11px] text-ink-soft">{entry.createdAt?.replace('T', ' ').slice(0, 16) || '-'} · {entry.actorName || '未知操作人'}</p><ul className="mt-2 space-y-1">{inventoryEditFields.filter(([field]) => String(entry.beforeData?.[field] ?? '') !== String(entry.afterData?.[field] ?? '')).map(([field, label]) => <li key={field} className="break-words text-[11px] leading-5 text-ink-deep"><span className="text-ink-soft">{label}：</span>{String(entry.beforeData?.[field] ?? '空')}<span className="px-1 text-primary">→</span>{String(entry.afterData?.[field] ?? '空')}</li>)}</ul></article>)}</div>}</section>
-              <InventoryMovementTimeline key={`${selected.id}:${movementRevision}`} inventoryId={selected.id} onViewAll={() => selectWorkspace('movements', selected.sn)} />
+              <InventoryMovementTimeline key={`${selected.id}:${movementRevision}`} inventoryId={selected.id} />
             </div>
 
             <footer className="flex items-center justify-end gap-3 border-t border-line px-5 py-4">{saved && <span className="mr-auto inline-flex items-center gap-1 text-[12px] text-success"><Check className="w-3.5 h-3.5" />已保存</span>}<button type="button" onClick={closeDetails} disabled={savingRemark || savingMachineEdit} className="btn-ghost">关闭</button><button type="button" onClick={saveRemark} disabled={savingRemark || !canEditInventory} className="btn-primary inline-flex items-center gap-1.5"><Save className="w-4 h-4" />{savingRemark ? '保存中...' : '保存备注'}</button></footer>
@@ -804,7 +799,6 @@ export default function InventoryPage() {
       {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
       {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
       </WorkspaceSection>
-      <WorkspaceSection active={activeWorkspace === 'movements'}><InventoryMovementsWorkspace initialSearch={movementSearch} /></WorkspaceSection>
       <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>
     </div>
   );
