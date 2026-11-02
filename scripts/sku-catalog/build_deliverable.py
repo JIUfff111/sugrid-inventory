@@ -13,10 +13,11 @@ OUT = Path(r"C:\Pro\Zcode\inventory_mvp\web\docs\sku-catalog\01-deliverables")
 brand_arg = sys.argv[1] if len(sys.argv) > 1 else "联想"
 brands = brand_arg.split(",")
 GROUP = sys.argv[3] if len(sys.argv) > 3 else brand_arg.split(",")[0]
-DELIVERY_DATE = "2026-10-26"
+DELIVERY_DATE = sys.argv[6] if len(sys.argv) > 6 else "2026-10-26"
+DATA_REL = sys.argv[4] if len(sys.argv) > 4 else "_combined/sku-normalized.json"
 
-data = json.loads((BASE / "_combined" / "sku-normalized.json").read_text(encoding="utf-8"))
-_chk = BASE / GROUP / f"url-check-{GROUP}.json"
+data = json.loads((BASE / DATA_REL).read_text(encoding="utf-8"))
+_chk = BASE / sys.argv[9] if len(sys.argv) > 9 else BASE / GROUP / f"url-check-{GROUP}.json"
 if not _chk.exists():
     _chk = BASE / f"url-check-{GROUP}.json"
 urlcheck = json.loads(_chk.read_text(encoding="utf-8"))
@@ -54,7 +55,7 @@ if _low:
     print("moved low-confidence models to uncertain:", len(LOW_ENTRIES))
 
 aliases = [a for a in data["aliases"] if a["modelKey"] in keys]
-ORIGIN_PREFIX = {"联想": "lenovo", "华硕": "asus", "戴尔": "dell", "Alienware": "dell", "惠普": "hp", "华为": "huawei", "荣耀": "honor", "苹果": "apple", "宏碁": "acer", "微星": "msi", "机械革命": "mechrevo", "神舟": "hasee"}
+ORIGIN_PREFIX = {"联想": "lenovo", "华硕": "asus", "戴尔": "dell", "Alienware": "dell", "惠普": "hp", "华为": "huawei", "荣耀": "honor", "苹果": "apple", "宏碁": "acer", "微星": "msi", "机械革命": "mechrevo", "神舟": "hasee", "小米": "xiaomi", "红米": "xiaomi"}
 uncertain = [u for u in data["uncertain"]
              if any(u.get("origin", "").startswith(ORIGIN_PREFIX.get(b, b.lower())) for b in brands)]
 
@@ -204,7 +205,8 @@ ws = wb.active
 ws.title = "说明"
 ws.column_dimensions["A"].width = 22
 ws.column_dimensions["B"].width = 96
-ws["A1"] = f"{' / '.join(brands)} 笔记本 SKU 型号目录（轻薄本 / 游戏本）"
+TITLE = sys.argv[8] if len(sys.argv) > 8 else f"{' / '.join(brands)} 笔记本 SKU 型号目录（轻薄本 / 游戏本）"
+ws["A1"] = TITLE
 ws["A1"].font = TITLEFONT
 ws.merge_cells("A1:B1")
 ws.row_dimensions[1].height = 30
@@ -351,11 +353,13 @@ write_sheet(ws, headers, rows, [7, 30, 14, 70, 55, 46], link_cols=(6,), wrap_col
             tab_color="C00000", center_cols=(1, 3))
 
 # --- save xlsx ---
-FILE_KEY = {"联想": "lenovo", "华硕": "asus", "ROG": "rog", "戴尔": "dell", "Alienware": "dell"}.get(brands[0], GROUP.lower())
+FILE_KEY = sys.argv[10] if len(sys.argv) > 10 else {"联想": "lenovo", "华硕": "asus", "ROG": "rog", "戴尔": "dell", "Alienware": "dell"}.get(brands[0], GROUP.lower())
 suffix = sys.argv[2] if len(sys.argv) > 2 else ""
-DELIV_DIR = OUT / FILE_KEY / DELIVERY_DATE
+OUT_SUB = sys.argv[5] if len(sys.argv) > 5 else f"{FILE_KEY}/{DELIVERY_DATE}"
+LABEL = sys.argv[7] if len(sys.argv) > 7 else ""
+DELIV_DIR = OUT / OUT_SUB
 DELIV_DIR.mkdir(parents=True, exist_ok=True)
-xlsx = DELIV_DIR / f"sku-catalog-{FILE_KEY}-{DELIVERY_DATE}{suffix}.xlsx"
+xlsx = DELIV_DIR / f"sku-catalog-{FILE_KEY}-{DELIVERY_DATE}{LABEL}.xlsx"
 wb.save(xlsx)
 
 # --- CSV ---
@@ -374,7 +378,7 @@ m_rows = [[f'{m["productType"]}|{m["brand"]}|{m["model"]}|{m["modelYear"]}', m["
            json.dumps(m["gpuOptions"], ensure_ascii=False), json.dumps(m["storageOptions"], ensure_ascii=False),
            json.dumps(m["screenOptions"], ensure_ascii=False),
            m["sourceUrl"], m["sourceTitle"], m["checkedAt"], m["confidence"], m["notes"]] for m in models]
-dump_csv(DELIV_DIR / f"sku-models-{FILE_KEY}-{DELIVERY_DATE}.csv", m_headers, m_rows)
+dump_csv(DELIV_DIR / f"sku-models-{FILE_KEY}-{DELIVERY_DATE}{LABEL}.csv", m_headers, m_rows)
 
 c_headers = ["组合编号", "型号唯一键", "显示名", "CPU", "内存", "显卡", "存储", "屏幕",
              "来源链接", "来源标题", "置信度", "备注"]
@@ -384,7 +388,7 @@ for i, c in enumerate(combos, 1):
     c_rows.append([f"CFG-{i:04d}", c["modelKey"], display(m) if m else "", c["cpu"], c["ram"],
                    c["gpu"], c["storage"], c["screen"], c["sourceUrl"], c["sourceTitle"],
                    c["confidence"], c["notes"]])
-dump_csv(DELIV_DIR / f"sku-configurations-{FILE_KEY}-{DELIVERY_DATE}.csv", c_headers, c_rows)
+dump_csv(DELIV_DIR / f"sku-configurations-{FILE_KEY}-{DELIVERY_DATE}{LABEL}.csv", c_headers, c_rows)
 
 print("xlsx:", xlsx)
 print("models", len(models), "combos", len(combos), "aliases", len(uniq_aliases), "sources", len(src), "uncertain", len(all_u))

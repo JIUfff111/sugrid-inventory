@@ -1,0 +1,315 @@
+{
+  "scope": "小米 配置变体 v2",
+  "models": [],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro 14|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/mibook/14pro/specs",
+      "sourceTitle": "小米笔记本Pro 14 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-04 上市，首发 5299 元区间；ZOL 参考价 4869 元（2026-11）。官网配置页明确列出“i5-11300H + Intel Iris Xe + 16GB DDR4 3200 + 512GB PCIe”。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro 14|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/mibook/14pro/specs",
+      "sourceTitle": "小米笔记本Pro 14 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-04 上市；ZOL 参考价 5599 元（2026-11），京东同款标 5999 元。官网标注 MX450 2GB 独显版，新月银/月岩灰两色。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro 14|2021",
+      "cpu": "i7-11370H",
+      "ram": "16GB",
+      "gpu": "MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/mibook/14pro/specs",
+      "sourceTitle": "小米笔记本Pro 14 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-04 上市，顶配；ZOL 参考价 6499 元（2026-11）。仅新月银配色，i7-11370H 睿频 4.8GHz、L3 12MB。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro 15|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3456x2160 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/15pro/specs",
+      "sourceTitle": "小米笔记本Pro 15 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-03-30 发布、04-02 首卖，首发 6499 元。15.6 英寸 3.5K E4 OLED，峰值亮度 600nits。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro 15|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3456x2160 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/15pro/specs",
+      "sourceTitle": "小米笔记本Pro 15 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-04 首卖，首发 6999 元。官网列 MX450 2GB 版本，配色新月银/月岩灰。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro 15|2021",
+      "cpu": "i7-11370H",
+      "ram": "16GB",
+      "gpu": "MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3456x2160 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/15pro/specs",
+      "sourceTitle": "小米笔记本Pro 15 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-04 首卖，顶配 7999 元（2021-04 首发价）。仅新月银配色。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro X 14|2021",
+      "cpu": "i7-11370H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/miui/1436849_detail.html",
+      "sourceTitle": "小米笔记本 Pro X 14(i7-11370H/16GB/512GB/RTX3050) 参数 - 太平洋科技产品库",
+      "confidence": "high",
+      "notes": "2021-09-28 开售，首发 7499 元，只有时空灰一色一配置；内存为板载 16GB LPDDR4x 4266MHz。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro X 15|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3456x2160 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/15prox/specs",
+      "sourceTitle": "小米笔记本Pro X 15 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-07-09 首销，低配 7999 元（首发价）。15.6 英寸 3.5K E4 OLED、DisplayHDR 500 True Black。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Pro X 15|2021",
+      "cpu": "i7-11370H",
+      "ram": "32GB",
+      "gpu": "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 3456x2160 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/15prox/specs",
+      "sourceTitle": "小米笔记本Pro X 15 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2021-07-09 首销，顶配 9999 元（首发价）。官网仅此两种配置，无集显版。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2022",
+      "cpu": "i5-1240P",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/14pro/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 2022 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-07-04 发布、07-08 开售，首发 5899 元。14 英寸 2.8K OLED 触控屏，600nits、100% DCI-P3。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2022",
+      "cpu": "i5-1240P",
+      "ram": "16GB",
+      "gpu": "MX550 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/14pro/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 2022 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-07 首发 6499 元。官网列 MX550 2GB GDDR6 版本，仅月岩灰配色。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2022",
+      "cpu": "i7-1260P",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/14pro/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 2022 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-07 首发 7999 元，酷睿版顶配。i7-1260P 12 核 16 线程，L3 18MB。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2022",
+      "cpu": "R5 6600H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/14pro-amd/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 锐龙版 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "锐龙版 2022-08-16 开售；ZOL 参考价 5399 元（2022-08 起售口径）。核显为 Radeon 660M，内存 LPDDR5 6400MHz。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2022",
+      "cpu": "R7 6800H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 90Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/14pro-amd/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 锐龙版 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "锐龙版 2022-08-16 开售；ZOL 参考价 5899 元。核显 Radeon 680M，8 核 16 线程。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 16|2022",
+      "cpu": "i5-1240P",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "16英寸 3840x2400 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/16pro/specs",
+      "sourceTitle": "Xiaomi Book Pro 16 2022 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-07-04 发布、07-08 开售，首发 6499 元。16 英寸 4K OLED 触控屏，70Wh 电池。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 16|2022",
+      "cpu": "i7-1260P",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 3840x2400 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/2022/16pro/specs",
+      "sourceTitle": "Xiaomi Book Pro 16 2022 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-07 首发 8499 元，该尺寸唯一独显版。官网仅 i5 集显 / i7+RTX 2050 两种配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Air 13|2022",
+      "cpu": "i5-1230U",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2880x1800 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/air-13-flip/specs",
+      "sourceTitle": "Xiaomi Book Air 13 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-10-28 发布、10-31 开售，首发 4999 元（官网价 5999 元）。13.3 英寸 2.8K OLED 翻转触控屏，1.2kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|小米笔记本 Air 13|2022",
+      "cpu": "i7-1250U",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "13.3英寸 2880x1800 60Hz",
+      "sourceUrl": "https://www.mi.com/mibook/air-13-flip/specs",
+      "sourceTitle": "Xiaomi Book Air 13 产品配置 - 小米官网",
+      "confidence": "high",
+      "notes": "2022-10 首发 5599 元（官网价 6999 元）。仅旖旎白光一色，16GB LPDDR5 5200MHz 板载。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book S 12.4|2022",
+      "cpu": "骁龙 8cx Gen 2",
+      "ram": "8GB",
+      "gpu": "集成显卡",
+      "storage": "256GB SSD",
+      "screen": "12.4英寸 2560x1600 60Hz",
+      "sourceUrl": "https://www.mi.com/nl/product/xiaomi-book-s-12-4/specs",
+      "sourceTitle": "XiaomiBook S 12.4 规格参数 - 小米官网（荷兰站）",
+      "confidence": "high",
+      "notes": "2022-06 欧洲上市，699 欧元（含键盘套 799 欧元），国内未开售。Adreno 680 核显，8GB LPDDR4X 板载，8.95mm/720g。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2026",
+      "cpu": "Ultra 5 325",
+      "ram": "24GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14.6英寸 3120x2080 120Hz",
+      "sourceUrl": "https://www.mi.com/prod/xiaomi-book-pro-14/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 规格参数 - 小米官网",
+      "confidence": "high",
+      "notes": "2026-03 上市，首发 8499 元。8 核 8 线程、睿频 4.5GHz，Intel Graphics 核显，24GB LPDDR5X 7467MT/s。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2026",
+      "cpu": "Ultra 5 338H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14.6英寸 3120x2080 120Hz",
+      "sourceUrl": "https://www.mi.com/prod/xiaomi-book-pro-14/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 规格参数 - 小米官网",
+      "confidence": "high",
+      "notes": "2026-03 上市，首发 9699 元。12 核 12 线程、睿频 4.7GHz，Intel Arc B370 核显，32GB LPDDR5X 8533MT/s。"
+    },
+    {
+      "modelKey": "笔记本电脑|小米|Xiaomi Book Pro 14|2026",
+      "cpu": "Ultra X7 358H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14.6英寸 3120x2080 120Hz",
+      "sourceUrl": "https://www.mi.com/prod/xiaomi-book-pro-14/specs",
+      "sourceTitle": "Xiaomi Book Pro 14 规格参数 - 小米官网",
+      "confidence": "high",
+      "notes": "2026-03 上市，顶配 10499 元。16 核 16 线程、睿频 4.8GHz，Intel Arc B390 核显，32GB LPDDR5X 9600MT/s；全系无独显。"
+    }
+  ],
+  "aliases": [],
+  "uncertain": [
+    {
+      "model": "小米笔记本 Pro 14|2021",
+      "issue": "官网与 ZOL 均只有 3 个 SKU（i5 集显 / i5+MX450 / i7+MX450），不满足 5–8 条；且屏幕分辨率口径冲突：官网写 2560x1600，ZOL 详情页写 2560x1440。",
+      "suggestion": "以官网 2560x1600 为准，本表按 3 条收录；若下游需要 5 条，请与 Pro 15 2021 合并为同一机型族统计。",
+      "sourceUrl": "https://www.mi.com/mibook/14pro/specs"
+    },
+    {
+      "model": "小米笔记本 Pro 15|2021",
+      "issue": "整机仅 3 个 SKU，均 16GB+512GB，差异只在 CPU 与是否带 MX450；锐龙版（R7 5800H）属另一条产品线，未纳入。",
+      "suggestion": "接受 3 条；如后续要覆盖锐龙版，应新建 modelKey 或加 cpu 维度说明。",
+      "sourceUrl": "https://www.mi.com/mibook/15pro/specs"
+    },
+    {
+      "model": "小米笔记本 Pro X 14|2021",
+      "issue": "确实只有 1 个 SKU（i7-11370H + RTX 3050 4GB + 16GB + 512GB），2021-09-28 单配置开售。",
+      "suggestion": "按 1 条收录，不要臆造 i5 版或 1TB 版。",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/miui/1436849_detail.html"
+    },
+    {
+      "model": "Xiaomi Book Pro 16|2022",
+      "issue": "只有 2 个 SKU（i5-1240P 集显 / i7-1260P + RTX 2050），16 英寸没有 MX550 版，也没有锐龙版。",
+      "suggestion": "按 2 条收录；若与其他 2022 款合并统计需注明尺寸差异。",
+      "sourceUrl": "https://www.mi.com/mibook/2022/16pro/specs"
+    },
+    {
+      "model": "小米笔记本 Air 13|2022",
+      "issue": "只有 2 个 SKU（i5-1230U / i7-1250U），均为 16GB+512GB 集显，且仅白色一色。",
+      "suggestion": "按 2 条收录；注意该机为 360° 翻转触控本，与早期 Air 13 非同一模具。",
+      "sourceUrl": "https://www.mi.com/mibook/air-13-flip/specs"
+    },
+    {
+      "model": "Xiaomi Book S 12.4|2022",
+      "issue": "全球仅 1 个 SKU（8GB+256GB，骁龙 8cx Gen 2），国内未上市，无行货价格与中文产品页。",
+      "suggestion": "按 1 条收录，价格用欧元口径；若下游只做国内在售机型，可整条剔除。",
+      "sourceUrl": "https://www.mi.com/nl/product/xiaomi-book-s-12-4/specs"
+    },
+    {
+      "model": "Xiaomi Book Pro 14|2026",
+      "issue": "2026 款为 3:2 比例 14.6 英寸（3120x2080），并非 16:10；官方仅 3 个 SKU 且全系核显，与 2022 款的 16:10/90Hz 规格不能混用。",
+      "suggestion": "屏幕字段已按官网 3:2 参数填写；若上游字典按 16:10 归并，需要单独标注屏幕比例。",
+      "sourceUrl": "https://www.mi.com/prod/xiaomi-book-pro-14/specs"
+    }
+  ]
+}

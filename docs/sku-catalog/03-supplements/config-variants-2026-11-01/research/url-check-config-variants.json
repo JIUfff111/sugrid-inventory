@@ -1409,5 +1409,25 @@
   "status": 200,
   "ok": true,
   "final": "https://www.techzlab.com/redmi-book-pro-16-redmi-book-pro-14-2025-with-up-to-intel-core-ultra-7-255h-processor-launched/"
+ },
+ "https://m.mi.com/t/qUqHlt": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.mi.com/commodity/detail/20864?client_id=180100031058&g_utm=MiStore.FromApp.ProductPage.Share&enter=1"
+ },
+ "https://www.mi.com/mibook/2022/14pro-amd/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/2022/14pro-amd/specs"
+ },
+ "https://www.mi.com/redmibook/pro14-intel/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro14-intel/specs"
+ },
+ "https://www.mi.com/shop/buy/detail?product_id=24035": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/shop/buy/detail?product_id=24035"
  }
 }

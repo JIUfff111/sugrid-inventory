@@ -4,11 +4,13 @@
 
 库存 SKU 型号和配置的录入/展示规则见 [`00-brief/inventory-sku-entry-standard.md`](00-brief/inventory-sku-entry-standard.md)。
 
-**当前规模**：11 个品牌批次、530 个型号、969 条配置组合，年份覆盖 2016–2026，每条型号均有可追溯来源（无 404 死链）。
+研究交付资料为追溯来源可保留 Xiaomi / Redmi 原始系列名；进入本项目内置 SKU 时，红米统一映射为「小米」品牌。
+
+**当前规模**：12 个品牌批次、559 个型号、1033 条配置组合，年份覆盖 2016–2026，每条型号均有可追溯来源（无 404 死链）。
 
 ## 克隆项目后可直接使用的内置 SKU
 
-研究交付目录和采购页运行时的内置 SKU 是两个统计口径。当前采购页内置目录共有 **970 条有效 SKU 记录**，按品牌、型号和年份区分；克隆仓库即可获得完整目录，无需另行导入 Excel，也无需连接原项目数据库。
+研究交付目录和采购页运行时的内置 SKU 是两个统计口径。当前跟踪的内置目录快照包含 **974 条有效 SKU 记录**，型号身份无重复；克隆仓库即可获得完整目录，无需另行导入 Excel，也无需连接原项目数据库。
 
 目录快照位于 `scripts/sku-catalog/builtin-sku-catalog.json`，只包含产品类型、品牌、型号、年份及按界面短格式清洗后的 CPU、内存、显卡、存储和屏幕选项，不包含数据库 ID、价格、创建人、库存和采购/销售数据。首次初始化空数据库时，`npm run db:init` 和应用服务会自动加载；已有数据库运行 `npm run db:init` 时会幂等清洗已有 SKU 的配置字段，不覆盖型号、库存或业务记录。原始长描述仍保留在 `01-deliverables/` 交付资料中供核验。
 
@@ -68,8 +70,9 @@ docs/sku-catalog/
 │  ├─ acer/2026-10-26/（xlsx + 2 CSV + README）
 │  ├─ msi/2026-10-26/（xlsx + 2 CSV + README）
 │  ├─ mechrevo/2026-10-26/（xlsx + 2 CSV + README）
-│  └─ hasee/2026-10-26/（xlsx + 2 CSV + README）
-├─ 02-research/                 ← 原始调研数据，按品牌分目录
+│  ├─ hasee/2026-10-26/（xlsx + 2 CSV + README）
+│  └─ xiaomi/2026-11-01/（小米 + 红米，2021 年起）
+├─ 02-research/                 ← 主批次原始调研数据，按品牌分目录
 │  ├─ lenovo/  (lenovo-thinlight.json、lenovo-gaming.json、url-check-lenovo.json)
 │  ├─ dell/    (dell-thinlight.json、dell-gaming.json、url-check-dell.json)
 │  ├─ asus/    (asus-thinlight.json、asus-gaming.json、asus-gaming-v2.json、url-check-asus.json)
@@ -81,7 +84,19 @@ docs/sku-catalog/
 │  ├─ msi/     (msi-thinlight.json、msi-gaming.json、url-check-msi.json)
 │  ├─ mechrevo/ (mechrevo.json、url-check-mechrevo.json)
 │  ├─ hasee/   (hasee.json、url-check-hasee.json)
+│  ├─ xiaomi/  (xiaomi-thinlight.json、redmi-thinlight.json、url-check-xiaomi.json)
 │  └─ _combined/sku-normalized.json   ← 各品牌合并后的归一化数据（生成物）
+├─ 03-supplements/              ← 补充批次统一放这里，一个补充一个文件夹
+│  ├─ asus-tianxuan-2026-11-01/        ← 天选型号补齐
+│  │  ├─ sku-catalog-asus-2026-11-01-tianxuan-supplement.xlsx
+│  │  ├─ …csv / README…
+│  │  └─ research/
+│  └─ config-variants-2026-11-01/       ← 天选 / 拯救者 / 小米 / 红米 配置变体补齐
+│     ├─ sku-catalog-config-variants-2026-11-01.xlsx
+│     ├─ sku-models-config-variants-2026-11-01.csv
+│     ├─ sku-configurations-config-variants-2026-11-01.csv
+│     ├─ README-sku-catalog-config-variants-2026-11-01.md
+│     └─ research/  （7 份补录 JSON、合并数据集、284 条链接检查）
 ```
 
 处理脚本放在项目的 `web/scripts/sku-catalog/`，与既有 `import-laptop-skus.py` 同域：
@@ -106,8 +121,9 @@ web/scripts/sku-catalog/
 | 交付说明 | `README-sku-catalog-<brand>-<YYYY-MM-DD>.md` | `README-sku-catalog-lenovo-2026-10-26.md` |
 | 调研原始数据 | `<brand>-<thinlight\|gaming>.json` | `lenovo-thinlight.json` |
 | 链接检查 | `url-check-<brand>.json` | `url-check-dell.json` |
+| 补充工作簿 | `sku-catalog-<brand>-<YYYY-MM-DD>-<topic>-supplement.xlsx` | `sku-catalog-asus-2026-11-01-tianxuan-supplement.xlsx` |
 
-品牌标识统一用英文小写：`lenovo` / `dell` / `asus` / `rog` / `hp` / `huawei` / `honor` / `apple` / `acer` / `msi` / `mechrevo` / `hasee`。
+品牌标识统一用英文小写：`lenovo` / `dell` / `asus` / `rog` / `hp` / `huawei` / `honor` / `apple` / `acer` / `msi` / `mechrevo` / `hasee` / `xiaomi`。
 
 ## 当前进度
 
@@ -124,7 +140,10 @@ web/scripts/sku-catalog/
 | 微星（现代 / 尊爵 / 泰坦 / 强袭 / 绝影 / 冲锋坦克 / 武士 / 侠客） | 已交付 | 56 | 75 | `01-deliverables/msi/2026-10-26/` |
 | 机械革命（无界 / 蛟龙 / 极光 / 旷世 / 耀世） | 已交付 | 28 | 41 | `01-deliverables/mechrevo/2026-10-26/` |
 | 神舟（战神 / 优雅 / 精盾） | 已交付 | 26 | 31 | `01-deliverables/hasee/2026-10-26/` |
-| **合计（11 个品牌批次）** | **已交付** | **530** | **969** | 待核实 180 条 |
+| 小米 + 红米（2021 年起） | 已交付 | 29 | 64 | `01-deliverables/xiaomi/2026-11-01/` |
+| **合计（12 个品牌批次）** | **已交付** | **559** | **1033** | 待核实 195 条 |
+| 华硕天选配置补充（独立文件，未并入上表） | 已交付 | 11 | 64 | `03-supplements/asus-tianxuan-2026-11-01/` |
+| 配置变体补充：天选 / 拯救者 / 小米 / 红米 | 已交付 | 87 | 409 | `03-supplements/config-variants-2026-11-01/` |
 
 ## 新增一个品牌的流程
 

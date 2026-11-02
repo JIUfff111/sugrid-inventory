@@ -1,0 +1,254 @@
+{
+ "http://www.asus.com.cn": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/"
+ },
+ "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083",
+  "error": "HTTP 403"
+ },
+ "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%89FA506IV/55389338": {
+  "status": 403,
+  "ok": true,
+  "final": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%89FA506IV/55389338",
+  "error": "HTTP 403"
+ },
+ "https://c.m.163.com/news/a/K2RJRNG70552NPPI.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://c.m.163.com/news/a/K2RJRNG70552NPPI.html"
+ },
+ "https://detail.zol.com.cn/adapter-coupling/index1359562.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1359562.shtml"
+ },
+ "https://detail.zol.com.cn/digital_tv/index1982530.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1982530.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1315091.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1315091.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1384329.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1384329.shtml"
+ },
+ "https://detail.zol.com.cn/notebook/index1975420.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1975420.shtml"
+ },
+ "https://detail.zol.com.cn/notebook_index/subcate16_227_list_10000_0_1_1_0_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook_index/subcate16_227_list_10000_0_1_1_0_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/10926043_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/10926043_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/29470_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/29470_1.html"
+ },
+ "https://detail.zol.com.cn/series/16/37546_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/37546_1.html"
+ },
+ "https://diy.zol.com.cn/1259/12595510_all.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://diy.zol.com.cn/1259/12595510_all.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/asus/2120607_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/asus/2120607_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/asus/2854911_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/asus/2854911_detail.html"
+ },
+ "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html"
+ },
+ "https://m.ithome.com/html/852566.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/852566.htm"
+ },
+ "https://m.ithome.com/html/957438.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.ithome.com/html/957438.htm"
+ },
+ "https://m.zol.com.cn/article/7982475.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/7982475.html"
+ },
+ "https://m.zol.com.cn/article/9394719.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.zol.com.cn/article/9394719.html"
+ },
+ "https://pinpai.smzdm.com/154152/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://pinpai.smzdm.com/154152/"
+ },
+ "https://product.pconline.com.cn/notebook/asus/1281587_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/asus/1281587_detail.html"
+ },
+ "https://product.pconline.com.cn/notebook/asus/1476647_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/asus/1476647_detail.html"
+ },
+ "https://product.pconline.com.cn/notebook/asus/2073827_detail.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/asus/2073827_detail.html"
+ },
+ "https://product.suning.com/0071367029/000000012430322098.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.suning.com/0071367029/000000012430322098.html"
+ },
+ "https://product.suning.com/0071527085/000000012429302227.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.suning.com/0071527085/000000012429302227.html"
+ },
+ "https://shop.zol.com/shop_122552/37456669.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://shop.zol.com/shop_122552/37456669.html"
+ },
+ "https://tech.sina.com.cn/roll/2020-03-23/doc-iimxyqwa2521572.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://tech.sina.com.cn/roll/2020-03-23/doc-iimxyqwa2521572.shtml"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BAS8JK1olWAQEVltbD0oWBV8IGloWWwcAXVxbAE0nRzBQRQQlBENHFRxWFlVPRjtUBABAQlRcCEBdCUoUBW4KElkTVQAdDRsBVXtXQjJ-Rw4VHmRWUx4gCEJzCzJffUVDUQoyUFheDk8WAm4LK1sUXAcDXVZUAEknB2lmGjUVVANsXFtdCkNAAGwNTAsRXAVSUm5dCXtVbbiLmY-o-9-F4InvipKSn18JK1sTVQQGVFZeAUMWBW84G1MRbdGr-ojRrp-uqbi6mWslbQUyZG5dOEgnXQEJHAtAVQABADABTwJMAC1bTTUXXQUKUFhfCXsVAm4KGWslbUByNDsOfTkRaAl6XS5-C1VbJCEfTj58VR1cfRNBPWgADAAhCzlXBCh7by5MAAVYFzxtCHsQBW44Gms": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BAS8JK1olWAQEVltbD0oWBV8IGloWWwcAXVxbAE0nRzBQRQQlBENHFRxWFlVPRjtUBABAQlRcCEBdCUoUBW4KElkTVQAdDRsBVXtXQjJ-Rw4VHmRWUx4gCEJzCzJffUVDUQoyUFheDk8WAm4LK1sUXAcDXVZUAEknB2lmGjUVVANsXFtdCkNAAGwNTAsRXAVSUm5dCXtVbbiLmY-o-9-F4InvipKSn18JK1sTVQQGVFZeAUMWBW84G1MRbdGr-ojRrp-uqbi6mWslbQUyZG5dOEgnXQEJHAtAVQABADABTwJMAC1bTTUXXQUKUFhfCXsVAm4KGWslbUByNDsOfTkRaAl6XS5-C1VbJCEfTj58VR1cfRNBPWgADAAhCzlXBCh7by5MAAVYFzxtCHsQBW44Gms"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXw4EUFxaDk4RB18IGlsSWwUGXVhaAUMXAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2gOGF8cWwELXF5eFxJSXzI4f1plKFtWLR8_ah8NShZwelN8JGN-JFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk1HVmkOGV8WCgRQUQtUWhknA244WjUVVAYBV1dZCHsWM28OE1kRXgcAUldfD0onA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HVGheExcGSE5SCwEKG1kQXQILVG5fCUoVAV84Kyt8Dk99KAddaB9MWTxJcBJwAwFVAjsDYAlAe2lodVljJEFxMiYWXShQVB17RRp8OzYCZFlbCXsWMw": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXw4EUFxaDk4RB18IGlsSWwUGXVhaAUMXAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2gOGF8cWwELXF5eFxJSXzI4f1plKFtWLR8_ah8NShZwelN8JGN-JFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk1HVmkOGV8WCgRQUQtUWhknA244WjUVVAYBV1dZCHsWM28OE1kRXgcAUldfD0onA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HVGheExcGSE5SCwEKG1kQXQILVG5fCUoVAV84Kyt8Dk99KAddaB9MWTxJcBJwAwFVAjsDYAlAe2lodVljJEFxMiYWXShQVB17RRp8OzYCZFlbCXsWMw"
+ },
+ "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwIDVV5VAEISAl8IGlgXXAIEXF9VDksWBV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG0JH10dXA4EVF9bFxJSXzI4ExNPPkBSVlk-e1FjVh14cg1pOgUBAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh8XBWsLSQ9AXlZRAAkIAR4nA244WjUVWwMHVF9UCnsWM28OE1kRXgcAXFxYC0InA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGoJEl5HD2heExcGSB1AQwEKG18UWgALUG5fCUoVAV84K1J9PXVhJy0vdBtsexx-XS19AgIFLC0rYzVEYjULezUXVQZVByQHfSMRAwpvHhloHEIyVG5aDkonAl8": {
+  "status": 200,
+  "ok": true,
+  "final": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwIDVV5VAEISAl8IGlgXXAIEXF9VDksWBV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG0JH10dXA4EVF9bFxJSXzI4ExNPPkBSVlk-e1FjVh14cg1pOgUBAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh8XBWsLSQ9AXlZRAAkIAR4nA244WjUVWwMHVF9UCnsWM28OE1kRXgcAXFxYC0InA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGoJEl5HD2heExcGSB1AQwEKG18UWgALUG5fCUoVAV84K1J9PXVhJy0vdBtsexx-XS19AgIFLC0rYzVEYjULezUXVQZVByQHfSMRAwpvHhloHEIyVG5aDkonAl8"
+ },
+ "https://wap.asus.com.cn/standard/product/detail?productId=42278043015169&goodsId=22027740906493": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.asus.com.cn/standard/product/detail?productId=42278043015169&goodsId=22027740906493"
+ },
+ "https://wap.asus.com.cn/standard/product/detail?productId=42278053342886": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.asus.com.cn/standard/product/detail?productId=42278053342886"
+ },
+ "https://wap.zol.com.cn/1398/1397755/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1398/1397755/index.html"
+ },
+ "https://wap.zol.com.cn/1466/1465620/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1466/1465620/index.html"
+ },
+ "https://wap.zol.com.cn/1467/1466071/index.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://wap.zol.com.cn/1467/1466071/index.html"
+ },
+ "https://www.ali213.net/news/html/2026-5/1010687.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ali213.net/news/html/2026-5/1010687.html"
+ },
+ "https://www.asus.com.cn/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/"
+ },
+ "https://www.asus.com.cn/Laptops/For-Gaming/TUF-Gaming/ASUS-TUF-Gaming-A15-2022/techspec": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2022/techspec/"
+ },
+ "https://www.asus.com.cn/Laptops/For-Gaming/TUF-Gaming/ASUS-TUF-Gaming-F15-2023/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-f15-2023/"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/2021-asus-tuf-gaming-a15/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/2021-asus-tuf-gaming-a15/techspec/"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/"
+ },
+ "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2024/techspec/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2024/techspec/"
+ },
+ "https://www.asus.com.cn/product-compare?LevelId=Laptops-For-Students&ProductID=25083,20424": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.asus.com.cn/product-compare?LevelId=Laptops-For-Students&ProductID=25083,20424"
+ },
+ "https://www.ithome.com/0/479/192.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/479/192.htm"
+ },
+ "https://www.ithome.com/1/015/359.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/1/015/359.htm"
+ },
+ "https://www.jinshouji.com/bijibendiannao/618021.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.jinshouji.com/bijibendiannao/618021.html"
+ },
+ "https://www.peopleapp.com/rmharticle/30028045799": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30028045799"
+ },
+ "https://www.sohu.com/a/481524282_114760": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.sohu.com/a/481524282_114760"
+ }
+}

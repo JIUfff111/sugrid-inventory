@@ -24,6 +24,8 @@ FILES = [
     ("msi/msi-gaming.json", "游戏本"),
     ("mechrevo/mechrevo.json", "轻薄本"),
     ("hasee/hasee.json", "轻薄本"),
+    ("xiaomi/xiaomi-thinlight.json", "轻薄本"),
+    ("xiaomi/redmi-thinlight.json", "轻薄本"),
 ]
 
 OFFICIAL = ("lenovo.com.cn", "asus.com.cn", "rog.asus.com.cn")

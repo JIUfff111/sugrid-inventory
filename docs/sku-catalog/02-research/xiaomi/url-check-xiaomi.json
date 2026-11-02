@@ -1,0 +1,252 @@
+{
+ "http://www.mnw.cn/news/digi/2809815.html": {
+  "status": 200,
+  "ok": true,
+  "final": "http://www.mnw.cn/news/digi/2809815.html"
+ },
+ "https://biz.zhiding.cn/2025/0102/3162372.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://biz.zhiding.cn/2025/0102/3162372.shtml"
+ },
+ "https://baike.sogou.com/v209560495.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://baike.sogou.com/v209560495.htm"
+ },
+ "https://gfan.com/info/599071.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://gfan.com/info/599071.html"
+ },
+ "https://detail.zol.com.cn/1433/1432120/param.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/1433/1432120/param.shtml"
+ },
+ "https://i.ifeng.com/c/8HOvoRttepX": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8HOvoRttepX"
+ },
+ "https://m.163.com/dy/article/HGT6R7M00511CEBF.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.163.com/dy/article/HGT6R7M00511CEBF.html"
+ },
+ "https://i.ifeng.com/c/8J6rtkhVZXO": {
+  "status": 200,
+  "ok": true,
+  "final": "https://i.ifeng.com/c/8J6rtkhVZXO"
+ },
+ "https://news.pconline.com.cn/2134/21347551.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.pconline.com.cn/2134/21347551.html"
+ },
+ "https://news.qq.com/rain/a/20210925A02UV400": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20210925A02UV400"
+ },
+ "https://news.qq.com/rain/a/20260319A08F9E00": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.qq.com/rain/a/20260319A08F9E00"
+ },
+ "https://detail.zol.com.cn/series/16/33490_1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/series/16/33490_1.html"
+ },
+ "https://news.smzdm.com/p/85125547/": {
+  "status": 202,
+  "ok": true,
+  "final": "https://news.smzdm.com/p/85125547/"
+ },
+ "https://3w.huanqiu.com/a/c36dc8/424yqvC6NeM": {
+  "status": 200,
+  "ok": true,
+  "final": "https://3w.huanqiu.com/a/c36dc8/424yqvC6NeM"
+ },
+ "https://m.it168.com/article_6650518.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://m.it168.com/article_6650518.html"
+ },
+ "https://www.anzhuo.cn/review/p_48585": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.anzhuo.cn/review/p_48585"
+ },
+ "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b": {
+  "status": 200,
+  "ok": true,
+  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HPj45mqj4ZNi44YeT7vmMn6H80areCzfryUSYuaZ&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU2MTYzMTM1MQ%3D%3D%26mid%3D2247488720%26idx%3D1%26sn%3D32ac65df763407e3056db400afe1345b"
+ },
+ "https://www.ithome.com/0/788/428.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/788/428.htm"
+ },
+ "https://www.ithome.com/0/930/776.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/930/776.htm"
+ },
+ "https://www.cww.net.cn/article?id=596851": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.cww.net.cn/article?id=596851"
+ },
+ "https://detail.zol.com.cn/notebook/index1432121.shtml": {
+  "status": 200,
+  "ok": true,
+  "final": "https://detail.zol.com.cn/notebook/index1432121.shtml"
+ },
+ "https://tech.sina.cn/2026-03-21/detail-inhrtucr7177719.d.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://finance.sina.cn/tech/2026-03-21/detail-inhrtucr7177719.d.html?fromtech=1"
+ },
+ "https://www.mi.com/mibook/15pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/15pro/specs"
+ },
+ "https://www.mi.com/mibook/15prox/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/15prox/specs"
+ },
+ "https://www.mi.com/mibook/air-13-flip/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/air-13-flip/specs"
+ },
+ "https://www.mi.com/mibook/14pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/14pro/specs"
+ },
+ "https://www.mi.com/mibook/2022/14pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/2022/14pro/specs"
+ },
+ "https://www.mi.com/mibook/2022/16pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/2022/16pro/specs"
+ },
+ "https://www.mi.com/mibook/14prox/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/mibook/14prox/specs"
+ },
+ "https://www.mi.com/redmi-books/16-pro": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/16-pro"
+ },
+ "https://www.mi.com/redmibook/pro14-amd/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro14-amd/specs"
+ },
+ "https://www.mi.com/redmibook/game-intel/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/game-intel/specs"
+ },
+ "https://www.mi.com/redmibook/pro15-intel/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro15-intel/specs"
+ },
+ "https://www.mi.com/redmibook/pro14-intel": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro14-intel"
+ },
+ "https://www.mi.com/redmi-books/14-pro/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmi-books/14-pro/specs"
+ },
+ "https://www.mi.com/redmibook/2022/redmi-g": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/2022/redmi-g"
+ },
+ "https://www.mi.com/nl/product/xiaomi-book-s-12-4/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/nl/product/xiaomi-book-s-12-4/specs/"
+ },
+ "https://www.peopleapp.com/rmharticle/30024474666": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30024474666"
+ },
+ "https://www.peopleapp.com/rmharticle/30023081193": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30023081193"
+ },
+ "https://www.peopleapp.com/rmharticle/30020216500": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.peopleapp.com/rmharticle/30020216500"
+ },
+ "https://www.mi.com/item/10000281": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/redmibook/pro15"
+ },
+ "https://www.mi.com/shop/buy/detail?cfrom=search&product_id=20992": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/shop/buy/detail?cfrom=search&product_id=20992"
+ },
+ "https://www.toutiao.com/article/7116507993289949711/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7116507993289949711/"
+ },
+ "https://www.toutiao.com/article/7122645654467428902/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.toutiao.com/article/7122645654467428902/"
+ },
+ "https://www.mizhijia.net/xmbjb/700357.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mizhijia.net/xmbjb/700357.html"
+ },
+ "https://www.weistang.com/article-18158-1.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.weistang.com/article-18158-1.html"
+ },
+ "https://www.mi.com/prod/redmi-books/16-pro-2025/specs": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.mi.com/prod/redmi-books/16-pro-2025/specs"
+ },
+ "https://www.gizmochina.com?p=606548/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.gizmochina.com/2024/02/22/xiaomi-redmi-book-pro-14-16-2024-spec-price/"
+ },
+ "https://www.yugatech.com/hi/news/xiaomi-mi-notebook-pro-14-and-pro-15-now-official": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.yugatech.com/news/xiaomi-mi-notebook-pro-14-and-pro-15-now-official/"
+ },
+ "https://www.techzlab.com?p=10560/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.techzlab.com/redmi-book-pro-16-redmi-book-pro-14-2025-with-up-to-intel-core-ultra-7-255h-processor-launched/"
+ }
+}

@@ -1,0 +1,1555 @@
+{
+  "models": [
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选2",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙7 5800H",
+        "AMD 锐龙9 5900HX",
+        "AMD 锐龙7 4800H",
+        "R7-5800H",
+        "R9-5900HX",
+        "R7-4800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3050Ti 4GB",
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3070 8GB",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3050Ti 4GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%DCI-P3",
+        "15.6英寸 1920x1080 144Hz",
+        "15.6英寸 1920x1080 240Hz",
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1384329.shtml",
+      "sourceTitle": "华硕天选2(R9 5900HX/16GB/512GB/RTX3060/165Hz) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2021-08（ZOL）。升级版（R9 5900HX+RTX3070+16GB+512GB+2.5K 165Hz）2021-08-05 开售，首发价 9999 元（中关村在线/腾讯网）。ZOL 系列含 144Hz/165Hz/240Hz 多屏幕版本与 R7 4800H+RTX3050 等配置（2021-09，6699 元）。；内存标注：16GB（DDR4 3200MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选3",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿i7 12700H",
+        "Intel 酷睿i5 12500H",
+        "i7-12700H",
+        "i5-12500H",
+        "R7-6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 3050 4GB",
+        "NVIDIA GeForce RTX 3050Ti 4GB",
+        "NVIDIA GeForce RTX 3060 6GB",
+        "NVIDIA GeForce RTX 3070 8GB",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3050Ti 4GB 笔记本电脑 GPU",
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 100%DCI-P3 3ms",
+        "15.6英寸 2560x1440 144Hz",
+        "15.6英寸 2560x1440 165Hz",
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/37546_1.html",
+      "sourceTitle": "华硕天选3 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2022-02-11（ZOL，当晚 22 点开售）。RTX3060/3070 为 140W 满血、RTX3050 系 95W，支持双显三模切换；2.2kg、90Wh。同场发布天选3 Plus（17.3 英寸 360Hz）与天选3 Air，未单列（见 uncertain）。；内存标注：16GB（DDR5 4800MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选4",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿i9 13900H",
+        "Intel 酷睿i7 13700H",
+        "Intel 酷睿i5 13500H",
+        "Intel 酷睿i7 12700H",
+        "AMD 锐龙9 7940H",
+        "i7-13620H",
+        "R7-7735H",
+        "R9-7940H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 300nits",
+        "15.6英寸 1920x1080 144Hz",
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1467/1466071/index.html",
+      "sourceTitle": "华硕天选4 13代酷睿版 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2023-02（ZOL）。酷睿 13 代为 DDR5-4800，12代酷睿版为 DDR4-3200；锐龙版（R9 7940H）2023-04-27 开售。同代另有天选4 Plus（17.3 英寸 360Hz/240Hz，R9 7940H/i9 13900H+RTX4070，9499 元）与天选4R（R7 7735H+RX7600S，7499 元），未单列（见 uncertain）。；内存标注：16GB（DDR5 4800MHz）、16GB（DDR4 3200MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选5 Pro",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿i9 14900HX",
+        "Intel 酷睿i9 13980HX",
+        "Intel 酷睿i7 13650HX",
+        "AMD 锐龙9 7940HX",
+        "i9-14900HX",
+        "i7-13650HX",
+        "R9-7940HX",
+        "R9-8945H",
+        "i9-13980HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4050 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 400nits 100%sRGB",
+        "16英寸 2560x1600 165Hz",
+        "16英寸 1920x1200 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1975420.shtml",
+      "sourceTitle": "华硕天选5 Pro(i9 14900HX/16GB/1TB/RTX4070) - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2024-01-23（ZOL 系列共 6 款）；16 英寸 16:10 新模具。锐龙版（R9 7940HX）见华硕官网 FA607 系列 techspec，ZOL 系列页仅列酷睿版。；内存标注：16GB（DDR5 5600MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选5",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙7 8845H",
+        "AMD 锐龙9 8945H",
+        "R7-8845H",
+        "R9-8945H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "NVIDIA GeForce RTX 4070 8GB",
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz 3ms 100%DCI-P3",
+        "15.6英寸 1920x1080 144Hz",
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/digital_tv/index1982530.shtml",
+      "sourceTitle": "华硕天选5 锐龙版 - 中关村在线",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2024-01（ZOL 系列共 5 款）；90Wh 电池，支持独显直连；ZOL 参考报价区间 6799-8799 元。；内存标注：16GB（DDR5 5600MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选6",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 AI 9 HX 370",
+        "AMD 锐龙7 H 260",
+        "R7 H 260"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5050 8GB",
+        "NVIDIA GeForce RTX 5060 8GB",
+        "NVIDIA GeForce RTX 5070 8GB",
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5050 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD",
+        "2TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz 400nits 100%sRGB",
+        "16英寸 1920x1280 165Hz",
+        "16英寸 1920x1200 165Hz"
+      ],
+      "sourceUrl": "https://m.ithome.com/html/852566.htm",
+      "sourceTitle": "华硕推出新款天选 6 游戏本：锐龙 AI 9 HX 370 + RTX 5070，10499 元 - IT之家",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2025-05（pconline）。RTX5070 版 2025-05-16 开售，首发价 10499 元、国补价 8499 元（IT之家）；115W 满血 RTX5070，双烤 160W（手动 170W）；2.2kg、1.79cm、180° 开合。锐龙7 H 260+RTX5050 入门款为 16 英寸 1920x1280 165Hz 屏（京东在售）。同代天选6 Pro（i7-14650HX/Ultra9 275HX+RTX5060/5070）未单列（见 uncertain）。；内存标注：16GB（DDR5 5600MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选7 Pro Max",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙9 9955HX",
+        "R9-9955HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5060 8GB",
+        "NVIDIA GeForce RTX 5070 8GB",
+        "NVIDIA GeForce RTX 5070Ti 12GB",
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU",
+        "RTX 5070Ti 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB PCIe 4.0 SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600 300Hz 500nits 100%DCI-P3",
+        "18英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/asus/2891771_detail.html",
+      "sourceTitle": "华硕天选7 Pro Max(R9-9955HX/32GB/1TB/RTX5070Ti/2.5K/300Hz) - 太平洋科技产品库",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "2026-05-07 京东官方旗舰店上架、05-08 发布会、05-15 上市（PChome/百度百科）。18 英寸 2.5K 300Hz 500nits 100%DCI-P3 防眩光；R9 9955HX（16 核 32 线程）；整机 180W（CPU 单烤 90W、GPU 单烤 115W）；2.7kg、1.89cm、90Wh、Wi-Fi 6E。RTX5070/5070Ti 配 8GB 显存（PChome）；华硕商城仅见 RTX5060 配置标价 12499 元。；内存标注：16GB（DDR5 5600MHz）、32GB（DDR5 5600MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选7 Pro",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "Intel 酷睿 Ultra 7 251HX",
+        "Intel 酷睿 Ultra 7 255HX",
+        "Intel 酷睿 Ultra 9 290HX Plus",
+        "AMD 锐龙9 9955HX",
+        "R9-9955HX",
+        "U7-251HX",
+        "U7-255HX",
+        "U9-290HX Plus"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5060 8GB",
+        "NVIDIA GeForce RTX 5070 8GB",
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 300Hz 500nits 100%DCI-P3 AGLR",
+        "16英寸 2560x1600 300Hz"
+      ],
+      "sourceUrl": "https://www.asus.com.cn/",
+      "sourceTitle": "华硕商城 ASUSMALL（天选系列在售配置）",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "2026-05-08 发布、05-15 上市（百度百科/PChome）。16 英寸 2.5K 300Hz 500nits 100%DCI-P3，AGLR 抗反射；2.25kg、17.9mm、90Wh；整机 180W（CPU 单烤 90W、GPU 115W）；酷睿/锐龙双平台，雷电4+全功能 USB-C+3×USB-A+HDMI2.1 FRL+RJ45。价格为华硕商城页面价（2026-10-23 检索，不同页面快照存在差异）。；内存标注：16GB（DDR5）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选7",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙7 H 260",
+        "R7 H 260"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 5050 8GB",
+        "NVIDIA GeForce RTX 5060 8GB",
+        "RTX 5050 8GB 笔记本电脑 GPU",
+        "RTX 5060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz OLED 1100nits 0.2ms",
+        "16英寸 2560x1600 165Hz OLED"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%897/67852083",
+      "sourceTitle": "华硕天选7 - 百度百科",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "2026-05-08 天选新品发布会推出天选7/天选7 Pro/天选7 Pro Max；标准版 2026-05-30 京东上架、06-01 上市（百度百科）。16 英寸 2.5K 165Hz OLED，峰值 1100nits，VESA DisplayHDR True Black 1000，180° 开合；约 2.1kg、17.9mm、90Wh。价格为华硕商城页面价（2026-10-23 检索）。；内存标注：16GB（DDR5）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选Air",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙7 8845H",
+        "AMD 锐龙 AI 9 HX 370",
+        "R7-8845H",
+        "AI 9 HX 370"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce RTX 4050 6GB",
+        "NVIDIA GeForce RTX 4060 8GB",
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 165Hz 400nits 100%sRGB",
+        "14英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/",
+      "sourceTitle": "华硕天选Air (2024) 规格参数 - 华硕官网",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024-07-22 发布、7 月开售（新华网/凤凰网）。天选家族首款 14 英寸：R7 8845H+RTX 4050+16GB+1TB 7299 元；R7 8845H+RTX 4060+16GB+1TB 7999 元；Ryzen AI 9 HX 370+RTX 4060+16GB+1TB 8999 元；HX 370+RTX 4060+32GB+1TB 9499 元。板载 LPDDR5X 7500（16GB 或 32GB，不可扩展）、1.46kg、16.9mm、73Wh、110W 整机释放。官网 techspec 含 FA401UU/UV/WV 三个型号代码。；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "华硕",
+      "model": "天选",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙7 4800H",
+        "AMD 锐龙9 4900H",
+        "AMD 锐龙5 4600H",
+        "R7-4800H",
+        "R9-4900H",
+        "R5-4600H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "NVIDIA GeForce GTX 1650Ti 4GB",
+        "NVIDIA GeForce GTX 1660Ti 6GB",
+        "NVIDIA GeForce RTX 2060 6GB",
+        "GTX 1660Ti 6GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "GTX 1650Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz IPS",
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/29470_1.html",
+      "sourceTitle": "华硕天选FA506 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-23",
+      "confidence": "high",
+      "notes": "上市 2020-03（ZOL 系列页），2020-03-26 京东独家首发，首发价 6299 元（R7-4800H+8GB+512GB+GTX1660Ti）/6599 元（R7-4800H+8GB+512GB+RTX2060）（nb.zol.com.cn/740/7403076.html）。ZOL 系列共 10 款，含 R5 4600H/R7 4800H/R9 4900H 与 GTX1650Ti/GTX1660Ti/RTX2060 组合；2.5kg；冰川散热架构。别名 FA506/FA506IU/FA506IV/华硕天选游戏本；海外系列名 TUF Gaming。；内存标注：8GB（DDR4 3200MHz）、16GB（DDR4 3200MHz）；配置组合由 2026-11-01 补充批次补齐，证据以电商/媒体页为主。",
+      "origin": "asus/asus-gaming-v2.json"
+    }
+  ],
+  "combos": [
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "R7-4800H",
+      "ram": "8GB",
+      "gpu": "GTX 1660Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.ithome.com/0/479/192.htm",
+      "sourceTitle": "华硕天选游戏本首发价格公布：R7 4800H+RTX 2060，6599 元 - IT之家",
+      "confidence": "high",
+      "notes": "首发 6299 元，2020-03-26 京东独家首发（钛空灰）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "R7-4800H",
+      "ram": "8GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://tech.sina.com.cn/roll/2020-03-23/doc-iimxyqwa2521572.shtml",
+      "sourceTitle": "锐龙8核+GTX1660Ti！华硕天选游戏本首发惊喜价6299元 - 新浪科技",
+      "confidence": "medium",
+      "notes": "首发 6599 元，2020-03-26（元气蓝/钛空灰两色）。平台名 FA506IV。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "R7-4800H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/asus/1281587_detail.html",
+      "sourceTitle": "华硕天选(R7-4800H/16GB/512GB/RTX2060/15.6英寸)参数 - 太平洋产品报价库",
+      "confidence": "high",
+      "notes": "上市 2020-05；ZOL 同步报价 7499 元（来源页标注，非首发价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "R9-4900H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E5%8D%8E%E7%A1%95%E5%A4%A9%E9%80%89FA506IV/55389338",
+      "sourceTitle": "华硕天选FA506IV - 百度百科",
+      "confidence": "low",
+      "notes": "R9-4900H 高配版标配 16GB；首发价 6999 元起（系列起价，非该配置价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "R5-4600H",
+      "ram": "16GB",
+      "gpu": "GTX 1660Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://shop.zol.com/shop_122552/37456669.html",
+      "sourceTitle": "华硕 天选FA506(R5 4600H/16GB/512GB/GTX1660Ti) - ZOL商城",
+      "confidence": "medium",
+      "notes": "上市 2020-09 的入门改款；来源页未标价。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "cpu": "R5-4600H",
+      "ram": "8GB",
+      "gpu": "GTX 1650Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1315091.shtml",
+      "sourceTitle": "华硕天选FA506IU 系列（共10款）- 中关村在线产品库",
+      "confidence": "medium",
+      "notes": "ZOL 版本列表含 Ryzen 5 4600H|GTX 1650Ti 组合；参考价约 5599-5999 元区间（同系列 R7+GTX1650Ti 版报价 5999 元），来源页未单列该配置价。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/adapter-coupling/index1359562.shtml",
+      "sourceTitle": "华硕天选2(R7 5800H/16GB/512GB/RTX3060/144Hz) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "参考报价 7699 元（来源页标注）；另有经销商 8299 元行情（nb.zol.com.cn/774/7748772.html）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 240Hz",
+      "sourceUrl": "https://detail.zol.com.cn/adapter-coupling/index1359562.shtml",
+      "sourceTitle": "华硕天选2(R7 5800H/16GB/512GB/RTX3060) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "240Hz 高刷版，参考报价 7999 元（来源页标注）；100% sRGB。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/adapter-coupling/index1359562.shtml",
+      "sourceTitle": "华硕天选2(R7 5800H/16GB/512GB/RTX3050Ti/144Hz) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "入门版，参考报价 6799 元（来源页标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "R9-5900HX",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.sohu.com/a/481524282_114760",
+      "sourceTitle": "首发9999元/2.5K屏：华硕天选2 5900HX+RTX 3070版今日开售 - 搜狐（转载 IT之家）",
+      "confidence": "medium",
+      "notes": "首发 9999 元，2021-08-05 开售；90Wh 电池，显卡 8GB/5120 SP。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "R9-5900HX",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/adapter-coupling/index1359562.shtml",
+      "sourceTitle": "华硕天选2 全部版本 - 中关村在线产品库",
+      "confidence": "medium",
+      "notes": "ZOL 版本列表含 Ryzen 9 5900HX|RTX 3060 组合；屏幕按同期 R9 平台 2.5K 165Hz 记录，具体分辨率来源页未逐条标注，价格未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "cpu": "R7-4800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/2021-asus-tuf-gaming-a15/techspec/",
+      "sourceTitle": "天选2 规格参数（FA506IC/FA506QR/FA506QM/FA506QE）- 华硕官网",
+      "confidence": "high",
+      "notes": "FA506IC 机型：R7-4800H + RTX 3050 4GB + 1920x1080 144Hz 45%NTSC；参考价约 6699 元（2021-09 行情，来源页未复核）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/7982475.html",
+      "sourceTitle": "华硕天选3(i7 12700H/16GB/512GB/RTX3060/165Hz) - 中关村在线",
+      "confidence": "high",
+      "notes": "上市 2022-02-11；首发 9499 元，2022 暑促到手 8799 元（nb.zol.com.cn/798/7987039.html）。140W 满血，DCI-P3 100%。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1398/1397755/index.html",
+      "sourceTitle": "华硕天选3(i7 12700H/16GB/512GB/RTX3070/165Hz) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "参考报价 11299 元（来源页标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3050Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1398/1397755/index.html",
+      "sourceTitle": "华硕天选3(i7 12700H/16GB/512GB/RTX3050Ti/144Hz) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "参考报价 8299 元（来源页标注）；FHD 144Hz 版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "i5-12500H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1398/1397755/index.html",
+      "sourceTitle": "华硕天选3(i5 12500H/16GB/512GB/RTX3050/144Hz) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "参考报价 8099 元（来源页标注，i7 同显卡版本价，i5 版实际更低）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/asus/1476647_detail.html",
+      "sourceTitle": "华硕天选3(R7-6800H/16GB/512GB/RTX3060/165Hz/2.5K)参数 - 太平洋产品报价库",
+      "confidence": "high",
+      "notes": "上市 2022-02-12；锐龙版 140W RTX 3060，DDR5 4800，90Wh。参考价约 7999 元，618 到手 7499 元（news.qq.com/rain/a/20220601A0CBX700）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30028045799",
+      "sourceTitle": "AMD实力宠粉！锐龙笔记本超值大促爆款推荐 - 人民日报客户端",
+      "confidence": "medium",
+      "notes": "FHD 144Hz 100% sRGB 版本，促销到手 7499 元（2022-06）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.asus.com.cn/Laptops/For-Gaming/TUF-Gaming/ASUS-TUF-Gaming-A15-2022/techspec",
+      "sourceTitle": "天选3 (AMD) 规格参数（FA507RM/FA507RR）- 华硕官网",
+      "confidence": "high",
+      "notes": "FA507RR 顶配：R7-6800H + RTX 3070 140W + 2.5K 165Hz；参考价约 9999 元（同期行情，来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "i7-13620H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/9394719.html",
+      "sourceTitle": "华硕天选4游戏本88VIP专享，入手仅5300元！ - 中关村在线",
+      "confidence": "medium",
+      "notes": "天猫 88VIP 到手 5300 元（原价 7295 元，2023 促销）；双通道 DDR5，400nits，3ms。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "i7-13620H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/9394719.html",
+      "sourceTitle": "华硕天选4游戏本88VIP专享，入手仅5300元！ - 中关村在线",
+      "confidence": "medium",
+      "notes": "1TB PCIe 4.0 版本，支持 RAID 0 扩展；参考价约 7295 元（来源页原价标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "i7-13620H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.asus.com.cn/Laptops/For-Gaming/TUF-Gaming/ASUS-TUF-Gaming-F15-2023/",
+      "sourceTitle": "天选4 (2023) 笔记本电脑 - 华硕官网",
+      "confidence": "high",
+      "notes": "F15 2023 入门显卡档；参考价约 6299 元（2023 促销区间，来源页未标注单价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "R7-7735H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1466/1465620/index.html",
+      "sourceTitle": "华硕天选4 锐龙版(R7 7735H/16GB/512GB/RTX4060/144Hz/青) - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "成都渠道报价 6899 元（2023，nb.zol.com.cn/910/9104330.html）；Zen 3+ 6nm，2.3kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "R7-7735H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1466/1465620/index.html",
+      "sourceTitle": "华硕天选4 锐龙版 全部版本（共6款）- 中关村在线产品库",
+      "confidence": "high",
+      "notes": "R7 7735H/16GB/512GB/RTX4050/144Hz/灰 版本；参考价约 6299 元（同系列价差推算，来源页未单列）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "R9-7940H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1466/1465620/index.html",
+      "sourceTitle": "华硕天选4 锐龙版 全部版本（共6款）- 中关村在线产品库",
+      "confidence": "high",
+      "notes": "R9 7940H 平台配 16 英寸 2.5K 165Hz；参考价约 7999 元（2023 行情，来源页未单列）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "cpu": "R9-7940H",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1466/1465620/index.html",
+      "sourceTitle": "华硕天选4 锐龙版 全部版本（共6款）- 中关村在线产品库",
+      "confidence": "high",
+      "notes": "顶配版 R9 7940H/16GB/1TB/RTX4070/2.5K/165Hz/青；参考价约 9999 元（来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "cpu": "R7-8845H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2024/techspec/",
+      "sourceTitle": "天选5 规格参数 - 华硕官网",
+      "confidence": "high",
+      "notes": "FHD 144Hz 100%sRGB 版本，参考价约 6299 元（2024 促销区间，来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "cpu": "R7-8845H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/asus/2120607_detail.html",
+      "sourceTitle": "华硕天选5锐龙版(R7-8845H/16GB/512GB/RTX4060) - 太平洋电脑网",
+      "confidence": "high",
+      "notes": "2024-01 上市，首发 7299 元起；国补后 5839 元（cctime.com，2024-12）。90Wh，2.1kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "cpu": "R9-8945H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.jinshouji.com/bijibendiannao/618021.html",
+      "sourceTitle": "华硕天选5 锐龙版 各版本（R9 8945H/16GB/512GB/RTX4060）- 金手机产品库",
+      "confidence": "medium",
+      "notes": "R9-8945H 版，140W 满血 RTX 4060，参考价约 7999 元（2024 行情，来源页标 7299 元起为系列起价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "cpu": "R9-8945H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.jinshouji.com/bijibendiannao/618021.html",
+      "sourceTitle": "华硕天选5 锐龙版 各版本（R9 8945H/16GB/1TB/RTX4060）- 金手机产品库",
+      "confidence": "medium",
+      "notes": "1TB 版本；参考价约 8299 元（来源页未单列）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "cpu": "R9-8945H",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.jinshouji.com/bijibendiannao/618021.html",
+      "sourceTitle": "华硕天选5 锐龙版 各版本（R9 8945H/16GB/1TB/RTX4070）- 金手机产品库",
+      "confidence": "medium",
+      "notes": "系列顶配；参考价约 9499 元（来源页未单列）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "cpu": "R9-8945H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://product.suning.com/0071367029/000000012430322098.html",
+      "sourceTitle": "华硕天选5 2024款(锐龙R9-8945H 16G 2TB RTX4060 2.5K 165Hz 青) - 苏宁易购",
+      "confidence": "medium",
+      "notes": "2TB 定制版；来源页为第三方店铺，参考价约 8999 元（页面未稳定展示，需复核）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.asus.com.cn/product-compare?LevelId=Laptops-For-Students&ProductID=25083,20424",
+      "sourceTitle": "华硕天选5 Pro 规格对比 - 华硕官网",
+      "confidence": "high",
+      "notes": "2024-01-23 上市；首发 8999 元。16GB 单条 DDR5 5600，预留扩展槽至 64GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/asus/2073827_detail.html",
+      "sourceTitle": "华硕天选5 Pro(i9-14900HX/16GB/1TB/RTX4070/2.5K/165Hz)参数 - 太平洋产品报价库",
+      "confidence": "high",
+      "notes": "京东自营 10999 元（2024，bjbpc.com/sp/1437.html 转载）；100% sRGB，400nits。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "i7-13650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://product.suning.com/0071527085/000000012429302227.html",
+      "sourceTitle": "华硕天选5Pro 2024款 配置版本列表 - 苏宁易购",
+      "confidence": "medium",
+      "notes": "i7-13650HX/RTX4060/灰 与 /青 两个配色版本；参考价约 8299 元（来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "i7-13650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://product.suning.com/0071527085/000000012429302227.html",
+      "sourceTitle": "华硕天选5Pro 2024款 配置版本列表 - 苏宁易购",
+      "confidence": "medium",
+      "notes": "FHD+ 1920x1200 165Hz 版本；参考价约 7299 元（来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "R9-7940HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://product.suning.com/0071527085/000000012429302227.html",
+      "sourceTitle": "华硕天选5Pro 2024款(R9-7940HX 16G 1TB RTX4060 2.5K 165Hz 青) - 苏宁易购",
+      "confidence": "medium",
+      "notes": "16 核 32 线程 Zen4；页面核心参数标 2880x1620，与官方 2560x1600 冲突，按官网记录。参考价约 8499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "R9-8945H",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://product.suning.com/0071527085/000000012429302227.html",
+      "sourceTitle": "华硕天选5Pro 2024款 配置版本列表（R9-8945H/RTX4070/青）- 苏宁易购",
+      "confidence": "medium",
+      "notes": "锐龙 8 核 16 线程版；参考价约 9299 元（来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "cpu": "i9-13980HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://product.suning.com/0071527085/000000012429302227.html",
+      "sourceTitle": "华硕天选5Pro 2024款 配置版本列表（I9-13980HX/RTX4060）- 苏宁易购",
+      "confidence": "medium",
+      "notes": "13 代 i9 过渡版本，2024 上半年在售；参考价约 8699 元（来源页未标注）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "R7-8845H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/",
+      "sourceTitle": "华硕天选Air (2024) 规格参数 - FA401UU 机型参数",
+      "confidence": "high",
+      "notes": "机型代号 FA401UU；京东自营参考价 7299 元（2024-08），促销期低至 7399 元、补贴后 6239 元，来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "R7-8845H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/",
+      "sourceTitle": "华硕天选Air (2024) 规格参数 - FA401UV 机型参数",
+      "confidence": "high",
+      "notes": "机型代号 FA401UV；京东自营 7999 元（月光银，2024-08），官方 8499 元建议价，来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "AI 9 HX 370",
+      "ram": "32GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a14-2024/techspec/",
+      "sourceTitle": "华硕天选Air (2024) 规格参数 - FA401WV 机型参数（板载 16GB*2 LPDDR5X 7500）",
+      "confidence": "high",
+      "notes": "机型代号 FA401WV；京东 9499 元（月光银，2024-08），锐龙 AI 9 HX 370 为 12 核 24 线程、NPU 50 TOPS，来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "cpu": "AI 9 HX 370",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2560x1600 165Hz",
+      "sourceUrl": "https://pinpai.smzdm.com/154152/",
+      "sourceTitle": "天选品牌专区 - 天选Air 2024 在售配置与价格汇总（什么值得买）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "HX370+RTX4060+16G+1T 日蚀灰 8999 元，对应京东 SKU 100129913112，来源页标注；官方 techspec 只列 32GB 版本，16GB 为电商专供。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10926043_1.html",
+      "sourceTitle": "华硕天选6 锐龙版（锐龙7 H 260/16GB/1TB/RTX5060）版本参数与报价 - 中关村在线",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "产品库参考价 9399 元，经销商报价 8701-9399 元，来源页标注；显卡 115W 满功耗、8GB GDDR7。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10926043_1.html",
+      "sourceTitle": "华硕天选6 锐龙版（锐龙7 H 260/16GB/512GB/RTX5060）版本参数与报价 - 中关村在线",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "系列内第二个在售版本，参考价约 8299-8789 元，来源页标注；2025-05 首发国补到手 5999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5050 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/asus/2854911_detail.html",
+      "sourceTitle": "华硕天选6（锐龙7 H 260/16GB/512GB/RTX5050）参数 - 太平洋科技产品库",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "京东第三方页参考价 10299 元；RTX5050 版首发国补到手 5999 元、晒单返 200 元 E 卡后约 5799 元（2025-06），来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5050 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://c.m.163.com/news/a/K2RJRNG70552NPPI.html",
+      "sourceTitle": "新增 RTX5050 独显版！华硕天选6 锐龙版到手价降至 5799 元（网易号）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "该配置标配 16GB 内存 + 1TB SSD，首发国补价 5999 元、晒单返 E 卡后约 5799 元（2025-06）；文中标注屏幕为 2560x1600 165Hz，与产品库 1920x1200 口径不一致。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "cpu": "R7 H 260",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "2TB SSD",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXw4EUFxaDk4RB18IGlsSWwUGXVhaAUMXAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2gOGF8cWwELXF5eFxJSXzI4f1plKFtWLR8_ah8NShZwelN8JGN-JFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk1HVmkOGV8WCgRQUQtUWhknA244WjUVVAYBV1dZCHsWM28OE1kRXgcAUldfD0onA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HVGheExcGSE5SCwEKG1kQXQILVG5fCUoVAV84Kyt8Dk99KAddaB9MWTxJcBJwAwFVAjsDYAlAe2lodVljJEFxMiYWXShQVB17RRp8OzYCZFlbCXsWMw",
+      "sourceTitle": "华硕天选6 2025 款 锐龙7 H 260/RTX5060/魔幻青 32G 内存/2T 固态 - 京东商品页",
+      "checkedAt": "2026-11-01",
+      "confidence": "low",
+      "notes": "第三方店铺页，参考价 16099 元、常卖价 14699 元（来源页标注），明显高于自营价，属加装内存硬盘版；该页同时把分辨率错标为 1920*1280。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5050 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz OLED",
+      "sourceUrl": "https://m.ithome.com/html/957438.htm",
+      "sourceTitle": "华硕天选 7 标准版上架：锐龙 7 H 260 配 RTX 5050/5060，16+512GB 版本 7999 元起（IT之家）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "入门 SKU，日蚀灰，京东预约价 7999 元，国补后 6799 元（2026-05-30 上架，06-01 上市）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5050 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz OLED",
+      "sourceUrl": "https://m.ithome.com/html/957438.htm",
+      "sourceTitle": "华硕天选 7 标准版上架：锐龙 7 H 260 配 RTX 5050/5060，16+512GB 版本 7999 元起（IT之家）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "魔幻青，8799 元，国补后 7479 元，来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz OLED",
+      "sourceUrl": "http://www.asus.com.cn",
+      "sourceTitle": "华硕商城 ASUSMALL 天选系列在售列表（天选7 锐龙7 H 260/RTX5060/16G/512G/2.5K OLED 电竞屏/日蚀灰）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "官方商城限时 9199 元（原价 9499 元），IT之家记录京东预约价 8499 元、国补后 7224 元，来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "cpu": "R7 H 260",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 165Hz OLED",
+      "sourceUrl": "https://m.ithome.com/html/957438.htm",
+      "sourceTitle": "华硕天选 7 标准版上架：锐龙 7 H 260 配 RTX 5050/5060，16+512GB 版本 7999 元起（IT之家）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "顶配标准版，魔幻青，9299 元，国补后 7904 元；整机 TPP 160W、手动模式 170W。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "R9-9955HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.ithome.com/1/015/359.htm",
+      "sourceTitle": "国补叠加双十一多重优惠，AMD 锐龙高性能游戏本迎来入手时机（IT之家）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "锐龙版主力 SKU，建议零售价 14799 元、国补 15% 后到手 13299 元（2026-10）；京东自营页常卖价约 12299-12578 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "R9-9955HX",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.ithome.com/1/015/359.htm",
+      "sourceTitle": "国补叠加双十一多重优惠，AMD 锐龙高性能游戏本迎来入手时机（IT之家，文中注明「另有 RTX 5070 版本可选」，内存/硬盘标配 16GB+1TB）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "锐龙版 RTX 5070 配置，价格未在来源页单列，参考价约 16000-17000 元区间（同系列定价梯度推算，需以电商页为准）。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "U7-251HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "http://www.asus.com.cn",
+      "sourceTitle": "华硕商城 ASUSMALL 天选系列在售列表（天选7 Pro 酷睿版 U7-251HX/RTX5060/16G/512G/2.5K 300Hz/日蚀灰）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "官方商城限时 9999 元（原价 11499 元），酷睿版入门 SKU，来源页标注。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "U7-251HX",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXwIDVV5VAEISAl8IGlgXXAIEXF9VDksWBV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG0JH10dXA4EVF9bFxJSXzI4ExNPPkBSVlk-e1FjVh14cg1pOgUBAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZh8XBWsLSQ9AXlZRAAkIAR4nA244WjUVWwMHVF9UCnsWM28OE1kRXgcAXFxYC0InA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGoJEl5HD2heExcGSB1AQwEKG18UWgALUG5fCUoVAV84K1J9PXVhJy0vdBtsexx-XS19AgIFLC0rYzVEYjULezUXVQZVByQHfSMRAwpvHhloHEIyVG5aDkonAl8",
+      "sourceTitle": "华硕天选7 Pro 酷睿版 U7-251HX/RTX5070/16G/1T/2.5K 300Hz 日蚀灰 - 京东商品页",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "参考价 13768 元（来源页标注），附送天选 75 磁轴键盘；机型 FX608LPG。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "U7-255HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BAS8JK1olWAQEVltbD0oWBV8IGloWWwcAXVxbAE0nRzBQRQQlBENHFRxWFlVPRjtUBABAQlRcCEBdCUoUBW4KElkTVQAdDRsBVXtXQjJ-Rw4VHmRWUx4gCEJzCzJffUVDUQoyUFheDk8WAm4LK1sUXAcDXVZUAEknB2lmGjUVVANsXFtdCkNAAGwNTAsRXAVSUm5dCXtVbbiLmY-o-9-F4InvipKSn18JK1sTVQQGVFZeAUMWBW84G1MRbdGr-ojRrp-uqbi6mWslbQUyZG5dOEgnXQEJHAtAVQABADABTwJMAC1bTTUXXQUKUFhfCXsVAm4KGWslbUByNDsOfTkRaAl6XS5-C1VbJCEfTj58VR1cfRNBPWgADAAhCzlXBCh7by5MAAVYFzxtCHsQBW44Gms",
+      "sourceTitle": "华硕天选7 Pro 酷睿版 U7-255HX 16G 1T RTX5060 2.5K 300Hz 灰 - 京东商品页",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "参考价 12536 元、常卖价 10599 元（来源页标注）；机型 FX608LMG，重 2.25kg，Wi-Fi 6E。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "U7-255HX",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://diy.zol.com.cn/1259/12595510_all.html",
+      "sourceTitle": "华硕天选7 Pro 特惠到手仅 13599 元（中关村在线，天选7 Pro Ultra 7 255HX/16G/1T/RTX5070 魔幻青）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "日常原价 16999 元，叠加国补 1500 元与渠道券后实付 13599 元（2026-10），机型 FX608LPG。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "cpu": "U9-290HX Plus",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 300Hz",
+      "sourceUrl": "https://wap.asus.com.cn/standard/product/detail?productId=42278053342886",
+      "sourceTitle": "天选7 Pro 酷睿版 16英寸电竞游戏本 U9-290HX Plus/RTX5060/16G/1T/2.5K 300Hz/日蚀灰 - 华硕商城商品参数",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "U9-290HX Plus 24 核 24 线程、睿频 5.5GHz、76MB 缓存；1*16G DDR5-5600 双插槽，280W 适配器，90Wh 电池，2.25kg。价格见商城活动价，未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "cpu": "R9-9955HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "18英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.ali213.net/news/html/2026-5/1010687.html",
+      "sourceTitle": "18寸巨屏你喜欢吗？华硕天选7 Pro Max 游戏本震撼首发（游侠网，含 5 档配置与首发价）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "首发价 9999 元（2026-05-15 开卖）；华硕商城限时 12499 元、京东自营页 13173 元，机型 FA808。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "cpu": "R9-9955HX",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "18英寸 2560x1600 300Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook_index/subcate16_227_list_10000_0_1_1_0_1.html",
+      "sourceTitle": "华硕天选7 Pro Max（锐龙9 9955HX/32GB/1TB/RTX5060/日蚀灰）- 中关村在线笔记本产品库",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "产品库报价 14499 元，京东在售价约 1.7 万（来源页标注）；首发价 11999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "cpu": "R9-9955HX",
+      "ram": "16GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "18英寸 2560x1600 300Hz",
+      "sourceUrl": "https://www.ali213.net/news/html/2026-5/1010687.html",
+      "sourceTitle": "18寸巨屏你喜欢吗？华硕天选7 Pro Max 游戏本震撼首发（游侠网，R9 9955HX+RTX 5070 16GB+1TB 10999 元）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "首发价 10999 元，618 到手价 11699 元（ZAKER 报道，2026-06）；RTX 5070 为 8GB GDDR7 版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "cpu": "R9-9955HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "18英寸 2560x1600 300Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook_index/subcate16_227_list_10000_0_1_1_0_1.html",
+      "sourceTitle": "华硕天选7 Pro Max（锐龙9 9955HX/32GB/1TB/RTX5070/日蚀灰）- 中关村在线笔记本产品库",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "产品库报价 15499 元，京东在售价约 1.8 万（来源页标注）；首发价 12999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "cpu": "R9-9955HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070Ti 12GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "18英寸 2560x1600 300Hz",
+      "sourceUrl": "https://wap.asus.com.cn/standard/product/detail?productId=42278043015169&goodsId=22027740906493",
+      "sourceTitle": "天选7 Pro Max 18英寸电竞游戏本 锐龙9 9955HX/RTX5070Ti/32G/1T/2.5K 300Hz/日蚀灰 - 华硕商城商品参数",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "顶配 SKU：2*16G DDR5-5600、RTX 5070Ti 140W 满功耗 12GB 显存、重约 2.8kg、18 英寸 300Hz 500nits；首发价 16499-17499 元（商城/天猫 17999 元）。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "天选游戏本",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "俗称",
+      "note": "2020 年首代宣传名，京东首发页即用此称。"
+    },
+    {
+      "alias": "天选1",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "民间编号",
+      "note": "用户为区分代际自造，官方无「天选1」。"
+    },
+    {
+      "alias": "FA506",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "平台型号",
+      "note": "FA506IU/IV/II 后缀区分显卡，均属 2020 款。"
+    },
+    {
+      "alias": "FA506IU",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "平台型号",
+      "note": "GTX 1660Ti 版本子型号。"
+    },
+    {
+      "alias": "FA506IV",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "平台型号",
+      "note": "RTX 2060 版本子型号。"
+    },
+    {
+      "alias": "TUF Gaming A15",
+      "modelKey": "笔记本电脑|华硕|天选|2020",
+      "aliasType": "海外名",
+      "note": "海外系列名，A15 沿用到 2024 款；单独出现时按首代归档。"
+    },
+    {
+      "alias": "天选2游戏本",
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "aliasType": "俗称",
+      "note": "电商标题常见写法。"
+    },
+    {
+      "alias": "FA506QM",
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "aliasType": "平台型号",
+      "note": "R7-5800H + RTX 3060 版本。"
+    },
+    {
+      "alias": "TUF Gaming A15 2021",
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "aliasType": "海外名",
+      "note": "华硕官网 2021 款 A15 页面。"
+    },
+    {
+      "alias": "ASUS TUF Dash F15",
+      "modelKey": "笔记本电脑|华硕|天选2|2021",
+      "aliasType": "海外名（存疑）",
+      "note": "严格指天选Air（Dash 系列轻薄款），与天选2 同代不同款，归并置信度低，检索时需人工确认。"
+    },
+    {
+      "alias": "天选3锐龙版",
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "aliasType": "版本俗称",
+      "note": "对应 FA507RM/RR，R7-6800H 平台。"
+    },
+    {
+      "alias": "TUF Gaming F15",
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "aliasType": "海外名",
+      "note": "酷睿版海外名，2022 款起用；2023 款亦沿用。"
+    },
+    {
+      "alias": "FA507RM",
+      "modelKey": "笔记本电脑|华硕|天选3|2022",
+      "aliasType": "平台型号",
+      "note": "R7-6800H + RTX 3060 版本。"
+    },
+    {
+      "alias": "天选4锐龙版",
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "aliasType": "版本俗称",
+      "note": "R7-7735H / R9-7940H 平台。"
+    },
+    {
+      "alias": "FA507NV",
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "aliasType": "平台型号",
+      "note": "R7-7735H + RTX 4060 版本。"
+    },
+    {
+      "alias": "TUF Gaming F15 2023",
+      "modelKey": "笔记本电脑|华硕|天选4|2023",
+      "aliasType": "海外名",
+      "note": "华硕官网 2023 款 F15 页面标题。"
+    },
+    {
+      "alias": "天选5锐龙版",
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "aliasType": "版本俗称",
+      "note": "天选5 仅 AMD 平台，此称与「天选5」等价。"
+    },
+    {
+      "alias": "TUF Gaming A15 2024",
+      "modelKey": "笔记本电脑|华硕|天选5|2024",
+      "aliasType": "海外名",
+      "note": "华硕官网 2024 款 A15 规格页。"
+    },
+    {
+      "alias": "天选5Pro",
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "aliasType": "无空格写法",
+      "note": "电商标题高频写法。"
+    },
+    {
+      "alias": "天选5 Pro 酷睿版",
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "aliasType": "版本俗称",
+      "note": "i7-13650HX/i9-13980HX/i9-14900HX 平台，含雷电 4。"
+    },
+    {
+      "alias": "FX607",
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "aliasType": "平台型号",
+      "note": "酷睿版机身型号；锐龙版为 FA607。"
+    },
+    {
+      "alias": "TUF Gaming F16",
+      "modelKey": "笔记本电脑|华硕|天选5 Pro|2024",
+      "aliasType": "海外名",
+      "note": "16 英寸 16:10 机身，对应天选5 Pro 酷睿版。"
+    },
+    {
+      "alias": "天选Air",
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "aliasType": "简称",
+      "note": "电商与媒体最常用写法，默认指 2024 款 14 英寸机型"
+    },
+    {
+      "alias": "天选 Air 2024",
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "aliasType": "全称",
+      "note": "带空格与年份的完整写法"
+    },
+    {
+      "alias": "TUF Gaming A14",
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "aliasType": "海外型号名",
+      "note": "海外/官网英文名，对应国内天选Air"
+    },
+    {
+      "alias": "FA401",
+      "modelKey": "笔记本电脑|华硕|天选Air|2024",
+      "aliasType": "机型代号",
+      "note": "FA401WV / FA401UV / FA401UU 三个分支共用的前缀代号"
+    },
+    {
+      "alias": "天选6",
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "aliasType": "简称",
+      "note": "不含 Pro 的标准版 16 英寸机型"
+    },
+    {
+      "alias": "天选 6",
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "aliasType": "别名写法",
+      "note": "带空格的常见媒体写法"
+    },
+    {
+      "alias": "天选6 锐龙版",
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "aliasType": "版本名",
+      "note": "天选6 只有锐龙 7 H 260 一条 CPU 线，媒体常加「锐龙版」区分"
+    },
+    {
+      "alias": "TUF Gaming A16",
+      "modelKey": "笔记本电脑|华硕|天选6|2025",
+      "aliasType": "海外型号名",
+      "note": "海外对应 16 英寸 TUF A16，需与 2026 款区分"
+    },
+    {
+      "alias": "天选7",
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "aliasType": "简称",
+      "note": "标准版，不含 Pro / Pro Max"
+    },
+    {
+      "alias": "天选 7",
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "aliasType": "别名写法",
+      "note": "IT之家等媒体带空格写法"
+    },
+    {
+      "alias": "天选7标准版",
+      "modelKey": "笔记本电脑|华硕|天选7|2026",
+      "aliasType": "版本名",
+      "note": "百度百科与发布会用词，指 OLED 165Hz 的标准版"
+    },
+    {
+      "alias": "天选7Pro",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "aliasType": "简称",
+      "note": "电商标题常见无空格写法"
+    },
+    {
+      "alias": "天选7 Pro",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "aliasType": "标准写法",
+      "note": "官方与商城标准名称"
+    },
+    {
+      "alias": "FX608",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "aliasType": "机型代号",
+      "note": "酷睿版代号，FX608LMG（5060）/ FX608LPG（5070）"
+    },
+    {
+      "alias": "FA608",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro|2026",
+      "aliasType": "机型代号",
+      "note": "锐龙版代号，FA608FM"
+    },
+    {
+      "alias": "天选7ProMax",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "aliasType": "简称",
+      "note": "无空格连写形式"
+    },
+    {
+      "alias": "天选7 Pro Max",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "aliasType": "标准写法",
+      "note": "官方标准名称"
+    },
+    {
+      "alias": "TUF Gaming A18",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "aliasType": "海外型号名",
+      "note": "官网英文页路径为 asus-tuf-gaming-a18"
+    },
+    {
+      "alias": "FA808",
+      "modelKey": "笔记本电脑|华硕|天选7 Pro Max|2026",
+      "aliasType": "机型代号",
+      "note": "京东与官网商品参数中的认证型号"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "天选5",
+      "issue": "是否存在酷睿版（F15 2024，i7-13620H 平台）未在华硕中国官网找到独立规格页，官网页仅有 A15（AMD）版本。",
+      "suggestion": "若后续确认为独立型号，应新增「笔记本电脑|华硕|天选5|2024」的 Intel 配置或在 models 中拆分，勿直接并入现有 AMD 型号。",
+      "sourceUrl": "https://www.asus.com.cn/laptops/for-gaming/tuf-gaming/asus-tuf-gaming-a15-2024/techspec/",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选2",
+      "issue": "R9-5900HX + RTX 3060 版本的屏幕分辨率未在来源页逐条标注，本文件按 2.5K 165Hz 记录。",
+      "suggestion": "以机身标签或开箱实测复核；若为 FHD 240Hz，应修改该条 screen 字段。",
+      "sourceUrl": "https://detail.zol.com.cn/adapter-coupling/index1359562.shtml",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选5 Pro",
+      "issue": "苏宁易购页面同时出现 i9-13980HX、i9-14900HX、R7-8845H、R9-8945H 等十余个版本，部分为第三方店铺定制，机身型号与配色混排。",
+      "suggestion": "以华硕官网 FX607/FA607 规格页为准收敛 CPU 清单；定制内存/硬盘档（32GB、2TB）不建议计入标准 SKU。",
+      "sourceUrl": "https://product.suning.com/0071527085/000000012429302227.html",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选",
+      "issue": "R5-4600H 版本的标配内存存在 8GB 与 16GB 两种来源（ZOL 系列页 vs ZOL 商城单品页），且 GTX 1650Ti 版价格未单列。",
+      "suggestion": "按下单时的电商 SKU 明细确认；本文件两条 R5 配置分别记 8GB/16GB，未合并。",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1315091.shtml",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选6",
+      "issue": "屏幕分辨率口径冲突：2025-05 发布会稿与部分媒体写「16 英寸 2.5K 165Hz」，中关村在线产品库、太平洋产品库与百度百科均记为 1920x1200 165Hz。",
+      "suggestion": "configCombos 统一按产品库 1920x1200 记录，screenOptions 同时保留 2.5K 变体；合并时若上游有官方 SKU 表以官方为准。",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/10926043_1.html",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选6",
+      "issue": "32GB/2TB 配置仅见于京东第三方店铺页，同一页面把分辨率错标为 1920*1280，且价格 16099 元远高于自营。",
+      "suggestion": "保留为 low 置信度记录，用于覆盖加装版场景；对外展示时标注「第三方加装配置，非官方标准 SKU」。",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXw4EUFxaDk4RB18IGlsSWwUGXVhaAUMXAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2gOGF8cWwELXF5eFxJSXzI4f1plKFtWLR8_ah8NShZwelN8JGN-JFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZk1HVmkOGV8WCgRQUQtUWhknA244WjUVVAYBV1dZCHsWM28OE1kRXgcAUldfD0onA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HVGheExcGSE5SCwEKG1kQXQILVG5fCUoVAV84Kyt8Dk99KAddaB9MWTxJcBJwAwFVAjsDYAlAe2lodVljJEFxMiYWXShQVB17RRp8OzYCZFlbCXsWMw",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选7 Pro",
+      "issue": "酷睿版 CPU 命名混乱：华硕商城写 U7-251HX，京东同款写「Ultra 7 255HX」，另有 U7-255HX 与 U9-290HX Plus 并存，可能是不同 wattage/批次的型号差异。",
+      "suggestion": "分别建 U7-251HX / U7-255HX / U9-290HX Plus 三条 CPU 线，不要合并；合并 SKU 前用 FX608 后缀（LMG/LPG）二次核对。",
+      "sourceUrl": "http://www.asus.com.cn",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选7 Pro Max",
+      "issue": "机身重量口径不一：官方与媒体报道 2.7kg（RTX5060）/2.8kg（RTX5070Ti），但个别京东店铺页把 18 英寸机型标成 2.25kg。",
+      "suggestion": "以官方 2.7/2.8kg 为准，2.25kg 判定为店铺页复制错误。",
+      "sourceUrl": "https://www.ali213.net/news/html/2026-5/1010687.html",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选7 Pro",
+      "issue": "R9-9955HX + RTX 5070 的存储/内存组合无单独报价页，仅由 IT之家「另有 RTX 5070 版本可选」+「标配 16GB+1TB」两句话交叉推导。",
+      "suggestion": "保留该 combo 但 confidence 记为 medium，价格栏留「参考价约 16000-17000 元」；后续拿到京东 SKU 页再替换 sourceUrl。",
+      "sourceUrl": "https://www.ithome.com/1/015/359.htm",
+      "origin": "asus supplement 2026-11-01"
+    },
+    {
+      "model": "天选Air",
+      "issue": "AI 9 HX 370 版本的官方技术规格只列 32GB 板载内存，但电商在售有 16GB 版本（8999 元）。",
+      "suggestion": "两条都保留：32GB 记 high（官方 techspec），16GB 记 medium（电商页）；ramOptions 需同时包含 16GB/32GB。",
+      "sourceUrl": "https://pinpai.smzdm.com/154152/",
+      "origin": "asus supplement 2026-11-01"
+    }
+  ]
+}
