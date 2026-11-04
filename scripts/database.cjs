@@ -546,34 +546,35 @@ function initDatabase(db) {
  * 插入初始数据
  */
 function seedDatabase(db) {
-  // 检查是否已有数据
-  const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get();
-  
-  if (userCount.count > 0) {
-    console.log('⚠️  数据库已有数据，跳过初始化数据插入');
-    return;
-  }
+  db.transaction(() => {
+    const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get();
+    if (userCount.count > 0) {
+      console.log('⚠️  数据库已有数据，跳过初始化数据插入');
+      return;
+    }
 
-  // 插入默认管理员用户（密码：admin123，实际应该加密）
-  const userId = 'user_' + Date.now();
-  db.prepare(`
-    INSERT INTO users (id, username, password, realName, role, status, isSystemAccount)
-    VALUES (?, ?, ?, ?, ?, ?, 1)
-  `).run(userId, 'admin', hashPassword('admin123'), '系统管理员', 'admin', 'active');
-  db.prepare(`
-    INSERT OR IGNORE INTO user_warehouses (userId, warehouseId)
-    VALUES (?, 'warehouse_main')
-  `).run(userId);
+    const userId = 'user_' + Date.now();
+    db.prepare(`
+      INSERT INTO users (id, username, password, realName, role, status, isSystemAccount)
+      VALUES (?, ?, ?, ?, ?, ?, 1)
+    `).run(userId, 'admin', hashPassword('admin123'), '系统管理员', 'admin', 'active');
+    db.prepare(`
+      INSERT OR IGNORE INTO user_warehouses (userId, warehouseId)
+      VALUES (?, 'warehouse_main')
+    `).run(userId);
 
-  console.log('✅ 初始数据插入完成');
-
+    console.log('✅ 初始数据插入完成');
+  }).immediate();
 }
 
 function applyVersionedMigrations(db) {
   db.exec(`CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, name TEXT NOT NULL, appliedAt TEXT NOT NULL DEFAULT (datetime('now')))`);
   const migrate = (version, name, run) => {
-    if (db.prepare('SELECT version FROM schema_migrations WHERE version = ?').get(version)) return;
-    db.transaction(() => { run(); db.prepare('INSERT INTO schema_migrations (version, name) VALUES (?, ?)').run(version, name); })();
+    db.transaction(() => {
+      if (db.prepare('SELECT version FROM schema_migrations WHERE version = ?').get(version)) return;
+      run();
+      db.prepare('INSERT INTO schema_migrations (version, name) VALUES (?, ?)').run(version, name);
+    }).immediate();
   };
   const migrateWithoutForeignKeys = (version, name, run) => {
     if (db.prepare('SELECT version FROM schema_migrations WHERE version = ?').get(version)) return;
@@ -1019,6 +1020,11 @@ function applyVersionedMigrations(db) {
     `);
   });
   migrate(18, 'merge additive built-in SKU catalog updates', () => {
+    if (db.prepare('SELECT COUNT(*) AS count FROM skus').get().count === 0) return;
+    const result = syncBuiltinSkuCatalog(db);
+    console.log(`内置 SKU 目录升级：新增 ${result.inserted} 条、补充或规范 ${result.updated} 条、保留 ${result.skipped} 条本地记录`);
+  });
+  migrate(19, 'add 2026-11-03 built-in SKU catalog updates', () => {
     if (db.prepare('SELECT COUNT(*) AS count FROM skus').get().count === 0) return;
     const result = syncBuiltinSkuCatalog(db);
     console.log(`内置 SKU 目录升级：新增 ${result.inserted} 条、补充或规范 ${result.updated} 条、保留 ${result.skipped} 条本地记录`);

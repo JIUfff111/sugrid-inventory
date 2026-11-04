@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const Database = require('better-sqlite3');
-const { execFileSync } = require('node:child_process');
+const { execFileSync, spawn } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -34,7 +34,7 @@ try {
   assert.equal(catalog.skus.some((sku) => (sku.cpuOptions || []).some((value) => /^(?:Intel|英特尔|AMD|锐龙|Ryzen|酷睿)\b/i.test(value))), false);
   assert.equal(catalog.skus.some((sku) => (sku.gpuOptions || []).some((value) => /笔记本电脑 GPU|\d+GB/i.test(value))), false);
   assert.equal(catalog.skus.some((sku) => (sku.screenOptions || []).some((value) => /英寸|Hz|nits|sRGB|x\d/i.test(value))), false);
-  assert.equal(catalog.skus.length, 974);
+  assert.equal(catalog.skus.length, 976);
   assert.equal(catalog.skus.some((sku) => sku.brand === '红米'), false);
   assert.equal(catalog.skus.some((sku) => sku.year && String(sku.model).includes(String(sku.year))), false,
     'the model field must not repeat the separate model year');
@@ -50,13 +50,25 @@ try {
   }
   assert.equal(catalog.skus.some((sku) => sku.model.includes('Ult..')), false, 'truncated model names must be repaired');
   assert.equal(catalog.skus.find((sku) => sku.model === 'Redmi Book 14' && sku.year === 2025).cpuOptions.includes('Core 5 220H'), true);
-  assert.equal(supplement.models.length, 87);
-  assert.equal(supplement.combos.length, 439);
-  assert.equal(new Set(supplement.combos.map((combo) => combo.modelKey)).size, 85);
+  const newRedmi14 = catalog.skus.find((sku) => sku.brand === '小米' && sku.model === 'RedmiBook 14 锐龙版' && sku.year === 2025);
+  const newRedmi16 = catalog.skus.find((sku) => sku.brand === '小米' && sku.model === 'RedmiBook 16 锐龙版' && sku.year === 2025);
+  assert.deepEqual(newRedmi14.cpuOptions, ['R5-7535H', 'R7-7735H']);
+  assert.deepEqual(newRedmi14.gpuOptions, ['集显']);
+  assert.deepEqual(newRedmi14.screenOptions, ['FHD+']);
+  assert.deepEqual(newRedmi16.screenOptions, ['规格待核实'], 'estimated Redmi Book 16 screen must remain unconfirmed');
+  assert.equal(newRedmi14.storageOptions.includes('512GB SSD'), true);
+  assert.deepEqual(catalog.skus.find((sku) => sku.brand === 'ThinkPad' && sku.model === 'T14 Gen 1 (AMD)' && sku.year === 2020).screenOptions,
+    ['FHD', 'HD']);
+  assert.equal(catalog.skus.find((sku) => sku.brand === 'ThinkPad' && sku.model === 'X1 Carbon Gen9' && sku.year === 2021).screenOptions.includes('FHD+'), true);
+  assert.equal(catalog.skus.find((sku) => sku.brand === '小米' && sku.model === 'Xiaomi Book Pro 14 锐龙版' && sku.year === 2022).screenOptions.includes('2.8K'), true);
+  assert.equal(catalog.skus.find((sku) => sku.brand === '小米' && sku.model === 'Redmi Book Pro 14 酷睿版' && sku.year === 2022).cpuOptions.includes('I5-12500H'), true);
+  assert.equal(supplement.models.length, 89);
+  assert.equal(supplement.combos.length, 412);
+  assert.equal(new Set(supplement.combos.map((combo) => combo.modelKey)).size, 87);
   assert.deepEqual(supplement.combos.reduce((counts, combo) => {
     counts[combo.confidence] = (counts[combo.confidence] || 0) + 1;
     return counts;
-  }, {}), { high: 214, medium: 184, low: 41 }, 'low-confidence source-backed combinations must remain available');
+  }, {}), { high: 211, medium: 166, low: 35 }, 'low-confidence source-backed combinations must remain available');
   assert.equal(supplement.combos.every((combo) => /^https?:\/\//i.test(combo.sourceUrl)), true);
   for (const model of supplement.models) {
     const normalized = {
@@ -94,6 +106,32 @@ try {
   assert.deepEqual(existing.prepare('SELECT * FROM skus WHERE id = ?').get('existing'), original);
 } finally {
   existing.close();
+}
+
+const incrementalCatalogUpgrade = createDatabase();
+try {
+  const thinkpad = catalog.skus.find((sku) => sku.brand === 'ThinkPad' && sku.model === 'T14 Gen 1 (AMD)' && sku.year === 2020);
+  incrementalCatalogUpgrade.prepare(`
+    INSERT INTO skus(id, productType, brand, model, year, cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions)
+    VALUES ('pre-v19-thinkpad', ?, ?, ?, ?, ?, ?, ?, ?, '[]')
+  `).run(thinkpad.productType, thinkpad.brand, thinkpad.model, thinkpad.year,
+    JSON.stringify(thinkpad.cpuOptions), JSON.stringify(thinkpad.ramOptions), JSON.stringify(thinkpad.gpuOptions),
+    JSON.stringify(thinkpad.storageOptions));
+  incrementalCatalogUpgrade.prepare('DELETE FROM schema_migrations WHERE version = 19').run();
+  initDatabase(incrementalCatalogUpgrade);
+  const upgradedThinkpad = incrementalCatalogUpgrade.prepare('SELECT screenOptions FROM skus WHERE id = ?').get('pre-v19-thinkpad');
+  assert.deepEqual(JSON.parse(upgradedThinkpad.screenOptions), thinkpad.screenOptions,
+    'migration 19 must merge the new screen options into databases already past migration 18');
+  assert.equal(incrementalCatalogUpgrade.prepare(`
+    SELECT COUNT(*) AS count FROM skus
+    WHERE brand = '小米' AND model IN ('RedmiBook 14 锐龙版', 'RedmiBook 16 锐龙版') AND year = 2025
+  `).get().count, 2);
+  assert.deepEqual(incrementalCatalogUpgrade.pragma('foreign_key_check'), []);
+  assert.equal(incrementalCatalogUpgrade.pragma('integrity_check', { simple: true }), 'ok');
+  assert.deepEqual(syncBuiltinSkuCatalog(incrementalCatalogUpgrade), { inserted: 0, updated: 0, skipped: 0 },
+    'migration 19 catalog updates must be idempotent');
+} finally {
+  incrementalCatalogUpgrade.close();
 }
 
 const catalogUpgrade = createDatabase();
@@ -234,4 +272,72 @@ try {
   fs.rmSync(tempDir, { recursive: true, force: true });
 }
 
-console.log(`Built-in SKU seed test passed (${catalog.skus.length} entries; fresh file DB; idempotent; existing catalogs preserved).`);
+function runConcurrentMigration(dbPath) {
+  const databaseModule = JSON.stringify(path.join(__dirname, 'database.cjs'));
+  const source = `
+    const Database = require('better-sqlite3');
+    const { initDatabase, seedDatabase } = require(${databaseModule});
+    const db = new Database(process.argv[1]);
+    db.pragma('journal_mode = WAL');
+    db.pragma('foreign_keys = ON');
+    db.pragma('busy_timeout = 5000');
+    initDatabase(db);
+    seedDatabase(db);
+    db.close();
+  `;
+  return new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, ['-e', source, dbPath], { cwd: path.resolve(__dirname, '..') });
+    let output = '';
+    child.stdout.on('data', (chunk) => { output += chunk; });
+    child.stderr.on('data', (chunk) => { output += chunk; });
+    child.once('error', reject);
+    child.once('close', (code) => code === 0 ? resolve(output) : reject(new Error(output)));
+  });
+}
+
+async function testConcurrentCatalogMigration() {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sugrid-sku-migration-concurrency-'));
+  const dbPath = path.join(tempDir, 'migration-check.db');
+  const db = new Database(dbPath);
+  try {
+    db.pragma('journal_mode = WAL');
+    db.pragma('foreign_keys = ON');
+    db.pragma('busy_timeout = 5000');
+    initDatabase(db);
+    seedBuiltinSkus(db);
+    db.prepare(`
+      UPDATE skus SET screenOptions = '[]'
+      WHERE brand = 'ThinkPad' AND model = 'T14 Gen 1 (AMD)' AND year = 2020
+    `).run();
+    db.prepare('DELETE FROM schema_migrations WHERE version IN (18, 19)').run();
+  } finally {
+    db.close();
+  }
+
+  try {
+    await Promise.all([runConcurrentMigration(dbPath), runConcurrentMigration(dbPath)]);
+    const migratedDb = new Database(dbPath, { readonly: true });
+    try {
+      const screen = migratedDb.prepare(`
+        SELECT screenOptions FROM skus
+        WHERE brand = 'ThinkPad' AND model = 'T14 Gen 1 (AMD)' AND year = 2020
+      `).get();
+      assert.deepEqual(JSON.parse(screen.screenOptions), ['FHD', 'HD']);
+      assert.equal(migratedDb.prepare('SELECT COUNT(*) AS count FROM schema_migrations WHERE version IN (18, 19)').get().count, 2);
+      assert.equal(migratedDb.prepare('SELECT COUNT(*) AS count FROM users').get().count, 1);
+      assert.deepEqual(migratedDb.pragma('foreign_key_check'), []);
+      assert.equal(migratedDb.pragma('integrity_check', { simple: true }), 'ok');
+    } finally {
+      migratedDb.close();
+    }
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
+testConcurrentCatalogMigration().then(() => {
+  console.log(`Built-in SKU seed test passed (${catalog.skus.length} entries; fresh file DB; idempotent; existing catalogs preserved; concurrent migrations and initial seeding serialized).`);
+}).catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
