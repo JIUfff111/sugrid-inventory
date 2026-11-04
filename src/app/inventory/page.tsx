@@ -15,6 +15,7 @@ import InventoryStatusDialog, { type InventoryStatusDefinition, type InventorySt
 import { WorkspaceSection, useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import InventoryMovementTimeline from '@/components/InventoryMovementTimeline';
 import InventoryPurgeDialog from '@/components/InventoryPurgeDialog';
+import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import CopyTextButton from '@/components/CopyTextButton';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
@@ -250,6 +251,7 @@ function productName(item: Pick<InventoryItem, 'brand' | 'model' | 'year'>) {
 export default function InventoryPage() {
   const router = useRouter();
   const { active, searchParams, user } = useWorkspace();
+  const { printLabels, printing, printPortal } = useInventoryLabelPrinter();
   const [activeWorkspace, setActiveWorkspace] = useState<'list' | 'transfers'>('list');
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [stats, setStats] = useState<InventoryStats>(EMPTY_STATS);
@@ -288,6 +290,9 @@ export default function InventoryPage() {
   const [checkedIds, setCheckedIds] = useState<Set<string>>(() => new Set());
   const [statusDialog, setStatusDialog] = useState<{ mode: 'register' | 'restore' | 'manage'; machine?: InventoryItem } | null>(null);
   const [assetChangeMachine, setAssetChangeMachine] = useState<InventoryItem | null>(null);
+  const [pendingAssetPrintId, setPendingAssetPrintId] = useState<string | null>(null);
+  const [assetPrintBusy, setAssetPrintBusy] = useState(false);
+  const [assetPrintError, setAssetPrintError] = useState('');
   const [purgeMachine, setPurgeMachine] = useState<InventoryItem | null>(null);
   const [movementRevision, setMovementRevision] = useState(0);
   const machineEditDirty = Boolean(selected && machineEditDraft && JSON.stringify(machineEditDraft) !== JSON.stringify(inventoryEditDraftFrom(selected)));
@@ -611,6 +616,23 @@ export default function InventoryPage() {
     setMovementRevision(current => current + 1);
     setReloadKey(current => current + 1);
     setAssetChangeMachine(null);
+    setAssetPrintError('');
+    setPendingAssetPrintId(machine.id);
+  };
+
+  const printUpdatedAssetLabel = async () => {
+    if (!pendingAssetPrintId || printing || assetPrintBusy) return;
+    const inventoryId = pendingAssetPrintId;
+    setAssetPrintBusy(true);
+    setAssetPrintError('');
+    try {
+      await printLabels([inventoryId]);
+      setPendingAssetPrintId(null);
+    } catch (printError) {
+      setAssetPrintError(printError instanceof Error ? printError.message : '打印标签失败，请重试');
+    } finally {
+      setAssetPrintBusy(false);
+    }
   };
 
   const workspaceNavigation = <div role="tablist" aria-label="库存工作区" className="mb-5 flex w-fit max-w-full gap-1 overflow-x-auto rounded-xl border border-line/70 bg-white/55 p-1">
@@ -620,6 +642,7 @@ export default function InventoryPage() {
 
   return (
     <div className="max-w-[1400px] mx-auto page-transition-enter">
+      {printPortal}
       <header className="flex flex-wrap items-end justify-between gap-4 mb-6">
         <div>
           <h1 className="text-xl font-bold tracking-wide text-ink-deep mb-2">在库清单</h1>
@@ -796,6 +819,7 @@ export default function InventoryPage() {
       </BusinessDialog>}
       <ConfirmDialog isOpen={machineEditDiscardConfirm} title="放弃机器资料修改？" message="关闭后，本次尚未保存的机器资料修改将被清除。" confirmText="关闭并放弃" cancelText="继续编辑" danger onCancel={() => setMachineEditDiscardConfirm(false)} onConfirm={() => { setMachineEditDiscardConfirm(false); setMachineEditOpen(false); setMachineEditDraft(null); setMachineEditError(''); }} />
       {assetChangeMachine && <InventoryAssetChangeDialog key={assetChangeMachine.id} machine={assetChangeMachine} onClose={() => setAssetChangeMachine(null)} onSaved={assetChanged} />}
+      <ConfirmDialog isOpen={Boolean(pendingAssetPrintId)} title={assetPrintError ? '更新后的标签打印失败' : '资产变更完成，是否打印更新后的标签？'} message={assetPrintError ? `资产变更已保存。${assetPrintError}` : '标签将使用这台机器最新的内存和硬盘信息，并按默认标签模板打印。'} confirmText={printing || assetPrintBusy ? '准备打印…' : assetPrintError ? '重试打印' : '打印更新后的标签'} cancelText="暂不打印" onConfirm={() => { void printUpdatedAssetLabel(); }} onCancel={() => { if (!printing && !assetPrintBusy) { setPendingAssetPrintId(null); setAssetPrintError(''); } }} />
       {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
       {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
       </WorkspaceSection>
