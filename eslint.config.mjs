@@ -9,8 +9,12 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    ".next-*/**",
+    ".next-sku-validation/**",
     ".next-experience/**",
     ".next-qa-build/**",
+    "data/manual-sku-build/**",
+    "docs/sku-catalog/02-research/_gapfill-2026-11-03/**",
     ".tmp/**",
     "out/**",
     "build/**",

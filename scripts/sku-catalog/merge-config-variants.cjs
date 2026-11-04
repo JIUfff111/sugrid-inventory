@@ -8,8 +8,8 @@ const {
 } = require('./normalize-options.cjs');
 const { canonicalModelName, repairCatalogModelNames } = require('./config-variant-aliases.cjs');
 
-const catalogPath = path.join(__dirname, 'builtin-sku-catalog.json');
-const supplementPath = path.join(
+const defaultCatalogPath = path.join(__dirname, 'builtin-sku-catalog.json');
+const defaultSupplementPath = path.join(
   __dirname,
   '..',
   '..',
@@ -116,6 +116,8 @@ function findMatch(supplement, catalog) {
 }
 
 function main() {
+  const supplementPath = path.resolve(process.argv[2] || defaultSupplementPath);
+  const catalogPath = path.resolve(process.argv[3] || defaultCatalogPath);
   const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
   const supplement = JSON.parse(fs.readFileSync(supplementPath, 'utf8'));
   if (catalog.schemaVersion !== 1 || !Array.isArray(catalog.skus) || !Array.isArray(supplement.models)) {

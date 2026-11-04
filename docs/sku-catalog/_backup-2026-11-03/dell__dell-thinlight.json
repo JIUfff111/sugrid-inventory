@@ -1,0 +1,2041 @@
+{
+  "scope": "戴尔消费/商用轻薄本 2016—2026：XPS 13 / XPS 13 Plus / XPS 14 / XPS 15 / XPS 16 / XPS 17，灵越 Inspiron 5000/7000 系，成就 Vostro 3000/5000/7000 系，以及 2025 年 XPS 改名后的 Dell 14 Premium。不含游匣 G、外星人、Precision、Latitude、平板、台式机与显示器。",
+  "checkedAt": "2026-10-26",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9360|2016",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9360",
+      "displayName": "戴尔 XPS 13 9360 2016",
+      "modelYear": 2016,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i3-7100U",
+        "英特尔酷睿 i5-7200U",
+        "英特尔酷睿 i7-7500U",
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel HD Graphics 620",
+        "集成显卡 Intel Iris Plus Graphics 640",
+        "集成显卡 Intel UHD Graphics 620"
+      ],
+      "storageOptions": [
+        "128GB",
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920×1080 60Hz",
+        "13.3英寸 3200×1800 60Hz 触控"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94XPS%2013(9360)/23770018",
+      "sourceTitle": "戴尔XPS 13(9360) 规格参数（百度百科，条目汇总 2016—2018 年配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2016 年末发布，是首批搭载第七代 Kaby Lake 的 XPS 13，2017 年下半年追加八代酷睿 i5-8250U/i7-8550U 版本。13.3 英寸 16:9，FHD 与 QHD+（3200×1800）触控两种面板，60Wh 电池，机身 304×200×9-15mm、约 1.2—1.3kg。国行首发价未取得可靠来源，故不写价格；同代 4GB 内存版本多为 i3 配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9370|2018",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9370",
+      "displayName": "戴尔 XPS 13 9370 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920×1080 60Hz",
+        "13.3英寸 3840×2160 60Hz 触控"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/dell/1073341_detail.html",
+      "sourceTitle": "戴尔XPS 13(酷睿i5-8250U/8G/256G/银) 参数（太平洋电脑网产品库，型号 XPS 13-9370-D1605S）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018 年 1 月 CES 发布、春季国行上市，戴尔 2018 年 6 月小企业手册标注「全新 XPS 13 9370 优惠价 ¥9,999 起」。13.3 英寸 16:9 InfinityEdge，FHD 400nits 100%sRGB，可选 4K 触控；52Wh 电池、1.21—1.27kg，仅 2×雷电3 + 1×USB-C。i5/8GB/256GB 为走量款。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9380|2019",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9380",
+      "displayName": "戴尔 XPS 13 9380 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8265U",
+        "英特尔酷睿 i7-8565U",
+        "英特尔酷睿 i5-8365U",
+        "英特尔酷睿 i7-8665U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920×1080 60Hz",
+        "13.3英寸 3840×2160 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-us/shop/dell-laptops/xps-13-laptop/spd/xps-13-9380-laptop/xn9380dhndh?view=configurations",
+      "sourceTitle": "XPS 13 Laptop（Dell 美国官网 9380 配置页，i5-8265U/8GB/256GB）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 1 月上市（国行型号如 XPS 13-9380-D1501S，2019 年 1 月，参考价 9999 元档）。摄像头移至屏幕顶部（2.25mm），新增霜白/玫瑰金配色与 4K 触控选项；52Wh 电池、1.23kg。2019 年 5 月起追加 vPro 版 i5-8365U/i7-8665U。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9300|2020",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9300",
+      "displayName": "戴尔 XPS 13 9300 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1035G1",
+        "英特尔酷睿 i7-1065G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "集成显卡 Intel Iris Plus Graphics"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "13.4英寸 1920×1200 60Hz",
+        "13.4英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/support/manuals/zh-cn/xps-13-9300-laptop/xps-13-9300-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F?guid=guid-5579fc11-9b22-44fa-ba0d-ae67ba34e9f8&lang=zh-cn",
+      "sourceTitle": "XPS 13 9300 设置和规格—显示屏（戴尔官方支持文档，中文）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 2 月上市，XPS 13 首次改用 16:10 屏幕，屏占比 91.5%。三种面板：3840×2400 触控（500nits、90% DCI-P3）、1920×1200 触控、1920×1200 防眩光；i3/i5 配 UHD 显卡，i7 配 Iris Plus。国行首发 11999 元起（16GB/512GB 档），该价格仅见于媒体转述，未列入正式字段。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9310|2020",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9310",
+      "displayName": "戴尔 XPS 13 9310 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7",
+        "英特尔酷睿 i7-1185G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "13.4英寸 1920×1200 60Hz",
+        "13.4英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/support/manuals/zh-cn/xps-13-9310-laptop/xps-13-9310-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F",
+      "sourceTitle": "XPS 13 9310 设置和规格—显示屏（戴尔官方支持文档，中文）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2020 年 9 月底发布、10 月国行上市，是 9300 的十一代酷睿（Tiger Lake）换芯版，模具与 16:10 屏幕不变，新增 i7-1185G7 与雷电4。国行首发 11999 元起为媒体口径，未见官方页面存档，故价格不入字段。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9315|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9315",
+      "displayName": "戴尔 XPS 13 9315 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1230U",
+        "英特尔酷睿 i7-1250U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "13英寸 2880×1920 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-13-2-in-1-laptop/spd/xps-13-9315-2-in-1-laptop/wnx9315t001my",
+      "sourceTitle": "XPS 9315 2-in-1 Laptop（Dell 马来西亚官网配置页，i5-1230U/8GB/256GB/3K 触控）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 6 月发布，是 XPS 13 的二合一形态（官方页归类 XPS 13 2-in-1），13 英寸 3:2 3K 2880×1920 触控、500nits、支持主动笔；机身 7.4mm、736g（不含 Folio 键盘 560g），49.5Wh。仅 2×雷电4。海外起售价 999 美元档，国行未见对应型号页。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9340|2024",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 9340",
+      "displayName": "戴尔 XPS 13 9340 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "13.4英寸 2880×1800 60Hz OLED 触控"
+      ],
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXQAFVVxdCkgWBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24IHVwUXwYAV19YFxJSXzI4fylTPFZ-USk9STVKZDRjbjheNQcKJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhtFBD8KE1tAWAYBBw0JCxsnA244WjUVXAIDVlZeCXsWM28OE1gdVAADXV5YCEMnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HDmheEwAdDgsfVQEKHVkXWg4DUm5fCUoVAV84KyxvLnFYPFYDUB12WCxcGjJBPlhgNxgtdk5IQzJodVl-NHVgLDsoXh5kVAZXaBsQCTYCZFlbCXsWMw",
+      "sourceTitle": "戴尔XPS 13 9340 京东商品页（U7/2.8K OLED 触控/32G/1T，¥15469）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2024 年 2 月上市，与 XPS 14 9440、XPS 16 9640 同代新模具：无缝触控板 + 电容功能键行，仅 2×雷电4。国行在售 U7-155H/32GB/1TB 参考价 15469 元，U7-155H/16GB/2TB 定制机 14699 元。Ultra 5 125H 版本海外有售，但未取得国行可靠来源，故 CPU 只列 Ultra 7 155H；FHD+ 版本同样未证实。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 Plus 9320|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 13 Plus 9320",
+      "displayName": "戴尔 XPS 13 Plus 9320 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-1260P",
+        "英特尔酷睿 i7-1360P"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "13.4英寸 3456×2160 60Hz OLED 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%E7%AC%94%E8%AE%B0%E6%9C%AC/xps-13-plus-%E7%AC%94%E8%AE%B0%E6%9C%AC/spd/xps-13-9320-laptop/xps%2013-9320-d2808tb?view=configurations",
+      "sourceTitle": "XPS 13 Plus 笔记本（戴尔中国官网配置页，i7-1260P/32GB/1TB/3.5K OLED 触控）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 1 月 CES 发布、7 月国行开售。国行三个主力 SKU：i7-1260P/16GB/512GB 参考 16199 元、i7-1260P/16GB/1TB 17199 元、i7-1260P/32GB/1TB 18199 元（ZOL 产品库报价）。2023 年另有 i7-1360P 换芯版。4K+ 3840×2400 面板在部分资料中出现，与 3456×2160 记录冲突，只保留有官方页面支撑的 3.5K OLED。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 14 9440",
+      "displayName": "戴尔 XPS 14 9440 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics",
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14.5英寸 1920×1200 120Hz",
+        "14.5英寸 3200×2000 120Hz OLED 触控"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/mice/index1990971.shtml",
+      "sourceTitle": "戴尔XPS 14 9440(Ultra7 155H/32GB/1TB/OLED) 参数（ZOL 产品库，上市时间 2024年03月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 1 月发布、3 月国行上市，取代 XPS 13 Plus 的大屏位。四个国行 SKU 参考价：16GB/512GB 14999 元、32GB/1TB OLED 16999 元、16GB/1TB RTX4050 17999 元、32GB/1TB RTX4050 OLED 19999 元。69.5Wh、1.68—1.74kg，3×雷电4，无 USB-A。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9560|2017",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 15 9560",
+      "displayName": "戴尔 XPS 15 9560 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-7300HQ",
+        "英特尔酷睿 i7-7700HQ"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce GTX 1050 4GB GDDR5"
+      ],
+      "storageOptions": [
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 3840×2160 60Hz 触控"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/21770_1.html",
+      "sourceTitle": "戴尔XPS 15(9560) 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2017 年 2 月上市，是 9550 的 Kaby Lake + GTX 1050 换芯版，沿用同款模具与接口；大电池由 84Wh 提升到 97Wh，掌托右侧新增指纹识别。15.6 英寸 16:9，FHD 与 4K 触控两种面板。国行首发价未取得可引用来源，故价格留空。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9570|2018",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 15 9570",
+      "displayName": "戴尔 XPS 15 9570 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8300H",
+        "英特尔酷睿 i7-8750H",
+        "英特尔酷睿 i9-8950HK"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce GTX 1050 4GB GDDR5",
+        "独立显卡 NVIDIA GeForce GTX 1050Ti Max-Q 4GB GDDR5"
+      ],
+      "storageOptions": [
+        "128GB SSD+1TB HDD",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 3840×2160 60Hz 触控"
+      ],
+      "sourceUrl": "https://baike.sogou.com/v175007207.htm",
+      "sourceTitle": "戴尔XPS15 9570（搜狗百科，上市时间 2018 年，含 i7-8750H/GTX1050Ti 配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2018 年 5 月上市，升级六核 Coffee Lake，GTX 1050Ti Max-Q 4GB，双内存插槽最高 32GB DDR4-2666，摄像头移至屏幕下方 DELL logo 处。国行主推 i7-8750H/8GB/128GB SSD+1TB HDD/FHD，价格未取得官方口径。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9500|2020",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 15 9500",
+      "displayName": "戴尔 XPS 15 9500 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10300H",
+        "英特尔酷睿 i7-10750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce GTX 1650 Ti 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1200 60Hz",
+        "15.6英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-au/work/shop/business-laptop-notebook-computers/xps-15-laptop/spd/xps-15-9500-laptop/smhnx950013aus?view=configurations",
+      "sourceTitle": "Dell XPS 15 (9500) Laptop（Dell 澳大利亚官网配置页，i7-10750H/16GB/1TB/4K 触控）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 5 月发布，XPS 15 首次改 16:10 四边窄边框、全 USB-C（2×雷电3 + 1×USB-C）。15.6 英寸 1920×1200 或 3840×2400 触控，56Wh/86Wh 双电池，2.05kg 起。国行首发 14999 元起为媒体口径，未入字段。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9510|2021",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 15 9510",
+      "displayName": "戴尔 XPS 15 9510 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-11400H",
+        "英特尔酷睿 i7-11800H",
+        "英特尔酷睿 i9-11900H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1200 60Hz",
+        "15.6英寸 3456×2160 60Hz OLED 触控",
+        "15.6英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-us/member/shop/dell-laptops/xps-15-laptop/spd/xps-15-9510-laptop/xn9510cto220sedu?view=configurations",
+      "sourceTitle": "XPS 15 9510 Laptop（Dell 美国官网配置页，i5-11400H/i7-11800H/i9-11900H，RTX 3050/3050 Ti）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 6 月国行上市（天极产品库记录 2021 年 06 月）。三块面板：FHD+ 500nits、3.5K OLED 触控 400nits、UHD+ 触控 500nits。国行 i7-11800H/16GB/512GB/FHD 参考 13999 元、i7/32GB/1TB/3.5K OLED 参考 17999 元（ZOL 报价，属渠道价，仅作参考）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9520|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 15 9520",
+      "displayName": "戴尔 XPS 15 9520 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H",
+        "英特尔酷睿 i9-12900HK"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1200 60Hz",
+        "15.6英寸 3456×2160 60Hz OLED 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-us/shop/dell-laptops/new-xps-15-laptop/spd/xps-15-9520-laptop/xn9520cto040s",
+      "sourceTitle": "Dell XPS 15 9520 Laptop（Dell 美国官网配置页，i9-12900HK/32GB/1TB/3.5K OLED 触控/RTX 3050 Ti）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 3 月上市，12 代标压 + DDR5-4800，模具与 9510 相同。官网示例配置 2149 美元（i9-12900HK/32GB/1TB/3.5K OLED 触控/RTX 3050 Ti）。国行首发 13999 元起（i7-12700H/16GB/512GB/FHD+）为媒体口径，未入字段。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9530|2023",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 15 9530",
+      "displayName": "戴尔 XPS 15 9530 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700H",
+        "英特尔酷睿 i9-13900H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4070 8GB GDDR6"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1200 60Hz",
+        "15.6英寸 3456×2160 60Hz OLED 触控"
+      ],
+      "sourceUrl": "https://www.sohu.com/a/672406570_114760",
+      "sourceTitle": "戴尔新款 XPS 15 9530 笔记本开卖：i7 + RTX 4050，17999 元（IT之家，2023-05-03）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 4 月上市（ZOL 记录 2023 年 04 月），13 代标压 + RTX 40。国行三档：i7-13700H/RTX4050/16GB/1TB/1200p 17999 元；i7-13700H/RTX4060/32GB/1TB/3.5K 22999 元；i9-13900H/RTX4070/32GB/1TB/3.5K 27999 元。注意：2013 年另有一款同名 XPS 15 9530（四代酷睿/GT750M），勿与本条混淆。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 16 9640|2024",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 16 9640",
+      "displayName": "戴尔 XPS 16 9640 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 155H",
+        "英特尔酷睿 Ultra 9 185H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics",
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4070 8GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB",
+        "4TB"
+      ],
+      "screenOptions": [
+        "16.3英寸 1920×1200 120Hz",
+        "16.3英寸 3840×2400 90Hz OLED 触控"
+      ],
+      "sourceUrl": "https://windowstip.com/laptop/dell-xps-16-9640",
+      "sourceTitle": "Dell XPS 16 9640 specs（WindowsTip，2024-01-04 发布，含五档美元定价与面板参数）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 1 月 4 日发布、春季国行上市，取代 XPS 17 的大屏旗舰位。16.3 英寸 16:10，FHD+ 120Hz IPS 或 UHD+ 90Hz OLED 触控（JD 页面标 90Hz/3840×2400）。美国五档定价：1699/2299/2649/2949/4349 美元；国行 U9-185H/32GB/2TB/RTX4060/4K OLED 参考 25669 元（京东）。99.5Wh、2.13—2.20kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9700|2020",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 17 9700",
+      "displayName": "戴尔 XPS 17 9700 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10300H",
+        "英特尔酷睿 i7-10750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce GTX 1650 Ti 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 2060 6GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "17英寸 1920×1200 60Hz",
+        "17英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://technave.com/gadget/Dell-XPS-17-9700-Laptop-Price-in-Malaysia-Specs-20670.html",
+      "sourceTitle": "Dell XPS 17 9700 规格与版本（TechNave，2020 年 6 月发布，含三档配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 6 月发布，XPS 17 回归之作：17 英寸 16:10、四边窄边框、双风扇均热板，97Wh。三档：i5-10300H/8GB/512GB/集显；i7-10750H/GTX1650Ti/16GB/1TB，UHD+ 触控版 2.51kg。国行首发 18999 元起为媒体口径，未入字段。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9720|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 17 9720",
+      "displayName": "戴尔 XPS 17 9720 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 3060 6GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "17英寸 1920×1200 60Hz",
+        "17英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-us/shop/dell-laptops/xps-17-laptop/spd/xps-17-9720-laptop/xn9720cto020s",
+      "sourceTitle": "XPS 17 9720 Laptop（Dell 美国官网配置页，i7-12700H/16GB/512GB/RTX 3050/UHD+ 触控）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 3 月上市，12 代标压 + DDR5-4800，4×雷电4，97Wh，2.21kg（非触控）。国行首发 16999 元起（i7-12700H/16GB/512GB/RTX3050）为媒体口径，未入字段。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9730|2023",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "XPS 17 9730",
+      "displayName": "戴尔 XPS 17 9730 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700H",
+        "英特尔酷睿 i9-13900H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4070 8GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "17英寸 1920×1200 60Hz",
+        "17英寸 3840×2400 60Hz 触控"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1553816.shtml",
+      "sourceTitle": "戴尔XPS 17(XPS17-9730-R2988TS) 参数（ZOL 产品库，上市时间 2023年04月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 4 月上市，13 代标压 + RTX 40，模具延续 9720。国行三档：i7-13700H/32GB/1TB/RTX4070 28999 元、i9-13900H/32GB/1TB/RTX4070 30999 元、i9-13900H/64GB/2TB/RTX4070 35999 元（ZOL 报价）。另有 i7/16GB/512GB/RTX4050 的入门档（海外 2023 年 7 月上市记录）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越13 5379|2018",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越13 5379",
+      "displayName": "戴尔 灵越13 5379 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620"
+      ],
+      "storageOptions": [
+        "256GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920×1080 60Hz 触控"
+      ],
+      "sourceUrl": "https://devicehd.com/laptops/cn/product/63e963bba6803e6331dcdb8d/",
+      "sourceTitle": "DELL Inspiron 5000 5379 5379-9853 规格（DeviceHD，发布日期 2018-05-16）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2018 年上半年上市，灵越 5000 系 13 英寸 360° 翻转二合一，13.3 英寸 FHD IPS 触控、红外摄像头支持 Windows Hello 人脸。1.62kg、19.5—20.4mm、42Wh，双内存插槽最高 16GB。渠道另有 1TB 机械盘版本。国行首发价未取得可靠来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 5488|2018",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越14 5488",
+      "displayName": "戴尔 灵越14 5488 2018",
+      "modelYear": 2018,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620",
+        "独立显卡 NVIDIA GeForce MX150 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "256GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920×1080 60Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94Inspiron%20%E7%81%B5%E8%B6%8A%2014%205000(5488)/23764900",
+      "sourceTitle": "戴尔Inspiron 灵越 14 5000(5488)（百度百科，2018 年 9 月推出，全系 15 个配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2018 年 9 月上市，14 英寸 IPS 窄边框，1.48kg、18.77mm，A 面金属，42Wh 电池。可选八代 i5/i7、MX150 2GB、8GB DDR4、256GB PCIe SSD；部分渠道集显版曾促销 4499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 5493|2019",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越14 5493",
+      "displayName": "戴尔 灵越14 5493 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i3-1005G1",
+        "英特尔酷睿 i5-1035G1",
+        "英特尔酷睿 i7-1065G7"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce MX230 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "128GB",
+        "256GB",
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920×1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/345/27782_1.html",
+      "sourceTitle": "戴尔Inspiron 灵越 14 5000(5493) 系列（ZOL 系列页，2019 年 09 月上市，共 10 款）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 9 月上市，14 英寸 FHD WVA 防眩光窄边框，1.65kg，十代 Ice Lake。国行十款 SKU 覆盖 i3-1005G1 至 i7-1065G7，4GB/8GB 内存，128GB—1TB SSD，六款带 MX230 2GB。参考价 3299—5299 元（ZOL 报价，2019—2020 年）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 7400|2020",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越14 7400",
+      "displayName": "戴尔 灵越14 7400 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce MX350 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14.5英寸 1920×1200 60Hz",
+        "14.5英寸 2560×1600 60Hz"
+      ],
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30017931048",
+      "sourceTitle": "戴尔灵越 7400 开卖：11代酷睿/10bit 屏，7499 元起（IT之家，2020-10-13）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 10 月 13 日国行开卖：i5-1135G7 核显版 7499 元、MX350 独显版 7999 元。14.5 英寸 16:10 1920×1200 10bit 100%sRGB 300nit，镁合金机身 1.35kg/14.9mm，可选 78Wh 电池。官方规格页另列 2560×1600 QHD+ 面板与 1TB SSD 选项。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 Plus 7420|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越14 Plus 7420",
+      "displayName": "戴尔 灵越14 Plus 7420 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce MX550 2GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2240×1400 60Hz",
+        "14英寸 1920×1200 60Hz"
+      ],
+      "sourceUrl": "https://kelaptop.com/en/dell-inspiron-14-plus-7000-7420-cn74306",
+      "sourceTitle": "DELL Inspiron 14 Plus 7000 7420 CN74306 规格（Kelaptop，2022 年 8 月，i5-12500H/16GB/512GB/2240×1400）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2022 年上市，灵越 14 Plus（海外 Inspiron 14 Plus 7420）。14 英寸 16:10，2.2K 2240×1400 300nits 100%sRGB 或 FHD+ 1200p；i5-12500H/i7-12700H 标压，16GB DDR5-4800（板载+1 SO-DIMM，最高 40GB），64Wh，1.68kg。另有 2-in-1 版本（7420 二合一）不并入本条。国行首发价未取得可靠来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7620|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越16 Plus 7620",
+      "displayName": "戴尔 灵越16 Plus 7620 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 3060 6GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16英寸 3072×1920 60Hz"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1423/1422525/param.html",
+      "sourceTitle": "戴尔灵越 7620(Ins 16-7620-R1605L) 参数（ZOL，上市时间 2022年05月，i5-12500H/16GB/512GB/3072×1920）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 5 月上市，灵越 16 Plus（Ins 16-7620）。16 英寸 16:10 3K 3072×1920 300nits 100%sRGB 60Hz；i5-12500H 集显版电商价约 6399 元，i7-12700H + RTX3050 版同为 6399 元起（ZOL/上线达报价）。86Wh、2.05kg、双风扇五热管。RTX 3050 Ti/3060 为海外可选配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7630|2023",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "灵越16 Plus 7630",
+      "displayName": "戴尔 灵越16 Plus 7630 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13500H",
+        "英特尔酷睿 i7-13620H",
+        "英特尔酷睿 i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560×1600 90Hz"
+      ],
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%B1%CA%BC%C7%B1%BE/%D0%C2-inspiron-%C1%E9%D4%BD-16-plus-%B1%CA%BC%C7%B1%BE/spd/inspiron-16-7630-laptop/ins16-7630-d1887s",
+      "sourceTitle": "Inspiron 灵越 16 Plus 笔记本（戴尔中国官网配置页，i7-13700H/32GB/1TB/RTX4060/2.5K）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 3 月上市。国行官网配置：i7-13700H/32GB DDR5-4800/1TB/RTX4060 8GB/16 英寸 2560×1600 300nits。另有 i7-13620H 版本（太平洋产品库，同为 32GB/1TB/RTX4060，90Hz）。86Wh、2.06kg，2×USB-A + 雷电4 + HDMI2.0。国行首发价未取得可靠来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就13 5370|2017",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "成就13 5370",
+      "displayName": "戴尔 成就13 5370 2017",
+      "modelYear": 2017,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8250U",
+        "英特尔酷睿 i7-8550U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620",
+        "独立显卡 AMD Radeon 530 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "256GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920×1080 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1207680.shtml",
+      "sourceTitle": "戴尔Vostro 成就 13 5000系列 5370(VOSTRO 13-5370-D2605G)（ZOL，上市时间 2017年12月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2017 年 12 月上市。13.3 英寸 IPS FHD 350nits 72% 色域，镁铝合金 1.41kg、15.81—17.55mm，38Wh。戴尔 2018 年 6 月小企业手册：i5-8250U/4GB/256GB 促销 3999 元（原价 5399）、i5/8GB/256GB 促销 4299 元（原价 5499）；ZOL 参考 4999 元。Radeon 530 2GB 独显版为 V5370-1525G。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就13 5391|2019",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "成就13 5391",
+      "displayName": "戴尔 成就13 5391 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10210U",
+        "英特尔酷睿 i7-10510U"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics 620",
+        "独立显卡 NVIDIA GeForce MX250 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "128GB",
+        "256GB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "13.3英寸 1920×1080 60Hz"
+      ],
+      "sourceUrl": "https://www.dell.com/vc/business/p/vostro-13-5391-laptop/pd",
+      "sourceTitle": "Vostro 13 5391（Dell 官网产品页，i5-10210U/i7-10510U，UHD 620 或 MX250 2GB）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 10 月上市。13.3 英寸 FHD 窄边框 WVA，1.18kg、14.9mm，镁铝合金，45/52Wh。同一机型在国内同时以「成就13 5391」和「灵越13 5391」两个名字销售，配置一致。国行参考价 i5/8GB/512GB/MX250 约 5499 元（渠道报价，未获官方页面）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就15 5510|2021",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "成就15 5510",
+      "displayName": "戴尔 成就15 5510 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-11320H",
+        "英特尔酷睿 i7-11390H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce MX450 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz"
+      ],
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%C2%B4%C3%B7%C2%BB%C3%BB%C2%B1%CA%BC%C7%C2%B1%BE%B5%E7%C4%D4/vostro-%C2%B3%C9%BE%CD-5510-%C2%B8%DF%D0%D4%C4%DC%C9%CC%CE%F1%B1%BE/spd/vostro-15-5510-laptop/vostro%2015-5510-d2625a",
+      "sourceTitle": "Vostro 成就 5510 高性能商务本（戴尔中国官网配置页，i5-11320H/16GB/512GB/MX450）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2021 年中上市。15.6 英寸 FHD 防眩光窄边框 WVA，铝合金外壳 1.667kg，54Wh，i5 版为 USB-C 3.2 Gen2x2、i7 版为雷电4。官网在售配置 i5-11320H/16GB DDR4-3200/512GB/MX450 2GB。国行首发价未取得可靠来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就15 7510|2021",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "成就15 7510",
+      "displayName": "戴尔 成就15 7510 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-11400H",
+        "英特尔酷睿 i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+        "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz"
+      ],
+      "sourceUrl": "https://www.laptoparena.net/dell/dell-vostro-7510-jntp1-black-76004",
+      "sourceTitle": "DELL Vostro 7510 - JNTP1 规格（LaptopArena，2021-07-21，i7-11800H/16GB/512GB/RTX3050）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 7 月上市。15.6 英寸 FHD 300nits 100%sRGB 60Hz，2.01kg、16.7—19mm，56Wh，130W 适配器，含独立数字小键盘。官方支持页确认 i5-11400H/i7-11800H 两档（同模具的灵越 Inspiron 15 7510 亦沿用该配置）。国行首发价未取得可靠来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就16 7620|2022",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "成就16 7620",
+      "displayName": "戴尔 成就16 7620 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16英寸 3072×1920 60Hz"
+      ],
+      "sourceUrl": "https://s.zol.com.cn/shop_184495/39307228.html",
+      "sourceTitle": "戴尔 成就 7620(Vostro 16-7620-R1745B) 参数（ZOL 商城，上市时间 2022年08月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 8 月上市，与灵越 16 Plus 7620 同模具的商用版。16 英寸 3072×1920 250—300nits，i7-12700H/16GB DDR5-4800/512GB/RTX3050 4GB，56Wh、2.11kg，含 RJ45 与 SD 读卡器，通过 MIL-STD-810H。国行参考价约 6999 元（渠道报价，未获官方页面）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|戴尔14 Premium DA14250|2025",
+      "productType": "笔记本电脑",
+      "brand": "戴尔",
+      "model": "戴尔14 Premium DA14250",
+      "displayName": "戴尔 14 Premium DA14250 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 255H",
+        "英特尔酷睿 Ultra 7 265H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics 140T",
+        "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "14.5英寸 1920×1200 120Hz",
+        "14.5英寸 3200×2000 120Hz OLED 触控"
+      ],
+      "sourceUrl": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-14-laptop-2025/spd/dell-da14250-laptop/cda14250cto03mmyh",
+      "sourceTitle": "XPS 14 Laptop (2025) / Dell 14 Premium DA14250（Dell 马来西亚官网，Ultra 7 255H/32GB/RTX4050/1TB/3.2K OLED）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年 6 月 26 日上市，是 XPS 14 9440 的继任者——戴尔 2025 年取消 XPS 品牌，改为 Dell / Dell Pro / Dell Pro Max 三级命名，本条属消费端 Premium 线。14.5 英寸 16:10，2K 120Hz IPS 500nits 或 3.2K 120Hz OLED 触控 400nits；Ultra 7 255H/265H（Arrow Lake-H），LPDDR5X 最高 64GB，70Wh，1.66—1.72kg，3×雷电4，无 USB-A/HDMI。价格：美国 1549.99 美元起，32GB/1TB OLED 评测机 2049.99 美元；国行上市与人民币价格未取得可靠来源。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9370|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/dell/1073341_detail.html",
+      "sourceTitle": "戴尔XPS 13(酷睿i5-8250U/8G/256G/银) 参数（太平洋电脑网，型号 XPS 13-9370-D1605S）",
+      "confidence": "high",
+      "notes": "国行 D1605S 银色，2018 年上市，参考价 9999 元起（戴尔 2018 年 6 月小企业手册）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9380|2019",
+      "cpu": "英特尔酷睿 i5-8265U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.dell.com/en-us/shop/dell-laptops/xps-13-laptop/spd/xps-13-9380-laptop/xn9380dhndh?view=configurations",
+      "sourceTitle": "XPS 13 Laptop（Dell 美国官网 9380 配置页，i5-8265U/8GB/256GB/FHD）",
+      "confidence": "high",
+      "notes": "官网标准配置，2019 年 1 月上市；国行对应 D1501S，参考价约 9999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9340|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "13.4英寸 2880×1800 60Hz OLED 触控",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXQAFVVxdCkgWBl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24IHVwUXwYAV19YFxJSXzI4fylTPFZ-USk9STVKZDRjbjheNQcKJFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhtFBD8KE1tAWAYBBw0JCxsnA244WjUVXAIDVlZeCXsWM28OE1gdVAADXV5YCEMnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGtcH15HDmheEwAdDgsfVQEKHVkXWg4DUm5fCUoVAV84KyxvLnFYPFYDUB12WCxcGjJBPlhgNxgtdk5IQzJodVl-NHVgLDsoXh5kVAZXaBsQCTYCZFlbCXsWMw",
+      "sourceTitle": "戴尔XPS 13 9340 京东商品页（1808T，U7/32G/1T/2.8K OLED 触控）",
+      "confidence": "high",
+      "notes": "京东自营 15469 元（2026-10 抓取），戴尔京灵专卖店。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9340|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "2TB",
+      "screen": "13.4英寸 2880×1800 60Hz OLED 触控",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXwIHUF9YAE0UAl8IGlsVWQEFUVpdCE0UAl9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA28MHFwQWQYCUl1cFxJSXzI4XixKC1B3VAI4Xx8SXgheaAZsDwZ_NFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkweVj0PHVJFDVIAVVxYWB4nA244WjUVVAYFU1lbCnsWM28OE1gdVAADXV5YAUwnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBD9dE10WXWheEwAdDgsfVQEKHVkTVAAAVW5fCUoVAV84KyATL35GHxlfUxhseB1WWSFTXl0BKihYSTBgZBtodVlDBHhQCz4VUklnQjQAZ113KTYCZFlbCXsWMw",
+      "sourceTitle": "戴尔XPS13 9340 京东商品页（1708T，U7/16G/2T 定制机）",
+      "confidence": "medium",
+      "notes": "第三方店铺定制配置，14699 元；非戴尔官方标准 SKU，采购时需确认保修与来源。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 Plus 9320|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "13.4英寸 3456×2160 60Hz OLED 触控",
+      "sourceUrl": "https://detail.zol.com.cn/Intelligentvoiceassistant/index1415742.shtml",
+      "sourceTitle": "戴尔XPS 13 Plus(XPS 13-9320-R1808TS) 参数（ZOL，2022 年上市，i7-1260P/16GB/1TB）",
+      "confidence": "high",
+      "notes": "国行 R1808TS 参考价 17199 元（ZOL 2022 年报价），暮云白/近夜灰两色。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 Plus 9320|2022",
+      "cpu": "英特尔酷睿 i7-1260P",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "13.4英寸 3456×2160 60Hz OLED 触控",
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%E7%AC%94%E8%AE%B0%E6%9C%AC/xps-13-plus-%E7%AC%94%E8%AE%B0%E6%9C%AC/spd/xps-13-9320-laptop/xps%2013-9320-d2808tb?view=configurations",
+      "sourceTitle": "XPS 13 Plus 笔记本（戴尔中国官网配置页，xps 13-9320-d2808tb，32GB/1TB）",
+      "confidence": "high",
+      "notes": "官网在售 32GB/1TB 顶配，参考价 18199 元（ZOL 同型号报价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "512GB",
+      "screen": "14.5英寸 1920×1200 120Hz",
+      "sourceUrl": "https://detail.zol.com.cn/mice/index1990971.shtml",
+      "sourceTitle": "戴尔XPS 14 9440(Ultra7 155H/16GB/512GB) 版本信息（ZOL 产品库）",
+      "confidence": "high",
+      "notes": "入门档，参考价 14999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14.5英寸 3200×2000 120Hz OLED 触控",
+      "sourceUrl": "https://detail.zol.com.cn/mice/index1990971.shtml",
+      "sourceTitle": "戴尔XPS 14 9440(Ultra7 155H/32GB/1TB/OLED) 参数（ZOL，2024年03月上市）",
+      "confidence": "high",
+      "notes": "参考价 16999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "storage": "1TB",
+      "screen": "14.5英寸 1920×1200 120Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BARkJK1olXDYCVV1cCUoQBWwKElIVVDZGCwYDV3tORipJWVALQ15HAAJCUx4IUTFUBVsUXgcDVVlbC0keCm8BBAJQAVsyJwALagtWQzpqXAtiCGJGHQIoTy5wc2MEK18TXgAGVV9cC3sXAm4JGlIdVA4AZFpbZkp5A2YNdV9GVQMDXVcJCBwXU2hdHFklXQcyHzBcOEonA2kAGFMcWwYBUVhfDnsXC2s4zPK7i4qkgOf33_mVM184GGslbQYyV24DZkoQBWxbGlpBM1pFCh5UVxVVbW0OHl4SVAUGZFxcCUkVM184aCx1NH0KECIUDzhRCz1DSDxRP39EXBwncA58em1odVlMBgRUNQBaXTwedRNMbT1wBzYCZG5cOA",
+      "sourceTitle": "戴尔xps14 9440 京东商品页（Ultra7/16G/1TB/RTX4050-6G）",
+      "confidence": "high",
+      "notes": "京东戴尔电脑旗舰店 17999 元（2026-10 抓取）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "storage": "1TB",
+      "screen": "14.5英寸 3200×2000 120Hz OLED 触控",
+      "sourceUrl": "https://shop.zol.com/shop_189529/40325391.html",
+      "sourceTitle": "戴尔 XPS 14 9440(Ultra7 155H/32GB/1TB/RTX4050/OLED)（ZOL 商城，2024年03月）",
+      "confidence": "high",
+      "notes": "顶配，参考价 19999 元；69.5Wh、1.74kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9500|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Ti 4GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3840×2400 60Hz 触控",
+      "sourceUrl": "https://www.dell.com/en-au/work/shop/business-laptop-notebook-computers/xps-15-laptop/spd/xps-15-9500-laptop/smhnx950013aus?view=configurations",
+      "sourceTitle": "Dell XPS 15 (9500) Laptop（Dell 澳大利亚官网，smhnx950013aus）",
+      "confidence": "high",
+      "notes": "官网清仓价 2786.99 澳元（原价 4098.99），含 86Wh 电池、2×雷电3。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9510|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1200 60Hz",
+      "sourceUrl": "https://product.yesky.com/product/1145/1145706/param.shtml",
+      "sourceTitle": "戴尔XPS 15(XPS 15-9510-R1745S) 参数（天极产品库，2021年06月上市）",
+      "confidence": "high",
+      "notes": "国行 R1745S，16GB DDR4-3200 双通道，参考价 13999 元（渠道价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9510|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3456×2160 60Hz OLED 触控",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/dell/1416007_detail.html",
+      "sourceTitle": "戴尔XPS 15-9510-R1845TS 参数（太平洋电脑网，i7/32GB/1TB/RTX3050Ti/3.5K OLED）",
+      "confidence": "high",
+      "notes": "国行 R1845TS，86Wh，1.92kg，参考价 17999 元（ZOL 报价）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9520|2022",
+      "cpu": "英特尔酷睿 i9-12900HK",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 Ti 4GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3456×2160 60Hz OLED 触控",
+      "sourceUrl": "https://www.dell.com/en-us/shop/dell-laptops/new-xps-15-laptop/spd/xps-15-9520-laptop/xn9520cto040s",
+      "sourceTitle": "Dell XPS 15 9520 Laptop（Dell 美国官网，xn9520cto040s，$2149）",
+      "confidence": "high",
+      "notes": "美国官网 2149 美元，DDR5-4800 32GB，RTX 3050 Ti 40W。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9530|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920×1200 60Hz",
+      "sourceUrl": "https://www.sohu.com/a/672406570_114760",
+      "sourceTitle": "戴尔新款 XPS 15 9530 笔记本开卖：i7 + RTX 4050，17999 元（IT之家，2023-05-03）",
+      "confidence": "high",
+      "notes": "国行 SKU 1765，17999 元，2023 年 5 月京东开售。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9530|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3456×2160 60Hz OLED 触控",
+      "sourceUrl": "https://i.ifeng.com/c/8PWZZIDGwVx",
+      "sourceTitle": "Dell 2023款XPS 15 9530笔电开售：13代酷睿标压+RTX 40系列，17999元起（凤凰网科技）",
+      "confidence": "high",
+      "notes": "国行 SKU 1888T，22999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9530|2023",
+      "cpu": "英特尔酷睿 i9-13900H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4070 8GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3456×2160 60Hz OLED 触控",
+      "sourceUrl": "https://wap.zol.com.cn/1554/1553800/extraprice_9999.html",
+      "sourceTitle": "戴尔XPS 15(XPS15-9530-R1988TS) 版本与报价（ZOL，2023年04月上市）",
+      "confidence": "high",
+      "notes": "国行 SKU 1988T，27999 元，顶配。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9570|2018",
+      "cpu": "英特尔酷睿 i7-8750H",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1050Ti Max-Q 4GB GDDR5",
+      "storage": "128GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://baike.sogou.com/v175007207.htm",
+      "sourceTitle": "戴尔XPS15 9570 机型配置（搜狗百科，2018 年上市）",
+      "confidence": "medium",
+      "notes": "国行主推配置：i7-8750H/8GB DDR4-2666/128GB SSD+1TB HDD/GTX1050Ti Max-Q 4GB/FHD IPS；价格未取得官方口径。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 16 9640|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "storage": "512GB",
+      "screen": "16.3英寸 1920×1200 120Hz",
+      "sourceUrl": "https://windowstip.com/laptop/dell-xps-16-9640",
+      "sourceTitle": "Dell XPS 16 9640 规格与定价（WindowsTip，2024-01-04 发布）",
+      "confidence": "high",
+      "notes": "美国定价 2299.99 美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 16 9640|2024",
+      "cpu": "英特尔酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+      "storage": "512GB",
+      "screen": "16.3英寸 1920×1200 120Hz",
+      "sourceUrl": "https://windowstip.com/laptop/dell-xps-16-9640",
+      "sourceTitle": "Dell XPS 16 9640 五档定价（WindowsTip，Ultra 9 185H/32GB/RTX4060）",
+      "confidence": "high",
+      "notes": "美国定价 2649.99 美元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 16 9640|2024",
+      "cpu": "英特尔酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+      "storage": "2TB",
+      "screen": "16.3英寸 3840×2400 90Hz OLED 触控",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASsJK1olXg4AUlhUDUoWC18IGlsUXwcBUVpZAE4RAV9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA24KGlgQWQIKUVhfFxJSXzI4fwtQXgdQBgo-YC1Cayh6Hx8cH1ZUAlJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZklHUWpfGFkSWwFWXFkIDU4nA244WjUVXAIDVlZeCXsWM28OE1gdVAADXVhfAE4nA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWBGpdT1IQD2heEwAdDg9QVwEKHV8UWgYGXW5fCUoVAV84KxtGKAdLCAk6C09kUBZTUANxG35wHyFUYRNIWQkNdVlrPHwFNCddQAxjRh8BZhBWOTYCZFlbCXsWMw",
+      "sourceTitle": "戴尔XPS 16 9640 京东商品页（U9-185H/32G/2T/RTX4060/4K OLED）",
+      "confidence": "medium",
+      "notes": "京东第三方定制机 25669 元；99.5Wh、2.2kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9700|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "512GB",
+      "screen": "17英寸 1920×1200 60Hz",
+      "sourceUrl": "https://technave.com/gadget/Dell-XPS-17-9700-Laptop-Price-in-Malaysia-Specs-20670.html",
+      "sourceTitle": "Dell XPS 17 9700 三档版本（TechNave，2020 年 6 月发布）",
+      "confidence": "high",
+      "notes": "马来西亚入门档 7999 马币。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9700|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Ti 4GB GDDR6",
+      "storage": "1TB",
+      "screen": "17英寸 3840×2400 60Hz 触控",
+      "sourceUrl": "https://technave.com/gadget/Dell-XPS-17-9700-Laptop-Price-in-Malaysia-Specs-20670.html",
+      "sourceTitle": "Dell XPS 17 9700 UHD+ 触控版规格（TechNave）",
+      "confidence": "high",
+      "notes": "2.51kg，97Wh，4×雷电3，指纹识别。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9720|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+      "storage": "512GB",
+      "screen": "17英寸 3840×2400 60Hz 触控",
+      "sourceUrl": "https://www.dell.com/en-us/shop/dell-laptops/xps-17-laptop/spd/xps-17-9720-laptop/xn9720cto020s",
+      "sourceTitle": "XPS 17 9720 Laptop（Dell 美国官网 xn9720cto020s）",
+      "confidence": "high",
+      "notes": "官网标准配置，2×8GB DDR5-4800，RTX 3050 60W。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9730|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "storage": "512GB",
+      "screen": "17英寸 1920×1200 60Hz",
+      "sourceUrl": "https://pcmax.id?p=2793",
+      "sourceTitle": "Dell XPS 17 9730 规格（PCMax，2023 年 7 月上市，i7-13700H/16GB/512GB/RTX4050）",
+      "confidence": "high",
+      "notes": "入门档，17 英寸 FHD+ 500nits，97Wh，2.31kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9730|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4070 8GB GDDR6",
+      "storage": "1TB",
+      "screen": "17英寸 3840×2400 60Hz 触控",
+      "sourceUrl": "https://technave.com/gadget/Dell-XPS-17-9730-Price-in-Malaysia-Specs-35057.html",
+      "sourceTitle": "Dell XPS 17 9730 版本与价格（TechNave，i7-13700H/32GB/1TB/RTX4070）",
+      "confidence": "high",
+      "notes": "马来西亚 14599 马币；国行对应 R1888TS，28999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9730|2023",
+      "cpu": "英特尔酷睿 i9-13900H",
+      "ram": "64GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4070 8GB GDDR6",
+      "storage": "2TB",
+      "screen": "17英寸 3840×2400 60Hz 触控",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1553816.shtml",
+      "sourceTitle": "戴尔XPS 17(XPS17-9730-R2988TS) 参数（ZOL，64GB/2TB/RTX4070/4K 触控）",
+      "confidence": "high",
+      "notes": "国行顶配 R2988TS，35999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越13 5379|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz 触控",
+      "sourceUrl": "https://devicehd.com/laptops/cn/product/63e963bba6803e6331dcdb8d/",
+      "sourceTitle": "DELL Inspiron 5000 5379 5379-9853 规格（DeviceHD，2018-05-16）",
+      "confidence": "medium",
+      "notes": "渠道价约 908 美元（2018 年），42Wh、1.62kg，360° 翻转。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 5488|2018",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX150 2GB GDDR5",
+      "storage": "256GB",
+      "screen": "14英寸 1920×1080 60Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%88%B4%E5%B0%94Inspiron%20%E7%81%B5%E8%B6%8A%2014%205000(5488)/23764900",
+      "sourceTitle": "戴尔Inspiron 灵越 14 5000(5488) 配置说明（百度百科，2018 年 9 月）",
+      "confidence": "medium",
+      "notes": "八代 i5 + MX150 + 8GB + 256GB PCIe 为主销组合；集显版渠道促销 4499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 5493|2019",
+      "cpu": "英特尔酷睿 i3-1005G1",
+      "ram": "4GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "128GB",
+      "screen": "14英寸 1920×1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/345/27782_1.html",
+      "sourceTitle": "戴尔灵越14(Ins 14-5493-D1305S) 配置与报价（ZOL 系列页）",
+      "confidence": "high",
+      "notes": "D1305S 入门款，3299 元（2019 年 10 月上市）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 5493|2019",
+      "cpu": "英特尔酷睿 i5-1035G1",
+      "ram": "4GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX230 2GB GDDR5",
+      "storage": "256GB",
+      "screen": "14英寸 1920×1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/345/27782_1.html",
+      "sourceTitle": "戴尔灵越14(Ins 14-5493-D1525S) 配置与报价（ZOL 系列页）",
+      "confidence": "high",
+      "notes": "D1525S，3999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 5493|2019",
+      "cpu": "英特尔酷睿 i5-1035G1",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "256GB",
+      "screen": "14英寸 1920×1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/345/27782_1.html",
+      "sourceTitle": "戴尔灵越14(Ins 14-5493-D1505S) 配置与报价（ZOL 系列页）",
+      "confidence": "high",
+      "notes": "D1505S，4199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 7400|2020",
+      "cpu": "英特尔酷睿 i5-1135G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14.5英寸 1920×1200 60Hz",
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30017931048",
+      "sourceTitle": "戴尔灵越 7400 开卖：11代酷睿/10bit 屏，7499 元起（IT之家，2020-10-13）",
+      "confidence": "high",
+      "notes": "核显版 7499 元，16GB 双通道内存。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 7400|2020",
+      "cpu": "英特尔酷睿 i7-1165G7",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX350 2GB GDDR5",
+      "storage": "1TB",
+      "screen": "14.5英寸 1920×1200 60Hz",
+      "sourceUrl": "https://www.dell.com/en-uk/shop/laptop-computers-for-businesses/inspiron-14-7000/spd/inspiron-14-7400-laptop/bn74005sb",
+      "sourceTitle": "Inspiron 7400 Laptop（Dell 英国官网 bn74005sb，i7-1165G7/16GB/1TB/MX350）",
+      "confidence": "high",
+      "notes": "国行 MX350 独显版 7999 元（IT之家）；官网另列 QHD+ 2560×1600 面板。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越14 Plus 7420|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 2240×1400 60Hz",
+      "sourceUrl": "https://kelaptop.com/en/dell-inspiron-14-plus-7000-7420-cn74306",
+      "sourceTitle": "DELL Inspiron 14 Plus 7000 7420 CN74306 完整规格（Kelaptop，2022 年 8 月）",
+      "confidence": "high",
+      "notes": "16GB DDR5-4800，64Wh，1.68kg，深绿色。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7620|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "16英寸 3072×1920 60Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1423/1422525/param.html",
+      "sourceTitle": "戴尔灵越 7620(Ins 16-7620-R1605L) 参数（ZOL，i5-12500H/16GB/512GB/集显）",
+      "confidence": "high",
+      "notes": "电商报价 6399 元（2022 年）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7620|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+      "storage": "512GB",
+      "screen": "16英寸 3072×1920 60Hz",
+      "sourceUrl": "https://www.shangxianda.com/bijibendiannao/16704.html",
+      "sourceTitle": "戴尔灵越 7620(Ins 16-7620-R1745L) 参数（上线达，2022年05月，i7-12700H/RTX3050）",
+      "confidence": "high",
+      "notes": "R1745L，电商报价 6399 元，86Wh、2.05kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7630|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 90Hz",
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%B1%CA%BC%C7%B1%BE/%D0%C2-inspiron-%C1%E9%D4%BD-16-plus-%B1%CA%BC%C7%B1%BE/spd/inspiron-16-7630-laptop/ins16-7630-d1887s",
+      "sourceTitle": "Inspiron 灵越 16 Plus 笔记本（戴尔中国官网 ins16-7630-d1887s）",
+      "confidence": "high",
+      "notes": "官网在售 32GB DDR5-4800 + 1TB + RTX4060 8GB，130W 适配器，86Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7630|2023",
+      "cpu": "英特尔酷睿 i7-13620H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 90Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/dell/2065167_detail.html",
+      "sourceTitle": "戴尔灵越Ins16Plus-7630(i7-13620H/32GB/1TB/RTX4060) 参数（太平洋电脑网，2023 年）",
+      "confidence": "high",
+      "notes": "国行 i7-13620H 版本，90Hz 2.5K，2.06kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就13 5370|2017",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz",
+      "sourceUrl": "https://i.dell.com/sites/doccontent/app-merchandizing/responsive/Shop/Browse/Work/zh/Documents/%E6%88%B4%E5%B0%94%E5%B0%8F%E4%BC%81%E4%B8%9A%E4%BA%A7%E5%93%81%E6%89%8B%E5%86%8C618%E4%BF%83%E9%94%80%E7%89%B9%E5%88%8A.pdf",
+      "sourceTitle": "戴尔小企业产品手册 2018 年 6 月刊（官方 PDF，Vostro 13-5370-D1605S，促销 4299 元）",
+      "confidence": "high",
+      "notes": "2018 年 6 月促销价 4299 元（原价 5499 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就13 5370|2017",
+      "cpu": "英特尔酷睿 i5-8250U",
+      "ram": "8GB",
+      "gpu": "独立显卡 AMD Radeon 530 2GB GDDR5",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/dell/1080358_detail.html",
+      "sourceTitle": "戴尔Vostro 成就 13 5000系列 5370(VOSTRO 13-5370-D1525G) 参数（太平洋电脑网）",
+      "confidence": "high",
+      "notes": "金色 Radeon 530 独显版，2017 年 12 月上市，渠道价约 4950 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就13 5391|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.dell.com/vc/business/p/vostro-13-5391-laptop/pd",
+      "sourceTitle": "Vostro 13 5391 产品页（Dell 官网，i5-10210U/8GB LPDDR3/256GB/UHD 620）",
+      "confidence": "high",
+      "notes": "45Wh、1.18kg，802.11ac 1×1。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就13 5391|2019",
+      "cpu": "英特尔酷睿 i7-10510U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX250 2GB GDDR5",
+      "storage": "256GB",
+      "screen": "13.3英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.dell.com/en-yu/shop/cty/pdp/spd/vostro-13-5391-laptop",
+      "sourceTitle": "Vostro 13 Inch 5391 Laptop 技术规格（Dell 官网，i7 + MX250 2GB 版本）",
+      "confidence": "high",
+      "notes": "国行常写作「灵越13 5391-D1625S」，2019 年 10 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就15 5510|2021",
+      "cpu": "英特尔酷睿 i5-11320H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX450 2GB GDDR5",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%C2%B4%C3%B7%C2%BB%C3%BB%C2%B1%CA%BC%C7%C2%B1%BE%B5%E7%C4%D4/vostro-%C2%B3%C9%BE%CD-5510-%C2%B8%DF%D0%D4%C4%DC%C9%CC%CE%F1%B1%BE/spd/vostro-15-5510-laptop/vostro%2015-5510-d2625a",
+      "sourceTitle": "Vostro 成就 5510 高性能商务本（戴尔中国官网，vostro 15-5510-d2625a）",
+      "confidence": "high",
+      "notes": "16GB 单条 DDR4-3200，54Wh，1.667kg，背光键盘含数字键。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就15 7510|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.laptoparena.net/dell/dell-vostro-7510-jntp1-black-76004",
+      "sourceTitle": "DELL Vostro 7510 - JNTP1 规格（LaptopArena，2021-07-21）",
+      "confidence": "high",
+      "notes": "16GB 双通道 DDR4-3200，56Wh，130W 适配器，2.01kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|成就16 7620|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 3050 4GB GDDR6",
+      "storage": "512GB",
+      "screen": "16英寸 3072×1920 60Hz",
+      "sourceUrl": "https://s.zol.com.cn/shop_184495/39307228.html",
+      "sourceTitle": "戴尔 成就 7620(Vostro 16-7620-R1745B) 参数（ZOL 商城，2022年08月）",
+      "confidence": "high",
+      "notes": "R1745B，16GB DDR5-4800，56Wh，2.11kg，含 RJ45。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|戴尔14 Premium DA14250|2025",
+      "cpu": "英特尔酷睿 Ultra 7 255H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics 140T",
+      "storage": "512GB",
+      "screen": "14.5英寸 1920×1200 120Hz",
+      "sourceUrl": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-14-laptop-2025/spd/dell-da14250-laptop/cda14250cto03mmyh",
+      "sourceTitle": "XPS 14 Laptop (2025) 官网配置（Dell 马来西亚官网，Ultra 7 255H/16GB/512GB）",
+      "confidence": "high",
+      "notes": "起价 1549.99 美元（2025 年 6 月上市），70Wh，3×雷电4。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|戴尔14 Premium DA14250|2025",
+      "cpu": "英特尔酷睿 Ultra 7 255H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics 140T",
+      "storage": "1TB",
+      "screen": "14.5英寸 3200×2000 120Hz OLED 触控",
+      "sourceUrl": "https://me.pcmag.com/en/laptops/32645/dell-14-premium-da14250",
+      "sourceTitle": "Dell 14 Premium (DA14250) 评测（PCMag 中东版，32GB/1TB/3.2K OLED，$2049.99）",
+      "confidence": "high",
+      "notes": "评测机 2049.99 美元（Dell 官网价），Best Buy 2099.99 美元；1.72kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|戴尔14 Premium DA14250|2025",
+      "cpu": "英特尔酷睿 Ultra 7 255H",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4050 6GB GDDR6",
+      "storage": "1TB",
+      "screen": "14.5英寸 3200×2000 120Hz OLED 触控",
+      "sourceUrl": "https://www.dell.com/en-my/shop/deals/weekly-deals/touch-screen?appliedRefinements=43329",
+      "sourceTitle": "XPS 14 Laptop (2025) / Dell 14 Premium 促销页（Dell 马来西亚官网，Ultra 7 255H/RTX4050/32GB/1TB）",
+      "confidence": "high",
+      "notes": "马来西亚官网在售，原价 21159 马币、折后 11629 马币（2026-10 抓取）；同页另有 64GB 版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9360|2016",
+      "cpu": "英特尔酷睿 i7-8550U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel UHD Graphics 620",
+      "storage": "512GB",
+      "screen": "13.3英寸 3200×1800 60Hz 触控",
+      "sourceUrl": "https://kelaptop.com/en/dell-xps-13-9360-xps9360-7180slv-pus",
+      "sourceTitle": "DELL XPS 13 9360 XPS9360-7180SLV-PUS 完整规格（Kelaptop，i7-8550U/16GB/512GB/3200×1800 触控）",
+      "confidence": "medium",
+      "notes": "八代酷睿后期版，2017 年下半年起销售；欧洲渠道型号 XPS9360-7180SLV-PUS，国行价格未取得官方口径。"
+    },
+    {
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9315|2022",
+      "cpu": "英特尔酷睿 i5-1230U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "256GB",
+      "screen": "13英寸 2880×1920 60Hz 触控",
+      "sourceUrl": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-13-2-in-1-laptop/spd/xps-13-9315-2-in-1-laptop/wnx9315t001my",
+      "sourceTitle": "XPS 9315 2-in-1 Laptop（Dell 马来西亚官网 wnx9315t001my，i5-1230U/8GB/256GB/3K 触控）",
+      "confidence": "high",
+      "notes": "官网在售标准配置，含 XPS Folio 键盘与手写笔，49.5Wh/736g。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "XPS9360",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9360|2016",
+      "aliasType": "型号代码写法",
+      "note": "电商与二手平台常见的无空格写法"
+    },
+    {
+      "alias": "XPS 13-9360",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9360|2016",
+      "aliasType": "中文型号写法",
+      "note": "国行包装与经销商常用带连字符写法"
+    },
+    {
+      "alias": "XPS 13 2018",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9370|2018",
+      "aliasType": "年份别名",
+      "note": "媒体常以年份指代 9370"
+    },
+    {
+      "alias": "XPS 13-9370",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9370|2018",
+      "aliasType": "中文型号写法",
+      "note": "国行 SKU 前缀，如 XPS 13-9370-D1605S"
+    },
+    {
+      "alias": "XPS 13 2019",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9380|2019",
+      "aliasType": "年份别名",
+      "note": "海外称 XPS 13 9380 为 2019 款"
+    },
+    {
+      "alias": "XPS 13 2020",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9300|2020",
+      "aliasType": "年份别名",
+      "note": "9300 是 16:10 首代，媒体统称 2020 款"
+    },
+    {
+      "alias": "XPS 13 2021款",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9310|2020",
+      "aliasType": "中文年份写法",
+      "note": "国行 2020 年 10 月开卖，常被写作 2021 款"
+    },
+    {
+      "alias": "XPS 13 二合一 9315",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9315|2022",
+      "aliasType": "中文别名",
+      "note": "官方归类为 XPS 13 2-in-1，国行口语称二合一"
+    },
+    {
+      "alias": "XPS 13 2-in-1 9315",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9315|2022",
+      "aliasType": "英文名",
+      "note": "Dell 官网产品名"
+    },
+    {
+      "alias": "XPS13-9340",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 9340|2024",
+      "aliasType": "型号代码写法",
+      "note": "京东/淘宝商品标题写法"
+    },
+    {
+      "alias": "XPS 13 Plus",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 Plus 9320|2022",
+      "aliasType": "英文名",
+      "note": "不带机型代码的通用名，电商搜索量最大"
+    },
+    {
+      "alias": "XPS9320",
+      "modelKey": "笔记本电脑|戴尔|XPS 13 Plus 9320|2022",
+      "aliasType": "型号代码写法",
+      "note": "海外 SKU 写法"
+    },
+    {
+      "alias": "XPS 14",
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "aliasType": "英文名",
+      "note": "戴尔 2024 年新开的产品线，无年份后缀"
+    },
+    {
+      "alias": "XPS14-9440",
+      "modelKey": "笔记本电脑|戴尔|XPS 14 9440|2024",
+      "aliasType": "型号代码写法",
+      "note": "京东商品标题写法"
+    },
+    {
+      "alias": "XPS 15 2017",
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9560|2017",
+      "aliasType": "年份别名",
+      "note": "9560 为 2017 年初款"
+    },
+    {
+      "alias": "XPS15-9570",
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9570|2018",
+      "aliasType": "型号代码写法",
+      "note": "国行与渠道常用写法"
+    },
+    {
+      "alias": "XPS 15 2020",
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9500|2020",
+      "aliasType": "年份别名",
+      "note": "9500 是 XPS 15 改 16:10 的一代"
+    },
+    {
+      "alias": "XPS 15 2021",
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9510|2021",
+      "aliasType": "年份别名",
+      "note": "十一代标压款"
+    },
+    {
+      "alias": "XPS 15 2022",
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9520|2022",
+      "aliasType": "年份别名",
+      "note": "十二代标压款"
+    },
+    {
+      "alias": "XPS 15 2023",
+      "modelKey": "笔记本电脑|戴尔|XPS 15 9530|2023",
+      "aliasType": "年份别名",
+      "note": "十三代 + RTX40 款；注意与 2013 年同名 9530 区分"
+    },
+    {
+      "alias": "XPS 17 2020",
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9700|2020",
+      "aliasType": "年份别名",
+      "note": "XPS 17 回归首代"
+    },
+    {
+      "alias": "XPS 17 2022",
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9720|2022",
+      "aliasType": "年份别名",
+      "note": "十二代标压款"
+    },
+    {
+      "alias": "XPS 17 2023",
+      "modelKey": "笔记本电脑|戴尔|XPS 17 9730|2023",
+      "aliasType": "年份别名",
+      "note": "十三代 + RTX40 款，XPS 17 末代"
+    },
+    {
+      "alias": "Inspiron 13 5379",
+      "modelKey": "笔记本电脑|戴尔|灵越13 5379|2018",
+      "aliasType": "英文名",
+      "note": "海外名，国内对应灵越13 5379"
+    },
+    {
+      "alias": "灵越13 5379",
+      "modelKey": "笔记本电脑|戴尔|灵越13 5379|2018",
+      "aliasType": "中文别名",
+      "note": "国行商品名"
+    },
+    {
+      "alias": "Inspiron 14 5488",
+      "modelKey": "笔记本电脑|戴尔|灵越14 5488|2018",
+      "aliasType": "英文名",
+      "note": "海外同型号名"
+    },
+    {
+      "alias": "Ins 14-5493",
+      "modelKey": "笔记本电脑|戴尔|灵越14 5493|2019",
+      "aliasType": "型号代码写法",
+      "note": "国行 SKU 前缀写法，如 Ins 14-5493-D1505S"
+    },
+    {
+      "alias": "Inspiron 14 7400",
+      "modelKey": "笔记本电脑|戴尔|灵越14 7400|2020",
+      "aliasType": "英文名",
+      "note": "国行叫灵越 7400"
+    },
+    {
+      "alias": "灵越14 Plus",
+      "modelKey": "笔记本电脑|戴尔|灵越14 Plus 7420|2022",
+      "aliasType": "中文别名",
+      "note": "不带机型代码的系列名，需结合年份判断"
+    },
+    {
+      "alias": "Inspiron 14 Plus 7420",
+      "modelKey": "笔记本电脑|戴尔|灵越14 Plus 7420|2022",
+      "aliasType": "英文名",
+      "note": "海外产品名"
+    },
+    {
+      "alias": "灵越16 Plus 7620",
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7620|2022",
+      "aliasType": "中文别名",
+      "note": "国行商品名，与灵越 7620 同机"
+    },
+    {
+      "alias": "Ins 16-7620",
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7620|2022",
+      "aliasType": "型号代码写法",
+      "note": "国行 SKU 前缀，如 Ins 16-7620-R1745L"
+    },
+    {
+      "alias": "Ins16Plus-7630",
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7630|2023",
+      "aliasType": "型号代码写法",
+      "note": "太平洋产品库与渠道写法"
+    },
+    {
+      "alias": "Inspiron 16 Plus 7630",
+      "modelKey": "笔记本电脑|戴尔|灵越16 Plus 7630|2023",
+      "aliasType": "英文名",
+      "note": "海外产品名"
+    },
+    {
+      "alias": "Vostro 13 5370",
+      "modelKey": "笔记本电脑|戴尔|成就13 5370|2017",
+      "aliasType": "英文名",
+      "note": "海外名，国内叫成就 5370"
+    },
+    {
+      "alias": "V5370",
+      "modelKey": "笔记本电脑|戴尔|成就13 5370|2017",
+      "aliasType": "型号代码写法",
+      "note": "渠道简写，如 V5370-1525G"
+    },
+    {
+      "alias": "Vostro 13 5391",
+      "modelKey": "笔记本电脑|戴尔|成就13 5391|2019",
+      "aliasType": "英文名",
+      "note": "国内同机另售「灵越13 5391」，两名字指同一硬件"
+    },
+    {
+      "alias": "灵越13 5391",
+      "modelKey": "笔记本电脑|戴尔|成就13 5391|2019",
+      "aliasType": "中文别名",
+      "note": "国行部分渠道用灵越名销售，配置与成就 5391 相同"
+    },
+    {
+      "alias": "Vostro 15 5510",
+      "modelKey": "笔记本电脑|戴尔|成就15 5510|2021",
+      "aliasType": "英文名",
+      "note": "海外名"
+    },
+    {
+      "alias": "Vostro 15 7510",
+      "modelKey": "笔记本电脑|戴尔|成就15 7510|2021",
+      "aliasType": "英文名",
+      "note": "海外名；同模具另有 Inspiron 15 7510"
+    },
+    {
+      "alias": "Inspiron 15 7510",
+      "modelKey": "笔记本电脑|戴尔|成就15 7510|2021",
+      "aliasType": "同模具别名",
+      "note": "戴尔同一硬件在消费渠道叫灵越 7510，商用渠道叫成就 7510"
+    },
+    {
+      "alias": "Vostro 16 7620",
+      "modelKey": "笔记本电脑|戴尔|成就16 7620|2022",
+      "aliasType": "英文名",
+      "note": "海外名，国行称成就 7620"
+    },
+    {
+      "alias": "Dell Premium 14",
+      "modelKey": "笔记本电脑|戴尔|戴尔14 Premium DA14250|2025",
+      "aliasType": "英文名",
+      "note": "2025 年新命名，海外页面标题写法"
+    },
+    {
+      "alias": "XPS 14 2025",
+      "modelKey": "笔记本电脑|戴尔|戴尔14 Premium DA14250|2025",
+      "aliasType": "继承关系别名",
+      "note": "戴尔马来西亚官网仍以「XPS 14 Laptop (2025)」作为商品名销售 DA14250"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "戴尔 16 Premium DA16250（2025）",
+      "issue": "已确认是 XPS 16 9640 的 2025 继任者，海外在售记录显示 Ultra 7 255H/Ultra 9 285H、RTX 5050/5060、16.3 英寸 4K OLED 120Hz，但未取得戴尔官方规格页与国行上市信息，价格与 SKU 无法交叉验证",
+      "suggestion": "以 dell.com.cn 或 Dell 美国官网 DA16250 产品页确认 CPU/GPU/屏幕选项后单独收录；不要套用 XPS 16 9640 的配置",
+      "sourceUrl": "https://windowstip.com/laptop/dell-xps-16-9640"
+    },
+    {
+      "model": "戴尔 2026 款轻薄本（XPS/Premium 后续，Panther Lake 平台）",
+      "issue": "截至 2026-10-26 未检索到戴尔官方发布页或可靠媒体的上市/定价报道，无法确认型号代码与配置",
+      "suggestion": "留待官方发布后补录；不得以 2025 款配置推算 2026 款",
+      "sourceUrl": "https://www.dell.com/en-my/shop/laptop-notebook-computers/xps-14-laptop-2025/spd/dell-da14250-laptop/cda14250cto03mmyh"
+    },
+    {
+      "model": "灵越14 7420 / 灵越16 Plus 7620 国行首发价",
+      "issue": "两款均有可靠规格来源，但人民币首发价只见于零散电商报价（7620 约 6399 元），无官方新闻稿或官网存档，无法确认发布时的官方定价",
+      "suggestion": "补查戴尔中国 2022 年新品新闻稿或京东历史价，再写入 notes 的价格字段",
+      "sourceUrl": "https://wap.zol.com.cn/1423/1422525/param.html"
+    },
+    {
+      "model": "成就14 5410（Vostro 5410）",
+      "issue": "5410 这一机型代码在戴尔体系内同时用于 Inspiron 14 5410 二合一与 Vostro 14 5410，检索到的官方页均为 Inspiron 品牌；未能确证国行「成就14 5410」独立 SKU 的存在与配置",
+      "suggestion": "以戴尔中国商用产品页确认 Vostro 5410 的独立型号后再收录，避免与灵越 5410 二合一混为一谈",
+      "sourceUrl": "https://www.dell.com/en-ca/shop/laptops-ultrabooks/inspiron-14-2-in-1-laptop/spd/inspiron-14-5410-2-in-1-laptop/ni145410t_h5009e"
+    },
+    {
+      "model": "XPS 15 9530（2013 款）",
+      "issue": "戴尔官方规格 PDF 中「XPS 15 9530」指向 2013 年四代酷睿 + GT750M 的老机型，与 2023 款 9530 型号代码完全重合，检索时极易串档",
+      "suggestion": "本文件只收录 2023 款；若采购库需要 2013 款，应另建条目并在 model 中注明「2013」",
+      "sourceUrl": "https://dl.dell.com/manuals/all-products/esuprt_laptop/esuprt_xps_laptop/xps-15-9530_reference%20guide_en-us.pdf"
+    },
+    {
+      "model": "XPS 13 9310 国行价格与 SKU",
+      "issue": "规格可由戴尔支持文档确认，但国行 2020 年 10 月的首发价、各 SKU 的内存/硬盘搭配无官方页面存档，仅见媒体口径「11999 元起」",
+      "suggestion": "补查戴尔中国 2020 年 XPS 13 9310 上市新闻稿或京东历史商品页后再补价格与 configCombos",
+      "sourceUrl": "https://www.dell.com/support/manuals/zh-cn/xps-13-9310-laptop/xps-13-9310-setup-and-specifications/%E6%98%BE%E7%A4%BA%E5%B1%8F"
+    },
+    {
+      "model": "灵越16 Plus 7630 国行首发价",
+      "issue": "官网配置页与两款 SKU 规格可确认，但未取得 2023 年国行首发价（官网当前页不显示价格，京东历史价缺失）",
+      "suggestion": "以 2023 年 3 月戴尔中国新品稿或京东首发记录补价格；配置本身可按已收条目使用",
+      "sourceUrl": "https://www.dell.com/zh-cn/shop/%B1%CA%BC%C7%B1%BE/%D0%C2-inspiron-%C1%E9%D4%BD-16-plus-%B1%CA%BC%C7%B1%BE/spd/inspiron-16-7630-laptop/ins16-7630-d1887s"
+    }
+  ]
+}

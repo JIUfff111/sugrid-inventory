@@ -1,0 +1,2012 @@
+{
+  "scope": "惠普游戏本 暗影精灵/光影精灵 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵3|2017",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵3",
+      "displayName": "惠普 暗影精灵3 2017",
+      "modelYear": 2017,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-7300HQ",
+        "英特尔酷睿 i7-7700HQ"
+      ],
+      "ramOptions": [
+        "8GB",
+        "12GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050 4GB 笔记本电脑 GPU",
+        "GTX 1050 Ti 4GB 笔记本电脑 GPU",
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB+1TB",
+        "256GB+1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 120Hz"
+      ],
+      "sourceUrl": "https://notebook.pconline.com.cn/993/9932425.html",
+      "sourceTitle": "五款游戏轮流上？暗影精灵III表示谁是下一个！（太平洋电脑网，含 15-ce007TX 完整配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2017 年 6 月 6 日发布，官方中文名「暗影精灵III代」，机型代号 OMEN 15-ce，共 8 款配置。主配电竞版为 i5-7300HQ+GTX 1050 Ti 4GB+8GB DDR4-2400+128GB SSD+1TB HDD+15.6 英寸 120Hz 72%NTSC IPS，首发/日常价 7299 元，促销见过 6599—7499 元。i7-7700HQ 版本存在；海外同模具 15-ce006nv 规格页记载 i7-7700HQ+GTX 1060 6GB+12GB DDR4，故 12GB 内存与 GTX 1060 一并列入。GTX 1050 低配版无 120Hz 高色域屏可选。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵4|2018",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵4",
+      "displayName": "惠普 暗影精灵4 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8300H",
+        "英特尔酷睿 i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050 4GB 笔记本电脑 GPU",
+        "GTX 1050 Ti 4GB 笔记本电脑 GPU",
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB+1TB",
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://baike.sogou.com/v184275391.htm",
+      "sourceTitle": "惠普暗影精灵4代系列（搜狗百科，含 9 款配置与首发价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018 年 5 月 30 日发布，6 月 1 日京东首发。共 9 款配置：8 代酷睿 i5-8300H/i7-8750H、GTX 1050/1050 Ti 4GB/1060 6GB、8GB 或 16GB DDR4-2666（双插槽，最高支持 32GB）、128GB SSD+1TB HDD 或 512GB SSD、15.6 英寸 144Hz 72%色域 IPS。首发价：i5+1050Ti 6499 元、i5+1060 6999 元、i7+1060+16GB 顶配 8999 元。微边框设计（左右 7.03mm），B&O 音响，支持 G-SYNC。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵5",
+      "displayName": "惠普 暗影精灵5 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-9300H",
+        "英特尔酷睿 i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050 4GB 笔记本电脑 GPU",
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 Max-Q 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://notebook.yesky.com/161/525476661.shtml",
+      "sourceTitle": "惠普游戏家族新品全球首发 双屏游戏本震撼登场（天极网，2019 发布会配置与价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 5 月 14 日发布、5 月 20 日开售，机型代号 OMEN 15-dc1xxx（如 15-dc1067TX）。15.6 英寸 4.99mm 窄边框、80% 屏占比，72%NTSC，可选 144Hz；独显覆盖 GTX 1050/1650/1660 Ti/RTX 2060/2070 Max-Q。官方称按 CPU、显卡、屏幕组合共 10 种配置，首发 5999 元起，顶配 i7-9750H+RTX 2060+144Hz 约 8499 元。同期另有更薄的暗影精灵5 Air（i7-9750H+RTX 2060 首发 9999 元）与 17.3 英寸暗影精灵5 Plus，Air 未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵5 Plus|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵5 Plus",
+      "displayName": "惠普 暗影精灵5 Plus 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-9750H",
+        "英特尔酷睿 i9-9980HK"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2080 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/tashuo/browse/content?id=f39dc6c7199708407976791d",
+      "sourceTitle": "物理外挂程咬金！惠普全球首发幻影精灵X双屏笔记本（百度百科 ta 说，含暗影精灵5 Plus 配置与定价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2019 年 5 月发布、6 月 1 日首发，17.3 英寸大屏旗舰（OMEN 17-cb 系列）。i7-9750H 起步、最高 i9-9980HK，RTX 2060/RTX 2080 150W，1TB SSD 起并支持双 SSD RAID 0 加机械硬盘三盘位，144Hz G-SYNC IPS。起价 14999 元（i7-9750H+16GB+1TB+RTX 2080+144Hz）。机身较上代削薄 10%，厚度进入 30mm 以内。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵6",
+      "displayName": "惠普 暗影精灵6 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10300H",
+        "英特尔酷睿 i7-10750H",
+        "AMD 锐龙 5 4600H",
+        "AMD 锐龙 7 4800H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1650 Ti 4GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 Max-Q 8GB 笔记本电脑 GPU",
+        "RTX 2070 Super Max-Q 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 1920×1080 144Hz",
+        "15.6英寸 1920×1080 300Hz"
+      ],
+      "sourceUrl": "https://m.igao7.com/news/202007/T0CXTnYp9ncJhtll.html",
+      "sourceTitle": "惠普暗影精灵6发布：5399到11999全覆盖（爱搞机，13 个配置首发价表）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 7 月 9 日发布、7 月 13 日京东首发，全新模具（OMEN 15-ek/en），机身面积缩小 8%、厚度 22.5—22.9mm。酷睿版 9 个配置、锐龙版 4 个配置，首发 5399—11499 元。内存 DDR4-2933 双插槽最高 32GB，屏幕 60/144/300Hz 三档、部分 72%NTSC。锐龙版无数字小键盘、全高方向键。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵7|2021",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵7",
+      "displayName": "惠普 暗影精灵7 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-11400H",
+        "英特尔酷睿 i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920×1080 60Hz",
+        "16.1英寸 1920×1080 144Hz",
+        "16.1英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://www.qingdan.com/item/29274",
+      "sourceTitle": "惠普 暗影精灵7 详细参数与首发价（清单，含全系配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 5 月 20 日发布、6 月 1 日开售，屏幕由 15.6 英寸升级到 16.1 英寸（OMEN 16-b/c）。11 代酷睿 i5-11400H/i7-11800H，RTX 3050—3070（3060/3070 为 115W 并首次支持独显直连），16GB DDR4-3200 双插槽最高 32GB，512GB/1TB PCIe 4.0。i7+3060+高色域高刷首发 7699 元、日常参考 8299 元；全系首发 5499 元起。2K/165Hz 版本 i7-11800H+RTX 3060 售价 9499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵7 Plus|2021",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵7 Plus",
+      "displayName": "惠普 暗影精灵7 Plus 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "17.3英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://www.igao7.com/news/202105/kfIxy8KcBLPHK1sg.html",
+      "sourceTitle": "暗影精灵 7 系列发布：11 代酷睿 30 系显卡，首发 5499 元起（爱搞机，含 7 Plus 配置与价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 5 月 20 日与暗影精灵7 同场发布，17.3 英寸（OMEN 17-ck1xxx），全新模具更小更薄。i7-11800H + RTX 3070/3080，支持显卡直连，RTX 3080 版性能释放可达 165W；17.3 英寸 2K 165Hz 100%sRGB IPS；单键可调 RGB 光轴机械键盘。建议零售 10999 元起，首发 9999 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵8",
+      "displayName": "惠普 暗影精灵8 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 Ti 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920×1080 60Hz",
+        "16.1英寸 1920×1080 144Hz",
+        "16.1英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/H0DQTUK50550JBMS.html",
+      "sourceTitle": "6199元起！惠普暗影精灵8和光影精灵8系列游戏本值得选吗？（网易，含暗影精灵8 五档配置首发价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 2 月 16 日发布，延续 16.1 英寸模具，厚 22.5mm、重 2.3kg。12 代酷睿 i5-12500H/i7-12700H，RTX 3050—3070 Ti，DDR5-4800，标配 512GB PCIe 4.0，支持独显直连。首发五档：i5+3050 6199 元、i7+3050Ti 6799 元、i5+3060 7299 元、i7+3060+144Hz 7999 元、i7+3070Ti+2.5K/144Hz+1TB 10499 元。高配双雷电4，低配为全功能 USB-C。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Pro|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵8 Pro",
+      "displayName": "惠普 暗影精灵8 Pro 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H",
+        "AMD 锐龙 7 6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 Ti 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920×1080 144Hz",
+        "16.1英寸 1920×1080 165Hz",
+        "16.1英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1410206.shtml",
+      "sourceTitle": "惠普暗影精灵8 Pro(i7 12700H/16GB/512GB/RTX3060/144Hz) 参数（中关村在线产品库）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 5 月上市，即国内版 OMEN 16 改款，定位介于暗影精灵8 与 8 Plus 之间。RTX 3060 满血 140W、支持独显直连，两进四出六风道、5 热管、12V 三相风扇。i7-12700H+RTX 3060 16GB 512GB 144Hz 首发 7999 元（日常 8999 元）；R7-6800H+RTX 3060 16GB 512GB 2.5K 165Hz 首发 7799 元；全系首发 6899 元起。双雷电4、DDR5-4800 双插槽最高 32GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Plus|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵8 Plus",
+      "displayName": "惠普 暗影精灵8 Plus 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H",
+        "英特尔酷睿 i9-12900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 Ti 8GB 笔记本电脑 GPU",
+        "RTX 3080 Ti 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "17.3英寸 1920×1080 144Hz",
+        "17.3英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1406/1405449/index.html",
+      "sourceTitle": "惠普暗影精灵8 Plus(i7 12700H/16GB/1TB/RTX3080Ti/165Hz) 参数（中关村在线，别名 17-CK1004）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 2 月 16 日发布，17.3 英寸（OMEN 17-ck1000），厚 27mm、重 2.8kg、330W 适配器。i7-12700H 或 i9-12900HX，RTX 3060/3070 Ti/3080 Ti（3080 Ti 175W），DDR5-4800 双插槽最高 32GB。参考价 9999—16999 元：RTX 3060 512GB 144Hz 9999 元、3070 Ti 1TB 165Hz 11999 元、3080 Ti 1TB 165Hz 16999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵9",
+      "displayName": "惠普 暗影精灵9 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700HX",
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 2560×1440 240Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/867/8676367.html",
+      "sourceTitle": "广州惠普暗影精灵9游戏本热门选择7388元（中关村在线，含 16-wf0032TX 完整参数）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 4 月 3 日发布、4 月 10 日开售，机型代号 OMEN 16-wf（如 16-wf0032TX）。13 代酷睿 HX 55W 平台、RTX 40 全系支持独显直连，2 进 4 出 6 风道、216 片鳍片。i9-13900HX+RTX 4060 140W+16GB DDR5-5600+1TB+16.1 英寸 2.5K 240Hz 首发 8499 元（后京东 8999 元）。重 2.4kg、厚 23.5mm、83Wh、双雷电4。该代早期批次存在「黑屏」口碑问题，采购需关注批次。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 Plus|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵9 Plus",
+      "displayName": "惠普 暗影精灵9 Plus 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700HX",
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "17.3英寸 2560×1440 240Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/Api_Article_ProParam_proIds=1496591.html",
+      "sourceTitle": "惠普暗影精灵9 Plus 高能版(i9 13900HX/32GB/1TB/RTX4080/240Hz) 参数（中关村在线，型号 17-ck2002TX）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 3 月上市，17.3 英寸 2.5K 240Hz（OMEN 17-ck2000，如 17-ck2002TX），85% 屏占比、100%sRGB。RTX 4080 175W 满血，两进三出五风道、4 热管。i7-13700HX+RTX 4080 首发直降 1000 元后约 14999 元；i9-13900HX+32GB+4080 参考 15499 元，4090 版 18999 元。重 2.8kg、83Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 锐龙版|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵9 锐龙版",
+      "displayName": "惠普 暗影精灵9 锐龙版 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7840H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 1920×1080 165Hz",
+        "16英寸 2560×1440 240Hz"
+      ],
+      "sourceUrl": "https://m.ithome.com/html/696614.htm",
+      "sourceTitle": "惠普新款暗影精灵 9 锐龙版笔记本今晚开售：R7 7840H + RTX 4060，6799 元（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 5 月 31 日 20:00 开售，R7-7840H（8 核 16 线程、4nm、5.1GHz）+ RTX 4060/4070，140W，支持显卡直连。16GB DDR5-5600，512GB/1TB PCIe 4.0。RTX 4060 版 16 英寸 FHD 165Hz 首发 6799 元；RTX 4070 版 16 英寸 2K 240Hz 首发 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵10",
+      "displayName": "惠普 暗影精灵10 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-14650HX",
+        "英特尔酷睿 i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 2560×1440 240Hz"
+      ],
+      "sourceUrl": "https://www.ithome.com/0/762/384.htm",
+      "sourceTitle": "惠普暗影精灵 10 游戏本配置上新：14 代酷睿、RTX4060 至 RTX4080，7299 元起（IT之家，含五档配置价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 1 月 18 日发布第 10 代产品，4 月 18 日 14 代配置开售。16.1 英寸 QHD 240Hz、3ms、100%sRGB、180° 开合、5 热管 6 风道、RTX 4060 140W 独显直连。价格：i7-14650HX+4060+16G+512G 7299 元；i9-14900HX+4060+16G+1T 8999 元；i9+4060+32G+1T 9999 元；i9+4070+32G+1T 10999 元；i9+4080+32G+1T 14999 元。双雷电4、Wi-Fi 7。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10 Slim 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵10 Slim 14",
+      "displayName": "惠普 暗影精灵10 Slim 14 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 155H",
+        "英特尔酷睿 Ultra 9 185H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880×1800 120Hz"
+      ],
+      "sourceUrl": "https://news.qq.com/rain/a/20240118A069AM00",
+      "sourceTitle": "惠普暗影精灵 10 SLIM 14 游戏本发布，10499 元起（腾讯新闻转 IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年 1 月 18 日发布、1 月 24 日开售。14 英寸 2.8K（2880×1800）48—120Hz OLED、100% DCI-P3、500nit HDR，1.637kg、最厚 17.99mm、71Wh、140W USB-C  PD。Ultra 7 155H/Ultra 9 185H + RTX 4060/4070，内存为板载 LPDDR5x-7467（不可更换），SSD 最高 2TB。Ultra 7+4060+16GB+1TB 建议零售 10999 元、首发 10499 元。该机即国内版 OMEN Transcend 14（海外名），故不另建 Transcend 14 行。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵11|2025",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵11",
+      "displayName": "惠普 暗影精灵11 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-14650HX",
+        "英特尔酷睿 i9-14900HX",
+        "AMD 锐龙 9 8945HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560×1600 240Hz"
+      ],
+      "sourceUrl": "https://www.hpstore.cn/gaming-laptops",
+      "sourceTitle": "游戏笔记本电脑——强劲显卡（中国惠普官方商城，OMEN暗影精灵11 am0000TX 规格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年上市，官方商城在售型号 am0000TX：14 代 i7 + RTX 5060 + 16GB DDR5 + 1TB + 16 英寸 2.5K 240Hz。双内存插槽（可自行升级）、双 M.2、83Wh。实测参考：i7-14650HX+RTX 5060 8GB(115W)+16GB+1TB 国补后 6319.2 元；英雄联盟玩家典藏版 32GB+1TB 首发 8999 元。另有 i9-14900HX、R9-8945HX 与 RTX 5070 版本在电商销售。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵 MAX|2025",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵 MAX",
+      "displayName": "惠普 暗影精灵 MAX 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560×1600 240Hz"
+      ],
+      "sourceUrl": "https://view.inews.qq.com/a/LNK2025033100174700",
+      "sourceTitle": "OMEN 暗影精灵 MAX 游戏本首销：Ultra 9 275HX + 32G + 1T + RTX5080 售 18999 元（腾讯新闻转 IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 年 3 月 31 日首销，OMEN 16-ah0000（如 16-ah0003TX / ah1027TX）。Ultra 9 275HX（24 核 24 线程）+ RTX 5080 16GB GDDR7 175W，CPU+GPU 合计 >250W；32GB DDR5-5600、1TB PCIe 5.0；16 英寸 2560×1600 240Hz 可变刷新率、500nit、100%sRGB。定价 18999 元、国补后 16999 元；官方商城 ah0003TX 标价 21999 元。重 2.68kg，双风扇 + 均热板 + 液态金属。海外另有 RTX 5090 24GB 版本。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵 Transcend 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "暗影精灵 Transcend 16",
+      "displayName": "惠普 暗影精灵 Transcend 16 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700HX",
+        "英特尔酷睿 i9-13900HX",
+        "英特尔酷睿 i7-14700HX",
+        "英特尔酷睿 i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560×1600 240Hz",
+        "16英寸 2560×1600 120Hz",
+        "16英寸 1920×1200 165Hz"
+      ],
+      "sourceUrl": "https://www.hp.com/ca-en/gaming-pc/laptops/2023-omen-transcend-intel.html",
+      "sourceTitle": "OMEN Transcend 16 inch Intel gaming laptop - HP 官方",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "官方支持文档记载两个系列：16-u0000（2023 年 3 月，i7-13700HX/i9-13900HX、RTX 4060/4070、mini-LED 240Hz）与 16-u1000（2023 年 12 月，i7-14700HX/i9-14900HX、RTX 4050/4060/4070，OLED 48—240Hz 或 IPS 240Hz/1920×1200 165Hz）。32GB DDR5-5600 双插槽、最高 2TB。镁合金机身、19.9mm、<2.1kg、97Wh。中国大陆未以「暗影精灵 Transcend 16」中文名正式销售，中文命名与国行 SKU 待确认，故置信度定为 medium。；原 HP 支持页在本机网络超时，改用可访问的产品库/媒体页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵4|2018",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵4",
+      "displayName": "惠普 光影精灵4 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-8300H",
+        "英特尔酷睿 i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050 4GB 笔记本电脑 GPU",
+        "GTX 1050 Ti 4GB 笔记本电脑 GPU",
+        "GTX 1060 Max-Q 3GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB+1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B54%E4%BB%A3/23766760",
+      "sourceTitle": "惠普光影精灵4代（百度百科，含 17 个版本与硬件规格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2018 年 5 月 30 日发布、6 月 1 日首发（Pavilion Gaming 15-cx，如 15-cx0074TX / 15-cx0060TX）。8 代酷睿 i5-8300H/i7-8750H、GTX 1050/1050 Ti 4GB/1060 3GB Max-Q、8GB DDR4-2666、128GB SSD+1TB HDD、15.6 英寸 144Hz 72%NTSC 窄边框 IPS。首发价 5999/7099/8099 元三档。三色：绿刃、破晓（紫）、冰锋（白）；重 2.17kg、150W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵5|2019",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵5",
+      "displayName": "惠普 光影精灵5 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-9300H",
+        "英特尔酷睿 i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1660 Ti Max-Q 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://notebook.pconline.com.cn/1262/12620056.html",
+      "sourceTitle": "当商务外观遇到暴躁性能，惠普光影精灵5来啦！（太平洋电脑网，2019 发布会配置与价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2019 年 5 月 27 日与苏宁联合首发（Pavilion Gaming 15-dk，如 15-dk0131TX）。9 代酷睿 i5-9300H/i7-9750H，GTX 1650 4GB 或 GTX 1660 Ti Max-Q 6GB，8GB DDR4-2666 双插槽（最高 32GB），512GB SSD，15.6 英寸 72%NTSC IPS、部分 144Hz。15.6 英寸 5499 元起、17.3 英寸光影精灵5 Plus 6699 元起；常见成交 5999/6899/7199 元。机身较上代薄 2mm、重约 2.25kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵6|2020",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵6",
+      "displayName": "惠普 光影精灵6 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10300H",
+        "英特尔酷睿 i7-10750H",
+        "英特尔酷睿 i7-10870H",
+        "AMD 锐龙 5 4600H",
+        "AMD 锐龙 7 4800H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1650 Ti 4GB 笔记本电脑 GPU",
+        "RTX 2060 Max-Q 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 60Hz",
+        "15.6英寸 1920×1080 144Hz",
+        "16.1英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B56/55292569",
+      "sourceTitle": "惠普光影精灵6（百度百科，含发布历程与规格参数）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2020 年 5 月 15 日亮相、7 月 9 日正式发布；7 月推出首款 16 英寸光影精灵6 大屏版；2020 年 8 月增锐龙版（R7-4800H+GTX 1650 Ti）；2021 年增 i7-10870H+RTX 2060 Max-Q。10 代酷睿 i5-10300H/i7-10750H、锐龙 R5-4600H/R7-4800H，GTX 1650/1650 Ti/RTX 2060 Max-Q，8GB 或 16GB DDR4-2933 最高 32GB，512GB SSD + 可加 2.5 英寸 SATA，15.6 英寸 60/144Hz。首发 5499—7999 元，16 英寸版建议零售 5899 元起。重 2.23—2.25kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵7|2021",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵7",
+      "displayName": "惠普 光影精灵7 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-11400H",
+        "英特尔酷睿 i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920×1080 60Hz",
+        "16.1英寸 1920×1080 144Hz",
+        "16.1英寸 2560×1440 144Hz"
+      ],
+      "sourceUrl": "https://news.qq.com/rain/a/20210609A0DD4N00",
+      "sourceTitle": "首发5499元起，惠普VICTUS光影精灵7游戏本发布（腾讯新闻，含六档配置价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2021 年 6 月 9 日发布、6 月 16 日首发，首次启用 VICTUS「V」标与全新模具，三色（陨石黑/澎湃蓝/冰霜白）。16.1 英寸 IPS、100%sRGB、高配 2560×1440 144Hz；11 代酷睿 i5-11400H/i7-11800H，GTX 1650—RTX 3060，16GB DDR4-3200 双通道，512GB PCIe 4.0，70Wh + 200W 适配器。首发价：5499/5799/5999/6299/6499/7699 元（对应 i5+1650 至 i7+3060）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵8|2022",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵8",
+      "displayName": "惠普 光影精灵8 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920×1080 60Hz",
+        "16.1英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "https://i.ifeng.com/c/8DlJotQa6re",
+      "sourceTitle": "12代酷睿游戏本6799元？惠普光影精灵8上架，连高刷新率都成选配（凤凰网，含两档首发价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2022 年 2 月 16 日发布。16.1 英寸 16:9 1080p 高色域屏（84% 屏占比），i7-12700H + RTX 3050 Ti/3060，16GB DDR5、512GB SSD，双 M.2，70Wh。首发仅两档：i7+3050Ti 60Hz 6799 元、i7+3060 144Hz 7999 元（高刷为选配，低配 60Hz 是主要短板）。RTX 3060 狂暴模式 95W。重 2.46—2.49kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵9|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵9",
+      "displayName": "惠普 光影精灵9 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920×1080 165Hz",
+        "16.1英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7228036385142374912/",
+      "sourceTitle": "聊一款有进步的RTX4060游戏本（笔吧评测室，含光影精灵9 实测配置与售价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2023 年 4 月 4 日上市（Victus 16，i7-13700HX 版）。CPU 升级 H55、屏幕由 144Hz 升至 165Hz；i7-13700HX + RTX 4060 8GB 120W + 16GB DDR5-4800 + 512GB + 16.1 英寸 1080p 165Hz 首发 7699 元，618 期间促销 7999 元（原价 8799 元）、后续拼多多 6999 元。双内存插槽、双 M.2、70Wh、230W 适配器，重 2.37kg。注：本条 checkedAt 沿用原始评测抓取日期。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵9 锐龙版|2023",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵9 锐龙版",
+      "displayName": "惠普 光影精灵9 锐龙版 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 7840H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "16.1英寸 2560×1440 165Hz"
+      ],
+      "sourceUrl": "https://www.hp.com/cn-zh/gaming-pc/laptops/2023-victus-16-amd-nvidia.html",
+      "sourceTitle": "惠普 VICTUS光影精灵 9 无界2023 游戏本（搭载 AMD 处理器和 NVIDIA 显示卡）官方规格页",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "惠普中国官网规格页：R7-7840H（8 核 16 线程、最高 5.1GHz）+ RTX 4060 8GB（120W TGP），最高 32GB DDR5-5600（2×16GB），512GB PCIe Gen4 NVMe，16.1 英寸 QHD 2560×1440 165Hz 3ms IPS、300nit、100%sRGB、低蓝光。Wi-Fi 6E MT7922、蓝牙 5.3。国行未查到公开首发价，故不写价格。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵10|2024",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵10",
+      "displayName": "惠普 光影精灵10 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-14650HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16.1英寸 2560×1440 240Hz"
+      ],
+      "sourceUrl": "https://www.sohu.com/a/848311033_616364",
+      "sourceTitle": "酷睿i7 HX平台加持年轻人的新选择——惠普VICTUS光影精灵10（搜狐，含完整实测参数）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2024 年与暗影精灵10 同代发布。16.1 英寸 IPS 2560×1440 240Hz、100%sRGB；i7-14650HX（16 核 24 线程、5.2GHz）+ RTX 4060 8GB 120W；16GB DDR5-5600 双通道、1TB PCIe 4.0、83Wh、AX211 Wi-Fi 6E；369×259×23.9mm、约 2.3kg；参考价 8099 元。三色：冰霜白/陨石黑/澎湃蓝。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵11|2026",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "光影精灵11",
+      "displayName": "惠普 光影精灵11 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 7 H 255",
+        "英特尔酷睿 i7-13620H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5050 8GB 笔记本电脑 GPU",
+        "RTX 5060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920×1080 144Hz",
+        "16英寸 1920×1080 144Hz"
+      ],
+      "sourceUrl": "http://m.bjbpc.com/view.php?aid=4790",
+      "sourceTitle": "惠普光影精灵11锐龙版游戏本发布 锐龙7 H 255 处理器+RTX5050/5060组合（笔记本评测网）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2026 年新款，惠普官网 Victus 系列在售一款 R7 + RTX 5060、15.6 英寸 FHD 144Hz、16GB DDR5、512GB 的机型，与本条锐龙版参数吻合。锐龙7 H 255 + RTX 5050/5060，15.6 英寸 144Hz 300nit，双 DDR5 SO-DIMM + 双 M.2，偏置双风扇双热管，70Wh，Wi-Fi 6E，HDMI 2.1 FRL。另有电商在售 i7-13620H + RTX 5060 的 16 英寸版本，官方型号命名与首发价尚未公布，已列入 uncertain。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|HyperX 暗影精灵 PRO 16|2026",
+      "productType": "笔记本电脑",
+      "brand": "惠普",
+      "model": "HyperX 暗影精灵 PRO 16",
+      "displayName": "惠普 HyperX 暗影精灵 PRO 16 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 255HX",
+        "英特尔酷睿 Ultra 7 270HX Plus",
+        "英特尔酷睿 Ultra 9 290HX Plus",
+        "AMD 锐龙 9 9955HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 5060 8GB 笔记本电脑 GPU",
+        "RTX 5070 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560×1600 240Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7636622993304601142/",
+      "sourceTitle": "HyperX暗影精灵PRO 16国补8999元 暗影精灵11还能买吗？（今日头条，含首发配置与价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2026 年 4 月 27 日上市，是暗影精灵11 的换代机型，品牌由 OMEN 切换为 HyperX（官方名「HyperX 暗影精灵 PRO 16 超能游戏本」，型号 am2071TX/ap1025AX）。Ultra 7 255HX / 270HX Plus / Ultra 9 290HX Plus 或 R9 9955HX，RTX 5060 8GB GDDR7 / RTX 5070 12GB GDDR7；16GB DDR5-5600 单条（预留一槽）、1TB PCIe 4.0（双 M.2，其中一路 PCIe 5.0 Ready）；16 英寸 2.5K 240Hz 500nit 100%sRGB；83Wh + 280W；金属 A 面、8K 回报率键盘。售价：255HX+5060 8998 元（国补 8999 元）、9955HX+5060 9098 元、270HX Plus 11498 元、290HX Plus 11998 元；2026 年 6 月新增 512GB 与 RTX 5070 版本 10498 元起。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵3|2017",
+      "cpu": "英特尔酷睿 i5-7300HQ",
+      "ram": "8GB",
+      "gpu": "GTX 1050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 120Hz",
+      "sourceUrl": "https://notebook.pconline.com.cn/993/9932425.html",
+      "sourceTitle": "五款游戏轮流上？暗影精灵III表示谁是下一个！（15-ce007TX 配置与 7299 元售价）",
+      "confidence": "high",
+      "notes": "2017 年主配电竞版，7299 元；促销见过 6599 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵3|2017",
+      "cpu": "英特尔酷睿 i7-7700HQ",
+      "ram": "8GB",
+      "gpu": "GTX 1050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 120Hz",
+      "sourceUrl": "https://www.sohu.com/a/202084315_114838",
+      "sourceTitle": "i7+1050Ti+120Hz暗影精灵3代7499元秒杀（IT168 行情）",
+      "confidence": "medium",
+      "notes": "京东秒杀 7499 元，i7-7700HQ+8GB+128GB SSD+1TB HDD。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵4|2018",
+      "cpu": "英特尔酷睿 i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://baike.sogou.com/v184275391.htm",
+      "sourceTitle": "惠普暗影精灵4代系列（配置表与首发价）",
+      "confidence": "high",
+      "notes": "首发 6499 元，144Hz 72%色域 IPS。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵4|2018",
+      "cpu": "英特尔酷睿 i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://baike.sogou.com/v184275391.htm",
+      "sourceTitle": "惠普暗影精灵4代系列（配置表与首发价）",
+      "confidence": "high",
+      "notes": "首发 6999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵4|2018",
+      "cpu": "英特尔酷睿 i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.pcpop.com/article/4536892.shtml",
+      "sourceTitle": "惠普发布暗影精灵4等多款电竞新品 窄边框高性价比游戏本来了！（泡泡网）",
+      "confidence": "high",
+      "notes": "顶配首发 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "cpu": "英特尔酷睿 i5-9300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://baike.baidu.com/tashuo/browse/content?id=f39dc6c7199708407976791d",
+      "sourceTitle": "惠普全球首发幻影精灵X双屏笔记本（含暗影精灵5 起步配置 5999 元）",
+      "confidence": "high",
+      "notes": "全系最低配，首发 5999 元；2019 年 12 月另上架同配 60Hz 45%NTSC 入门款，日常 5999 元、1 月 1 日首发 5799 元（IT之家 https://www.ithome.com/0/465/983.htm）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "8GB",
+      "gpu": "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://nb.zol.com.cn/725/7250084.html",
+      "sourceTitle": "一线游戏本性价比神机 惠普暗影精灵5评测（中关村在线）",
+      "confidence": "high",
+      "notes": "售价 8299 元、促销 7999 元；26 键无冲、1080P 144Hz IPS。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "8GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzU5Mjg0NTA2Mw==&mid=2247483915&idx=1&sn=8b273583c86b46af63f623caf6b5c652&chksm=ff42815e01c8cbc38e3ffde5699f2f5effc863a9ac4651afb2c76c7f10e393b883c336a1a39b",
+      "sourceTitle": "惠普暗影精灵5发布：i9/i7/i5齐上阵（官方配置价格表）",
+      "confidence": "medium",
+      "notes": "顶配 i7-9750H+RTX 2060+144Hz+72%NTSC 8499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵5 Plus|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2080 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17.3英寸 1920×1080 144Hz",
+      "sourceUrl": "https://baike.baidu.com/tashuo/browse/content?id=f39dc6c7199708407976791d",
+      "sourceTitle": "惠普全球首发幻影精灵X双屏笔记本（暗影精灵5 Plus 起价 14999 元）",
+      "confidence": "medium",
+      "notes": "首发 14999 元，144Hz G-SYNC，双 SSD 支持 RAID 0。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://m.igao7.com/news/202007/T0CXTnYp9ncJhtll.html",
+      "sourceTitle": "惠普暗影精灵6发布：5399到11999全覆盖（13 档配置首发价）",
+      "confidence": "high",
+      "notes": "首发 5499 元（零售 5999 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://m.igao7.com/news/202007/T0CXTnYp9ncJhtll.html",
+      "sourceTitle": "惠普暗影精灵6发布：5399到11999全覆盖（13 档配置首发价）",
+      "confidence": "high",
+      "notes": "首发 7499 元（零售 7999 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.toutiao.com/article/6847481381275042311",
+      "sourceTitle": "6到飞起！惠普OMEN暗影精灵6游戏本新品首发（官方价格表）",
+      "confidence": "high",
+      "notes": "首发 7999 元（零售 8499 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2070 Super Max-Q 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920×1080 300Hz",
+      "sourceUrl": "https://m.igao7.com/news/202007/T0CXTnYp9ncJhtll.html",
+      "sourceTitle": "惠普暗影精灵6发布：5399到11999全覆盖（13 档配置首发价）",
+      "confidence": "high",
+      "notes": "顶配首发 11499 元（零售 11999 元），300Hz 100%sRGB。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "cpu": "AMD 锐龙 7 4800H",
+      "ram": "16GB",
+      "gpu": "GTX 1650 Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.toutiao.com/article/6847864669806264840/",
+      "sourceTitle": "惠普暗影精灵6发布，大家觉得怎么样？（锐龙版四档配置与首发价）",
+      "confidence": "high",
+      "notes": "锐龙版高配首发 6499 元；R5-4600H 低配 5399 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵7|2021",
+      "cpu": "英特尔酷睿 i5-11400H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.qingdan.com/item/29274",
+      "sourceTitle": "惠普 暗影精灵7 详细参数与首发价（全系配置）",
+      "confidence": "high",
+      "notes": "全系首发 5499 元起。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵7|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.qingdan.com/item/29274",
+      "sourceTitle": "惠普 暗影精灵7 详细参数与首发价（全系配置）",
+      "confidence": "high",
+      "notes": "首发 7699 元、日常 8299 元；RTX 3060 115W、支持独显直连。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵7|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 2560×1440 165Hz",
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30024565799",
+      "sourceTitle": "惠普暗影精灵 7 推出 2K/165Hz 屏幕版本：i7-11800H，9499 起（IT之家）",
+      "confidence": "high",
+      "notes": "2021 年 9 月新增 2K/165Hz 版本，RTX 3060 版 9499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵7 Plus|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17.3英寸 2560×1440 165Hz",
+      "sourceUrl": "https://www.igao7.com/news/202105/kfIxy8KcBLPHK1sg.html",
+      "sourceTitle": "暗影精灵 7 系列发布：11 代酷睿 30 系显卡，首发 5499 元起",
+      "confidence": "high",
+      "notes": "首发 9999 元起（建议零售 10999 元起）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.163.com/dy/article/H0DQTUK50550JBMS.html",
+      "sourceTitle": "6199元起！惠普暗影精灵8和光影精灵8系列游戏本值得选吗？",
+      "confidence": "high",
+      "notes": "首发 6199 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.163.com/dy/article/H0DQTUK50550JBMS.html",
+      "sourceTitle": "6199元起！惠普暗影精灵8和光影精灵8系列游戏本值得选吗？",
+      "confidence": "high",
+      "notes": "首发 7999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 Ti 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16.1英寸 2560×1440 165Hz",
+      "sourceUrl": "https://www.163.com/dy/article/H0DQTUK50550JBMS.html",
+      "sourceTitle": "6199元起！惠普暗影精灵8和光影精灵8系列游戏本值得选吗？",
+      "confidence": "high",
+      "notes": "顶配首发 10499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Pro|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://nb.zol.com.cn/792/7928459.html",
+      "sourceTitle": "6899元起 OMEN 16 国内版暗影精灵 8 Pro上架（中关村在线）",
+      "confidence": "high",
+      "notes": "首发 7999 元（日常 8999 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Pro|2022",
+      "cpu": "AMD 锐龙 7 6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 2560×1440 165Hz",
+      "sourceUrl": "https://news.zol.com.cn/799/7994725.html",
+      "sourceTitle": "首发7799起！惠普已上架新款暗影精灵 8 Pro游戏本（中关村在线）",
+      "confidence": "high",
+      "notes": "首发 7799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Pro|2022",
+      "cpu": "AMD 锐龙 7 6800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/7928575.html",
+      "sourceTitle": "OMEN暗影精灵 8 Pro游戏本发布 首发6899元起（中关村在线）",
+      "confidence": "high",
+      "notes": "全系最低配，首发 6899 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Plus|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "17.3英寸 1920×1080 144Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1406/1405449/index.html",
+      "sourceTitle": "惠普暗影精灵8 Plus 各版本参考价（中关村在线）",
+      "confidence": "high",
+      "notes": "参考价 9999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Plus|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3080 Ti 16GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17.3英寸 2560×1440 165Hz",
+      "sourceUrl": "https://m.zol.com.cn/article/8206499.html",
+      "sourceTitle": "惠普暗影精灵8 Plus游戏本济南惊喜价10899元（中关村在线，含完整参数）",
+      "confidence": "high",
+      "notes": "参考价 16999 元；RTX 3080 Ti 175W、330W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16.1英寸 2560×1440 240Hz",
+      "sourceUrl": "http://m.mnw.cn/news/digi/2767889.html",
+      "sourceTitle": "暗影精灵9游戏笔记本发布：13代i9+RTX 4060 仅8499元（闽南网）",
+      "confidence": "high",
+      "notes": "首发 8499 元（京东秒杀），后常规价 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 Plus|2023",
+      "cpu": "英特尔酷睿 i7-13700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17.3英寸 2560×1440 240Hz",
+      "sourceUrl": "https://notebook.pconline.com.cn/1584/15840206.html",
+      "sourceTitle": "13代酷睿40系显卡 OMEN暗影精灵9 Plus游戏本重磅发布！（太平洋电脑网）",
+      "confidence": "high",
+      "notes": "首发限时直降 1000 元后约 14999 元，RTX 4080 175W。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 Plus|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "17.3英寸 2560×1440 240Hz",
+      "sourceUrl": "https://nb.zol.com.cn/815/8152405_all.html",
+      "sourceTitle": "【手慢无】一线笔电中最实惠的4080 暗影精灵9 plus抢购中（中关村在线）",
+      "confidence": "high",
+      "notes": "京东 15499 元；另有 4090 版 18999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 锐龙版|2023",
+      "cpu": "AMD 锐龙 7 7840H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16英寸 1920×1080 165Hz",
+      "sourceUrl": "https://m.ithome.com/html/696614.htm",
+      "sourceTitle": "惠普新款暗影精灵 9 锐龙版笔记本今晚开售：R7 7840H + RTX 4060，6799 元",
+      "confidence": "high",
+      "notes": "首发 6799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 锐龙版|2023",
+      "cpu": "AMD 锐龙 7 7840H",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1440 240Hz",
+      "sourceUrl": "https://m.ithome.com/html/696614.htm",
+      "sourceTitle": "惠普新款暗影精灵 9 锐龙版笔记本今晚开售：R7 7840H + RTX 4060，6799 元",
+      "confidence": "high",
+      "notes": "首发 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "cpu": "英特尔酷睿 i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 2560×1440 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/762/384.htm",
+      "sourceTitle": "惠普暗影精灵 10 游戏本配置上新：14 代酷睿、RTX4060 至 RTX4080，7299 元起",
+      "confidence": "high",
+      "notes": "7299 元，主推性价比款。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "cpu": "英特尔酷睿 i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16.1英寸 2560×1440 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/762/384.htm",
+      "sourceTitle": "惠普暗影精灵 10 游戏本配置上新：14 代酷睿、RTX4060 至 RTX4080，7299 元起",
+      "confidence": "high",
+      "notes": "8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "cpu": "英特尔酷睿 i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16.1英寸 2560×1440 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/762/384.htm",
+      "sourceTitle": "惠普暗影精灵 10 游戏本配置上新：14 代酷睿、RTX4060 至 RTX4080，7299 元起",
+      "confidence": "high",
+      "notes": "10999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "cpu": "英特尔酷睿 i9-14900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16.1英寸 2560×1440 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/762/384.htm",
+      "sourceTitle": "惠普暗影精灵 10 游戏本配置上新：14 代酷睿、RTX4060 至 RTX4080，7299 元起",
+      "confidence": "high",
+      "notes": "顶配 14999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵10 Slim 14|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "14英寸 2880×1800 120Hz",
+      "sourceUrl": "https://news.qq.com/rain/a/20240118A069AM00",
+      "sourceTitle": "惠普暗影精灵 10 SLIM 14 游戏本发布，10499 元起",
+      "confidence": "high",
+      "notes": "建议零售 10999 元、首发 10499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵11|2025",
+      "cpu": "英特尔酷睿 i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 240Hz",
+      "sourceUrl": "https://www.x-techcon.com/article/6579.html",
+      "sourceTitle": "聊一款性价比较高的一线品牌游戏本（暗影精灵11 实测配置，国补后 6319.2 元）",
+      "confidence": "high",
+      "notes": "国补后 6319.2 元；RTX 5060 115W、双 M.2。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵11|2025",
+      "cpu": "英特尔酷睿 i7-14650HX",
+      "ram": "32GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 240Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7582515124498432527/",
+      "sourceTitle": "聊一款「英雄联盟」典藏版游戏本（暗影精灵11 典藏版 32GB+1TB 首发 8999 元）",
+      "confidence": "high",
+      "notes": "英雄联盟玩家典藏版，首发 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵11|2025",
+      "cpu": "AMD 锐龙 9 8945HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070 8GB 笔记本电脑 GPU",
+      "storage": "2TB",
+      "screen": "16英寸 2560×1600 240Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olXw8BXFZaCUgUC18IGlsdWwQFUFdeAUsWA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWA2cOGVwRVAULVF9dFxJSXzI4YxJRBQdbICc4U0hyXSd0XS5CO1QENFJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZhsTUDtdTg8XWwNRXA5fWk8nA244WjUWXQQGUVhaDE8nAl8IHVMWVQ4BUl1dD0wVM28AH2vC9KjU2PiJseHAse04K2sWbTYyVG5eOBV5AmhYT18VWgNsCBkDTRFLUyRmGV0dXAUKUlltCkoWAW04K2tsVXZDMQNUSCBPSApVQTlPGVZkCjsACRFVQCtXT157X3pCACcaXxEeSDhNSClqKXhpZF5tD00WM244",
+      "sourceTitle": "惠普(HP)暗影精灵11 游戏本 暗影11 R9-8945HX/5070/QHD 32G+2TB（京东商品页）",
+      "confidence": "medium",
+      "notes": "京东在售配置，页面标价 18597 元（第三方专营店，价格波动大，仅供参照）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|暗影精灵 MAX|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 240Hz",
+      "sourceUrl": "https://view.inews.qq.com/a/LNK2025033100174700",
+      "sourceTitle": "OMEN 暗影精灵 MAX 游戏本首销：Ultra 9 275HX + 32G + 1T + RTX5080 售 18999 元",
+      "confidence": "high",
+      "notes": "首销 18999 元、国补 16999 元；官方商城 ah0003TX 标价 21999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵4|2018",
+      "cpu": "英特尔酷睿 i5-8300H",
+      "ram": "8GB",
+      "gpu": "GTX 1050 4GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.toutiao.com/article/6561344297495429636/",
+      "sourceTitle": "惠普发布暗夜精灵4代游戏本 售价6499元起（界面新闻，含光影精灵4 三档价格 5999/7099/8099）",
+      "confidence": "high",
+      "notes": "入门档 5999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵4|2018",
+      "cpu": "英特尔酷睿 i7-8750H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 Max-Q 3GB 笔记本电脑 GPU",
+      "storage": "128GB+1TB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.toutiao.com/article/6561344297495429636/",
+      "sourceTitle": "惠普发布暗夜精灵4代游戏本 售价6499元起（界面新闻，光影精灵4 高配 8099 元）",
+      "confidence": "high",
+      "notes": "顶配 8099 元，144Hz 72%NTSC。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵5|2019",
+      "cpu": "英特尔酷睿 i5-9300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://www.shangxianda.com/de/bijibendiannao/5237.html",
+      "sourceTitle": "惠普光影精灵5 15-dk0131TX参数及笔记本电脑配置介绍",
+      "confidence": "medium",
+      "notes": "15-dk0131TX：i5-9300H+GTX 1650 4GB+8GB DDR4-2666+512GB+15.6 英寸 72%NTSC，成交价约 5999—6399 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵5|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "8GB",
+      "gpu": "GTX 1660 Ti Max-Q 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.sohu.com/a/323024038_115511",
+      "sourceTitle": "惠普游戏本升级外观，黑色配多面几何线条设计，配置主流（光影精灵5 三档价格 5999/6899/7199）",
+      "confidence": "medium",
+      "notes": "15.6 英寸 GTX 1660 Ti 版 7199 元；17.3 英寸 Plus 同配 6899 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵6|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://mp.ofweek.com/znyj/a845693828926",
+      "sourceTitle": "惠普推出暗影精灵6游戏本 酷睿与锐龙齐发5399起（维科号，含光影精灵6 价格表）",
+      "confidence": "high",
+      "notes": "首发 5499 元（零售 5999 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵6|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 Max-Q 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://baike.baidu.com/item/%E6%83%A0%E6%99%AE%E5%85%89%E5%BD%B1%E7%B2%BE%E7%81%B56/55292569",
+      "sourceTitle": "惠普光影精灵6（百度百科，含 16 英寸大屏版与 RTX 2060 Max-Q 配置）",
+      "confidence": "high",
+      "notes": "16 英寸版建议零售 5899 元起；i7-10750H+RTX 2060 Max-Q 为高配。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵6|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "GTX 1650 Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 60Hz",
+      "sourceUrl": "https://mp.ofweek.com/znyj/a845693828926",
+      "sourceTitle": "惠普推出暗影精灵6游戏本 酷睿与锐龙齐发5399起（维科号，含光影精灵6 价格表）",
+      "confidence": "high",
+      "notes": "首发 7199 元（零售 7499 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵7|2021",
+      "cpu": "英特尔酷睿 i5-11400H",
+      "ram": "16GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 60Hz",
+      "sourceUrl": "https://news.qq.com/rain/a/20210609A0DD4N00",
+      "sourceTitle": "首发5499元起，惠普VICTUS光影精灵7游戏本发布",
+      "confidence": "high",
+      "notes": "首发 5499 元（零售 5799 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵7|2021",
+      "cpu": "英特尔酷睿 i7-11800H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://www.gamersky.com/hardware/202106/1395989.shtml",
+      "sourceTitle": "惠普VICTUS光影精灵7发布 内外全升级 5799元起（游民星空）",
+      "confidence": "high",
+      "notes": "首发 7699 元（零售 8299 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵8|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 60Hz",
+      "sourceUrl": "https://i.ifeng.com/c/8DlJotQa6re",
+      "sourceTitle": "12代酷睿游戏本6799元？惠普光影精灵8上架，连高刷新率都成选配",
+      "confidence": "high",
+      "notes": "6799 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵8|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 144Hz",
+      "sourceUrl": "https://notebook.pconline.com.cn/1485/14853865.html",
+      "sourceTitle": "12代i7光追游戏本 惠普VICTUS光影精灵8新品预售7999元（太平洋电脑网）",
+      "confidence": "high",
+      "notes": "7999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵9|2023",
+      "cpu": "英特尔酷睿 i7-13700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 1920×1080 165Hz",
+      "sourceUrl": "https://www.163.com/dy/article/I6IHLULE051189P5.html",
+      "sourceTitle": "618狂降800元：不到8000元入手惠普VICTUS光影精灵9（中关村在线）",
+      "confidence": "high",
+      "notes": "原价 8799 元，618 直降 800 元后 7999 元；首发 7699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵9 锐龙版|2023",
+      "cpu": "AMD 锐龙 7 7840H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "16.1英寸 2560×1440 165Hz",
+      "sourceUrl": "https://www.hp.com/cn-zh/gaming-pc/laptops/2023-victus-16-amd-nvidia.html",
+      "sourceTitle": "惠普 VICTUS光影精灵 9 无界2023 游戏本 官方规格页",
+      "confidence": "high",
+      "notes": "官方规格页记载的标准配置（R7-7840H + RTX 4060 120W + 16GB DDR5-5600 + 512GB + 16.1 英寸 QHD 165Hz）；国行公开首发价未获取。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵10|2024",
+      "cpu": "英特尔酷睿 i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16.1英寸 2560×1440 240Hz",
+      "sourceUrl": "https://www.sohu.com/a/848311033_616364",
+      "sourceTitle": "酷睿i7 HX平台加持年轻人的新选择——惠普VICTUS光影精灵10",
+      "confidence": "high",
+      "notes": "参考价 8099 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|光影精灵11|2026",
+      "cpu": "AMD 锐龙 7 H 255",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920×1080 144Hz",
+      "sourceUrl": "http://m.bjbpc.com/view.php?aid=4790",
+      "sourceTitle": "惠普光影精灵11锐龙版游戏本发布 锐龙7 H 255 处理器+RTX5050/5060组合",
+      "confidence": "medium",
+      "notes": "2026 年新款锐龙版标准配置；价格未公布。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|HyperX 暗影精灵 PRO 16|2026",
+      "cpu": "英特尔酷睿 Ultra 7 255HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 240Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7636622993304601142/",
+      "sourceTitle": "HyperX暗影精灵PRO 16国补8999元 暗影精灵11还能买吗？",
+      "confidence": "high",
+      "notes": "8998 元，国补到手 8999 元，主推配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|惠普|HyperX 暗影精灵 PRO 16|2026",
+      "cpu": "AMD 锐龙 9 9955HX",
+      "ram": "16GB",
+      "gpu": "RTX 5060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560×1600 240Hz",
+      "sourceUrl": "https://baike.baidu.com/item/HyperX%20%E6%9A%97%E5%BD%B1%E7%B2%BE%E7%81%B5%20PRO%2016%20%E8%B6%85%E8%83%BD%E6%B8%B8%E6%88%8F%E6%9C%AC/67837926",
+      "sourceTitle": "HyperX 暗影精灵 PRO 16 超能游戏本（百度百科，含四个版本售价表）",
+      "confidence": "medium",
+      "notes": "9098 元（锐龙 9 9955HX 版）。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "暗影精灵III",
+      "modelKey": "笔记本电脑|惠普|暗影精灵3|2017",
+      "aliasType": "官方写法",
+      "note": "官方用罗马数字「III」，电商与搜索多用阿拉伯数字 3。"
+    },
+    {
+      "alias": "OMEN 15-ce",
+      "modelKey": "笔记本电脑|惠普|暗影精灵3|2017",
+      "aliasType": "型号代码",
+      "note": "如 15-ce006nv、15-ce007TX。"
+    },
+    {
+      "alias": "暗影3",
+      "modelKey": "笔记本电脑|惠普|暗影精灵3|2017",
+      "aliasType": "简称",
+      "note": "玩家社区与二手平台常用。"
+    },
+    {
+      "alias": "暗影精灵4代",
+      "modelKey": "笔记本电脑|惠普|暗影精灵4|2018",
+      "aliasType": "官方写法",
+      "note": "发布时官方称「暗影精灵4代」，现多写作暗影精灵4。"
+    },
+    {
+      "alias": "暗影4",
+      "modelKey": "笔记本电脑|惠普|暗影精灵4|2018",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "暗影精灵5代",
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "aliasType": "官方写法",
+      "note": ""
+    },
+    {
+      "alias": "OMEN 15-dc1",
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "aliasType": "型号代码",
+      "note": "如 15-dc1067TX；注意 15-dc0xxx 为上一代模具。"
+    },
+    {
+      "alias": "暗影5",
+      "modelKey": "笔记本电脑|惠普|暗影精灵5|2019",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "暗影精灵5PLUS",
+      "modelKey": "笔记本电脑|惠普|暗影精灵5 Plus|2019",
+      "aliasType": "电商写法",
+      "note": "无空格写法常见于京东、苏宁标题。"
+    },
+    {
+      "alias": "OMEN 17-cb",
+      "modelKey": "笔记本电脑|惠普|暗影精灵5 Plus|2019",
+      "aliasType": "型号代码",
+      "note": "17.3 英寸旗舰模具。"
+    },
+    {
+      "alias": "OMEN 15-ek",
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "aliasType": "型号代码",
+      "note": "酷睿版；锐龙版为 15-en。"
+    },
+    {
+      "alias": "暗影6",
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "暗影精灵6锐龙版",
+      "modelKey": "笔记本电脑|惠普|暗影精灵6|2020",
+      "aliasType": "子版本",
+      "note": "同代 AMD 平台版本，未单独建行。"
+    },
+    {
+      "alias": "OMEN 16-b",
+      "modelKey": "笔记本电脑|惠普|暗影精灵7|2021",
+      "aliasType": "型号代码",
+      "note": "16.1 英寸首代模具。"
+    },
+    {
+      "alias": "暗影7",
+      "modelKey": "笔记本电脑|惠普|暗影精灵7|2021",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "暗影精灵7PLUS",
+      "modelKey": "笔记本电脑|惠普|暗影精灵7 Plus|2021",
+      "aliasType": "电商写法",
+      "note": ""
+    },
+    {
+      "alias": "OMEN 17-ck1",
+      "modelKey": "笔记本电脑|惠普|暗影精灵7 Plus|2021",
+      "aliasType": "型号代码",
+      "note": ""
+    },
+    {
+      "alias": "暗影8",
+      "modelKey": "笔记本电脑|惠普|暗影精灵8|2022",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "暗影精灵8Pro",
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Pro|2022",
+      "aliasType": "电商写法",
+      "note": "官方写作「8 Pro」，电商标题常无空格。"
+    },
+    {
+      "alias": "OMEN 16 (2022)",
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Pro|2022",
+      "aliasType": "海外名",
+      "note": "国内「暗影精灵8 Pro」对应海外 OMEN 16 2022 改款。"
+    },
+    {
+      "alias": "17-CK1004",
+      "modelKey": "笔记本电脑|惠普|暗影精灵8 Plus|2022",
+      "aliasType": "型号代码",
+      "note": "中关村在线标注的别名。"
+    },
+    {
+      "alias": "暗影9",
+      "modelKey": "笔记本电脑|惠普|暗影精灵9|2023",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "OMEN 16-wf",
+      "modelKey": "笔记本电脑|惠普|暗影精灵9|2023",
+      "aliasType": "型号代码",
+      "note": "如 16-wf0032TX。"
+    },
+    {
+      "alias": "17-ck2002TX",
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 Plus|2023",
+      "aliasType": "型号代码",
+      "note": "i9-13900HX+RTX 4080 高能版。"
+    },
+    {
+      "alias": "暗影9 Plus",
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 Plus|2023",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "暗影精灵9锐龙版",
+      "modelKey": "笔记本电脑|惠普|暗影精灵9 锐龙版|2023",
+      "aliasType": "子版本",
+      "note": "与「光影精灵9 锐龙版」是两条不同产品线，勿混。"
+    },
+    {
+      "alias": "暗影10",
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "OMEN 16 (2024)",
+      "modelKey": "笔记本电脑|惠普|暗影精灵10|2024",
+      "aliasType": "海外名",
+      "note": ""
+    },
+    {
+      "alias": "OMEN Transcend 14",
+      "modelKey": "笔记本电脑|惠普|暗影精灵10 Slim 14|2024",
+      "aliasType": "海外名",
+      "note": "同一机型的海外命名，国内官方名称为「暗影精灵10 Slim 14」。"
+    },
+    {
+      "alias": "暗影精灵10SLIM 14",
+      "modelKey": "笔记本电脑|惠普|暗影精灵10 Slim 14|2024",
+      "aliasType": "电商写法",
+      "note": ""
+    },
+    {
+      "alias": "暗影11",
+      "modelKey": "笔记本电脑|惠普|暗影精灵11|2025",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "OMEN 16 (2025)",
+      "modelKey": "笔记本电脑|惠普|暗影精灵11|2025",
+      "aliasType": "海外名",
+      "note": "海外 2025 款 OMEN 16 对应国内暗影精灵11。"
+    },
+    {
+      "alias": "暗影精灵MAX",
+      "modelKey": "笔记本电脑|惠普|暗影精灵 MAX|2025",
+      "aliasType": "官方写法",
+      "note": "官方全大写「MAX」，搜索常写作 Max。"
+    },
+    {
+      "alias": "OMEN MAX 16",
+      "modelKey": "笔记本电脑|惠普|暗影精灵 MAX|2025",
+      "aliasType": "海外名",
+      "note": "16-ah0000 系列。"
+    },
+    {
+      "alias": "OMEN Transcend 16",
+      "modelKey": "笔记本电脑|惠普|暗影精灵 Transcend 16|2023",
+      "aliasType": "海外名",
+      "note": "16-u0000 / 16-u1000 系列。"
+    },
+    {
+      "alias": "光影4",
+      "modelKey": "笔记本电脑|惠普|光影精灵4|2018",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "Pavilion Gaming 15-cx",
+      "modelKey": "笔记本电脑|惠普|光影精灵4|2018",
+      "aliasType": "型号代码",
+      "note": "如 15-cx0074TX、15-cx0060TX。"
+    },
+    {
+      "alias": "光影5",
+      "modelKey": "笔记本电脑|惠普|光影精灵5|2019",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "Pavilion Gaming 15-dk",
+      "modelKey": "笔记本电脑|惠普|光影精灵5|2019",
+      "aliasType": "型号代码",
+      "note": "如 15-dk0131TX。"
+    },
+    {
+      "alias": "光影6",
+      "modelKey": "笔记本电脑|惠普|光影精灵6|2020",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "光影精灵6 16英寸",
+      "modelKey": "笔记本电脑|惠普|光影精灵6|2020",
+      "aliasType": "子版本",
+      "note": "惠普首款 16 英寸游戏本，未单独建行。"
+    },
+    {
+      "alias": "VICTUS 光影精灵7",
+      "modelKey": "笔记本电脑|惠普|光影精灵7|2021",
+      "aliasType": "官方写法",
+      "note": "该代起启用 VICTUS 子品牌标识。"
+    },
+    {
+      "alias": "Victus 16 (2021)",
+      "modelKey": "笔记本电脑|惠普|光影精灵7|2021",
+      "aliasType": "海外名",
+      "note": ""
+    },
+    {
+      "alias": "光影7",
+      "modelKey": "笔记本电脑|惠普|光影精灵7|2021",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "光影8",
+      "modelKey": "笔记本电脑|惠普|光影精灵8|2022",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "HP Victus 16",
+      "modelKey": "笔记本电脑|惠普|光影精灵8|2022",
+      "aliasType": "搜索写法",
+      "note": "泛指 16 英寸 Victus，具体代际需按年份区分。"
+    },
+    {
+      "alias": "光影9",
+      "modelKey": "笔记本电脑|惠普|光影精灵9|2023",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "Victus 16 (2023)",
+      "modelKey": "笔记本电脑|惠普|光影精灵9|2023",
+      "aliasType": "海外名",
+      "note": "酷睿版。"
+    },
+    {
+      "alias": "光影精灵9锐龙版",
+      "modelKey": "笔记本电脑|惠普|光影精灵9 锐龙版|2023",
+      "aliasType": "子版本",
+      "note": "官方页面标题为「VICTUS光影精灵 9 无界游戏本（AMD + NVIDIA）」。"
+    },
+    {
+      "alias": "光影10",
+      "modelKey": "笔记本电脑|惠普|光影精灵10|2024",
+      "aliasType": "简称",
+      "note": ""
+    },
+    {
+      "alias": "Victus 16 (2024)",
+      "modelKey": "笔记本电脑|惠普|光影精灵10|2024",
+      "aliasType": "海外名",
+      "note": ""
+    },
+    {
+      "alias": "光影精灵11 锐龙版",
+      "modelKey": "笔记本电脑|惠普|光影精灵11|2026",
+      "aliasType": "子版本",
+      "note": "2026 年首发的 AMD 平台版本。"
+    },
+    {
+      "alias": "HyperX暗影精灵PRO 16",
+      "modelKey": "笔记本电脑|惠普|HyperX 暗影精灵 PRO 16|2026",
+      "aliasType": "官方写法",
+      "note": "官方全称「HyperX 暗影精灵 PRO 16 超能游戏本」。"
+    },
+    {
+      "alias": "暗影精灵PRO 16",
+      "modelKey": "笔记本电脑|惠普|HyperX 暗影精灵 PRO 16|2026",
+      "aliasType": "简称",
+      "note": "省略 HyperX 前缀的常见写法。"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "暗影精灵 Slim 16（OMEN 16 Slim，2025）",
+      "issue": "惠普海外官网存在 2025 款 OMEN 16 Slim（Ultra 9 285H + RTX 5070，110W TPP，16 英寸 2.5K 240Hz，最高 32GB DDR5-5600、2TB SSD），但中国大陆官网与电商未见对应中文型号名，无法确认国内是否以「暗影精灵 Slim 16 / 暗影精灵11 Slim」销售。",
+      "suggestion": "待 hp.com.cn 或京东自营旗舰店出现该机型中文名与 SKU 后再建行；若确认，可与暗影精灵11 并列，屏幕/显卡按海外规格页填写。",
+      "sourceUrl": "https://www.hp.com/us-en/gaming-pc/laptops/2025-omen-16-slim.html"
+    },
+    {
+      "model": "暗影精灵 Transcend 14（2024）",
+      "issue": "海外名 OMEN Transcend 14 与国内「暗影精灵10 Slim 14」为同一机型（官方商城页面 /omen-transcend-14 即指向暗影精灵10 SLIM 14），若两者都建行会产生重复。",
+      "suggestion": "已合并到「暗影精灵10 Slim 14」，仅保留 OMEN Transcend 14 作为 alias；若后续确认国内另有独立 SKU，再拆分。",
+      "sourceUrl": "https://www.hpstore.cn/omen-transcend-14"
+    },
+    {
+      "model": "光影精灵11 酷睿版（i7-13620H + RTX 5060）",
+      "issue": "电商页面存在「光影精灵11 13代酷睿 i7 + RTX 5060 + 144Hz」的 16 英寸机型，但惠普官网与主流媒体只确认了锐龙版（R7 H 255）参数，酷睿版的官方型号名、屏幕尺寸与首发价均无权威来源。",
+      "suggestion": "先以锐龙版建行，酷睿版暂不单列；待官方规格页或京东自营 SKU 页出现后再补 modelYear 与配置。",
+      "sourceUrl": "http://m.bjbpc.com/view.php?aid=4790"
+    },
+    {
+      "model": "HyperX 暗影精灵 MAX 2026",
+      "issue": "中国惠普官方商城游戏本频道出现「HyperX 暗影精灵 MAX 笔记本 起售价 ¥15999」，预热文案提及 CES 2026，但无具体型号代码、CPU/GPU 组合与上市日期，疑似 2025 款 MAX 的 2026 换标版本。",
+      "suggestion": "暂不建行；待官方规格页（ah 系列型号）与配置表公布后，按「HyperX 暗影精灵 MAX」建 2026 行，并与 2025 款 MAX 分列。",
+      "sourceUrl": "https://www.hpstore.cn/gaming-laptops"
+    },
+    {
+      "model": "暗影精灵12 / 光影精灵12",
+      "issue": "检索未发现 2026 年存在「暗影精灵12」或「光影精灵12」命名；2026 年暗影精灵产品线改用「HyperX 暗影精灵 PRO 16」，光影精灵延续「光影精灵11」。",
+      "suggestion": "不要凭代际规律臆造 12 代；2026 年采购以 HyperX 暗影精灵 PRO 16 与光影精灵11 为准。",
+      "sourceUrl": "https://www.hpstore.cn/gaming-laptops"
+    },
+    {
+      "model": "暗影精灵6 Pro / 暗影精灵8 Pro 之外的「Pro」变体",
+      "issue": "「Pro」在暗影精灵产品线中并非每年都有独立机型：2022 年确有暗影精灵8 Pro，但 2020 年「暗影精灵6 Pro」缺乏可核验的官方规格页与首发价，无法确认是否为国行正式型号。",
+      "suggestion": "仅保留有来源的暗影精灵8 Pro；其余年份的 Pro 说法暂不建行，避免与同代标准版重复。",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1410206.shtml"
+    }
+  ]
+}

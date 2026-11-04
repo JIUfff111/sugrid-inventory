@@ -1,0 +1,1282 @@
+{
+  "scope": "微星轻薄本 现代/尊爵/Summit 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 14",
+      "displayName": "微星 现代 Modern 14 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10210U",
+        "英特尔酷睿 i7-10510U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce MX250 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://notebookcheck.net/MSI-Modern-14-with-Core-i5-10210U-512-GB-NVMe-SSD-and-GeForce-MX250-GPU-now-available-for-899.431817.0.html",
+      "sourceTitle": "MSI Modern 14（i5-10210U/512GB/MX250）上市报道（Notebookcheck 转载微星 2019-08-21 新闻稿）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "首代 14 英寸 Modern（海外型号 Modern 14 A10M / A10RB），2019 年 8 月 21 日发布、9 月起上市，接替 PS42 Modern。1.19kg / 15.9mm，14 英寸 FHD IPS-Level 72% NTSC，4 芯 50Wh，单条 SO-DIMM 可换（最大 32GB），USB-C 两个但无雷电。海外首发 750 美元（集显）/900 美元（MX250）。国行铺货时间与价格未见可靠记录，需另行核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 14",
+      "displayName": "微星 现代 Modern 14 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1165G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce MX450 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.smartprix.com/bytes/msi-business-productivity-laptops-with-11th-gen-intel-processor-launched-in-india/?amp",
+      "sourceTitle": "MSI 11 代酷睿 Summit/Prestige/Modern 全系上市价格（Modern 14 B11M / B11SB 分列）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "第 11 代 Tiger Lake 平台，海外型号 Modern 14 B11M（集显）与 B11SB（MX450），同代还有 B10M（十代 Comet Lake 续售款）。上代为 B10M，二者为不同平台。MX450 为 GDDR5 2GB。印度上市价 Modern 14 B11M 约 55990–67990 卢比，B11SB 约 89990 卢比。国行具体型号与报价未见官方页，建议以京东历史页复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 14",
+      "displayName": "微星 现代 Modern 14 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1235U",
+        "英特尔酷睿 i7-1255U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.msi.com/Business-Productivity/Modern-14-C12X/Specification",
+      "sourceTitle": "MSI Modern 14 C12M / C12MO / C12MOG 官方规格页",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "12 代 Alder Lake-U 平台，海外型号 Modern 14 C12M / C12MO / C12MOG。14 英寸 FHD IPS-Level，DDR4-3200 板载最大 16GB（不可扩展），单 M.2 PCIe Gen3，39.3/53.8Wh，1.4kg。国行 2022 年 3 月开卖，i5-1235U 版首发 4999 元（IT之家同期报道）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 14",
+      "displayName": "微星 现代 Modern 14 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1335U"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.laptoparena.net/msi/msi-modern-14-modern-14-c13m-618fr-black-106491",
+      "sourceTitle": "MSI Modern 14 C13M-618FR 规格（13 代酷睿版，2023 年上市）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "13 代 Raptor Lake-U，海外型号 Modern 14 C13M（同代还有 Modern 15 B13M）。14 英寸 FHD 16:9 IPS、45% NTSC，DDR4-3200 板载最大 16GB，1.4kg / 19.4mm，39.3 或 53.8Wh。国行以 13 代 i5 版本少量铺货，官方中文页未检索到，参数取自海外经销商规格库，配置项需以实物铭牌复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 14",
+      "displayName": "微星 现代 Modern 14 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13420H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1994/1993015/param.html",
+      "sourceTitle": "微星 Modern14 2024（i5-13420H/16GB/512GB）参数页（中关村在线，上市时间 2024 年）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "国行型号，改用 13 代 H 系列标压 i5-13420H（8 核 12 线程）与 16:10 1920x1200 屏，是 Modern 14 首次上 16:10。ZOL 参考报价 5199 元（促销到手约 4699 元）。同代海外另有 Modern 14 F13MG（13 代 U 系列、FHD 16:9），与本条不是同一机型。内存 16GB 是否板载、能否扩展未见官方页说明，暂不写入。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 15",
+      "displayName": "微星 现代 Modern 15 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10210U",
+        "英特尔酷睿 i7-10510U"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics",
+        "独立显卡 NVIDIA GeForce MX250 2GB GDDR5"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Business-Productivity/Modern-15-A10M-035CN/Specification",
+      "sourceTitle": "新世代 Modern 15 A10M-035CN 官方规格页（微星中国）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "首代 15.6 英寸 Modern，2019 年 12 月国行上市。国行三款：A10M-035CN（i5-10210U/集显/8GB/512GB，5989 元）、A10RB-034CN（i5-10210U/MX250，5489 元）、A10RB-033CN（i7-10510U/MX250，6989 元），价格见 ZOL 产品库。15.6 英寸 FHD IPS 72% NTSC、1.6kg/15.9mm、52Wh、双 SO-DIMM（最大 32GB）、双 M.2 插槽、指纹识别。国行型号代码 A10M / A10RB。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "现代 Modern 15",
+      "displayName": "微星 现代 Modern 15 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13420H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel UHD Graphics"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1993016.shtml",
+      "sourceTitle": "微星 Modern15 2024（i5-13420H/16GB/512GB）参数页（中关村在线）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "国行 2024 款，i5-13420H 标压 + 15.6 英寸 1920x1200 16:10 屏，ZOL 参考报价 4769 元。与 2024 款 Modern 14 同期上市、同平台不同尺寸，故分行。内存/插槽信息官方页缺失，暂不写入。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14|2019",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 14",
+      "displayName": "微星 尊爵 Prestige 14 2019",
+      "modelYear": 2019,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-10710U"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce GTX 1650 Max-Q 4GB GDDR5"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz",
+        "14英寸 3840x2160 60Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/series/16/28161_1.html",
+      "sourceTitle": "msi微星尊爵Prestige 14 系列 - 中关村在线产品库",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "首代尊爵 14（海外 A10SC），2019 年 11 月国行上市，全球首批 10 代 6 核低压 U + GTX 16 系组合。i7-10710U（6 核 12 线程）+ GTX 1650 Max-Q 4GB，16GB DDR4（8GB×2）、512GB，1.29kg/15.9mm、52Wh、雷电 3、90% 屏占比、ΔE<2。国行首发 12999 元（4K 触控高配），A10SC-065CN 后续京东价 10799–9999 元。；原来源不可访问，改用微星官方规格页/产品库页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 Evo|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 14 Evo",
+      "displayName": "微星 尊爵 Prestige 14 Evo 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1135G7",
+        "英特尔酷睿 i7-1185G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.msi.cn/Business-Productivity/Prestige-14Evo-A11M-203CN/Specification",
+      "sourceTitle": "尊爵 14 Evo A11M-203CN 官方规格页（微星中国）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Intel Evo 认证机型，海外型号 Prestige 14 Evo A11M。14 英寸 FHD 60Hz、接近 100% sRGB / 72% NTSC 低功耗屏，LPDDR4X-4266 16GB 板载（不可扩展），1TB PCIe Gen4 SSD，1.29kg/15.9mm、52Wh、双雷电 4、IR 摄像头、SD UHS-III。国行 A11M-203CN（i7-1185G7/16GB/1TB）。同代另有带 GTX1650 Max-Q 的 Prestige 14 A11SCX（非 Evo）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 Evo|2022",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 14 Evo",
+      "displayName": "微星 尊爵 Prestige 14 Evo 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1240P",
+        "英特尔酷睿 i7-1280P"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://tw.msi.com/Business-Productivity/Prestige-14-Evo-A12MX/Specification",
+      "sourceTitle": "Prestige 14 Evo A12M 官方规格页（微星台湾，A12M-217/218/219/220TW 对照）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "12 代 Alder Lake-P 平台，海外型号 Prestige 14 Evo A12M。14 英寸 FHD IPS 100% sRGB，LPDDR4X 板载最大 32GB，1TB PCIe Gen4，53.8Wh，1.29kg/15.9mm，双雷电 4，Killer Wi-Fi 6E AX1675。欧洲 2022 年 5–6 月开卖，起价 1249 欧元。国行官方页未检索到独立条目，配置取自官方规格页。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI Evo|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 14 AI Evo",
+      "displayName": "微星 尊爵 Prestige 14 AI Evo 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 5 125H",
+        "英特尔酷睿 Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1200 144Hz"
+      ],
+      "sourceUrl": "https://my-store.msi.com/collections/year-end-sales/products/msi-prestige-14-ai-evo-c1mg-019-business-and-productivity-laptop",
+      "sourceTitle": "MSI Prestige 14 AI Evo C1MG-019 官方商城规格（海外型号 C1M）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "Meteor Lake（Core Ultra 一代）平台，海外型号 Prestige 14 AI Evo C1M，2024 年 1 月 CES 与尊爵 16 AI Evo 同批发布（微星中国 CES 2024 新闻稿）。14 英寸 16:10 FHD+ 1920x1200 144Hz 100% sRGB，DDR5 8GB×2 双通道，90Wh，双雷电 4，Wi-Fi 7。国行 2024 款以「尊爵 14 AI Evo 2024」名义上架，具体国行 SKU 与价格未取得可靠页面。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI+ Evo|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 14 AI+ Evo",
+      "displayName": "微星 尊爵 Prestige 14 AI+ Evo 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 258V"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc 140V"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzIxMTAyNjk0OA==&mid=2654672225&idx=2&sn=546f8ea9c9edeff5ffff538b423d87fd",
+      "sourceTitle": "微星尊爵 14/16 AI+ Evo 上架：酷睿 Ultra 7 258V / 9 288V，10499 元起（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Lunar Lake（Core Ultra 200V）平台，海外型号 Prestige 14 AI+ Evo B2VM，国内 2024 年 12 月上架。14 英寸 2880x1800 120Hz OLED，32GB LPDDR5X 板载，1TB，90Wh + 100W PD，双雷电 4、HDMI 2.1、RJ45，金属机身 1.7kg/18.95mm。国行首发 10499 元（Ultra 7 258V/32GB/1TB）。部分电商页面把同款标为「2025 款」，实为同一机型，年份按首发 2024 计。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI+|2026",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 14 AI+",
+      "displayName": "微星 尊爵 Prestige 14 AI+ 2026",
+      "modelYear": 2026,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 355"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8KUVxYDE8SAF8IGlgVXAMCUFhZCUIfA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8JHlsRWwIDXVZdFxJSXzI4HilFD0dKViY4VwMUe2h2TAh2JgR8ElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkMRB2cOTFlBVAMFAA5aCkgnA244WjUVXAUAVlpbC3sWM28OE1kUXA8GVlteCEsnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWUG9cGVJGXWheEx9eQxBFWgEKE1wVWAMGUm5fCUoVAV84K19lVEJ1EF9YDkN0aisMGxxePHsKPRpZbz5DXjJvEjUXWQUGMAkHe0xPfQdeGwJ1XHAyVG5aDkonAl8",
+      "sourceTitle": "微星（MSI）尊爵 14 AI+ 2026 Ultra 7 355/32G/1T/14 英寸 2.8K OLED 京东在售页",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "2026 年 1 月国行上市，型号 Prestige 14 AI+ D3MG-035CN（认证型号 MS-14T2）。酷睿 Ultra 7 355（Panther Lake，第三代 Ultra）+ Intel Arc 核显，32GB LPDDR5X-8533 板载（最大 32GB），1TB，14 英寸 2880x1800 120Hz OLED 100% DCI-P3，81Wh，1.32kg/13.9mm，双雷电 4/USB4、HDMI 2.1，无 RJ45。首发活动价 9999 元，2026 年 8 月京东标价 9599 元。同系列另有尊爵 14 Flip AI+ 2026（首发 10999 元）与「满血版」高配 SKU（12999 元），配置差异未取得官方规格页，未并入本条。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 15|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 15",
+      "displayName": "微星 尊爵 Prestige 15 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-1185G7"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce GTX 1650 Max-Q 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 3840x2160 60Hz"
+      ],
+      "sourceUrl": "https://wap.zol.com.cn/1366/1365463/index.html",
+      "sourceTitle": "msi微星 尊爵 Prestige 15（i7-1185G7/32GB/1TB/GTX1650MQ/4K）参数页，型号 A11SCX-024CN",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "11 代 Tiger Lake 版尊爵 15（海外 A11SCX / A11SCS）。国行 A11SCX-024CN：i7-1185G7 + GTX 1650 Max-Q 4GB GDDR6，32GB DDR4（双 SO-DIMM，最大 64GB），1TB，15.6 英寸 4K UHD 100% AdobeRGB，1.65kg/16.9mm、82Wh、双雷电 4。ZOL 参考价 14499 元；香港同款（i7/16GB/512GB/FHD）原价 13999 港币。上一代首代 Prestige 15（A10SC，2019 年 11 月国行上市，i7-10710U + GTX1650 Max-Q，13999 元起）为不同平台，本表未单列。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 Evo|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 16 Evo",
+      "displayName": "微星 尊爵 Prestige 16 Evo 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13500H",
+        "英特尔酷睿 i7-13700H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016Evo%20A13M-259US.pdf",
+      "sourceTitle": "Prestige 16 Evo A13M 规格 - 微星官方 PDF",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "13 代 Raptor Lake-H 平台，海外型号 Prestige 16 Evo A13M，2023 年 2 月开卖。16 英寸 16:10 2560x1600 165Hz 100% DCI-P3 IPS、400nit，LPDDR5-4800 板载（16GB 或 32GB），82Wh，1.9kg/16.85mm，双雷电 4、100W USB-C。台湾 A13M-246TW（i7-13700H/16GB/1TB）建议售价 44900 新台币；美国 A13M-407US 为 i5-13500H/32GB/1TB。国行未检索到对应官方中文页。；原来源不可访问，改用微星官方规格页/产品库页，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 16 AI Evo",
+      "displayName": "微星 尊爵 Prestige 16 AI Evo 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 155H",
+        "英特尔酷睿 Ultra 9 185H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc Graphics"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 60Hz",
+        "16英寸 3840x2400 60Hz"
+      ],
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-048US.pdf",
+      "sourceTitle": "MSI Prestige 16 AI Evo B1MG-048US 官方规格表（2024-03-07 版）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Meteor Lake 平台，海外型号 Prestige 16 AI Evo B1M（B1MG-048US 为 Ultra 9 185H/32GB/2TB/QHD+，B1MG-020US 为 Ultra 7 155H/32GB/2TB/4K+ OLED）。16 英寸 16:10，QHD+ 2560x1600 或 UHD+ 3840x2400 OLED，32GB LPDDR5-6400 板载，99.9Wh、100W USB-C，1.5kg/18.95mm（镁铝合金），双雷电 4、HDMI 2.1、全尺寸 SD。国行 2024 年 3 月上架（微星中国 CES 2024 新闻稿）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI+ Evo|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 16 AI+ Evo",
+      "displayName": "微星 尊爵 Prestige 16 AI+ Evo 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 258V",
+        "英特尔酷睿 Ultra 9 288V"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc 140V"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 3840x2400 60Hz"
+      ],
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzIxMTAyNjk0OA==&mid=2654672225&idx=2&sn=546f8ea9c9edeff5ffff538b423d87fd",
+      "sourceTitle": "微星尊爵 14/16 AI+ Evo 上架：酷睿 Ultra 7 258V / 9 288V，10499 元起（IT之家）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Lunar Lake（Core Ultra 200V）平台，海外型号 Prestige 16 AI+ Evo B2VM，Copilot+ PC，国内 2024 年 12 月上架。16 英寸 3840x2400 60Hz OLED，32GB LPDDR5X 板载，1TB，99.9Wh + 100W PD，镁铝合金 1.5kg/16.85mm，双雷电 4、HDMI 2.1、RJ45、SD 读卡器。国行 Ultra 9 288V 版首发 12999 元；部分渠道（如新加坡官网 B2VMG-042SG）另售 Ultra 7 258V 版。与 16 AI Evo（B1M，Meteor Lake）为不同平台，故分行。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2025",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "尊爵 Prestige 16 AI Evo",
+      "displayName": "微星 尊爵 Prestige 16 AI Evo 2025",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 285H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Arc 140T"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 3840x2400 60Hz"
+      ],
+      "sourceUrl": "https://jp.msi.com/Business-Productivity/Prestige-16-AI-Evo-B2HMX/Specification",
+      "sourceTitle": "Prestige 16 AI Evo B2HM 官方规格页（微星日本，B2HMG-0651JP）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Arrow Lake-H（Core Ultra 200H）平台，海外型号 Prestige 16 AI Evo B2HM，CES 2025 发布、2025 年上市。Ultra 9 285H（16 核 16 线程，5.4GHz）+ Arc 140T，32GB LPDDR5X-7500 板载，1TB + 1 个空闲 M.2，16 英寸 4K+ 3840x2400 60Hz OLED（DisplayHDR True Black 600），99.9Wh，约 1.5–1.59kg/18.95mm，双雷电 4、HDMI 2.1（8K60）、SD Express。国行以「尊爵 16 AI+ Evo 2025」名义销售，京东常见 32GB/1TB/2.5K 版本标价 8499–8999 元，与本条 4K OLED 版本是否同一 SKU 需以铭牌核对。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E13 Flip Evo|2021",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "Summit E13 Flip Evo",
+      "displayName": "微星 Summit E13 Flip Evo 2021",
+      "modelYear": 2021,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-1155G7",
+        "英特尔酷睿 i7-1185G7"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "13.4英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30021678886",
+      "sourceTitle": "微星发布 Summit E13/E16 Flip Evo 高端轻薄本，黄金比例设计（IT之家，2021-04-01）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "Summit 商务系列首款翻转本，海外型号 Summit E13 Flip Evo A11MT，2021 年 4 月国行上架。13.4 英寸 16:10 1920x1200 触控（100% sRGB，支持 MSI Pen），i7-1185G7 + 32GB LPDDR4X-4266 + 1TB PCIe 4.0，双雷电 4，CNC 黑金机身 1.35kg/14.9mm。国行首发 10999 元；i5-1155G7/16GB/512GB 版本（A11MT-234）海外在售。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E14 Flip Evo|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "Summit E14 Flip Evo",
+      "displayName": "微星 Summit E14 Flip Evo 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-1360P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 60Hz"
+      ],
+      "sourceUrl": "https://www.msi.com/Business-Productivity/Summit-E14-Flip-Evo-A13MX/Specification",
+      "sourceTitle": "Summit E14 Flip Evo A13M 官方规格页（A13MT）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "13 代 Raptor Lake-P 平台，海外型号 Summit E14 Flip Evo A13MT（上代 A12MT 为 12 代 i7-1260P/1260P，2022 年）。14 英寸 2.8K 2880x1800 IPS 触控 100% DCI-P3，支持 MSI Pen，16GB LPDDR5-4800（最大 32GB），1TB PCIe Gen4，72Wh，1.59kg/17.9mm，双雷电 4、HDMI 2.1、指纹 + dTPM 2.0、物理摄像头开关。国行 SKU 与价格未取得可靠页面（海外 A13MT-400/277HK 在售）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E15|2020",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "Summit E15",
+      "displayName": "微星 Summit E15 2020",
+      "modelYear": 2020,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-1185G7"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics",
+        "独立显卡 NVIDIA GeForce GTX 1650 Ti Max-Q 4GB GDDR6"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz",
+        "15.6英寸 3840x2160 60Hz"
+      ],
+      "sourceUrl": "https://www.laptoparena.net/msi/msi-summit-e15-a11scs-083nl-summit-e15-a11scs-083nl-black-56121",
+      "sourceTitle": "MSI Summit E15 A11SCS-083NL 规格（2020 年 11 月上市，i7-1185G7 + GTX1650Ti Max-Q）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "Summit 商务系列首代 15.6 英寸机型，海外型号 Summit E15 A11SCS（高配，GTX1650 Ti Max-Q 4GB GDDR6）与 A11SCST（触控）。11 代 Tiger Lake，15.6 英寸 FHD 触控或 4K UHD 100% AdobeRGB，32GB DDR4 双 SO-DIMM（最大 64GB），1TB PCIe 4.0，82Wh，1.65kg/16.9mm，双雷电 4。2020 年 9 月发布、11 月上市；印度 A11SCST 售价约 179990 卢比。国行是否为该型号未见可靠证据。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E16 Flip Evo|2022",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "Summit E16 Flip Evo",
+      "displayName": "微星 Summit E16 Flip Evo 2022",
+      "modelYear": 2022,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-1260P",
+        "英特尔酷睿 i7-1280P"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://www.sohu.com/a/532634859_114760",
+      "sourceTitle": "9999 元，微星 Summit E16 Flip EVO 翻转本开卖（IT之家，2022-03-25）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "12 代 Alder Lake-P 平台，海外型号 Summit E16 Flip Evo A12M（另有带 RTX 3050/3050 Ti 的 Summit E16 Flip A12UCT，非 Evo）。16 英寸 16:10 1920x1200 触控 165Hz，16GB LPDDR5，1TB，1.9kg/16.85mm，双雷电 4。国行 2022 年 3 月开卖，首发 9999 元（i7-1280P/16GB/1TB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E16 Flip Evo|2023",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "Summit E16 Flip Evo",
+      "displayName": "微星 Summit E16 Flip Evo 2023",
+      "modelYear": 2023,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-1360P"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集成显卡 Intel Iris Xe Graphics"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://kafan.cn/news/14410.html",
+      "sourceTitle": "微星新款 Summit E16 笔记本上市，首发 i7-1360P/16GB/1TB，售价 11999 元",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "13 代 Raptor Lake-P 平台，海外型号 Summit E16 Flip Evo A13MT。16 英寸 2560x1600 165Hz 触控 100% DCI-P3，16GB（海外 A13MT-258US 为 32GB DDR5），1TB，360° 翻转 + MSI Pen，2.1kg/16.85mm。国行 2023 年 1 月微星官方商城首发 11999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|创造者 Creator M16|2024",
+      "productType": "笔记本电脑",
+      "brand": "微星",
+      "model": "创造者 Creator M16",
+      "displayName": "微星 创造者 Creator M16 2024",
+      "modelYear": 2024,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-14700HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/gas_waterheater/index1993126.shtml",
+      "sourceTitle": "msi微星创造者M16 2024（i7-14700HX/32G/1TB/RTX4060）参数页（中关村在线）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "国行创作本，2024 年 1 月随创造者 Z17/16 AI Studio、创造者 M14 同批发布（微星中国 CES 2024 新闻稿）。16 英寸 2560x1600 240Hz 100% DCI-P3，i7-14700HX（20 核 28 线程）+ RTX 4060 8GB，32GB DDR5-5600，1TB PCIe 4.0，65Wh，2.25kg。ZOL 参考价 13599 元。重量与独显定位更接近创作本/全能本，按任务要求收入轻薄本批次但在采购侧需注意其 2.2kg 级便携性；上一代 Creator M16 A12UD（2022，i7-12700H + RTX 3050 Ti，2.26kg）国行来源不足，未单列。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.msi.cn/Business-Productivity/Modern-15-A10M-035CN/Specification",
+      "sourceTitle": "新世代 Modern 15 A10M-035CN 官方规格页",
+      "confidence": "high",
+      "notes": "国行在售 SKU，DDR4-2666 8GB，512GB NVMe PCIe SSD，京东/渠道价 5989 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX250 2GB GDDR5",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/28810_1.html",
+      "sourceTitle": "msi微星 Modern 15 系列共 3 款配置与报价（ZOL 产品库）",
+      "confidence": "high",
+      "notes": "型号 A10RB-034CN，ZOL 参考价 5489 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2019",
+      "cpu": "英特尔酷睿 i7-10510U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX250 2GB GDDR5",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/28810_1.html",
+      "sourceTitle": "msi微星 Modern 15 系列共 3 款配置与报价（ZOL 产品库）",
+      "confidence": "high",
+      "notes": "型号 A10RB-033CN，ZOL 参考价 6989 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2019",
+      "cpu": "英特尔酷睿 i5-10210U",
+      "ram": "8GB",
+      "gpu": "独立显卡 NVIDIA GeForce MX250 2GB GDDR5",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.laptopvslaptop.com/laptop/MSI-Modern-14-A10M-460-Modern-14-A10M-460/23213b",
+      "sourceTitle": "MSI Modern 14 A10M-460 配置（i5-10210U/8GB/512GB/MX250）",
+      "confidence": "medium",
+      "notes": "海外 SKU A10M-460（另标注 8GB×1 DDR4-2666、1 个 SO-DIMM、最大 32GB、4 芯 50Wh），2019 年 9 月上市，亚马逊价 679.99 美元。国行对应配置未取得页面。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "cpu": "英特尔酷睿 i5-1235U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://storage-asset.msi.com/specSheet/ph/bnp/Modern%2014%20C12M-053PH.pdf",
+      "sourceTitle": "Modern 14 C12M-053PH 官方规格表（8GB/512GB）",
+      "confidence": "high",
+      "notes": "海外 SKU C12M-053PH；国行同期 i5-1235U 版首发 4999 元（IT之家 2022-03 报道），容量组合与本 SKU 可能不同。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "cpu": "英特尔酷睿 i7-1255U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://storage-asset.msi.com/specSheet/id/bnp/Modern%2014%20C12MO-879ID.pdf",
+      "sourceTitle": "Modern 14 C12MO-879ID 官方规格表（i7-1255U/16GB DDR4-3200 板载/512GB）",
+      "confidence": "high",
+      "notes": "海外 SKU C12MO-879ID，16GB 为板载，单 M.2 PCIe Gen3，39.3Wh，1.4kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2023",
+      "cpu": "英特尔酷睿 i5-1335U",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.laptoparena.net/msi/msi-modern-14-modern-14-c13m-618fr-black-106491",
+      "sourceTitle": "MSI Modern 14 C13M-618FR 规格（16GB/512GB）",
+      "confidence": "medium",
+      "notes": "海外 SKU C13M-618FR，DDR4-3200 板载最大 16GB，PCIe 3.0 SSD，39.3Wh，1.4kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2023",
+      "cpu": "英特尔酷睿 i5-1335U",
+      "ram": "8GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://devicehd.com/laptops/en/product/64255f82ab2396ddf314e3fa/",
+      "sourceTitle": "MSI Modern 14 C13M-423BE 规格（8GB/512GB）",
+      "confidence": "medium",
+      "notes": "海外 SKU C13M-423BE，8GB 板载（最大 8GB），53.8Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2024",
+      "cpu": "英特尔酷睿 i5-13420H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1200 60Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1994/1993015/param.html",
+      "sourceTitle": "微星 Modern14 2024（i5-13420H/16GB/512GB）参数与报价",
+      "confidence": "medium",
+      "notes": "国行 SKU，ZOL 参考价 5199 元，到手价约 4699 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2024",
+      "cpu": "英特尔酷睿 i5-13420H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel UHD Graphics",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1200 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1993016.shtml",
+      "sourceTitle": "微星 Modern15 2024（i5-13420H/16GB/512GB）参数与报价",
+      "confidence": "medium",
+      "notes": "国行 SKU，ZOL 参考价 4769 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14|2019",
+      "cpu": "英特尔酷睿 i7-10710U",
+      "ram": "16GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Max-Q 4GB GDDR5",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://detail.zol.com.cn/series/16/28161_1.html",
+      "sourceTitle": "msi微星尊爵Prestige 14 系列 - 中关村在线产品库",
+      "confidence": "high",
+      "notes": "国行 SKU A10SC-065CN，16GB（8GB×2）DDR4-2466，ZOL 报价 9999 元（京东历史价 10799 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 Evo|2021",
+      "cpu": "英特尔酷睿 i7-1185G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.msi.cn/Business-Productivity/Prestige-14Evo-A11M-203CN/Specification",
+      "sourceTitle": "尊爵 14 Evo A11M-203CN 官方规格页",
+      "confidence": "high",
+      "notes": "国行 SKU A11M-203CN，LPDDR4X-4266 16GB 板载，1TB PCIe Gen4x4。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 Evo|2021",
+      "cpu": "英特尔酷睿 i7-1185G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "14英寸 1920x1080 60Hz",
+      "sourceUrl": "https://us-store.msi.com/Laptops/BUSINESS-PRODUCTIVITY/Prestige-Series?sort=p.model&order=DESC&limit=24",
+      "sourceTitle": "MSI 美国官方商店 Prestige 系列在售清单（A11M-289 等 SKU 与价格）",
+      "confidence": "medium",
+      "notes": "海外 SKU A11M-289，促销价 1049.99 美元（原价 1149.99）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI Evo|2024",
+      "cpu": "英特尔酷睿 Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 1920x1200 144Hz",
+      "sourceUrl": "https://my-store.msi.com/collections/year-end-sales/products/msi-prestige-14-ai-evo-c1mg-019-business-and-productivity-laptop",
+      "sourceTitle": "MSI Prestige 14 AI Evo C1MG-019 官方商城规格与价格",
+      "confidence": "medium",
+      "notes": "海外 SKU C1MG-019，DDR5 8GB×2，90Wh，马来西亚官方商城 RM4299。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI+ Evo|2024",
+      "cpu": "英特尔酷睿 Ultra 7 258V",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc 140V",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzIxMTAyNjk0OA==&mid=2654672225&idx=2&sn=546f8ea9c9edeff5ffff538b423d87fd",
+      "sourceTitle": "微星尊爵 14/16 AI+ Evo 上架：10499 元起（IT之家）",
+      "confidence": "high",
+      "notes": "国行唯一公开配置：Ultra 7 258V + 32GB + 1TB，10499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI+|2026",
+      "cpu": "英特尔酷睿 Ultra 7 355",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "1TB",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BASwJK1olXQ8KUVxYDE8SAF8IGlgVXAMCUFhZCUIfA19MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAG8JHlsRWwIDXVZdFxJSXzI4HilFD0dKViY4VwMUe2h2TAh2JgR8ElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkMRB2cOTFlBVAMFAA5aCkgnA244WjUVXAUAVlpbC3sWM28OE1kUXA8GVlteCEsnA2cMK4y889CO8orkopylgV84K1glbTYCZF1tViUWUG9cGVJGXWheEx9eQxBFWgEKE1wVWAMGUm5fCUoVAV84K19lVEJ1EF9YDkN0aisMGxxePHsKPRpZbz5DXjJvEjUXWQUGMAkHe0xPfQdeGwJ1XHAyVG5aDkonAl8",
+      "sourceTitle": "尊爵 14 AI+ 2026 Ultra 7 355/32G/1T/2.8K OLED 京东在售页",
+      "confidence": "medium",
+      "notes": "型号 D3MG-035CN，首发活动价 9999 元，2026-08 标价 9599 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 15|2021",
+      "cpu": "英特尔酷睿 i7-1185G7",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Max-Q 4GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3840x2160 60Hz",
+      "sourceUrl": "https://wap.zol.com.cn/1366/1365463/index.html",
+      "sourceTitle": "尊爵 Prestige 15 A11SCX-024CN 参数与报价",
+      "confidence": "high",
+      "notes": "国行 SKU A11SCX-024CN，ZOL 参考价 14499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 Evo|2023",
+      "cpu": "英特尔酷睿 i7-13700H",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016Evo%20A13M-259US.pdf",
+      "sourceTitle": "Prestige 16 Evo A13M 规格 - 微星官方 PDF",
+      "confidence": "medium",
+      "notes": "台湾 SKU A13M-246TW，建议售价 44900 新台币。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 Evo|2023",
+      "cpu": "英特尔酷睿 i5-13500H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016Evo%20A13M-259US.pdf",
+      "sourceTitle": "Prestige 16 Evo A13M 规格 - 微星官方 PDF",
+      "confidence": "medium",
+      "notes": "美国 SKU A13M-407US，82Wh，1.9kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2024",
+      "cpu": "英特尔酷睿 Ultra 9 185H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "2TB",
+      "screen": "16英寸 2560x1600 60Hz",
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-048US.pdf",
+      "sourceTitle": "Prestige 16 AI Evo B1MG-048US 官方规格表",
+      "confidence": "high",
+      "notes": "美国 SKU B1MG-048US，32GB LPDDR5-6400，2TB，99.9Wh，3 年上门 + ADP。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2024",
+      "cpu": "英特尔酷睿 Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc Graphics",
+      "storage": "2TB",
+      "screen": "16英寸 3840x2400 60Hz",
+      "sourceUrl": "https://storage-asset.msi.com/excelSku/us/bnp/Prestige%2016%20AI%20Evo%20B1MG-020US.pdf",
+      "sourceTitle": "Prestige 16 AI Evo B1MG-020US 官方规格表（4K+ OLED）",
+      "confidence": "high",
+      "notes": "美国 SKU B1MG-020US，4K+ OLED 100% DCI-P3。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI+ Evo|2024",
+      "cpu": "英特尔酷睿 Ultra 9 288V",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc 140V",
+      "storage": "1TB",
+      "screen": "16英寸 3840x2400 60Hz",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzIxMTAyNjk0OA==&mid=2654672225&idx=2&sn=546f8ea9c9edeff5ffff538b423d87fd",
+      "sourceTitle": "微星尊爵 14/16 AI+ Evo 上架：10499 元起（IT之家）",
+      "confidence": "high",
+      "notes": "国行唯一公开配置：Ultra 9 288V + 32GB + 1TB + 4K OLED，12999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2025",
+      "cpu": "英特尔酷睿 Ultra 9 285H",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Arc 140T",
+      "storage": "1TB",
+      "screen": "16英寸 3840x2400 60Hz",
+      "sourceUrl": "https://jp.msi.com/Business-Productivity/Prestige-16-AI-Evo-B2HMX/Specification",
+      "sourceTitle": "Prestige 16 AI Evo B2HMG-0651JP 官方规格页",
+      "confidence": "high",
+      "notes": "日本 SKU B2HMG-0651JP，32GB LPDDR5X-7500，1TB + 空闲 M.2，99.9Wh，约 1.59kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E13 Flip Evo|2021",
+      "cpu": "英特尔酷睿 i7-1185G7",
+      "ram": "32GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "13.4英寸 1920x1200 60Hz",
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30021678886",
+      "sourceTitle": "微星 Summit E13/E16 Flip Evo 发布报道（IT之家）",
+      "confidence": "high",
+      "notes": "国行首发配置，10999 元（i7-1185G7/32GB LPDDR4X-4266/1TB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E13 Flip Evo|2021",
+      "cpu": "英特尔酷睿 i5-1155G7",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "512GB",
+      "screen": "13.4英寸 1920x1200 60Hz",
+      "sourceUrl": "https://www.retailmarket.net/products/msi-summit-e13-flip-evo-business-professional-laptop-13-4-fhd-1200p-intel-core-i5-1155g7-intel-iris-xe-16gb-512gb-ssd-thunderbolt-4-wifi-6e-tpm-2-0-win10-ink-black-a11mt-234",
+      "sourceTitle": "MSI Summit E13 Flip Evo A11MT-234 规格与售价",
+      "confidence": "medium",
+      "notes": "海外 SKU A11MT-234，i5-1155G7/16GB DDR4/512GB，含 MSI Pen。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E15|2020",
+      "cpu": "英特尔酷睿 i7-1185G7",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce GTX 1650 Ti Max-Q 4GB GDDR6",
+      "storage": "1TB",
+      "screen": "15.6英寸 3840x2160 60Hz",
+      "sourceUrl": "https://www.laptoparena.net/msi/msi-summit-e15-a11scs-083nl-summit-e15-a11scs-083nl-black-56121",
+      "sourceTitle": "Summit E15 A11SCS-083NL 规格",
+      "confidence": "medium",
+      "notes": "EU SKU A11SCS-083NL，32GB（16GB×2）DDR4-2666，82Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E16 Flip Evo|2022",
+      "cpu": "英特尔酷睿 i7-1280P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "16英寸 1920x1200 60Hz",
+      "sourceUrl": "https://www.sohu.com/a/532634859_114760",
+      "sourceTitle": "9999 元，微星 Summit E16 Flip EVO 翻转本开卖（IT之家）",
+      "confidence": "high",
+      "notes": "国行首发配置，9999 元（i7-1280P/16GB LPDDR5/1TB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|Summit E16 Flip Evo|2023",
+      "cpu": "英特尔酷睿 i7-1360P",
+      "ram": "16GB",
+      "gpu": "集成显卡 Intel Iris Xe Graphics",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://kafan.cn/news/14410.html",
+      "sourceTitle": "微星新款 Summit E16 笔记本上市，11999 元",
+      "confidence": "medium",
+      "notes": "国行微星官方商城首发，11999 元（i7-1360P/16GB/1TB）。"
+    },
+    {
+      "modelKey": "笔记本电脑|微星|创造者 Creator M16|2024",
+      "cpu": "英特尔酷睿 i7-14700HX",
+      "ram": "32GB",
+      "gpu": "独立显卡 NVIDIA GeForce RTX 4060 8GB GDDR6",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://detail.zol.com.cn/gas_waterheater/index1993126.shtml",
+      "sourceTitle": "msi微星创造者M16 2024 参数与报价",
+      "confidence": "medium",
+      "notes": "国行单一在售 SKU，ZOL 参考价 13599 元，65Wh，2.25kg。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "微星现代14",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "aliasType": "口语简称",
+      "note": "中文口语最常见的搜索写法，省略空格；实际可能指向任一 Modern 14 年份，需结合年份选择"
+    },
+    {
+      "alias": "MSI Modern 14",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "aliasType": "英文型号",
+      "note": "海外官方写法，年份不同以型号代码区分（A10M/B11M/C12M/C13M）"
+    },
+    {
+      "alias": "微星 Modern 14",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "aliasType": "中英混写",
+      "note": "电商标题常用"
+    },
+    {
+      "alias": "现代14",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2024",
+      "aliasType": "口语简称",
+      "note": "国行促销页多用「现代14 2024」"
+    },
+    {
+      "alias": "Modern 14 C12M",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2022",
+      "aliasType": "海外型号代码",
+      "note": "12 代平台，2022 年"
+    },
+    {
+      "alias": "Modern 14 C13M",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2023",
+      "aliasType": "海外型号代码",
+      "note": "13 代 U 平台，2023 年"
+    },
+    {
+      "alias": "微星现代15",
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2019",
+      "aliasType": "口语简称",
+      "note": "15.6 英寸机型，与 Modern 14 不是同一台"
+    },
+    {
+      "alias": "Modern 15 A10M",
+      "modelKey": "笔记本电脑|微星|现代 Modern 15|2019",
+      "aliasType": "海外型号代码",
+      "note": "十代 Comet Lake，2019 年 12 月国行上市"
+    },
+    {
+      "alias": "微星尊爵",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI+ Evo|2024",
+      "aliasType": "系列名",
+      "note": "泛指 Prestige 全系，落到具体 SKU 需看尺寸与年份"
+    },
+    {
+      "alias": "微星尊爵14",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI+ Evo|2024",
+      "aliasType": "口语简称",
+      "note": "2021—2026 多代同名，采购需按年份区分"
+    },
+    {
+      "alias": "尊爵14 AI+",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 AI+|2026",
+      "aliasType": "电商标题写法",
+      "note": "Ultra 200V/300 两代都叫「尊爵14 AI+」，2026 款为 Ultra 7 355"
+    },
+    {
+      "alias": "MSI Prestige 14",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14|2019",
+      "aliasType": "英文型号",
+      "note": "首代 2019 款，带 GTX1650 Max-Q"
+    },
+    {
+      "alias": "Prestige 14 Evo",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 14 Evo|2021",
+      "aliasType": "英文型号",
+      "note": "Intel Evo 认证的 14 英寸集显版，2021/2022 两代"
+    },
+    {
+      "alias": "尊爵15",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 15|2021",
+      "aliasType": "口语简称",
+      "note": "15.6 英寸，2019 与 2021 两代平台不同"
+    },
+    {
+      "alias": "Prestige 15 A11SCX",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 15|2021",
+      "aliasType": "海外型号代码",
+      "note": "11 代 Tiger Lake + GTX1650 Max-Q"
+    },
+    {
+      "alias": "尊爵16",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2024",
+      "aliasType": "口语简称",
+      "note": "16 英寸 Prestige，2023/2024/2025 多平台并存"
+    },
+    {
+      "alias": "Prestige 16 AI Evo",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI Evo|2024",
+      "aliasType": "英文型号",
+      "note": "Meteor Lake（B1M）与 Arrow Lake（B2HM）同名，年份不同"
+    },
+    {
+      "alias": "尊爵16 AI+ Evo",
+      "modelKey": "笔记本电脑|微星|尊爵 Prestige 16 AI+ Evo|2024",
+      "aliasType": "电商标题写法",
+      "note": "Lunar Lake（B2VM），带「+」为 Copilot+ PC 版本"
+    },
+    {
+      "alias": "Summit E14",
+      "modelKey": "笔记本电脑|微星|Summit E14 Flip Evo|2023",
+      "aliasType": "系列简称",
+      "note": "E14 有 Evo 与 Flip Evo 两种形态，2022 款为 Evo 非翻转"
+    },
+    {
+      "alias": "Summit E16",
+      "modelKey": "笔记本电脑|微星|Summit E16 Flip Evo|2023",
+      "aliasType": "系列简称",
+      "note": "国行电商标题常写「Summit E16」，实际为 E16 Flip Evo"
+    },
+    {
+      "alias": "Summit E13 Flip",
+      "modelKey": "笔记本电脑|微星|Summit E13 Flip Evo|2021",
+      "aliasType": "系列简称",
+      "note": "13.4 英寸 360° 翻转商务本，2021 年首代"
+    },
+    {
+      "alias": "微星Summit",
+      "modelKey": "笔记本电脑|微星|Summit E16 Flip Evo|2022",
+      "aliasType": "系列名",
+      "note": "Summit 商务系列统称"
+    },
+    {
+      "alias": "微星创造者M16",
+      "modelKey": "笔记本电脑|微星|创造者 Creator M16|2024",
+      "aliasType": "口语简称",
+      "note": "Creator M16，2022 与 2024 两代，均带独显"
+    },
+    {
+      "alias": "Creator M16",
+      "modelKey": "笔记本电脑|微星|创造者 Creator M16|2024",
+      "aliasType": "英文型号",
+      "note": "创作本定位，2.2kg 级，与 Prestige/Modern 轻薄本定位不同"
+    },
+    {
+      "alias": "微星轻薄本",
+      "modelKey": "笔记本电脑|微星|现代 Modern 14|2024",
+      "aliasType": "品类泛称",
+      "note": "泛指 Modern/Prestige/Summit 三大非游戏系列，不含泰坦/强袭/绝影等"
+    },
+    {
+      "alias": "微星商务本",
+      "modelKey": "笔记本电脑|微星|Summit E14 Flip Evo|2023",
+      "aliasType": "品类泛称",
+      "note": "微星商务线以 Summit 为主，Prestige 亦常被归入商务办公"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "Summit E14 Evo（2022，A12M）",
+      "issue": "12 代 Alder Lake-P 的 Summit E14 Evo 有海外规格与上市记录（2022 年 1 月，欧洲起价 1299 欧元，i5-1240P/i7-1260P/i7-1280P，14 英寸 1920x1200、16GB LPDDR5 板载、72Wh），但未检索到国行官方产品页或国行报价，无法确认是否在国内销售。",
+      "suggestion": "如采购需要 2022 款 Summit E14，建议以海外 SKU（A12M-025/026/050）参数入库并在备注标注「非国行」，或先向微星渠道确认国行型号；确认后再新增一条 modelKey「笔记本电脑|微星|Summit E14 Evo|2022」。",
+      "sourceUrl": "https://www.laptoparena.net/msi/notebook-msi-summit-e14-evo-a12m-026-sume14evo12026-black-87418"
+    },
+    {
+      "model": "创造者 Creator M17",
+      "issue": "微星创作者线以 Z16/Z17、M14/M16 为主，未检索到「Creator M17」的官方产品页或国行在售记录，疑为不存在或仅特定区域销售。",
+      "suggestion": "暂不建档；若确有 M17 需求，建议核对是否为 Creator Z17 或 Creator 17 的误写，并以 msi.cn 产品页为准。",
+      "sourceUrl": "https://www.msi.cn/news/detail/CES-2024微星笔记本发布14代酷睿-酷睿Ultra新品-神秘掌机Claw亮相-143117"
+    },
+    {
+      "model": "创造者 Creator M16（2022，A12UD）",
+      "issue": "海外规格明确（i7-12700H + RTX 3050 Ti 4GB、16 英寸 2560x1600 60Hz、2.26kg、53.5Wh、180W 适配器），但未找到国行官方页与国行报价；2024 款（i7-14700HX）已有 ZOL 国行记录。",
+      "suggestion": "如需 2022 款，建议以海外 SKU 入库并标注非国行；或直接以 2024 款覆盖该系列。另注意 M16 系列 2.2kg 级重量是否满足「轻薄本」采购口径。",
+      "sourceUrl": "https://m.mobile01.com/topicdetail.php?f=241&t=6608202"
+    },
+    {
+      "model": "尊爵 Prestige 14 Flip AI+（2026）",
+      "issue": "二手比价站提及「尊爵 14 Flip AI+ 2026」首发 10999 元、现价约 10500 元，但未找到京东/天猫在售页或 msi.cn 规格页，翻转版具体型号代码与屏幕参数无法确认。",
+      "suggestion": "暂不单独建档；待取得京东自营页或 msi.cn 规格页（型号应为 Prestige 14 Flip AI+ D3M 系列）后再补录，避免与 2026 非翻转款混淆。",
+      "sourceUrl": "https://www.zhinanshi.com/msi-zunjue-14/5543608"
+    },
+    {
+      "model": "现代 Modern 14（2020，B10M）",
+      "issue": "十代 Comet Lake 续售款 B10M 应有独立于 2019 A10M 与 2021 B11M 的上市年份，但未取得明确的 2020 年上市证据与国行 SKU 页，年份归属存疑。",
+      "suggestion": "暂并入 2021 条备注说明，不单列；如后续在 ZOL 找到 B10M 的「上市时间 2020 年」参数页，再拆分为独立 modelKey。",
+      "sourceUrl": "https://www.smartprix.com/bytes/msi-business-productivity-laptops-with-11th-gen-intel-processor-launched-in-india/?amp"
+    },
+    {
+      "model": "尊爵 Prestige 16 AI Evo（2025，国行「AI+ Evo 2025」）",
+      "issue": "海外 B2HM（Ultra 9 285H + 4K OLED）规格明确；国行京东以「尊爵 16 AI+ Evo 2025、16 英寸 2.5K、32G/1T、8499–8999 元」销售，是否同一 SKU（屏幕由 4K OLED 换为 2.5K IPS，或为独立国行型号）无法确认。",
+      "suggestion": "采购下单前请以机身铭牌型号（B2HMG-xxxxCN 或其它）核对；若确为 2.5K IPS 国行专供版，应另建一条 modelKey「笔记本电脑|微星|尊爵 Prestige 16 AI+ Evo|2025」。",
+      "sourceUrl": "https://nb.zol.com.cn/1258/12580596.html"
+    }
+  ]
+}

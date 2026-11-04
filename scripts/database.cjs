@@ -1034,6 +1034,11 @@ function applyVersionedMigrations(db) {
       add('manual_skus', field, "TEXT NOT NULL DEFAULT '[]'");
     }
   });
+  migrate(21, 'add verified ThinkPad R14 Gen 2 Intel built-in SKU', () => {
+    if (db.prepare('SELECT COUNT(*) AS count FROM skus').get().count === 0) return;
+    const result = syncBuiltinSkuCatalog(db);
+    console.log(`内置 SKU 目录升级：新增 ${result.inserted} 条、补充或规范 ${result.updated} 条、保留 ${result.skipped} 条本地记录`);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

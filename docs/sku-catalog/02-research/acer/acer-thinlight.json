@@ -1581,6 +1581,12 @@
       "issue": "国行正式名为「非凡 S5 Pro」，是否存在独立「非凡 S5 2022」SKU 未确认；部分媒体标题写作「2022 款非凡 S5」。",
       "suggestion": "统一归并到「非凡 S5 Pro 2022」（SF514-56T），别名表已收录「非凡 S5 Pro」「宏碁S5」。",
       "sourceUrl": "https://www.163.com/dy/article/H7LOR4PC0511B8LM.html"
+    },
+    {
+      "model": "非凡 Go 公主本 2024",
+      "issue": "宏碁中国官网仅有新闻稿（泡泡玛特联名宣传），只提到「13代英特尔酷睿标压 i7、14英寸 2.2K 屏、1.4kg、16.8mm」，无完整 CPU+内存+显卡+存储+屏幕五元组；官网产品列表未见公主本独立规格页。IT之家/超能网等媒体报 i7-13620H/32GB DDR5/1TB/2880×1800 120Hz，但按来源标准不算 high。",
+      "suggestion": "在宏碁中国官网（acer.com.cn）产品库或客服渠道核实公主本 SKU 完整规格；或找到 acer.com.cn 的产品规格页（含内存/存储/分辨率）后再收录。注意官方新闻稿称 2.2K 屏与媒体口径（2.8K/2880×1800）不一致，需以官方规格页为准。",
+      "sourceUrl": "https://www.acer.com.cn/news_view.html?newsid=96"
     }
   ]
 }

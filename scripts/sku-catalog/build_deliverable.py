@@ -8,8 +8,9 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
-BASE = Path(r"C:\Pro\Zcode\inventory_mvp\web\docs\sku-catalog\02-research")
-OUT = Path(r"C:\Pro\Zcode\inventory_mvp\web\docs\sku-catalog\01-deliverables")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+BASE = PROJECT_ROOT / "docs" / "sku-catalog" / "02-research"
+OUT = PROJECT_ROOT / "docs" / "sku-catalog" / "01-deliverables"
 brand_arg = sys.argv[1] if len(sys.argv) > 1 else "联想"
 brands = brand_arg.split(",")
 GROUP = sys.argv[3] if len(sys.argv) > 3 else brand_arg.split(",")[0]
@@ -55,7 +56,7 @@ if _low:
     print("moved low-confidence models to uncertain:", len(LOW_ENTRIES))
 
 aliases = [a for a in data["aliases"] if a["modelKey"] in keys]
-ORIGIN_PREFIX = {"联想": "lenovo", "华硕": "asus", "戴尔": "dell", "Alienware": "dell", "惠普": "hp", "华为": "huawei", "荣耀": "honor", "苹果": "apple", "宏碁": "acer", "微星": "msi", "机械革命": "mechrevo", "神舟": "hasee", "小米": "xiaomi", "红米": "xiaomi"}
+ORIGIN_PREFIX = {"联想": "lenovo", "ThinkPad": "lenovo", "华硕": "asus", "戴尔": "dell", "Alienware": "dell", "惠普": "hp", "华为": "huawei", "荣耀": "honor", "苹果": "apple", "宏碁": "acer", "微星": "msi", "机械革命": "mechrevo", "神舟": "hasee", "小米": "xiaomi", "红米": "xiaomi"}
 uncertain = [u for u in data["uncertain"]
              if any(u.get("origin", "").startswith(ORIGIN_PREFIX.get(b, b.lower())) for b in brands)]
 

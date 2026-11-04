@@ -1,0 +1,3 @@
+configurationId,productType,brand,model,year,cpu,ram,gpu,storage,screen,cpuRaw,ramRaw,gpuRaw,storageRaw,screenRaw,sourceIds,confidence,notes
+CFG-0001,笔记本电脑,ThinkPad,R14 Gen 2 (Intel),2021,I5-1135G7,8GB,集显,256GB SSD,FHD,i5-1135G7,8GB DDR4（1 个插槽，最大支持 16GB）,Intel UHD Graphics 集成显卡,256GB 固态硬盘（M.2）,14英寸 1920x1080 FHD,"[""S002"", ""S004""]",medium,20TC-A01FCD 与 20TC-A113CD 两个 MTM 同配置，合并一条；来源为苏宁自营规格表。
+CFG-0002,笔记本电脑,ThinkPad,R14 Gen 2 (Intel),2021,I5-1135G7,8GB,MX350,512GB SSD,FHD,i5-1135G7,8G DDR4,MX350 2GB 独立显卡,512GB SSD 固态硬盘（M.2）,14英寸 1920x1080 FHD 背光,"[""S003""]",medium,20TC-A110CD，苏宁自营；页面同时写“硬盘转速 5400 转/分”与“固态硬盘”，以 M.2 SSD 为准（电商页瑕疵）。

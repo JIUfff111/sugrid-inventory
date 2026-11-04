@@ -10,11 +10,23 @@
       "displayName": "红米 RedmiBook Pro 14 2021",
       "modelYear": 2021,
       "category": "轻薄本",
-      "cpuOptions": ["i5-1135G7", "i7-1165G7"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Intel Iris Xe 集成显卡", "MX450 2GB 独立显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["14英寸 2560x1600 60Hz"],
+      "cpuOptions": [
+        "i5-1135G7",
+        "i7-1165G7"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Intel Iris Xe 集成显卡",
+        "MX450 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 60Hz"
+      ],
       "sourceUrl": "https://www.peopleapp.com/rmharticle/30020216500",
       "sourceTitle": "RedmiBook Pro 14 明天正式开卖：首发 4499 元（IT之家）",
       "checkedAt": "2026-11-01",
@@ -29,11 +41,23 @@
       "displayName": "红米 RedmiBook Pro 15 2021",
       "modelYear": 2021,
       "category": "轻薄本",
-      "cpuOptions": ["i5-11300H", "i7-11370H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Intel Iris Xe 集成显卡", "MX450 2GB 独立显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["15.6英寸 3200x2000 90Hz"],
+      "cpuOptions": [
+        "i5-11300H",
+        "i7-11370H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Intel Iris Xe 集成显卡",
+        "MX450 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 3200x2000 90Hz"
+      ],
       "sourceUrl": "https://www.mi.com/item/10000281",
       "sourceTitle": "RedmiBook Pro 15 - 小米商城官方产品页",
       "checkedAt": "2026-11-01",
@@ -48,11 +72,23 @@
       "displayName": "红米 RedmiBook Pro 14（酷睿版）2022",
       "modelYear": 2022,
       "category": "轻薄本",
-      "cpuOptions": ["i5-12450H", "i7-12650H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Intel UHD Graphics 集成显卡", "MX550 2GB 独立显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["14英寸 2560x1600 120Hz"],
+      "cpuOptions": [
+        "i5-12450H",
+        "i7-12650H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Intel UHD Graphics 集成显卡",
+        "MX550 2GB 独立显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 120Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmibook/pro14-intel",
       "sourceTitle": "Redmi Book Pro 14 2022 - 小米官网产品页",
       "checkedAt": "2026-11-01",
@@ -67,11 +103,23 @@
       "displayName": "红米 RedmiBook Pro 14（锐龙版）2022",
       "modelYear": 2022,
       "category": "轻薄本",
-      "cpuOptions": ["R5-6600H", "R7-6800H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Radeon 660M 集成显卡", "Radeon 680M 集成显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["14英寸 2560x1600 120Hz"],
+      "cpuOptions": [
+        "R5-6600H",
+        "R7-6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Radeon 660M 集成显卡",
+        "Radeon 680M 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2560x1600 120Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmibook/pro14-amd/specs",
       "sourceTitle": "RedmiBook Pro 14 2022 锐龙版 - 小米官网参数页",
       "checkedAt": "2026-11-01",
@@ -86,11 +134,25 @@
       "displayName": "红米 RedmiBook Pro 15（酷睿版）2022",
       "modelYear": 2022,
       "category": "轻薄本",
-      "cpuOptions": ["i5-12450H", "i5-12500H", "i7-12650H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Intel UHD Graphics 集成显卡", "Intel Iris Xe 集成显卡", "RTX 2050 4GB 独立显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["15.6英寸 3200x2000 90Hz"],
+      "cpuOptions": [
+        "i5-12450H",
+        "i5-12500H",
+        "i7-12650H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Intel UHD Graphics 集成显卡",
+        "Intel Iris Xe 集成显卡",
+        "RTX 2050 4GB 独立显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 3200x2000 90Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmibook/pro15-intel/specs",
       "sourceTitle": "Redmi Book Pro 15 2022 - 小米官网参数页",
       "checkedAt": "2026-11-01",
@@ -105,11 +167,23 @@
       "displayName": "红米 RedmiBook Pro 15（锐龙版）2023",
       "modelYear": 2023,
       "category": "轻薄本",
-      "cpuOptions": ["R5-7640HS", "R7-7840HS"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Radeon 760M 集成显卡", "Radeon 780M 集成显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["15.6英寸 3200x2000 120Hz"],
+      "cpuOptions": [
+        "R5-7640HS",
+        "R7-7840HS"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Radeon 760M 集成显卡",
+        "Radeon 780M 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "15.6英寸 3200x2000 120Hz"
+      ],
       "sourceUrl": "http://www.mnw.cn/news/digi/2809815.html",
       "sourceTitle": "Redmi Book Pro 15 2023 锐龙版参数配置价格公布",
       "checkedAt": "2026-11-01",
@@ -124,11 +198,24 @@
       "displayName": "红米 RedmiBook Pro 14 2024",
       "modelYear": 2024,
       "category": "轻薄本",
-      "cpuOptions": ["Ultra 5 125H", "Ultra 7 155H"],
-      "ramOptions": ["16GB", "32GB"],
-      "gpuOptions": ["Intel Arc 集成显卡"],
-      "storageOptions": ["512GB SSD", "1TB SSD"],
-      "screenOptions": ["14英寸 2880x1800 120Hz"],
+      "cpuOptions": [
+        "Ultra 5 125H",
+        "Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Arc 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmi-books/14-pro/specs",
       "sourceTitle": "Redmi Book Pro 14 - 小米官网参数页",
       "checkedAt": "2026-11-01",
@@ -143,11 +230,23 @@
       "displayName": "红米 RedmiBook Pro 16 2024",
       "modelYear": 2024,
       "category": "轻薄本",
-      "cpuOptions": ["Ultra 5 125H", "Ultra 7 155H"],
-      "ramOptions": ["32GB"],
-      "gpuOptions": ["Intel Arc 集成显卡"],
-      "storageOptions": ["512GB SSD", "1TB SSD"],
-      "screenOptions": ["16英寸 3072x1920 165Hz"],
+      "cpuOptions": [
+        "Ultra 5 125H",
+        "Ultra 7 155H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Arc 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 3072x1920 165Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmi-books/16-pro",
       "sourceTitle": "Redmi Book Pro 16 - 小米官网产品页",
       "checkedAt": "2026-11-01",
@@ -162,11 +261,23 @@
       "displayName": "红米 RedmiBook Pro 14 2025",
       "modelYear": 2025,
       "category": "轻薄本",
-      "cpuOptions": ["Ultra 5 225H", "Ultra 7 255H"],
-      "ramOptions": ["16GB", "32GB"],
-      "gpuOptions": ["Intel Arc 集成显卡"],
-      "storageOptions": ["1TB SSD"],
-      "screenOptions": ["14英寸 2880x1800 120Hz"],
+      "cpuOptions": [
+        "Ultra 5 225H",
+        "Ultra 7 255H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Arc 集成显卡"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
       "sourceUrl": "https://www.mi.com/shop/buy/detail?cfrom=search&product_id=20992",
       "sourceTitle": "REDMI Book Pro 14 2025 - 小米商城商品页",
       "checkedAt": "2026-11-01",
@@ -181,11 +292,23 @@
       "displayName": "红米 RedmiBook Pro 16 2025",
       "modelYear": 2025,
       "category": "轻薄本",
-      "cpuOptions": ["Ultra 5 225H", "Ultra 7 255H"],
-      "ramOptions": ["32GB"],
-      "gpuOptions": ["Intel Arc 集成显卡"],
-      "storageOptions": ["1TB SSD"],
-      "screenOptions": ["16英寸 3072x1920 165Hz", "16英寸 2560x1600 120Hz"],
+      "cpuOptions": [
+        "Ultra 5 225H",
+        "Ultra 7 255H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Arc 集成显卡"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 3072x1920 165Hz",
+        "16英寸 2560x1600 120Hz"
+      ],
       "sourceUrl": "https://www.mi.com/prod/redmi-books/16-pro-2025/specs",
       "sourceTitle": "REDMI Book Pro 16 2025 - 小米官网参数页",
       "checkedAt": "2026-11-01",
@@ -200,11 +323,23 @@
       "displayName": "红米 RedmiBook Pro 14 2026",
       "modelYear": 2026,
       "category": "轻薄本",
-      "cpuOptions": ["Ultra 5 325H", "Ultra 5 338H", "Ultra X7 358H"],
-      "ramOptions": ["32GB"],
-      "gpuOptions": ["Intel Arc 集成显卡"],
-      "storageOptions": ["1TB SSD"],
-      "screenOptions": ["14英寸 2880x1800 120Hz"],
+      "cpuOptions": [
+        "Ultra 5 325H",
+        "Ultra 5 338H",
+        "Ultra X7 358H"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Arc 集成显卡"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
       "sourceUrl": "https://gfan.com/info/599071.html",
       "sourceTitle": "小米 REDMI Book Pro 14/16 英寸 2026 款笔记本开售：至高搭载酷睿 Ultra X7 358H",
       "checkedAt": "2026-11-01",
@@ -219,11 +354,22 @@
       "displayName": "红米 RedmiBook 14 2023",
       "modelYear": 2023,
       "category": "轻薄本",
-      "cpuOptions": ["i5-12500H", "i7-12700H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["Intel Iris Xe 集成显卡"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["14英寸 2880x1800 120Hz"],
+      "cpuOptions": [
+        "i5-12500H",
+        "i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Intel Iris Xe 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
       "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b",
       "sourceTitle": "入门级轻薄本的性价比之选——Redmi Book 14 2023（评测）",
       "checkedAt": "2026-11-01",
@@ -238,11 +384,23 @@
       "displayName": "红米 RedmiBook 14 2025",
       "modelYear": 2025,
       "category": "轻薄本",
-      "cpuOptions": ["Core 5 220H"],
-      "ramOptions": ["16GB", "32GB"],
-      "gpuOptions": ["Intel Iris Xe 集成显卡"],
-      "storageOptions": ["512GB SSD", "1TB SSD"],
-      "screenOptions": ["14英寸 2880x1800 120Hz"],
+      "cpuOptions": [
+        "Core 5 220H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Iris Xe 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 2880x1800 120Hz"
+      ],
       "sourceUrl": "https://www.cww.net.cn/article?id=596851",
       "sourceTitle": "满血性能 轻薄长续航，REDMI Book 2025 售价 4599 元起",
       "checkedAt": "2026-11-01",
@@ -257,11 +415,23 @@
       "displayName": "红米 RedmiBook 16 2025",
       "modelYear": 2025,
       "category": "轻薄本",
-      "cpuOptions": ["Core 5 220H"],
-      "ramOptions": ["16GB", "32GB"],
-      "gpuOptions": ["Intel Iris Xe 集成显卡"],
-      "storageOptions": ["512GB SSD", "1TB SSD"],
-      "screenOptions": ["16英寸 2560x1600 120Hz"],
+      "cpuOptions": [
+        "Core 5 220H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "Intel Iris Xe 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD",
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 120Hz"
+      ],
       "sourceUrl": "https://biz.zhiding.cn/2025/0102/3162372.shtml",
       "sourceTitle": "满血性能 轻薄又能打，REDMI Book 2025 正式发布 售价 4599 元起",
       "checkedAt": "2026-11-01",
@@ -276,11 +446,21 @@
       "displayName": "红米 Redmi G（酷睿版）2021",
       "modelYear": 2021,
       "category": "游戏本",
-      "cpuOptions": ["i5-11260H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["RTX 3050 4GB 笔记本电脑 GPU"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["16.1英寸 1920x1080 144Hz"],
+      "cpuOptions": [
+        "i5-11260H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920x1080 144Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmibook/game-intel/specs",
       "sourceTitle": "Redmi G 2021 - 小米官网参数页",
       "checkedAt": "2026-11-01",
@@ -295,11 +475,21 @@
       "displayName": "红米 Redmi G（锐龙版）2021",
       "modelYear": 2021,
       "category": "游戏本",
-      "cpuOptions": ["R7-5800H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["RTX 3060 6GB 笔记本电脑 GPU"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["16.1英寸 1920x1080 144Hz"],
+      "cpuOptions": [
+        "R7-5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16.1英寸 1920x1080 144Hz"
+      ],
       "sourceUrl": "https://news.smzdm.com/p/85125547/",
       "sourceTitle": "Redmi G 游戏本发布：双平台可选、RTX 3060、144Hz 电竞屏首发价 5699 元起",
       "checkedAt": "2026-11-01",
@@ -314,11 +504,23 @@
       "displayName": "红米 Redmi G 2022",
       "modelYear": 2022,
       "category": "游戏本",
-      "cpuOptions": ["i5-12450H", "i7-12650H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["RTX 3050 4GB 笔记本电脑 GPU", "RTX 3050 Ti 4GB 笔记本电脑 GPU"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["16英寸 2560x1600 165Hz"],
+      "cpuOptions": [
+        "i5-12450H",
+        "i7-12650H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3050 Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
       "sourceUrl": "https://www.mi.com/redmibook/2022/redmi-g",
       "sourceTitle": "Redmi G 游戏本 2022 - 小米官网产品页",
       "checkedAt": "2026-11-01",
@@ -333,11 +535,23 @@
       "displayName": "红米 Redmi G Pro（酷睿版）2022",
       "modelYear": 2022,
       "category": "游戏本",
-      "cpuOptions": ["i7-12650H", "i9-12900H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["RTX 3060 6GB 笔记本电脑 GPU", "RTX 3070 Ti 8GB 笔记本电脑 GPU"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["16英寸 2560x1600 240Hz"],
+      "cpuOptions": [
+        "i7-12650H",
+        "i9-12900H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 Ti 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
       "sourceUrl": "https://m.163.com/dy/article/HGT6R7M00511CEBF.html",
       "sourceTitle": "Redmi G Pro 游戏本 2022 酷睿版发布：i9-12900H+3070 Ti 售价 9999 元（IT之家）",
       "checkedAt": "2026-11-01",
@@ -352,11 +566,21 @@
       "displayName": "红米 Redmi G Pro（锐龙版）2022",
       "modelYear": 2022,
       "category": "游戏本",
-      "cpuOptions": ["R7-6800H"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["RTX 3060 6GB 笔记本电脑 GPU"],
-      "storageOptions": ["512GB SSD"],
-      "screenOptions": ["16英寸 2560x1600 240Hz"],
+      "cpuOptions": [
+        "R7-6800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
       "sourceUrl": "https://i.ifeng.com/c/8J6rtkhVZXO",
       "sourceTitle": "小米 Redmi G Pro 游戏本锐龙版发布，首发价 7599 元（IT之家）",
       "checkedAt": "2026-11-01",
@@ -371,16 +595,84 @@
       "displayName": "红米 Redmi G Pro 2024",
       "modelYear": 2024,
       "category": "游戏本",
-      "cpuOptions": ["i9-14900HX"],
-      "ramOptions": ["16GB"],
-      "gpuOptions": ["RTX 4060 8GB 笔记本电脑 GPU"],
-      "storageOptions": ["1TB SSD"],
-      "screenOptions": ["16英寸 2560x1600 240Hz"],
+      "cpuOptions": [
+        "i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
       "sourceUrl": "https://www.ithome.com/0/788/428.htm",
       "sourceTitle": "i9-14900HX + RTX4060：小米 Redmi G Pro 2024 游戏本 8299 元京东百亿补贴",
       "checkedAt": "2026-11-01",
       "confidence": "high",
       "notes": "2024-03-04 发布，上市价 8999 元，2024 年内促销至 8199-8299 元。16GB DDR5-5600、双内存插槽（最高 96GB）、双 M.2、210W 整机释放。2023 年无 G Pro 新品，2025 年官方确认不更新游戏本线。"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "红米",
+      "model": "RedmiBook 14 锐龙版",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "R5-7535H",
+        "R7-7735H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Radeon 660M 集成显卡",
+        "Radeon 680M 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "14英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://news.mydrivers.com/1/1050/1050537.htm",
+      "sourceTitle": "国补2239.2元起！REDMI Book 14锐龙版2025发布：可选锐龙5 7535H/7 7735H（快科技）",
+      "checkedAt": "2026-11-03",
+      "confidence": "high",
+      "notes": "2025-05-29 发布。售价：R5-7535H 3299 元；R7-7735H 3699 元（国补后 2239.2 元起）。16GB LPDDR5+512GB SSD、14英寸 1920x1200 60Hz 300nits 100%sRGB、1.35kg/15.9mm、56Wh、37W 释放、68W 快充。R5 版核显 Radeon 660M，R7 版 Radeon 680M。",
+      "origin": "config-variants/redmi-ryzen-2025"
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "红米",
+      "model": "RedmiBook 16 锐龙版",
+      "modelYear": 2025,
+      "category": "轻薄本",
+      "cpuOptions": [
+        "R7-7735H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "Radeon 680M 集成显卡"
+      ],
+      "storageOptions": [
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 60Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/1176/11762390.html",
+      "sourceTitle": "Redmi Book 16锐龙版2873元起（中关村在线）",
+      "checkedAt": "2026-11-03",
+      "confidence": "medium",
+      "notes": "2026-01 京东在售：R7-7735H/16GB/512GB，售价 3599 元（另有 3999 元记录）。16 英寸大屏、轻薄定位。屏幕分辨率媒体未逐项标注，按同代锐龙版 14 寸规格（1920x1200 60Hz）推定，标 medium；电商在售标题均为「16英寸 R7-7735H 16+512G」。",
+      "origin": "config-variants/redmi-ryzen-2025"
     }
   ],
   "configCombos": [
@@ -911,6 +1203,837 @@
       "sourceTitle": "Redmi G Pro 2024 游戏本 8299 元京东百亿补贴",
       "confidence": "high",
       "notes": "上市价 8999 元，2024 年百亿补贴 8299 元；仅此一个官方配置。"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2021",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2021",
+      "cpu": "i5-1135G7",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 60Hz",
+      "sourceUrl": "https://www.peopleapp.com/rmharticle/30020216500",
+      "sourceTitle": "RedmiBook Pro 14 明天正式开卖：首发 4499 元",
+      "confidence": "high",
+      "notes": "首发价 4499 元（2021-03）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 15|2021",
+      "brand": "红米",
+      "model": "RedmiBook Pro 15",
+      "modelYear": "2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3200x2000 90Hz",
+      "sourceUrl": "https://www.mi.com/item/10000281",
+      "sourceTitle": "RedmiBook Pro 15 - 小米商城官方产品页",
+      "confidence": "high",
+      "notes": "首发价 4999 元（2021-03）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（酷睿版）|2022",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14（酷睿版）",
+      "modelYear": "2022",
+      "cpu": "i5-12450H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.it168.com/article_6650518.html",
+      "sourceTitle": "4799 元起！Redmi Book Pro 14 2022 版正式开售",
+      "confidence": "high",
+      "notes": "首发价 4799 元（2022-04）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（锐龙版）|2022",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14（锐龙版）",
+      "modelYear": "2022",
+      "cpu": "R5-6600H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/redmibook/pro14-amd/specs",
+      "sourceTitle": "RedmiBook Pro 14 2022 锐龙版 - 小米官网参数页",
+      "confidence": "high",
+      "notes": "首发价 5299 元（2022-05-31）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（锐龙版）|2022",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14（锐龙版）",
+      "modelYear": "2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/redmibook/pro14-amd/specs",
+      "sourceTitle": "RedmiBook Pro 14 2022 锐龙版 - 小米官网参数页",
+      "confidence": "high",
+      "notes": "首发价 5899 元（2022-05-31）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 15（酷睿版）|2022",
+      "brand": "红米",
+      "model": "RedmiBook Pro 15（酷睿版）",
+      "modelYear": "2022",
+      "cpu": "i5-12450H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3200x2000 90Hz",
+      "sourceUrl": "https://baike.sogou.com/v209560495.htm",
+      "sourceTitle": "Redmi Book Pro 2022 - 搜狗百科（含首发价）",
+      "confidence": "high",
+      "notes": "首发价 5299 元（2022-03-24 开售）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 15（锐龙版）|2023",
+      "brand": "红米",
+      "model": "RedmiBook Pro 15（锐龙版）",
+      "modelYear": "2023",
+      "cpu": "R5-7640HS",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3200x2000 120Hz",
+      "sourceUrl": "http://www.mnw.cn/news/digi/2809815.html",
+      "sourceTitle": "Redmi Book Pro 15 2023 锐龙版参数配置价格公布",
+      "confidence": "high",
+      "notes": "首发价 4599 元（2023-07-21 开售）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 15（锐龙版）|2023",
+      "brand": "红米",
+      "model": "RedmiBook Pro 15（锐龙版）",
+      "modelYear": "2023",
+      "cpu": "R7-7840HS",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3200x2000 120Hz",
+      "sourceUrl": "http://www.mnw.cn/news/digi/2809815.html",
+      "sourceTitle": "Redmi Book Pro 15 2023 锐龙版参数配置价格公布",
+      "confidence": "high",
+      "notes": "首发价 4799 元（2023-07-21 开售）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2024",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "confidence": "high",
+      "notes": "首发价 4999 元（2024-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2024",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "confidence": "high",
+      "notes": "首发价 5499 元（2024-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2024",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2024",
+      "cpu": "Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "confidence": "high",
+      "notes": "首发价 6499 元（2024-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 16|2024",
+      "brand": "红米",
+      "model": "RedmiBook Pro 16",
+      "modelYear": "2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3072x1920 165Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "confidence": "high",
+      "notes": "首发价 5999 元（2024-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 16|2024",
+      "brand": "红米",
+      "model": "RedmiBook Pro 16",
+      "modelYear": "2024",
+      "cpu": "Ultra 7 155H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3072x1920 165Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "confidence": "high",
+      "notes": "首发价 6999 元（2024-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2025",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2025",
+      "cpu": "Ultra 5 225H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.techzlab.com?p=10560/",
+      "sourceTitle": "Redmi Book Pro 16, Redmi Book Pro 14 (2025) With Up to Intel Core Ultra 7 255H Launched",
+      "confidence": "medium",
+      "notes": "参考价 5699 元（2025-02）。16GB 版本仅在部分渠道销售，建议下单前核对。",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2025",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2025",
+      "cpu": "Ultra 5 225H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mi.com/shop/buy/detail?cfrom=search&product_id=20992",
+      "sourceTitle": "REDMI Book Pro 14 2025 - 小米商城商品页",
+      "confidence": "high",
+      "notes": "参考价 5999 元；京东页面标价 6799 元、促销 5736-6119 元（2026-10 抓取）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2025",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2025",
+      "cpu": "Ultra 7 255H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.techzlab.com?p=10560/",
+      "sourceTitle": "Redmi Book Pro 16, Redmi Book Pro 14 (2025) With Up to Intel Core Ultra 7 255H Launched",
+      "confidence": "high",
+      "notes": "参考价 6999 元（2025-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 16|2025",
+      "brand": "红米",
+      "model": "RedmiBook Pro 16",
+      "modelYear": "2025",
+      "cpu": "Ultra 5 225H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3072x1920 165Hz",
+      "sourceUrl": "https://www.techzlab.com?p=10560/",
+      "sourceTitle": "Redmi Book Pro 16, Redmi Book Pro 14 (2025) With Up to Intel Core Ultra 7 255H Launched",
+      "confidence": "high",
+      "notes": "参考价 6499 元（2025-02）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 16|2025",
+      "brand": "红米",
+      "model": "RedmiBook Pro 16",
+      "modelYear": "2025",
+      "cpu": "Ultra 7 255H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 3072x1920 165Hz",
+      "sourceUrl": "https://www.mi.com/prod/redmi-books/16-pro-2025/specs",
+      "sourceTitle": "REDMI Book Pro 16 2025 - 小米官网参数页",
+      "confidence": "high",
+      "notes": "参考价 7499 元（小米商城标价 7799 元，2026-10 抓取）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2026",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2026",
+      "cpu": "Ultra 5 325H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://news.pconline.com.cn/2134/21347551.html",
+      "sourceTitle": "小米 2026 款 Redmi Book Pro 笔记本发布：14/16 英寸双版本",
+      "confidence": "medium",
+      "notes": "14 英寸起售价 6999 元（首销直降 500 元后，2026-04-21 开售）；具体 CPU 与内存组合以官方配置页为准。",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2026",
+      "brand": "红米",
+      "model": "RedmiBook Pro 14",
+      "modelYear": "2026",
+      "cpu": "Ultra X7 358H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://gfan.com/info/599071.html",
+      "sourceTitle": "小米 REDMI Book Pro 14/16 英寸 2026 款笔记本开售",
+      "confidence": "medium",
+      "notes": "顶配（Ultra X7 358H）9699 元；顶配对应 16 英寸或 14 英寸需以 SKU 页为准。",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "brand": "红米",
+      "model": "RedmiBook 14",
+      "modelYear": "2023",
+      "cpu": "i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b",
+      "sourceTitle": "入门级轻薄本的性价比之选——Redmi Book 14 2023（评测）",
+      "confidence": "medium",
+      "notes": "首发价 3699 元（2023 年），媒体评测引用",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "brand": "红米",
+      "model": "RedmiBook 14",
+      "modelYear": "2023",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b",
+      "sourceTitle": "入门级轻薄本的性价比之选——Redmi Book 14 2023（评测）",
+      "confidence": "medium",
+      "notes": "评测机配置，日常价 4399 元（活动价 4199 元）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2025",
+      "brand": "红米",
+      "model": "RedmiBook 14",
+      "modelYear": "2025",
+      "cpu": "Core 5 220H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.cww.net.cn/article?id=596851",
+      "sourceTitle": "满血性能 轻薄长续航，REDMI Book 2025 售价 4599 元起",
+      "confidence": "high",
+      "notes": "首销价 4599 元（2025-01）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2025",
+      "brand": "红米",
+      "model": "RedmiBook 14",
+      "modelYear": "2025",
+      "cpu": "Core 5 220H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.cww.net.cn/article?id=596851",
+      "sourceTitle": "满血性能 轻薄长续航，REDMI Book 2025 售价 4599 元起",
+      "confidence": "high",
+      "notes": "首销价 4899 元（2025-01）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2025",
+      "brand": "红米",
+      "model": "RedmiBook 14",
+      "modelYear": "2025",
+      "cpu": "Core 5 220H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.cww.net.cn/article?id=596851",
+      "sourceTitle": "满血性能 轻薄长续航，REDMI Book 2025 售价 4599 元起",
+      "confidence": "high",
+      "notes": "首销价 5199 元（2025-01）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 16|2025",
+      "brand": "红米",
+      "model": "RedmiBook 16",
+      "modelYear": "2025",
+      "cpu": "Core 5 220H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://biz.zhiding.cn/2025/0102/3162372.shtml",
+      "sourceTitle": "满血性能 轻薄又能打，REDMI Book 2025 正式发布",
+      "confidence": "high",
+      "notes": "首销价 4799 元（2025-01）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 16|2025",
+      "brand": "红米",
+      "model": "RedmiBook 16",
+      "modelYear": "2025",
+      "cpu": "Core 5 220H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://biz.zhiding.cn/2025/0102/3162372.shtml",
+      "sourceTitle": "满血性能 轻薄又能打，REDMI Book 2025 正式发布",
+      "confidence": "high",
+      "notes": "首销价 5099 元（2025-01）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 16|2025",
+      "brand": "红米",
+      "model": "RedmiBook 16",
+      "modelYear": "2025",
+      "cpu": "Core 5 220H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://biz.zhiding.cn/2025/0102/3162372.shtml",
+      "sourceTitle": "满血性能 轻薄又能打，REDMI Book 2025 正式发布",
+      "confidence": "high",
+      "notes": "首销价 5399 元（2025-01）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|Redmi G Pro|2024",
+      "brand": "红米",
+      "model": "Redmi G Pro",
+      "modelYear": "2024",
+      "cpu": "i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.ithome.com/0/788/428.htm",
+      "sourceTitle": "Redmi G Pro 2024 游戏本 8299 元京东百亿补贴",
+      "confidence": "high",
+      "notes": "上市价 8999 元，2024 年百亿补贴 8299 元；仅此一个官方配置。",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.tech.china.com/digi/digi/20210226/20210226719433.html",
+      "sourceTitle": "RedmiBook Pro曝光：3.2K顶级高刷屏-中华网科技",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2021年2月25日发布，14英寸首发 4499 元起；16GB DDR4-3200 板载",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2021",
+      "cpu": "i5-11300H",
+      "ram": "16GB",
+      "gpu": "MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.tech.china.com/digi/digi/20210226/20210226719433.html",
+      "sourceTitle": "RedmiBook Pro 14/15 独显版配置与售价-中华网科技",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2021年3月开售，参考价 4999 元（同代 15 英寸独显版 5499 元）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2021",
+      "cpu": "i7-11370H",
+      "ram": "16GB",
+      "gpu": "MX450 2GB",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://m.tech.china.com/digi/digi/20210226/20210226719433.html",
+      "sourceTitle": "RedmiBook Pro 14 i7 顶配版本-中华网科技",
+      "checkedAt": "2026-11-01",
+      "confidence": "low",
+      "notes": "2021年3月开售，参考价 5699 元（同代 15 英寸 i7 顶配 6299 元）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（酷睿版）|2022",
+      "cpu": "i5-12450H",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "http://www.kepu365.cn/dujia/shuma/83215.html",
+      "sourceTitle": "RedmiBook Pro 2022 RTX 2050 独显版配置-科普新闻网",
+      "checkedAt": "2026-11-01",
+      "confidence": "low",
+      "notes": "2022年4月开售；14英寸独显版参考 5999 元（15英寸同配 6499 元）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（酷睿版）|2022",
+      "cpu": "i7-12650H",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "http://www.kepu365.cn/dujia/shuma/83215.html",
+      "sourceTitle": "RedmiBook Pro 2022 i7-12650H 顶配版-科普新闻网",
+      "checkedAt": "2026-11-01",
+      "confidence": "low",
+      "notes": "2022年4月开售；14英寸顶配参考 6799 元（15英寸同配 7199 元）",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（锐龙版）|2022",
+      "cpu": "R5-6600H",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2022年5月31日开售，首发 5899 元",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（锐龙版）|2022",
+      "cpu": "R7-6800H",
+      "ram": "16GB",
+      "gpu": "RTX 2050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.ithome.com/0/620/298.htm",
+      "sourceTitle": "4499 元起，小米 Redmi Book Pro 14/15 2022 锐龙版发布：最高搭载 R7 6800H + RTX 2050（IT之家）",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2022年5月31日开售，首发 6499 元",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 15（酷睿版）|2022",
+      "cpu": "i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "15.6英寸 3200x2000 90Hz",
+      "sourceUrl": "https://www.mi.com/redmibook/pro15-intel/specs",
+      "sourceTitle": "Redmi Book Pro 15 2022 i5-12500H（Iris Xe）配置-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2022年，i5-12500H 12 核 16 线程版，参考价 5499 元",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "cpu": "i5-13500H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/14-2024/specs",
+      "sourceTitle": "Redmi Book 14 规格参数（i5-13500H 512GB/1TB 版本）-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2023年11月29日发布、12月1日开售，首发 4199 元；16GB LPDDR5-6400",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "cpu": "i5-13500H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/14-2024/specs",
+      "sourceTitle": "Redmi Book 14 i5-13500H/16GB/1TB 配置-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2023年12月开售，首发 4499 元；预留第二个 M.2 硬盘位",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "cpu": "i5-13420H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2240x1400 60Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/14-2024/specs",
+      "sourceTitle": "Redmi Book 14 i5-13420H 低配（2240x1400 屏）-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2023年12月，入门 SKU 参考价 3799 元；UHD 核显，68W 适配器",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "cpu": "i5-13420H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2240x1400 60Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/14-2024/specs",
+      "sourceTitle": "Redmi Book 14 i5-13420H/1TB 配置-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2023年12月，参考价 4099 元",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14|2023",
+      "cpu": "i7-13620H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/14-2024/specs",
+      "sourceTitle": "Redmi Book 14 i7-13620H/16GB/1TB 顶配-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2024年1月上市，参考价 4799 元；UHD 核显，雷电 4",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 16|2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "16英寸 3072x1920 165Hz",
+      "sourceUrl": "https://m.mi.com/search/list?key=小米笔记本",
+      "sourceTitle": "小米商城笔记本在售列表（Redmi Book Pro 16 Ultra7/Ultra5 3072x1920）-小米商城",
+      "checkedAt": "2026-11-01",
+      "confidence": "low",
+      "notes": "2024年2月发布，参考价 5499 元；16 英寸 3K 165Hz，99Wh 电池；来源页脚本访问受限（超时），浏览器一般可打开",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 16|2025",
+      "cpu": "Ultra 5 225H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/prod/redmi-books/16-pro-2025/specs",
+      "sourceTitle": "REDMI Book Pro 16 2025 2560x1600 屏版本参数-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2025年，2.5K 120Hz 400nits 版本，参考价 6199 元",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2026",
+      "cpu": "Ultra 5 338H",
+      "ram": "32GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://union-click.jd.com/jdc?e=&p=JF8BAS0JK1olWAULVlheDkoQAV8IGlgWVA8GXVpbAEIeAF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAGwBEl8cWQAKXVdeFxJSXzI4Ux8UHn5UNxk_di1IVjFRWRBpQ3hGElJROE8RAGkMGloUXjYCVV9cCUIfCmcKK18TMwdsVFdYZkoXUWlcHAkSDwIBXVlVD0knA244WjUWWgAGUldeDEMnAl8IHVMXWQUBVlhdDUwfM28AH2vC9KjU2PiJseHAse04K2sWbTYyVG5eOBV5AmgMGQsXX1VsCBkUUg1TQjBmGVsSXA8GUlptCkoWAW04K2tzDWMAJCQhQBd2ABIObF9WBlxnBCNbXz1ye25NHD57H0BWIDVcW09RAiRuZxJsB2NYZF5tD00WM244",
+      "sourceTitle": "REDMI Book Pro 14 2026 Ultra5-338H/32G/1T/2.8K-京东",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2026年3月上市，京东标价 8799 元，国补后约 7479 元；70W 释放，92Wh 电池",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|Redmi G（锐龙版）|2021",
+      "cpu": "R7-5800H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16.1英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.mi.com/redmibook/game-amd/specs",
+      "sourceTitle": "Redmi G 2021 锐龙版 规格参数-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2021年9月22日发布，参考价 6999 元；五热管飓风散热 3.0，80Wh 电池",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|Redmi G|2022",
+      "cpu": "i7-12650H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://www.mi.com/redmibook/2022/redmi-g",
+      "sourceTitle": "Redmi G 2022 i7-12650H/RTX 3050 配置-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2022年7月开售，参考价 6799 元；95W 显卡释放",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|Redmi G Pro（酷睿版）|2022",
+      "cpu": "i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/redmi/1639647_detail.html",
+      "sourceTitle": "Redmi G Pro(酷睿i7-12700H/16GB/512GB/RTX3060)参数-太平洋产品库",
+      "checkedAt": "2026-11-01",
+      "confidence": "medium",
+      "notes": "2022年9月7日发布，预售到手 7999 元；130W 显卡，16GB DDR5-4800",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|Redmi G Pro|2024",
+      "cpu": "i7-14650HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB SSD",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/g-pro-game/specs",
+      "sourceTitle": "Redmi G Pro 游戏本 2024 规格参数-小米官网",
+      "checkedAt": "2026-11-01",
+      "confidence": "high",
+      "notes": "2024年7月12日开售，首销 7299 元；140W 显卡释放，210W 整机，80Wh 电池",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14（酷睿版）|2022",
+      "cpu": "i5-12500H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 2560x1600 120Hz",
+      "sourceUrl": "https://www.mi.com/redmibook/pro14-intel/specs",
+      "sourceTitle": "Redmi Book Pro 14 2022 参数 - 小米官网",
+      "confidence": "high",
+      "notes": "2022年上市，官网参数页第4个SKU，核显为Iris Xe；该配置售价待核，约5000元档",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2024",
+      "cpu": "Ultra 5 125H",
+      "ram": "16GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mi.com/redmi-books/14-pro/specs",
+      "sourceTitle": "Redmi Book Pro 14 2024 参数 - 小米官网",
+      "confidence": "high",
+      "notes": "2024年上市，星辰灰；1TB为PCIe4.0 2242规格，约5299元档",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2026",
+      "cpu": "Ultra 5 325",
+      "ram": "24GB",
+      "gpu": "集成显卡",
+      "storage": "1TB SSD",
+      "screen": "14英寸 2880x1800 120Hz",
+      "sourceUrl": "https://www.mi.com/shop/buy/detail?product_id=24035",
+      "sourceTitle": "REDMI Book Pro 14 2026 - 小米商城购买页（三个配置）",
+      "confidence": "high",
+      "notes": "2026年上市，小米自营7699元起；第三代酷睿Ultra，整机最高70W",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14 锐龙版|2025",
+      "brand": "红米",
+      "model": "RedmiBook 14 锐龙版",
+      "modelYear": 2025,
+      "cpu": "R5-7535H",
+      "ram": "16GB",
+      "gpu": "Radeon 660M 集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1200 60Hz",
+      "sourceUrl": "https://news.mydrivers.com/1/1050/1050537.htm",
+      "sourceTitle": "国补2239.2元起！REDMI Book 14锐龙版2025发布（快科技）",
+      "confidence": "high",
+      "notes": "售价 3299 元，核显 Radeon 660M",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 14 锐龙版|2025",
+      "brand": "红米",
+      "model": "RedmiBook 14 锐龙版",
+      "modelYear": 2025,
+      "cpu": "R7-7735H",
+      "ram": "16GB",
+      "gpu": "Radeon 680M 集成显卡",
+      "storage": "512GB SSD",
+      "screen": "14英寸 1920x1200 60Hz",
+      "sourceUrl": "https://news.mydrivers.com/1/1050/1050537.htm",
+      "sourceTitle": "国补2239.2元起！REDMI Book 14锐龙版2025发布（快科技）",
+      "confidence": "high",
+      "notes": "售价 3699 元，核显 Radeon 680M",
+      "origin": "config-variants-2026-11-01"
+    },
+    {
+      "modelKey": "笔记本电脑|红米|RedmiBook 16 锐龙版|2025",
+      "brand": "红米",
+      "model": "RedmiBook 16 锐龙版",
+      "modelYear": 2025,
+      "cpu": "R7-7735H",
+      "ram": "16GB",
+      "gpu": "Radeon 680M 集成显卡",
+      "storage": "512GB SSD",
+      "screen": "16英寸 1920x1200 60Hz",
+      "sourceUrl": "https://nb.zol.com.cn/1176/11762390.html",
+      "sourceTitle": "Redmi Book 16锐龙版2873元起（中关村在线）",
+      "confidence": "medium",
+      "notes": "京东 3599 元起（另见 3999 元记录）；屏幕按同代锐龙版推定",
+      "origin": "config-variants-2026-11-01"
     }
   ],
   "aliases": [
@@ -1039,6 +2162,34 @@
       "modelKey": "笔记本电脑|红米|RedmiBook Pro 14|2025",
       "aliasType": "通用搜索词",
       "note": "按品类泛搜，非具体型号。"
+    },
+    {
+      "alias": "REDMI Book 14 锐龙版 2025",
+      "modelKey": "笔记本电脑|红米|RedmiBook 14 锐龙版|2025",
+      "aliasType": "官方写法",
+      "note": "REDMI 全大写品牌名",
+      "sourceUrl": "https://news.mydrivers.com/1/1050/1050537.htm"
+    },
+    {
+      "alias": "RedmiBook 14 锐龙版 2025",
+      "modelKey": "笔记本电脑|红米|RedmiBook 14 锐龙版|2025",
+      "aliasType": "常见搜索写法",
+      "note": "",
+      "sourceUrl": ""
+    },
+    {
+      "alias": "REDMI Book 16 锐龙版 2025",
+      "modelKey": "笔记本电脑|红米|RedmiBook 16 锐龙版|2025",
+      "aliasType": "官方写法",
+      "note": "REDMI 全大写品牌名",
+      "sourceUrl": "https://nb.zol.com.cn/1176/11762390.html"
+    },
+    {
+      "alias": "RedmiBook 16 锐龙版 2025",
+      "modelKey": "笔记本电脑|红米|RedmiBook 16 锐龙版|2025",
+      "aliasType": "常见搜索写法",
+      "note": "",
+      "sourceUrl": ""
     }
   ],
   "uncertain": [

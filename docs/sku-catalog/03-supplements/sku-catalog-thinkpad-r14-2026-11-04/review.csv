@@ -1,0 +1,8 @@
+reviewId,recordType,sourceKey,field,observedValue,issueType,confidence,importDecision,reason,followUp
+R001,model,ThinkPad R14 Gen 3,model/year,AMD Ryzen 5000 (Zen 3)，仅维基类条目记载 2021 年 4 月中国上市,insufficient_source,low,needs_review,仅检到拼写异常的维基类网址，未作为来源保存；未找到可核实的中国官网、电商或厂商规格页，未建型号。,查联想中国官网商城历史页、ZOL ThinkPad R14 Gen 3 系列页或电商自营 SKU 后补录。
+R002,model,ThinkPad R14 Gen 5,model,基于 E14 Gen 5 平台，仅维基类条目提及,insufficient_source,low,needs_review,无中国销售证据与规格页；未建型号。,确认 R14 Gen 5 是否在中国上市及在售 SKU。
+R003,configuration,R14 Gen 2 (AMD),ram,12GB（4GB 板载 + 8GB SO-DIMM DDR4-3200，官方规格表 Max Memory 条目）,out_of_scope,high,exclude,官方支持 12GB 组合，但内置内存选项限 8/16/24/32GB；按标准保留原文于来源表，不写入选项。,如需支持 12GB 需项目侧扩内存选项后重新交付。
+R004,model,R14 Gen 2 (AMD),year/configurations,官方规格表证实型号及 R5-5500U/R7-5700U 等规格；2021 年仅由同系列 Intel 版推断，且没有 AMD 在售 MTM 配置,missing_evidence,low,needs_review,型号年份不能按同系列推断，且具体在售组合无可靠来源；保留研究证据，不进入可导入型号与配置 CSV。,查联想官网商城历史页/京东自营 ThinkPad R14 锐龙版 SKU，取得 AMD 版机型年份和实际配置证据。
+R005,series,ThinkPad R14,model,是否存在 Gen 1 / 无 Gen 后缀首代（2020）未确认,insufficient_source,low,needs_review,检索到的世代表从 Gen 2 起与 E14 Gen 2 平台对应，首代存在性证据不足；未建型号。,查联想中国 2020-2021 年发布新闻稿与电商存档。
+R006,model,R14 Gen 4,source,S005 苏宁商品页可核实 21E5A0E7CD / I5-1235U / 16GB / 512GB SSD / MX550 / FHD / 2022；原第二来源 S006 是软 404,insufficient_source,low,needs_review,目前只有一条可核实的零售来源，未达到 medium 所需的独立第二来源；本批不导入 Gen 4。,查联想官方资料或另一家可靠零售/评测来源，核实型号身份、年份及实际配置。
+R007,configuration,R14 Gen 4 / 8GB,source,S006 原称 8GB / MX550 / 512GB SSD，但现为商品删除页面,missing_evidence,low,needs_review,8GB 配置失去可核实来源，不加入配置 CSV 或内置选项。,查可访问的原始零售页或联想 MTM 规格表。

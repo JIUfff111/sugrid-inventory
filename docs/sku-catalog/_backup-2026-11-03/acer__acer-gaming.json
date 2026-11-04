@@ -1,0 +1,1645 @@
+{
+  "scope": "宏碁游戏本 暗影骑士/掠夺者 2016-2026",
+  "models": [
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 3|2017",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士 3",
+      "displayName": "宏碁 暗影骑士 3 2017",
+      "modelYear": 2017,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-7300HQ",
+        "英特尔酷睿 i7-7700HQ"
+      ],
+      "ramOptions": [
+        "8GB"
+      ],
+      "gpuOptions": [
+        "GTX 1050 2GB 笔记本电脑 GPU",
+        "GTX 1050 Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "128GB SSD+1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/642/6420580.html",
+      "sourceTitle": "Acer VX5-591G-58AX 详细参数（中关村在线产品库，上市时间 2016 年 12 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "暗影骑士第三代，型号 VX5-591G，海外即 Nitro 5 前身。CES 2017 发布、国内 2017 年 1 月正式开卖：首发预约 4999 元，正式价 5499/5999 元（i5-7300HQ+GTX 1050 2GB+8GB DDR4-2400+128GB SSD+1TB HDD）。ZOL 参数页「上市时间」写 2016 年 12 月（海外先行），本表按国内上市年取 2017。同期另有 GTX 1050 Ti 版本（媒体称其为全球首款 1050/1050Ti 游戏本）。屏幕为 15.6 英寸 TN 防眩光 1920x1080、约 41% NTSC、无高刷；单条 8GB 内存，双插槽最高 32GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 5|2019",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士 5",
+      "displayName": "宏碁 暗影骑士 5 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-9300H",
+        "英特尔酷睿 i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1660 Ti 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://www.acer.com/ee-en/laptops/nitro/nitro-5/pdp/NH.Q59EL.01L",
+      "sourceTitle": "Acer Nitro 5 AN515-54-50WU 官方规格页（acer.com）",
+      "checkedAt": "2026-10-26",
+      "confidence": "low",
+      "notes": "海外名 Nitro 5 AN515-54，2019 年上市（官方 SKU AN515-54-50WU：i5-9300H+GTX 1650 4GB GDDR5+8GB DDR4+512GB SSD+15.6 英寸 FHD IPS 144Hz、双插槽最高 32GB）。国内同期该模具在电商被写作「暗影骑士5」，2020 年前后官方宣传又转用「暗影骑士·擎」，官方中文名未取得权威来源，故 confidence=low；i7-9750H 与 GTX 1660 Ti 选项来自同系列 SKU 资料（e-catalog/devicehd 收录 AN515-54 的 i7+1660Ti 配置）。参考价：2020 年 3 月京东自营 AN515-54-50TP 售价 5499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 7|2019",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士 7",
+      "displayName": "宏碁 暗影骑士 7 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-9750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+        "GTX 1650 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1182596_detail.html",
+      "sourceTitle": "宏碁暗影骑士轻刃 AN715-51（i7-9750H/8GB/1TB/GTX1660Ti）参数（太平洋电脑网产品库）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外名 Nitro 7 AN715-51，2019 年夏季上市。太平洋电脑网登记中文名为「暗影骑士轻刃」，电商与媒体亦写作「暗影骑士7」，本表统一为「暗影骑士 7」并收录「暗影骑士轻刃」为别名。主配 i7-9750H+GTX 1660 Ti 6GB+8GB DDR4-2666+1TB HDD，15.6 英寸 144Hz/3ms/72% NTSC、全金属机身 19.9mm/2.5kg；台版 AN715-51-75QU 为 16GB+512GB PCIe SSD，含税 54,900 新台币。另有 GTX 1650 版本（国际版 AN715-51-51GR 等）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2020",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士·擎",
+      "displayName": "宏碁 暗影骑士·擎 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-10300H",
+        "英特尔酷睿 i7-10750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1650 4GB 笔记本电脑 GPU",
+        "GTX 1650 Ti 4GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1268796_detail.html",
+      "sourceTitle": "宏碁暗影骑士擎 AN515-55-56NQ（i5-10300H/8GB/512GB/GTX1650）参数（太平洋电脑网）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国行首代「暗影骑士·擎」，海外名 Nitro 5 AN515-55，2020 年 4 月上市。主销 SKU AN515-55-56NQ：i5-10300H+GTX 1650 4GB GDDR6+8GB DDR4-3200+512GB SSD+15.6 英寸 144Hz IPS，57Wh 电池、2.3kg；i5-10300H+GTX 1650 Ti+16GB 版本 2021 年京东价 6499 元。双内存插槽最高 32GB，双 M.2 + 2.5 英寸硬盘位，四区 RGB 键盘。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2021",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士·擎",
+      "displayName": "宏碁 暗影骑士·擎 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-11400H",
+        "英特尔酷睿 i7-11800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/774/7748869.html",
+      "sourceTitle": "6千元内RTX30系独显游戏本汇总（中关村在线，含暗影骑士·擎 i5-11400H/16G/512G/RTX3050 报价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "11 代酷睿版（AN515-56 模具），2021 年 8 月在售。主销 i5-11400H+RTX 3050 4GB（约 75W）+16GB DDR4-3200+512GB PCIe SSD+15.6 英寸 144Hz/3ms、72% NTSC：京东 6199 元、促销 5899 元，媒体记载常规价约 6499 元。i7-11800H + RTX 3060 组合存在（同模具散热可压住 i7+3060）。双内存插槽（媒体配置描述提到 32GB DDR4-3200 双通道版本，未逐条核实，故 ramOptions 仅列 16GB）；双 M.2 + 2.5 英寸位，雷电 4、HDMI 2.1、Wi-Fi 6。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2022",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士·擎",
+      "displayName": "宏碁 暗影骑士·擎 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-12500H",
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 4GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz",
+        "15.6英寸 1920x1080 165Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7067140169622749699",
+      "sourceTitle": "Intel Yes！宏碁暗影骑士·擎2022款评测（含三档首发价与完整规格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "12 代酷睿版，型号 AN515-58（另有 17.3 英寸 AN517-55），2022 年 2—3 月上市。首发价：i5-12500H+RTX 3050 6299 元、i5-12500H+RTX 3060 7499 元、i7-12700H+RTX 3060 8499 元（ZOL 产品库参考价 7999 元）。RTX 3060 满血 140W、3050 为 95W；16GB DDR4-3200 双通道（首波大厂中唯一未上 DDR5）+512GB PCIe 4.0；15.6 英寸 2.5K 165Hz 100% sRGB 或 FHD 165Hz；无独显直连，雷电 4、双 M.2 + SATA 位，57.5Wh 电池、230W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·龙|2021",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士·龙",
+      "displayName": "宏碁 暗影骑士·龙 2021",
+      "modelYear": 2021,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 5 5600H",
+        "AMD 锐龙 7 5800H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://nb.zol.com.cn/762/7626765.html",
+      "sourceTitle": "宏碁暗影骑士·龙游戏本上架 下周正式开售（中关村在线，含 7999 元与配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "锐龙 5000H 版本，海外名 Nitro 5 AN515-45，2021 年 2 月 25 日首销。R5-5600H+RTX 3060 6GB（约 85W）+16GB DDR4-3200+512GB+15.6 英寸 144Hz/3ms、72% NTSC：首发 7499 元、日常 7699 元，京东预约页 7999 元。R7-5800H 与 RTX 3070 版本存在，但同模具显卡功耗上限约 90W，媒体评价性能释放保守。窄边框 7mm、NitroSense+CoolBoost、双 M.2 + 2.5 英寸位、最高 32GB、Killer E2600。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 15|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士·威 15",
+      "displayName": "宏碁 暗影骑士·威 15 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13420H",
+        "英特尔酷睿 i9-13900H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2050 4GB 笔记本电脑 GPU",
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 165Hz",
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Nitro-V-15-ANV15-51.777843.0.html",
+      "sourceTitle": "Acer Nitro V 15 ANV15-51 规格 - Notebookcheck 中文版",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外名 Nitro V 15（ANV15-51），2023 年 9 月上市，国行名「暗影骑士·威」。台版 ANV15-51-52NP：i5-13420H+RTX 4050 6GB（75W）+16GB DDR5+512GB PCIe 4.0+15.6 英寸 FHD 165Hz，建议售价 39,900 新台币（2023 年 9 月）。另有 i9-13900H+RTX 4060 8GB 版本（中东 SKU NH.QQEEM.00B）与 RTX 2050 4GB 入门版（印尼，144Hz、45% NTSC）。单条 8/16GB DDR5，双插槽最高 32GB；2.11kg、57Wh、135W 适配器、雷电 4。；原区域官网页在本机网络不可达，改用产品库/规格站页核验，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "暗影骑士·威 16",
+      "displayName": "宏碁 暗影骑士·威 16 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "AMD 锐龙 5 8645HS",
+        "AMD 锐龙 7 8845HS"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3050 6GB 笔记本电脑 GPU",
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 1920x1200 165Hz",
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Nitro-V16.882704.0.html",
+      "sourceTitle": "Acer Nitro V16 系列参数与评测汇总（Notebookcheck 中文版）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外名 Nitro V 16（ANV16-41），2024 年上市，国行名「暗影骑士·威 16」（电商亦写作「暗影骑士·威16」）。Zen 4 Hawk Point：R5-8645HS / R7-8845HS，RTX 4050/4060（85W）+16GB DDR5-5600+512GB/1TB，16 英寸 1920x1200 165Hz（高配 2560x1600 165Hz）。美版 R7-8845HS+RTX 4060+16GB+1TB 约 1039—1099 美元（2024 年下半年）。2.5kg、MUX 开关、Wi-Fi 6E，双 M.2。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2017",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 300",
+      "displayName": "宏碁 掠夺者·战斧 300 2017",
+      "modelYear": 2017,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-7300HQ",
+        "英特尔酷睿 i7-7700HQ"
+      ],
+      "ramOptions": [
+        "4GB",
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "256GB SSD+1TB HDD",
+        "1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 60Hz"
+      ],
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Predator-Helios-300-G3-571.236182.0.html",
+      "sourceTitle": "Acer Predator Helios 300-G3-571 完整规格（Notebookcheck 中文版）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国行名「掠夺者·战斧 300」，海外 Predator Helios 300（G3-571），2017 年 5 月上市。i7-7700HQ+GTX 1060 6GB GDDR5+16GB DDR4-2400+256GB NVMe+1TB HDD（G3-571-77QK，约 1050 美元）；i5-7300HQ+GTX 1060+4GB+1TB HDD 低配（G3-571-51NK，菲律宾 66,996 比索）。15.6 英寸 FHD IPS 60Hz（无高刷）、2.7kg、48Wh、135W 适配器、双 SO-DIMM 最高 32GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2018",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 300",
+      "displayName": "宏碁 掠夺者·战斧 300 2018",
+      "modelYear": 2018,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-8750H"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "256GB SSD+1TB HDD"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190201/1811%E8%B3%87%E8%A8%8A%E6%9C%88Gaming%E5%83%B9%E6%A0%BC%E8%A1%A8-1113v7-%E9%83%A8%E5%88%862.pdf",
+      "sourceTitle": "宏碁 2018 資訊月 Predator 電競筆電價格表（PH315-51-78HA / 77MC 规格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "8 代酷睿版（PH315-51），2018 年上市（海外 Predator Helios 300 2018）。官方价格表：PH315-51-78HA 为 i7-8750H+GTX 1060 6GB+16GB DDR4+256GB PCIe SSD+1TB 7200rpm HDD+15.6 英寸 FHD IPS 144Hz；PH315-51-77MC 同配置但 8GB 内存。同代另有 17.3 英寸 PH317-52（i7-8750H+GTX 1060）。2018 年 9 月还推出白色特别版（Helios 300 Special Edition，同为 PH315-51 模具）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 300",
+      "displayName": "宏碁 掠夺者·战斧 300 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-10750H",
+        "英特尔酷睿 i7-10870H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+        "RTX 2060 6GB 笔记本电脑 GPU",
+        "RTX 2070 8GB 笔记本电脑 GPU",
+        "RTX 3060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://tech.sina.com.cn/digi/2020-07-04/doc-iirczymm0497678.shtml",
+      "sourceTitle": "宏碁上架掠夺者战斧 300 游戏本，标配 1TB SSD（新浪科技转 IT之家，2020-07-04）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "十代酷睿版（PH315-53），2020 年 7 月上市。i7-10750H 6 核 12 线程+16GB DDR4-3200+1TB SSD，显卡三档：GTX 1660 Ti 到手 8999 元、RTX 2060 到手 9499 元、RTX 2070 到手 11899 元；另有 i7-10870H+RTX 3060 版 11999 元（ZOL 产品库 1330358，SKU PH315-53-790F）。15.6 英寸 1080p 144Hz/3ms、72% NTSC，薄至 22.9mm、2.2kg 金属机身。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2022",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 300",
+      "displayName": "宏碁 掠夺者·战斧 300 2022",
+      "modelYear": 2022,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-12700H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 3060 6GB 笔记本电脑 GPU",
+        "RTX 3070 8GB 笔记本电脑 GPU",
+        "RTX 3070 Ti 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 2560x1440 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/57/index1413916.shtml",
+      "sourceTitle": "Acer 掠夺者战斧300 15.6 2022（i7 12700H/16GB/512GB/RTX3060）参数与三档报价（中关村在线）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "12 代酷睿版（PH315-55），2022 年上市。ZOL 报价：i7-12700H+16GB+512GB+RTX 3060 9969 元；16GB+1TB+RTX 3070 10969 元；16GB+1TB+RTX 3070 Ti 11269 元。RTX 3060 满血 140W、支持独显直连；16GB DDR5-4800（双 SO-DIMM，最高 32GB）；15.6 英寸 2560x1440 165Hz/3ms、100% sRGB、300nit、G-SYNC；雷电 4、HDMI 2.1、280W 适配器、25.5mm/2.7kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2019",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·刀锋 500",
+      "displayName": "宏碁 掠夺者·刀锋 500 2019",
+      "modelYear": 2019,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-9750H"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 2060 6GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 144Hz"
+      ],
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1176923_detail.html",
+      "sourceTitle": "宏碁掠夺者刀锋500 PT515-51-789G（i7-9750H/16GB/512GB/RTX2060）参数（太平洋电脑网）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "海外名 Predator Triton 500（PT515-51），2019 年 4 月上市。i7-9750H+RTX 2060 6GB+16GB DDR4-2666+512GB PCIe SSD+15.6 英寸 144Hz IPS（72% 色域、4.95mm 窄边）；17.9mm/2.1kg 镁铝合金、84Wh 电池、第 4 代 3D 刀锋冷金属风扇、一键 Turbo。1TB SSD 版本型号 PT515-51-798J。海外另有 2×256GB RAID 0 配置（PT515-51-713V）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2020",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·刀锋 500",
+      "displayName": "宏碁 掠夺者·刀锋 500 2020",
+      "modelYear": 2020,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-10875H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 2070 Super 8GB 笔记本电脑 GPU",
+        "RTX 2080 Super Max-Q 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB"
+      ],
+      "screenOptions": [
+        "15.6英寸 1920x1080 300Hz"
+      ],
+      "sourceUrl": "https://k.sina.cn/article_1448589414_5657b86605500q5xq.html",
+      "sourceTitle": "近期新品笔记本盘点：宏碁掠夺者刀锋 500（i7-10875H/300Hz）上架（新浪看点，2020 年）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "十代酷睿版（PT515-52），2020 年上市。i7-10875H 8 核 16 线程，显卡 RTX 2070 Super / RTX 2080 Super Max-Q 可选，内存 16GB 起、最高 32GB，512GB SSD，15.6 英寸 1080p 100% sRGB 300Hz、支持 G-SYNC；全金属机身 17.9mm，三风扇五热管。国行具体售价未取得明确来源，故 confidence=medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 Neo 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·刀锋 Neo 16",
+      "displayName": "宏碁 掠夺者·刀锋 Neo 16 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 7 155H",
+        "英特尔酷睿 Ultra 7 165H",
+        "英特尔酷睿 Ultra 9 185H"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 3200x2000 165Hz"
+      ],
+      "sourceUrl": "https://www.nova.com.tw/article/em/content/Predator_Triton_Neo_16",
+      "sourceTitle": "宏碁新一代薄型AI電競筆電 Predator Triton Neo 16 全通路正式銷售（NOVA，2023 年 12 月）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外名 Predator Triton Neo 16（PTN16-51），2023 年 12 月上市，首批 Core Ultra「AI 电竞本」。16 英寸 3200x2000 IPS 165Hz、Calman 认证、100% DCI-P3，19.9mm/2.5kg、99Wh 电池；CPU Ultra 5/7/9（155H/165H/185H），GPU RTX 4050/4060/4070，内存 16/32/64GB DDR5-5600 双插槽，1TB/2TB PCIe 4.0，双 Thunderbolt 4。台版 4 款配置建议售价 52,900—69,900 新台币。国行上市信息未取得，故 confidence=medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·擎 Neo 16",
+      "displayName": "宏碁 掠夺者·擎 Neo 16 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i5-13500HX",
+        "英特尔酷睿 i7-13700HX",
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "512GB",
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz",
+        "16英寸 1920x1200 165Hz"
+      ],
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1478224.shtml",
+      "sourceTitle": "Acer 掠夺者·擎Neo(i5 13500HX/16GB/512GB/RTX4060) - 中关村在线",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外名 Predator Helios Neo 16（PHN16-71），2023 年 4—5 月上市，国行名「掠夺者·擎 Neo 16」。官方 SKU：i7-13700HX+RTX 4060 8GB（140W）+16GB DDR5+1TB+16 英寸 2560x1600 165Hz（500nit、100% sRGB），新加坡 2,598 新币；RTX 4050 版配 1920x1200 400nit 面板（2,398 新币）；i5-13500HX+RTX 4050 马来西亚 4,899 马币。90Wh 电池、330W 适配器、2.8kg，双 M.2（支持 RAID 0）、双雷电 4。；原区域官网页在本机网络不可达，改用产品库/规格站页核验，建议人工复核。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·擎 Neo 16",
+      "displayName": "宏碁 掠夺者·擎 Neo 16 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-14700HX",
+        "英特尔酷睿 i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4050 6GB 笔记本电脑 GPU",
+        "RTX 4060 8GB 笔记本电脑 GPU",
+        "RTX 4070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881",
+      "sourceTitle": "CES 2024: Acer Predator Helios gaming laptops with Intel Core 14th Gen（含 PHN16-72 中国 2 月起 8499 元）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "14 代酷睿版（PHN16-72），2024 年 1—2 月上市，国行 2024 年 2 月起售价 8,499 元。最高 i9-14900HX+RTX 4070 8GB（Turbo 140W）；16 英寸 2560x1600 240Hz/3ms、100% DCI-P3、Advanced Optimus + G-SYNC；双雷电 4、HDMI 2.1、MicroSD。印度 i7-14700HX+RTX 4050+16GB+1TB 约 142,999 卢比。同代还有 18 英寸 PHN18-71（国行未确认，见 uncertain）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2025",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·擎 Neo 16",
+      "displayName": "宏碁 掠夺者·擎 Neo 16 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 Ti 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html",
+      "sourceTitle": "宏碁掠夺者·擎 NEO 系列 / 战斧 18 首销：Ultra 9-275HX + 5070Ti / 5080，14999 元起（IT之家，2025-06）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 款（海外 PHN16-73，2025 年 4 月上市），国行 2025 年 6 月京东首销。国行配置：Ultra 9 275HX（24 核 24 线程）+32GB DDR5+1TB+RTX 5070 Ti 12GB（140W）+16 英寸 2560x1600 240Hz LCD（3ms、100% DCI-P3），定价 14,999 元、国补后 12,999 元。海外另有 OLED 面板与 RTX 5050/5060 配置。双风扇六热管、雷电 4 + 全功能 USB-C。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo S 16|2025",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·擎 Neo S 16",
+      "displayName": "宏碁 掠夺者·擎 Neo S 16 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 Ti 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html",
+      "sourceTitle": "宏碁掠夺者·擎 NEO 系列 / 战斧 18 首销：擎 NEO S 16 英寸 32GB+1TB+5070Ti+OLED 14999 元（IT之家，2025-06）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "国行名「掠夺者·擎 Neo S」（海外 Predator Helios Neo 16S AI，PHN16S-71），2025 年 6 月与擎 Neo 同价首销：Ultra 9 275HX+32GB+1TB+RTX 5070 Ti 12GB+16 英寸 2560x1600 240Hz OLED，14,999 元（国补 12,999 元）。机身薄至 19.9mm（最薄处 12mm），双风扇五热管、液金；海外 2025 年 4 月起 1,700 美元。屏幕为 OLED（100% DCI-P3），与 LCD 版擎 Neo 区别在此。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 16",
+      "displayName": "宏碁 掠夺者·战斧 16 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i7-13700HX",
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "16GB"
+      ],
+      "gpuOptions": [
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://nxtmag.tech/?p=24547",
+      "sourceTitle": "Introducing the Predator Helios Neo 16, Helios 16 and Helios 18（新加坡三款配置与售价）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外 Predator Helios 16（PH16-71），CES 2023 发布，国行 2023 年 2 月起售 17,999 元。新加坡在售：i9-13900HX+16GB DDR5-5600+1TB+RTX 4070 8GB（3,298 新币）、同 CPU+RTX 4080 12GB（3,898 新币）；16 英寸 2560x1600 240Hz、500nit、100% DCI-P3、G-SYNC。注：2022 年同型号另有 12 代 i7-12700H 版本（海外 1,649.99 美元起），国内主要铺 13 代版本，故 confidence=medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 16",
+      "displayName": "宏碁 掠夺者·战斧 16 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i9-14900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 4070 8GB 笔记本电脑 GPU",
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881",
+      "sourceTitle": "CES 2024: Predator Helios 16 (PH16-72) 中国 1 月起 18999 元（含规格概述）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "14 代酷睿版（PH16-72），2024 年 1 月国行上市，起售 18,999 元。最高 i9-14900HX+RTX 4080 12GB；16 英寸 2560x1600 240Hz、Mini LED 可选、MagKey 3.0 可换轴、Wi-Fi 7、双雷电 4。京东商家页另见 i9-14900HX+64GB+2TB+2TB 配置（约 23,066 元，商家页显存标注 16GB 存疑，未采信）。国行各档内存/硬盘对应关系未逐条公开，故 confidence=medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16 AI|2025",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 16 AI",
+      "displayName": "宏碁 掠夺者·战斧 16 AI 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 Ti 12GB 笔记本电脑 GPU",
+        "RTX 5080 16GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 240Hz"
+      ],
+      "sourceUrl": "https://technave.com/comparison/compare-laptop-specs-price-Malaysia-119.html?gadget1=44290",
+      "sourceTitle": "Acer Predator Helios 16 AI（PH16-73-99FA）规格与马来西亚售价（TechNave）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "海外 Predator Helios 16 AI（PH16-73），2025 年 6 月上市，最高 Ultra 9 275HX+RTX 5090 24GB（官方称最高 5070 Ti，实际 SKU 覆盖更广）。马来西亚 PH16-73-99FA：Ultra 9 275HX+32GB DDR5-5600+1TB+RTX 5070 Ti 12GB+16 英寸 2560x1600 240Hz OLED，RM10,999 起；北美 2,300 美元起。国行 2025 年首发以战斧 18 AI 与擎 Neo 系列为主，战斧 16 AI 国行 SKU 未取得来源，故 confidence=medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18|2023",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 18",
+      "displayName": "宏碁 掠夺者·战斧 18 2023",
+      "modelYear": 2023,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i9-13900HX"
+      ],
+      "ramOptions": [
+        "16GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600 240Hz",
+        "18英寸 2560x1600 250Hz"
+      ],
+      "sourceUrl": "https://www.toutiao.com/article/7197380424036368933/",
+      "sourceTitle": "RTX4080大屏游戏怪兽！宏碁掠夺者战斧18是否值得选？（含首发 19999 元与完整配置）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "CES 2023 发布，2023 年 2 月 8 日国行首销（海外 Predator Helios 18）。首发：i9-13900HX（24 核 32 线程）+16GB DDR5-5600+1TB PCIe 4.0+RTX 4080 12GB（175W）+18 英寸 2560x1600 240Hz 100% DCI-P3 500nit，标价 22,199 元、首发 19,999 元；京东另有 32GB+2TB 版本活动价 19,999 元（原 21,699 元）。可选 Mini LED 250Hz/1000nit 面板。双雷电 4、HDMI 2.1、5 热管双风扇+液金，3.2kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18|2024",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 18",
+      "displayName": "宏碁 掠夺者·战斧 18 2024",
+      "modelYear": 2024,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 i9-14900HX"
+      ],
+      "ramOptions": [
+        "32GB"
+      ],
+      "gpuOptions": [
+        "RTX 4080 12GB 笔记本电脑 GPU",
+        "RTX 4090 16GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600 250Hz"
+      ],
+      "sourceUrl": "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881",
+      "sourceTitle": "CES 2024: Predator Helios 18 (PH18-72) 中国 1 月起 24999 元（含规格概述）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "14 代酷睿版（PH18-72），2024 年 1 月国行上市，起售 24,999 元。i9-14900HX+RTX 4080 12GB / RTX 4090 16GB，Mini LED 面板、MagKey 3.0、Wi-Fi 7、双雷电 4、双风扇六热管。国行各档内存/硬盘搭配未逐条公开（32GB+2TB 为在售常见组合），故 confidence=medium。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18 AI|2025",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 18 AI",
+      "displayName": "宏碁 掠夺者·战斧 18 AI 2025",
+      "modelYear": 2025,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 275HX"
+      ],
+      "ramOptions": [
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5080 16GB 笔记本电脑 GPU",
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "2TB"
+      ],
+      "screenOptions": [
+        "18英寸 2560x1600 250Hz"
+      ],
+      "sourceUrl": "https://digi.ithome.com/archiver/857/153.htm",
+      "sourceTitle": "首款 5G 网口游戏本：宏碁推出 18 英寸掠夺者战斧 2025（IT之家，含三档国行价格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "high",
+      "notes": "2025 款（海外 PH18-73），2025 年 6 月 6 日国行开售。首发国行：Ultra 9 275HX（24 核 24 线程）+64GB DDR5-5600（四插槽，最高 192GB）+2TB（1TB PCIe 5.0 + 1TB PCIe 4.0）+RTX 5080 16GB（175W，整机释放 270W）+18 英寸 2560x1600 250Hz Mini LED（1000nit、100% DCI-P3、G-SYNC），定价 23,999 元、国补后 21,999 元。海外最高 RTX 5090 24GB、4K Mini LED 双模（4K 120Hz / FHD 240Hz）、双雷电 5、Wi-Fi 7、99Wh、400W 适配器。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18 AI|2026",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·战斧 18 AI",
+      "displayName": "宏碁 掠夺者·战斧 18 AI 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 290HX Plus"
+      ],
+      "ramOptions": [
+        "256GB"
+      ],
+      "gpuOptions": [
+        "RTX 5090 24GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "6TB"
+      ],
+      "screenOptions": [
+        "18英寸 3840x2400 120Hz",
+        "18英寸 1920x1080 240Hz"
+      ],
+      "sourceUrl": "https://www.gizguide.com/2026/06/acer-predator-helios-18-ai-nitro-blaze-16.html",
+      "sourceTitle": "CES 2026: Acer Predator Helios 18 AI、Nitro 16 等新品（含 PH18-I71 规格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "CES 2026（2026 年 1 月）发布，型号 PH18-I71，获 2026 iF 设计奖。最高 Core Ultra 9 290HX Plus（带 NPU）+RTX 5090 24GB，官方称最高 256GB 内存、6TB 存储；18 英寸 4K Mini LED WQUXGA、HDR 1000nit、Calman 认证、100% DCI-P3，双模 4K 120Hz / FHD 240Hz；双第六代 AeroBlade 风扇、双雷电 5、Wi-Fi 7 BE1750x、Predator Vox 六扬声器。ramOptions/storageOptions 仅列官方公布的上限值，具体在售档位未公布；国行上市时间与价格未见（见 uncertain）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16S AI|2026",
+      "productType": "笔记本电脑",
+      "brand": "宏碁",
+      "model": "掠夺者·擎 Neo 16S AI",
+      "displayName": "宏碁 掠夺者·擎 Neo 16S AI 2026",
+      "modelYear": 2026,
+      "category": "游戏本",
+      "cpuOptions": [
+        "英特尔酷睿 Ultra 9 386H"
+      ],
+      "ramOptions": [
+        "32GB",
+        "64GB"
+      ],
+      "gpuOptions": [
+        "RTX 5070 8GB 笔记本电脑 GPU"
+      ],
+      "storageOptions": [
+        "1TB",
+        "2TB"
+      ],
+      "screenOptions": [
+        "16英寸 2560x1600 165Hz"
+      ],
+      "sourceUrl": "https://www.donews.com/news/detail/4/6352984.html",
+      "sourceTitle": "宏碁在CES上正式推出三款针对不同需求的游戏笔记本（DoNews，CES 2026，含 PHN16S-I51 规格）",
+      "checkedAt": "2026-10-26",
+      "confidence": "medium",
+      "notes": "CES 2026 发布（PHN16S-I51，海外 Predator Helios Neo 16S AI）。Ultra 9 386H（Core Ultra 系列 3）+RTX 5070 8GB GDDR7，最高 64GB DDR5、2TB PCIe（读取 8GB/s），16 英寸 2560x1600 165Hz OLED、100% DCI-P3、HDR500；18.9mm 金属机身、第五代 AeroBlade 3D 风扇+液金、雷电 4、Wi-Fi 6E。预计 2026 年 Q1 起售，香港预售价约 16,998 港元；国行名称/价格未公布。"
+    }
+  ],
+  "configCombos": [
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 3|2017",
+      "cpu": "英特尔酷睿 i5-7300HQ",
+      "ram": "8GB",
+      "gpu": "GTX 1050 2GB 笔记本电脑 GPU",
+      "storage": "128GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://nb.zol.com.cn/642/6420580.html",
+      "sourceTitle": "Acer VX5-591G-58AX（i5-7300HQ/8GB/128GB+1TB/GTX1050）参数页",
+      "confidence": "high",
+      "notes": "2017 年 1 月国内开卖，型号 VX5-591G-58AX，首发预约 4999 元、正式价 5499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 5|2019",
+      "cpu": "英特尔酷睿 i5-9300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://www.acer.com/ee-en/laptops/nitro/nitro-5/pdp/NH.Q59EL.01L",
+      "sourceTitle": "Acer Nitro 5 AN515-54-50WU 官方规格页",
+      "confidence": "high",
+      "notes": "海外官方 SKU（AN515-54-50WU），国内同名模具 2020 年 3 月京东自营价 5499 元（AN515-54-50TP）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 7|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "8GB",
+      "gpu": "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1182596_detail.html",
+      "sourceTitle": "宏碁暗影骑士轻刃 AN715-51（i7-9750H/8GB/1TB/GTX1660Ti）参数页",
+      "confidence": "high",
+      "notes": "AN715-51，2019 年夏季；8GB DDR4-2666 + 1TB HDD（另有 M.2 位），国行参考价约 8000—9000 元区间（媒体行情）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 7|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "16GB",
+      "gpu": "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190829/1908-NB%E5%83%B9%E6%A0%BC%E8%A1%A8-0822v5_%E9%83%A8%E5%88%862.pdf",
+      "sourceTitle": "宏碁 2019 年 8 月筆電價格表（NITRO 7 AN715-51-75QU，54,900 新台币）",
+      "confidence": "high",
+      "notes": "台版 AN715-51-75QU：i7-9750H+16GB DDR4+512GB PCIe NVMe+GTX 1660 Ti 6GB，含税 54,900 新台币。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "8GB",
+      "gpu": "GTX 1650 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1268796_detail.html",
+      "sourceTitle": "宏碁暗影骑士擎 AN515-55-56NQ 参数页（太平洋电脑网）",
+      "confidence": "high",
+      "notes": "2020 年 4 月上市，GTX 1650 为 4GB GDDR6，57Wh 电池、2.3kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2020",
+      "cpu": "英特尔酷睿 i5-10300H",
+      "ram": "16GB",
+      "gpu": "GTX 1650 Ti 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://nb.zol.com.cn/762/7626765.html",
+      "sourceTitle": "中关村在线商品卡：Acer 暗影骑士 擎（i5 10300H/16GB/512GB/GTX1650Ti）6499 元",
+      "confidence": "high",
+      "notes": "2021 年初京东在售价 6499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2021",
+      "cpu": "英特尔酷睿 i5-11400H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://nb.zol.com.cn/774/7748869.html",
+      "sourceTitle": "6千元内RTX30系独显游戏本汇总（暗影骑士·擎 i5-11400H/16G/512G/RTX3050）",
+      "confidence": "high",
+      "notes": "2021 年 8 月：参考价 5899 元，京东标价 6199 元；RTX 3050 约 75W。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "RTX 3050 4GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 165Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7067140169622749699",
+      "sourceTitle": "Intel Yes！宏碁暗影骑士·擎2022款评测（首发价 6299 元档）",
+      "confidence": "high",
+      "notes": "2022 年首发 6299 元，RTX 3050 为 95W，普通版为 FHD 165Hz 屏。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2022",
+      "cpu": "英特尔酷睿 i5-12500H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7067140169622749699",
+      "sourceTitle": "Intel Yes！宏碁暗影骑士·擎2022款评测（i5-12500H+3060 首发 7499 元）",
+      "confidence": "high",
+      "notes": "首发 7499 元，RTX 3060 满血 140W，2.5K 165Hz 100% sRGB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/Remote-control/index1401475.shtml",
+      "sourceTitle": "Acer 暗影骑士·擎2022（i7 12700H/16GB/512GB/RTX3060）产品库页",
+      "confidence": "high",
+      "notes": "首发 8499 元（媒体评测），ZOL 参考价 7999 元；16GB DDR4-3200 双通道。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·龙|2021",
+      "cpu": "AMD 锐龙 5 5600H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://nb.zol.com.cn/762/7626765.html",
+      "sourceTitle": "宏碁暗影骑士·龙游戏本上架 下周正式开售（R5-5600H+RTX3060，7999 元）",
+      "confidence": "high",
+      "notes": "2021 年 2 月 25 日开售；首发 7499 元、现货 7699 元、京东预约 7999 元；显卡约 85W。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 15|2023",
+      "cpu": "英特尔酷睿 i5-13420H",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 165Hz",
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Nitro-V-15-ANV15-51.777843.0.html",
+      "sourceTitle": "Acer Nitro V 15 ANV15-51 规格 - Notebookcheck 中文版",
+      "confidence": "high",
+      "notes": "台版 2023 年 9 月上市，建议售价 39,900 新台币；RTX 4050 75W、16GB DDR5、57Wh。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 15|2023",
+      "cpu": "英特尔酷睿 i9-13900H",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 165Hz",
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Nitro-V-15-ANV15-51.777843.0.html",
+      "sourceTitle": "Acer Nitro V 15 ANV15-51 规格 - Notebookcheck 中文版",
+      "confidence": "high",
+      "notes": "中东 SKU NH.QQEEM.00B；16GB DDR5-5200、512GB PCIe 4.0、RTX 4060 75W。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 16|2024",
+      "cpu": "AMD 锐龙 7 8845HS",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://laptopmedia.com/review/acer-nitro-v-16-anv16-41-review-this-one-could-be-one-of-the-best-budget-laptops-in-2024/post",
+      "sourceTitle": "Acer Nitro V 16 (ANV16-41) 评测与在售配置（R7-8845HS/RTX4060/16GB/1TB，$1039 起）",
+      "confidence": "high",
+      "notes": "2024 年美版在售配置 1039—1099 美元；RTX 4060 85W。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2017",
+      "cpu": "英特尔酷睿 i7-7700HQ",
+      "ram": "16GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.notebookcheck-cn.com/Acer-Predator-Helios-300-G3-571.236182.0.html",
+      "sourceTitle": "Acer Predator Helios 300-G3-571（i7-7700HQ/16GB/256GB+1TB/GTX1060）规格",
+      "confidence": "high",
+      "notes": "G3-571-77QK，2017 年 5 月上市，约 1050 美元 / 1000 欧元档。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2017",
+      "cpu": "英特尔酷睿 i5-7300HQ",
+      "ram": "4GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "1TB HDD",
+      "screen": "15.6英寸 1920x1080 60Hz",
+      "sourceUrl": "https://www.yugatech.com/hi/news/acer-predator-helios-300-g3-571-with-gtx-1060-now-in-ph/",
+      "sourceTitle": "Acer Predator Helios 300 G3-571 with GTX 1060 now in PH（i5/4GB 低配 66,996 比索）",
+      "confidence": "medium",
+      "notes": "菲律宾在售 G3-571-51NK：i5-7300HQ+4GB DDR4+1TB HDD+GTX 1060 6GB。4GB 内存选项仅见于该 SKU。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2018",
+      "cpu": "英特尔酷睿 i7-8750H",
+      "ram": "16GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190201/1811%E8%B3%87%E8%A8%8A%E6%9C%88Gaming%E5%83%B9%E6%A0%BC%E8%A1%A8-1113v7-%E9%83%A8%E5%88%862.pdf",
+      "sourceTitle": "宏碁 2018 資訊月 Predator 價格表（PH315-51-78HA）",
+      "confidence": "high",
+      "notes": "PH315-51-78HA；同页列 PH315-51-77MC（8GB）与 17.3 英寸 PH317-52-71SV。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2018",
+      "cpu": "英特尔酷睿 i7-8750H",
+      "ram": "8GB",
+      "gpu": "GTX 1060 6GB 笔记本电脑 GPU",
+      "storage": "256GB SSD+1TB HDD",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://static.acer.com/up/Resource/Acer/_locale/zh_TW/PriceList/20190201/1811%E8%B3%87%E8%A8%8A%E6%9C%88Gaming%E5%83%B9%E6%A0%BC%E8%A1%A8-1113v7-%E9%83%A8%E5%88%862.pdf",
+      "sourceTitle": "宏碁 2018 資訊月 Predator 價格表（PH315-51-77MC，8GB 版）",
+      "confidence": "high",
+      "notes": "PH315-51-77MC，其余规格同 78HA。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "GTX 1660 Ti 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://tech.sina.com.cn/digi/2020-07-04/doc-iirczymm0497678.shtml",
+      "sourceTitle": "宏碁上架掠夺者战斧 300（GTX 1660Ti 到手 8999 元）",
+      "confidence": "high",
+      "notes": "2020 年 7 月上架价格档：1660Ti 8999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://tech.sina.com.cn/digi/2020-07-04/doc-iirczymm0497678.shtml",
+      "sourceTitle": "宏碁上架掠夺者战斧 300（RTX 2060 到手 9499 元）",
+      "confidence": "high",
+      "notes": "2020 年 7 月，京东 RTX 2060 版到手 9499 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "cpu": "英特尔酷睿 i7-10750H",
+      "ram": "16GB",
+      "gpu": "RTX 2070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://tech.sina.com.cn/digi/2020-07-04/doc-iirczymm0497678.shtml",
+      "sourceTitle": "宏碁上架掠夺者战斧 300（RTX 2070 到手 11899 元）",
+      "confidence": "high",
+      "notes": "2020 年 7 月，RTX 2070 版到手 11899 元；ZOL 另有 RTX 2070 Max-Q 版 11899 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "cpu": "英特尔酷睿 i7-10870H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1330358.shtml",
+      "sourceTitle": "Acer 掠夺者战斧300 2020（i7 10870H/16GB/1TB/RTX3060）产品库页",
+      "confidence": "high",
+      "notes": "SKU PH315-53-790F（NH.Q7YCN.003 为 10750H+2060 版），参考价 11,999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/57/index1413916.shtml",
+      "sourceTitle": "Acer 掠夺者战斧300 15.6 2022（i7 12700H/16GB/512GB/RTX3060）¥9969",
+      "confidence": "high",
+      "notes": "2022 年 Q2 参考价 9969 元；RTX 3060 140W。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/57/index1413916.shtml",
+      "sourceTitle": "Acer 掠夺者战斧300 15.6 2022（16GB/1TB/RTX3070）¥10969",
+      "confidence": "high",
+      "notes": "同页配置差异表，参考价 10,969 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2022",
+      "cpu": "英特尔酷睿 i7-12700H",
+      "ram": "16GB",
+      "gpu": "RTX 3070 Ti 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 2560x1440 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/57/index1413916.shtml",
+      "sourceTitle": "Acer 掠夺者战斧300 15.6 2022（16GB/1TB/RTX3070Ti）¥11269",
+      "confidence": "high",
+      "notes": "参考价 11,269 元；2022 年 6 月京东价 11,299 元（媒体引用）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://g.pconline.com.cn/product/notebook/acer/1176923_detail.html",
+      "sourceTitle": "宏碁掠夺者刀锋500 PT515-51-789G 参数页",
+      "confidence": "high",
+      "notes": "PT515-51-789G，2019 年 4 月上市。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2019",
+      "cpu": "英特尔酷睿 i7-9750H",
+      "ram": "16GB",
+      "gpu": "RTX 2060 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "15.6英寸 1920x1080 144Hz",
+      "sourceUrl": "https://product.pconline.com.cn/notebook/acer/1228994_detail.html",
+      "sourceTitle": "宏碁掠夺者刀锋500 PT515-51-798J（16GB/1TB/RTX2060）参数页",
+      "confidence": "high",
+      "notes": "PT515-51-798J，1TB SSD 版本，其余同 789G。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2020",
+      "cpu": "英特尔酷睿 i7-10875H",
+      "ram": "32GB",
+      "gpu": "RTX 2070 Super 8GB 笔记本电脑 GPU",
+      "storage": "512GB",
+      "screen": "15.6英寸 1920x1080 300Hz",
+      "sourceUrl": "https://k.sina.cn/article_1448589414_5657b86605500q5xq.html",
+      "sourceTitle": "近期新品笔记本盘点（掠夺者刀锋 500：i7-10875H + RTX 2070S/2080S MQ，300Hz）",
+      "confidence": "medium",
+      "notes": "媒体记载内存最高 32GB，故以 32GB+2070S 记录；该 SKU 具体容量组合未逐一核实。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2023",
+      "cpu": "英特尔酷睿 i7-13700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1478224.shtml",
+      "sourceTitle": "Acer 掠夺者·擎Neo(i5 13500HX/16GB/512GB/RTX4060) - 中关村在线",
+      "confidence": "high",
+      "notes": "2023 年 5 月新加坡上市；WUXGA 400nit 面板 + RTX 4050 6GB。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2023",
+      "cpu": "英特尔酷睿 i7-13700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4060 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 165Hz",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1478224.shtml",
+      "sourceTitle": "Acer 掠夺者·擎Neo(i5 13500HX/16GB/512GB/RTX4060) - 中关村在线",
+      "confidence": "high",
+      "notes": "WQXGA 500nit 面板 + RTX 4060 140W；国行同期以「掠夺者·擎 Neo」名义销售。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2024",
+      "cpu": "英特尔酷睿 i7-14700HX",
+      "ram": "16GB",
+      "gpu": "RTX 4050 6GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 1920x1200 165Hz",
+      "sourceUrl": "https://www.smartprix.com/laptops/acer_predator_helios_neo_16_20_vs_acer_nitro_v16_anv16_41_gaming-cpd1lnrxkdyg_pd11w4rjmka.php",
+      "sourceTitle": "Acer Predator Helios Neo 16 2024 PHN16-72（i7-14700HX/16GB/1TB/RTX4050）参数与印度价",
+      "confidence": "high",
+      "notes": "印度在售 142,999 卢比；2.8kg、Killer Wi-Fi 6E 1675i。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2024",
+      "cpu": "英特尔酷睿 i9-14900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881",
+      "sourceTitle": "CES 2024: Predator Helios Neo 16 最高 i9-14900HX + RTX 4070（中国 2 月起 8499 元）",
+      "confidence": "medium",
+      "notes": "官方称顶配 i9-14900HX + RTX 4070 140W；国行 8,499 元为起售价（对应较低配置）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070 Ti 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html",
+      "sourceTitle": "掠夺者·擎 NEO 16 英寸 32GB+1TB+RTX5070Ti+LCD 14999 元（IT之家）",
+      "confidence": "high",
+      "notes": "2025 年 6 月京东首销，国补后 12,999 元；RTX 5070 Ti 140W。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo S 16|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070 Ti 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html",
+      "sourceTitle": "掠夺者·擎 NEO S 16 英寸 32GB+1TB+RTX5070Ti+OLED 14999 元（IT之家）",
+      "confidence": "high",
+      "notes": "与擎 Neo 同价 14,999 元（国补 12,999 元），差异为 OLED 面板与更薄机身（19.9mm）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4070 8GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://nxtmag.tech/?p=24547",
+      "sourceTitle": "Predator Helios 16 (PH16-71-97V2) RTX 4070 3,298 新币",
+      "confidence": "high",
+      "notes": "2023 年新加坡上市；16GB DDR5-5600。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://nxtmag.tech/?p=24547",
+      "sourceTitle": "Predator Helios 16 (PH16-71-91VQ) RTX 4080 3,898 新币",
+      "confidence": "high",
+      "notes": "2023 年新加坡上市；国行 2023 年 2 月起售 17,999 元（CES 2023 公布）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16 AI|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "32GB",
+      "gpu": "RTX 5070 Ti 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "16英寸 2560x1600 240Hz",
+      "sourceUrl": "https://technave.com/comparison/compare-laptop-specs-price-Malaysia-119.html?gadget1=44290",
+      "sourceTitle": "Acer Predator Helios 16 AI PH16-73-99FA（RM10,999 起）规格",
+      "confidence": "high",
+      "notes": "马来西亚 2025 年 9 月在售；16 英寸 OLED 240Hz、2.65kg。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "16GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "1TB",
+      "screen": "18英寸 2560x1600 240Hz",
+      "sourceUrl": "https://www.toutiao.com/article/7197380424036368933/",
+      "sourceTitle": "掠夺者战斧18 首发 19999 元（i9-13900HX/16GB DDR5-5600/1TB/RTX4080 175W）",
+      "confidence": "high",
+      "notes": "2023 年 2 月 8 日首销，标价 22,199 元、首发 19,999 元。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18|2023",
+      "cpu": "英特尔酷睿 i9-13900HX",
+      "ram": "32GB",
+      "gpu": "RTX 4080 12GB 笔记本电脑 GPU",
+      "storage": "2TB",
+      "screen": "18英寸 2560x1600 240Hz",
+      "sourceUrl": "https://nb.zol.com.cn/813/8136955.html",
+      "sourceTitle": "宏碁掠夺者战斧18 32GB DDR5-5600 + 2TB + RTX4080，活动价 19999 元（中关村在线）",
+      "confidence": "high",
+      "notes": "2023 年 3 月京东活动价 19,999 元（原 21,699 元）。"
+    },
+    {
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18 AI|2025",
+      "cpu": "英特尔酷睿 Ultra 9 275HX",
+      "ram": "64GB",
+      "gpu": "RTX 5080 16GB 笔记本电脑 GPU",
+      "storage": "2TB",
+      "screen": "18英寸 2560x1600 250Hz",
+      "sourceUrl": "https://digi.ithome.com/archiver/857/153.htm",
+      "sourceTitle": "宏碁掠夺者战斧 2025 国行三档配置与价格（64G/2T/RTX5080 23999 元）",
+      "confidence": "high",
+      "notes": "2025 年 6 月 6 日开售，国补后 21,999 元；1TB PCIe5.0 + 1TB PCIe4.0。"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "暗影骑士3",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 3|2017",
+      "aliasType": "去空格写法",
+      "note": "国行最早一批“7+10”游戏本，型号 VX5-591G。"
+    },
+    {
+      "alias": "Acer VX5-591G",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 3|2017",
+      "aliasType": "海外型号名",
+      "note": "海外与国内共用型号；电商常直接写 VX5。"
+    },
+    {
+      "alias": "暗影骑士5",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 5|2019",
+      "aliasType": "去空格写法",
+      "note": "对应 Nitro 5 AN515-54 模具；中文名存在“暗影骑士5/暗影骑士·擎”混用。"
+    },
+    {
+      "alias": "Acer Nitro 5",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 5|2019",
+      "aliasType": "英文系列名",
+      "note": "Nitro 5 跨 2017—2024 多代共用，此处指向 AN515-54 一代。"
+    },
+    {
+      "alias": "Nitro 5 AN515",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 5|2019",
+      "aliasType": "海外型号名",
+      "note": "AN515 系列代号，含 -54/-55/-56/-58 多代。"
+    },
+    {
+      "alias": "暗影骑士7",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 7|2019",
+      "aliasType": "去空格写法",
+      "note": "官方/媒体另一写法为“暗影骑士轻刃”。"
+    },
+    {
+      "alias": "暗影骑士轻刃",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 7|2019",
+      "aliasType": "媒体中文名",
+      "note": "太平洋电脑网产品库登记名，对应 AN715-51。"
+    },
+    {
+      "alias": "Acer Nitro 7",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士 7|2019",
+      "aliasType": "英文系列名",
+      "note": "AN715-51，全金属 19.9mm 机身。"
+    },
+    {
+      "alias": "暗影骑士擎",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2020",
+      "aliasType": "去分隔符写法",
+      "note": "官方名含间隔号“·”，搜索时常被省略。"
+    },
+    {
+      "alias": "暗影骑士擎2020",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2020",
+      "aliasType": "年份后缀写法",
+      "note": "十代酷睿 AN515-55。"
+    },
+    {
+      "alias": "暗影骑士擎2021",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2021",
+      "aliasType": "年份后缀写法",
+      "note": "11 代酷睿 i5-11400H + RTX 3050 一代。"
+    },
+    {
+      "alias": "暗影骑士擎2022",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2022",
+      "aliasType": "年份后缀写法",
+      "note": "12 代酷睿 AN515-58，2.5K 165Hz。"
+    },
+    {
+      "alias": "暗影骑士龙",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·龙|2021",
+      "aliasType": "去分隔符写法",
+      "note": "锐龙 5000H 版本，海外 AN515-45。"
+    },
+    {
+      "alias": "龙哥",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·龙|2021",
+      "aliasType": "媒体昵称",
+      "note": "评测圈对暗影骑士·龙的俗称。"
+    },
+    {
+      "alias": "Nitro 5 锐龙版",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·龙|2021",
+      "aliasType": "配置俗称",
+      "note": "指 AMD 平台的 Nitro 5。"
+    },
+    {
+      "alias": "暗影骑士威",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 15|2023",
+      "aliasType": "去分隔符写法",
+      "note": "Nitro V 15 国行名。"
+    },
+    {
+      "alias": "Acer Nitro V 15",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 15|2023",
+      "aliasType": "英文系列名",
+      "note": "ANV15-51。"
+    },
+    {
+      "alias": "Nitro V 16",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 16|2024",
+      "aliasType": "英文系列名",
+      "note": "ANV16-41。"
+    },
+    {
+      "alias": "暗影骑士威16",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·威 16|2024",
+      "aliasType": "去空格写法",
+      "note": "电商标题常见写法。"
+    },
+    {
+      "alias": "宏碁游戏本",
+      "modelKey": "笔记本电脑|宏碁|暗影骑士·擎|2021",
+      "aliasType": "泛搜词",
+      "note": "泛搜通常命中暗影骑士·擎系列，以 2021 款为代表。"
+    },
+    {
+      "alias": "掠夺者战斧",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "aliasType": "去分隔符写法",
+      "note": "“战斧”在国内先后指战斧 300（15.6/17.3）与战斧 16/18。"
+    },
+    {
+      "alias": "战斧300",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "aliasType": "简称",
+      "note": "Predator Helios 300 国行名。"
+    },
+    {
+      "alias": "Predator Helios 300",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2018",
+      "aliasType": "英文系列名",
+      "note": "PH315-51 一代（8 代酷睿）。"
+    },
+    {
+      "alias": "Helios 300 PH315",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 300|2020",
+      "aliasType": "海外型号名",
+      "note": "PH315 系列含 -51/-52/-53/-55 多代。"
+    },
+    {
+      "alias": "掠夺者刀锋",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2019",
+      "aliasType": "去分隔符写法",
+      "note": "刀锋系列含刀锋 300/500/500 SE/刀锋 Neo 16。"
+    },
+    {
+      "alias": "Predator Triton 500",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 500|2019",
+      "aliasType": "英文系列名",
+      "note": "PT515-51。"
+    },
+    {
+      "alias": "刀锋Neo",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 Neo 16|2023",
+      "aliasType": "简称",
+      "note": "指刀锋 Neo 16（PTN16-51）。"
+    },
+    {
+      "alias": "Triton Neo 16",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·刀锋 Neo 16|2023",
+      "aliasType": "英文系列名",
+      "note": "PTN16-51，Core Ultra 首代。"
+    },
+    {
+      "alias": "掠夺者擎Neo",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2023",
+      "aliasType": "去分隔符写法",
+      "note": "Helios Neo 16 国行名。"
+    },
+    {
+      "alias": "Helios Neo 16",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2023",
+      "aliasType": "英文系列名",
+      "note": "PHN16-71/-72/-73 多代共用。"
+    },
+    {
+      "alias": "擎Neo",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo 16|2023",
+      "aliasType": "简称",
+      "note": "国行“擎 Neo”系列简称。"
+    },
+    {
+      "alias": "Helios Neo 16S",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·擎 Neo S 16|2025",
+      "aliasType": "英文系列名",
+      "note": "PHN16S-71，国行名“掠夺者·擎 Neo S”。"
+    },
+    {
+      "alias": "战斧16",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16|2023",
+      "aliasType": "简称",
+      "note": "Predator Helios 16。"
+    },
+    {
+      "alias": "Helios 16",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 16|2023",
+      "aliasType": "英文系列名",
+      "note": "PH16-71/-72/-73 多代共用。"
+    },
+    {
+      "alias": "战斧18",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18|2023",
+      "aliasType": "简称",
+      "note": "Predator Helios 18。"
+    },
+    {
+      "alias": "Helios 18",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18|2023",
+      "aliasType": "英文系列名",
+      "note": "PH18-71/-72/-73 多代共用。"
+    },
+    {
+      "alias": "战斧18 AI",
+      "modelKey": "笔记本电脑|宏碁|掠夺者·战斧 18 AI|2025",
+      "aliasType": "AI 后缀写法",
+      "note": "2025 款 PH18-73，Ultra 9 275HX + RTX 5080。"
+    }
+  ],
+  "uncertain": [
+    {
+      "model": "暗影骑士 5 / 暗影骑士·擎5",
+      "issue": "“暗影骑士5”是否为 AN515-54（2019）的官方中文名无法确认：官方页面只写 Nitro 5 AN515-54，国内 2020 年前后宣传多用“暗影骑士·擎”，电商另见“暗影骑士·擎5”写法（仅比价站，不可靠）。",
+      "suggestion": "采购建库时以 AN515-54 型号码为唯一锚点，中文名统一到已确认的“暗影骑士·擎”（2020/AN515-55）体系；若必须保留“暗影骑士5”，建议标注为别名而非独立机型。",
+      "sourceUrl": "https://www.acer.com/ee-en/laptops/nitro/nitro-5/pdp/NH.Q59EL.01L"
+    },
+    {
+      "model": "暗影骑士 16（2026，AN16-A91）",
+      "issue": "CES 2026 已发布 Nitro 16（AN16-A91，最高锐龙 9 9955HX3D + RTX 5070 Ti、16 英寸 WQXGA 240Hz），但未取得中文命名与国内上市/价格信息，无法确认国行是否以“暗影骑士 16”销售。",
+      "suggestion": "等 acer.com.cn 或京东自营上架后补录；暂不进入 models，避免自造中文名。",
+      "sourceUrl": "https://www.gizguide.com/2026/06/acer-predator-helios-18-ai-nitro-blaze-16.html"
+    },
+    {
+      "model": "掠夺者·擎 Neo 18（2024，PHN18-71）",
+      "issue": "CES 2024 发布 Helios Neo 18（PHN18-71，最高 i9-14900HX + RTX 4070、18 英寸 2560x1600 240Hz），官方只公布北美 1,549.99 美元、EMEA 2,199 欧元，未见国行上市信息。",
+      "suggestion": "确认国行是否引入及中文名后再补一条 models；当前仅记入 uncertain。",
+      "sourceUrl": "https://gearopen.com/gaming/ces-2024-acer-predator-helios-gaming-laptops-now-available-with-intel-core-14th-gen-processors-300881"
+    },
+    {
+      "model": "掠夺者·战斧 18 AI（2026，PH18-I71）",
+      "issue": "规格（Ultra 9 290HX Plus / RTX 5090 / 最高 256GB 内存 / 6TB 存储 / 18 英寸 4K Mini LED 双模）已获媒体确认，但国行型号、上市时间与价格均未公布，ramOptions/storageOptions 只能记官方上限值。",
+      "suggestion": "2026 年 Q2 后复查 acer.com.cn 与京东自营；届时补齐在售容量档位与首发价。",
+      "sourceUrl": "https://www.gizguide.com/2026/06/acer-predator-helios-18-ai-nitro-blaze-16.html"
+    },
+    {
+      "model": "掠夺者·刀锋 300（2019，PT315-51）",
+      "issue": "多次检索只返回战斧 300（PH315-51）页面，未取得刀锋 300（PT315-51，GTX 1650/1660Ti 轻薄款）的可靠规格页与国行信息。",
+      "suggestion": "暂不收录；如需补录，建议查 acer.com 台湾/香港 PT315-51 PDP 页或 ZOL 产品库对应条目。",
+      "sourceUrl": "https://www.notebookcheck.net/Acer-Predator-Helios-300-PH315-51-757A.363351.0.html"
+    },
+    {
+      "model": "掠夺者·战斧 300（2019，PH315-52）",
+      "issue": "2019 年战斧 300（9 代酷睿 + GTX 1660Ti/RTX 2060）未取得国行规格与价格来源，无法确认当年是否在国内以“战斧 300”单独销售。",
+      "suggestion": "查 2019 年京东历史页或 ZOL 2019 款产品页后再决定是否新增一行；当前以 2018（PH315-51）与 2020（PH315-53）两代覆盖。",
+      "sourceUrl": "https://detail.zol.com.cn/notebook/index1330358.shtml"
+    },
+    {
+      "model": "掠夺者·战斧 16 AI（2025，PH16-73）国行版本",
+      "issue": "海外（马来西亚 RM10,999、北美 2,300 美元）配置已确认，但 2025 年国行首发名单只含战斧 18 AI、擎 Neo、擎 Neo S，战斧 16 AI 是否国行在售存疑。",
+      "suggestion": "以京东自营 SKU 为准；若国行未上架，采购端应改用擎 Neo/战斧 18 系列替代。",
+      "sourceUrl": "https://www.163.com/dy/article/K1EMP0VI0511CEBF.html"
+    }
+  ]
+}

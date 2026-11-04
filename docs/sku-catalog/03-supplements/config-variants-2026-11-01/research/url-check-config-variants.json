@@ -88,15 +88,15 @@
   "ok": true,
   "final": "https://club.lenovo.com.cn/thread-7871097-1-1.html"
  },
- "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b": {
-  "status": 200,
-  "ok": true,
-  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HI375mqj-ptoe0yoca5XhkjXCWu_i6pzDYOvPPnJ&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzU2MTYzMTM1MQ%3D%3D%26mid%3D2247488720%26idx%3D1%26sn%3D32ac65df763407e3056db400afe1345b"
+  "http://mp.weixin.qq.com/s?__biz=MzU2MTYzMTM1MQ==&mid=2247488720&idx=1&sn=32ac65df763407e3056db400afe1345b": {
+    "status": 403,
+    "ok": false,
+    "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha"
  },
- "http://mp.weixin.qq.com/s?__biz=MzAwNTU3ODU1MQ==&mid=2649119083&idx=2&sn=68e643aeec66da4b4d62ccb30fcd939d": {
-  "status": 200,
-  "ok": true,
-  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HI375mqjOqhQk88Vz_QamYnG1a__uRNLUPDOUp7p&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzAwNTU3ODU1MQ%3D%3D%26mid%3D2649119083%26idx%3D2%26sn%3D68e643aeec66da4b4d62ccb30fcd939d"
+  "http://mp.weixin.qq.com/s?__biz=MzAwNTU3ODU1MQ==&mid=2649119083&idx=2&sn=68e643aeec66da4b4d62ccb30fcd939d": {
+    "status": 403,
+    "ok": false,
+    "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha"
  },
  "https://club.lenovo.com.cn/thread-9446231-1-1.html": {
   "status": 200,
@@ -108,10 +108,10 @@
   "ok": true,
   "final": "https://3w.huanqiu.com/a/c36dc8/424yqvC6NeM"
  },
- "http://mp.weixin.qq.com/s?__biz=MjM5NTAwMTI5Mg==&mid=2653065648&idx=1&sn=31ad810ce48174db420091da4321d7d7": {
-  "status": 200,
-  "ok": true,
-  "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha?poc_token=HI375mqj4vXMUs2V6MvUOoEk0XRfkG3bSvGEMVWv&target_url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMjM5NTAwMTI5Mg%3D%3D%26mid%3D2653065648%26idx%3D1%26sn%3D31ad810ce48174db420091da4321d7d7"
+  "http://mp.weixin.qq.com/s?__biz=MjM5NTAwMTI5Mg==&mid=2653065648&idx=1&sn=31ad810ce48174db420091da4321d7d7": {
+    "status": 403,
+    "ok": false,
+    "final": "https://mp.weixin.qq.com/mp/wappoc_appmsgcaptcha"
  },
  "https://club.lenovo.com.cn/thread-9610137-1-1.html": {
   "status": 200,
@@ -1429,5 +1429,41 @@
   "status": 200,
   "ok": true,
   "final": "https://www.mi.com/shop/buy/detail?product_id=24035"
+ },
+ "https://news.mydrivers.com/1/1050/1050537.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://news.mydrivers.com/1/1050/1050537.htm",
+  "note": "快科技 REDMI Book 14 锐龙版 2025 发布稿，2025-05-29"
+ },
+ "https://post.smzdm.com/p/al9r23d0/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://post.smzdm.com/p/al9r23d0/",
+  "note": "什么值得买 REDMI Book 14 锐龙版 2025 上架稿，2025-06-04"
+ },
+ "https://nb.zol.com.cn/1176/11762390.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/1176/11762390.html",
+  "note": "中关村在线：红米 Book 16 锐龙版 2025 R7-7735H/16GB/512GB 京东 3999 元"
+ },
+ "https://nb.zol.com.cn/1118/11181422.html": {
+  "status": 200,
+  "ok": true,
+  "final": "https://nb.zol.com.cn/1118/11181422.html",
+  "note": "中关村在线：Redmi Book 16 锐龙版 2025 R7-7735H/16GB/512GB 京东 3599 元"
+ },
+ "https://product.pconline.com.cn/notebook/redmi/": {
+  "status": 200,
+  "ok": true,
+  "final": "https://product.pconline.com.cn/notebook/redmi/",
+  "note": "太平洋产品库红米笔记本列表，含 REDMI Book 14 锐龙版 2025（R5-7535H / R7-7735H）完整参数"
+ },
+ "https://www.ithome.com/0/620/298.htm": {
+  "status": 200,
+  "ok": true,
+  "final": "https://www.ithome.com/0/620/298.htm",
+  "note": "IT之家：Redmi Book Pro 14/15 2022 锐龙版发布稿（R7-6800H + RTX 2050）"
  }
 }

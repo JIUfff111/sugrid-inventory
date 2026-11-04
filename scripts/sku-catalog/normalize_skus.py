@@ -4,10 +4,13 @@ import json, re
 from pathlib import Path
 from collections import Counter, defaultdict
 
-BASE = Path(r"C:\Pro\Zcode\inventory_mvp\web\docs\sku-catalog\02-research")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+RESEARCH_DIR = PROJECT_ROOT / "docs" / "sku-catalog" / "02-research"
+BASE = RESEARCH_DIR
 FILES = [
     ("lenovo/lenovo-thinlight.json", "轻薄本"),
     ("lenovo/lenovo-gaming.json", "游戏本"),
+    ("lenovo/lenovo-thinkpad.json", "ThinkPad"),
     ("asus/asus-thinlight.json", "轻薄本"),
     ("asus/asus-gaming-v2.json", "游戏本"),
     ("dell/dell-thinlight.json", "轻薄本"),
@@ -221,7 +224,7 @@ for c in bad_combo[:12]:
     print("  ", c["modelKey"], c["origin"])
 
 # ---- carry over source titles from the previous normalized file ----
-_prev_path = BASE / "_combined" / "sku-normalized.json"
+_prev_path = RESEARCH_DIR / "_combined" / "sku-normalized.json"
 _old_models, _old_combos = {}, {}
 if _prev_path.exists():
     try:
@@ -274,7 +277,7 @@ combos = _deduped
 print("combos after dedupe:", len(combos))
 
 out = {"models": models, "combos": combos, "aliases": aliases, "uncertain": uncertain}
-(BASE / "_combined" / "sku-normalized.json").write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+(RESEARCH_DIR / "_combined" / "sku-normalized.json").write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
 
 print("\nbys brand/category:", dict(Counter((m["brand"], m["category"]) for m in models)))
 print("years:", dict(sorted(Counter(m["modelYear"] for m in models).items())))

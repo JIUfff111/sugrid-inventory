@@ -7278,6 +7278,32 @@
     {
       "productType": "笔记本电脑",
       "brand": "ThinkPad",
+      "model": "R14 Gen 2 (Intel)",
+      "year": 2021,
+      "cpuOptions": [
+        "I5-1135G7"
+      ],
+      "ramOptions": [
+        "8GB",
+        "16GB",
+        "24GB",
+        "32GB"
+      ],
+      "gpuOptions": [
+        "集显",
+        "MX350"
+      ],
+      "storageOptions": [
+        "256GB SSD",
+        "512GB SSD"
+      ],
+      "screenOptions": [
+        "FHD"
+      ]
+    },
+    {
+      "productType": "笔记本电脑",
+      "brand": "ThinkPad",
       "model": "S431",
       "year": 2013,
       "cpuOptions": [

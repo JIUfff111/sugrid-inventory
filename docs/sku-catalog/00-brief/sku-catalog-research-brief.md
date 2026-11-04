@@ -1,5 +1,7 @@
 # 采购 SKU 型号资料搜集说明
 
+> 本说明定义研究资料和原始来源的整理方式，不是采购页内置 SKU 的直接导入格式。交付可导入增量时，统一按 [`sku-agent-handoff-standard.md`](sku-agent-handoff-standard.md) 和 [`sku-agent-research-prompt.md`](sku-agent-research-prompt.md) 执行：运行字段使用 `year`、小米与 Redmi 统一使用品牌「小米」、可导入选项使用短格式；原始品牌、年份说明和规格描述保留在来源字段中供核查。
+
 ## 任务目标
 
 为「溯格」采购中的 SKU 选择器补充可信、可追溯的笔记本电脑及其他已确认设备型号资料。型号必须带正确的品牌和型号年份，搜索和选择结果应能直接显示为「ThinkPad X13 2020」这类完整名称；配置选项应来自资料来源，不能用猜测补齐。

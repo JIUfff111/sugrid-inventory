@@ -34,7 +34,7 @@ try {
   assert.equal(catalog.skus.some((sku) => (sku.cpuOptions || []).some((value) => /^(?:Intel|英特尔|AMD|锐龙|Ryzen|酷睿)\b/i.test(value))), false);
   assert.equal(catalog.skus.some((sku) => (sku.gpuOptions || []).some((value) => /笔记本电脑 GPU|\d+GB/i.test(value))), false);
   assert.equal(catalog.skus.some((sku) => (sku.screenOptions || []).some((value) => /英寸|Hz|nits|sRGB|x\d/i.test(value))), false);
-  assert.equal(catalog.skus.length, 976);
+  assert.equal(catalog.skus.length, 977);
   assert.equal(catalog.skus.some((sku) => sku.brand === '红米'), false);
   assert.equal(catalog.skus.some((sku) => sku.year && String(sku.model).includes(String(sku.year))), false,
     'the model field must not repeat the separate model year');
@@ -59,6 +59,13 @@ try {
   assert.equal(newRedmi14.storageOptions.includes('512GB SSD'), true);
   assert.deepEqual(catalog.skus.find((sku) => sku.brand === 'ThinkPad' && sku.model === 'T14 Gen 1 (AMD)' && sku.year === 2020).screenOptions,
     ['FHD', 'HD']);
+  const r14Intel = catalog.skus.find((sku) => sku.brand === 'ThinkPad' && sku.model === 'R14 Gen 2 (Intel)' && sku.year === 2021);
+  assert.deepEqual(r14Intel.cpuOptions, ['I5-1135G7']);
+  assert.deepEqual(r14Intel.gpuOptions, ['集显', 'MX350']);
+  assert.equal(catalog.skus.some((sku) => sku.brand === 'ThinkPad' && sku.model === 'R14 Gen 2 (AMD)'), false,
+    'AMD model must await a sourced model year and retail configuration');
+  assert.equal(catalog.skus.some((sku) => sku.brand === 'ThinkPad' && sku.model === 'R14 Gen 4'), false,
+    'Gen 4 model must await an independent second source');
   assert.equal(catalog.skus.find((sku) => sku.brand === 'ThinkPad' && sku.model === 'X1 Carbon Gen9' && sku.year === 2021).screenOptions.includes('FHD+'), true);
   assert.equal(catalog.skus.find((sku) => sku.brand === '小米' && sku.model === 'Xiaomi Book Pro 14 锐龙版' && sku.year === 2022).screenOptions.includes('2.8K'), true);
   assert.equal(catalog.skus.find((sku) => sku.brand === '小米' && sku.model === 'Redmi Book Pro 14 酷睿版' && sku.year === 2022).cpuOptions.includes('I5-12500H'), true);
@@ -106,6 +113,30 @@ try {
   assert.deepEqual(existing.prepare('SELECT * FROM skus WHERE id = ?').get('existing'), original);
 } finally {
   existing.close();
+}
+
+const r14Upgrade = createDatabase();
+try {
+  r14Upgrade.prepare(`INSERT INTO users(id,username,password,role,status)
+    VALUES ('local-user', 'local-r14-editor', 'test-only', 'admin', 'active')`).run();
+  r14Upgrade.prepare(`INSERT INTO skus(id,productType,brand,model,year,cpuOptions,createdBy)
+    VALUES ('local-r14', '笔记本电脑', 'ThinkPad', 'R14 Gen 4', 2022, '["LOCAL-CPU"]', 'local-user')`).run();
+  r14Upgrade.prepare('DELETE FROM schema_migrations WHERE version = 21').run();
+  initDatabase(r14Upgrade);
+  assert.equal(r14Upgrade.prepare('SELECT COUNT(*) AS count FROM schema_migrations WHERE version = 21').get().count, 1);
+  const localR14 = r14Upgrade.prepare('SELECT cpuOptions FROM skus WHERE id = ?').get('local-r14');
+  assert.deepEqual(JSON.parse(localR14.cpuOptions), ['LOCAL-CPU'], 'migration must preserve a locally managed R14');
+  assert.equal(r14Upgrade.prepare(`SELECT COUNT(*) AS count FROM skus WHERE brand = 'ThinkPad' AND model = 'R14 Gen 4' AND year = 2022`).get().count, 1);
+  assert.equal(r14Upgrade.prepare(`SELECT COUNT(*) AS count FROM skus WHERE brand = 'ThinkPad' AND model = 'R14 Gen 2 (Intel)' AND year = 2021`).get().count, 1);
+  assert.equal(r14Upgrade.prepare(`SELECT COUNT(*) AS count FROM skus WHERE brand = 'ThinkPad' AND model = 'R14 Gen 2 (AMD)'`).get().count, 0);
+  const beforeRerun = r14Upgrade.prepare('SELECT COUNT(*) AS count FROM skus').get().count;
+  initDatabase(r14Upgrade);
+  assert.equal(r14Upgrade.prepare('SELECT COUNT(*) AS count FROM skus').get().count, beforeRerun,
+    'migration 21 must be idempotent');
+  assert.deepEqual(r14Upgrade.pragma('foreign_key_check'), []);
+  assert.equal(r14Upgrade.pragma('integrity_check', { simple: true }), 'ok');
+} finally {
+  r14Upgrade.close();
 }
 
 const incrementalCatalogUpgrade = createDatabase();
