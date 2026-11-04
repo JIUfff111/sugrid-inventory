@@ -1,14 +1,26 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { AuthError, requireRole } from '@/lib/auth';
 import { ErrorCode, errorResponse, successResponse } from '@/lib/api-helpers';
 
 type FrequentSKU = { skuId: string; count: number };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const actor = await requireRole('admin');
-    const items = db.prepare(`
+    const catalog = request.nextUrl.searchParams.get('catalog');
+    const items = catalog === 'manual' ? db.prepare(`
+      SELECT manualSku.id AS skuId, COUNT(*) AS count
+      FROM purchase_items item
+      JOIN purchase_orders purchase ON purchase.id = item.purchaseOrderId
+      JOIN manual_skus manualSku ON manualSku.id = item.manualSkuId
+      WHERE COALESCE(item.recordedBy, purchase.createdBy) = ?
+        AND purchase.deleted = 0 AND item.deleted = 0 AND manualSku.deleted = 0 AND manualSku.isActive = 1
+        AND item.createdAt >= datetime('now', '-3 days')
+      GROUP BY manualSku.id
+      ORDER BY count DESC, MAX(item.createdAt) DESC, manualSku.id
+      LIMIT 30
+    `).all(actor.id) as FrequentSKU[] : db.prepare(`
       SELECT sku.id AS skuId, COUNT(*) AS count
       FROM purchase_items item
       JOIN purchase_orders purchase ON purchase.id = item.purchaseOrderId

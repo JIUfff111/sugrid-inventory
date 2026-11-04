@@ -5,16 +5,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { ChevronRight, Search, Check, Plus, TrendingUp, X } from 'lucide-react';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, uniqueCPUOptions, uniqueGPUOptions, uniqueScreenOptions } from '@/lib/sku-display';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
 import { formatProductName } from '@/lib/product-name';
+import { COMMON_RAM_OPTIONS, COMMON_STORAGE_OPTIONS } from '@/lib/hardware-options';
 
 const STORAGE_OPTIONS = ['256GB', '512GB', '1TB', '1.5TB', '2TB'] as const;
 
 export interface SKU {
   id: string;
+  catalogSource?: 'builtin' | 'manual';
   productType: string;
   brand: string;
   model: string;
@@ -87,6 +90,7 @@ function matchesSKUQuery(sku: SKU, value: string): boolean {
 }
 
 interface SKUSelectorProps {
+  catalogSource?: 'builtin' | 'manual';
   onSelect: (config: SelectedConfig, mode: 'close' | 'continue') => void;
   onBatchSelect: (config: SelectedConfig) => void; // 新增：批量录入回调
   onCancel: () => void;
@@ -95,7 +99,8 @@ interface SKUSelectorProps {
 
 type Step = 'productType' | 'brand' | 'model' | 'config' | 'singleInput';
 
-export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selectedMachineCount }: SKUSelectorProps) {
+export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBatchSelect, onCancel, selectedMachineCount }: SKUSelectorProps) {
+  const isManualCatalog = catalogSource === 'manual';
   const [step, setStep] = useState<Step>('productType');
   const [selectedFromHome, setSelectedFromHome] = useState(false);
   const [selectedProductType, setSelectedProductType] = useState('');
@@ -132,7 +137,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
 
     const loadSkus = async () => {
       try {
-        const frequentRequest = fetch('/api/skus/frequent', { signal: controller.signal })
+        const frequentRequest = fetch(`/api/skus/frequent${isManualCatalog ? '?catalog=manual' : ''}`, { signal: controller.signal })
           .then(async (response) => {
             const result = await response.json() as {
               success?: boolean;
@@ -142,30 +147,23 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
           })
           .catch(() => [] as Array<{ skuId: string; count: number }>);
         const allSkus: SKU[] = [];
-        let page = 1;
-
-        while (true) {
-          const response = await fetch(`/api/skus?page=${page}&pageSize=100`, {
-            signal: controller.signal,
-          });
-          const result = await response.json() as {
-            success?: boolean;
-            data?: { items?: SKU[]; totalPages?: number };
-            error?: { message?: string };
-          };
-
-          if (!response.ok || !result.success || !Array.isArray(result.data?.items)) {
-            throw new Error(result.error?.message || '加载 SKU 失败，请重试');
+        if (isManualCatalog) {
+          const response = await fetch('/api/manual-skus', { signal: controller.signal });
+          const result = await response.json() as { success?: boolean; data?: { items?: SKU[] }; error?: { message?: string } };
+          if (!response.ok || !result.success || !Array.isArray(result.data?.items)) throw new Error(result.error?.message || '加载手工 SKU 失败，请重试');
+          allSkus.push(...result.data.items.map((sku) => ({ ...sku, catalogSource: 'manual' as const })));
+        } else {
+          let page = 1;
+          while (true) {
+            const response = await fetch(`/api/skus?page=${page}&pageSize=100`, { signal: controller.signal });
+            const result = await response.json() as { success?: boolean; data?: { items?: SKU[]; totalPages?: number }; error?: { message?: string } };
+            if (!response.ok || !result.success || !Array.isArray(result.data?.items)) throw new Error(result.error?.message || '加载 SKU 失败，请重试');
+            const totalPages = result.data.totalPages;
+            if (!Number.isInteger(totalPages) || totalPages === undefined || totalPages < 0) throw new Error('SKU 列表分页数据无效，请重试');
+            allSkus.push(...result.data.items.map((sku) => ({ ...sku, catalogSource: 'builtin' as const })));
+            if (page >= totalPages) break;
+            page += 1;
           }
-
-          const totalPages = result.data.totalPages;
-          if (!Number.isInteger(totalPages) || totalPages === undefined || totalPages < 0) {
-            throw new Error('SKU 列表分页数据无效，请重试');
-          }
-
-          allSkus.push(...result.data.items);
-          if (page >= totalPages) break;
-          page += 1;
         }
 
         const frequent = await frequentRequest;
@@ -188,7 +186,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
     return () => {
       controller.abort();
     };
-  }, [loadAttempt]);
+  }, [isManualCatalog, loadAttempt]);
 
   const productTypes = Array.from(new Set(skus.map(s => getSKUProductType(s.productType))));
 
@@ -348,8 +346,9 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
           {/* 标题栏 */}
           <div className="px-5 py-3 border-b border-line flex items-center justify-between flex-shrink-0">
             <div>
-              <h2 className="text-[15px] font-semibold text-ink-deep">选择机器 SKU</h2>
+              <h2 className="text-[15px] font-semibold text-ink-deep">{isManualCatalog ? '选择手工 SKU' : '选择机器 SKU'}</h2>
               <div className="flex items-center gap-2 mt-0.5 text-[12px] text-ink-soft">
+                {isManualCatalog && <span className="rounded border border-line px-1.5 py-0.5">独立手工目录</span>}
                 {step === 'productType' && '选择型号'}
                 {step === 'brand' && (
                   <>
@@ -480,6 +479,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                         )}
                         <section aria-label="按品类浏览">
                           {frequentSkus.length > 0 && <h3 className="mb-2 text-[12px] font-semibold text-ink-deep">按品类浏览</h3>}
+                          {productTypes.length === 0 && isManualCatalog && <div className="rounded-lg border border-line bg-white/70 px-4 py-8 text-center text-sm text-ink-soft">手工 SKU 库还没有可用型号。<Link href="/settings/manual-skus" className="ml-1 font-medium text-primary hover:underline">去添加型号</Link></div>}
                           <div className="grid grid-cols-2 gap-3">
                             {productTypes.map(type => (
                               <button
@@ -581,7 +581,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                                 <span>•</span>
                                 <span>内存: {sku.ramOptions.length ? `${sku.ramOptions.length} 选项` : '手动填写'}</span>
                                 <span>•</span>
-                                <span>硬盘: {STORAGE_OPTIONS.length} 选项</span>
+                                <span>硬盘: {isManualCatalog ? `${sku.storageOptions.length} 选项` : `${STORAGE_OPTIONS.length} 常用值`}</span>
                               </div>
                             </div>
                             <div className="flex shrink-0 items-center gap-2 text-[11px] text-ink-soft">
@@ -603,22 +603,14 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                     <label className="block text-[12px] font-medium text-ink-deep mb-2">
                       CPU 处理器 <span className="text-danger">*</span>
                     </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {cpuOptions.map(option => (
-                        <button
-                          key={option}
-                          onClick={() => setSelectedCpu(selectedCpu === option ? '' : option)}
-                          className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
-                                    ${selectedCpu === option
-                                      ? 'bg-primary text-white shadow-sm'
-                                      : 'glass hover:bg-white/60'
-                                    }`}
-                        >
-                          {selectedCpu === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                          {formatCPUDisplay(option)}
-                        </button>
-                      ))}
-                    </div>
+                    {cpuOptions.length > 0 && <div className="mb-2 grid grid-cols-2 gap-2">
+                      {cpuOptions.map(option => <button key={option} type="button" onClick={() => setSelectedCpu(selectedCpu === option ? '' : option)} className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover ${selectedCpu === option ? 'bg-primary text-white shadow-sm' : 'glass hover:bg-white/60'}`}>
+                        {selectedCpu === option && <Check className="w-3.5 h-3.5 inline mr-1" />}{formatCPUDisplay(option)}
+                      </button>)}
+                    </div>}
+                    {isManualCatalog && <input type="text" list="manual-sku-cpu-options" value={selectedCpu} onChange={event => setSelectedCpu(event.target.value)} placeholder="选择上方选项或手动填写 CPU" aria-label="CPU 处理器，可选择或手动输入" className="field" />}
+                    {isManualCatalog && <datalist id="manual-sku-cpu-options">{cpuOptions.map(option => <option key={option} value={formatCPUDisplay(option)} />)}</datalist>}
+                    {!isManualCatalog && cpuOptions.length === 0 && <p className="text-xs text-danger">该型号暂未设置 CPU 选项，请到 SKU 目录补充。</p>}
                   </div>
 
                   {/* 内存 */}
@@ -626,7 +618,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                     <label className="block text-[12px] font-medium text-ink-deep mb-2">
                       内存 <span className="text-danger">*</span>
                     </label>
-                    {selectedSKU.ramOptions.length > 0 ? (
+                    {selectedSKU.ramOptions.length > 0 && (
                       <div className="grid grid-cols-3 gap-2">
                         {selectedSKU.ramOptions.map(option => (
                           <button
@@ -643,17 +635,20 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                           </button>
                         ))}
                       </div>
-                    ) : (
+                    )}
+                    {(!selectedSKU.ramOptions.length || isManualCatalog) && (
                       <input
                         type="text"
+                        list={isManualCatalog ? 'manual-sku-ram-options' : undefined}
                         value={selectedRam}
                         onChange={(event) => setSelectedRam(event.target.value)}
-                        placeholder="请输入内存容量，如：16GB"
+                        placeholder={isManualCatalog ? '选择已登记容量或手动输入，如：16GB' : '请输入内存容量，如：16GB'}
                         className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[12px]
                                  placeholder:text-ink-soft/50 focus:outline-none focus:ring-2
                                  focus:ring-primary/20 focus:border-primary transition-all"
                       />
                     )}
+                    {isManualCatalog && <datalist id="manual-sku-ram-options">{[...new Set([...selectedSKU.ramOptions, ...COMMON_RAM_OPTIONS])].map(option => <option key={option} value={option} />)}</datalist>}
                   </div>
 
                   {/* 显卡 */}
@@ -679,6 +674,8 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                           </button>
                         ))}
                       </div>
+                      {isManualCatalog && <input type="text" list="manual-sku-gpu-options" value={selectedGpu} onChange={event => setSelectedGpu(event.target.value)} placeholder="选择已登记显卡或手动填写" aria-label="显卡，可选择或手动输入" className="field mt-2" />}
+                      {isManualCatalog && <datalist id="manual-sku-gpu-options">{gpuOptions.map(option => <option key={option} value={formatGPUDisplay(option)} />)}</datalist>}
                     </div>
                   )}
 
@@ -688,7 +685,7 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                       硬盘 <span className="font-normal text-ink-soft">选填</span>
                     </label>
                     <div className="grid grid-cols-3 gap-2">
-                      {STORAGE_OPTIONS.map(option => (
+                      {[...new Set(isManualCatalog ? [...selectedSKU.storageOptions, ...COMMON_STORAGE_OPTIONS] : STORAGE_OPTIONS)].map(option => (
                         <button
                           key={option}
                           onClick={() => setSelectedStorage(selectedStorage === option ? '' : option)}
@@ -703,6 +700,8 @@ export default function SKUSelector({ onSelect, onBatchSelect, onCancel, selecte
                         </button>
                       ))}
                     </div>
+                    {isManualCatalog && <input type="text" list="manual-sku-storage-options" value={selectedStorage} onChange={event => setSelectedStorage(event.target.value)} placeholder="选择已登记容量或手动输入，如：512GB SSD" aria-label="硬盘，可选择或手动输入，选填" className="field mt-2" />}
+                    {isManualCatalog && <datalist id="manual-sku-storage-options">{[...new Set([...selectedSKU.storageOptions, ...COMMON_STORAGE_OPTIONS])].map(option => <option key={option} value={option} />)}</datalist>}
                   </div>
 
                   {/* 屏幕 */}

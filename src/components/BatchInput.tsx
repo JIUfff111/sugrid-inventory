@@ -14,6 +14,7 @@ import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComput
 interface BatchInputProps {
   presetConfig?: {
     skuId?: string;
+    manualSkuId?: string;
     productType: string;
     brand: string;
     model: string;
@@ -28,6 +29,7 @@ interface BatchInputProps {
   };
   onConfirm: (machines: Array<{
     skuId?: string;
+    manualSkuId?: string;
     productType: string;
     brand: string;
     model: string;
@@ -57,6 +59,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
   // 通用配置 - 如果有预设配置则使用预设
   const [baseConfig, setBaseConfig] = useState({
     skuId: presetConfig?.skuId,
+    manualSkuId: presetConfig?.manualSkuId,
     productType: presetConfig?.productType || '笔记本电脑',
     brand: presetConfig?.brand || '',
     model: presetConfig?.model || '',

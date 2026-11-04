@@ -14,6 +14,32 @@ const db = new Database(path.join(tempDir, 'inventory.db'));
 db.pragma('foreign_keys = ON');
 schema.initDatabase(db);
 schema.seedDatabase(db);
+const manualSkuColumns = new Set(db.pragma('table_info(manual_skus)').map(column => column.name));
+for (const field of ['cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions']) {
+  assert.equal(manualSkuColumns.has(field), true, `manual SKU migration must add ${field}`);
+}
+
+const legacyDb = new Database(path.join(tempDir, 'legacy-v19.db'));
+legacyDb.pragma('foreign_keys = ON');
+schema.initDatabase(legacyDb);
+schema.seedDatabase(legacyDb);
+const legacyActor = legacyDb.prepare("SELECT id FROM users WHERE username = 'admin'").get().id;
+legacyDb.prepare(`INSERT INTO manual_skus
+  (id, productType, brand, model, year, isActive, deleted, createdBy, updatedBy, createdAt, updatedAt)
+  VALUES (?, ?, ?, ?, ?, 1, 0, ?, ?, ?, ?)`)
+  .run('manual-sku-v19', '笔记本电脑', 'ThinkPad', 'X13', 2020, legacyActor, legacyActor, '2026-10-01', '2026-10-01');
+legacyDb.prepare('DELETE FROM schema_migrations WHERE version = 20').run();
+for (const field of ['cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions']) {
+  legacyDb.exec(`ALTER TABLE manual_skus DROP COLUMN ${field}`);
+}
+schema.initDatabase(legacyDb);
+const migratedManualSku = legacyDb.prepare('SELECT * FROM manual_skus WHERE id = ?').get('manual-sku-v19');
+assert.equal(migratedManualSku.model, 'X13', 'v19 manual SKU identity must survive migration');
+assert.equal(migratedManualSku.year, 2020, 'v19 manual SKU year must survive migration');
+for (const field of ['cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions']) {
+  assert.equal(migratedManualSku[field], '[]', `v19 manual SKU must receive an empty ${field} list`);
+}
+legacyDb.close();
 
 const actor = db.prepare("SELECT id FROM users WHERE username = 'admin'").get();
 const systemActor = { ...actor, role: 'admin', isSystemAccount: true, canViewInventory: true, canEditInventory: true, warehouses: [{ id: 'warehouse_main', status: 'active' }] };
@@ -47,6 +73,7 @@ const authHelpers = {
 const responseMock = { json: (body, init = {}) => ({ body, status: init.status || 200, json: async () => body }) };
 const canonicalSKUBrand = value => /^(?:redmi|红米)$/i.test(String(value || '').trim()) ? '小米' : String(value || '').trim();
 const getSKUProductType = value => value === '游戏本' ? '笔记本电脑' : value;
+let skuDisplay;
 
 const oldLoad = Module._load;
 Module._load = function(request, parent, isMain) {
@@ -61,6 +88,9 @@ Module._load = function(request, parent, isMain) {
     getSKUProductType,
     SKU_PRODUCT_TYPES: ['笔记本电脑', '平板电脑', '显卡'],
     requiresComputerSpecs: productType => getSKUProductType(productType) !== '显卡',
+    formatCPUDisplay: value => skuDisplay.formatCPUDisplay(value),
+    formatGPUDisplay: value => skuDisplay.formatGPUDisplay(value),
+    formatScreenDisplay: value => skuDisplay.formatScreenDisplay(value),
   };
   if (request === '@/lib/inventory-status') return {
     serializeInventoryStatus: row => row,
@@ -87,8 +117,10 @@ function loadRoute(relativePath) {
   return loaded.exports;
 }
 
+skuDisplay = loadRoute('../src/lib/sku-display.ts');
 const manualSkus = loadRoute('../src/app/api/manual-skus/route.ts');
 const builtInSkus = loadRoute('../src/app/api/skus/route.ts');
+const frequentSkus = loadRoute('../src/app/api/skus/frequent/route.ts');
 const purchaseOrders = loadRoute('../src/app/api/purchase-orders/route.ts');
 const inventoryEdit = loadRoute('../src/app/api/inventory/edit/route.ts');
 const inventoryRoute = loadRoute('../src/app/api/inventory/route.ts');
@@ -97,7 +129,6 @@ const inventoryLookup = loadRoute('../src/app/api/inventory/lookup/route.ts');
 const inventoryAssetChange = loadRoute('../src/app/api/inventory/asset-change/route.ts');
 const dashboard = loadRoute('../src/app/api/dashboard/route.ts');
 const transfers = loadRoute('../src/app/api/transfers/route.ts');
-const skuDisplay = loadRoute('../src/lib/sku-display.ts');
 const access = loadRoute('../src/lib/access.ts');
 Module._load = oldLoad;
 
@@ -107,11 +138,23 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
   try {
     const manualResponse = await manualSkus.POST(request('/api/manual-skus', {
       productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13 2020',
+      cpuOptions: ['Intel Core i5-10210U', 'i5-10210u'], ramOptions: ['8 GB', '16GB'],
+      gpuOptions: ['NVIDIA GeForce RTX 4060 8GB'], storageOptions: ['512 GB NVMe SSD'], screenOptions: ['2560x1600'],
     }));
     assert.equal(manualResponse.status, 201);
     const manualSkuId = manualResponse.body.data.item.id;
     assert.equal(manualResponse.body.data.item.model, 'X13');
     assert.equal(manualResponse.body.data.item.year, 2020);
+    assert.deepEqual(manualResponse.body.data.item.cpuOptions, ['I5-10210U'], 'manual SKU CPU options use the shared short display format and deduplicate');
+    assert.deepEqual(manualResponse.body.data.item.ramOptions, ['8GB', '16GB']);
+    assert.deepEqual(manualResponse.body.data.item.gpuOptions, ['RTX 4060']);
+    assert.deepEqual(manualResponse.body.data.item.storageOptions, ['512GB NVMe SSD']);
+    assert.deepEqual(manualResponse.body.data.item.screenOptions, ['2.5K']);
+
+    const invalidOptionsResponse = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '笔记本电脑', brand: 'ThinkPad', model: 'Invalid Options', ramOptions: '16GB',
+    }));
+    assert.equal(invalidOptionsResponse.status, 400, 'manual SKU options must be submitted as arrays');
 
     const builtInResponse = await builtInSkus.POST(request('/api/skus', {
       productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020,
@@ -244,6 +287,27 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     assert.equal(stored.inventoryManualSkuId, manualSkuId);
     assert.equal(stored.skuId, null, 'manual entry must not link to a same-name built-in SKU');
     assert.equal(db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE sn = ?').get('MANUAL-SKU-MISMATCH').count, 0);
+
+    const batchPurchaseResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed', action: 'inbound',
+      items: ['MANUAL-SKU-BATCH-0001', 'MANUAL-SKU-BATCH-0002'].map(sn => ({
+        manualSkuId, productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020,
+        cpu: 'I5-10210U', ram: '16GB', gpu: 'RTX 4060', storage: '512GB SSD', screen: '2.5K', sn, purchasePrice: 3000,
+      })),
+    }));
+    assert.equal(batchPurchaseResponse.status, 201, JSON.stringify(batchPurchaseResponse.body));
+    const batchRows = db.prepare(`SELECT pi.manualSkuId, pi.skuId, inventory.manualSkuId AS inventoryManualSkuId
+      FROM purchase_items pi JOIN inventory ON inventory.purchaseItemId = pi.id
+      WHERE pi.sn IN (?, ?) ORDER BY pi.sn`).all('MANUAL-SKU-BATCH-0001', 'MANUAL-SKU-BATCH-0002');
+    assert.equal(batchRows.length, 2, 'batch inbound must create one linked inventory row for each machine');
+    assert.equal(batchRows.every(row => row.manualSkuId === manualSkuId && row.inventoryManualSkuId === manualSkuId && row.skuId === null), true,
+      'every machine in a batch must keep its separate manual SKU reference');
+
+    db.prepare("UPDATE purchase_items SET createdAt = datetime('now') WHERE sn = ?").run('MANUAL-SKU-TEST-0001');
+
+    const frequentManualResponse = await frequentSkus.GET({ nextUrl: new URL('http://localhost/api/skus/frequent?catalog=manual') });
+    assert.equal(frequentManualResponse.status, 200);
+    assert.equal(frequentManualResponse.body.data.items.some(item => item.skuId === manualSkuId), true, 'manual SKU usage should appear in the same recent-frequency feature');
 
     const listResponse = await manualSkus.GET(request('/api/manual-skus?productType=%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91'));
     assert.equal(listResponse.body.data.items.length, 1);

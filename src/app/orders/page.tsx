@@ -8,7 +8,6 @@ import { useCallback, useRef, useState, useEffect } from 'react';
 import { Plus, Search, Package, FileText, ArrowLeft, Pencil, Trash2, RefreshCw, CheckCircle2, Check, X } from 'lucide-react';
 import SKUSelector, { SelectedConfig } from '@/components/SKUSelector';
 import CustomSelect from '@/components/CustomSelect';
-import ManualInput from '@/components/ManualInput';
 import BatchInput from '@/components/BatchInput';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import Toast from '@/components/Toast';
@@ -485,14 +484,14 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const [showInboundConfirm, setShowInboundConfirm] = useState(false);
   const submitLock = useRef(false);
   const [showSKUSelector, setShowSKUSelector] = useState(false);
-  const [showManualInput, setShowManualInput] = useState(false);
+  const [showManualSKUSelector, setShowManualSKUSelector] = useState(false);
   const [showBatchInput, setShowBatchInput] = useState(false);
   const [batchPresetConfig, setBatchPresetConfig] = useState<BatchPresetConfig | null>(null); // 批量输入的预设配置
   const [editingMachineId, setEditingMachineId] = useState<string | null>(null);
   const [editingMachineDraft, setEditingMachineDraft] = useState<MachineItem | null>(null);
   const editingMachineStorageRequired = Boolean(editingMachineDraft && requiresComputerSpecs(editingMachineDraft.productType) && !editingMachineDraft.skuId && !editingMachineDraft.manualSkuId);
   const [saving, setSaving] = useState(false); // 保存中状态
-  useWorkspaceDirty(JSON.stringify({ formData, machineItems }) !== baseline || showSKUSelector || showManualInput || showBatchInput || editingMachineDraft !== null);
+  useWorkspaceDirty(JSON.stringify({ formData, machineItems }) !== baseline || showSKUSelector || showManualSKUSelector || showBatchInput || editingMachineDraft !== null);
   const [toast, setToast] = useState<{ show: boolean; type: 'success' | 'error' | 'warning' | 'info'; message: string }>({
     show: false,
     type: 'success',
@@ -568,9 +567,11 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
 
   // 处理 SKU 选择完成 - 单台录入（现在包含 SN 和价格）
   const handleSKUSelectorComplete = (config: SelectedConfig, mode: 'close' | 'continue') => {
+    const isManualSKU = config.sku.catalogSource === 'manual';
     const newItem: MachineItem = {
       id: 'temp_' + Date.now(),
-      skuId: config.sku.id,
+      skuId: isManualSKU ? undefined : config.sku.id,
+      manualSkuId: isManualSKU ? config.sku.id : undefined,
       productType: config.sku.productType,
       brand: config.sku.brand,
       model: config.sku.model,
@@ -589,16 +590,20 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     
     setMachineItems((currentItems) => [...currentItems, newItem]);
     if (mode === 'close') {
-      setShowSKUSelector(false);
+      if (isManualSKU) setShowManualSKUSelector(false);
+      else setShowSKUSelector(false);
     }
   };
 
   // 处理 SKU 选择完成 - 批量录入
   const handleSKUBatchSelect = (config: SelectedConfig) => {
+    const isManualSKU = config.sku.catalogSource === 'manual';
     // 关闭 SKU 选择器，保存配置，打开批量输入
     setShowSKUSelector(false);
+    setShowManualSKUSelector(false);
     setBatchPresetConfig({
-      skuId: config.sku.id,
+      skuId: isManualSKU ? undefined : config.sku.id,
+      manualSkuId: isManualSKU ? config.sku.id : undefined,
       productType: config.sku.productType,
       brand: config.sku.brand,
       model: config.sku.model,
@@ -612,19 +617,6 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       skuRemark: config.skuRemark
     });
     setShowBatchInput(true);
-  };
-
-  // 处理手工录入完成
-  const handleManualInputComplete = (machine: MachinePayload, mode: 'close' | 'continue') => {
-    const newItem: MachineItem = {
-      id: 'temp_' + Date.now(),
-      ...machine
-    };
-    
-    setMachineItems((currentItems) => [...currentItems, newItem]);
-    if (mode === 'close') {
-      setShowManualInput(false);
-    }
   };
 
   // 处理批量录入完成
@@ -901,11 +893,11 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                 从 SKU 选择
               </button>
               <button
-                onClick={() => setShowManualInput(true)}
+                onClick={() => setShowManualSKUSelector(true)}
                 className="flex items-center gap-2 px-3 py-1.5 border border-line rounded-lg 
                          text-[13px] font-medium hover:bg-white/60 transition-all ripple-hover"
               >
-                手工录入
+                从手工 SKU 库选择
               </button>
             </div>
           </div>
@@ -1210,11 +1202,13 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
         />
       )}
 
-      {/* 手工录入 */}
-      {showManualInput && (
-        <ManualInput
-          onConfirm={handleManualInputComplete}
-          onCancel={() => setShowManualInput(false)}
+      {/* 手工 SKU 使用相同选择流程，并保留独立目录关联 */}
+      {showManualSKUSelector && (
+        <SKUSelector
+          catalogSource="manual"
+          onSelect={handleSKUSelectorComplete}
+          onBatchSelect={handleSKUBatchSelect}
+          onCancel={() => setShowManualSKUSelector(false)}
           selectedMachineCount={machineItems.length}
         />
       )}

@@ -54,8 +54,8 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   manual_skus: {
     key: 'manual_skus', label: '手工 SKU', table: 'manual_skus',
-    fields: ['id', 'productType', 'brand', 'model', 'year', 'isActive', 'deleted', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt'],
-    writable: ['productType', 'brand', 'model', 'year', 'isActive', 'deleted'], searchFields: ['productType', 'brand', 'model', 'year'], orderBy: 'updatedAt DESC', required: ['productType', 'brand', 'model'],
+    fields: ['id', 'productType', 'brand', 'model', 'year', 'cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions', 'isActive', 'deleted', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt'],
+    writable: ['productType', 'brand', 'model', 'year', 'cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions', 'isActive', 'deleted'], searchFields: ['productType', 'brand', 'model', 'year'], orderBy: 'updatedAt DESC', required: ['productType', 'brand', 'model'],
   },
   purchase_orders: {
     key: 'purchase_orders', label: '采购单', table: 'purchase_orders',

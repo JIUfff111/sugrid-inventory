@@ -1029,6 +1029,11 @@ function applyVersionedMigrations(db) {
     const result = syncBuiltinSkuCatalog(db);
     console.log(`内置 SKU 目录升级：新增 ${result.inserted} 条、补充或规范 ${result.updated} 条、保留 ${result.skipped} 条本地记录`);
   });
+  migrate(20, 'add configuration options to the manual SKU catalog', () => {
+    for (const field of ['cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions']) {
+      add('manual_skus', field, "TEXT NOT NULL DEFAULT '[]'");
+    }
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };
