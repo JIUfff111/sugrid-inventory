@@ -4,11 +4,12 @@
  */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import Link from 'next/link';
 import { ChevronRight, Search, Check, Plus, TrendingUp, X } from 'lucide-react';
+import CustomSelect, { type SelectOption } from '@/components/CustomSelect';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
-import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, uniqueCPUOptions, uniqueGPUOptions, uniqueScreenOptions } from '@/lib/sku-display';
+import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, requiresComputerSpecs, SKU_PRODUCT_TYPES, uniqueCPUOptions, uniqueGPUOptions, uniqueScreenOptions } from '@/lib/sku-display';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
 import { formatProductName } from '@/lib/product-name';
 import { COMMON_RAM_OPTIONS, COMMON_STORAGE_OPTIONS } from '@/lib/hardware-options';
@@ -91,23 +92,125 @@ function matchesSKUQuery(sku: SKU, value: string): boolean {
 
 interface SKUSelectorProps {
   catalogSource?: 'builtin' | 'manual';
+  startInCustomMode?: boolean;
   onSelect: (config: SelectedConfig, mode: 'close' | 'continue') => void;
   onBatchSelect: (config: SelectedConfig) => void; // 新增：批量录入回调
   onCancel: () => void;
   selectedMachineCount: number;
 }
 
-type Step = 'productType' | 'brand' | 'model' | 'config' | 'singleInput';
+type Step = 'productType' | 'brand' | 'model' | 'customIdentity' | 'config' | 'singleInput';
 
-export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBatchSelect, onCancel, selectedMachineCount }: SKUSelectorProps) {
+type SpecValueState = { presetValue: string; customValue: string; source: 'preset' | 'custom' };
+type SpecValueSetter = Dispatch<SetStateAction<SpecValueState>>;
+
+const emptySpecValue = (hasPresets = false): SpecValueState => ({ presetValue: '', customValue: '', source: hasPresets ? 'preset' : 'custom' });
+const activeSpecValue = (state: SpecValueState) => state.source === 'custom' ? state.customValue : state.presetValue;
+
+function SpecChoiceField({
+  label,
+  options,
+  value,
+  setValue,
+  listId,
+  placeholder,
+  ariaLabel,
+  required = false,
+  optional = false,
+  formatOption = item => item,
+}: {
+  label: string;
+  options: string[];
+  value: SpecValueState;
+  setValue: SpecValueSetter;
+  listId: string;
+  placeholder: string;
+  ariaLabel: string;
+  required?: boolean;
+  optional?: boolean;
+  formatOption?: (item: string) => string;
+}) {
+  const activeValue = activeSpecValue(value);
+  return (
+    <div>
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <label className="text-[12px] font-medium text-ink-deep">
+          {label} {required && <span className="text-danger">*</span>}{optional && <span className="font-normal text-ink-soft">选填</span>}
+        </label>
+        <span className="text-[11px] text-ink-soft">当前：{value.source === 'custom' ? '自定义输入' : '预设选项'}</span>
+      </div>
+      {options.length > 0 && (
+        <div className="mb-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {options.map(option => {
+            const formatted = formatOption(option);
+            const selected = value.source === 'preset' && formatOption(value.presetValue) === formatted;
+            return (
+              <button
+                key={option}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => setValue(current => ({
+                  ...current,
+                  presetValue: selected ? '' : formatted,
+                  source: 'preset',
+                }))}
+                className={`min-w-0 break-words rounded-lg border px-3 py-2 text-left text-[12px] font-medium transition-all active:scale-[0.99] ${selected ? 'border-primary bg-primary text-white shadow-sm' : 'border-line bg-white hover:border-primary/30 hover:bg-primary/5'}`}
+              >
+                {selected && <Check className="mr-1 inline h-3.5 w-3.5" />}{formatted}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      <input
+        type="text"
+        list={options.length ? listId : undefined}
+        value={value.customValue}
+        onChange={event => setValue(current => ({ ...current, customValue: event.target.value, source: 'custom' }))}
+        placeholder={placeholder}
+        aria-label={ariaLabel}
+        className="field"
+      />
+      {options.length > 0 && <datalist id={listId}>{options.map(option => <option key={option} value={formatOption(option)} />)}</datalist>}
+      {value.source === 'preset' && value.customValue && (
+        <button type="button" className="mt-1.5 text-[11px] font-medium text-primary hover:underline" onClick={() => setValue(current => ({ ...current, source: 'custom' }))}>
+          使用已填写的自定义值
+        </button>
+      )}
+      {value.source === 'custom' && value.presetValue && (
+        <button type="button" className="mt-1.5 text-[11px] font-medium text-primary hover:underline" onClick={() => setValue(current => ({ ...current, source: 'preset' }))}>
+          使用上次选择的预设值
+        </button>
+      )}
+      <span className="sr-only" aria-live="polite">{activeValue}</span>
+    </div>
+  );
+}
+
+function sameSKUIdentity(left: SKU, right: SKU) {
+  return getSKUProductType(left.productType) === getSKUProductType(right.productType) &&
+    canonicalSKUBrand(left.brand).toLocaleLowerCase() === canonicalSKUBrand(right.brand).toLocaleLowerCase() &&
+    left.model.trim().toLocaleLowerCase() === right.model.trim().toLocaleLowerCase() &&
+    getSKUYear(left) === getSKUYear(right);
+}
+
+const productTypeOptions: SelectOption[] = SKU_PRODUCT_TYPES.map(value => ({ value, label: value }));
+
+export default function SKUSelector({ catalogSource = 'builtin', startInCustomMode = false, onSelect, onBatchSelect, onCancel, selectedMachineCount }: SKUSelectorProps) {
   const isManualCatalog = catalogSource === 'manual';
-  const [step, setStep] = useState<Step>('productType');
+  const [step, setStep] = useState<Step>(isManualCatalog && startInCustomMode ? 'customIdentity' : 'productType');
   const [selectedFromHome, setSelectedFromHome] = useState(false);
-  const [selectedProductType, setSelectedProductType] = useState('');
+  const [selectedProductType, setSelectedProductType] = useState(isManualCatalog && startInCustomMode ? SKU_PRODUCT_TYPES[0] : '');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedSKU, setSelectedSKU] = useState<SKU | null>(null);
   
   const [skus, setSkus] = useState<SKU[]>([]);
+  const [identityCatalog, setIdentityCatalog] = useState<SKU[]>([]);
+  const [identityLoading, setIdentityLoading] = useState(false);
+  const [identityError, setIdentityError] = useState('');
+  const [identityLoadAttempt, setIdentityLoadAttempt] = useState(0);
+  const [identitySkuId, setIdentitySkuId] = useState('');
+  const [creatingManualSku, setCreatingManualSku] = useState(false);
   const [frequentModels, setFrequentModels] = useState<Array<{ skuId: string; count: number }>>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
@@ -115,11 +218,11 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
   const [search, setSearch] = useState('');
   
   // 配置选项
-  const [selectedCpu, setSelectedCpu] = useState('');
-  const [selectedRam, setSelectedRam] = useState('');
-  const [selectedGpu, setSelectedGpu] = useState('');
-  const [selectedStorage, setSelectedStorage] = useState('');
-  const [selectedScreen, setSelectedScreen] = useState('');
+  const [cpuValue, setCpuValue] = useState<SpecValueState>(() => emptySpecValue());
+  const [ramValue, setRamValue] = useState<SpecValueState>(() => emptySpecValue());
+  const [gpuValue, setGpuValue] = useState<SpecValueState>(() => emptySpecValue());
+  const [storageValue, setStorageValue] = useState<SpecValueState>(() => emptySpecValue(true));
+  const [screenValue, setScreenValue] = useState<SpecValueState>(() => emptySpecValue());
   const [selectedTouchScreen, setSelectedTouchScreen] = useState<boolean | null>(null); // 改为 null，不默认选择
   
   // 单台录入的 SN/IMEI、价格和 SKU 补充信息
@@ -188,6 +291,36 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
     };
   }, [isManualCatalog, loadAttempt]);
 
+  useEffect(() => {
+    if (!isManualCatalog || step !== 'customIdentity' || identityCatalog.length > 0) return;
+    const controller = new AbortController();
+    const loadIdentityCatalog = async () => {
+      setIdentityLoading(true);
+      setIdentityError('');
+      try {
+        const allSkus: SKU[] = [];
+        let page = 1;
+        while (true) {
+          const response = await fetch(`/api/skus?page=${page}&pageSize=100`, { signal: controller.signal });
+          const result = await response.json() as { success?: boolean; data?: { items?: SKU[]; totalPages?: number }; error?: { message?: string } };
+          if (!response.ok || !result.success || !Array.isArray(result.data?.items) || !Number.isInteger(result.data.totalPages)) {
+            throw new Error(result.error?.message || '加载品牌和型号选项失败');
+          }
+          allSkus.push(...result.data.items.map(sku => ({ ...sku, catalogSource: 'builtin' as const })));
+          if (page >= (result.data.totalPages || 0)) break;
+          page += 1;
+        }
+        if (!controller.signal.aborted) setIdentityCatalog(allSkus);
+      } catch (error) {
+        if (!controller.signal.aborted) setIdentityError(error instanceof Error ? error.message : '加载品牌和型号选项失败');
+      } finally {
+        if (!controller.signal.aborted) setIdentityLoading(false);
+      }
+    };
+    void loadIdentityCatalog();
+    return () => controller.abort();
+  }, [identityCatalog.length, identityLoadAttempt, isManualCatalog, step]);
+
   const productTypes = Array.from(new Set(skus.map(s => getSKUProductType(s.productType))));
 
   // 获取品牌列表（根据已选产品类型）
@@ -221,7 +354,20 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
     ? uniqueGPUOptions(['集显', ...selectedSKU.gpuOptions])
     : [];
   const cpuOptions = selectedSKU ? uniqueCPUOptions(selectedSKU.cpuOptions) : [];
+  const ramOptions = selectedSKU ? [...new Set([...selectedSKU.ramOptions, ...COMMON_RAM_OPTIONS])] : [];
+  const storageOptions = selectedSKU
+    ? [...new Set(isManualCatalog ? [...selectedSKU.storageOptions, ...COMMON_STORAGE_OPTIONS] : STORAGE_OPTIONS)]
+    : [];
   const screenOptions = selectedSKU ? uniqueScreenOptions(selectedSKU.screenOptions) : [];
+  const identityBrands = [...new Set(identityCatalog
+    .filter(sku => getSKUProductType(sku.productType) === selectedProductType)
+    .map(sku => canonicalSKUBrand(sku.brand)))].sort((left, right) => left.localeCompare(right, 'zh-CN'));
+  const identityModels = identityCatalog
+    .filter(sku => getSKUProductType(sku.productType) === selectedProductType && canonicalSKUBrand(sku.brand) === selectedBrand)
+    .filter((sku, index, all) => all.findIndex(candidate => sameSKUIdentity(candidate, sku)) === index)
+    .filter(sku => !skus.some(manualSku => sameSKUIdentity(manualSku, sku)))
+    .sort((left, right) => getSKUDisplayName(left).localeCompare(getSKUDisplayName(right), 'zh-CN'));
+  const identityModelOptions: SelectOption[] = identityModels.map(sku => ({ value: sku.id, label: getSKUDisplayName(sku) }));
 
   // 步骤 1：选择产品类型
   const handleSelectProductType = (type: string) => {
@@ -247,11 +393,11 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
     setSelectedBrand(canonicalSKUBrand(sku.brand));
     setSelectedSKU({ ...sku, brand: canonicalSKUBrand(sku.brand), productType: getSKUProductType(sku.productType) });
     // 不再默认选择，全部清空
-    setSelectedCpu('');
-    setSelectedRam('');
-    setSelectedGpu('');
-    setSelectedStorage('');
-    setSelectedScreen('');
+    setCpuValue(emptySpecValue(sku.cpuOptions.length > 0));
+    setRamValue(emptySpecValue(sku.ramOptions.length > 0));
+    setGpuValue(emptySpecValue(uniqueGPUOptions(['集显', ...sku.gpuOptions]).length > 0));
+    setStorageValue(emptySpecValue(true));
+    setScreenValue(emptySpecValue(uniqueScreenOptions(sku.screenOptions).length > 0));
     setSelectedTouchScreen(null); // 触屏也不默认选择
     setSingleSN('');
     setSinglePrice(0);
@@ -259,14 +405,62 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
     setStep('config');
   };
 
+  const beginManualSKUCreation = () => {
+    setSelectedProductType(SKU_PRODUCT_TYPES[0]);
+    setSelectedBrand('');
+    setIdentitySkuId('');
+    setSearch('');
+    setIdentityError('');
+    setStep('customIdentity');
+  };
+
+  const createManualSKU = async () => {
+    const source = identityCatalog.find(sku => sku.id === identitySkuId);
+    if (!source || creatingManualSku) return;
+    setCreatingManualSku(true);
+    setIdentityError('');
+    try {
+      const response = await fetch('/api/manual-skus', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productType: getSKUProductType(source.productType),
+          brand: canonicalSKUBrand(source.brand),
+          model: source.model,
+          year: getSKUYear(source) || null,
+          cpuOptions: source.cpuOptions,
+          ramOptions: source.ramOptions,
+          gpuOptions: source.gpuOptions,
+          storageOptions: source.storageOptions,
+          screenOptions: source.screenOptions,
+        }),
+      });
+      const result = await response.json() as { success?: boolean; data?: { item?: SKU }; error?: { message?: string } };
+      if (!response.ok || !result.success || !result.data?.item) {
+        if (response.status === 409) {
+          const existing = skus.find(sku => sameSKUIdentity(sku, source));
+          if (existing) {
+            handleSelectModel(existing, true);
+            return;
+          }
+        }
+        throw new Error(result.error?.message || '新建手工 SKU 失败');
+      }
+      const created = { ...result.data.item, catalogSource: 'manual' as const };
+      setSkus(current => current.some(sku => sku.id === created.id) ? current : [...current, created]);
+      handleSelectModel(created, true);
+    } catch (error) {
+      setIdentityError(error instanceof Error ? error.message : '新建手工 SKU 失败');
+    } finally {
+      setCreatingManualSku(false);
+    }
+  };
+
   const hasRequiredConfig = () => {
     if (!selectedSKU) return false;
-
-    return Boolean(
-      selectedCpu.trim() &&
-      selectedRam.trim() &&
-      selectedGpu.trim()
-    );
+    return Boolean(activeSpecValue(gpuValue).trim() && (!requiresComputerSpecs(selectedSKU.productType) || (
+      activeSpecValue(cpuValue).trim() && activeSpecValue(ramValue).trim()
+    )));
   };
 
   // 步骤 4：确认配置 - 单台录入（直接从配置页完成）
@@ -278,11 +472,11 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
 
     onSelect({
       sku: selectedSKU,
-      cpu: formatCPUDisplay(selectedCpu),
-      ram: selectedRam,
-      gpu: formatGPUDisplay(selectedGpu),
-      storage: selectedStorage,
-      screen: formatScreenDisplay(selectedScreen),
+      cpu: formatCPUDisplay(activeSpecValue(cpuValue)),
+      ram: activeSpecValue(ramValue),
+      gpu: formatGPUDisplay(activeSpecValue(gpuValue)),
+      storage: activeSpecValue(storageValue),
+      screen: formatScreenDisplay(activeSpecValue(screenValue)),
       touchScreen: selectedTouchScreen ?? undefined, // 未选择时传 undefined
       sn: normalizedSN,
       purchasePrice: singlePrice,
@@ -290,11 +484,11 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
     }, mode);
 
     if (mode === 'continue') {
-      setSelectedCpu('');
-      setSelectedRam('');
-      setSelectedGpu('');
-      setSelectedStorage('');
-      setSelectedScreen('');
+      setCpuValue(emptySpecValue(cpuOptions.length > 0));
+      setRamValue(emptySpecValue(ramOptions.length > 0));
+      setGpuValue(emptySpecValue(gpuOptions.length > 0));
+      setStorageValue(emptySpecValue(storageOptions.length > 0));
+      setScreenValue(emptySpecValue(screenOptions.length > 0));
       setSelectedTouchScreen(null);
       setSingleSN('');
       setSinglePrice(0);
@@ -309,11 +503,11 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
 
     onBatchSelect({
       sku: selectedSKU,
-      cpu: formatCPUDisplay(selectedCpu),
-      ram: selectedRam,
-      gpu: formatGPUDisplay(selectedGpu),
-      storage: selectedStorage,
-      screen: formatScreenDisplay(selectedScreen),
+      cpu: formatCPUDisplay(activeSpecValue(cpuValue)),
+      ram: activeSpecValue(ramValue),
+      gpu: formatGPUDisplay(activeSpecValue(gpuValue)),
+      storage: activeSpecValue(storageValue),
+      screen: formatScreenDisplay(activeSpecValue(screenValue)),
       touchScreen: selectedTouchScreen ?? undefined, // 未选择时传 undefined
       skuRemark: skuRemark.trim() || undefined // 补充信息
     });
@@ -327,6 +521,8 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
     } else if (step === 'model') {
       setStep('brand');
       setSelectedSKU(null);
+    } else if (step === 'customIdentity') {
+      setStep('productType');
     } else if (step === 'config') {
       setStep(selectedFromHome ? 'productType' : 'model');
     }
@@ -364,6 +560,13 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
                     <span>{selectedBrand}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                     <span>选择型号</span>
+                  </>
+                )}
+                {step === 'customIdentity' && (
+                  <>
+                    <span>新建自定义 SKU</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                    <span>选择品牌和型号</span>
                   </>
                 )}
                 {step === 'config' && (
@@ -405,6 +608,14 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
                 {/* 步骤 1：产品类型 */}
                 {step === 'productType' && (
                   <div>
+                    {isManualCatalog && (
+                      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-primary/15 bg-primary/[0.035] px-3 py-2.5">
+                        <span className="text-[12px] text-ink-soft">品牌和型号按目录选择，机器配置可自定义。</span>
+                        <button type="button" onClick={beginManualSKUCreation} className="btn-ghost inline-flex items-center gap-1.5 !py-1.5 text-primary">
+                          <Plus className="h-4 w-4" />新建自定义 SKU
+                        </button>
+                      </div>
+                    )}
                     {/* 搜索框 */}
                     <div className="sticky top-0 z-10 mb-4 bg-white/95 pb-2 pt-0 backdrop-blur-sm">
                       <div className="relative">
@@ -503,6 +714,56 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
                   </div>
                 )}
 
+                {step === 'customIdentity' && isManualCatalog && (
+                  <div className="space-y-4 animate-fade-in">
+                    <p className="text-[12px] text-ink-soft">新档案会保存到独立手工 SKU 库；机器配置选项沿用目录预设，并可在下一步逐项自定义。</p>
+                    <label className="block text-[12px] font-medium text-ink-deep">
+                      产品类型 <span className="text-danger">*</span>
+                      <span className="mt-1.5 block">
+                        <CustomSelect
+                          value={selectedProductType}
+                          onChange={value => { setSelectedProductType(value); setSelectedBrand(''); setIdentitySkuId(''); }}
+                          options={productTypeOptions}
+                          aria-label="自定义 SKU 产品类型"
+                        />
+                      </span>
+                    </label>
+                    <label className="block text-[12px] font-medium text-ink-deep">
+                      品牌 <span className="text-danger">*</span>
+                      <span className="mt-1.5 block">
+                        <CustomSelect
+                          value={selectedBrand}
+                          onChange={value => { setSelectedBrand(value); setIdentitySkuId(''); }}
+                          options={identityBrands.map(value => ({ value, label: value }))}
+                          placeholder={identityLoading ? '正在加载品牌…' : '请选择品牌'}
+                          searchable
+                          disabled={identityLoading || Boolean(identityError)}
+                          aria-label="自定义 SKU 品牌"
+                        />
+                      </span>
+                    </label>
+                    <label className="block text-[12px] font-medium text-ink-deep">
+                      型号 <span className="text-danger">*</span>
+                      <span className="mt-1.5 block">
+                        <CustomSelect
+                          value={identitySkuId}
+                          onChange={setIdentitySkuId}
+                          options={identityModelOptions}
+                          placeholder={!selectedBrand ? '请先选择品牌' : identityLoading ? '正在加载型号…' : identityModelOptions.length ? '请选择型号' : '该品牌的型号均已加入手工库'}
+                          searchable
+                          disabled={!selectedBrand || identityLoading || Boolean(identityError) || identityModelOptions.length === 0}
+                          aria-label="自定义 SKU 型号"
+                        />
+                      </span>
+                    </label>
+                    {identityLoading && <p role="status" className="text-[12px] text-ink-soft">正在加载目录型号…</p>}
+                    {identityError && <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-[12px] text-danger">
+                      <span>{identityError}</span>
+                      <button type="button" className="btn-ghost !py-1" onClick={() => { setIdentityError(''); setIdentityLoadAttempt(attempt => attempt + 1); }}>重试</button>
+                    </div>}
+                  </div>
+                )}
+
                 {/* 步骤 2：品牌 */}
                 {step === 'brand' && (
                   <div>
@@ -595,149 +856,14 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
                   </div>
                 )}
 
-              {/* 步骤 4：配置选项 */}
+                {/* 配置选项 */}
               {step === 'config' && selectedSKU && (
                 <div className="space-y-3">
-                  {/* CPU */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                      CPU 处理器 <span className="text-danger">*</span>
-                    </label>
-                    {cpuOptions.length > 0 && <div className="mb-2 grid grid-cols-2 gap-2">
-                      {cpuOptions.map(option => <button key={option} type="button" onClick={() => setSelectedCpu(selectedCpu === option ? '' : option)} className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover ${selectedCpu === option ? 'bg-primary text-white shadow-sm' : 'glass hover:bg-white/60'}`}>
-                        {selectedCpu === option && <Check className="w-3.5 h-3.5 inline mr-1" />}{formatCPUDisplay(option)}
-                      </button>)}
-                    </div>}
-                    {isManualCatalog && <input type="text" list="manual-sku-cpu-options" value={selectedCpu} onChange={event => setSelectedCpu(event.target.value)} placeholder="选择上方选项或手动填写 CPU" aria-label="CPU 处理器，可选择或手动输入" className="field" />}
-                    {isManualCatalog && <datalist id="manual-sku-cpu-options">{cpuOptions.map(option => <option key={option} value={formatCPUDisplay(option)} />)}</datalist>}
-                    {!isManualCatalog && cpuOptions.length === 0 && <p className="text-xs text-danger">该型号暂未设置 CPU 选项，请到 SKU 目录补充。</p>}
-                  </div>
-
-                  {/* 内存 */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                      内存 <span className="text-danger">*</span>
-                    </label>
-                    {selectedSKU.ramOptions.length > 0 && (
-                      <div className="grid grid-cols-3 gap-2">
-                        {selectedSKU.ramOptions.map(option => (
-                          <button
-                            key={option}
-                            onClick={() => setSelectedRam(selectedRam === option ? '' : option)}
-                            className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
-                                      ${selectedRam === option
-                                        ? 'bg-primary text-white shadow-sm'
-                                        : 'glass hover:bg-white/60'
-                                      }`}
-                          >
-                            {selectedRam === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                            {option}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {(!selectedSKU.ramOptions.length || isManualCatalog) && (
-                      <input
-                        type="text"
-                        list={isManualCatalog ? 'manual-sku-ram-options' : undefined}
-                        value={selectedRam}
-                        onChange={(event) => setSelectedRam(event.target.value)}
-                        placeholder={isManualCatalog ? '选择已登记容量或手动输入，如：16GB' : '请输入内存容量，如：16GB'}
-                        className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[12px]
-                                 placeholder:text-ink-soft/50 focus:outline-none focus:ring-2
-                                 focus:ring-primary/20 focus:border-primary transition-all"
-                      />
-                    )}
-                    {isManualCatalog && <datalist id="manual-sku-ram-options">{[...new Set([...selectedSKU.ramOptions, ...COMMON_RAM_OPTIONS])].map(option => <option key={option} value={option} />)}</datalist>}
-                  </div>
-
-                  {/* 显卡 */}
-                  {(
-                    <div>
-                      <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                        显卡 <span className="text-danger">*</span>
-                      </label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {gpuOptions.map(option => (
-                          <button
-                            key={option}
-                            onClick={() => setSelectedGpu(selectedGpu === option ? '' : option)}
-                            title={option}
-                            className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
-                                      ${selectedGpu === option
-                                        ? 'bg-primary text-white shadow-sm'
-                                        : 'glass hover:bg-white/60'
-                                      }`}
-                          >
-                            {selectedGpu === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                            {formatGPUDisplay(option)}
-                          </button>
-                        ))}
-                      </div>
-                      {isManualCatalog && <input type="text" list="manual-sku-gpu-options" value={selectedGpu} onChange={event => setSelectedGpu(event.target.value)} placeholder="选择已登记显卡或手动填写" aria-label="显卡，可选择或手动输入" className="field mt-2" />}
-                      {isManualCatalog && <datalist id="manual-sku-gpu-options">{gpuOptions.map(option => <option key={option} value={formatGPUDisplay(option)} />)}</datalist>}
-                    </div>
-                  )}
-
-                  {/* 硬盘 - 统一选项 */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                      硬盘 <span className="font-normal text-ink-soft">选填</span>
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {[...new Set(isManualCatalog ? [...selectedSKU.storageOptions, ...COMMON_STORAGE_OPTIONS] : STORAGE_OPTIONS)].map(option => (
-                        <button
-                          key={option}
-                          onClick={() => setSelectedStorage(selectedStorage === option ? '' : option)}
-                          className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
-                                    ${selectedStorage === option
-                                      ? 'bg-primary text-white shadow-sm'
-                                      : 'glass hover:bg-white/60'
-                                    }`}
-                        >
-                          {selectedStorage === option && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                          {option}
-                        </button>
-                      ))}
-                    </div>
-                    {isManualCatalog && <input type="text" list="manual-sku-storage-options" value={selectedStorage} onChange={event => setSelectedStorage(event.target.value)} placeholder="选择已登记容量或手动输入，如：512GB SSD" aria-label="硬盘，可选择或手动输入，选填" className="field mt-2" />}
-                    {isManualCatalog && <datalist id="manual-sku-storage-options">{[...new Set([...selectedSKU.storageOptions, ...COMMON_STORAGE_OPTIONS])].map(option => <option key={option} value={option} />)}</datalist>}
-                  </div>
-
-                  {/* 屏幕 */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                      屏幕分辨率
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {screenOptions.map(option => (
-                        <button
-                          key={option}
-                          onClick={() => setSelectedScreen(formatScreenDisplay(selectedScreen) === formatScreenDisplay(option) ? '' : formatScreenDisplay(option))}
-                          className={`px-3 py-2 rounded-lg text-[12px] font-medium transition-all ripple-hover
-                                    ${formatScreenDisplay(selectedScreen) === formatScreenDisplay(option)
-                                      ? 'bg-primary text-white shadow-sm'
-                                      : 'glass hover:bg-white/60'
-                                    }`}
-                        >
-                          {formatScreenDisplay(selectedScreen) === formatScreenDisplay(option) && <Check className="w-3.5 h-3.5 inline mr-1" />}
-                          {formatScreenDisplay(option)}
-                        </button>
-                      ))}
-                    </div>
-                    <input
-                      type="text"
-                      list="builtin-sku-screen-options"
-                      value={selectedScreen}
-                      onChange={event => setSelectedScreen(event.target.value)}
-                      placeholder="选择屏幕规格或手动输入，如：2.5K、1k"
-                      aria-label="屏幕分辨率，可选择或手动输入"
-                      className="field mt-2"
-                    />
-                    <datalist id="builtin-sku-screen-options">
-                      {screenOptions.map(option => <option key={option} value={formatScreenDisplay(option)} />)}
-                    </datalist>
-                  </div>
+                  <SpecChoiceField label="CPU 处理器" required={requiresComputerSpecs(selectedSKU.productType)} options={cpuOptions} value={cpuValue} setValue={setCpuValue} listId="sku-cpu-options" placeholder="自定义输入 CPU，如：I5-10210U" ariaLabel="CPU 处理器，可选择预设或输入自定义值" formatOption={formatCPUDisplay} />
+                  <SpecChoiceField label="内存" required={requiresComputerSpecs(selectedSKU.productType)} options={ramOptions} value={ramValue} setValue={setRamValue} listId="sku-ram-options" placeholder="自定义输入内存，如：24GB" ariaLabel="内存，可选择预设或输入自定义值" />
+                  <SpecChoiceField label="显卡" required options={gpuOptions} value={gpuValue} setValue={setGpuValue} listId="sku-gpu-options" placeholder="自定义输入显卡，如：RTX 4060" ariaLabel="显卡，可选择预设或输入自定义值" formatOption={formatGPUDisplay} />
+                  <SpecChoiceField label="硬盘" optional options={storageOptions} value={storageValue} setValue={setStorageValue} listId="sku-storage-options" placeholder="自定义输入硬盘，如：2TB SSD；可留空" ariaLabel="硬盘，可选择预设或输入自定义值，选填" />
+                  <SpecChoiceField label="屏幕分辨率" options={screenOptions} value={screenValue} setValue={setScreenValue} listId="sku-screen-options" placeholder="自定义输入屏幕规格，如：2.5K 或 1k" ariaLabel="屏幕分辨率，可选择预设或输入自定义值" formatOption={formatScreenDisplay} />
 
                   {/* 触屏选项 - 支持取消选择 */}
                   <div>
@@ -834,6 +960,16 @@ export default function SKUSelector({ catalogSource = 'builtin', onSelect, onBat
             {step === 'productType' ? '取消' : step === 'config' && selectedFromHome ? '切换型号' : '上一步'}
           </button>
           
+          {step === 'customIdentity' && isManualCatalog && (
+            <button
+              type="button"
+              onClick={() => void createManualSKU()}
+              disabled={creatingManualSku || identityLoading || !identitySkuId}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-[13px] font-medium text-white transition-all hover:bg-primary-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Plus className="h-4 w-4" />{creatingManualSku ? '正在创建…' : '创建并配置'}
+            </button>
+          )}
           {step === 'config' && selectedSKU && (
             <div className="flex items-center gap-3">
               {hasAddedMachine && (

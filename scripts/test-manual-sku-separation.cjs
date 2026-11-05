@@ -162,6 +162,41 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     }));
     assert.equal(builtInResponse.status, 201);
 
+    const builtInCountBeforeManualCreate = db.prepare('SELECT COUNT(*) AS count FROM skus WHERE deleted = 0').get().count;
+    const customIdentitySource = await builtInSkus.POST(request('/api/skus', {
+      productType: '平板电脑', brand: 'Manual Flow Test', model: 'Tablet Config Fixture', year: 2025,
+      cpuOptions: ['Snapdragon 8 Gen 3'], ramOptions: ['8GB', '12GB'], gpuOptions: ['Adreno'], storageOptions: ['256GB', '512GB'], screenOptions: ['3.2K'],
+    }));
+    assert.equal(customIdentitySource.status, 201);
+    const fromScratchManualResponse = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '平板电脑', brand: 'Manual Flow Test', model: 'Tablet Config Fixture', year: 2025,
+      cpuOptions: customIdentitySource.body.data.cpuOptions,
+      ramOptions: customIdentitySource.body.data.ramOptions,
+      gpuOptions: customIdentitySource.body.data.gpuOptions,
+      storageOptions: customIdentitySource.body.data.storageOptions,
+      screenOptions: customIdentitySource.body.data.screenOptions,
+    }));
+    assert.equal(fromScratchManualResponse.status, 201, 'a catalog identity must be creatable as a new independent manual SKU');
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM skus WHERE deleted = 0').get().count, builtInCountBeforeManualCreate + 1,
+      'creating a manual SKU must not write the manual record into the built-in catalog');
+    const fromScratchManualId = fromScratchManualResponse.body.data.item.id;
+    const customConfigPurchaseResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId: fromScratchManualId, productType: '平板电脑', brand: 'Manual Flow Test', model: 'Tablet Config Fixture', year: 2025,
+        cpu: 'R7-8845HS', ram: '48GB', gpu: 'RTX 5070 Ti', storage: '2TB SSD', screen: '1k custom',
+        sn: 'MANUAL-SKU-CUSTOM-CONFIG-0001', purchasePrice: 4200 }],
+    }));
+    assert.equal(customConfigPurchaseResponse.status, 201, JSON.stringify(customConfigPurchaseResponse.body));
+    const customConfig = db.prepare(`SELECT pi.manualSkuId, pi.skuId, pi.cpu, pi.ram, pi.gpu, pi.storage, pi.screen,
+      inv.manualSkuId AS inventoryManualSkuId, inv.cpu AS inventoryCpu, inv.ram AS inventoryRam,
+      inv.gpu AS inventoryGpu, inv.storage AS inventoryStorage, inv.screen AS inventoryScreen
+      FROM purchase_items pi JOIN inventory inv ON inv.purchaseItemId = pi.id
+      WHERE pi.sn = ?`).get('MANUAL-SKU-CUSTOM-CONFIG-0001');
+    assert.deepEqual(customConfig, {
+      manualSkuId: fromScratchManualId, skuId: null, cpu: 'R7-8845HS', ram: '48GB', gpu: 'RTX 5070 Ti', storage: '2TB SSD', screen: '1k custom',
+      inventoryManualSkuId: fromScratchManualId, inventoryCpu: 'R7-8845HS', inventoryRam: '48GB', inventoryGpu: 'RTX 5070 Ti', inventoryStorage: '2TB SSD', inventoryScreen: '1k custom',
+    }, 'custom config values must persist as normal purchase and inventory fields and remain linked to the manual catalog');
+
     const duplicateResponse = await manualSkus.POST(request('/api/manual-skus', {
       productType: '笔记本电脑', brand: 'thinkpad', model: 'x13', year: 2020,
     }));

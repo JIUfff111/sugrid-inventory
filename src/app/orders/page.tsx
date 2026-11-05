@@ -485,6 +485,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const submitLock = useRef(false);
   const [showSKUSelector, setShowSKUSelector] = useState(false);
   const [showManualSKUSelector, setShowManualSKUSelector] = useState(false);
+  const [manualSKUStartInCustomMode, setManualSKUStartInCustomMode] = useState(false);
   const [showBatchInput, setShowBatchInput] = useState(false);
   const [batchPresetConfig, setBatchPresetConfig] = useState<BatchPresetConfig | null>(null); // 批量输入的预设配置
   const [editingMachineId, setEditingMachineId] = useState<string | null>(null);
@@ -893,11 +894,18 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                 从 SKU 选择
               </button>
               <button
-                onClick={() => setShowManualSKUSelector(true)}
+                onClick={() => { setManualSKUStartInCustomMode(false); setShowManualSKUSelector(true); }}
                 className="flex items-center gap-2 px-3 py-1.5 border border-line rounded-lg 
                          text-[13px] font-medium hover:bg-white/60 transition-all ripple-hover"
               >
                 从手工 SKU 库选择
+              </button>
+              <button
+                onClick={() => { setManualSKUStartInCustomMode(true); setShowManualSKUSelector(true); }}
+                className="flex items-center gap-2 px-3 py-1.5 border border-primary/25 rounded-lg
+                         text-[13px] font-medium text-primary hover:bg-primary/5 transition-all ripple-hover"
+              >
+                手工自定义录入
               </button>
             </div>
           </div>
@@ -1206,6 +1214,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       {showManualSKUSelector && (
         <SKUSelector
           catalogSource="manual"
+          startInCustomMode={manualSKUStartInCustomMode}
           onSelect={handleSKUSelectorComplete}
           onBatchSelect={handleSKUBatchSelect}
           onCancel={() => setShowManualSKUSelector(false)}
