@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { authErrorResponse, requireRole } from '@/lib/auth';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
-import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
+import { getSKUProductType, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
+import { MANUAL_SKU_OPTION_FIELDS, normalizeManualSKUOptions, parseManualSKUOptions } from '@/lib/manual-sku-options';
 import { ErrorCode, errorResponse, generateId, successResponse } from '@/lib/api-helpers';
 
 type ManualSKU = {
@@ -25,60 +26,15 @@ type ManualSKU = {
 };
 
 const ALLOWED_PRODUCT_TYPES = new Set<string>(SKU_PRODUCT_TYPES);
-const OPTION_FIELDS = ['cpuOptions', 'ramOptions', 'gpuOptions', 'storageOptions', 'screenOptions'] as const;
-type OptionField = typeof OPTION_FIELDS[number];
-type ManualSKUOptions = Record<OptionField, string[]>;
-
-const optionFormatters: Record<OptionField, (value: string) => string> = {
-  cpuOptions: formatCPUDisplay,
-  ramOptions: (value) => value.replace(/^(\d+(?:\.\d+)?)\s*(GB)$/i, '$1$2').replace(/(gb)$/i, 'GB'),
-  gpuOptions: formatGPUDisplay,
-  storageOptions: (value) => value.replace(/(\d+(?:\.\d+)?)\s*(GB|TB)\b/gi, '$1$2').replace(/\bssd\b/gi, 'SSD'),
-  screenOptions: formatScreenDisplay,
-};
-
-function normalizeOptions(input: Record<string, unknown>): { value?: ManualSKUOptions; error?: string } {
-  const result = {} as ManualSKUOptions;
-  for (const field of OPTION_FIELDS) {
-    const raw = input[field] ?? [];
-    if (!Array.isArray(raw) || raw.length > 100 || raw.some((value) => typeof value !== 'string')) {
-      return { error: `${field} 必须是最多 100 项的文本列表` };
-    }
-    const options: string[] = [];
-    const seen = new Set<string>();
-    for (const item of raw as string[]) {
-      const value = optionFormatters[field](item.trim());
-      if (!value) continue;
-      if (value.length > 160) return { error: `${field} 单项不能超过 160 个字符` };
-      const key = value.toLocaleLowerCase();
-      if (!seen.has(key)) {
-        seen.add(key);
-        options.push(value);
-      }
-    }
-    result[field] = options;
-  }
-  return { value: result };
-}
-
 function serializeManualSKU(row: ManualSKU) {
   return {
     ...row,
-    cpuOptions: parseOptions(row.cpuOptions),
-    ramOptions: parseOptions(row.ramOptions),
-    gpuOptions: parseOptions(row.gpuOptions),
-    storageOptions: parseOptions(row.storageOptions),
-    screenOptions: parseOptions(row.screenOptions),
+    cpuOptions: parseManualSKUOptions(row.cpuOptions),
+    ramOptions: parseManualSKUOptions(row.ramOptions),
+    gpuOptions: parseManualSKUOptions(row.gpuOptions),
+    storageOptions: parseManualSKUOptions(row.storageOptions),
+    screenOptions: parseManualSKUOptions(row.screenOptions),
   };
-}
-
-function parseOptions(value: string | null | undefined): string[] {
-  try {
-    const parsed = JSON.parse(value || '[]');
-    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === 'string') : [];
-  } catch {
-    return [];
-  }
 }
 
 function normalizeIdentity(input: Record<string, unknown>) {
@@ -173,7 +129,7 @@ export async function POST(request: NextRequest) {
     if (normalized.error || !normalized.value) {
       return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, normalized.error || 'SKU 信息不完整'), { status: 400 });
     }
-    const options = normalizeOptions(body);
+    const options = normalizeManualSKUOptions(body);
     if (options.error || !options.value) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, options.error || 'SKU 配置选项无效'), { status: 400 });
     if (duplicateExists(normalized.value)) {
       return NextResponse.json(errorResponse(ErrorCode.DUPLICATE_ENTRY, '该品牌、型号和年份已在手工 SKU 库中'), { status: 409 });
@@ -184,7 +140,7 @@ export async function POST(request: NextRequest) {
       INSERT INTO manual_skus (id, productType, brand, model, year, cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions, isActive, deleted, createdBy, updatedBy, createdAt, updatedAt)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0, ?, ?, ?, ?)
     `).run(id, normalized.value.productType, normalized.value.brand, normalized.value.model, normalized.value.year,
-      ...OPTION_FIELDS.map((field) => JSON.stringify(options.value?.[field] || [])), actor.id, actor.id, timestamp, timestamp);
+      ...MANUAL_SKU_OPTION_FIELDS.map((field) => JSON.stringify(options.value?.[field] || [])), actor.id, actor.id, timestamp, timestamp);
     const item = db.prepare('SELECT * FROM manual_skus WHERE id = ?').get(id) as ManualSKU;
     return NextResponse.json(successResponse({ item: serializeManualSKU(item) }), { status: 201 });
   } catch (error) {
@@ -201,7 +157,7 @@ export async function PATCH(request: NextRequest) {
     const existing = db.prepare('SELECT * FROM manual_skus WHERE id = ? AND deleted = 0').get(id) as ManualSKU | undefined;
     if (!existing) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '手工 SKU 不存在'), { status: 404 });
 
-    const options = normalizeOptions(Object.fromEntries(OPTION_FIELDS.map((field) => [field, Object.hasOwn(body, field) ? body[field] : parseOptions(existing[field])])));
+    const options = normalizeManualSKUOptions(Object.fromEntries(MANUAL_SKU_OPTION_FIELDS.map((field) => [field, Object.hasOwn(body, field) ? body[field] : parseManualSKUOptions(existing[field])])));
     if (options.error || !options.value) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, options.error || 'SKU 配置选项无效'), { status: 400 });
 
     const hasIdentity = ['productType', 'brand', 'model', 'year'].some((key) => Object.hasOwn(body, key));
@@ -228,7 +184,7 @@ export async function PATCH(request: NextRequest) {
       UPDATE manual_skus SET productType = ?, brand = ?, model = ?, year = ?, cpuOptions = ?, ramOptions = ?, gpuOptions = ?, storageOptions = ?, screenOptions = ?, isActive = ?, updatedBy = ?, updatedAt = ?
       WHERE id = ? AND deleted = 0
     `).run(identity.productType, identity.brand, identity.model, identity.year,
-      ...OPTION_FIELDS.map((field) => JSON.stringify(options.value?.[field] || [])), isActive, actor.id, timestamp, id);
+      ...MANUAL_SKU_OPTION_FIELDS.map((field) => JSON.stringify(options.value?.[field] || [])), isActive, actor.id, timestamp, id);
     const item = db.prepare('SELECT * FROM manual_skus WHERE id = ?').get(id) as ManualSKU;
     return NextResponse.json(successResponse({ item: serializeManualSKU(item) }));
   } catch (error) {

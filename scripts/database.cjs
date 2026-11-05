@@ -1,5 +1,6 @@
 const { randomBytes, scryptSync } = require('node:crypto');
 const { normalizeList, formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } = require('./sku-catalog/normalize-options.cjs');
+const { mergeManualSKUOptions } = require('./sku-catalog/manual-options.cjs');
 const { syncBuiltinSkuCatalog } = require('./builtin-sku-seed.cjs');
 function hashPassword(password) { const salt = randomBytes(16); return 'scrypt$16384$8$1$' + salt.toString('base64url') + '$' + scryptSync(password, salt, 64, {N:16384,r:8,p:1}).toString('base64url'); }
 function initDatabase(db) {
@@ -1038,6 +1039,19 @@ function applyVersionedMigrations(db) {
     if (db.prepare('SELECT COUNT(*) AS count FROM skus').get().count === 0) return;
     const result = syncBuiltinSkuCatalog(db);
     console.log(`内置 SKU 目录升级：新增 ${result.inserted} 条、补充或规范 ${result.updated} 条、保留 ${result.skipped} 条本地记录`);
+  });
+  migrate(22, 'merge confirmed purchase configurations into manual SKU options', () => {
+    const items = db.prepare(`
+      SELECT pi.manualSkuId, pi.cpu, pi.ram, pi.gpu, pi.storage, pi.screen
+      FROM purchase_items pi
+      JOIN purchase_orders po ON po.id = pi.purchaseOrderId
+      JOIN manual_skus ms ON ms.id = pi.manualSkuId
+      WHERE po.isInbounded = 1 AND po.deleted = 0 AND pi.deleted = 0
+        AND pi.manualSkuId IS NOT NULL AND TRIM(pi.manualSkuId) <> ''
+      ORDER BY pi.createdAt, pi.id
+    `).all();
+    const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
+    for (const item of items) mergeManualSKUOptions(db, item, null, now);
   });
 }
 

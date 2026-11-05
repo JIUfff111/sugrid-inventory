@@ -20,6 +20,9 @@ export function formatCPUDisplay(option: string | null | undefined): string {
   const ryzenH = value.match(/^(?:AMD\s*)?(?:Ryzen|锐龙)\s*([3579])\s*(H[X]?)\s*([a-z0-9]+)$/i);
   if (ryzenH) return `R${ryzenH[1]}-${ryzenH[2].toUpperCase()}${ryzenH[3].toUpperCase()}`;
 
+  const compactRyzen = value.match(/^(R[3579])[-\s]+([a-z0-9]+)$/i);
+  if (compactRyzen) return `${compactRyzen[1].toUpperCase()}-${compactRyzen[2].toUpperCase()}`;
+
   return value
     .replace(/^(?:(?:Intel|英特尔)\s*)?(?:Core|酷睿)\s+Ultra\s+/i, 'Ultra ')
     .replace(/^(?:Intel|英特尔)\s*(?:Core|酷睿)\s*/i, '')

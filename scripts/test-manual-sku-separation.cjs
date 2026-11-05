@@ -74,6 +74,7 @@ const responseMock = { json: (body, init = {}) => ({ body, status: init.status |
 const canonicalSKUBrand = value => /^(?:redmi|红米)$/i.test(String(value || '').trim()) ? '小米' : String(value || '').trim();
 const getSKUProductType = value => value === '游戏本' ? '笔记本电脑' : value;
 let skuDisplay;
+let manualSKUOptions;
 
 const oldLoad = Module._load;
 Module._load = function(request, parent, isMain) {
@@ -92,6 +93,7 @@ Module._load = function(request, parent, isMain) {
     formatGPUDisplay: value => skuDisplay.formatGPUDisplay(value),
     formatScreenDisplay: value => skuDisplay.formatScreenDisplay(value),
   };
+  if (request === '@/lib/manual-sku-options') return manualSKUOptions;
   if (request === '@/lib/inventory-status') return {
     serializeInventoryStatus: row => row,
     stockEligibleSql: () => '1 = 1',
@@ -118,6 +120,7 @@ function loadRoute(relativePath) {
 }
 
 skuDisplay = loadRoute('../src/lib/sku-display.ts');
+manualSKUOptions = loadRoute('../src/lib/manual-sku-options.ts');
 const manualSkus = loadRoute('../src/app/api/manual-skus/route.ts');
 const builtInSkus = loadRoute('../src/app/api/skus/route.ts');
 const frequentSkus = loadRoute('../src/app/api/skus/frequent/route.ts');
@@ -196,6 +199,61 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
       manualSkuId: fromScratchManualId, skuId: null, cpu: 'R7-8845HS', ram: '48GB', gpu: 'RTX 5070 Ti', storage: '2TB SSD', screen: '1k custom',
       inventoryManualSkuId: fromScratchManualId, inventoryCpu: 'R7-8845HS', inventoryRam: '48GB', inventoryGpu: 'RTX 5070 Ti', inventoryStorage: '2TB SSD', inventoryScreen: '1k custom',
     }, 'custom config values must persist as normal purchase and inventory fields and remain linked to the manual catalog');
+    const manualOptionsAfterInbound = db.prepare(`SELECT cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions
+      FROM manual_skus WHERE id = ?`).get(fromScratchManualId);
+    assert.equal(JSON.parse(manualOptionsAfterInbound.cpuOptions).includes('R7-8845HS'), true, 'confirmed purchase adds a custom CPU to the manual catalog');
+    assert.equal(JSON.parse(manualOptionsAfterInbound.ramOptions).includes('48GB'), true);
+    assert.equal(JSON.parse(manualOptionsAfterInbound.gpuOptions).includes('RTX 5070 Ti'), true);
+    assert.equal(JSON.parse(manualOptionsAfterInbound.storageOptions).includes('2TB SSD'), true);
+    assert.equal(JSON.parse(manualOptionsAfterInbound.screenOptions).includes('1k custom'), true);
+
+    const draftConfigResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'draft',
+      items: [{ manualSkuId: fromScratchManualId, productType: '平板电脑', brand: 'Manual Flow Test', model: 'Tablet Config Fixture', year: 2025,
+        cpu: 'r7-8845hs', ram: '64 gb', gpu: 'NVIDIA GeForce RTX 5080 16GB', storage: '4 tb ssd', screen: '2k custom',
+        sn: 'MANUAL-SKU-DRAFT-CONFIG-0001', purchasePrice: 5200 }],
+    }));
+    assert.equal(draftConfigResponse.status, 201, JSON.stringify(draftConfigResponse.body));
+    assert.deepEqual(db.prepare('SELECT cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions FROM manual_skus WHERE id = ?').get(fromScratchManualId), manualOptionsAfterInbound,
+      'saving a draft must not change the manual catalog');
+    const draftDetail = await purchaseOrders.GET({ url: `http://localhost/api/purchase-orders?id=${draftConfigResponse.body.data.id}` });
+    assert.equal(draftDetail.status, 200);
+    const inboundDraftResponse = await purchaseOrders.PATCH(request('/api/purchase-orders', {
+      id: draftConfigResponse.body.data.id, supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', action: 'inbound',
+      items: draftDetail.body.data.items,
+    }));
+    assert.equal(inboundDraftResponse.status, 200, JSON.stringify(inboundDraftResponse.body));
+    const manualOptionsAfterDraftInbound = db.prepare(`SELECT cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions
+      FROM manual_skus WHERE id = ?`).get(fromScratchManualId);
+    assert.equal(JSON.parse(manualOptionsAfterDraftInbound.cpuOptions).filter(value => value.toLowerCase() === 'r7-8845hs').length, 1,
+      'equivalent CPU spellings must not duplicate catalog options');
+    assert.equal(JSON.parse(manualOptionsAfterDraftInbound.ramOptions).includes('64GB'), true);
+    assert.equal(JSON.parse(manualOptionsAfterDraftInbound.gpuOptions).includes('RTX 5080'), true);
+    assert.equal(JSON.parse(manualOptionsAfterDraftInbound.storageOptions).includes('4TB SSD'), true);
+    assert.equal(JSON.parse(manualOptionsAfterDraftInbound.screenOptions).includes('2K'), true);
+
+    db.prepare(`UPDATE manual_skus SET cpuOptions = '[]', ramOptions = '[]', gpuOptions = '[]', storageOptions = '[]', screenOptions = '[]'
+      WHERE id = ?`).run(fromScratchManualId);
+    db.prepare('DELETE FROM schema_migrations WHERE version = 22').run();
+    assert.equal(db.prepare(`SELECT COUNT(*) AS count FROM purchase_items pi JOIN purchase_orders po ON po.id = pi.purchaseOrderId
+      WHERE po.isInbounded = 1 AND po.deleted = 0 AND pi.deleted = 0 AND pi.manualSkuId = ?`).get(fromScratchManualId).count, 2);
+    schema.initDatabase(db);
+    const restoredOptions = db.prepare(`SELECT cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions
+      FROM manual_skus WHERE id = ?`).get(fromScratchManualId);
+    assert.equal(JSON.parse(restoredOptions.cpuOptions).includes('R7-8845HS'), true, `migration backfills confirmed purchase history: ${JSON.stringify(restoredOptions)}`);
+    assert.equal(JSON.parse(restoredOptions.ramOptions).includes('64GB'), true);
+    assert.equal(JSON.parse(restoredOptions.gpuOptions).includes('RTX 5080'), true);
+    assert.equal(JSON.parse(restoredOptions.screenOptions).includes('2K'), true);
+    schema.initDatabase(db);
+    assert.deepEqual(db.prepare(`SELECT cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions
+      FROM manual_skus WHERE id = ?`).get(fromScratchManualId), restoredOptions, 'historical backfill is idempotent');
+    db.prepare('UPDATE manual_skus SET storageOptions = ? WHERE id = ?').run('legacy-invalid-json', fromScratchManualId);
+    manualSKUOptions.mergeManualSKUOptions(db, {
+      manualSkuId: fromScratchManualId, cpu: 'R9-9999HX', ram: '', gpu: null, storage: '', screen: '',
+    }, actor.id, '2026-10-27 00:00:00');
+    assert.equal(db.prepare('SELECT storageOptions FROM manual_skus WHERE id = ?').get(fromScratchManualId).storageOptions,
+      'legacy-invalid-json', 'unrelated legacy option data must not be overwritten by a new CPU');
+    db.prepare('UPDATE manual_skus SET storageOptions = ? WHERE id = ?').run(restoredOptions.storageOptions, fromScratchManualId);
 
     const duplicateResponse = await manualSkus.POST(request('/api/manual-skus', {
       productType: '笔记本电脑', brand: 'thinkpad', model: 'x13', year: 2020,
@@ -365,6 +423,27 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
       productType: '台式机', brand: 'Test', model: 'Unsupported',
     }));
     assert.equal(unsupportedTypeResponse.status, 400, 'only explicitly supported product types should be accepted');
+
+    const pausedSkuResponse = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '笔记本电脑', brand: 'ThinkPad', model: 'Paused Manual Model', year: 2024,
+    }));
+    assert.equal(pausedSkuResponse.status, 201);
+    const pausedSkuId = pausedSkuResponse.body.data.item.id;
+    const pausedDraftResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'draft',
+      items: [{ manualSkuId: pausedSkuId, productType: '笔记本电脑', brand: 'ThinkPad', model: 'Paused Manual Model', year: 2024,
+        cpu: 'I5-1235U', ram: '16GB', sn: 'MANUAL-SKU-PAUSED-DRAFT', purchasePrice: 3000 }],
+    }));
+    assert.equal(pausedDraftResponse.status, 201);
+    const pausedDetail = await purchaseOrders.GET({ url: `http://localhost/api/purchase-orders?id=${pausedDraftResponse.body.data.id}` });
+    const pausedDeleteResponse = await manualSkus.DELETE({ url: `http://localhost/api/manual-skus?id=${pausedSkuId}` });
+    assert.equal(pausedDeleteResponse.status, 200);
+    const pausedInboundResponse = await purchaseOrders.PATCH(request('/api/purchase-orders', {
+      id: pausedDraftResponse.body.data.id, supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', action: 'inbound',
+      items: pausedDetail.body.data.items,
+    }));
+    assert.equal(pausedInboundResponse.status, 400, 'a draft cannot be confirmed against a now-hidden manual SKU');
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE sn = ?').get('MANUAL-SKU-PAUSED-DRAFT').count, 0);
     console.log('Manual SKU isolation and optional built-in SKU storage checks passed');
   } finally {
     db.close();

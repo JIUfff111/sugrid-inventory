@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
 import { getSKUProductType, requiresComputerSpecs } from '@/lib/sku-display';
+import { mergeManualSKUOptions, normalizeManualSKUOptions } from '@/lib/manual-sku-options';
 import { AuthError, requireRole } from '@/lib/auth';
 import {
   successResponse,
@@ -182,7 +183,7 @@ function resolveMatchedSkuId(item: NormalizedItem): string | null {
   return candidates.find((candidate) => getSKUProductType(candidate.productType) === productType)?.id || null;
 }
 
-function validateManualSkuReferences(items: NormalizedItem[], orderId?: string): string | null {
+function validateManualSkuReferences(items: NormalizedItem[], orderId?: string, requireActive = false): string | null {
   for (const item of items) {
     if (!item.manualSkuId) continue;
     if (item.skuId) return '手工 SKU 不能同时关联内置 SKU';
@@ -191,6 +192,7 @@ function validateManualSkuReferences(items: NormalizedItem[], orderId?: string):
       WHERE id = ?
     `).get(item.manualSkuId) as { productType: string; brand: string; model: string; year: number | null; isActive: number; deleted: number } | undefined;
     if (!sku) return '手工 SKU 已停用或不存在，请重新选择';
+    if (requireActive && (!sku.isActive || sku.deleted)) return '手工 SKU 已停用或删除，确认入库前请重新选择有效型号';
     const existingDraftReference = Boolean(orderId && item.id && db.prepare(`
       SELECT 1 FROM purchase_items WHERE id = ? AND purchaseOrderId = ? AND manualSkuId = ? AND deleted = 0
     `).get(item.id, orderId, item.manualSkuId));
@@ -219,6 +221,13 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
       return '机器配置缺少必填项';
     }
     if (!Number.isFinite(item.purchasePrice) || item.purchasePrice < 0) return '采购价格格式不正确';
+    if (item.manualSkuId) {
+      const options = normalizeManualSKUOptions({
+        cpuOptions: [item.cpu], ramOptions: [item.ram], gpuOptions: [item.gpu || ''],
+        storageOptions: [item.storage], screenOptions: [item.screen],
+      });
+      if (options.error) return `手工 SKU 配置无效：${options.error}`;
+    }
     if (requireSnAndPrice && !item.sn) return '确认入库时所有机器必须填写 SN';
     if (requireSnAndPrice && item.purchasePrice <= 0) return '确认入库时所有机器必须填写采购价格';
     if (item.sn) {
@@ -320,6 +329,7 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
         item.remark, item.skuRemark, now, now, order.warehouseId, item.manualSkuId
       );
       recordInbound(inventoryId, order, now);
+      mergeManualSKUOptions(db, item, order.actorId, now);
     }
   }
 }
@@ -397,6 +407,7 @@ function replaceDraftItemsAndInventory(
         item.remark, item.skuRemark, now, now, order.warehouseId, item.manualSkuId,
       );
       recordInbound(inventoryId, order, now);
+      mergeManualSKUOptions(db, item, order.actorId, now);
     }
   }
 }
@@ -430,7 +441,7 @@ export async function POST(request: NextRequest) {
     const items = normalizeItems(body.items);
     const itemError = validateItems(items, status === 'completed');
     if (itemError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, itemError), { status: 400 });
-    const manualSkuError = validateManualSkuReferences(items);
+    const manualSkuError = validateManualSkuReferences(items, undefined, status === 'completed');
     if (manualSkuError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, manualSkuError), { status: 400 });
     const supplier = findSupplier(String(body.supplierId).trim());
     if (!supplier) return NextResponse.json(errorResponse(ErrorCode.SUPPLIER_NOT_FOUND, '供应商不存在'), { status: 400 });
@@ -477,6 +488,9 @@ export async function POST(request: NextRequest) {
     }), { status: 201 });
   } catch (error: unknown) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
+    if (error instanceof Error && /配置选项已满/.test(error.message)) {
+      return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, error.message), { status: 400 });
+    }
     if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
       return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
     }
@@ -600,7 +614,7 @@ export async function PATCH(request: NextRequest) {
     const items = normalizeItems(body.items);
     const itemError = validateItems(items, action === 'inbound');
     if (itemError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, itemError), { status: 400 });
-    const manualSkuError = validateManualSkuReferences(items, id);
+    const manualSkuError = validateManualSkuReferences(items, id, action === 'inbound');
     if (manualSkuError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, manualSkuError), { status: 400 });
     const existingItems = db.prepare('SELECT id FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0').all(id) as Array<{ id: string }>;
     const existingItemIds = new Set(existingItems.map((item) => item.id));
@@ -650,6 +664,9 @@ export async function PATCH(request: NextRequest) {
     }));
   } catch (error: unknown) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
+    if (error instanceof Error && /配置选项已满/.test(error.message)) {
+      return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, error.message), { status: 400 });
+    }
     if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
       return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
     }
