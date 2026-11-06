@@ -6,7 +6,7 @@
 
 import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Search, Check, Plus, TrendingUp, X } from 'lucide-react';
+import { ChevronRight, Search, Check, Plus, TrendingUp, X, Settings2 } from 'lucide-react';
 import CustomSelect, { type SelectOption } from '@/components/CustomSelect';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, requiresComputerSpecs, SKU_PRODUCT_TYPES, uniqueCPUOptions, uniqueGPUOptions, uniqueScreenOptions } from '@/lib/sku-display';
@@ -738,7 +738,12 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
                 {step === 'customIdentity' && isManualCatalog && (
                   <div className="space-y-4 animate-fade-in">
-                    <p className="text-[12px] text-ink-soft">新档案会保存到独立手工 SKU 库。可选择目录型号，也可自行填写品牌和型号。</p>
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <p className="text-[12px] text-ink-soft">新档案会保存到独立手工 SKU 库。可选择目录型号，也可自行填写品牌和型号。</p>
+                      <Link href="/settings/manual-skus" className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] font-medium text-primary transition hover:bg-primary/8 hover:text-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+                        <Settings2 className="h-3.5 w-3.5" />管理手工 SKU 库
+                      </Link>
+                    </div>
                     <label className="block text-[12px] font-medium text-ink-deep">
                       产品类型 <span className="text-danger">*</span>
                       <span className="mt-1.5 block">

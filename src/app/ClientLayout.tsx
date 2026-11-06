@@ -25,6 +25,7 @@ const workspaceRoutes: Record<string, { id: string; label: string; Component: Co
   '/after-sales': { id: 'after-sales', label: '售后处理', Component: dynamic(() => import('@/app/after-sales/page'), { loading: Loading }) },
   '/warehouses': { id: 'warehouses', label: '仓库管理', Component: dynamic(() => import('@/app/warehouses/page'), { loading: Loading }) },
   '/settings/users': { id: 'users', label: '账号与权限', Component: dynamic(() => import('@/app/settings/users/page'), { loading: Loading }) },
+  '/settings/manual-skus': { id: 'manual-skus', label: '手工 SKU 库', Component: dynamic(() => import('@/app/settings/manual-skus/page'), { loading: Loading }) },
   '/settings/data': { id: 'data-management', label: '数据管理', Component: dynamic(() => import('@/app/settings/data/page'), { loading: Loading }) },
   '/settings/account': { id: 'account', label: '个人账号', Component: dynamic(() => import('@/app/settings/account/page'), { loading: Loading }) },
   '/sales/channels': { id: 'channels', label: '销售渠道', Component: dynamic(() => import('@/app/sales/channels/page'), { loading: Loading }) },
