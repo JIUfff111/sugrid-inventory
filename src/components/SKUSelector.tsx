@@ -210,6 +210,10 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   const [identityError, setIdentityError] = useState('');
   const [identityLoadAttempt, setIdentityLoadAttempt] = useState(0);
   const [identitySkuId, setIdentitySkuId] = useState('');
+  const [identityBrandMode, setIdentityBrandMode] = useState<'catalog' | 'custom'>('catalog');
+  const [customBrand, setCustomBrand] = useState('');
+  const [customModel, setCustomModel] = useState('');
+  const [customYear, setCustomYear] = useState('');
   const [creatingManualSku, setCreatingManualSku] = useState(false);
   const [frequentModels, setFrequentModels] = useState<Array<{ skuId: string; count: number }>>([]);
   const [loading, setLoading] = useState(true);
@@ -292,7 +296,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   }, [isManualCatalog, loadAttempt]);
 
   useEffect(() => {
-    if (!isManualCatalog || step !== 'customIdentity' || identityCatalog.length > 0) return;
+    if (!isManualCatalog || step !== 'customIdentity' || identityBrandMode !== 'catalog' || identityCatalog.length > 0) return;
     const controller = new AbortController();
     const loadIdentityCatalog = async () => {
       setIdentityLoading(true);
@@ -319,7 +323,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     };
     void loadIdentityCatalog();
     return () => controller.abort();
-  }, [identityCatalog.length, identityLoadAttempt, isManualCatalog, step]);
+  }, [identityBrandMode, identityCatalog.length, identityLoadAttempt, isManualCatalog, step]);
 
   const productTypes = Array.from(new Set(skus.map(s => getSKUProductType(s.productType))));
 
@@ -409,6 +413,10 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     setSelectedProductType(SKU_PRODUCT_TYPES[0]);
     setSelectedBrand('');
     setIdentitySkuId('');
+    setIdentityBrandMode('catalog');
+    setCustomBrand('');
+    setCustomModel('');
+    setCustomYear('');
     setSearch('');
     setIdentityError('');
     setStep('customIdentity');
@@ -416,7 +424,21 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
   const createManualSKU = async () => {
     const source = identityCatalog.find(sku => sku.id === identitySkuId);
-    if (!source || creatingManualSku) return;
+    const isCustomBrand = identityBrandMode === 'custom';
+    if (creatingManualSku || (!isCustomBrand && !source)) return;
+    const brand = isCustomBrand ? canonicalSKUBrand(customBrand.trim()) : canonicalSKUBrand(source!.brand);
+    const model = isCustomBrand ? customModel.trim().replace(/\s+/g, ' ') : source!.model;
+    const sourceYear = source ? getSKUYear(source) : '';
+    const year = isCustomBrand ? (customYear.trim() ? Number(customYear) : null) : (sourceYear ? Number(sourceYear) : null);
+    if (!brand || !model || brand.length > 80 || model.length > 160 ||
+        (year !== null && (!Number.isInteger(year) || year < 1900 || year > 2100))) {
+      setIdentityError('请填写有效的品牌、型号和年份');
+      return;
+    }
+    const identity: SKU = source && !isCustomBrand ? source : {
+      id: '', productType: selectedProductType, brand, model, year,
+      cpuOptions: [], ramOptions: [], gpuOptions: [], storageOptions: [], screenOptions: [],
+    };
     setCreatingManualSku(true);
     setIdentityError('');
     try {
@@ -424,21 +446,21 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          productType: getSKUProductType(source.productType),
-          brand: canonicalSKUBrand(source.brand),
-          model: source.model,
-          year: getSKUYear(source) || null,
-          cpuOptions: source.cpuOptions,
-          ramOptions: source.ramOptions,
-          gpuOptions: source.gpuOptions,
-          storageOptions: source.storageOptions,
-          screenOptions: source.screenOptions,
+          productType: getSKUProductType(identity.productType),
+          brand,
+          model,
+          year,
+          cpuOptions: identity.cpuOptions,
+          ramOptions: identity.ramOptions,
+          gpuOptions: identity.gpuOptions,
+          storageOptions: identity.storageOptions,
+          screenOptions: identity.screenOptions,
         }),
       });
       const result = await response.json() as { success?: boolean; data?: { item?: SKU }; error?: { message?: string } };
       if (!response.ok || !result.success || !result.data?.item) {
         if (response.status === 409) {
-          const existing = skus.find(sku => sameSKUIdentity(sku, source));
+          const existing = skus.find(sku => sameSKUIdentity(sku, identity));
           if (existing) {
             handleSelectModel(existing, true);
             return;
@@ -716,7 +738,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
                 {step === 'customIdentity' && isManualCatalog && (
                   <div className="space-y-4 animate-fade-in">
-                    <p className="text-[12px] text-ink-soft">新档案会保存到独立手工 SKU 库；机器配置选项沿用目录预设，并可在下一步逐项自定义。</p>
+                    <p className="text-[12px] text-ink-soft">新档案会保存到独立手工 SKU 库。可选择目录型号，也可自行填写品牌和型号。</p>
                     <label className="block text-[12px] font-medium text-ink-deep">
                       产品类型 <span className="text-danger">*</span>
                       <span className="mt-1.5 block">
@@ -728,9 +750,13 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                         />
                       </span>
                     </label>
-                    <label className="block text-[12px] font-medium text-ink-deep">
-                      品牌 <span className="text-danger">*</span>
-                      <span className="mt-1.5 block">
+                    <div className="space-y-2">
+                      <span className="block text-[12px] font-medium text-ink-deep">品牌 <span className="text-danger">*</span></span>
+                      <div className="flex flex-wrap gap-2" aria-label="品牌录入方式">
+                        <button type="button" aria-pressed={identityBrandMode === 'catalog'} onClick={() => { setIdentityBrandMode('catalog'); setIdentityError(''); }} className={`rounded-lg border px-3 py-1.5 text-[12px] font-medium transition-all active:scale-[0.98] ${identityBrandMode === 'catalog' ? 'border-primary bg-primary/10 text-primary' : 'border-line bg-white text-ink-soft hover:border-primary/30'}`}>选择目录品牌</button>
+                        <button type="button" aria-pressed={identityBrandMode === 'custom'} onClick={() => { setIdentityBrandMode('custom'); setIdentityError(''); }} className={`rounded-lg border px-3 py-1.5 text-[12px] font-medium transition-all active:scale-[0.98] ${identityBrandMode === 'custom' ? 'border-primary bg-primary/10 text-primary' : 'border-line bg-white text-ink-soft hover:border-primary/30'}`}>自定义品牌和型号</button>
+                      </div>
+                      {identityBrandMode === 'catalog' ? (
                         <CustomSelect
                           value={selectedBrand}
                           onChange={value => { setSelectedBrand(value); setIdentitySkuId(''); }}
@@ -740,11 +766,13 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                           disabled={identityLoading || Boolean(identityError)}
                           aria-label="自定义 SKU 品牌"
                         />
-                      </span>
-                    </label>
-                    <label className="block text-[12px] font-medium text-ink-deep">
-                      型号 <span className="text-danger">*</span>
-                      <span className="mt-1.5 block">
+                      ) : (
+                        <input type="text" value={customBrand} onChange={event => { setCustomBrand(event.target.value); setIdentityError(''); }} maxLength={80} placeholder="输入品牌名称" aria-label="自定义品牌名称" className="field" />
+                      )}
+                    </div>
+                    {identityBrandMode === 'catalog' ? (
+                      <div className="space-y-1.5">
+                        <span className="block text-[12px] font-medium text-ink-deep">型号 <span className="text-danger">*</span></span>
                         <CustomSelect
                           value={identitySkuId}
                           onChange={setIdentitySkuId}
@@ -754,9 +782,14 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                           disabled={!selectedBrand || identityLoading || Boolean(identityError) || identityModelOptions.length === 0}
                           aria-label="自定义 SKU 型号"
                         />
-                      </span>
-                    </label>
-                    {identityLoading && <p role="status" className="text-[12px] text-ink-soft">正在加载目录型号…</p>}
+                      </div>
+                    ) : (
+                      <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_8rem]">
+                        <label className="block text-[12px] font-medium text-ink-deep">型号 <span className="text-danger">*</span><input type="text" value={customModel} onChange={event => { setCustomModel(event.target.value); setIdentityError(''); }} maxLength={160} placeholder="输入型号" aria-label="自定义型号名称" className="field mt-1.5" /></label>
+                        <label className="block text-[12px] font-medium text-ink-deep">年份 <span className="font-normal text-ink-soft">选填</span><input type="number" min={1900} max={2100} value={customYear} onChange={event => { setCustomYear(event.target.value); setIdentityError(''); }} placeholder="如 2025" aria-label="新型号年份" className="field mt-1.5" /></label>
+                      </div>
+                    )}
+                    {identityBrandMode === 'catalog' && identityLoading && <p role="status" className="text-[12px] text-ink-soft">正在加载目录型号…</p>}
                     {identityError && <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-[12px] text-danger">
                       <span>{identityError}</span>
                       <button type="button" className="btn-ghost !py-1" onClick={() => { setIdentityError(''); setIdentityLoadAttempt(attempt => attempt + 1); }}>重试</button>
@@ -964,7 +997,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
             <button
               type="button"
               onClick={() => void createManualSKU()}
-              disabled={creatingManualSku || identityLoading || !identitySkuId}
+              disabled={creatingManualSku || (identityBrandMode === 'catalog' ? identityLoading || !identitySkuId : !customBrand.trim() || !customModel.trim())}
               className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-[13px] font-medium text-white transition-all hover:bg-primary-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Plus className="h-4 w-4" />{creatingManualSku ? '正在创建…' : '创建并配置'}

@@ -207,6 +207,22 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     assert.equal(JSON.parse(manualOptionsAfterInbound.storageOptions).includes('2TB SSD'), true);
     assert.equal(JSON.parse(manualOptionsAfterInbound.screenOptions).includes('1k custom'), true);
 
+    const newBrandResponse = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '平板电脑', brand: 'New Brand Fixture', model: 'Prototype One', year: 2026,
+    }));
+    assert.equal(newBrandResponse.status, 201, 'a brand absent from the built-in catalog can have its own manual SKU');
+    const newBrandId = newBrandResponse.body.data.item.id;
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM skus WHERE brand = ?').get('New Brand Fixture').count, 0);
+    const newBrandInboundResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId: newBrandId, productType: '平板电脑', brand: 'New Brand Fixture', model: 'Prototype One', year: 2026,
+        cpu: 'Custom CPU 1', ram: '24GB', gpu: '集显', storage: '512GB SSD', screen: '2.5K',
+        sn: 'MANUAL-SKU-NEW-BRAND-0001', purchasePrice: 2400 }],
+    }));
+    assert.equal(newBrandInboundResponse.status, 201, JSON.stringify(newBrandInboundResponse.body));
+    assert.equal(db.prepare('SELECT manualSkuId FROM inventory WHERE sn = ?').get('MANUAL-SKU-NEW-BRAND-0001').manualSkuId, newBrandId);
+    assert.deepEqual(JSON.parse(db.prepare('SELECT cpuOptions FROM manual_skus WHERE id = ?').get(newBrandId).cpuOptions), ['Custom CPU 1']);
+
     const draftConfigResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
       supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'draft',
       items: [{ manualSkuId: fromScratchManualId, productType: '平板电脑', brand: 'Manual Flow Test', model: 'Tablet Config Fixture', year: 2025,
@@ -404,6 +420,12 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
 
     const listResponse = await manualSkus.GET(request('/api/manual-skus?productType=%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91'));
     assert.equal(listResponse.body.data.items.length, 1);
+
+    const newModelForKnownBrand = await manualSkus.POST(request('/api/manual-skus', {
+      productType: '笔记本电脑', brand: 'ThinkPad', model: 'Manual Only Model', year: 2026,
+    }));
+    assert.equal(newModelForKnownBrand.status, 201, 'a known brand can receive a new manual-only model');
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM skus WHERE brand = ? AND model = ?').get('ThinkPad', 'Manual Only Model').count, 0);
 
     const gpuSkuResponse = await manualSkus.POST(request('/api/manual-skus', {
       productType: '显卡', brand: '华硕', model: 'RTX 4060',
