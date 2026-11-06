@@ -36,9 +36,10 @@ function failure(error: unknown) {
 }
 export async function GET(request: NextRequest) {
   try {
-    await requireRole('admin');
+    const actor = await requireRole('admin');
     const query = request.nextUrl.searchParams;
     const clauses = ["u.status <> 'deleted'"];
+    if (!actor.isSystemAccount) clauses.push('u.isSystemAccount = 0');
     const args: string[] = [];
     const search = query.get('search')?.trim();
     if (search) {
@@ -98,7 +99,9 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json() as Record<string, unknown>;
     const id = typeof body.id === 'string' ? body.id.trim() : typeof body.userId === 'string' ? body.userId.trim() : '';
     const existing = getUserById(id);
-    if (!existing) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '用户不存在'), { status: 404 });
+    if (!existing || (existing.isSystemAccount && !actor.isSystemAccount)) {
+      return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '用户不存在'), { status: 404 });
+    }
     const role = body.role === undefined ? existing.role : String(body.role);
     const status = body.status === undefined ? existing.status : String(body.status);
     if (existing.isSystemAccount && (role !== existing.role || status !== existing.status)) throw new Error('内置系统管理员的角色和状态不能修改');

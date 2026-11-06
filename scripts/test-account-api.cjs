@@ -150,9 +150,22 @@ async function run() {
     assert.equal(otherAdmin.user.isSystemAccount, false);
     const otherAdminToken = auth.createSession(otherAdmin.user.id);
     token = otherAdminToken;
+    const visibleUsers = await call(users.GET, req('/api/users', undefined, 'GET'), 200);
+    assert.equal(visibleUsers.users.some(item => item.id === adminId), false, 'other administrators cannot list the built-in administrator');
+    assert.equal(visibleUsers.users.some(item => item.id === otherAdmin.user.id), true, 'other administrators remain visible');
+    assert.equal(visibleUsers.pagination.total, 2, 'the hidden account is excluded from list totals');
+    const pagedVisibleUsers = await call(users.GET, req('/api/users?page=1&pageSize=1', undefined, 'GET'), 200);
+    assert.equal(pagedVisibleUsers.pagination.total, 2);
+    assert.equal(pagedVisibleUsers.users.some(item => item.id === adminId), false);
+    const hiddenAdminSearch = await call(users.GET, req('/api/users?search=系统管理员&page=1&pageSize=20', undefined, 'GET'), 200);
+    assert.equal(hiddenAdminSearch.pagination.total, 0, 'search cannot reveal the built-in administrator');
+    await call(users.PATCH, req('/api/users', {id:adminId,realName:'Unauthorized change'}, 'PATCH'), 404);
+    assert.equal(db.prepare('SELECT realName FROM users WHERE id=?').get(adminId).realName, '系统管理员', 'a guessed ID cannot edit the built-in administrator');
     await call(users.DELETE, req(`/api/users?id=${pending.user.id}`, undefined, 'DELETE'), 403);
-    await call(users.PATCH, req('/api/users', {id:adminId,status:'disabled'}, 'PATCH'), 400);
+    await call(users.PATCH, req('/api/users', {id:adminId,status:'disabled'}, 'PATCH'), 404);
     token = adminToken;
+    assert.equal((await call(users.GET, req('/api/users?search=系统管理员', undefined, 'GET'), 200)).users.some(item => item.id === adminId), true,
+      'the built-in administrator can still see its own account');
     await call(users.DELETE, req(`/api/users?id=${adminId}`, undefined, 'DELETE'), 400);
 
     const targetToken = auth.createSession(pending.user.id);
