@@ -2,19 +2,22 @@
 
 import { useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronLeft, ChevronRight, LoaderCircle, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LoaderCircle, ScanLine, Search } from 'lucide-react';
 import { useWorkspace } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+import { splitMachineScanTokens } from '@/lib/machine-scan';
 
 export interface MachineSuggestion {
   id: string; sn: string; itemNumber?: string | null; brand?: string | null; model?: string | null; year?: number | string | null;
   cpu?: string | null; ram?: string | null; gpu?: string | null; storage?: string | null; screen?: string | null;
-  purchasePrice?: number | null; supplierName?: string | null; purchaseNo?: string | null; warehouseName?: string | null;
+  purchasePrice?: number | null; supplierName?: string | null; purchaseNo?: string | null; warehouseId?: string | null; warehouseName?: string | null;
   status?: string; customStatusName?: string | null; customStatusColor?: string | null;
 }
 interface MachineSearchInputProps<T extends MachineSuggestion> {
   value: string; onChange: (value: string) => void; endpoint?: string; onSelect: (item: T) => void; onSearch?: (query: string) => void;
+  onScanToken?: (token: string) => void | Promise<void>;
+  scanEnabled?: boolean;
   placeholder?: string; ariaLabel?: string; disabled?: boolean; minChars?: number;
   getItems?: (payload: unknown) => T[]; renderItem?: (item: T) => ReactNode; className?: string;
 }
@@ -33,7 +36,7 @@ function HighlightSN({ sn, query }: { sn: string; query: string }) {
 
 /** Database-backed suggestions; typing never selects a machine implicitly. */
 export default function MachineSearchInput<T extends MachineSuggestion>({
-  value, onChange, endpoint = '/api/inventory/lookup?context=inventory', onSelect, onSearch,
+  value, onChange, endpoint = '/api/inventory/lookup?context=inventory', onSelect, onSearch, onScanToken, scanEnabled = false,
   placeholder = '输入 SN 后四位或型号自动匹配', ariaLabel = '搜索机器', disabled = false,
   minChars = 4, getItems = defaultItems, renderItem, className = '',
 }: MachineSearchInputProps<T>) {
@@ -45,6 +48,7 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
   const [position, setPosition] = useState<{ left: number; top?: number; bottom?: number; width: number; maxHeight: number }>({ left: 0, top: 0, width: 0, maxHeight: 360 });
   const sequence = useRef(0); const abortRef = useRef<AbortController | null>(null); const selectedQuery = useRef<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null); const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); const scanBusy = useRef(false); const scanQueue = useRef<string[]>([]);
   const limit = expanded ? 50 : 8; const query = value.trim();
   useLayoutEffect(() => () => { setOpen(false); setFocused(false); }, []);
 
@@ -91,14 +95,66 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
   useEffect(() => { listRef.current?.querySelector('[data-index="' + highlighted + '"]')?.scrollIntoView({ block: 'nearest' }); }, [highlighted]);
   function select(item: T) { selectedQuery.current = item.sn.trim(); ++sequence.current; abortRef.current?.abort(); setLoading(false); setOpen(false); setHighlighted(-1); onSelect(item); }
   function searchAll() { if (onSearch) { setOpen(false); onSearch(query); } else { setExpanded(true); setPage(1); setRetry(v => v + 1); } }
+  async function resolveScannedTokens(tokens: string[]) {
+    if (!tokens.length) return;
+    scanQueue.current.push(...tokens);
+    if (scanBusy.current) return;
+    scanBusy.current = true;
+    ++sequence.current; abortRef.current?.abort(); setOpen(false); setLoading(true); setError('');
+    const issues: string[] = [];
+    try {
+      while (scanQueue.current.length) {
+        const token = scanQueue.current.shift()!;
+        try {
+          if (onScanToken) { await onScanToken(token); continue; }
+          const url = new URL(endpoint, window.location.origin);
+          url.searchParams.set('q', token); url.searchParams.set('limit', '100'); url.searchParams.set('page', '1');
+          const response = await fetch(url.toString(), { cache: 'no-store' });
+          const payload = await response.json();
+          if (!response.ok || !payload.success) throw new Error(payload.error?.message || '查询失败');
+          const exact = getItems(payload).find(item => item.sn.trim().toLocaleLowerCase() === token.toLocaleLowerCase()
+            || item.itemNumber?.trim().toLocaleLowerCase() === token.toLocaleLowerCase());
+          if (!exact) throw new Error('没有找到符合当前操作条件的机器');
+          select(exact);
+        } catch (scanError) {
+          issues.push(`${token}：${scanError instanceof Error ? scanError.message : '无法识别'}`);
+        }
+      }
+      if (issues.length) setError(issues.slice(0, 5).join('；') + (issues.length > 5 ? `；另有 ${issues.length - 5} 条未匹配` : ''));
+    } finally {
+      setLoading(false); scanBusy.current = false;
+      window.requestAnimationFrame(() => inputRef.current?.focus());
+    }
+  }
   const showList = active && open && !disabled && query.length >= minChars;
 
   return <div ref={containerRef} className={'relative ' + className}>
     <Search className="pointer-events-none absolute left-3 top-1/2 z-[1] h-4 w-4 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
-    <input type="search" role="combobox" value={value} disabled={disabled}
+    <input ref={inputRef} type="search" role="combobox" value={value} disabled={disabled}
       onFocus={() => { setFocused(true); if (query.length >= minChars && selectedQuery.current !== query) { setLoading(true); setOpen(true); setRetry(v => v + 1); } }}
       onBlur={() => { ++sequence.current; abortRef.current?.abort(); setFocused(false); setOpen(false); setLoading(false); }}
-      onChange={event => { ++sequence.current; abortRef.current?.abort(); selectedQuery.current = null; setItems([]); setHighlighted(-1); setPage(1); setExpanded(false); setError(""); setLoading(event.target.value.trim().length >= minChars); setOpen(event.target.value.trim().length >= minChars); onChange(event.target.value); }}
+      onChange={event => {
+        let nextValue = event.target.value;
+        if (selectedQuery.current && value.trim() === selectedQuery.current && nextValue.startsWith(value)) {
+          nextValue = nextValue.slice(value.length);
+        }
+        if (scanEnabled && /[,，\t\r\n]/.test(nextValue)) {
+          const tokens = splitMachineScanTokens(nextValue);
+          if (tokens.length) { selectedQuery.current = null; onChange(''); void resolveScannedTokens(tokens); return; }
+        }
+        ++sequence.current; abortRef.current?.abort(); selectedQuery.current = null; setItems([]); setHighlighted(-1); setPage(1); setExpanded(false); setError(""); setLoading(nextValue.trim().length >= minChars); setOpen(nextValue.trim().length >= minChars); onChange(nextValue);
+      }}
+      onPaste={event => {
+        if (!scanEnabled) return;
+        const pasted = event.clipboardData.getData('text');
+        if (!/[,，\t\r\n]/.test(pasted)) return;
+        event.preventDefault();
+        const base = selectedQuery.current === value.trim() ? '' : value;
+        const tokens = splitMachineScanTokens(`${base}${pasted}`);
+        selectedQuery.current = null;
+        onChange('');
+        void resolveScannedTokens(tokens);
+      }}
       onKeyDown={event => {
         if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); ++sequence.current; abortRef.current?.abort(); setOpen(false); setLoading(false); setHighlighted(-1); }
         else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); if (!loading && items.length) { setOpen(true); setHighlighted(current => event.key === 'ArrowDown' ? Math.min(current + 1, items.length - 1) : Math.max(current - 1, 0)); } }
@@ -108,7 +164,8 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
       placeholder={placeholder} aria-label={ariaLabel} aria-autocomplete="list" aria-controls={listId} aria-expanded={showList}
       aria-activedescendant={showList && highlighted >= 0 ? listId + '-' + highlighted : undefined}
       className="field w-full pl-10 pr-10" />
-    {loading && <LoaderCircle className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-primary" aria-label="搜索中" />}
+    {loading ? <LoaderCircle className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-primary" aria-label="搜索中" /> : scanEnabled && <ScanLine className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft/60" aria-hidden="true" />}
+    {scanEnabled && error && !showList && <p role="alert" className="mt-1 text-xs text-danger">{error}</p>}
     {showList && typeof document !== 'undefined' && createPortal(<div ref={listRef} style={position} className="dropdown-surface fixed z-[12000] flex flex-col overflow-hidden rounded-xl border border-line-strong bg-white shadow-xl animate-fade-in" onMouseDown={event => event.preventDefault()}>
       <div id={listId} role="listbox" aria-label="机器匹配结果" className="min-h-0 overflow-y-auto overscroll-contain">
         {loading ? <p role="status" className="px-4 py-4 text-center text-xs text-ink-soft">正在匹配机器…</p> : error ? <div role="alert" className="px-4 py-4 text-center text-xs text-danger">{error}<button type="button" onClick={() => setRetry(v => v + 1)} className="ml-2 text-primary underline">重试</button></div> : !items.length ? <p role="status" className="px-4 py-4 text-center text-xs text-ink-soft">没有符合当前业务条件的机器</p> : items.map((item, index) => <button key={item.id} id={listId + '-' + index} data-index={index} type="button" role="option" aria-selected={highlighted === index}

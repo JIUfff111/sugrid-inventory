@@ -293,7 +293,8 @@ export default function InventoryPage() {
   const [warehouses, setWarehouses] = useState<Array<{ id: string; name: string }>>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkedIds, setCheckedIds] = useState<Set<string>>(() => new Set());
-  const [statusDialog, setStatusDialog] = useState<{ mode: 'register' | 'restore' | 'manage'; machine?: InventoryItem } | null>(null);
+  const [checkedMachines, setCheckedMachines] = useState<Map<string, InventoryItem>>(() => new Map());
+  const [statusDialog, setStatusDialog] = useState<{ mode: 'register' | 'restore' | 'manage'; machine?: InventoryItem; machines?: InventoryItem[] } | null>(null);
   const [assetChangeMachine, setAssetChangeMachine] = useState<InventoryItem | null>(null);
   const [pendingAssetPrintId, setPendingAssetPrintId] = useState<string | null>(null);
   const [assetPrintBusy, setAssetPrintBusy] = useState(false);
@@ -402,11 +403,33 @@ export default function InventoryPage() {
     };
   }, [active, activeWorkspace, page, pageSize, search, status, filters, reloadKey]);
 
+  useEffect(() => {
+    if (!items.length) return;
+    setCheckedMachines(current => {
+      let changed = false;
+      const next = new Map(current);
+      for (const item of items) {
+        if (next.has(item.id) && next.get(item.id) !== item) {
+          next.set(item.id, item);
+          changed = true;
+        }
+      }
+      return changed ? next : current;
+    });
+  }, [items]);
+
   const itemStatusLabel = (item: InventoryItem) => item.customStatusName && (item.status === 'custom' || item.status === 'returning') ? `${item.status === 'returning' ? '退货中 · ' : ''}${item.customStatusName}` : statusLabel(item.status);
   const itemStatusStyle = (item: InventoryItem) => item.status === 'custom' && item.customStatusColor ? { color: item.customStatusColor, backgroundColor: `${item.customStatusColor}12`, borderColor: `${item.customStatusColor}40` } : undefined;
   const isSystemAccount = user?.isSystemAccount === true;
   const canEditInventory = !isViewer && (isSystemAccount || user?.canEditInventory === true);
-  const statusChanged = () => { setReloadKey(n => n + 1); setSelected(null); };
+  const statusChanged = (changedIds?: string[]) => {
+    setReloadKey(n => n + 1);
+    setSelected(null);
+    if (!changedIds?.length) return;
+    const changed = new Set(changedIds);
+    setCheckedIds(current => new Set([...current].filter(id => !changed.has(id))));
+    setCheckedMachines(current => new Map([...current].filter(([id]) => !changed.has(id))));
+  };
 
   useEffect(() => {
     if (!active || !selected) {
@@ -463,14 +486,21 @@ export default function InventoryPage() {
   };
 
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
-  const checkedItems = items.filter((item) => checkedIds.has(item.id));
+  const checkedItems = [...checkedMachines.values()];
   const allPageChecked = items.length > 0 && items.every((item) => checkedIds.has(item.id));
 
   const toggleChecked = (id: string) => {
+    const machine = items.find(item => item.id === id);
     setCheckedIds((current) => {
       const next = new Set(current);
       if (next.has(id)) next.delete(id);
       else next.add(id);
+      return next;
+    });
+    setCheckedMachines(current => {
+      const next = new Map(current);
+      if (next.has(id)) next.delete(id);
+      else if (machine) next.set(id, machine);
       return next;
     });
   };
@@ -480,6 +510,12 @@ export default function InventoryPage() {
       const next = new Set(current);
       if (allPageChecked) items.forEach((item) => next.delete(item.id));
       else items.forEach((item) => next.add(item.id));
+      return next;
+    });
+    setCheckedMachines(current => {
+      const next = new Map(current);
+      if (allPageChecked) items.forEach(item => next.delete(item.id));
+      else items.forEach(item => next.set(item.id, item));
       return next;
     });
   };
@@ -677,7 +713,7 @@ export default function InventoryPage() {
       <section className="glass p-4 mb-4">
         <div className="flex flex-wrap items-center gap-3">
           <form onSubmit={submitSearch} className="relative min-w-0 basis-full xl:max-w-xl xl:flex-1">
-            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSearch={query => { setSearchInput(query); setSearch(query.trim()); setPage(1); }} placeholder="SN、编号、品牌型号或采购单号" ariaLabel="搜索库存" />
+            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSearch={query => { setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled placeholder="SN、编号、品牌型号或采购单号" ariaLabel="搜索库存" />
             {searchInput && (
               <button type="button" onClick={clearSearch} title="清除搜索" aria-label="清除搜索" className="absolute right-12 top-1/2 -translate-y-1/2 p-1 text-ink-soft hover:text-ink-deep"><X className="w-4 h-4" /></button>
             )}
@@ -731,7 +767,7 @@ export default function InventoryPage() {
       {!isViewer && checkedItems.length > 0 && (
         <section className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/15 bg-primary/5 px-4 py-3">
           <div className="flex items-center gap-2 text-[12px] text-ink-deep"><CheckSquare className="h-4 w-4 text-primary" />已选 <b>{checkedItems.length}</b> 台机器</div>
-          <div className="flex flex-wrap items-center gap-2">{isAdmin && checkedItems.length === 1 && checkedItems[0].status === 'in_stock' && <button type="button" onClick={() => setAssetChangeMachine(checkedItems[0])} className="btn-ghost inline-flex items-center gap-1.5"><MemoryStick className="h-4 w-4" />资产变更</button>}<button type="button" onClick={openPrintSelected} className="btn-ghost inline-flex items-center gap-1.5"><Printer className="h-4 w-4" />打印所选标签</button><button type="button" onClick={exportSelected} className="btn-ghost inline-flex items-center gap-1.5"><FileDown className="h-4 w-4" />导出所选</button><button type="button" onClick={() => setCheckedIds(new Set())} className="text-[12px] text-ink-soft hover:text-ink-deep">清除选择</button></div>
+          <div className="flex flex-wrap items-center gap-2">{isAdmin && checkedItems.length === 1 && checkedItems[0].status === 'in_stock' && <button type="button" onClick={() => setAssetChangeMachine(checkedItems[0])} className="btn-ghost inline-flex items-center gap-1.5"><MemoryStick className="h-4 w-4" />资产变更</button>}{isAdmin && <button type="button" onClick={() => setStatusDialog({ mode: 'register', machines: checkedItems })} title="在机器状态登记窗口中统一登记" className="btn-ghost inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" />登记所选机器状态</button>}<button type="button" onClick={openPrintSelected} className="btn-ghost inline-flex items-center gap-1.5"><Printer className="h-4 w-4" />打印所选标签</button><button type="button" onClick={exportSelected} className="btn-ghost inline-flex items-center gap-1.5"><FileDown className="h-4 w-4" />导出所选</button><button type="button" onClick={() => { setCheckedIds(new Set()); setCheckedMachines(new Map()); }} className="text-[12px] text-ink-soft hover:text-ink-deep">清除选择</button></div>
         </section>
       )}
 
@@ -834,8 +870,8 @@ export default function InventoryPage() {
       <ConfirmDialog isOpen={machineEditDiscardConfirm} title="放弃机器资料修改？" message="关闭后，本次尚未保存的机器资料修改将被清除。" confirmText="关闭并放弃" cancelText="继续编辑" danger onCancel={() => setMachineEditDiscardConfirm(false)} onConfirm={() => { setMachineEditDiscardConfirm(false); setMachineEditOpen(false); setMachineEditDraft(null); setMachineEditError(''); }} />
       {assetChangeMachine && <InventoryAssetChangeDialog key={assetChangeMachine.id} machine={assetChangeMachine} onClose={() => setAssetChangeMachine(null)} onSaved={assetChanged} />}
       <ConfirmDialog isOpen={Boolean(pendingAssetPrintId)} title={assetPrintError ? '更新后的标签打印失败' : '资产变更完成，是否打印更新后的标签？'} message={assetPrintError ? `资产变更已保存。${assetPrintError}` : '标签将使用这台机器最新的内存和硬盘信息，并按默认标签模板打印。'} confirmText={printing || assetPrintBusy ? '准备打印…' : assetPrintError ? '重试打印' : '打印更新后的标签'} cancelText="暂不打印" onConfirm={() => { void printUpdatedAssetLabel(); }} onCancel={() => { if (!printing && !assetPrintBusy) { setPendingAssetPrintId(null); setAssetPrintError(''); } }} />
-      {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
-      {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
+      {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || statusDialog.machines?.map(item => item.id).join(',') || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} machines={statusDialog.machines} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
+      {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setCheckedMachines(current => { const next = new Map(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
       </WorkspaceSection>
       {!isViewer && <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>}
     </div>

@@ -6,6 +6,10 @@ const Module = require('node:module');
 const ts = require('typescript');
 const { NextRequest } = require('next/server');
 const root = path.resolve(__dirname,'..');
+const machineScan=load('src/lib/machine-scan.ts');
+assert.deepEqual(machineScan.splitMachineScanTokens('CS-001,CS-002，CS-003\nCS-004\tCS-005'),['CS-001','CS-002','CS-003','CS-004','CS-005']);
+assert.deepEqual(machineScan.parseMachineSNCsv('\ufeffSN\r\n"CS-001"\r\nCS-002\r\ncs-001\r\n'),{serials:['CS-001','CS-002'],duplicates:['cs-001']});
+assert.throws(()=>machineScan.parseMachineSNCsv('机器\r\nCS-001'),/首列应为 SN/);
 function load(relative,deps={}) {
   const filename=path.join(root,relative);
   const code=ts.transpileModule(fs.readFileSync(filename,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true},fileName:filename}).outputText;
@@ -19,8 +23,8 @@ async function main() {
     const database=load('src/lib/db.ts');db=database.default;let token;
     const api=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':api,'next/headers':{cookies:async()=>({get:()=>token?{value:token}:undefined})}});
-    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});
-    const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/analysis','inventory/movements'];
+    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts'),'@/lib/manual-sku-options':load('src/lib/manual-sku-options.ts'),'@/lib/inventory-movement-labels':load('src/lib/inventory-movement-labels.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});
+    const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/status-records/batch','inventory/analysis','inventory/movements'];
     const routes=Object.fromEntries(names.map(name=>[name,load(`src/app/api/${name}/route.ts`,deps)]));
     async function call(name,method,body,expected=200,query='') {
       const req=new NextRequest(`http://localhost/api/${name}${query}`,{method,...(body===undefined?{}:{headers:{'content-type':'application/json'},body:JSON.stringify(body)})});
@@ -38,6 +42,38 @@ async function main() {
     assert.equal(db.prepare('SELECT supplierOrderNo FROM purchase_orders WHERE id=?').get(purchase.id).supplierOrderNo,'');
     const machine=index=>db.prepare('SELECT * FROM inventory WHERE sn=?').get(machines[index].sn);
     const definition=await call('inventory/status-definitions','POST',{name:'外部保管',color:'#2563eb'},201);
+    const batchIds=[10,11,12].map(index=>machine(index).id);
+    let resolved=await call('inventory/status-records/batch','POST',{action:'resolve',serials:[machine(10).sn.toLowerCase(),'CS-UNKNOWN']});
+    assert.deepEqual(resolved.eligible.map(item=>item.sn),[machine(10).sn]);assert.equal(resolved.blocked[0].reason,'系统中未找到此 SN');
+    resolved=await call('inventory/status-records/batch','POST',{action:'resolve',serials:Array.from({length:101},(_,index)=>`CS-${index}`)},400);
+    await call('inventory/status-records/batch','POST',{action:'preview',inventoryIds:[]},400);
+    await call('inventory/status-records/batch','POST',{action:'preview',inventoryIds:[...batchIds,batchIds[0]]},400);
+    await call('inventory/status-records/batch','POST',{action:'preview',inventoryIds:Array.from({length:101},()=>batchIds[0])},400);
+    let batchPreview=await call('inventory/status-records/batch','POST',{action:'preview',inventoryIds:batchIds});assert.equal(batchPreview.eligible.length,3);assert.equal(batchPreview.blocked.length,0);
+    const statusCountBeforeConflict=db.prepare('SELECT COUNT(*) n FROM inventory_status_records').get().n;
+    db.prepare("UPDATE inventory SET status='sold' WHERE id=?").run(machine(12).id);
+    batchPreview=await call('inventory/status-records/batch','POST',{action:'preview',inventoryIds:batchIds});assert.equal(batchPreview.eligible.length,2);assert.equal(batchPreview.blocked.length,1);assert.equal(batchPreview.blocked[0].sn,machine(12).sn);
+    await call('inventory/status-records/batch','POST',{action:'register',inventoryIds:batchIds,definitionId:definition.id,reason:'批次状态',location:'批量登记点'},409);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM inventory_status_records').get().n,statusCountBeforeConflict);assert.equal(machine(10).status,'in_stock');assert.equal(machine(11).status,'in_stock');
+    const partialBatch=await call('inventory/status-records/batch','POST',{action:'register',inventoryIds:batchPreview.eligible.map(item=>item.id),definitionId:definition.id,reason:'批次状态',location:'批量登记点'},201);
+    assert.equal(partialBatch.count,2);assert.equal(machine(10).status,'custom');assert.equal(machine(11).status,'custom');assert.equal(machine(12).status,'sold');
+    for(const index of [10,11])await call('inventory/status-records','PATCH',{inventoryId:machine(index).id,action:'restore',resultNote:'部分批量测试恢复'});
+    db.prepare("UPDATE inventory SET status='in_stock' WHERE id=?").run(machine(12).id);
+    const statusCountBeforeFailure=db.prepare('SELECT COUNT(*) n FROM inventory_status_records').get().n;
+    db.exec("CREATE TRIGGER cs_batch_force_failure BEFORE INSERT ON inventory_movements WHEN NEW.movementType='custom_status_start' BEGIN SELECT RAISE(ABORT,'forced batch failure'); END");
+    await call('inventory/status-records/batch','POST',{action:'register',inventoryIds:batchIds,definitionId:definition.id,reason:'批次状态',location:'批量登记点'},400);
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM inventory_status_records').get().n,statusCountBeforeFailure);for(const index of [10,11,12])assert.equal(machine(index).status,'in_stock');
+    db.exec('DROP TRIGGER cs_batch_force_failure');
+    const batchResult=await call('inventory/status-records/batch','POST',{action:'register',inventoryIds:batchIds,definitionId:definition.id,reason:'批次状态',location:'批量登记点'},201);
+    assert.equal(batchResult.count,3);assert.equal(batchResult.items.length,3);
+    for(const index of [10,11,12]){
+      assert.equal(machine(index).status,'custom');assert(machine(index).currentStatusRecordId);
+      const movement=db.prepare("SELECT snapshot FROM inventory_movements WHERE inventoryId=? AND movementType='custom_status_start'").get(machine(index).id);
+      assert.equal(JSON.parse(movement.snapshot).cpu,'i5');
+      await call('inventory/status-records','PATCH',{inventoryId:machine(index).id,action:'restore',resultNote:'批量测试恢复'});
+    }
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_status_records WHERE inventoryId IN (?,?,?)").get(...batchIds).n,5);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId IN (?,?,?) AND movementType='custom_status_start'").get(...batchIds).n,5);
     const register=index=>call('inventory/status-records','POST',{inventoryId:machine(index).id,definitionId:definition.id,reason:'测试原因',location:'维修点',expectedReturnDate:'2026-10-25'},201);
     await call('inventory/status-records','POST',{inventoryId:machine(0).id,definitionId:definition.id},201);
     const blankStatus=db.prepare('SELECT reason,location FROM inventory_status_records WHERE id=?').get(machine(0).currentStatusRecordId);
@@ -99,13 +135,14 @@ async function main() {
     await call('inventory/status-records','PATCH',{inventoryId:machine(4).id,action:'restore',resultNote:'停用后仍可归还'});
     // Warehouse users cannot create statuses, and lookup cannot disclose another warehouse.
     db.prepare("INSERT INTO users(id,username,password,role,status) VALUES ('cs-viewer','cs-viewer','test','warehouse_manager','active')").run();db.prepare("INSERT INTO user_warehouses(userId,warehouseId) VALUES ('cs-viewer','warehouse_main')").run();token=auth.createSession('cs-viewer');
-    await call('inventory/status-definitions','POST',{name:'越权'},403);await call('inventory/status-records','POST',{},403);
+    await call('inventory/status-definitions','POST',{name:'越权'},403);await call('inventory/status-records','POST',{},403);await call('inventory/status-records/batch','POST',{action:'resolve',serials:[machine(3).sn]},403);
+    await call('inventory/status-records/batch','POST',{action:'preview',inventoryIds:[machine(3).id]},403);
     for(const context of ['sale','rental','after-sale','exchange','supplier-return','status-register'])await call('inventory/lookup','GET',undefined,403,'?context='+context+'&q=0000');
     await call('inventory/lookup','GET',undefined,403,'?context=inventory&warehouseId=cs-target&q=0000');
     result=await call('inventory/lookup','GET',undefined,200,'?context=inventory&q='+encodeURIComponent(machine(3).sn));assert.equal(result.total,0);
     token=auth.createSession(admin);const before=db.prepare('SELECT COUNT(*) n FROM inventory_status_records').get().n;database.initDatabase();assert.equal(db.prepare('SELECT COUNT(*) n FROM inventory_status_records').get().n,before);
     assert.equal(db.pragma('integrity_check',{simple:true}),'ok');assert.deepEqual(db.pragma('foreign_key_check'),[]);
-    console.log('PASS custom inventory status: migrations, permissions, lookup/suffix/full database, live flags, restore, sale/cancel, rental/return, supplier return, transfer reservation/completion, exchange and transactional rollback');
+    console.log('PASS inventory status: batch preview and limits, eligible subset, stale-state conflict, atomic rollback, per-machine history, warehouse permissions; existing status lifecycle and business regression suite');
   } finally {
     if(db?.open)db.close();if(oldPath===undefined)delete process.env.INVENTORY_DB_PATH;else process.env.INVENTORY_DB_PATH=oldPath;
     assert(path.resolve(scratch).startsWith(path.resolve(scratchParent)+path.sep));fs.rmSync(scratch,{recursive:true,force:true});
