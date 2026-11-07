@@ -5,7 +5,7 @@
 'use client';
 
 import { useCallback, useRef, useState, useEffect } from 'react';
-import { Plus, Search, Package, FileText, ArrowLeft, Pencil, Trash2, RefreshCw, CheckCircle2, Check, X } from 'lucide-react';
+import { Plus, Search, Package, FileText, ArrowLeft, Pencil, Trash2, RefreshCw, CheckCircle2, Check, X, Shuffle } from 'lucide-react';
 import SKUSelector, { SelectedConfig } from '@/components/SKUSelector';
 import CustomSelect from '@/components/CustomSelect';
 import BatchInput from '@/components/BatchInput';
@@ -16,6 +16,7 @@ import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 import { COMMON_RAM_OPTIONS, COMMON_STORAGE_OPTIONS } from '@/lib/hardware-options';
+import { generateInternalSN } from '@/lib/internal-sn';
 
 interface PurchaseOrder {
   id: string;
@@ -658,6 +659,18 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     setEditingMachineDraft((draft) => draft ? { ...draft, [field]: value } : draft);
   };
 
+  const generateMachineSN = (id: string, editing = false) => {
+    const currentSN = editing ? editingMachineDraft?.sn : machineItems.find(item => item.id === id)?.sn;
+    if (currentSN?.trim()) return;
+    try {
+      const sn = generateInternalSN(machineItems.map(item => item.sn));
+      if (editing) setEditingMachineDraft(draft => draft && draft.id === id && !draft.sn.trim() ? { ...draft, sn } : draft);
+      else setMachineItems(items => items.map(item => item.id === id && !item.sn.trim() ? { ...item, sn } : item));
+    } catch (error) {
+      setToast({ show: true, type: 'error', message: error instanceof Error ? error.message : '生成内部 SN 失败，请重试' });
+    }
+  };
+
   const handleSaveMachineEdit = () => {
     if (!editingMachineDraft) return;
     const computerSpecsRequired = requiresComputerSpecs(editingMachineDraft.productType);
@@ -1078,16 +1091,17 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                       </div>}
 
                       <div className="grid grid-cols-2 gap-3">
-                        <label className="block">
-                          <span className="block text-[12px] font-medium text-ink-deep mb-1.5">SN 序列号</span>
+                        <div className="block">
+                          <div className="mb-1.5 flex items-center justify-between gap-2"><label htmlFor={`purchase-edit-sn-${item.id}`} className="text-[12px] font-medium text-ink-deep">SN 序列号</label><button type="button" onClick={() => generateMachineSN(item.id, true)} disabled={Boolean(editingMachineDraft.sn.trim())} className="inline-flex items-center gap-1 text-[11px] text-primary transition-transform hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-40" title={editingMachineDraft.sn.trim() ? '清空已填写的 SN 后再生成' : '生成内部 SN'}><Shuffle className="h-3.5 w-3.5" />生成内部 SN</button></div>
                           <input
+                            id={`purchase-edit-sn-${item.id}`}
                             type="text"
                             value={editingMachineDraft.sn}
                             onChange={(event) => updateEditingMachineDraft('sn', event.target.value)}
                             placeholder="请输入 SN"
                             className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                           />
-                        </label>
+                        </div>
                         <label className="block">
                           <span className="block text-[12px] font-medium text-ink-deep mb-1.5">采购价格</span>
                           <input
@@ -1129,10 +1143,12 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                     /* SN 和价格输入 */
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                          SN 序列号 <span className="text-danger">*</span>
-                        </label>
+                        <div className="mb-1.5 flex items-center justify-between gap-2">
+                          <label htmlFor={`purchase-sn-${item.id}`} className="text-[12px] font-medium text-ink-deep">SN 序列号 <span className="text-danger">*</span></label>
+                          <button type="button" onClick={() => generateMachineSN(item.id)} disabled={Boolean(item.sn.trim())} className="inline-flex items-center gap-1 text-[11px] font-medium text-primary transition-transform hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-40" title={item.sn.trim() ? '清空已填写的 SN 后再生成' : '生成内部 SN'}><Shuffle className="h-3.5 w-3.5" />生成内部 SN</button>
+                        </div>
                         <input
+                          id={`purchase-sn-${item.id}`}
                           type="text"
                           value={item.sn}
                           onChange={(e) => {
@@ -1214,6 +1230,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           onBatchSelect={handleSKUBatchSelect}
           onCancel={() => setShowSKUSelector(false)}
           selectedMachineCount={machineItems.length}
+          existingSNs={machineItems.map(item => item.sn)}
         />
       )}
 
@@ -1226,6 +1243,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           onBatchSelect={handleSKUBatchSelect}
           onCancel={() => setShowManualSKUSelector(false)}
           selectedMachineCount={machineItems.length}
+          existingSNs={machineItems.map(item => item.sn)}
         />
       )}
 
@@ -1233,6 +1251,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       {showBatchInput && (
         <BatchInput
           presetConfig={batchPresetConfig || undefined}
+          existingSNs={machineItems.map(item => item.sn)}
           onConfirm={handleBatchInputComplete}
           onCancel={() => {
             setShowBatchInput(false);

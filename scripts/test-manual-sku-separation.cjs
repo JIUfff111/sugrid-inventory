@@ -491,6 +491,17 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
       assert.deepEqual(JSON.parse(storedGpuOptions[field]), [], `${field} must stay empty for graphics cards`);
     }
 
+    const duplicateGeneratedSnResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed', action: 'inbound',
+      items: ['SG-20261107-ABC123', 'sg-20261107-abc123'].map(sn => ({
+        manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
+        gpu: 'RTX 4060', sn, purchasePrice: 2600,
+      })),
+    }));
+    assert.equal(duplicateGeneratedSnResponse.status, 400, 'SNs edited to differ only by case must be rejected in one order');
+    assert.match(duplicateGeneratedSnResponse.body.error.message, /重复/);
+    assert.equal(db.prepare("SELECT COUNT(*) AS count FROM inventory WHERE lower(sn) = lower(?)").get('SG-20261107-ABC123').count, 0);
+
     const unsupportedTypeResponse = await manualSkus.POST(request('/api/manual-skus', {
       productType: '台式机', brand: 'Test', model: 'Unsupported',
     }));

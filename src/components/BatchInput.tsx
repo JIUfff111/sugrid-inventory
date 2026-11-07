@@ -5,11 +5,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Trash2, X, Check } from 'lucide-react';
+import { Plus, Trash2, X, Check, Shuffle } from 'lucide-react';
 import Toast from '@/components/Toast';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, requiresComputerSpecs, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
+import { generateInternalSN } from '@/lib/internal-sn';
 
 interface BatchInputProps {
   presetConfig?: {
@@ -46,6 +47,7 @@ interface BatchInputProps {
     remark: string;
   }>, mode: 'close' | 'continue') => void;
   onCancel: () => void;
+  existingSNs: string[];
 }
 
 interface BatchRow {
@@ -55,7 +57,7 @@ interface BatchRow {
   remark: string;
 }
 
-export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchInputProps) {
+export default function BatchInput({ presetConfig, onConfirm, onCancel, existingSNs }: BatchInputProps) {
   // 通用配置 - 如果有预设配置则使用预设
   const [baseConfig, setBaseConfig] = useState({
     skuId: presetConfig?.skuId,
@@ -108,6 +110,31 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     ));
   };
 
+  const handleGenerateRowSN = (id: string) => {
+    if (rows.find(row => row.id === id)?.sn.trim()) return;
+    try {
+      const sn = generateInternalSN([...existingSNs, ...rows.map(row => row.sn)]);
+      handleUpdateRow(id, 'sn', sn);
+    } catch (error) {
+      setToast({ show: true, message: error instanceof Error ? error.message : '生成内部 SN 失败，请重试' });
+    }
+  };
+
+  const handleGenerateMissingSNs = () => {
+    const reserved = [...existingSNs, ...rows.map(row => row.sn)];
+    try {
+      const nextRows = rows.map(row => {
+        if (row.sn.trim()) return row;
+        const sn = generateInternalSN(reserved);
+        reserved.push(sn);
+        return { ...row, sn };
+      });
+      setRows(nextRows);
+    } catch (error) {
+      setToast({ show: true, message: error instanceof Error ? error.message : '生成内部 SN 失败，请重试' });
+    }
+  };
+
   // 应用到全部
   const handleApplyToAll = (field: 'purchasePrice' | 'remark') => {
     if (rows.length === 0) return;
@@ -137,18 +164,18 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
         return;
       }
       const sn = row.sn.trim();
-      if (seen.has(sn)) {
+      if (seen.has(sn.toUpperCase())) {
         setToast({ show: true, message: `当前批次 SN [${sn}] 重复，请检查` });
         return;
       }
-      seen.add(sn);
+      seen.add(sn.toUpperCase());
     }
 
     // 组装数据
     const machines = rows.map(row => ({
       ...baseConfig,
       ...(isGraphicsCard ? { cpu: '', ram: '', storage: '', screen: '', touchScreen: undefined } : {}),
-      sn: row.sn,
+      sn: row.sn.trim(),
       purchasePrice: row.purchasePrice,
       remark: row.remark
     }));
@@ -440,7 +467,12 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                         序号
                       </th>
                       <th className="px-3 py-2 text-left text-[12px] font-semibold text-ink-deep">
-                        SN 序列号 <span className="text-danger">*</span>
+                        <div className="flex items-center justify-between gap-2">
+                          <span>SN 序列号 <span className="text-danger">*</span></span>
+                          <button type="button" onClick={handleGenerateMissingSNs} disabled={rows.every(row => row.sn.trim())} className="inline-flex shrink-0 items-center gap-1 rounded-md px-1.5 py-1 text-[11px] font-medium text-primary transition-transform hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-40" title="只为未填写 SN 的行生成内部编号">
+                            <Shuffle className="h-3.5 w-3.5" />为空行生成
+                          </button>
+                        </div>
                       </th>
                       <th className="px-3 py-2 text-left text-[12px] font-semibold text-ink-deep w-40">
                         <div className="flex items-center justify-between">
@@ -486,15 +518,18 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                           {index + 1}
                         </td>
                         <td className="px-3 py-2">
-                          <input
-                            type="text"
-                            value={row.sn}
-                            onChange={(e) => handleUpdateRow(row.id, 'sn', e.target.value)}
-                            placeholder="请输入 SN"
-                            className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px]
-                                     placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
-                                     focus:ring-primary/20 focus:border-primary transition-all"
-                          />
+                          <div className="flex min-w-48 items-center gap-2">
+                            <input
+                              type="text"
+                              value={row.sn}
+                              onChange={(e) => handleUpdateRow(row.id, 'sn', e.target.value)}
+                              placeholder="请输入 SN"
+                              className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px]
+                                       placeholder:text-ink-soft/50 focus:outline-none focus:ring-2
+                                       focus:ring-primary/20 focus:border-primary transition-all"
+                            />
+                            <button type="button" aria-label={`为第 ${index + 1} 行生成内部 SN`} title={row.sn.trim() ? '清空已填写的 SN 后再生成' : '生成内部 SN'} onClick={() => handleGenerateRowSN(row.id)} disabled={Boolean(row.sn.trim())} className="shrink-0 rounded-lg border border-line bg-white p-2 text-primary transition-transform hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-40"><Shuffle className="h-4 w-4" /></button>
+                          </div>
                         </td>
                         <td className="px-3 py-2">
                           <input

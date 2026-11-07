@@ -6,13 +6,14 @@
 
 import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Search, Check, Plus, TrendingUp, X, Settings2 } from 'lucide-react';
+import { ChevronRight, Search, Check, Plus, TrendingUp, X, Settings2, Shuffle } from 'lucide-react';
 import CustomSelect, { type SelectOption } from '@/components/CustomSelect';
 import { useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, getSKUProductType, requiresComputerSpecs, SKU_PRODUCT_TYPES, uniqueCPUOptions, uniqueGPUOptions, uniqueScreenOptions } from '@/lib/sku-display';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
 import { formatProductName } from '@/lib/product-name';
 import { COMMON_RAM_OPTIONS, COMMON_STORAGE_OPTIONS } from '@/lib/hardware-options';
+import { generateInternalSN } from '@/lib/internal-sn';
 
 const STORAGE_OPTIONS = ['256GB', '512GB', '1TB', '1.5TB', '2TB'] as const;
 
@@ -97,6 +98,7 @@ interface SKUSelectorProps {
   onBatchSelect: (config: SelectedConfig) => void; // 新增：批量录入回调
   onCancel: () => void;
   selectedMachineCount: number;
+  existingSNs: string[];
 }
 
 type Step = 'productType' | 'brand' | 'model' | 'customIdentity' | 'config' | 'singleInput';
@@ -196,7 +198,7 @@ function sameSKUIdentity(left: SKU, right: SKU) {
 
 const productTypeOptions: SelectOption[] = SKU_PRODUCT_TYPES.map(value => ({ value, label: value }));
 
-export default function SKUSelector({ catalogSource = 'builtin', startInCustomMode = false, onSelect, onBatchSelect, onCancel, selectedMachineCount }: SKUSelectorProps) {
+export default function SKUSelector({ catalogSource = 'builtin', startInCustomMode = false, onSelect, onBatchSelect, onCancel, selectedMachineCount, existingSNs }: SKUSelectorProps) {
   const isManualCatalog = catalogSource === 'manual';
   const [step, setStep] = useState<Step>(isManualCatalog && startInCustomMode ? 'customIdentity' : 'productType');
   const [selectedFromHome, setSelectedFromHome] = useState(false);
@@ -231,6 +233,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   
   // 单台录入的 SN/IMEI、价格和 SKU 补充信息
   const [singleSN, setSingleSN] = useState('');
+  const [snGenerationError, setSnGenerationError] = useState('');
   const [singlePrice, setSinglePrice] = useState<number>(0);
   const [skuRemark, setSkuRemark] = useState(''); // SKU 补充信息
   const [hasAddedMachine, setHasAddedMachine] = useState(false);
@@ -405,6 +408,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     setScreenValue(emptySpecValue(uniqueScreenOptions(sku.screenOptions).length > 0));
     setSelectedTouchScreen(null); // 触屏也不默认选择
     setSingleSN('');
+    setSnGenerationError('');
     setSinglePrice(0);
     setSkuRemark('');
     setStep('config');
@@ -496,6 +500,16 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     )));
   };
 
+  const handleGenerateSingleSN = () => {
+    if (singleSN.trim()) return;
+    try {
+      setSingleSN(generateInternalSN(existingSNs));
+      setSnGenerationError('');
+    } catch (error) {
+      setSnGenerationError(error instanceof Error ? error.message : '生成内部 SN 失败，请重试');
+    }
+  };
+
   // 步骤 4：确认配置 - 单台录入（直接从配置页完成）
   const handleSingleConfirm = (mode: 'close' | 'continue') => {
     if (!selectedSKU || !hasRequiredConfig()) return;
@@ -524,6 +538,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
       setScreenValue(emptySpecValue(screenOptions.length > 0));
       setSelectedTouchScreen(null);
       setSingleSN('');
+      setSnGenerationError('');
       setSinglePrice(0);
       setSkuRemark('');
       setHasAddedMachine(true);
@@ -955,18 +970,25 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                   {/* SN/IMEI 和金额 */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                        SN/IMEI <span className="text-danger">*</span>
-                      </label>
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <label htmlFor="sku-single-sn" className="text-[12px] font-medium text-ink-deep">
+                          SN/IMEI <span className="text-danger">*</span>
+                        </label>
+                        <button type="button" onClick={handleGenerateSingleSN} disabled={Boolean(singleSN.trim())} className="inline-flex items-center gap-1 text-[11px] font-medium text-primary transition-transform hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-40" title={singleSN.trim() ? '清空已填写的 SN 后再生成' : '为没有原厂 SN 的商品生成内部编号'}>
+                          <Shuffle className="h-3.5 w-3.5" />生成内部 SN
+                        </button>
+                      </div>
                       <input
+                        id="sku-single-sn"
                         type="text"
                         value={singleSN}
-                        onChange={(e) => setSingleSN(e.target.value)}
+                        onChange={(e) => { setSingleSN(e.target.value); setSnGenerationError(''); }}
                         placeholder="请输入 SN 或 IMEI"
                         className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[12px]
                                  placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                  focus:ring-primary/20 focus:border-primary transition-all"
                       />
+                      {snGenerationError && <p role="alert" className="mt-1 text-[11px] text-danger">{snGenerationError}</p>}
                     </div>
                     <div>
                       <label className="block text-[12px] font-medium text-ink-deep mb-2">
