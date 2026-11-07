@@ -251,6 +251,7 @@ function productName(item: Pick<InventoryItem, 'brand' | 'model' | 'year'>) {
 export default function InventoryPage() {
   const router = useRouter();
   const { active, searchParams, user } = useWorkspace();
+  const isViewer = user?.role === 'viewer';
   const { printLabels, printing, printPortal } = useInventoryLabelPrinter();
   const [activeWorkspace, setActiveWorkspace] = useState<'list' | 'transfers'>('list');
   const [items, setItems] = useState<InventoryItem[]>([]);
@@ -309,11 +310,17 @@ export default function InventoryPage() {
 
   useEffect(() => {
     const view = searchParams.get('view');
+    if (isViewer && view === 'transfers') {
+      setActiveWorkspace('list');
+      router.replace('/inventory', { scroll: false });
+      return;
+    }
     setActiveWorkspace(view === 'transfers' ? 'transfers' : 'list');
     if (view === 'movements') router.replace('/inventory', { scroll: false });
-  }, [router, searchParams]);
+  }, [isViewer, router, searchParams]);
 
   const selectWorkspace = (workspace: 'list' | 'transfers') => {
+    if (isViewer && workspace === 'transfers') return;
     setActiveWorkspace(workspace);
     if (workspace !== 'list') setSelected(null);
     const params = new URLSearchParams();
@@ -394,7 +401,7 @@ export default function InventoryPage() {
   const itemStatusLabel = (item: InventoryItem) => item.customStatusName && (item.status === 'custom' || item.status === 'returning') ? `${item.status === 'returning' ? '退货中 · ' : ''}${item.customStatusName}` : statusLabel(item.status);
   const itemStatusStyle = (item: InventoryItem) => item.status === 'custom' && item.customStatusColor ? { color: item.customStatusColor, backgroundColor: `${item.customStatusColor}12`, borderColor: `${item.customStatusColor}40` } : undefined;
   const isSystemAccount = user?.isSystemAccount === true;
-  const canEditInventory = isSystemAccount || user?.canEditInventory === true;
+  const canEditInventory = !isViewer && (isSystemAccount || user?.canEditInventory === true);
   const statusChanged = () => { setReloadKey(n => n + 1); setSelected(null); };
 
   useEffect(() => {
@@ -655,11 +662,11 @@ export default function InventoryPage() {
           <span>自定义状态 <b className="font-mono text-[15px] text-ink-deep">{stats.custom || 0}</b></span>
           <span>可参与业务 <b className="font-mono text-[15px] text-success">{stats.available ?? stats.inStock}</b></span>
           <span>在库成本 <b className="font-mono text-[15px] text-ink-deep">{formatMoney(stats.inStockCost)}</b></span>
-          <Link href="/inventory/analysis" className="btn-ghost inline-flex items-center gap-1.5"><BarChart3 className="h-4 w-4" />库存分析</Link>
+          {!isViewer && <Link href="/inventory/analysis" className="btn-ghost inline-flex items-center gap-1.5"><BarChart3 className="h-4 w-4" />库存分析</Link>}
         </div>
       </header>
 
-      {workspaceNavigation}
+      {!isViewer && workspaceNavigation}
 
       <WorkspaceSection active={activeWorkspace === 'list'}>
       <section className="glass p-4 mb-4">
@@ -716,7 +723,7 @@ export default function InventoryPage() {
         </div>
       )}
 
-      {checkedItems.length > 0 && (
+      {!isViewer && checkedItems.length > 0 && (
         <section className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/15 bg-primary/5 px-4 py-3">
           <div className="flex items-center gap-2 text-[12px] text-ink-deep"><CheckSquare className="h-4 w-4 text-primary" />已选 <b>{checkedItems.length}</b> 台机器</div>
           <div className="flex flex-wrap items-center gap-2">{isAdmin && checkedItems.length === 1 && checkedItems[0].status === 'in_stock' && <button type="button" onClick={() => setAssetChangeMachine(checkedItems[0])} className="btn-ghost inline-flex items-center gap-1.5"><MemoryStick className="h-4 w-4" />资产变更</button>}<button type="button" onClick={openPrintSelected} className="btn-ghost inline-flex items-center gap-1.5"><Printer className="h-4 w-4" />打印所选标签</button><button type="button" onClick={exportSelected} className="btn-ghost inline-flex items-center gap-1.5"><FileDown className="h-4 w-4" />导出所选</button><button type="button" onClick={() => setCheckedIds(new Set())} className="text-[12px] text-ink-soft hover:text-ink-deep">清除选择</button></div>
@@ -734,11 +741,11 @@ export default function InventoryPage() {
         ) : viewMode === 'table' ? (
           <div className="overflow-x-auto">
             <table className="w-full data-table min-w-[1240px]">
-              <thead><tr><th className="w-10"><input type="checkbox" checked={allPageChecked} onChange={togglePageChecked} aria-label="选择当前页全部机器" /></th><th>机器信息</th><th>配置</th><th>备注</th><th>SN / IMEI</th><th>供应商 / 采购单</th><th>采购价</th><th>状态 / 当前去向</th><th>入库日期</th><th className="text-right">操作</th></tr></thead>
+              <thead><tr>{!isViewer && <th className="w-10"><input type="checkbox" checked={allPageChecked} onChange={togglePageChecked} aria-label="选择当前页全部机器" /></th>}<th>机器信息</th><th>配置</th><th>备注</th><th>SN / IMEI</th><th>供应商 / 采购单</th><th>采购价</th><th>状态 / 当前去向</th><th>入库日期</th><th className="text-right">操作</th></tr></thead>
               <tbody>
                 {items.map((item) => (
                   <tr key={item.id} onClick={() => openDetails(item)} className="cursor-pointer">
-                    <td onClick={(event) => event.stopPropagation()}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>
+                    {!isViewer && <td onClick={(event) => event.stopPropagation()}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>}
                     <td><div className="font-medium text-ink-deep">{productName(item)}</div><div className="text-[11px] text-ink-soft mt-1">{item.productType || '未分类'}</div></td>
                     <td><div className="text-[12px] text-ink">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
                     <td className="max-w-60"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></td>
@@ -747,7 +754,7 @@ export default function InventoryPage() {
                     <td className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</td>
                     <td><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span><div className="mt-1.5 max-w-52 text-[11px] text-ink-soft">{machineDestination(item)}</div></td>
                     <td><div className="text-[12px] text-ink">{formatDate(item.inboundDate)}</div><div className={`text-[11px] mt-1 ${item.inboundDays > 30 ? 'text-danger' : item.inboundDays > 7 ? 'text-warning' : 'text-ink-soft'}`}>{['in_stock', 'custom'].includes(item.status) ? '在库' : '入库距今'} {Math.max(0, Number(item.inboundDays || 0))} 天</div></td>
-                    <td className="text-right"><button type="button" onClick={(event) => { event.stopPropagation(); openDetails(item); }} title="查看详情并编辑备注" aria-label={`查看 ${item.sn} 详情`} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-primary hover:bg-primary/10 rounded-lg transition-colors"><Eye className="w-3.5 h-3.5" />详情</button></td>
+                    <td className="text-right"><button type="button" onClick={(event) => { event.stopPropagation(); openDetails(item); }} title="查看机器详情" aria-label={`查看 ${item.sn} 详情`} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-primary hover:bg-primary/10 rounded-lg transition-colors"><Eye className="w-3.5 h-3.5" />详情</button></td>
                   </tr>
                 ))}
               </tbody>
@@ -762,7 +769,7 @@ export default function InventoryPage() {
                     <h3 className="truncate text-[15px] font-semibold text-ink-deep">{productName(item)}</h3>
                     <p className="mt-1 text-[11px] text-ink-soft">{item.productType || '未分类'}</p>
                   </div>
-                  <div className="flex shrink-0 items-center gap-2"><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span></div>
+                  <div className="flex shrink-0 items-center gap-2">{!isViewer && <input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} />}<span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span></div>
                 </div>
                 <p className="mt-3 text-xs text-ink-soft">{machineDestination(item)}</p><div className="mt-4 space-y-2 text-[12px]">
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">配置</span><span className="truncate text-right text-ink-deep">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</span></div>
@@ -804,7 +811,7 @@ export default function InventoryPage() {
               <InventoryMovementTimeline key={`${selected.id}:${movementRevision}`} inventoryId={selected.id} />
             </div>
 
-            <footer className="flex items-center justify-end gap-3 border-t border-line px-5 py-4">{saved && <span className="mr-auto inline-flex items-center gap-1 text-[12px] text-success"><Check className="w-3.5 h-3.5" />已保存</span>}<button type="button" onClick={closeDetails} disabled={savingRemark || savingMachineEdit} className="btn-ghost">关闭</button><button type="button" onClick={saveRemark} disabled={savingRemark || !canEditInventory} className="btn-primary inline-flex items-center gap-1.5"><Save className="w-4 h-4" />{savingRemark ? '保存中...' : '保存备注'}</button></footer>
+            <footer className="flex items-center justify-end gap-3 border-t border-line px-5 py-4">{saved && <span className="mr-auto inline-flex items-center gap-1 text-[12px] text-success"><Check className="w-3.5 h-3.5" />已保存</span>}<button type="button" onClick={closeDetails} disabled={savingRemark || savingMachineEdit} className="btn-ghost">关闭</button>{!isViewer && <button type="button" onClick={saveRemark} disabled={savingRemark || !canEditInventory} className="btn-primary inline-flex items-center gap-1.5"><Save className="w-4 h-4" />{savingRemark ? '保存中...' : '保存备注'}</button>}</footer>
           </aside>
         </div>
       )}
@@ -823,7 +830,7 @@ export default function InventoryPage() {
       {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
       {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
       </WorkspaceSection>
-      <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>
+      {!isViewer && <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>}
     </div>
   );
 }

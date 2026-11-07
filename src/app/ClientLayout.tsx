@@ -135,7 +135,7 @@ function WorkspaceHost({ user, pathname, href, testMode, children }: { user: Ses
     <TopNav user={user} />
     {testMode && <div role="status" className="flex h-6 items-center justify-center border-y border-primary/15 bg-primary/8 px-3 text-[11px] font-medium text-primary">隔离测试库 · 此处录入不会写入正式数据库</div>}
     <TabBar tabs={tabs} activeTabId={activeId} dirtyIds={dirtyIds} onTabClose={id => dirtyIds.has(id) ? setPendingClose(id) : closeTab(id)} />
-    <AlertCenter />
+    {user.role !== 'viewer' && <AlertCenter />}
     <main className={`relative overflow-hidden ${tabs.length ? (testMode ? 'h-[calc(100dvh-124px)]' : 'h-[calc(100dvh-100px)]') : (testMode ? 'h-[calc(100dvh-80px)]' : 'h-[calc(100dvh-56px)]')}`}>
       {tabs.filter(tab => visited.has(tab.id)).map(tab => <WorkspaceSlot key={`${tab.id}:${instances[tab.id] || 0}`} tab={tab} active={tab.id === activeId} user={user} onDirtyChange={onDirtyChange} />)}
       {!activeRoute && <div className="h-full overflow-y-auto px-4 py-6">{children}</div>}
@@ -199,7 +199,9 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
     const alias = aliases[pathname];
     if (alias && canVisit(user.role, new URL(alias, window.location.origin).pathname, user.canViewInventory ?? true)) router.replace(alias);
     else if (alias || !canVisit(user.role, pathname, user.canViewInventory ?? true)) {
-      const fallback = canVisit(user.role, '/', user.canViewInventory ?? true) ? '/' : '/settings/account';
+      const fallback = canVisit(user.role, '/', user.canViewInventory ?? true)
+        ? '/'
+        : canVisit(user.role, '/inventory', user.canViewInventory ?? true) ? '/inventory' : '/settings/account';
       router.replace(fallback);
     }
   }, [isPublic, pathname, router, user]);
