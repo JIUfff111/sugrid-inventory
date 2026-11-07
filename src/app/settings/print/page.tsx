@@ -24,7 +24,7 @@ import { formatProductName } from '@/lib/product-name';
 import { createPrintJobId } from '@/lib/print-job-id';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
-type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate';
+type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate' | 'itemNumber';
 type LabelField = {
   key: FieldKey;
   visible: boolean;
@@ -72,6 +72,7 @@ type LabelTemplate = {
 type InventoryItem = {
   id: string;
   sn: string;
+  itemNumber?: string | null;
   productType: string;
   brand: string;
   model: string;
@@ -94,6 +95,7 @@ const FIELD_META: Record<FieldKey, { label: string; describe: (item: InventoryIt
   purchasePrice: { label: '采购价', describe: (item) => `¥${Number(item.purchasePrice || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2 })}` },
   supplier: { label: '供应商', describe: (item) => item.supplierName || '供应商' },
   inboundDate: { label: '入库日期', describe: (item) => formatDate(item.inboundDate) },
+  itemNumber: { label: '编号', describe: (item) => item.itemNumber || '商品编号' },
 };
 
 const FIELD_KEYS = Object.keys(FIELD_META) as FieldKey[];
@@ -106,6 +108,7 @@ function defaultFields(): LabelField[] {
     { key: 'purchasePrice', visible: false, order: 3, fontSize: 8, align: 'left', x: 4, y: 49 },
     { key: 'supplier', visible: false, order: 4, fontSize: 8, align: 'left', x: 4, y: 64 },
     { key: 'inboundDate', visible: true, order: 5, fontSize: 12, align: 'left', x: 3, y: 82 },
+    { key: 'itemNumber', visible: false, order: 6, fontSize: 8, align: 'left', x: 4, y: 96 },
   ];
 }
 

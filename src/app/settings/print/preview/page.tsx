@@ -10,7 +10,7 @@ import LabelCanvas from '@/components/LabelCanvas';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
-type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate';
+type FieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate' | 'itemNumber';
 type LabelField = {
   key: FieldKey;
   visible: boolean;
@@ -55,6 +55,7 @@ type LabelTemplate = {
 type InventoryItem = {
   id: string;
   sn: string;
+  itemNumber?: string | null;
   productType: string;
   brand: string;
   model: string;
@@ -96,6 +97,7 @@ function fieldValue(key: FieldKey, item: InventoryItem) {
     case 'product': return productName(item);
     case 'config': return configSummary(item);
     case 'sn': return item.sn || '-';
+    case 'itemNumber': return item.itemNumber || '';
     case 'purchasePrice': return formatMoney(item.purchasePrice);
     case 'supplier': return item.supplierName || '-';
     case 'inboundDate': return formatDate(item.inboundDate);
@@ -230,7 +232,7 @@ export default function PrintPreviewPage() {
 
   const renderTag = (item: InventoryItem) => (
     <article key={item.id} className="print-tag relative shrink-0 bg-white shadow-sm outline outline-1 outline-slate-300" style={{ width: `${size.width}mm`, height: `${size.height}mm` }}>
-      {template && <LabelCanvas template={template} values={{ product: fieldValue('product', item), config: fieldValue('config', item), sn: fieldValue('sn', item), purchasePrice: fieldValue('purchasePrice', item), supplier: fieldValue('supplier', item), inboundDate: fieldValue('inboundDate', item) }} />}
+      {template && <LabelCanvas template={template} values={{ product: fieldValue('product', item), config: fieldValue('config', item), sn: fieldValue('sn', item), purchasePrice: fieldValue('purchasePrice', item), supplier: fieldValue('supplier', item), inboundDate: fieldValue('inboundDate', item), itemNumber: fieldValue('itemNumber', item) }} />}
     </article>
   );
 

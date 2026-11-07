@@ -22,6 +22,7 @@ type PrintTemplate = {
 type PrintItem = {
   id: string;
   sn: string;
+  itemNumber?: string | null;
   brand: string;
   model: string;
   year: number | null;
@@ -120,6 +121,7 @@ export function useInventoryLabelPrinter() {
         product: formatProductName(item),
         config: [formatCPUDisplay(item.cpu), item.ram, formatGPUDisplay(item.gpu), item.storage, formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充',
         sn: item.sn,
+        itemNumber: item.itemNumber || '',
         purchasePrice: `¥${Number(item.purchasePrice).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
         supplier: item.supplierName || '-',
         inboundDate: printableDate(item.inboundDate),

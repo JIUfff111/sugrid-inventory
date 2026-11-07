@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
 
-const FIELD_KEYS = ['product', 'config', 'sn', 'purchasePrice', 'supplier', 'inboundDate'] as const;
+const FIELD_KEYS = ['product', 'config', 'sn', 'purchasePrice', 'supplier', 'inboundDate', 'itemNumber'] as const;
+const LEGACY_FIELD_KEYS = FIELD_KEYS.slice(0, 6);
 const DEFAULT_FIELDS: LabelField[] = [
   { key: 'product', visible: true, order: 0, fontSize: 14, align: 'left', x: 3, y: 4 },
   { key: 'config', visible: true, order: 1, fontSize: 13, align: 'left', x: 5, y: 22 },
@@ -11,6 +12,7 @@ const DEFAULT_FIELDS: LabelField[] = [
   { key: 'purchasePrice', visible: false, order: 3, fontSize: 8, align: 'left', x: 4, y: 49 },
   { key: 'supplier', visible: false, order: 4, fontSize: 8, align: 'left', x: 4, y: 64 },
   { key: 'inboundDate', visible: true, order: 5, fontSize: 12, align: 'left', x: 3, y: 82 },
+  { key: 'itemNumber', visible: false, order: 6, fontSize: 8, align: 'left', x: 4, y: 96 },
 ];
 const DEFAULT_ELEMENTS: LabelElement[] = [
   {
@@ -91,16 +93,17 @@ function jsonError(message: string, status = 400) {
 }
 
 function normalizeFields(value: unknown): LabelField[] | null {
-  if (!Array.isArray(value) || value.length !== FIELD_KEYS.length) return null;
+  if (!Array.isArray(value) || (value.length !== FIELD_KEYS.length && value.length !== LEGACY_FIELD_KEYS.length)) return null;
+  const isLegacy = value.length === LEGACY_FIELD_KEYS.length;
   const seen = new Set<string>();
   const fields: LabelField[] = [];
 
   for (const entry of value) {
     if (!entry || typeof entry !== 'object') return null;
     const field = entry as Partial<LabelField>;
-    if (!FIELD_KEYS.includes(field.key as LabelFieldKey) || seen.has(String(field.key))) return null;
+    if (!(isLegacy ? LEGACY_FIELD_KEYS : FIELD_KEYS).includes(field.key as LabelFieldKey) || seen.has(String(field.key))) return null;
     if (typeof field.visible !== 'boolean') return null;
-    if (!Number.isInteger(field.order) || Number(field.order) < 0 || Number(field.order) >= FIELD_KEYS.length) return null;
+    if (!Number.isInteger(field.order) || Number(field.order) < 0 || Number(field.order) >= value.length) return null;
     if (!Number.isInteger(field.fontSize) || Number(field.fontSize) < 6 || Number(field.fontSize) > 24) return null;
     if (!['left', 'center', 'right'].includes(String(field.align))) return null;
     const hasX = field.x !== undefined;
@@ -123,7 +126,8 @@ function normalizeFields(value: unknown): LabelField[] | null {
     fields.push(normalizedField);
   }
 
-  if (seen.size !== FIELD_KEYS.length || new Set(fields.map((field) => field.order)).size !== FIELD_KEYS.length) return null;
+  if (seen.size !== value.length || new Set(fields.map((field) => field.order)).size !== value.length) return null;
+  if (isLegacy) fields.push({ key: 'itemNumber', visible: false, order: LEGACY_FIELD_KEYS.length, fontSize: 8, align: 'left', x: 4, y: 96 });
   return fields.sort((a, b) => a.order - b.order);
 }
 

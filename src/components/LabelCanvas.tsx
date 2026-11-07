@@ -3,7 +3,7 @@
 import { useEffect, useState, type HTMLAttributes } from 'react';
 import BarcodePreview from '@/components/BarcodePreview';
 
-export type LabelFieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate';
+export type LabelFieldKey = 'product' | 'config' | 'sn' | 'purchasePrice' | 'supplier' | 'inboundDate' | 'itemNumber';
 export type CanvasField = {
   key: LabelFieldKey;
   visible: boolean;
@@ -153,7 +153,9 @@ export default function LabelCanvas({ template, values, className = '', fieldPro
             ? { borderTop: `${element.style.strokeWidth || 1}px ${element.style.lineStyle || 'solid'} ${element.style.stroke || '#111111'}` }
             : { background: element.style.background || '#ffffff' }),
         }}>
-          {element.type === 'barcode' && <BarcodePreview value={values[element.contentKey || 'sn']} foreground={element.style.foreground} background={element.style.background} showText={element.style.showText !== false} fontSize={element.style.fontSize || 7} className="h-full w-full" />}
+          {element.type === 'barcode' && (values[element.contentKey || 'sn']
+            ? <BarcodePreview value={values[element.contentKey || 'sn']} foreground={element.style.foreground} background={element.style.background} showText={element.style.showText !== false} fontSize={element.style.fontSize || 7} className="h-full w-full" />
+            : <div className="h-full w-full" data-barcode-status="ready" aria-label="编号未填写" />)}
         </div>
       ))}
       {fields.length === 0 && (!free || template.elements.length === 0) && <span className="absolute inset-0 flex items-center justify-center text-[11px]">尚未启用字段或设计元素</span>}
