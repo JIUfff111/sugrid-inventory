@@ -7,9 +7,9 @@ import { serializeInventoryStatus } from '@/lib/inventory-status';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
 import { SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 
-const editableFields = ['sn', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'purchasePrice'] as const;
+const editableFields = ['sn', 'itemNumber', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'purchasePrice'] as const;
 type EditableField = (typeof editableFields)[number];
-type MachineData = Record<EditableField, string | number | null>;
+type MachineData = Omit<Record<EditableField, string | number | null>, 'itemNumber'> & { itemNumber?: string };
 
 function parseSnapshot(value: string) {
   try { return JSON.parse(value); } catch { return null; }
@@ -48,14 +48,16 @@ function normalizeMachineData(value: unknown): MachineData {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('机器资料格式不正确');
   const fields = value as Record<string, unknown>;
   if (Object.keys(fields).some(key => !editableFields.includes(key as EditableField))) throw new Error('机器资料包含不允许修改的字段');
-  for (const key of editableFields) if (!(key in fields)) throw new Error(`缺少机器资料字段：${key}`);
+  for (const key of editableFields) {
+    if (key !== 'itemNumber' && !(key in fields)) throw new Error(`缺少机器资料字段：${key}`);
+  }
 
   const text = (key: Exclude<EditableField, 'year' | 'touchScreen' | 'purchasePrice'>, required = false) => {
     const raw = fields[key];
     if (typeof raw !== 'string') throw new Error(`${key} 格式不正确`);
     const normalized = raw.trim();
     if (required && !normalized) throw new Error(`${key} 不能为空`);
-    if (normalized.length > (key === 'sn' ? 120 : 160)) throw new Error(`${key} 长度超出限制`);
+    if (normalized.length > (key === 'sn' || key === 'itemNumber' ? 120 : 160)) throw new Error(`${key} 长度超出限制`);
     if (/[\r\n\u0000-\u001f\u007f]/.test(normalized)) throw new Error(`${key} 不能包含换行或控制字符`);
     return normalized;
   };
@@ -73,7 +75,7 @@ function normalizeMachineData(value: unknown): MachineData {
   if (!Number.isFinite(purchasePrice) || purchasePrice < 0 || purchasePrice > 1_000_000_000) throw new Error('采购价格必须是 0 至 10 亿元之间的有效金额');
 
   return {
-    sn: text('sn', true), productType: text('productType', true), brand: text('brand', true),
+    sn: text('sn', true), itemNumber: 'itemNumber' in fields ? text('itemNumber') : undefined, productType: text('productType', true), brand: text('brand', true),
     model: text('model', true), year, cpu: text('cpu'), ram: text('ram'), gpu: text('gpu'),
     storage: text('storage'), screen: text('screen'),
     touchScreen: touchValue === null ? null : touchValue === true || touchValue === 1 ? 1 : 0,
@@ -83,7 +85,7 @@ function normalizeMachineData(value: unknown): MachineData {
 
 function machineSnapshot(row: Record<string, unknown>): MachineData {
   return {
-    sn: String(row.sn || ''), productType: String(row.productType || ''), brand: String(row.brand || ''),
+    sn: String(row.sn || ''), itemNumber: String(row.itemNumber || ''), productType: String(row.productType || ''), brand: String(row.brand || ''),
     model: String(row.model || ''), year: row.year == null ? null : Number(row.year), cpu: String(row.cpu || ''),
     ram: String(row.ram || ''), gpu: row.gpu == null ? '' : String(row.gpu), storage: String(row.storage || ''),
     screen: String(row.screen || ''), touchScreen: row.touchScreen == null ? null : Number(row.touchScreen),
@@ -110,6 +112,7 @@ export async function POST(request: NextRequest) {
       if (!current) throw new AuthError('FORBIDDEN', '库存记录不存在或已删除');
       assertWarehouseAccess(user, String(current.warehouseId || ''));
       if (String(current.sn) !== expectedSn) throw new AuthError('FORBIDDEN', '机器资料已被其他人修改，请刷新后重试');
+      after.itemNumber ??= String(current.itemNumber || '');
       if (!SKU_PRODUCT_TYPES.includes(String(after.productType) as (typeof SKU_PRODUCT_TYPES)[number]) && String(after.productType) !== String(current.productType || '')) {
         return { validationError: '产品类型必须从系统选项中选择' };
       }
@@ -130,11 +133,20 @@ export async function POST(request: NextRequest) {
       }
       const duplicate = db.prepare('SELECT id FROM inventory WHERE lower(sn)=lower(?) AND id<>? AND deleted=0 LIMIT 1').get(after.sn, inventoryId);
       if (duplicate) return { conflict: `SN [${after.sn}] 已被其他机器使用` };
+      if (after.itemNumber) {
+        const duplicatePurchaseItem = db.prepare(`SELECT id FROM purchase_items
+          WHERE lower(trim(itemNumber))=lower(trim(?)) AND id<>? LIMIT 1`).get(after.itemNumber, current.purchaseItemId);
+        if (duplicatePurchaseItem) return { conflict: `编号 [${after.itemNumber}] 已在采购历史中使用，编号需全库唯一` };
+        const duplicateInventory = db.prepare(`SELECT id FROM inventory
+          WHERE lower(trim(itemNumber))=lower(trim(?)) AND id<>? AND deleted=0 LIMIT 1`).get(after.itemNumber, inventoryId);
+        if (duplicateInventory) return { conflict: `编号 [${after.itemNumber}] 已被其他库存机器使用` };
+      }
 
       const before = machineSnapshot(current);
       if (JSON.stringify(before) === JSON.stringify(after)) return { changed: false, before, after };
-      const updated = db.prepare(`UPDATE inventory SET sn=?,productType=?,brand=?,model=?,year=?,cpu=?,ram=?,gpu=?,storage=?,screen=?,touchScreen=?,purchasePrice=?,updatedAt=?
-        WHERE id=? AND sn=? AND deleted=0`).run(after.sn, after.productType, after.brand, after.model, after.year, after.cpu, after.ram, after.gpu || null, after.storage, after.screen, after.touchScreen, after.purchasePrice, now, inventoryId, expectedSn);
+      db.prepare('UPDATE purchase_items SET itemNumber=? WHERE id=?').run(after.itemNumber || null, current.purchaseItemId);
+      const updated = db.prepare(`UPDATE inventory SET sn=?,itemNumber=?,productType=?,brand=?,model=?,year=?,cpu=?,ram=?,gpu=?,storage=?,screen=?,touchScreen=?,purchasePrice=?,updatedAt=?
+        WHERE id=? AND sn=? AND deleted=0`).run(after.sn, after.itemNumber || null, after.productType, after.brand, after.model, after.year, after.cpu, after.ram, after.gpu || null, after.storage, after.screen, after.touchScreen, after.purchasePrice, now, inventoryId, expectedSn);
       if (updated.changes !== 1) throw new AuthError('FORBIDDEN', '机器资料已被其他人修改，请刷新后重试');
       db.prepare('INSERT INTO inventory_edit_logs (id,inventoryId,actorId,beforeData,afterData,createdAt) VALUES (?,?,?,?,?,?)')
         .run(logId, inventoryId, user.id, JSON.stringify(before), JSON.stringify(after), now);
@@ -147,6 +159,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(successResponse({ item: serializeInventoryStatus(item), history: loadHistory(inventoryId), changed: result.changed }));
   } catch (error) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
+    if (error instanceof Error && /idx_purchase_items_item_number|idx_inventory_item_number_active|UNIQUE constraint failed: purchase_items\.itemNumber|UNIQUE constraint failed: inventory\.itemNumber/i.test(error.message)) {
+      return conflictError('编号已被使用，请填写未使用的编号');
+    }
     return authErrorResponse(error) || NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, error instanceof Error ? error.message : '更新机器资料失败'), { status: 500 });
   }
 }

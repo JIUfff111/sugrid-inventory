@@ -1,0 +1,170 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const Module = require('node:module');
+const ts = require('typescript');
+const Database = require('better-sqlite3');
+const { NextRequest } = require('next/server');
+const { initDatabase, seedDatabase } = require('./database.cjs');
+
+const root = path.resolve(__dirname, '..');
+
+function load(relativePath, overrides = {}) {
+  const filename = path.join(root, relativePath);
+  const compiled = ts.transpileModule(fs.readFileSync(filename, 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
+    fileName: filename,
+  }).outputText;
+  const target = new Module(filename, module);
+  target.filename = filename;
+  target.paths = Module._nodeModulePaths(path.dirname(filename));
+  const native = target.require.bind(target);
+  target.require = name => Object.hasOwn(overrides, name) ? overrides[name] : native(name);
+  target._compile(compiled, filename);
+  return target.exports;
+}
+
+async function main() {
+  const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'sugrid-item-number-purchase-'));
+  const previousPath = process.env.INVENTORY_DB_PATH;
+  process.env.INVENTORY_DB_PATH = path.join(scratch, 'inventory.db');
+  const db = new Database(':memory:');
+  db.pragma('foreign_keys = ON');
+  try {
+    initDatabase(db);
+    seedDatabase(db);
+    const database = { __esModule: true, default: db };
+    const api = load('src/lib/api-helpers.ts');
+    let token;
+    const auth = load('src/lib/auth.ts', {
+      '@/lib/db': database,
+      '@/lib/api-helpers': api,
+      'next/headers': { cookies: async () => ({ get: () => token ? { value: token } : undefined }) },
+    });
+    const deps = {
+      '@/lib/db': database,
+      '@/lib/api-helpers': api,
+      '@/lib/auth': auth,
+      '@/lib/inventory-purge': { createPurgeBackup: async () => ({ path: '', sha256: '' }), getPurgeCandidate: () => undefined },
+      '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
+      '@/lib/sku-display': load('src/lib/sku-display.ts'),
+      '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
+    };
+    const inventoryStatus = load('src/lib/inventory-status.ts', deps);
+    const routeDeps = { ...deps, '@/lib/inventory-status': inventoryStatus };
+    const routes = {
+      purchaseOrders: load('src/app/api/purchase-orders/route.ts', routeDeps),
+      inventory: load('src/app/api/inventory/route.ts', routeDeps),
+      inventoryEdit: load('src/app/api/inventory/edit/route.ts', routeDeps),
+      inventoryLookup: load('src/app/api/inventory/lookup/route.ts', routeDeps),
+    };
+    const adminId = db.prepare("SELECT id FROM users WHERE username='admin'").get().id;
+    token = auth.createSession(adminId);
+    db.prepare("INSERT INTO suppliers (id,supplierName,status,createdBy) VALUES ('number-supplier','编号测试供应商','active',?)").run(adminId);
+
+    const request = (url, method = 'GET', body) => new NextRequest(`http://localhost${url}`, {
+      method,
+      headers: body === undefined ? {} : { 'content-type': 'application/json' },
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    });
+    async function call(handler, url, method = 'GET', body, expected = 200) {
+      const response = await handler(request(url, method, body));
+      const payload = await response.json();
+      assert.equal(response.status, expected, `${method} ${url}: ${JSON.stringify(payload)}`);
+      return { payload, data: payload.data };
+    }
+    const item = (sn, itemNumber) => ({
+      productType: '显卡', brand: '华硕', model: 'RTX 4060', gpu: 'RTX 4060',
+      cpu: '', ram: '', storage: '', screen: '', sn, itemNumber, purchasePrice: 0,
+    });
+    const order = (status, items) => ({
+      supplierId: 'number-supplier', purchaseDate: '2026-11-07', purchasedBy: adminId, status, items,
+    });
+
+    const draft = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('draft', [item('NUMBER-DRAFT-SN', 'GPU-DRAFT-A')]), 201)).data;
+    const draftDetail = (await call(routes.purchaseOrders.GET, `/api/purchase-orders?id=${draft.id}`)).data;
+    const draftItemId = draftDetail.items[0].id;
+    const revisedDraft = order('draft', [{ ...item('NUMBER-DRAFT-SN', 'GPU-DRAFT-B'), id: draftItemId }]);
+    revisedDraft.id = draft.id;
+    const patchedDraft = await call(routes.purchaseOrders.PATCH, '/api/purchase-orders', 'PATCH', revisedDraft);
+    assert.equal(patchedDraft.data.items[0].itemNumber, 'GPU-DRAFT-B', 'draft rewrite should save the updated optional number');
+    assert.equal(db.prepare('SELECT itemNumber FROM purchase_items WHERE id=?').get(draftItemId).itemNumber, 'GPU-DRAFT-B');
+
+    await call(routes.purchaseOrders.DELETE, `/api/purchase-orders?id=${draft.id}`, 'DELETE', undefined, 200);
+    const deletedHistoryCollision = await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('draft', [item('NUMBER-DELETED-SN', ' gpu-draft-b ')]), 400);
+    assert.match(JSON.stringify(deletedHistoryCollision.payload), /采购历史/,
+      'deleted purchase details must keep their item numbers reserved, ignoring case and surrounding whitespace');
+
+    const live = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('completed', [item('NUMBER-LIVE-SN', 'GPU-LIVE-001')]), 201)).data;
+    const liveInventoryId = live.inventoryIds[0];
+    const inventoryEditFields = (itemNumber) => ({
+      sn: 'NUMBER-LIVE-SN', itemNumber, productType: '显卡', brand: '华硕', model: 'RTX 4060', year: null,
+      cpu: '', ram: '', gpu: 'RTX 4060', storage: '', screen: '', touchScreen: null, purchasePrice: 0,
+    });
+    const edited = (await call(routes.inventoryEdit.POST, '/api/inventory/edit', 'POST', {
+      inventoryId: liveInventoryId, expectedSn: 'NUMBER-LIVE-SN', fields: inventoryEditFields('GPU-LIVE-EDITED'),
+    })).data;
+    const purchaseItemId = db.prepare('SELECT purchaseItemId FROM inventory WHERE id=?').get(liveInventoryId).purchaseItemId;
+    assert.equal(edited.item.itemNumber, 'GPU-LIVE-EDITED');
+    assert.equal(db.prepare('SELECT itemNumber FROM inventory WHERE id=?').get(liveInventoryId).itemNumber, 'GPU-LIVE-EDITED');
+    assert.equal(db.prepare('SELECT itemNumber FROM purchase_items WHERE id=?').get(purchaseItemId).itemNumber, 'GPU-LIVE-EDITED',
+      'inventory number edits should update the paired purchase history row');
+    assert.equal(JSON.parse(db.prepare('SELECT afterData FROM inventory_edit_logs WHERE inventoryId=?').get(liveInventoryId).afterData).itemNumber, 'GPU-LIVE-EDITED',
+      'machine edit history should record the number change');
+
+    const historicalEdit = await call(routes.inventoryEdit.POST, '/api/inventory/edit', 'POST', {
+      inventoryId: liveInventoryId, expectedSn: 'NUMBER-LIVE-SN', fields: inventoryEditFields('GPU-DRAFT-B'),
+    }, 409);
+    assert.match(JSON.stringify(historicalEdit.payload), /采购历史/);
+    assert.equal(db.prepare('SELECT itemNumber FROM inventory WHERE id=?').get(liveInventoryId).itemNumber, 'GPU-LIVE-EDITED',
+      'a rejected edit must leave the machine unchanged');
+
+    const duplicateLive = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('completed', [item('NUMBER-LIVE-SN-2', 'GPU-LIVE-002')]), 201)).data;
+    const inventoryCollision = await call(routes.inventoryEdit.POST, '/api/inventory/edit', 'POST', {
+      inventoryId: liveInventoryId, expectedSn: 'NUMBER-LIVE-SN', fields: inventoryEditFields(' gpu-live-002 '),
+    }, 409);
+    assert.match(JSON.stringify(inventoryCollision.payload), /全库唯一|其他库存机器/);
+    assert.equal(duplicateLive.inventoryIds.length, 1);
+
+    const list = (await call(routes.inventory.GET, '/api/inventory?search=GPU-LIVE-EDITED&page=1&pageSize=20')).data;
+    assert.equal(list.items.length, 1, 'inventory list search should match item numbers');
+    const lookup = (await call(routes.inventoryLookup.GET, '/api/inventory/lookup?context=inventory&q=GPU-LIVE-EDITED&limit=8')).data;
+    assert.equal(lookup.items.length, 1, 'machine suggestions should match item numbers');
+    assert.equal(lookup.items[0].itemNumber, 'GPU-LIVE-EDITED', 'suggestions should return the number for display');
+
+    db.exec('CREATE UNIQUE INDEX legacy_purchase_item_sn_unique ON purchase_items(sn)');
+    db.prepare('DELETE FROM schema_migrations WHERE version=16').run();
+    initDatabase(db);
+    assert.equal(db.prepare('SELECT itemNumber FROM purchase_items WHERE id=?').get(purchaseItemId).itemNumber, 'GPU-LIVE-EDITED',
+      'replaying the purchase table rebuild must preserve item numbers');
+    assert(db.pragma('index_list(purchase_items)').some(index => index.name === 'idx_purchase_items_item_number' && index.unique),
+      'replaying the purchase table rebuild must restore number uniqueness');
+
+    db.exec('DROP INDEX idx_inventory_sn');
+    db.prepare('DELETE FROM schema_migrations WHERE version=17').run();
+    initDatabase(db);
+    assert.equal(db.prepare('SELECT itemNumber FROM inventory WHERE id=?').get(liveInventoryId).itemNumber, 'GPU-LIVE-EDITED',
+      'replaying the inventory table rebuild must preserve item numbers');
+    assert(db.pragma('index_list(inventory)').some(index => index.name === 'idx_inventory_item_number_active' && index.unique),
+      'replaying the inventory table rebuild must restore number uniqueness');
+
+    db.exec('DROP INDEX idx_purchase_items_item_number');
+    db.prepare('DELETE FROM schema_migrations WHERE version=24').run();
+    initDatabase(db);
+    assert(db.pragma('index_list(purchase_items)').some(index => index.name === 'idx_purchase_items_item_number' && index.unique),
+      'migration 24 must restore purchase-history uniqueness for databases where migration 23 already ran');
+    const secondPurchaseItemId = db.prepare('SELECT purchaseItemId FROM inventory WHERE id=?').get(duplicateLive.inventoryIds[0]).purchaseItemId;
+    assert.throws(() => db.prepare('UPDATE purchase_items SET itemNumber=? WHERE id=?').run(' gpu-live-edited ', secondPurchaseItemId),
+      /UNIQUE constraint failed/, 'purchase history must reject duplicate numbers case-insensitively and after trimming');
+    assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
+    assert.deepEqual(db.pragma('foreign_key_check'), []);
+    console.log('PASS isolated item-number lifecycle: draft rewrite, deleted-history reservation, inbound mirror, edit uniqueness, lookup and migration rebuilds');
+  } finally {
+    if (previousPath === undefined) delete process.env.INVENTORY_DB_PATH; else process.env.INVENTORY_DB_PATH = previousPath;
+    db.close();
+    fs.rmSync(scratch, { recursive: true, force: true });
+  }
+}
+
+main().catch(error => { console.error(error); process.exitCode = 1; });

@@ -45,6 +45,7 @@ export interface SelectedConfig {
   screen: string;
   touchScreen?: boolean; // 可选：用户可以不选择
   sn?: string;
+  itemNumber?: string;
   purchasePrice?: number;
   skuRemark?: string; // SKU 补充信息
 }
@@ -99,6 +100,7 @@ interface SKUSelectorProps {
   onCancel: () => void;
   selectedMachineCount: number;
   existingSNs: string[];
+  existingItemNumbers: string[];
 }
 
 type Step = 'productType' | 'brand' | 'model' | 'customIdentity' | 'config' | 'singleInput';
@@ -198,7 +200,7 @@ function sameSKUIdentity(left: SKU, right: SKU) {
 
 const productTypeOptions: SelectOption[] = SKU_PRODUCT_TYPES.map(value => ({ value, label: value }));
 
-export default function SKUSelector({ catalogSource = 'builtin', startInCustomMode = false, onSelect, onBatchSelect, onCancel, selectedMachineCount, existingSNs }: SKUSelectorProps) {
+export default function SKUSelector({ catalogSource = 'builtin', startInCustomMode = false, onSelect, onBatchSelect, onCancel, selectedMachineCount, existingSNs, existingItemNumbers }: SKUSelectorProps) {
   const isManualCatalog = catalogSource === 'manual';
   const [step, setStep] = useState<Step>(isManualCatalog && startInCustomMode ? 'customIdentity' : 'productType');
   const [selectedFromHome, setSelectedFromHome] = useState(false);
@@ -233,11 +235,13 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   
   // 单台录入的 SN/IMEI、价格和 SKU 补充信息
   const [singleSN, setSingleSN] = useState('');
+  const [singleItemNumber, setSingleItemNumber] = useState('');
+  const [itemNumberError, setItemNumberError] = useState('');
   const [snGenerationError, setSnGenerationError] = useState('');
   const [singlePrice, setSinglePrice] = useState<number>(0);
   const [skuRemark, setSkuRemark] = useState(''); // SKU 补充信息
   const [hasAddedMachine, setHasAddedMachine] = useState(false);
-  useWorkspaceDirty(Boolean(selectedProductType || selectedSKU || singleSN || skuRemark));
+  useWorkspaceDirty(Boolean(selectedProductType || selectedSKU || singleSN || singleItemNumber || skuRemark));
 
   // 加载 SKU 列表
   useEffect(() => {
@@ -409,6 +413,8 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     setScreenValue(emptySpecValue(uniqueScreenOptions(sku.screenOptions).length > 0));
     setSelectedTouchScreen(null); // 触屏也不默认选择
     setSingleSN('');
+    setSingleItemNumber('');
+    setItemNumberError('');
     setSnGenerationError('');
     setSinglePrice(0);
     setSkuRemark('');
@@ -517,6 +523,11 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
     const normalizedSN = singleSN.trim();
     if (!normalizedSN || !validSinglePrice) return;
+    const normalizedItemNumber = singleItemNumber.trim();
+    if (normalizedItemNumber && existingItemNumbers.some(value => value.trim().toLowerCase() === normalizedItemNumber.toLowerCase())) {
+      setItemNumberError(`编号「${normalizedItemNumber}」已在本采购单中使用`);
+      return;
+    }
 
     onSelect({
       sku: selectedSKU,
@@ -527,6 +538,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
       screen: isGraphicsCard ? '' : formatScreenDisplay(activeSpecValue(screenValue)),
       touchScreen: isGraphicsCard ? undefined : selectedTouchScreen ?? undefined, // 未选择时传 undefined
       sn: normalizedSN,
+      itemNumber: normalizedItemNumber,
       purchasePrice: singlePrice,
       skuRemark: skuRemark.trim() || undefined // 补充信息
     }, mode);
@@ -539,6 +551,8 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
       setScreenValue(emptySpecValue(screenOptions.length > 0));
       setSelectedTouchScreen(null);
       setSingleSN('');
+      setSingleItemNumber('');
+      setItemNumberError('');
       setSnGenerationError('');
       setSinglePrice(0);
       setSkuRemark('');
@@ -991,7 +1005,12 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                       />
                       {snGenerationError && <p role="alert" className="mt-1 text-[11px] text-danger">{snGenerationError}</p>}
                     </div>
-                    <div>
+                    {isGraphicsCard && <div>
+                      <label htmlFor="sku-single-item-number" className="mb-2 block text-[12px] font-medium text-ink-deep">编号 <span className="text-ink-soft">（选填）</span></label>
+                      <input id="sku-single-item-number" type="text" maxLength={120} value={singleItemNumber} onChange={event => { setSingleItemNumber(event.target.value); setItemNumberError(''); }} placeholder="请输入独立编号" className="w-full rounded-lg border border-line bg-white/60 px-3 py-2 text-[12px] transition-all placeholder:text-ink-soft/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                      {itemNumberError && <p role="alert" className="mt-1 text-[11px] text-danger">{itemNumberError}</p>}
+                    </div>}
+                    <div className={isGraphicsCard ? 'col-span-2' : ''}>
                       <label className="block text-[12px] font-medium text-ink-deep mb-2">
                         采购金额 {isGraphicsCard ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}
                       </label>

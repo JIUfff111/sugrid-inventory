@@ -43,21 +43,24 @@ interface BatchInputProps {
     touchScreen?: boolean;
     skuRemark?: string;
     sn: string;
+    itemNumber?: string;
     purchasePrice: number;
     remark: string;
   }>, mode: 'close' | 'continue') => void;
   onCancel: () => void;
   existingSNs: string[];
+  existingItemNumbers: string[];
 }
 
 interface BatchRow {
   id: string;
   sn: string;
+  itemNumber: string;
   purchasePrice: number;
   remark: string;
 }
 
-export default function BatchInput({ presetConfig, onConfirm, onCancel, existingSNs }: BatchInputProps) {
+export default function BatchInput({ presetConfig, onConfirm, onCancel, existingSNs, existingItemNumbers }: BatchInputProps) {
   // 通用配置 - 如果有预设配置则使用预设
   const [baseConfig, setBaseConfig] = useState({
     skuId: presetConfig?.skuId,
@@ -77,7 +80,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
 
   // 批量行数据
   const [rows, setRows] = useState<BatchRow[]>([
-    { id: '1', sn: '', purchasePrice: 0, remark: '' }
+    { id: '1', sn: '', itemNumber: '', purchasePrice: 0, remark: '' }
   ]);
   useWorkspaceDirty(Boolean(baseConfig.brand || baseConfig.model || rows.some(row => row.sn || row.purchasePrice || row.remark)));
   
@@ -91,7 +94,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
 
   // 添加一行
   const handleAddRow = () => {
-    setRows([...rows, { id: Date.now().toString(), sn: '', purchasePrice: 0, remark: '' }]);
+    setRows([...rows, { id: Date.now().toString(), sn: '', itemNumber: '', purchasePrice: 0, remark: '' }]);
   };
 
   // 删除一行
@@ -158,6 +161,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
 
     // 验证每行数据
     const seen = new Set<string>();
+    const seenItemNumbers = new Set<string>();
     for (const row of rows) {
       if (!row.sn.trim() || !Number.isFinite(row.purchasePrice) || row.purchasePrice < 0 || (!isGraphicsCard && row.purchasePrice === 0)) {
         setToast({ show: true, message: isGraphicsCard ? '请填写所有显卡的 SN；价格可留空或填 0' : '请填写所有机器的 SN 和价格' });
@@ -169,6 +173,12 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
         return;
       }
       seen.add(sn.toUpperCase());
+      const itemNumber = row.itemNumber.trim().toLowerCase();
+      if (isGraphicsCard && itemNumber && (existingItemNumbers.some(value => value.trim().toLowerCase() === itemNumber) || seenItemNumbers.has(itemNumber))) {
+        setToast({ show: true, message: `编号 [${row.itemNumber.trim()}] 重复，请检查` });
+        return;
+      }
+      if (itemNumber) seenItemNumbers.add(itemNumber);
     }
 
     // 组装数据
@@ -176,13 +186,14 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
       ...baseConfig,
       ...(isGraphicsCard ? { cpu: '', ram: '', storage: '', screen: '', touchScreen: undefined } : {}),
       sn: row.sn.trim(),
+      itemNumber: isGraphicsCard ? row.itemNumber.trim() : '',
       purchasePrice: row.purchasePrice,
       remark: row.remark
     }));
 
     onConfirm(machines, mode);
     if (mode === 'continue') {
-      setRows([{ id: `${Date.now()}-next`, sn: '', purchasePrice: 0, remark: '' }]);
+      setRows([{ id: `${Date.now()}-next`, sn: '', itemNumber: '', purchasePrice: 0, remark: '' }]);
       setToast({ show: true, message: `已添加 ${machines.length} ${isGraphicsCard ? '张显卡' : '台机器'}，可继续录入` });
     }
   };
@@ -474,6 +485,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
                           </button>
                         </div>
                       </th>
+                      {isGraphicsCard && <th className="px-3 py-2 text-left text-[12px] font-semibold text-ink-deep">编号（选填）</th>}
                       <th className="px-3 py-2 text-left text-[12px] font-semibold text-ink-deep w-40">
                         <div className="flex items-center justify-between">
                           <span>采购价格 {isGraphicsCard ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}</span>
@@ -517,6 +529,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
                         <td className="px-3 py-2 text-[13px] text-ink-soft">
                           {index + 1}
                         </td>
+                        {isGraphicsCard && <td className="px-3 py-2"><input type="text" maxLength={120} value={row.itemNumber} onChange={event => handleUpdateRow(row.id, 'itemNumber', event.target.value)} placeholder="选填，编号全库唯一" className="w-full rounded-lg border border-line bg-white px-3 py-2 text-[13px] placeholder:text-ink-soft/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" /></td>}
                         <td className="px-3 py-2">
                           <div className="flex min-w-48 items-center gap-2">
                             <input

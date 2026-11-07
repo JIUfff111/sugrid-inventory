@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
     }
     if (q) {
       const escaped = q.replace(/[\\%_]/g,'\\$&'); const pattern = `%${escaped}%`;
-      where.push(`(i.sn LIKE ? ESCAPE '\\' OR (COALESCE(i.brand,'') || ' ' || COALESCE(i.model,'') || ' ' || COALESCE(i.year,'')) LIKE ? ESCAPE '\\' OR i.model LIKE ? ESCAPE '\\' OR i.saleOrderNo LIKE ? ESCAPE '\\')`);
-      params.push(`%${escaped}`,pattern,pattern,pattern);
+      where.push(`(i.sn LIKE ? ESCAPE '\\' OR i.itemNumber LIKE ? ESCAPE '\\' OR (COALESCE(i.brand,'') || ' ' || COALESCE(i.model,'') || ' ' || COALESCE(i.year,'')) LIKE ? ESCAPE '\\' OR i.model LIKE ? ESCAPE '\\' OR i.saleOrderNo LIKE ? ESCAPE '\\')`);
+      params.push(`%${escaped}`,pattern,pattern,pattern,pattern);
     }
     const from = `FROM inventory i LEFT JOIN warehouses w ON w.id=i.warehouseId LEFT JOIN purchase_orders po ON po.id=i.purchaseOrderId WHERE ${where.join(' AND ')}`;
     const total = Number((db.prepare(`SELECT COUNT(*) total ${from}`).get(...params) as {total:number}).total);
@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
       FROM inventory i LEFT JOIN warehouses w ON w.id=i.warehouseId LEFT JOIN purchase_orders po ON po.id=i.purchaseOrderId
       LEFT JOIN sales_record_items sri ON sri.id=(SELECT sx.id FROM sales_record_items sx JOIN sales_records sy ON sy.id=sx.salesRecordId WHERE sx.inventoryId=i.id AND sy.status='completed' AND sy.deleted=0 ORDER BY sx.createdAt DESC LIMIT 1)
       LEFT JOIN sales_records sr ON sr.id=sri.salesRecordId
-      WHERE ${where.join(' AND ')} ORDER BY CASE WHEN lower(i.sn)=lower(?) THEN 0 WHEN length(?)>=4 AND lower(substr(i.sn,-length(?)))=lower(?) THEN 1 ELSE 2 END,i.updatedAt DESC,i.id LIMIT ? OFFSET ?`)
-      .all(...params,q,q,q,q,limit,(safePage-1)*limit) as Array<{id:string}>;
+      WHERE ${where.join(' AND ')} ORDER BY CASE WHEN lower(i.sn)=lower(?) THEN 0 WHEN lower(i.itemNumber)=lower(?) THEN 1 WHEN length(?)>=4 AND lower(substr(i.sn,-length(?)))=lower(?) THEN 2 ELSE 3 END,i.updatedAt DESC,i.id LIMIT ? OFFSET ?`)
+      .all(...params,q,q,q,q,q,limit,(safePage-1)*limit) as Array<{id:string}>;
     return NextResponse.json(successResponse(createPaginatedResponse(rows.map(serializeInventoryStatus),total,safePage,limit)));
   } catch (error) {
     return authErrorResponse(error) || NextResponse.json(errorResponse('DATABASE_ERROR',error instanceof Error ? error.message : '机器查询失败'), {status:500});

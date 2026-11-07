@@ -48,6 +48,7 @@ export async function buildImportReport(resourceKey: string | null, content: unk
   }
   const seenUnique = new Map<string, Map<string, Map<string, string>>>();
   const seenComposite = new Map<string, Map<string, string>>();
+  const seenItemNumbers = new Map<string, Array<{ resource: 'purchase_items' | 'inventory'; id: string; purchaseItemId: string }>>();
   for (const group of payload) {
     const resource = getResource(group.resource);
     if (!resource) continue;
@@ -71,7 +72,7 @@ export async function buildImportReport(resourceKey: string | null, content: unk
         }
       }
       const effectiveMode = mode === 'upsert' && id ? 'upsert' : 'insert';
-      const errors = validateImportRecord(resource, raw, { mode: effectiveMode, incomingIds, seenUnique, seenComposite, payloadRecords });
+      const errors = validateImportRecord(resource, raw, { mode: effectiveMode, incomingIds, seenUnique, seenComposite, payloadRecords, seenItemNumbers });
       if (resource.key === 'users') {
         const current = id ? db.prepare('SELECT id, role, status, isSystemAccount FROM users WHERE id = ?').get(id) as { id: string; role: string; status: string; isSystemAccount: number } | undefined : undefined;
         const userData = effectiveMode === 'insert' ? { ...raw, status: 'pending', isSystemAccount: 0 } : raw;

@@ -37,6 +37,7 @@ type PurchaseItemInput = {
   screen?: string;
   touchScreen?: boolean | null;
   sn?: string;
+  itemNumber?: string;
   purchasePrice?: number | string;
   remark?: string | null;
   skuRemark?: string | null;
@@ -57,6 +58,7 @@ type NormalizedItem = {
   screen: string;
   touchScreen: number | null;
   sn: string;
+  itemNumber: string;
   purchasePrice: number;
   remark: string | null;
   skuRemark: string | null;
@@ -106,6 +108,7 @@ type PurchaseItemRow = {
   screen: string;
   touchScreen: number | null;
   sn: string;
+  itemNumber: string | null;
   purchasePrice: number;
   remark: string | null;
   skuRemark: string | null;
@@ -164,6 +167,7 @@ function normalizeItems(items: unknown): NormalizedItem[] {
       ? null
       : item.touchScreen ? 1 : 0,
     sn: String(item?.sn || '').trim(),
+    itemNumber: String(item?.itemNumber || '').trim(),
     purchasePrice: item?.purchasePrice === undefined || item?.purchasePrice === null || item?.purchasePrice === ''
       ? 0
       : Number(item.purchasePrice),
@@ -222,6 +226,7 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
       return '机器配置缺少必填项';
     }
     if (!Number.isFinite(item.purchasePrice) || item.purchasePrice < 0) return '采购价格格式不正确';
+    if (item.itemNumber.length > 120 || /[\r\n\u0000-\u001f\u007f]/.test(item.itemNumber)) return '编号格式不正确（最多 120 个字符且不能换行）';
     if (item.manualSkuId) {
       const options = normalizeManualSKUOptions({
         cpuOptions: [item.cpu], ramOptions: [item.ram], gpuOptions: [item.gpu || ''],
@@ -263,6 +268,26 @@ function checkSnConflicts(items: NormalizedItem[], allowedItemIds = new Set<stri
   return null;
 }
 
+function checkItemNumberConflicts(items: NormalizedItem[], allowedItemIds = new Set<string>()): string | null {
+  const seen = new Set<string>();
+  const history = db.prepare(`SELECT id,itemNumber FROM purchase_items
+    WHERE itemNumber IS NOT NULL AND trim(itemNumber) <> ''`).all() as Array<{ id: string; itemNumber: string }>;
+  const inventoryRows = db.prepare(`SELECT id,purchaseItemId,itemNumber FROM inventory
+    WHERE deleted=0 AND itemNumber IS NOT NULL AND trim(itemNumber) <> ''`).all() as Array<{ id: string; purchaseItemId: string; itemNumber: string }>;
+  for (const item of items) {
+    if (!item.itemNumber) continue;
+    const normalized = item.itemNumber.trim().toLowerCase();
+    if (seen.has(normalized)) return `本次提交中编号 [${item.itemNumber}] 重复`;
+    seen.add(normalized);
+    const previous = history.find(row => row.itemNumber.trim().toLowerCase() === normalized && !allowedItemIds.has(row.id));
+    if (previous) return `编号 [${item.itemNumber}] 已在采购历史中使用，编号需全库唯一`;
+    if (inventoryRows.some(row => row.itemNumber.trim().toLowerCase() === normalized && !allowedItemIds.has(row.purchaseItemId))) {
+      return `编号 [${item.itemNumber}] 已被库存机器使用`;
+    }
+  }
+  return null;
+}
+
 function orderRow(id: string) {
   return db.prepare(`
     SELECT id, purchaseNo, supplierOrderNo, supplierId, supplierName,
@@ -277,11 +302,12 @@ function orderDetail(id: string) {
   if (!order) return undefined;
   const items = (db.prepare(`
     SELECT id, skuId, manualSkuId, productType, brand, model, year, cpu, ram, gpu, storage, screen,
-      touchScreen, sn, purchasePrice, remark, skuRemark, createdAt
+      touchScreen, sn, itemNumber, purchasePrice, remark, skuRemark, createdAt
     FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0 ORDER BY createdAt, id
   `).all(id) as PurchaseItemRow[]).map((item) => ({
     ...item,
     sn: String(item.sn || '').startsWith('__draft_') ? '' : item.sn,
+    itemNumber: item.itemNumber || '',
     touchScreen: item.touchScreen === null || item.touchScreen === undefined
       ? undefined
       : Boolean(item.touchScreen),
@@ -302,16 +328,16 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
   const insertItem = db.prepare(`
     INSERT INTO purchase_items (
       id, purchaseOrderId, productType, brand, model, year, cpu, ram, gpu, storage,
-      screen, touchScreen, sn, purchasePrice, remark, skuRemark, skuId, manualSkuId, recordedBy, createdAt
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      screen, touchScreen, sn, itemNumber, purchasePrice, remark, skuRemark, skuId, manualSkuId, recordedBy, createdAt
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const insertInventory = db.prepare(`
     INSERT INTO inventory (
       id, purchaseOrderId, purchaseItemId, sn, productType, brand, model, year,
-      cpu, ram, gpu, storage, screen, touchScreen, purchasePrice,
+      cpu, ram, gpu, storage, screen, touchScreen, purchasePrice, itemNumber,
       supplierId, supplierName, status, inboundDate, remark, skuRemark,
       deleted, createdAt, updatedAt, warehouseId, manualSkuId
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_stock', ?, ?, ?, 0, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   for (const item of items) {
@@ -319,7 +345,7 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
     const sn = item.sn || `__draft_${itemId}`;
     insertItem.run(
       itemId, order.id, item.productType, item.brand, item.model, item.year, item.cpu, item.ram,
-      item.gpu, item.storage, item.screen, item.touchScreen, sn, item.purchasePrice,
+      item.gpu, item.storage, item.screen, item.touchScreen, sn, item.itemNumber || null, item.purchasePrice,
       item.remark, item.skuRemark, resolveMatchedSkuId(item), item.manualSkuId, order.actorId, now
     );
     if (inbound) {
@@ -327,8 +353,8 @@ function insertItemsAndInventory(order: Pick<OrderRow, 'id' | 'supplierId' | 'su
       insertInventory.run(
         inventoryId, order.id, itemId, sn, item.productType, item.brand, item.model, item.year,
         item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen,
-        item.purchasePrice, order.supplierId, order.supplierName, order.purchaseDate,
-        item.remark, item.skuRemark, now, now, order.warehouseId, item.manualSkuId
+        item.purchasePrice, item.itemNumber || null, order.supplierId, order.supplierName, 'in_stock', order.purchaseDate,
+        item.remark, item.skuRemark, 0, now, now, order.warehouseId, item.manualSkuId
       );
       recordInbound(inventoryId, order, now);
       mergeManualSKUOptions(db, item, order.actorId, now);
@@ -344,7 +370,7 @@ function replaceDraftItemsAndInventory(
 ) {
   const existing = db.prepare(`
     SELECT id, purchaseOrderId, productType, brand, model, year, cpu, ram, gpu, storage,
-      screen, touchScreen, sn, purchasePrice, remark, skuRemark, manualSkuId, createdAt, deleted
+      screen, touchScreen, sn, itemNumber, purchasePrice, remark, skuRemark, manualSkuId, createdAt, deleted
     FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0
   `).all(order.id) as DraftItemRow[];
   const existingById = new Map(existing.map((item) => [item.id, item]));
@@ -358,29 +384,31 @@ function replaceDraftItemsAndInventory(
   reused.forEach((item, index) => {
     moveToTemporarySn.run(`__rewrite_${order.id}_${Date.now()}_${index}_${Math.random().toString(36).slice(2, 8)}`, item.id, order.id);
   });
+  const releaseItemNumber = db.prepare('UPDATE purchase_items SET itemNumber = NULL WHERE id = ? AND purchaseOrderId = ? AND deleted = 0');
+  reused.forEach(item => releaseItemNumber.run(item.id, order.id));
 
   const markRemoved = db.prepare('UPDATE purchase_items SET deleted = 1 WHERE id = ? AND purchaseOrderId = ? AND deleted = 0');
   existing.filter((item) => !reusedIds.has(item.id)).forEach((item) => markRemoved.run(item.id, order.id));
 
   const updateItem = db.prepare(`
     UPDATE purchase_items SET productType = ?, brand = ?, model = ?, year = ?, cpu = ?, ram = ?,
-      gpu = ?, storage = ?, screen = ?, touchScreen = ?, sn = ?, purchasePrice = ?,
+      gpu = ?, storage = ?, screen = ?, touchScreen = ?, sn = ?, itemNumber = ?, purchasePrice = ?,
       remark = ?, skuRemark = ?, skuId = ?, manualSkuId = ?, deleted = 0
     WHERE id = ? AND purchaseOrderId = ?
   `);
   const insertItem = db.prepare(`
     INSERT INTO purchase_items (
       id, purchaseOrderId, productType, brand, model, year, cpu, ram, gpu, storage,
-      screen, touchScreen, sn, purchasePrice, remark, skuRemark, skuId, manualSkuId, recordedBy, deleted, createdAt
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
+      screen, touchScreen, sn, itemNumber, purchasePrice, remark, skuRemark, skuId, manualSkuId, recordedBy, deleted, createdAt
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
   `);
   const insertInventory = db.prepare(`
     INSERT INTO inventory (
       id, purchaseOrderId, purchaseItemId, sn, productType, brand, model, year,
-      cpu, ram, gpu, storage, screen, touchScreen, purchasePrice,
+      cpu, ram, gpu, storage, screen, touchScreen, purchasePrice, itemNumber,
       supplierId, supplierName, status, inboundDate, remark, skuRemark,
       deleted, createdAt, updatedAt, warehouseId, manualSkuId
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'in_stock', ?, ?, ?, 0, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   for (const item of items) {
@@ -390,13 +418,13 @@ function replaceDraftItemsAndInventory(
     if (existingById.has(itemId)) {
       updateItem.run(
         item.productType, item.brand, item.model, item.year, item.cpu, item.ram, item.gpu,
-        item.storage, item.screen, item.touchScreen, sn, item.purchasePrice,
+        item.storage, item.screen, item.touchScreen, sn, item.itemNumber || null, item.purchasePrice,
         item.remark, item.skuRemark, skuId, item.manualSkuId, itemId, order.id,
       );
     } else {
       insertItem.run(
         itemId, order.id, item.productType, item.brand, item.model, item.year, item.cpu, item.ram,
-        item.gpu, item.storage, item.screen, item.touchScreen, sn, item.purchasePrice,
+        item.gpu, item.storage, item.screen, item.touchScreen, sn, item.itemNumber || null, item.purchasePrice,
         item.remark, item.skuRemark, skuId, item.manualSkuId, order.actorId, now,
       );
     }
@@ -405,8 +433,8 @@ function replaceDraftItemsAndInventory(
       insertInventory.run(
         inventoryId, order.id, itemId, sn, item.productType, item.brand, item.model, item.year,
         item.cpu, item.ram, item.gpu, item.storage, item.screen, item.touchScreen,
-        item.purchasePrice, order.supplierId, order.supplierName, order.purchaseDate,
-        item.remark, item.skuRemark, now, now, order.warehouseId, item.manualSkuId,
+        item.purchasePrice, item.itemNumber || null, order.supplierId, order.supplierName, 'in_stock', order.purchaseDate,
+        item.remark, item.skuRemark, 0, now, now, order.warehouseId, item.manualSkuId,
       );
       recordInbound(inventoryId, order, now);
       mergeManualSKUOptions(db, item, order.actorId, now);
@@ -449,6 +477,8 @@ export async function POST(request: NextRequest) {
     if (!supplier) return NextResponse.json(errorResponse(ErrorCode.SUPPLIER_NOT_FOUND, '供应商不存在'), { status: 400 });
     const conflict = checkSnConflicts(items);
     if (conflict) return duplicateError(conflict);
+    const itemNumberConflict = checkItemNumberConflicts(items);
+    if (itemNumberConflict) return duplicateError(itemNumberConflict);
 
     const now = formatDateTime();
     const orderId = generateId('po');
@@ -496,6 +526,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
       return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
     }
+    if (error instanceof Error && /idx_purchase_items_item_number|idx_inventory_item_number_active/.test(error.message)) return duplicateError('编号已被使用，请填写未使用的编号');
     console.error('POST /api/purchase-orders error:', error);
     return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, errorMessage(error) || '创建采购单失败'), { status: 500 });
   }
@@ -631,6 +662,8 @@ export async function PATCH(request: NextRequest) {
     }
     const conflict = checkSnConflicts(items, incomingIds);
     if (conflict) return duplicateError(conflict);
+    const itemNumberConflict = checkItemNumberConflicts(items, incomingIds);
+    if (itemNumberConflict) return duplicateError(itemNumberConflict);
     const supplier = findSupplier(String(body.supplierId).trim());
     if (!supplier) return NextResponse.json(errorResponse(ErrorCode.SUPPLIER_NOT_FOUND, '供应商不存在'), { status: 400 });
 
@@ -672,6 +705,7 @@ export async function PATCH(request: NextRequest) {
     if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
       return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
     }
+    if (error instanceof Error && /idx_purchase_items_item_number|idx_inventory_item_number_active/.test(error.message)) return duplicateError('编号已被使用，请填写未使用的编号');
     console.error('PATCH /api/purchase-orders error:', error);
     return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, errorMessage(error) || '更新采购单失败'), { status: 500 });
   }

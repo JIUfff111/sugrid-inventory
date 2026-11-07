@@ -58,6 +58,7 @@ interface InventoryItem {
   purchaseItemId: string;
   purchaseNo: string | null;
   sn: string;
+  itemNumber: string | null;
   productType: string;
   brand: string;
   model: string;
@@ -97,6 +98,7 @@ interface InventoryItem {
 
 type InventoryEditDraft = {
   sn: string;
+  itemNumber: string;
   productType: string;
   brand: string;
   model: string;
@@ -120,6 +122,7 @@ type InventoryEditHistoryEntry = {
 
 const inventoryEditFields: Array<[keyof InventoryEditDraft, string, string]> = [
   ['sn', 'SN / IMEI', '请输入机器序列号'],
+  ['itemNumber', '编号', '选填；填写后全库唯一'],
   ['productType', '产品类型', '如：笔记本电脑'],
   ['brand', '品牌', '请输入品牌'],
   ['model', '型号', '请输入型号'],
@@ -135,6 +138,7 @@ const inventoryEditFields: Array<[keyof InventoryEditDraft, string, string]> = [
 function inventoryEditDraftFrom(item: InventoryItem): InventoryEditDraft {
   return {
     sn: item.sn || '',
+    itemNumber: item.itemNumber || '',
     productType: item.productType || '',
     brand: item.brand || '',
     model: item.model || '',
@@ -536,6 +540,7 @@ export default function InventoryPage() {
     if (!selected || !machineEditDraft || !canEditInventory) return;
     const fields = {
       sn: machineEditDraft.sn.trim(),
+      itemNumber: machineEditDraft.itemNumber.trim(),
       productType: machineEditDraft.productType.trim(),
       brand: machineEditDraft.brand.trim(),
       model: machineEditDraft.model.trim(),
@@ -672,7 +677,7 @@ export default function InventoryPage() {
       <section className="glass p-4 mb-4">
         <div className="flex flex-wrap items-center gap-3">
           <form onSubmit={submitSearch} className="relative min-w-0 basis-full xl:max-w-xl xl:flex-1">
-            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSearch={query => { setSearchInput(query); setSearch(query.trim()); setPage(1); }} placeholder="SN 后四位、品牌型号、供应商或采购单号" ariaLabel="搜索库存" />
+            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSearch={query => { setSearchInput(query); setSearch(query.trim()); setPage(1); }} placeholder="SN、编号、品牌型号或采购单号" ariaLabel="搜索库存" />
             {searchInput && (
               <button type="button" onClick={clearSearch} title="清除搜索" aria-label="清除搜索" className="absolute right-12 top-1/2 -translate-y-1/2 p-1 text-ink-soft hover:text-ink-deep"><X className="w-4 h-4" /></button>
             )}
@@ -749,7 +754,7 @@ export default function InventoryPage() {
                     <td><div className="font-medium text-ink-deep">{productName(item)}</div><div className="text-[11px] text-ink-soft mt-1">{item.productType || '未分类'}</div></td>
                     <td><div className="text-[12px] text-ink">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
                     <td className="max-w-60"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></td>
-                    <td><div className="flex items-center gap-1"><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div></td>
+                    <td><div className="flex items-center gap-1"><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div>{item.itemNumber && <div className="mt-1 flex items-center gap-1 text-[11px] text-ink-soft"><span className="font-mono break-all">编号 {item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div>}</td>
                     <td><div className="text-[12px] text-ink">{item.supplierName || '-'}</div><div className="font-mono text-[11px] text-ink-soft mt-1">{item.purchaseNo || '-'}</div><div className="mt-1 text-[11px] text-primary">{item.warehouseName || warehouses.find(w => w.id === item.warehouseId)?.name || '未分仓'}</div></td>
                     <td className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</td>
                     <td><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span><div className="mt-1.5 max-w-52 text-[11px] text-ink-soft">{machineDestination(item)}</div></td>
@@ -775,6 +780,7 @@ export default function InventoryPage() {
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">配置</span><span className="truncate text-right text-ink-deep">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</span></div>
                   <div className="flex items-start justify-between gap-3"><span className="shrink-0 text-ink-soft">备注</span><div className="min-w-0 text-right"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></div></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">SN / IMEI</span><div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono text-right text-ink-deep">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div></div>
+                  {item.itemNumber && <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">编号</span><div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono text-right text-ink-deep">{item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div></div>}
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">供应商</span><span className="truncate text-right text-ink-deep">{item.supplierName || '-'}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">采购价</span><span className="font-mono font-semibold text-ink-deep">{formatMoney(item.purchasePrice)}</span></div>
                   <div className="flex items-center justify-between gap-3"><span className="text-ink-soft">入库日期</span><span className="text-ink-deep">{formatDate(item.inboundDate)}</span></div>
@@ -800,6 +806,7 @@ export default function InventoryPage() {
             <header className="flex items-start justify-between border-b border-line px-5 py-4"><div><div className="flex items-center gap-2"><h2 className="text-base font-semibold text-ink-deep">库存详情</h2><span className={statusClass(selected.status)} style={itemStatusStyle(selected)}>{itemStatusLabel(selected)}</span></div><div className="mt-1 flex items-center gap-1"><p className="font-mono text-[12px] text-ink-soft">{selected.sn}</p><CopyTextButton value={selected.sn} label="SN" /></div></div><button type="button" onClick={closeDetails} title="关闭" aria-label="关闭" className="p-2 text-ink-soft hover:bg-white/70 rounded-lg"><X className="w-4 h-4" /></button></header>
 
             <div className="flex-1 overflow-y-auto p-5">
+              {selected.itemNumber && <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-line/70 bg-white/60 px-3 py-2 text-xs"><dl><DetailField label="编号" value={selected.itemNumber} /></dl><CopyTextButton value={selected.itemNumber} label="编号" /></div>}
               <div className="mb-5 rounded-xl border border-line/70 bg-white/45 p-4"><div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-ink-deep"><Pencil className="w-4 h-4 text-primary" />{productName(selected)}</div><dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-[12px]"><DetailField label="所在仓库" value={selected.warehouseName || warehouses.find(w => w.id === selected.warehouseId)?.name} /><DetailField label="产品类型" value={selected.productType} /><DetailField label="品牌型号" value={productName(selected)} /><DetailField label="采购价格" value={formatMoney(selected.purchasePrice)} /><DetailField label="CPU" value={formatCPUDisplay(selected.cpu)} /><DetailField label="内存" value={selected.ram} /><DetailField label="显卡" value={formatGPUDisplay(selected.gpu)} /><DetailField label="硬盘" value={selected.storage} /><DetailField label="屏幕" value={formatScreenDisplay(selected.screen)} /><DetailField label="触屏" value={selected.touchScreen === null ? '未填写' : selected.touchScreen ? '是' : '否'} /><DetailField label="供应商" value={selected.supplierName} /><DetailField label="采购单号" value={selected.purchaseNo} /><DetailField label="入库日期" value={formatDate(selected.inboundDate)} /><DetailField label={selected.status === 'in_stock' || selected.status === 'custom' ? '在库天数' : '入库距今'} value={`${Math.max(0, Number(selected.inboundDays || 0))} 天`} />{selected.soldDate && <DetailField label="售出日期" value={formatDate(selected.soldDate)} />}{selected.sellingPrice !== null && <DetailField label="销售价格" value={formatMoney(selected.sellingPrice)} />}</dl></div>
               <section className="mb-5 rounded-xl border border-primary/15 bg-primary/5 p-4"><p className="text-xs text-ink-soft">当前去向</p><p className="mt-2 text-sm text-ink-deep">{machineDestination(selected)}</p>{selected.afterSaleId && isAdmin && <Link href={`/after-sales?recordId=${encodeURIComponent(selected.afterSaleId)}`} className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary">查看关联售后单 {selected.afterSaleNo}</Link>}{isAdmin && <Link href={`/sales/records?search=${encodeURIComponent(selected.sn)}`} className="mt-3 flex text-xs font-medium text-primary">查询本机销售历史</Link>}</section>{selected.statusRecord && <section className="mb-5 rounded-xl border border-line/70 bg-white/60 p-4"><h3 className="mb-3 text-sm font-medium">当前状态登记</h3><dl className="grid grid-cols-2 gap-3 text-xs"><DetailField label="原因" value={selected.statusRecord.reason} /><DetailField label="当前地点" value={selected.statusRecord.location} /><DetailField label="负责人" value={selected.statusRecord.responsiblePerson} /><DetailField label="预计归还" value={formatDate(selected.statusRecord.expectedReturnDate)} /><DetailField label="登记时间" value={formatDate(selected.statusRecord.createdAt || selected.statusRecord.startedAt)} /><DetailField label="业务权限" value={selected.allowStockOperations ? '允许参与在库业务' : '暂停参与在库业务'} /></dl>{selected.statusRecord.remark && <p className="mt-3 whitespace-pre-wrap text-xs text-ink-soft">{selected.statusRecord.remark}</p>}</section>}
               <div className="mb-4 flex flex-wrap gap-2">{canEditInventory && <button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={openMachineEditor}><Pencil className="h-4 w-4" />编辑机器资料</button>}{isAdmin && (selected.status === 'in_stock' || selected.status === 'custom') && <>{selected.status === 'in_stock' && <button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => setAssetChangeMachine(selected)}><MemoryStick className="h-4 w-4" />资产变更</button>}<button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => setStatusDialog({ mode: selected.status === 'custom' ? 'restore' : 'register', machine: selected })}><Wrench className="h-4 w-4" />{selected.status === 'custom' ? '恢复在库' : '登记机器状态'}</button>{isSystemAccount && selected.status === 'in_stock' && <button type="button" className="inline-flex items-center gap-1.5 rounded-lg border border-danger/20 px-3 py-2 text-xs text-danger transition hover:bg-danger/5" onClick={() => setPurgeMachine(selected)}><Trash2 className="h-4 w-4" />永久删除</button>}</>}</div>

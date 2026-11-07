@@ -64,13 +64,13 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   purchase_items: {
     key: 'purchase_items', label: '采购明细', table: 'purchase_items',
-    fields: ['id', 'purchaseOrderId', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'sn', 'purchasePrice', 'skuRemark', 'remark', 'skuId', 'manualSkuId', 'recordedBy', 'deleted', 'createdAt'],
-    writable: ['skuRemark', 'remark'], creatable: false, searchFields: ['sn', 'brand', 'model', 'purchaseOrderId'], orderBy: 'createdAt DESC', required: ['purchaseOrderId', 'productType', 'brand', 'model', 'cpu', 'ram', 'storage', 'screen', 'sn', 'purchasePrice'],
+    fields: ['id', 'purchaseOrderId', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'sn', 'itemNumber', 'purchasePrice', 'skuRemark', 'remark', 'skuId', 'manualSkuId', 'recordedBy', 'deleted', 'createdAt'],
+    writable: ['skuRemark', 'remark'], creatable: false, searchFields: ['sn', 'itemNumber', 'brand', 'model', 'purchaseOrderId'], orderBy: 'createdAt DESC', required: ['purchaseOrderId', 'productType', 'brand', 'model', 'cpu', 'ram', 'storage', 'screen', 'sn', 'purchasePrice'],
   },
   inventory: {
     key: 'inventory', label: '库存机器', table: 'inventory',
-    fields: ['id', 'purchaseOrderId', 'purchaseItemId', 'sn', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'purchasePrice', 'supplierId', 'supplierName', 'status', 'warehouseId', 'inboundDate', 'soldDate', 'sellingPrice', 'saleChannel', 'saleOrderNo', 'profit', 'rentalRecordId', 'remark', 'skuRemark', 'manualSkuId', 'deleted', 'createdAt', 'updatedAt'],
-    writable: ['remark', 'skuRemark'], deletable: false, creatable: false, searchFields: ['sn', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'supplierName', 'status', 'saleOrderNo'], orderBy: 'createdAt DESC', required: ['purchaseOrderId', 'purchaseItemId', 'sn', 'productType', 'brand', 'model', 'cpu', 'ram', 'storage', 'screen', 'purchasePrice', 'supplierId', 'supplierName', 'status', 'inboundDate'],
+    fields: ['id', 'purchaseOrderId', 'purchaseItemId', 'sn', 'itemNumber', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'touchScreen', 'purchasePrice', 'supplierId', 'supplierName', 'status', 'warehouseId', 'inboundDate', 'soldDate', 'sellingPrice', 'saleChannel', 'saleOrderNo', 'profit', 'rentalRecordId', 'remark', 'skuRemark', 'manualSkuId', 'deleted', 'createdAt', 'updatedAt'],
+    writable: ['remark', 'skuRemark'], deletable: false, creatable: false, searchFields: ['sn', 'itemNumber', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu', 'storage', 'screen', 'supplierName', 'status', 'saleOrderNo'], orderBy: 'createdAt DESC', required: ['purchaseOrderId', 'purchaseItemId', 'sn', 'productType', 'brand', 'model', 'cpu', 'ram', 'storage', 'screen', 'purchasePrice', 'supplierId', 'supplierName', 'status', 'inboundDate'],
   },
   sales_records: {
     key: 'sales_records', label: '销售记录', table: 'sales_records',
@@ -437,6 +437,7 @@ type ImportValidationContext = {
   seenUnique: Map<string, Map<string, Map<string, string>>>;
   seenComposite: Map<string, Map<string, string>>;
   payloadRecords?: Map<string, Map<string, Record<string, unknown>>>;
+  seenItemNumbers?: Map<string, Array<{ resource: 'purchase_items' | 'inventory'; id: string; purchaseItemId: string }>>;
 };
 
 function nonEmptyImportValue(value: unknown) {
@@ -445,6 +446,112 @@ function nonEmptyImportValue(value: unknown) {
 
 function compositeIdentity(values: unknown[]) {
   return values.map(value => value === undefined || value === null ? '' : String(value).trim().toLocaleLowerCase()).join('\u0000');
+}
+
+type ItemNumberOwner = { resource: 'purchase_items' | 'inventory'; id: string; purchaseItemId: string };
+
+function normalizeItemNumber(value: unknown) {
+  if (value === undefined || value === null) return '';
+  return String(value).trim();
+}
+
+function itemNumberIdentity(value: unknown) {
+  return normalizeItemNumber(value).toLocaleLowerCase();
+}
+
+function areItemNumberMirrors(left: ItemNumberOwner, right: ItemNumberOwner) {
+  if (left.resource === right.resource) return false;
+  const purchaseItem = left.resource === 'purchase_items' ? left : right;
+  const inventory = left.resource === 'inventory' ? left : right;
+  return Boolean(purchaseItem.id) && inventory.purchaseItemId === purchaseItem.id;
+}
+
+function itemNumberOwner(resource: DataResource, raw: Record<string, unknown>): ItemNumberOwner | null {
+  if (resource.key !== 'purchase_items' && resource.key !== 'inventory') return null;
+  return {
+    resource: resource.key,
+    id: typeof raw.id === 'string' ? raw.id.trim() : '',
+    purchaseItemId: resource.key === 'purchase_items'
+      ? (typeof raw.id === 'string' ? raw.id.trim() : '')
+      : String(raw.purchaseItemId ?? '').trim(),
+  };
+}
+
+function getEffectiveItemNumber(resource: DataResource, raw: Record<string, unknown>, mode: 'insert' | 'upsert') {
+  if (Object.prototype.hasOwnProperty.call(raw, 'itemNumber')) return normalizeItemNumber(raw.itemNumber);
+  const id = typeof raw.id === 'string' ? raw.id.trim() : '';
+  if (mode === 'upsert' && id && ['purchase_items', 'inventory'].includes(resource.key)) {
+    const existing = db.prepare(`SELECT itemNumber FROM ${resource.table} WHERE id = ?`).get(id) as { itemNumber?: string | null } | undefined;
+    return normalizeItemNumber(existing?.itemNumber);
+  }
+  return '';
+}
+
+function validateItemNumber(resource: DataResource, raw: Record<string, unknown>, context: ImportValidationContext) {
+  if (!['purchase_items', 'inventory'].includes(resource.key)) return [];
+  const itemNumber = normalizeItemNumber(raw.itemNumber);
+  const errors: string[] = [];
+  if (raw.itemNumber !== undefined && raw.itemNumber !== null && typeof raw.itemNumber !== 'string') {
+    errors.push('编号必须是文本');
+  }
+  if (itemNumber.length > 120 || /[\r\n\u0000-\u001f\u007f]/.test(itemNumber)) {
+    errors.push('编号格式不正确（最多 120 个字符且不能包含控制字符或换行）');
+  }
+  const owner = itemNumberOwner(resource, raw);
+  if (!owner) return errors;
+  const current = context.mode === 'upsert' && owner.id
+    ? db.prepare(`SELECT itemNumber FROM ${resource.table} WHERE id = ?`).get(owner.id) as { itemNumber?: string | null } | undefined
+    : undefined;
+  if (current && Object.prototype.hasOwnProperty.call(raw, 'itemNumber') &&
+      !resource.writable.includes('itemNumber') && normalizeItemNumber(current.itemNumber) !== itemNumber) {
+    errors.push('编号属于采购/入库业务字段，不允许通过数据管理导入修改');
+  }
+  if (itemNumber) {
+    const identity = itemNumberIdentity(itemNumber);
+    const existingPurchaseItems = db.prepare(`SELECT id,itemNumber FROM purchase_items
+      WHERE itemNumber IS NOT NULL AND trim(itemNumber) <> '' AND lower(trim(itemNumber)) = lower(trim(?))`).all(itemNumber) as Array<{ id: string; itemNumber: string }>;
+    const existingInventory = db.prepare(`SELECT id,purchaseItemId,itemNumber FROM inventory
+      WHERE itemNumber IS NOT NULL AND trim(itemNumber) <> '' AND lower(trim(itemNumber)) = lower(trim(?))`).all(itemNumber) as Array<{ id: string; purchaseItemId: string; itemNumber: string }>;
+    const existingOwners: ItemNumberOwner[] = [
+      ...existingPurchaseItems.map(row => ({ resource: 'purchase_items' as const, id: row.id, purchaseItemId: row.id })),
+      ...existingInventory.map(row => ({ resource: 'inventory' as const, id: row.id, purchaseItemId: row.purchaseItemId })),
+    ];
+    for (const existing of existingOwners) {
+      const isSameRecord = context.mode === 'upsert' && owner.resource === existing.resource && owner.id && owner.id === existing.id;
+      if (isSameRecord || areItemNumberMirrors(owner, existing)) continue;
+      errors.push(`编号 [${itemNumber}] 已存在于其他记录，编号需全库唯一`);
+      break;
+    }
+
+    const seen = context.seenItemNumbers?.get(identity) || [];
+    if (seen.some(previous => !areItemNumberMirrors(owner, previous))) {
+      errors.push(`编号 [${itemNumber}] 在导入文件中重复`);
+    }
+    if (!seen.some(previous => previous.resource === owner.resource && previous.id === owner.id)) {
+      seen.push(owner);
+      context.seenItemNumbers?.set(identity, seen);
+    }
+  }
+
+  const effectiveNumber = getEffectiveItemNumber(resource, raw, context.mode);
+  const shouldCheckMirror = Object.prototype.hasOwnProperty.call(raw, 'itemNumber') || context.mode === 'insert';
+  if (shouldCheckMirror) {
+    const counterpart = resource.key === 'purchase_items'
+      ? context.payloadRecords?.get('inventory')?.get(owner.id)
+      : context.payloadRecords?.get('purchase_items')?.get(owner.purchaseItemId);
+    if (counterpart) {
+      const counterpartResource = resource.key === 'purchase_items' ? DATA_RESOURCES.inventory : DATA_RESOURCES.purchase_items;
+      const counterpartNumber = getEffectiveItemNumber(counterpartResource, counterpart, context.mode);
+      if (effectiveNumber !== counterpartNumber) errors.push('编号与关联的采购明细和库存机器不一致');
+    } else if (resource.key === 'inventory' && owner.purchaseItemId) {
+      const purchaseItem = db.prepare('SELECT id,itemNumber FROM purchase_items WHERE id = ?').get(owner.purchaseItemId) as { id: string; itemNumber?: string | null } | undefined;
+      if (purchaseItem && effectiveNumber !== normalizeItemNumber(purchaseItem.itemNumber)) errors.push('编号必须与关联的采购明细保持一致');
+    } else if (resource.key === 'purchase_items' && owner.id) {
+      const inventoryItems = db.prepare('SELECT id,itemNumber FROM inventory WHERE purchaseItemId = ?').all(owner.id) as Array<{ id: string; itemNumber?: string | null }>;
+      if (inventoryItems.some(item => effectiveNumber !== normalizeItemNumber(item.itemNumber))) errors.push('编号必须与关联的库存机器保持一致');
+    }
+  }
+  return errors;
 }
 
 function validateImportCompositeConflicts(resource: DataResource, raw: Record<string, unknown>, context: ImportValidationContext) {
@@ -555,6 +662,8 @@ export function validateImportRecord(
       errors.push(`字段 ${field} 已存在：${value}`);
     }
   }
+
+  errors.push(...validateItemNumber(resource, raw, context));
 
   for (const [field, foreignKey] of Object.entries(IMPORT_FOREIGN_KEYS[resource.key] || {})) {
     if (!nonEmptyImportValue(raw[field])) continue;

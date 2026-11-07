@@ -32,6 +32,7 @@ interface InventoryRow {
   purchaseItemId: string;
   purchaseNo: string | null;
   sn: string;
+  itemNumber: string | null;
   productType: string;
   brand: string;
   model: string;
@@ -69,6 +70,7 @@ const inventorySelect = `
     i.purchaseItemId,
     po.purchaseNo,
     i.sn,
+    i.itemNumber,
     i.productType,
     i.brand,
     i.model,
@@ -131,14 +133,14 @@ function getWhere(search: string, status: string, filters: InventoryFilters = {}
   if (search) {
     const pattern = `%${search}%`;
     conditions.push(`(
-      i.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR i.year LIKE ? OR
+      i.sn LIKE ? OR i.itemNumber LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR i.year LIKE ? OR
       i.cpu LIKE ? OR i.ram LIKE ? OR i.gpu LIKE ? OR
       i.storage LIKE ? OR i.screen LIKE ? OR i.supplierName LIKE ? OR
       po.purchaseNo LIKE ? OR i.saleOrderNo LIKE ? OR i.remark LIKE ? OR
       i.skuRemark LIKE ?
     )`);
     params.push(
-      pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern,
+      pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern,
       pattern, pattern, pattern, pattern, pattern, pattern,
     );
   }

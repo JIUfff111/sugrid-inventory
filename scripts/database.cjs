@@ -908,6 +908,8 @@ function applyVersionedMigrations(db) {
     `).run(options, now, options);
   });
   migrateWithoutForeignKeys(16, 'release inventory-purged purchase SNs while preserving purchase history', () => {
+    const purchaseItemColumns = db.pragma('table_info(purchase_items)').map(column => column.name);
+    const hasItemNumber = purchaseItemColumns.includes('itemNumber');
     const uniqueSnIndex = db.pragma('index_list(purchase_items)').some(index => {
       if (!index.unique || index.origin === 'pk') return false;
       const safeName = String(index.name).replaceAll('"', '""');
@@ -918,7 +920,7 @@ function applyVersionedMigrations(db) {
     if (uniqueSnIndex) {
       const columns = [
         'id', 'purchaseOrderId', 'productType', 'brand', 'model', 'year', 'cpu', 'ram', 'gpu',
-        'storage', 'screen', 'sn', 'purchasePrice', 'remark', 'deleted', 'createdAt', 'touchScreen',
+        'storage', 'screen', 'sn', ...(hasItemNumber ? ['itemNumber'] : []), 'purchasePrice', 'remark', 'deleted', 'createdAt', 'touchScreen',
         'skuRemark', 'skuId', 'recordedBy', 'manualSkuId',
       ];
       db.exec(`
@@ -936,6 +938,7 @@ function applyVersionedMigrations(db) {
           storage TEXT NOT NULL,
           screen TEXT NOT NULL,
           sn TEXT NOT NULL,
+          ${hasItemNumber ? 'itemNumber TEXT,' : ''}
           purchasePrice REAL NOT NULL,
           remark TEXT,
           deleted INTEGER NOT NULL DEFAULT 0,
@@ -958,9 +961,15 @@ function applyVersionedMigrations(db) {
       CREATE INDEX IF NOT EXISTS idx_purchase_items_recorded_sku ON purchase_items(recordedBy, skuId, deleted);
       CREATE INDEX IF NOT EXISTS idx_purchase_items_manual_sku ON purchase_items(manualSkuId, deleted);
     `);
+    if (hasItemNumber) {
+      db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_purchase_items_item_number
+        ON purchase_items(lower(trim(itemNumber)))
+        WHERE itemNumber IS NOT NULL AND trim(itemNumber) <> ''`);
+    }
   });
   migrateWithoutForeignKeys(17, 'allow inventory SN reuse after soft deletion', () => {
     const columns = db.pragma('table_info(inventory)').map(column => column.name);
+    const hasItemNumber = columns.includes('itemNumber');
     const quotedColumns = columns.map(column => `"${String(column).replaceAll('"', '""')}"`).join(',');
     db.exec(`
       ALTER TABLE inventory RENAME TO inventory_before_active_sn;
@@ -979,6 +988,7 @@ function applyVersionedMigrations(db) {
         gpu TEXT,
         storage TEXT NOT NULL,
         screen TEXT NOT NULL,
+        ${hasItemNumber ? 'itemNumber TEXT,' : ''}
         purchasePrice REAL NOT NULL,
         supplierId TEXT NOT NULL,
         supplierName TEXT NOT NULL,
@@ -1013,6 +1023,9 @@ function applyVersionedMigrations(db) {
       CREATE INDEX IF NOT EXISTS idx_inventory_current_status ON inventory(currentStatusRecordId);
       CREATE INDEX IF NOT EXISTS idx_inventory_manual_sku ON inventory(manualSkuId, deleted);
       CREATE INDEX IF NOT EXISTS idx_inventory_deleted_time ON inventory(deleted, deletedAt);
+      ${hasItemNumber ? `CREATE UNIQUE INDEX IF NOT EXISTS idx_inventory_item_number_active
+        ON inventory(lower(trim(itemNumber)))
+        WHERE deleted = 0 AND itemNumber IS NOT NULL AND trim(itemNumber) <> '';` : ''}
       CREATE TRIGGER IF NOT EXISTS prevent_stock_use_during_transfer BEFORE UPDATE OF status ON inventory
       WHEN OLD.status IN ('in_stock','custom') AND NEW.status != OLD.status AND EXISTS (
         SELECT 1 FROM transfer_items ti JOIN transfers t ON t.id = ti.transferId
@@ -1052,6 +1065,32 @@ function applyVersionedMigrations(db) {
     `).all();
     const now = new Date().toISOString().replace('T', ' ').slice(0, 19);
     for (const item of items) mergeManualSKUOptions(db, item, null, now);
+  });
+  migrate(23, 'add unique optional item numbers for inventoried assets', () => {
+    add('purchase_items', 'itemNumber', 'TEXT');
+    add('inventory', 'itemNumber', 'TEXT');
+    db.exec(`UPDATE purchase_items SET itemNumber = (
+      SELECT i.itemNumber FROM inventory i WHERE i.purchaseItemId = purchase_items.id
+        AND i.itemNumber IS NOT NULL AND trim(i.itemNumber) <> '' LIMIT 1
+    ) WHERE itemNumber IS NULL OR trim(itemNumber) = ''`);
+    db.exec(`UPDATE inventory SET itemNumber = (
+      SELECT pi.itemNumber FROM purchase_items pi WHERE pi.id = inventory.purchaseItemId
+        AND pi.itemNumber IS NOT NULL AND trim(pi.itemNumber) <> '' LIMIT 1
+    ) WHERE itemNumber IS NULL OR trim(itemNumber) = ''`);
+    db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_purchase_items_item_number
+      ON purchase_items(lower(trim(itemNumber)))
+      WHERE itemNumber IS NOT NULL AND trim(itemNumber) <> '';
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_inventory_item_number_active
+      ON inventory(lower(trim(itemNumber)))
+      WHERE deleted = 0 AND itemNumber IS NOT NULL AND trim(itemNumber) <> ''`);
+  });
+  migrate(24, 'ensure item number uniqueness indexes for purchase history and inventory', () => {
+    db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_purchase_items_item_number
+      ON purchase_items(lower(trim(itemNumber)))
+      WHERE itemNumber IS NOT NULL AND trim(itemNumber) <> '';
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_inventory_item_number_active
+      ON inventory(lower(trim(itemNumber)))
+      WHERE deleted = 0 AND itemNumber IS NOT NULL AND trim(itemNumber) <> ''`);
   });
 }
 

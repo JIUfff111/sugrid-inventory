@@ -47,6 +47,7 @@ interface MachineItem {
   screen: string;
   touchScreen?: boolean; // 可选：用户可以不选择
   sn: string;
+  itemNumber?: string;
   purchasePrice: number;
   remark: string;
   skuRemark?: string; // SKU 补充信息
@@ -533,6 +534,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           screen: item.screen || '',
           touchScreen: item.touchScreen,
           sn: item.sn || '',
+          itemNumber: item.itemNumber || '',
           purchasePrice: Number(item.purchasePrice) || 0,
           remark: item.remark || '',
           skuRemark: item.skuRemark || '',
@@ -585,6 +587,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       screen: config.screen,
       touchScreen: config.touchScreen,
       sn: config.sn || '',
+      itemNumber: config.itemNumber || '',
       purchasePrice: config.purchasePrice || 0,
       remark: '',
       skuRemark: config.skuRemark // SKU 补充信息
@@ -958,7 +961,10 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                       </div>
                       <div className="text-[12px] text-ink-soft space-y-1">
                         {item.productType === '显卡' ? (
-                          <div>显卡型号: {formatGPUDisplay(item.gpu) || '待填写'}</div>
+                          <>
+                            <div>显卡型号: {formatGPUDisplay(item.gpu) || '待填写'}</div>
+                            {item.itemNumber && <div>编号：{item.itemNumber}</div>}
+                          </>
                         ) : <>
                           <div>{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' / ') || '配置未补充'}</div>
                           <div className="flex flex-wrap gap-2">
@@ -1102,8 +1108,12 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                             className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                           />
                         </div>
-                        <label className="block">
-                          <span className="block text-[12px] font-medium text-ink-deep mb-1.5">采购价格</span>
+                        {editingMachineDraft.productType === '显卡' && <label className="block">
+                          <span className="block text-[12px] font-medium text-ink-deep mb-1.5">编号 <span className="text-ink-soft">（选填）</span></span>
+                          <input type="text" maxLength={120} value={editingMachineDraft.itemNumber || ''} onChange={event => updateEditingMachineDraft('itemNumber', event.target.value)} placeholder="选填，编号全库唯一" className="w-full rounded-lg border border-line bg-white px-3 py-2 text-[13px] placeholder:text-ink-soft/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                        </label>}
+                        <label className={editingMachineDraft.productType === '显卡' ? 'col-span-2 block' : 'block'}>
+                          <span className="block text-[12px] font-medium text-ink-deep mb-1.5">采购价格 {editingMachineDraft.productType === '显卡' && <span className="text-ink-soft">（选填，留空按 0 元）</span>}</span>
                           <input
                             type="number"
                             min="0"
@@ -1162,7 +1172,11 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                                    focus:ring-primary/20 focus:border-primary transition-all"
                         />
                       </div>
-                      <div>
+                      {item.productType === '显卡' && <label className="block">
+                        <span className="mb-1.5 block text-[12px] font-medium text-ink-deep">编号 <span className="text-ink-soft">（选填）</span></span>
+                        <input type="text" maxLength={120} value={item.itemNumber || ''} onChange={event => { const updated = [...machineItems]; updated[index].itemNumber = event.target.value; setMachineItems(updated); }} placeholder="选填，编号全库唯一" className="w-full rounded-lg border border-line bg-white px-3 py-2 text-[13px] placeholder:text-ink-soft/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                      </label>}
+                      <div className={item.productType === '显卡' ? 'col-span-2' : ''}>
                         <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                           采购价格 {item.productType === '显卡' ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}
                         </label>
@@ -1231,6 +1245,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           onCancel={() => setShowSKUSelector(false)}
           selectedMachineCount={machineItems.length}
           existingSNs={machineItems.map(item => item.sn)}
+      existingItemNumbers={machineItems.map(item => item.itemNumber || '')}
         />
       )}
 
@@ -1244,6 +1259,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           onCancel={() => setShowManualSKUSelector(false)}
           selectedMachineCount={machineItems.length}
           existingSNs={machineItems.map(item => item.sn)}
+      existingItemNumbers={machineItems.map(item => item.itemNumber || '')}
         />
       )}
 
@@ -1252,6 +1268,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
         <BatchInput
           presetConfig={batchPresetConfig || undefined}
           existingSNs={machineItems.map(item => item.sn)}
+          existingItemNumbers={machineItems.map(item => item.itemNumber || '')}
           onConfirm={handleBatchInputComplete}
           onCancel={() => {
             setShowBatchInput(false);
