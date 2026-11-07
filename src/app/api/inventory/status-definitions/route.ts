@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
-import { authErrorResponse, requireRole, requireUser } from '@/lib/auth';
+import { assertInventoryView, authErrorResponse, requireRole, requireUser } from '@/lib/auth';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
 
 function failure(error: unknown) {
@@ -18,7 +18,8 @@ function definition(body: Record<string, unknown>, current: Record<string, unkno
 }
 export async function GET(request: NextRequest) {
   try {
-    await requireUser();
+    const user = await requireUser();
+    assertInventoryView(user);
     const items = db.prepare(`SELECT * FROM inventory_status_definitions ${request.nextUrl.searchParams.get('active') === '1' ? 'WHERE isActive = 1' : ''} ORDER BY createdAt,id`).all();
     return NextResponse.json(successResponse({ items }));
   } catch (error) { return failure(error); }

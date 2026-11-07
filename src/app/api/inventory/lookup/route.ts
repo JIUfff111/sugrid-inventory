@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
     const user = await requireUser(); const query = request.nextUrl.searchParams;
     const context = query.get('context') || 'inventory';
     if (!contexts.includes(context)) return NextResponse.json(errorResponse('VALIDATION_ERROR','无效的机器查询用途'), { status: 400 });
+    if (user.role === 'viewer' && context !== 'inventory') return NextResponse.json(errorResponse('FORBIDDEN','普通用户只能查询库存信息'), { status: 403 });
     if (['inventory','movements','transfer','status-register'].includes(context)) assertInventoryView(user);
     if (user.role !== 'admin' && !['inventory','transfer','movements'].includes(context)) return NextResponse.json(errorResponse('FORBIDDEN','无权执行此机器查询'), { status: 403 });
     const q = (query.get('q') || query.get('search') || '').trim().slice(0,200);

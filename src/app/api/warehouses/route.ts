@@ -9,9 +9,14 @@ function authError(error: unknown) {
 
 export async function GET(request: NextRequest) {
   try {
-    const user = await requireRole('admin', 'warehouse_manager');
+    const user = await requireRole('admin', 'warehouse_manager', 'viewer');
     if (request.nextUrl.searchParams.get('resource') === 'transfer-targets') {
+      if (user.role === 'viewer') throw new AuthError('FORBIDDEN', '普通用户无权查看调拨目标');
       return NextResponse.json(successResponse(db.prepare("SELECT id, code, name, status FROM warehouses WHERE status = 'active' ORDER BY isDefault DESC, name").all()));
+    }
+    if (user.role === 'viewer') {
+      const rows = db.prepare("SELECT id, code, COALESCE(name, warehouseName, code) AS name, status, isDefault FROM warehouses WHERE status = 'active' ORDER BY isDefault DESC, name COLLATE NOCASE").all();
+      return NextResponse.json(successResponse(rows));
     }
     const rows = user.role === 'admin'
       ? db.prepare("SELECT id, code, COALESCE(name, warehouseName, code) AS name, address, remark, status, isDefault, createdAt, updatedAt FROM warehouses ORDER BY isDefault DESC, name COLLATE NOCASE").all()

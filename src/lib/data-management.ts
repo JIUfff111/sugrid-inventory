@@ -253,6 +253,14 @@ const IMPORT_AUDIT_FIELD_LABELS: Record<string, string> = {
 
 export type ImportNormalization = { record: Record<string, unknown>; warnings: string[] };
 
+/** Viewer permissions are fixed even when an imported file contains stale or elevated flags. */
+export function forceViewerPermissions(data: Record<string, unknown>, existingRole?: string) {
+  if (String(data.role ?? existingRole ?? '') === 'viewer') {
+    data.canViewInventory = 1;
+    data.canEditInventory = 0;
+  }
+}
+
 /**
  * A resource export can be moved between databases where the source account
  * IDs do not exist. Audit references are metadata, so keep them when they
@@ -267,6 +275,16 @@ export function normalizeImportRecord(
 ): ImportNormalization {
   const record = { ...raw };
   const warnings: string[] = [];
+  if (resource.key === 'users') {
+    const id = String(record.id ?? '').trim();
+    const existingRole = id ? (db.prepare('SELECT role FROM users WHERE id = ?').get(id) as { role: string } | undefined)?.role : undefined;
+    if (String(record.role ?? existingRole ?? '') === 'viewer' &&
+        ((record.canViewInventory !== undefined && Number(record.canViewInventory) !== 1) ||
+         (record.canEditInventory !== undefined && Number(record.canEditInventory) !== 0))) {
+      warnings.push('普通用户库存权限已固定为仅查看');
+    }
+    forceViewerPermissions(record, existingRole);
+  }
   if (!actorId) return { record, warnings };
   const userIds = incomingIds.get('users') || new Set<string>();
   for (const field of IMPORT_USER_REFERENCE_FIELDS[resource.key] || []) {
@@ -558,6 +576,7 @@ export function validateImportRecord(
     const incomingUser = context.payloadRecords?.get('users')?.get(userId);
     const user = incomingUser || db.prepare('SELECT role FROM users WHERE id = ?').get(userId) as { role?: string } | undefined;
     if (user?.role === 'admin') errors.push('管理员已拥有全部仓库权限，无需单独分配');
+    if (user?.role === 'viewer') errors.push('普通用户查看全部仓库库存，无需分配仓库权限');
   }
 
   return [...new Set(errors)];
@@ -580,7 +599,7 @@ export function validateManagedUserMutation(data: Record<string, unknown>, exist
     const conflict = db.prepare('SELECT id FROM users WHERE username = ? COLLATE NOCASE AND id <> ?').get(username, existing?.id || '') as { id: string } | undefined;
     if (conflict) errors.push('账号已存在');
   }
-  if (data.role !== undefined && !['admin', 'warehouse_manager'].includes(String(data.role))) errors.push('角色不受支持');
+  if (data.role !== undefined && !['admin', 'warehouse_manager', 'viewer'].includes(String(data.role))) errors.push('角色不受支持');
   if (data.status !== undefined && !['active', 'pending', 'rejected', 'disabled', 'deleted'].includes(String(data.status))) errors.push('账号状态不受支持');
   if (existing?.isSystemAccount && (data.role !== undefined || data.status !== undefined)) {
     if (data.role !== undefined && String(data.role) !== existing.role) errors.push('内置系统管理员的角色不能修改');

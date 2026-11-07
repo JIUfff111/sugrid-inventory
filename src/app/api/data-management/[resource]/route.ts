@@ -3,7 +3,7 @@ import db from '@/lib/db';
 import { authErrorResponse, hashPassword, requireSystemAccount } from '@/lib/auth';
 import { ErrorCode, errorResponse, generateId, successResponse, formatDateTime } from '@/lib/api-helpers';
 import {
-  createBackup, deletionReferences, getResource, listResource, normalizeValue, recordExists, sanitizeRecord, sanitizeRow,
+  createBackup, deletionReferences, forceViewerPermissions, getResource, listResource, normalizeValue, recordExists, sanitizeRecord, sanitizeRow,
   validateImportRecord, validateManagedUserMutation, validateRecord, writeAudit, type DataResource,
 } from '@/lib/data-management';
 
@@ -74,6 +74,7 @@ export async function POST(request: NextRequest, { params }: Params) {
     if (rejected.length) return bad(`字段不允许新增：${rejected.join('、')}`);
     const id = typeof raw.id === 'string' && raw.id.trim() ? raw.id.trim() : generateId(resource.key.replace(/s$/, ''));
     const source = { ...raw, id };
+    if (resource.key === 'users') forceViewerPermissions(source);
     const inputErrors = validateImportRecord(resource, source, {
       mode: 'insert',
       incomingIds: new Map([[resource.key, new Set([id])]]),
@@ -97,6 +98,7 @@ export async function POST(request: NextRequest, { params }: Params) {
       const warehouse = db.prepare("SELECT status FROM warehouses WHERE id = ?").get(data.warehouseId) as { status: string } | undefined;
       if (!warehouse || warehouse.status !== 'active') return bad('仓库不存在或已停用');
       if (user.role === 'admin') return bad('管理员已拥有全部仓库权限，无需单独分配');
+      if (user.role === 'viewer') return bad('普通用户查看全部仓库库存，无需分配仓库权限');
       if (db.prepare('SELECT id FROM user_warehouses WHERE userId = ? AND warehouseId = ?').get(data.userId, data.warehouseId)) return bad('该账号已拥有此仓库权限', 409);
     }
     if (resource.key === 'warehouses') {
@@ -161,6 +163,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       if (!user) return bad('用户不存在');
       if (!warehouse) return bad('仓库不存在或已停用');
       if (user.role === 'admin') return bad('管理员已拥有全部仓库权限，无需单独分配');
+      if (user.role === 'viewer') return bad('普通用户查看全部仓库库存，无需分配仓库权限');
       if (db.prepare('SELECT id FROM user_warehouses WHERE userId = ? AND warehouseId = ? AND id <> ?').get(userId, warehouseId, id)) return bad('该账号已拥有此仓库权限', 409);
     }
     if (resource.key === 'warehouses') {
@@ -180,6 +183,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     const current = resource.key === 'users'
       ? db.prepare('SELECT role, status, isSystemAccount FROM users WHERE id = ?').get(id) as { role: string; status: string; isSystemAccount: number } | undefined
       : undefined;
+    if (resource.key === 'users') forceViewerPermissions(data, current?.role);
     if (resource.key === 'users' && current?.isSystemAccount && (data.role !== undefined || data.status !== undefined)) {
       return NextResponse.json(errorResponse(ErrorCode.FORBIDDEN, '内置系统管理员的角色和状态不能修改'), { status: 403 });
     }
@@ -214,7 +218,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
         result = db.prepare(`UPDATE ${resource.table} SET ${fields.map((field) => `${field} = ?`).join(', ')} WHERE id = ?`).run(...values, id);
       }
       if (result.changes !== 1) throw new Error('记录已发生变化，请刷新后重试');
-      if (securityChanged) {
+      const clearedViewerAssignments = resource.key === 'users' && String(data.role ?? current?.role) === 'viewer'
+        ? db.prepare('DELETE FROM user_warehouses WHERE userId = ?').run(id).changes > 0
+        : false;
+      if (securityChanged || clearedViewerAssignments) {
         db.prepare('UPDATE sessions SET revokedAt = ? WHERE userId = ? AND revokedAt IS NULL').run(formatDateTime(), id);
       }
       writeAudit(actor.id, 'update', resource.key, id, { recordCount: 1, fields: Object.keys(data) });

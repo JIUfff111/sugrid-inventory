@@ -85,6 +85,7 @@ export async function buildImportReport(resourceKey: string | null, content: unk
         const user = db.prepare('SELECT role FROM users WHERE id = ?').get(userId) as { role: string } | undefined;
         const warehouse = db.prepare('SELECT status FROM warehouses WHERE id = ?').get(warehouseId) as { status: string } | undefined;
         if (user?.role === 'admin') errors.push('管理员已拥有全部仓库权限，无需单独分配');
+        if (user?.role === 'viewer') errors.push('普通用户查看全部仓库库存，无需分配仓库权限');
         if (warehouse && warehouse.status !== 'active') errors.push('只能给账号分配启用中的仓库');
       }
       if (errors.length) {

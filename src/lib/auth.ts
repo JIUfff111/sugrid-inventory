@@ -13,7 +13,7 @@ import db from '@/lib/db';
 export const SESSION_COOKIE = 'inventory_session';
 export const SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 
-export const USER_ROLES = ['admin', 'warehouse_manager'] as const;
+export const USER_ROLES = ['admin', 'warehouse_manager', 'viewer'] as const;
 export type UserRole = (typeof USER_ROLES)[number];
 export type UserStatus = 'pending' | 'active' | 'rejected' | 'disabled' | 'deleted';
 
@@ -100,12 +100,13 @@ export function userFromRow(row: Record<string, unknown> | undefined): AuthUser 
     role: String(row.role || 'warehouse_manager'),
     status: String(row.status || 'pending'),
     isSystemAccount: Number(row.isSystemAccount || 0) === 1,
-    canViewInventory: Number(row.isSystemAccount || 0) === 1 || row.canViewInventory === undefined || Number(row.canViewInventory) === 1,
-    canEditInventory: Number(row.isSystemAccount || 0) === 1 || Number(row.canEditInventory || 0) === 1,
+    canViewInventory: String(row.role) === 'viewer' || Number(row.isSystemAccount || 0) === 1 || row.canViewInventory === undefined || Number(row.canViewInventory) === 1,
+    canEditInventory: String(row.role) !== 'viewer' && (Number(row.isSystemAccount || 0) === 1 || Number(row.canEditInventory || 0) === 1),
     createdAt: String(row.createdAt || ''),
     updatedAt: row.updatedAt == null ? undefined : String(row.updatedAt),
     warehouses: [],
   } as AuthUser;
+  if (user.role === 'viewer') return user;
   user.warehouses = db.prepare(`
     SELECT w.id, w.code, COALESCE(w.name, w.warehouseName, w.code) AS name,
       w.status, w.isDefault
@@ -277,7 +278,7 @@ export function assertInventoryView(user: AuthUser) {
 }
 
 export function assertInventoryEdit(user: AuthUser) {
-  if (!user.isSystemAccount && (!user.canViewInventory || !user.canEditInventory)) {
+  if (user.role === 'viewer' || (!user.isSystemAccount && (!user.canViewInventory || !user.canEditInventory))) {
     throw new AuthError('FORBIDDEN', '该账号没有编辑库存机器的权限');
   }
 }
@@ -289,7 +290,7 @@ export function authErrorResponse(error: unknown) {
 
 export function assertWarehouseAccess(user: AuthUser, warehouseId: string) {
   const warehouse = db.prepare("SELECT id FROM warehouses WHERE id = ? AND status = 'active'").get(warehouseId);
-  if (!warehouse || (user.role !== 'admin' && !user.warehouses.some(w => w.id === warehouseId && w.status === 'active'))) {
+  if (!warehouse || (!['admin', 'viewer'].includes(user.role) && !user.warehouses.some(w => w.id === warehouseId && w.status === 'active'))) {
     throw new AuthError('FORBIDDEN', '无权访问该仓库');
   }
 }
@@ -301,7 +302,7 @@ export function warehouseScope(user: AuthUser, requestedId?: string | null, alia
     assertWarehouseAccess(user, requestedId);
     return { sql: column + ' = ?', params: [requestedId] };
   }
-  if (user.role === 'admin') return { sql: '1 = 1', params: [] };
+  if (user.role === 'admin' || user.role === 'viewer') return { sql: '1 = 1', params: [] };
   const ids = user.warehouses.filter(w => w.status === 'active').map(w => w.id);
   return ids.length ? { sql: column + ' IN (' + ids.map(() => '?').join(',') + ')', params: ids } : { sql: '0 = 1', params: [] };
 }

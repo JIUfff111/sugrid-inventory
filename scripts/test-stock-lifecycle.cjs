@@ -23,6 +23,7 @@ async function main() {
     let token = null;
     const auth = load('src/lib/auth.ts', { '@/lib/db': database, '@/lib/api-helpers': load('src/lib/api-helpers.ts'), 'next/headers': { cookies: async () => ({ get: () => token ? { value: token } : undefined }) } });
     const deps = { '@/lib/db': database, '@/lib/auth': auth, '@/lib/api-helpers': load('src/lib/api-helpers.ts'), '@/lib/sku-brand': load('src/lib/sku-brand.ts'), '@/lib/sku-display': load('src/lib/sku-display.ts') };
+    deps['@/lib/manual-sku-options'] = load('src/lib/manual-sku-options.ts');
     deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
     const routes = Object.fromEntries(['sales', 'purchase-orders', 'returns', 'sales-returns', 'after-sales'].map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));
     async function call(name, method, body, expected = 200, query = '') {

@@ -237,7 +237,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(successResponse({
         statusDefinitions,
         brands: brands.map((item) => item.value),
-        editBrands: [...new Set(editBrands.map((item) => canonicalSKUBrand(item.value)))].sort((a, b) => a.localeCompare(b, 'zh-CN')),
+        editBrands: user.role === 'viewer' ? [] : [...new Set(editBrands.map((item) => canonicalSKUBrand(item.value)))].sort((a, b) => a.localeCompare(b, 'zh-CN')),
         models: models.map((item) => item.value),
         suppliers,
       }));

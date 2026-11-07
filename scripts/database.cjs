@@ -660,7 +660,7 @@ function applyVersionedMigrations(db) {
       BEGIN SELECT RAISE(ABORT, '该机器有进行中的调拨申请，请先处理或取消调拨'); END;`);
   });
   migrate(3, 'restrict legacy roles to supported permissions', () => {
-    db.prepare("UPDATE users SET role = 'warehouse_manager' WHERE role NOT IN ('admin','warehouse_manager')").run();
+    db.prepare("UPDATE users SET role = 'warehouse_manager' WHERE role NOT IN ('admin','warehouse_manager','viewer')").run();
     db.prepare("INSERT OR IGNORE INTO user_warehouses(userId,warehouseId) SELECT id,'warehouse_main' FROM users WHERE role = 'admin'").run();
   });
   migrate(4, 'custom inventory status and operational eligibility', () => {

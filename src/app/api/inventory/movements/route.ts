@@ -6,12 +6,15 @@ import { inventoryMovementLabel } from '@/lib/inventory-movement-labels';
 
 export async function GET(request: NextRequest) {
   try {
-    const user = await requireRole('admin', 'warehouse_manager');
+    const user = await requireRole('admin', 'warehouse_manager', 'viewer');
     assertInventoryView(user);
     const { searchParams } = new URL(request.url);
     const { page, pageSize } = parsePaginationParams(searchParams);
     const conditions = ['1 = 1']; const params: Array<string | number> = [];
     const inventoryId = searchParams.get('inventoryId')?.trim() || '';
+    if (user.role === 'viewer' && (!inventoryId || searchParams.get('format') === 'csv')) {
+      throw new AuthError('FORBIDDEN', '普通用户只能查看单台库存机器的履历');
+    }
     const sn = searchParams.get('sn')?.trim() || '';
     const warehouseId = searchParams.get('warehouseId')?.trim() || '';
     const movementType = searchParams.get('movementType')?.trim() || '';
@@ -25,7 +28,9 @@ export async function GET(request: NextRequest) {
     if (dateFrom) { conditions.push('m.createdAt >= ?'); params.push(dateFrom); }
     if (dateTo) { conditions.push('m.createdAt <= ?'); params.push(`${dateTo} 23:59:59`); }
     if (actor) { conditions.push('(u.realName LIKE ? OR u.username LIKE ?)'); params.push(`%${actor}%`, `%${actor}%`); }
-    if (user.role !== 'admin') {
+    if (user.role === 'viewer') {
+      conditions.push('i.deleted = 0');
+    } else if (user.role !== 'admin') {
       conditions.push('(m.warehouseId IN (SELECT warehouseId FROM user_warehouses WHERE userId = ?) OR m.fromWarehouseId IN (SELECT warehouseId FROM user_warehouses WHERE userId = ?) OR m.toWarehouseId IN (SELECT warehouseId FROM user_warehouses WHERE userId = ?))');
       params.push(user.id, user.id, user.id);
     }

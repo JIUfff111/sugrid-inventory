@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { authErrorResponse, hashPassword, requireSystemAccount } from '@/lib/auth';
 import { errorResponse, generateId, formatDateTime, successResponse } from '@/lib/api-helpers';
 import db from '@/lib/db';
-import { createBackup, getResource, importPayload, normalizeImportRecord, normalizeValue, sanitizeRecord, validateManagedUserMutation, writeAudit, dbIntegrityErrors } from '@/lib/data-management';
+import { createBackup, forceViewerPermissions, getResource, importPayload, normalizeImportRecord, normalizeValue, sanitizeRecord, validateManagedUserMutation, writeAudit, dbIntegrityErrors } from '@/lib/data-management';
 import { buildImportReport } from './preview/route';
 
 function insertRecord(resource: ReturnType<typeof getResource>, raw: Record<string, unknown>, actorId: string) {
@@ -14,6 +14,7 @@ function insertRecord(resource: ReturnType<typeof getResource>, raw: Record<stri
   if (resource.key === 'users') {
     clean.isSystemAccount = 0;
     clean.status = 'pending';
+    forceViewerPermissions(clean);
   }
   const columns = Object.keys(clean);
   const values = columns.map((key) => normalizeValue(clean[key]));
@@ -34,6 +35,7 @@ function updateRecord(resource: NonNullable<ReturnType<typeof getResource>>, raw
   if (resource.key === 'users') {
     const current = db.prepare('SELECT id, role, status, isSystemAccount FROM users WHERE id = ?').get(id) as { id: string; role: string; status: string; isSystemAccount: number } | undefined;
     if (!current) throw new Error('用户记录不存在');
+    forceViewerPermissions(clean, current.role);
     const userErrors = validateManagedUserMutation(clean, current, hasIncomingWarehouseAssignment);
     if (userErrors.length) throw new Error(userErrors.join('；'));
     securityChanged = (clean.role !== undefined && String(clean.role) !== current.role) ||
@@ -44,6 +46,9 @@ function updateRecord(resource: NonNullable<ReturnType<typeof getResource>>, raw
   if (!fields.length) return;
   const values = fields.map((field) => field === 'updatedAt' ? formatDateTime() : normalizeValue(clean[field]));
   db.prepare(`UPDATE ${resource.table} SET ${fields.map((field) => `${field} = ?`).join(', ')} WHERE id = ?`).run(...values, id);
+  if (resource.key === 'users' && String(clean.role ?? (db.prepare('SELECT role FROM users WHERE id = ?').get(id) as { role: string }).role) === 'viewer') {
+    db.prepare('DELETE FROM user_warehouses WHERE userId = ?').run(id);
+  }
   if (securityChanged) db.prepare('UPDATE sessions SET revokedAt = ? WHERE userId = ? AND revokedAt IS NULL').run(formatDateTime(), id);
 }
 
@@ -104,6 +109,7 @@ export async function POST(request: NextRequest) {
               if (!user) throw new Error('仓库权限对应用户不存在');
               if (!warehouse || warehouse.status !== 'active') throw new Error('只能给账号分配启用中的仓库');
               if (user.role === 'admin') throw new Error('管理员已拥有全部仓库权限，无需单独分配');
+              if (user.role === 'viewer') throw new Error('普通用户查看全部仓库库存，无需分配仓库权限');
               if (db.prepare('SELECT id FROM user_warehouses WHERE userId = ? AND warehouseId = ? AND id <> ?').get(userId, warehouseId, id)) throw new Error('该账号已拥有此仓库权限');
               const oldUser = db.prepare('SELECT role, status FROM users WHERE id = ?').get(current?.userId) as { role: string; status: string } | undefined;
               const oldRemaining = Number((db.prepare('SELECT COUNT(*) AS total FROM user_warehouses WHERE userId = ? AND id <> ?').get(current?.userId, id) as { total: number }).total || 0);
@@ -123,6 +129,7 @@ export async function POST(request: NextRequest) {
               if (!user) throw new Error('仓库权限对应用户不存在');
               if (!warehouse || warehouse.status !== 'active') throw new Error('只能给账号分配启用中的仓库');
               if (user.role === 'admin') throw new Error('管理员已拥有全部仓库权限，无需单独分配');
+              if (user.role === 'viewer') throw new Error('普通用户查看全部仓库库存，无需分配仓库权限');
               if (db.prepare('SELECT id FROM user_warehouses WHERE userId = ? AND warehouseId = ?').get(userId, warehouseId)) throw new Error('该账号已拥有此仓库权限');
               db.prepare('INSERT INTO user_warehouses (id,userId,warehouseId,createdBy,createdAt) VALUES (?,?,?,?,?)').run(id || generateId('uw'), userId, warehouseId, actor.id, formatDateTime());
             } else {

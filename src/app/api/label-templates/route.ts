@@ -1,4 +1,4 @@
-import { requireRole, requireUser, authErrorResponse } from '@/lib/auth';
+import { requireRole, authErrorResponse } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
@@ -328,7 +328,7 @@ function currentUserId() {
 
 export async function GET() {
   try {
-    await requireUser();
+    await requireRole('admin', 'warehouse_manager');
     ensureDefaultTemplate();
     const rows = db.prepare(`
       SELECT id, templateName, templateType, width, height, orientation, fields, isDefault, createdAt, updatedAt

@@ -82,10 +82,11 @@ export async function POST(request: NextRequest) {
     if (!(USER_ROLES as readonly string[]).includes(role)) throw new Error('角色不正确');
     if (!['pending', 'active', 'rejected', 'disabled'].includes(status)) throw new Error('用户状态不正确');
     if (db.prepare('SELECT id FROM users WHERE username = ? COLLATE NOCASE').get(username)) return NextResponse.json(errorResponse(ErrorCode.DUPLICATE_ENTRY, '用户名已存在'), { status: 409 });
-    const ids = warehouseIds(body), now = new Date().toISOString(), id = generateId('user');
+    const ids = role === 'viewer' ? [] : warehouseIds(body);
+    const now = new Date().toISOString(), id = generateId('user');
     assertAssigned(role, status, ids ?? []);
-    const canEditInventory = permissionValue(body.canEditInventory, role === 'admin');
-    const canViewInventory = canEditInventory || permissionValue(body.canViewInventory, true);
+    const canEditInventory = role === 'viewer' ? false : permissionValue(body.canEditInventory, role === 'admin');
+    const canViewInventory = role === 'viewer' || canEditInventory || permissionValue(body.canViewInventory, true);
     db.transaction(() => {
       db.prepare('INSERT INTO users (id, username, password, realName, role, status, canViewInventory, canEditInventory, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(id, username, hashPassword(password), realName || null, role, status, Number(canViewInventory), Number(canEditInventory), now, now);
       assign(id, ids, actor.id, now);
@@ -108,12 +109,13 @@ export async function PATCH(request: NextRequest) {
     if (existing.isSystemAccount && (body.canViewInventory !== undefined || body.canEditInventory !== undefined)) throw new Error('内置系统管理员始终拥有完整库存权限');
     if (!(USER_ROLES as readonly string[]).includes(role)) throw new Error('角色不正确');
     if (!['pending', 'active', 'rejected', 'disabled'].includes(status)) throw new Error('用户状态不正确');
-    const ids = warehouseIds(body), now = new Date().toISOString();
+    const ids = role === 'viewer' ? [] : warehouseIds(body);
+    const now = new Date().toISOString();
     const password = body.newPassword ?? body.password;
     if (existing.isSystemAccount && actor.id !== id && password !== undefined) throw new AuthError('FORBIDDEN', '不能重置内置系统管理员的密码');
     const realName = body.realName === undefined ? existing.realName : typeof body.realName === 'string' ? body.realName.trim() || null : null;
-    const canEditInventory = existing.isSystemAccount ? true : permissionValue(body.canEditInventory, existing.canEditInventory);
-    const canViewInventory = existing.isSystemAccount ? true : canEditInventory || permissionValue(body.canViewInventory, existing.canViewInventory);
+    const canEditInventory = role === 'viewer' ? false : existing.isSystemAccount ? true : permissionValue(body.canEditInventory, existing.canEditInventory);
+    const canViewInventory = role === 'viewer' || existing.isSystemAccount || canEditInventory || permissionValue(body.canViewInventory, existing.canViewInventory);
     if (body.realName !== undefined && typeof body.realName !== 'string') throw new Error('姓名格式不正确');
     if ((realName?.length ?? 0) > 80) throw new Error('姓名不能超过 80 个字符');
     if (password !== undefined && (typeof password !== 'string' || password.length < 8 || password.length > 200)) throw new Error('密码长度应为 8-200 个字符');
@@ -122,7 +124,8 @@ export async function PATCH(request: NextRequest) {
     assertAssigned(role, status, ids ?? previousIds);
     const previousPassword = (db.prepare('SELECT password FROM users WHERE id = ?').get(id) as {password:string}).password;
     const passwordChanged = typeof password === 'string' && !verifyPassword(password, previousPassword);
-    const inventoryPermissionsChanged = canViewInventory !== existing.canViewInventory || canEditInventory !== existing.canEditInventory;
+    const persistedPermissions = db.prepare('SELECT canViewInventory, canEditInventory FROM users WHERE id = ?').get(id) as { canViewInventory: number; canEditInventory: number };
+    const inventoryPermissionsChanged = Number(canViewInventory) !== persistedPermissions.canViewInventory || Number(canEditInventory) !== persistedPermissions.canEditInventory;
     const permissionsChanged = role !== existing.role || status !== existing.status || assignmentsChanged || inventoryPermissionsChanged;
     const changed = permissionsChanged || passwordChanged || realName !== existing.realName;
     db.transaction(() => {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
-import { assertInventoryView, assertWarehouseAccess, authErrorResponse, requireRole, requireUser, warehouseScope } from '@/lib/auth';
+import { assertInventoryView, assertWarehouseAccess, authErrorResponse, AuthError, requireRole, requireUser, warehouseScope } from '@/lib/auth';
 import { endCustomStatus, serializeInventoryStatus } from '@/lib/inventory-status';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
 
@@ -10,10 +10,11 @@ function failure(error: unknown) {
 export async function GET(request: NextRequest) {
   try {
     const user = await requireUser(); assertInventoryView(user); const inventoryId = request.nextUrl.searchParams.get('inventoryId');
+    if (user.role === 'viewer' && !inventoryId?.trim()) throw new AuthError('FORBIDDEN', '普通用户只能查看单台库存机器的状态记录');
     const scope = warehouseScope(user,null,'i');
     const items = db.prepare(`SELECT r.*,d.name,d.color,d.allowStockOperations,i.sn,i.brand,i.model,i.year,i.warehouseId AS currentWarehouseId FROM inventory_status_records r
       JOIN inventory i ON i.id = r.inventoryId JOIN inventory_status_definitions d ON d.id = r.definitionId
-      WHERE ${scope.sql} ${inventoryId ? 'AND r.inventoryId = ?' : ''} ORDER BY r.createdAt DESC LIMIT 1000`).all(...scope.params,...(inventoryId ? [inventoryId] : []));
+      WHERE ${scope.sql} ${user.role === 'viewer' ? 'AND i.deleted = 0' : ''} ${inventoryId ? 'AND r.inventoryId = ?' : ''} ORDER BY r.createdAt DESC LIMIT 1000`).all(...scope.params,...(inventoryId ? [inventoryId] : []));
     return NextResponse.json(successResponse({ items }));
   } catch (error) { return failure(error); }
 }

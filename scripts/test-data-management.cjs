@@ -62,6 +62,7 @@ async function main() {
       '@/lib/inventory-status': inventoryStatus,
       '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
       '@/lib/sku-display': load('src/lib/sku-display.ts'),
+      '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
     };
     const previewImport = load('src/app/api/data-management/import/preview/route.ts', routeDeps);
     const routes = {
@@ -135,6 +136,33 @@ async function main() {
     const resources = await call(routes.resources.GET, '/api/data-management/resources');
     assert(resources.some(item => item.key === 'login_events'));
     assert.equal(resources.find(item => item.key === 'purchase_orders')?.deletable, true);
+    const createdViewer = await call(routes.resource.POST, '/api/data-management/users', 'POST', {
+      id: 'dm-viewer', username: 'dm-viewer', role: 'viewer', status: 'active',
+      canViewInventory: 0, canEditInventory: 1,
+    }, 201, { params: Promise.resolve({ resource: 'users' }) });
+    assert.equal(createdViewer.role, 'viewer');
+    assert.equal(createdViewer.status, 'pending', 'data management users must still require password setup');
+    assert.deepEqual(db.prepare('SELECT canViewInventory, canEditInventory FROM users WHERE id = ?').get('dm-viewer'), { canViewInventory: 1, canEditInventory: 0 });
+    const updatedViewer = await call(routes.resource.PATCH, '/api/data-management/users', 'PATCH', {
+      id: 'dm-viewer', canViewInventory: 0, canEditInventory: 1,
+    }, 200, { params: Promise.resolve({ resource: 'users' }) });
+    assert.equal(updatedViewer.role, 'viewer');
+    assert.deepEqual(db.prepare('SELECT canViewInventory, canEditInventory FROM users WHERE id = ?').get('dm-viewer'), { canViewInventory: 1, canEditInventory: 0 });
+    await call(routes.resource.POST, '/api/data-management/user_warehouses', 'POST', {
+      id: 'dm-viewer-warehouse', userId: 'dm-viewer', warehouseId: 'warehouse_main',
+    }, 400, { params: Promise.resolve({ resource: 'user_warehouses' }) });
+    const viewerAssignmentPreview = await call(routes.importPreview.POST, '/api/data-management/import/preview', 'POST', {
+      resource: 'user_warehouses', mode: 'insert', content: { id: 'dm-viewer-warehouse', userId: 'dm-viewer', warehouseId: 'warehouse_main' },
+    });
+    assert.equal(viewerAssignmentPreview.canApply, false);
+    assert(JSON.stringify(viewerAssignmentPreview.reports[0].errors).includes('普通用户'));
+    db.prepare("INSERT INTO users(id,username,password,role,status) VALUES ('dm-demote','dm-demote','test','warehouse_manager','active')").run();
+    db.prepare("INSERT INTO user_warehouses(id,userId,warehouseId) VALUES ('dm-demote-warehouse','dm-demote','warehouse_main')").run();
+    const demotedViewer = await call(routes.resource.PATCH, '/api/data-management/users', 'PATCH', {
+      id: 'dm-demote', role: 'viewer', canEditInventory: 1,
+    }, 200, { params: Promise.resolve({ resource: 'users' }) });
+    assert.equal(demotedViewer.role, 'viewer');
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM user_warehouses WHERE userId = ?').get('dm-demote').count, 0);
     for (const resource of dataManagement.DATA_RESOURCE_KEYS) {
       const listed = await call(routes.resource.GET, `/api/data-management/${resource}?pageSize=1`, 'GET', undefined, 200, { params: Promise.resolve({ resource }) });
       assert(Array.isArray(listed.items), `${resource} should return a row list`);
