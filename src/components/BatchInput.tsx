@@ -85,6 +85,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     message: ''
   });
   const computerSpecsRequired = requiresComputerSpecs(baseConfig.productType);
+  const isGraphicsCard = baseConfig.productType === '显卡';
 
   // 添加一行
   const handleAddRow = () => {
@@ -122,7 +123,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
   const handleSubmit = (mode: 'close' | 'continue') => {
     // 验证通用配置
     if (!baseConfig.brand || !baseConfig.model ||
-        (computerSpecsRequired && (!baseConfig.cpu || !baseConfig.ram))) {
+        (computerSpecsRequired && (!baseConfig.cpu || !baseConfig.ram)) ||
+        (isGraphicsCard && !baseConfig.gpu.trim())) {
       setToast({ show: true, message: '请填写完整的通用配置' });
       return;
     }
@@ -145,6 +147,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     // 组装数据
     const machines = rows.map(row => ({
       ...baseConfig,
+      ...(isGraphicsCard ? { cpu: '', ram: '', storage: '', screen: '', touchScreen: undefined } : {}),
       sn: row.sn,
       purchasePrice: row.purchasePrice,
       remark: row.remark
@@ -153,7 +156,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
     onConfirm(machines, mode);
     if (mode === 'continue') {
       setRows([{ id: `${Date.now()}-next`, sn: '', purchasePrice: 0, remark: '' }]);
-      setToast({ show: true, message: `已添加 ${machines.length} 台机器，可继续录入` });
+      setToast({ show: true, message: `已添加 ${machines.length} ${isGraphicsCard ? '张显卡' : '台机器'}，可继续录入` });
     }
   };
 
@@ -171,9 +174,9 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
           {/* 标题栏 */}
           <div className="px-6 py-4 border-b border-line flex items-center justify-between flex-shrink-0">
             <div>
-              <h2 className="text-lg font-semibold text-ink-deep">批量录入机器</h2>
+              <h2 className="text-lg font-semibold text-ink-deep">{isGraphicsCard ? '批量录入显卡' : '批量录入机器'}</h2>
               <p className="text-[13px] text-ink-soft mt-0.5">
-                同型号同配置，批量录入多台机器
+                {isGraphicsCard ? '同型号同规格，批量录入多张显卡' : '同型号同配置，批量录入多台机器'}
               </p>
             </div>
             <button
@@ -199,34 +202,36 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                     <span className="text-ink-soft">品牌型号：</span>
                     <span className="font-medium text-ink-deep">{formatProductName(presetConfig)}</span>
                   </div>
-                  <div>
-                    <span className="text-ink-soft">CPU：</span>
-                    <span className="font-medium text-ink-deep">{formatCPUDisplay(presetConfig.cpu)}</span>
-                  </div>
-                  <div>
-                    <span className="text-ink-soft">内存：</span>
-                    <span className="font-medium text-ink-deep">{presetConfig.ram}</span>
-                  </div>
-                  <div>
-                    <span className="text-ink-soft">硬盘：</span>
-                    <span className="font-medium text-ink-deep">{presetConfig.storage}</span>
-                  </div>
+                  {presetConfig.productType !== '显卡' && <>
+                    <div>
+                      <span className="text-ink-soft">CPU：</span>
+                      <span className="font-medium text-ink-deep">{formatCPUDisplay(presetConfig.cpu)}</span>
+                    </div>
+                    <div>
+                      <span className="text-ink-soft">内存：</span>
+                      <span className="font-medium text-ink-deep">{presetConfig.ram}</span>
+                    </div>
+                    <div>
+                      <span className="text-ink-soft">硬盘：</span>
+                      <span className="font-medium text-ink-deep">{presetConfig.storage}</span>
+                    </div>
+                  </>}
                   {presetConfig.gpu && (
                     <div>
-                      <span className="text-ink-soft">显卡：</span>
+                      <span className="text-ink-soft">{isGraphicsCard ? '显卡规格：' : '显卡：'}</span>
                       <span className="font-medium text-ink-deep">{formatGPUDisplay(presetConfig.gpu)}</span>
                     </div>
                   )}
-                  {presetConfig.screen && (
+                  {presetConfig.productType !== '显卡' && presetConfig.screen && (
                     <div>
                       <span className="text-ink-soft">屏幕：</span>
                       <span className="font-medium text-ink-deep">{formatScreenDisplay(presetConfig.screen)}</span>
                     </div>
                   )}
-                  <div>
+                  {presetConfig.productType !== '显卡' && <div>
                     <span className="text-ink-soft">触屏：</span>
                     <span className="font-medium text-ink-deep">{presetConfig.touchScreen === undefined ? '未选择' : presetConfig.touchScreen ? '是' : '否'}</span>
-                  </div>
+                  </div>}
                 </div>
               </div>
             ) : (
@@ -255,8 +260,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                   </div>
                 </div>
 
-                {/* 品牌、型号、CPU、内存 */}
-                <div className="grid grid-cols-4 gap-3">
+                {/* 品牌、型号及适用配置 */}
+                <div className={`grid gap-3 ${isGraphicsCard ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-4'}`}>
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                       品牌 <span className="text-danger">*</span>
@@ -299,7 +304,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                                focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
-                  <div>
+                  {!isGraphicsCard && <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                       CPU {computerSpecsRequired && <span className="text-danger">*</span>}
                     </label>
@@ -313,8 +318,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                                placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                focus:ring-primary/20 focus:border-primary transition-all"
                     />
-                  </div>
-                  <div>
+                  </div>}
+                  {!isGraphicsCard && <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                       内存 {computerSpecsRequired && <span className="text-danger">*</span>}
                     </label>
@@ -328,26 +333,26 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                                placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                focus:ring-primary/20 focus:border-primary transition-all"
                     />
-                  </div>
+                  </div>}
                 </div>
 
-                {/* 显卡、硬盘、屏幕、触屏 */}
-                <div className="grid grid-cols-4 gap-3">
+                {/* 显卡及整机适用配置 */}
+                <div className={`grid gap-3 ${isGraphicsCard ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-4'}`}>
                   <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                      显卡
+                      {isGraphicsCard ? '显卡型号' : '显卡'} {isGraphicsCard && <span className="text-danger">*</span>}
                     </label>
                     <input
                       type="text"
                       value={baseConfig.gpu}
                       onChange={(e) => setBaseConfig({ ...baseConfig, gpu: e.target.value })}
-                      placeholder="集显"
+                      placeholder={isGraphicsCard ? '如：RTX 4060' : '集显'}
                       className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[13px]
                                placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
-                  <div>
+                  {!isGraphicsCard && <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                       硬盘 <span className="font-normal text-ink-soft">选填</span>
                     </label>
@@ -360,8 +365,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                                placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                focus:ring-primary/20 focus:border-primary transition-all"
                     />
-                  </div>
-                  <div>
+                  </div>}
+                  {!isGraphicsCard && <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                       屏幕
                     </label>
@@ -374,8 +379,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                                placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                                focus:ring-primary/20 focus:border-primary transition-all"
                     />
-                  </div>
-                  <div>
+                  </div>}
+                  {!isGraphicsCard && <div>
                     <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
                       触屏
                     </label>
@@ -404,7 +409,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
                       </button>
                     </div>
                     <p className="mt-1 text-[11px] text-ink-soft">不选择时保留为空</p>
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>
@@ -414,7 +419,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
             <div className="glass p-5 rounded-xl">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-[15px] font-semibold text-ink-deep">
-                  机器明细 ({rows.length} 台)
+                  {isGraphicsCard ? '显卡明细' : '机器明细'} ({rows.length} {isGraphicsCard ? '张' : '台'})
                 </h3>
                 <button
                   onClick={handleAddRow}
@@ -533,7 +538,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel }: BatchI
           {/* 底部按钮 */}
           <div className="px-6 py-4 border-t border-line flex items-center justify-between flex-shrink-0">
             <div className="text-[13px] text-ink-soft">
-              将批量添加 <span className="font-semibold text-ink">{rows.length}</span> 台机器
+              将批量添加 <span className="font-semibold text-ink">{rows.length}</span> {isGraphicsCard ? '张显卡' : '台机器'}
             </div>
             <div className="flex items-center gap-3">
               <button

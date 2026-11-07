@@ -661,15 +661,17 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const handleSaveMachineEdit = () => {
     if (!editingMachineDraft) return;
     const computerSpecsRequired = requiresComputerSpecs(editingMachineDraft.productType);
+    const isGraphicsCard = editingMachineDraft.productType === '显卡';
     const storageRequired = computerSpecsRequired && !editingMachineDraft.skuId && !editingMachineDraft.manualSkuId;
     if (
       !editingMachineDraft.productType.trim() ||
       !editingMachineDraft.brand.trim() ||
       !editingMachineDraft.model.trim() ||
       (computerSpecsRequired && (!editingMachineDraft.cpu.trim() || !editingMachineDraft.ram.trim())) ||
-      (storageRequired && !editingMachineDraft.storage.trim())
+      (storageRequired && !editingMachineDraft.storage.trim()) ||
+      (isGraphicsCard && !editingMachineDraft.gpu.trim())
     ) {
-      setToast({ show: true, type: 'warning', message: storageRequired ? '请填写产品类型、品牌、型号、CPU、内存和硬盘' : computerSpecsRequired ? '请填写产品类型、品牌、型号、CPU 和内存' : '请填写产品类型、品牌和型号' });
+      setToast({ show: true, type: 'warning', message: storageRequired ? '请填写产品类型、品牌、型号、CPU、内存和硬盘' : computerSpecsRequired ? '请填写产品类型、品牌、型号、CPU 和内存' : isGraphicsCard ? '请填写产品类型、品牌、型号和显卡型号' : '请填写产品类型、品牌和型号' });
       return;
     }
     if (!Number.isFinite(editingMachineDraft.purchasePrice) || editingMachineDraft.purchasePrice < 0) {
@@ -680,6 +682,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     setMachineItems((items) => items.map((item) => (
       item.id === editingMachineDraft.id ? {
         ...editingMachineDraft,
+        ...(isGraphicsCard ? { cpu: '', ram: '', storage: '', screen: '', touchScreen: undefined } : {}),
         skuId: item.productType === editingMachineDraft.productType &&
           item.brand === editingMachineDraft.brand &&
           item.model === editingMachineDraft.model &&
@@ -941,14 +944,18 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                         </span>
                       </div>
                       <div className="text-[12px] text-ink-soft space-y-1">
-                        <div>{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' / ') || '配置未补充'}</div>
-                        <div className="flex flex-wrap gap-2">
-                          {item.screen && <span>屏幕: {formatScreenDisplay(item.screen)}</span>}
-                          {item.gpu && <span>显卡: {formatGPUDisplay(item.gpu)}</span>}
-                          {item.touchScreen !== undefined && (
-                            <span>触屏: {item.touchScreen ? '是' : '否'}</span>
-                          )}
-                        </div>
+                        {item.productType === '显卡' ? (
+                          <div>显卡型号: {formatGPUDisplay(item.gpu) || '待填写'}</div>
+                        ) : <>
+                          <div>{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' / ') || '配置未补充'}</div>
+                          <div className="flex flex-wrap gap-2">
+                            {item.screen && <span>屏幕: {formatScreenDisplay(item.screen)}</span>}
+                            {item.gpu && <span>显卡: {formatGPUDisplay(item.gpu)}</span>}
+                            {item.touchScreen !== undefined && (
+                              <span>触屏: {item.touchScreen ? '是' : '否'}</span>
+                            )}
+                          </div>
+                        </>}
                       </div>
                     </div>
                     <div className="flex items-center gap-1">
@@ -1005,10 +1012,10 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                           ['gpu', '显卡', '选填'],
                           ['storage', '硬盘', '选填，选择或输入'],
                           ['screen', '屏幕分辨率', '选填'],
-                        ] as const).map(([field, label, placeholder]) => (
+                        ] as const).filter(([field]) => editingMachineDraft.productType !== '显卡' || !['cpu', 'ram', 'storage', 'screen'].some(hidden => hidden === field)).map(([field, label, placeholder]) => (
                           <label key={field} className="block">
                             <span className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                              {label}{(field === 'productType' || field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && editingMachineStorageRequired)) && <span className="text-danger"> *</span>}
+                              {editingMachineDraft.productType === '显卡' && field === 'gpu' ? '显卡型号' : label}{(field === 'productType' || field === 'brand' || field === 'model' || (editingMachineDraft.productType === '显卡' && field === 'gpu') || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && editingMachineStorageRequired)) && <span className="text-danger"> *</span>}
                             </span>
                             {field === 'productType' ? (
                               <CustomSelect
@@ -1022,9 +1029,9 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                               list={editingMachineDraft.manualSkuId && field === 'ram' ? 'purchase-manual-sku-ram-options' : editingMachineDraft.manualSkuId && field === 'storage' ? 'purchase-manual-sku-storage-options' : undefined}
                               value={editingMachineDraft[field] as string}
                               onChange={(event) => updateEditingMachineDraft(field, event.target.value)}
-                              placeholder={placeholder}
+                              placeholder={editingMachineDraft.productType === '显卡' && field === 'gpu' ? '如：RTX 4060' : placeholder}
                               readOnly={Boolean(editingMachineDraft.manualSkuId && ['productType', 'brand', 'model'].includes(field))}
-                              required={field === 'brand' || field === 'model' || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && editingMachineStorageRequired)}
+                              required={field === 'brand' || field === 'model' || (editingMachineDraft.productType === '显卡' && field === 'gpu') || (requiresComputerSpecs(editingMachineDraft.productType) && ['cpu', 'ram'].includes(field)) || (field === 'storage' && editingMachineStorageRequired)}
                               className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                             />}
                             {editingMachineDraft.manualSkuId && field === 'ram' && <datalist id="purchase-manual-sku-ram-options">{COMMON_RAM_OPTIONS.map(option => <option key={option} value={option} />)}</datalist>}
@@ -1047,7 +1054,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                       </div>
                       {editingMachineDraft.manualSkuId && <p className="text-[11px] text-ink-soft">品牌、型号与年份由独立手工 SKU 库管理；如需修改，请到手工 SKU 库更新档案。</p>}
 
-                      <div>
+                      {editingMachineDraft.productType !== '显卡' && <div>
                         <span className="block text-[12px] font-medium text-ink-deep mb-1.5">触屏</span>
                         <div className="flex flex-wrap gap-2">
                           <button
@@ -1068,7 +1075,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                           </button>
                           <span className="self-center text-[11px] text-ink-soft">可不选</span>
                         </div>
-                      </div>
+                      </div>}
 
                       <div className="grid grid-cols-2 gap-3">
                         <label className="block">

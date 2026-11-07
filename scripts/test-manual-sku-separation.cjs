@@ -428,18 +428,68 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     assert.equal(db.prepare('SELECT COUNT(*) AS count FROM skus WHERE brand = ? AND model = ?').get('ThinkPad', 'Manual Only Model').count, 0);
 
     const gpuSkuResponse = await manualSkus.POST(request('/api/manual-skus', {
-      productType: '显卡', brand: '华硕', model: 'RTX 4060',
+      productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
     }));
     assert.equal(gpuSkuResponse.status, 201, JSON.stringify(gpuSkuResponse.body));
     const gpuSkuId = gpuSkuResponse.body.data.item.id;
+    assert.equal(gpuSkuResponse.body.data.item.productType, '显卡');
+
+    const missingGpuResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
+        sn: 'GPU-SKU-NO-GPU', purchasePrice: 2400 }],
+    }));
+    assert.equal(missingGpuResponse.status, 400, 'a graphics card cannot be inbounded without its GPU specification');
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE sn = ?').get('GPU-SKU-NO-GPU').count, 0);
 
     const gpuPurchaseResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
       supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
-      items: [{ manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'RTX 4060', gpu: 'RTX 4060', sn: 'GPU-SKU-TEST-0001', purchasePrice: 2400 }],
+      items: [{ manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
+        cpu: '', ram: '', gpu: 'RTX 4060', storage: '', screen: '', sn: 'GPU-SKU-TEST-0001', purchasePrice: 2400 }],
     }));
     assert.equal(gpuPurchaseResponse.status, 201, JSON.stringify(gpuPurchaseResponse.body));
-    const gpuInventory = db.prepare('SELECT productType, cpu, ram, storage, gpu FROM inventory WHERE sn = ?').get('GPU-SKU-TEST-0001');
-    assert.deepEqual(gpuInventory, { productType: '显卡', cpu: '', ram: '', storage: '', gpu: 'RTX 4060' });
+    const gpuSingleRows = db.prepare(`SELECT pi.manualSkuId, pi.productType AS purchaseType, pi.cpu AS purchaseCpu,
+      pi.ram AS purchaseRam, pi.gpu AS purchaseGpu, pi.storage AS purchaseStorage, pi.screen AS purchaseScreen,
+      i.productType AS inventoryType, i.cpu AS inventoryCpu, i.ram AS inventoryRam, i.gpu AS inventoryGpu,
+      i.storage AS inventoryStorage, i.screen AS inventoryScreen
+      FROM purchase_items pi JOIN inventory i ON i.purchaseItemId = pi.id WHERE pi.sn = ?`).get('GPU-SKU-TEST-0001');
+    assert.deepEqual(gpuSingleRows, {
+      manualSkuId: gpuSkuId, purchaseType: '显卡', purchaseCpu: '', purchaseRam: '', purchaseGpu: 'RTX 4060',
+      purchaseStorage: '', purchaseScreen: '', inventoryType: '显卡', inventoryCpu: '', inventoryRam: '',
+      inventoryGpu: 'RTX 4060', inventoryStorage: '', inventoryScreen: '',
+    }, 'single graphics card inbound must retain type and GPU while leaving computer fields empty');
+    assert.deepEqual(JSON.parse(db.prepare('SELECT gpuOptions FROM manual_skus WHERE id = ?').get(gpuSkuId).gpuOptions), ['RTX 4060'],
+      'single inbound must add a custom GPU specification to the manual SKU');
+
+    const gpuBatchResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed', action: 'inbound',
+      items: ['GPU-SKU-BATCH-0001', 'GPU-SKU-BATCH-0002'].map((sn, index) => ({
+        manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
+        gpu: index === 0 ? 'RTX 4060' : 'RTX 4070', sn, purchasePrice: 2600,
+      })),
+    }));
+    assert.equal(gpuBatchResponse.status, 201, JSON.stringify(gpuBatchResponse.body));
+    const gpuBatchRows = db.prepare(`SELECT pi.manualSkuId, pi.productType AS purchaseType, pi.cpu AS purchaseCpu,
+      pi.ram AS purchaseRam, pi.gpu AS purchaseGpu, pi.storage AS purchaseStorage, pi.screen AS purchaseScreen,
+      i.productType AS inventoryType, i.cpu AS inventoryCpu, i.ram AS inventoryRam, i.gpu AS inventoryGpu,
+      i.storage AS inventoryStorage, i.screen AS inventoryScreen
+      FROM purchase_items pi JOIN inventory i ON i.purchaseItemId = pi.id
+      WHERE pi.sn IN (?, ?) ORDER BY pi.sn`).all('GPU-SKU-BATCH-0001', 'GPU-SKU-BATCH-0002');
+    assert.equal(gpuBatchRows.length, 2, 'batch graphics card inbound must create two machines');
+    for (const [index, row] of gpuBatchRows.entries()) {
+      const expectedGpu = index === 0 ? 'RTX 4060' : 'RTX 4070';
+      assert.deepEqual(row, {
+        manualSkuId: gpuSkuId, purchaseType: '显卡', purchaseCpu: '', purchaseRam: '', purchaseGpu: expectedGpu,
+        purchaseStorage: '', purchaseScreen: '', inventoryType: '显卡', inventoryCpu: '', inventoryRam: '',
+        inventoryGpu: expectedGpu, inventoryStorage: '', inventoryScreen: '',
+      }, `batch graphics card ${index + 1} must retain type and GPU without computer fields`);
+    }
+    const storedGpuOptions = db.prepare('SELECT cpuOptions, ramOptions, gpuOptions, storageOptions, screenOptions FROM manual_skus WHERE id = ?').get(gpuSkuId);
+    assert.deepEqual(JSON.parse(storedGpuOptions.gpuOptions), ['RTX 4060', 'RTX 4070'],
+      'confirmed batch inbound must retain all distinct graphics card options in the manual SKU');
+    for (const field of ['cpuOptions', 'ramOptions', 'storageOptions', 'screenOptions']) {
+      assert.deepEqual(JSON.parse(storedGpuOptions[field]), [], `${field} must stay empty for graphics cards`);
+    }
 
     const unsupportedTypeResponse = await manualSkus.POST(request('/api/manual-skus', {
       productType: '台式机', brand: 'Test', model: 'Unsupported',

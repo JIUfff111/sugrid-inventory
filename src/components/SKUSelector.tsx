@@ -200,7 +200,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   const isManualCatalog = catalogSource === 'manual';
   const [step, setStep] = useState<Step>(isManualCatalog && startInCustomMode ? 'customIdentity' : 'productType');
   const [selectedFromHome, setSelectedFromHome] = useState(false);
-  const [selectedProductType, setSelectedProductType] = useState(isManualCatalog && startInCustomMode ? SKU_PRODUCT_TYPES[0] : '');
+  const [selectedProductType, setSelectedProductType] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedSKU, setSelectedSKU] = useState<SKU | null>(null);
   
@@ -353,9 +353,10 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     .map(({ skuId, count }) => ({ sku: skus.find((item) => item.id === skuId), count }))
     .filter((item): item is { sku: SKU; count: number } => Boolean(item.sku));
 
-  // 每个 SKU 都提供“集显”，并将其固定放在显卡选项首位。
+  // 整机可选择“集显”；独立显卡商品只显示自己的显卡规格。
+  const isGraphicsCard = selectedSKU?.productType === '显卡';
   const gpuOptions = selectedSKU
-    ? uniqueGPUOptions(['集显', ...selectedSKU.gpuOptions])
+    ? uniqueGPUOptions(isGraphicsCard ? selectedSKU.gpuOptions : ['集显', ...selectedSKU.gpuOptions])
     : [];
   const cpuOptions = selectedSKU ? uniqueCPUOptions(selectedSKU.cpuOptions) : [];
   const ramOptions = selectedSKU ? [...new Set([...selectedSKU.ramOptions, ...COMMON_RAM_OPTIONS])] : [];
@@ -399,7 +400,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     // 不再默认选择，全部清空
     setCpuValue(emptySpecValue(sku.cpuOptions.length > 0));
     setRamValue(emptySpecValue(sku.ramOptions.length > 0));
-    setGpuValue(emptySpecValue(uniqueGPUOptions(['集显', ...sku.gpuOptions]).length > 0));
+    setGpuValue(emptySpecValue(uniqueGPUOptions(sku.productType === '显卡' ? sku.gpuOptions : ['集显', ...sku.gpuOptions]).length > 0));
     setStorageValue(emptySpecValue(true));
     setScreenValue(emptySpecValue(uniqueScreenOptions(sku.screenOptions).length > 0));
     setSelectedTouchScreen(null); // 触屏也不默认选择
@@ -410,7 +411,6 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   };
 
   const beginManualSKUCreation = () => {
-    setSelectedProductType(SKU_PRODUCT_TYPES[0]);
     setSelectedBrand('');
     setIdentitySkuId('');
     setIdentityBrandMode('catalog');
@@ -423,9 +423,17 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   };
 
   const createManualSKU = async () => {
+    if (!SKU_PRODUCT_TYPES.some(type => type === selectedProductType)) {
+      setIdentityError('请选择产品类型');
+      return;
+    }
     const source = identityCatalog.find(sku => sku.id === identitySkuId);
     const isCustomBrand = identityBrandMode === 'custom';
     if (creatingManualSku || (!isCustomBrand && !source)) return;
+    if (!isCustomBrand && getSKUProductType(source!.productType) !== selectedProductType) {
+      setIdentityError('型号与产品类型不一致，请重新选择型号');
+      return;
+    }
     const brand = isCustomBrand ? canonicalSKUBrand(customBrand.trim()) : canonicalSKUBrand(source!.brand);
     const model = isCustomBrand ? customModel.trim().replace(/\s+/g, ' ') : source!.model;
     const sourceYear = source ? getSKUYear(source) : '';
@@ -469,6 +477,9 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
         throw new Error(result.error?.message || '新建手工 SKU 失败');
       }
       const created = { ...result.data.item, catalogSource: 'manual' as const };
+      if (getSKUProductType(created.productType) !== selectedProductType) {
+        throw new Error('创建结果的产品类型不一致，请到手工 SKU 库核对后重试');
+      }
       setSkus(current => current.some(sku => sku.id === created.id) ? current : [...current, created]);
       handleSelectModel(created, true);
     } catch (error) {
@@ -494,12 +505,12 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
     onSelect({
       sku: selectedSKU,
-      cpu: formatCPUDisplay(activeSpecValue(cpuValue)),
-      ram: activeSpecValue(ramValue),
+      cpu: isGraphicsCard ? '' : formatCPUDisplay(activeSpecValue(cpuValue)),
+      ram: isGraphicsCard ? '' : activeSpecValue(ramValue),
       gpu: formatGPUDisplay(activeSpecValue(gpuValue)),
-      storage: activeSpecValue(storageValue),
-      screen: formatScreenDisplay(activeSpecValue(screenValue)),
-      touchScreen: selectedTouchScreen ?? undefined, // 未选择时传 undefined
+      storage: isGraphicsCard ? '' : activeSpecValue(storageValue),
+      screen: isGraphicsCard ? '' : formatScreenDisplay(activeSpecValue(screenValue)),
+      touchScreen: isGraphicsCard ? undefined : selectedTouchScreen ?? undefined, // 未选择时传 undefined
       sn: normalizedSN,
       purchasePrice: singlePrice,
       skuRemark: skuRemark.trim() || undefined // 补充信息
@@ -525,12 +536,12 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
     onBatchSelect({
       sku: selectedSKU,
-      cpu: formatCPUDisplay(activeSpecValue(cpuValue)),
-      ram: activeSpecValue(ramValue),
+      cpu: isGraphicsCard ? '' : formatCPUDisplay(activeSpecValue(cpuValue)),
+      ram: isGraphicsCard ? '' : activeSpecValue(ramValue),
       gpu: formatGPUDisplay(activeSpecValue(gpuValue)),
-      storage: activeSpecValue(storageValue),
-      screen: formatScreenDisplay(activeSpecValue(screenValue)),
-      touchScreen: selectedTouchScreen ?? undefined, // 未选择时传 undefined
+      storage: isGraphicsCard ? '' : activeSpecValue(storageValue),
+      screen: isGraphicsCard ? '' : formatScreenDisplay(activeSpecValue(screenValue)),
+      touchScreen: isGraphicsCard ? undefined : selectedTouchScreen ?? undefined, // 未选择时传 undefined
       skuRemark: skuRemark.trim() || undefined // 补充信息
     });
   };
@@ -597,7 +608,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                     <ChevronRight className="w-3.5 h-3.5" />
                     <span>{selectedSKU ? getSKUDisplayName(selectedSKU) : ''}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                    <span>填写机器配置</span>
+                    <span>{isGraphicsCard ? '填写显卡信息' : '填写机器配置'}</span>
                   </>
                 )}
               </div>
@@ -749,8 +760,10 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                       <span className="mt-1.5 block">
                         <CustomSelect
                           value={selectedProductType}
-                          onChange={value => { setSelectedProductType(value); setSelectedBrand(''); setIdentitySkuId(''); }}
+                          onChange={value => { setSelectedProductType(value); setSelectedBrand(''); setIdentitySkuId(''); setIdentityError(''); }}
                           options={productTypeOptions}
+                          placeholder="请选择产品类型"
+                          required
                           aria-label="自定义 SKU 产品类型"
                         />
                       </span>
@@ -876,11 +889,11 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                             <div>
                               <div className="text-[15px] font-semibold text-ink-deep mb-2">{getSKUDisplayName(sku)}</div>
                               <div className="flex flex-wrap gap-2 text-[12px] text-ink-soft">
-                                <span>CPU: {uniqueCPUOptions(sku.cpuOptions).length} 选项</span>
+                                {sku.productType === '显卡' ? <span>显卡规格: {sku.gpuOptions.length ? `${uniqueGPUOptions(sku.gpuOptions).length} 选项` : '手动填写'}</span> : <><span>CPU: {uniqueCPUOptions(sku.cpuOptions).length} 选项</span>
                                 <span>•</span>
                                 <span>内存: {sku.ramOptions.length ? `${sku.ramOptions.length} 选项` : '手动填写'}</span>
                                 <span>•</span>
-                                <span>硬盘: {isManualCatalog ? `${sku.storageOptions.length} 选项` : `${STORAGE_OPTIONS.length} 常用值`}</span>
+                                <span>硬盘: {isManualCatalog ? `${sku.storageOptions.length} 选项` : `${STORAGE_OPTIONS.length} 常用值`}</span></>}
                               </div>
                             </div>
                             <div className="flex shrink-0 items-center gap-2 text-[11px] text-ink-soft">
@@ -897,9 +910,12 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                 {/* 配置选项 */}
               {step === 'config' && selectedSKU && (
                 <div className="space-y-3">
-                  <SpecChoiceField label="CPU 处理器" required={requiresComputerSpecs(selectedSKU.productType)} options={cpuOptions} value={cpuValue} setValue={setCpuValue} listId="sku-cpu-options" placeholder="自定义输入 CPU，如：I5-10210U" ariaLabel="CPU 处理器，可选择预设或输入自定义值" formatOption={formatCPUDisplay} />
-                  <SpecChoiceField label="内存" required={requiresComputerSpecs(selectedSKU.productType)} options={ramOptions} value={ramValue} setValue={setRamValue} listId="sku-ram-options" placeholder="自定义输入内存，如：24GB" ariaLabel="内存，可选择预设或输入自定义值" />
-                  <SpecChoiceField label="显卡" required options={gpuOptions} value={gpuValue} setValue={setGpuValue} listId="sku-gpu-options" placeholder="自定义输入显卡，如：RTX 4060" ariaLabel="显卡，可选择预设或输入自定义值" formatOption={formatGPUDisplay} />
+                  {!isGraphicsCard && <>
+                    <SpecChoiceField label="CPU 处理器" required options={cpuOptions} value={cpuValue} setValue={setCpuValue} listId="sku-cpu-options" placeholder="自定义输入 CPU，如：I5-10210U" ariaLabel="CPU 处理器，可选择预设或输入自定义值" formatOption={formatCPUDisplay} />
+                    <SpecChoiceField label="内存" required options={ramOptions} value={ramValue} setValue={setRamValue} listId="sku-ram-options" placeholder="自定义输入内存，如：24GB" ariaLabel="内存，可选择预设或输入自定义值" />
+                  </>}
+                  <SpecChoiceField label={isGraphicsCard ? '显卡规格' : '显卡'} required options={gpuOptions} value={gpuValue} setValue={setGpuValue} listId="sku-gpu-options" placeholder="自定义输入显卡，如：RTX 4060" ariaLabel="显卡，可选择预设或输入自定义值" formatOption={formatGPUDisplay} />
+                  {!isGraphicsCard && <>
                   <SpecChoiceField label="硬盘" optional options={storageOptions} value={storageValue} setValue={setStorageValue} listId="sku-storage-options" placeholder="自定义输入硬盘，如：2TB SSD；可留空" ariaLabel="硬盘，可选择预设或输入自定义值，选填" />
                   <SpecChoiceField label="屏幕分辨率" options={screenOptions} value={screenValue} setValue={setScreenValue} listId="sku-screen-options" placeholder="自定义输入屏幕规格，如：2.5K 或 1k" ariaLabel="屏幕分辨率，可选择预设或输入自定义值" formatOption={formatScreenDisplay} />
 
@@ -933,6 +949,8 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                       </button>
                     </div>
                   </div>
+
+                  </>}
 
                   {/* SN/IMEI 和金额 */}
                   <div className="grid grid-cols-2 gap-3">
@@ -1002,7 +1020,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
             <button
               type="button"
               onClick={() => void createManualSKU()}
-              disabled={creatingManualSku || (identityBrandMode === 'catalog' ? identityLoading || !identitySkuId : !customBrand.trim() || !customModel.trim())}
+              disabled={creatingManualSku || !selectedProductType || (identityBrandMode === 'catalog' ? identityLoading || !identitySkuId : !customBrand.trim() || !customModel.trim())}
               className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-[13px] font-medium text-white transition-all hover:bg-primary-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Plus className="h-4 w-4" />{creatingManualSku ? '正在创建…' : '创建并配置'}

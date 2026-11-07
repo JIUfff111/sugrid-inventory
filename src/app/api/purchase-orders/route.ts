@@ -216,6 +216,7 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
   if (items.length === 0) return '至少添加一台机器';
   const seen = new Set<string>();
   for (const item of items) {
+    if (item.productType === '显卡' && !item.gpu) return '显卡规格不能为空';
     if (!item.brand || !item.model ||
         (requiresComputerSpecs(item.productType) && (!item.cpu || !item.ram || (!item.storage && !item.skuId && !item.manualSkuId)))) {
       return '机器配置缺少必填项';
