@@ -712,7 +712,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     if (machineItems.length === 0) return '请至少添加一台机器';
     if (inbound) {
       if (machineItems.some((item) => !item.sn.trim())) return '请填写所有机器的 SN 序列号';
-      if (machineItems.some((item) => !Number.isFinite(item.purchasePrice) || item.purchasePrice <= 0)) return '请填写所有机器的采购价格';
+      if (machineItems.some((item) => !Number.isFinite(item.purchasePrice) || item.purchasePrice < 0 || (item.productType !== '显卡' && item.purchasePrice === 0))) return '请填写非显卡商品的采购价格；显卡可留空或填 0';
     }
     return null;
   };
@@ -1164,7 +1164,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                       </div>
                       <div>
                         <label className="block text-[12px] font-medium text-ink-deep mb-1.5">
-                          采购价格 <span className="text-danger">*</span>
+                          采购价格 {item.productType === '显卡' ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}
                         </label>
                         <input
                           type="number"

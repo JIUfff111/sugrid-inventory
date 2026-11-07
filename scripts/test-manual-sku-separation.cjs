@@ -461,6 +461,39 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
     assert.deepEqual(JSON.parse(db.prepare('SELECT gpuOptions FROM manual_skus WHERE id = ?').get(gpuSkuId).gpuOptions), ['RTX 4060'],
       'single inbound must add a custom GPU specification to the manual SKU');
 
+    for (const [sn, price] of [
+      ['GPU-SKU-NO-PRICE', undefined],
+      ['GPU-SKU-ZERO-PRICE', 0],
+    ]) {
+      const gpuWithoutPaidPrice = await purchaseOrders.POST(request('/api/purchase-orders', {
+        supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+        items: [{ manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
+          gpu: 'RTX 4060', sn, ...(price === undefined ? {} : { purchasePrice: price }) }],
+      }));
+      assert.equal(gpuWithoutPaidPrice.status, 201, JSON.stringify(gpuWithoutPaidPrice.body));
+      const storedPrice = db.prepare(`SELECT pi.purchasePrice AS purchasePrice, i.purchasePrice AS inventoryPrice,
+        po.totalAmount AS orderTotal FROM purchase_items pi
+        JOIN inventory i ON i.purchaseItemId = pi.id
+        JOIN purchase_orders po ON po.id = pi.purchaseOrderId
+        WHERE pi.sn = ?`).get(sn);
+      assert.deepEqual(storedPrice, { purchasePrice: 0, inventoryPrice: 0, orderTotal: 0 },
+        'a graphics card with omitted or explicit zero price must be stored as a zero-cost item');
+    }
+
+    const invalidGpuPrice = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId: gpuSkuId, productType: '显卡', brand: '华硕', model: 'GeForce Test GPU',
+        gpu: 'RTX 4060', sn: 'GPU-SKU-NEGATIVE-PRICE', purchasePrice: -1 }],
+    }));
+    assert.equal(invalidGpuPrice.status, 400, 'negative graphics card prices remain invalid');
+
+    const missingComputerPrice = await purchaseOrders.POST(request('/api/purchase-orders', {
+      supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed',
+      items: [{ manualSkuId, productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', year: 2020,
+        cpu: 'I5-10210U', ram: '16GB', gpu: '集显', sn: 'LAPTOP-SKU-NO-PRICE' }],
+    }));
+    assert.equal(missingComputerPrice.status, 400, 'computer prices remain required at inbound');
+
     const gpuBatchResponse = await purchaseOrders.POST(request('/api/purchase-orders', {
       supplierId: 'supplier_manual_sku_test', purchaseDate: '2026-10-27', purchasedBy: '当前用户', status: 'completed', action: 'inbound',
       items: ['GPU-SKU-BATCH-0001', 'GPU-SKU-BATCH-0002'].map((sn, index) => ({

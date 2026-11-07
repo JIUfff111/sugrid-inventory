@@ -139,8 +139,9 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
     // 验证必填字段
     if (!formData.manualSkuId || !formData.brand || !formData.model ||
         (computerSpecsRequired && (!formData.cpu || !formData.ram)) ||
-        !formData.sn || !formData.purchasePrice) {
-      setToast({ message: '请选择手工 SKU 品牌和型号，并填写产品要求的 CPU、内存等必填信息；硬盘选填', type: 'warning' });
+        !formData.sn || !Number.isFinite(formData.purchasePrice) || formData.purchasePrice < 0 ||
+        (formData.productType !== '显卡' && formData.purchasePrice === 0)) {
+      setToast({ message: '请选择手工 SKU 品牌和型号，填写必填配置及 SN；显卡价格可留空或填 0', type: 'warning' });
       return;
     }
 
@@ -382,7 +383,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                 </div>
                 <div>
                   <label className="block text-[13px] font-medium text-ink-deep mb-2">
-                    采购价格 <span className="text-danger">*</span>
+                    采购价格 {formData.productType === '显卡' ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}
                   </label>
                   <input
                     type="number"
@@ -392,7 +393,7 @@ export default function ManualInput({ onConfirm, onCancel, selectedMachineCount 
                     className="w-full px-4 py-2.5 bg-white/60 border border-line rounded-lg text-[13px]
                              placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
                              focus:ring-primary/20 focus:border-primary transition-all"
-                    required
+                    required={formData.productType !== '显卡'}
                   />
                 </div>
               </div>

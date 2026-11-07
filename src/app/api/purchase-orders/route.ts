@@ -230,7 +230,7 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
       if (options.error) return `手工 SKU 配置无效：${options.error}`;
     }
     if (requireSnAndPrice && !item.sn) return '确认入库时所有机器必须填写 SN';
-    if (requireSnAndPrice && item.purchasePrice <= 0) return '确认入库时所有机器必须填写采购价格';
+    if (requireSnAndPrice && item.productType !== '显卡' && item.purchasePrice <= 0) return '确认入库时非显卡商品必须填写采购价格';
     if (item.sn) {
       const normalizedSN = item.sn.toLowerCase();
       if (seen.has(normalizedSN)) return `本次提交中 SN [${item.sn}] 重复`;

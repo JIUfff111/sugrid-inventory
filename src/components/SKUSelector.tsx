@@ -358,6 +358,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
 
   // 整机可选择“集显”；独立显卡商品只显示自己的显卡规格。
   const isGraphicsCard = selectedSKU?.productType === '显卡';
+  const validSinglePrice = Number.isFinite(singlePrice) && singlePrice >= 0 && (isGraphicsCard || singlePrice > 0);
   const gpuOptions = selectedSKU
     ? uniqueGPUOptions(isGraphicsCard ? selectedSKU.gpuOptions : ['集显', ...selectedSKU.gpuOptions])
     : [];
@@ -515,7 +516,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     if (!selectedSKU || !hasRequiredConfig()) return;
 
     const normalizedSN = singleSN.trim();
-    if (!normalizedSN || !Number.isFinite(singlePrice) || singlePrice <= 0) return;
+    if (!normalizedSN || !validSinglePrice) return;
 
     onSelect({
       sku: selectedSKU,
@@ -992,7 +993,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                     </div>
                     <div>
                       <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                        采购金额 <span className="text-danger">*</span>
+                        采购金额 {isGraphicsCard ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}
                       </label>
                       <input
                         type="number"
@@ -1071,8 +1072,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                 disabled={
                   !hasRequiredConfig() ||
                   !singleSN.trim() ||
-                  !Number.isFinite(singlePrice) ||
-                  singlePrice <= 0
+                  !validSinglePrice
                 }
                 className="inline-flex items-center gap-1.5 px-5 py-2 border border-primary/30 text-primary text-[13px] font-medium rounded-lg
                          hover:bg-primary/5 transition-all ripple-hover
@@ -1086,8 +1086,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                 disabled={
                   !hasRequiredConfig() ||
                   !singleSN.trim() ||
-                  !Number.isFinite(singlePrice) ||
-                  singlePrice <= 0
+                  !validSinglePrice
                 }
                 className="px-5 py-2 bg-primary text-white text-[13px] font-medium rounded-lg
                          hover:bg-primary-hover transition-all ripple-hover shadow-sm hover:shadow-md

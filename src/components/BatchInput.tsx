@@ -159,8 +159,8 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
     // 验证每行数据
     const seen = new Set<string>();
     for (const row of rows) {
-      if (!row.sn || !row.purchasePrice) {
-        setToast({ show: true, message: '请填写所有机器的 SN 和价格' });
+      if (!row.sn.trim() || !Number.isFinite(row.purchasePrice) || row.purchasePrice < 0 || (!isGraphicsCard && row.purchasePrice === 0)) {
+        setToast({ show: true, message: isGraphicsCard ? '请填写所有显卡的 SN；价格可留空或填 0' : '请填写所有机器的 SN 和价格' });
         return;
       }
       const sn = row.sn.trim();
@@ -476,7 +476,7 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
                       </th>
                       <th className="px-3 py-2 text-left text-[12px] font-semibold text-ink-deep w-40">
                         <div className="flex items-center justify-between">
-                          <span>采购价格 <span className="text-danger">*</span></span>
+                          <span>采购价格 {isGraphicsCard ? <span className="text-ink-soft">（选填，留空按 0 元）</span> : <span className="text-danger">*</span>}</span>
                           {rows.length > 1 && (
                             <button
                               type="button"
