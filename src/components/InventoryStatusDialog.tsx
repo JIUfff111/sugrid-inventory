@@ -109,7 +109,7 @@ export default function InventoryStatusDialog({ mode, machine, machines, onClose
     return payload.data;
   }
 
-  function addMachines(items: ResolvedMachine[]) {
+  function addMachines(items: ResolvedMachine[], reportDuplicates = true) {
     const next = [...selectedMachinesRef.current];
     const seen = new Set(next.map(item => item.id));
     const duplicates: string[] = [];
@@ -120,7 +120,7 @@ export default function InventoryStatusDialog({ mode, machine, machines, onClose
     selectedMachinesRef.current = next;
     setSelectedMachines(next);
     setSelectionTouched(true);
-    if (duplicates.length) setMachineIssues(current => [...current, ...duplicates.map(sn => ({ id: sn, sn, reason: '已在待登记清单中，重复项已忽略' }))].slice(-20));
+    if (reportDuplicates && duplicates.length) setMachineIssues(current => [...current, ...duplicates.map(sn => ({ id: sn, sn, reason: '已在待登记清单中，重复项已忽略' }))].slice(-20));
     return items.length - duplicates.length;
   }
 
@@ -134,15 +134,25 @@ export default function InventoryStatusDialog({ mode, machine, machines, onClose
     return result as { eligible: ResolvedMachine[]; blocked: BlockedMachine[] };
   }
 
-  async function addScannedSerial(serial: string) {
+  async function addScannedSerials(serials: string[]) {
     try {
-      const result = await resolveSerials([serial]);
-      if (result.eligible.length) {
-        const added = addMachines(result.eligible);
-        setMachineIssues(current => added ? current.filter(item => item.sn?.toLocaleLowerCase() !== serial.toLocaleLowerCase()) : current);
+      const result = await resolveSerials(serials);
+      const known = new Set(selectedMachinesRef.current.map(item => item.id));
+      const duplicates: string[] = [];
+      for (const item of result.eligible) {
+        if (known.has(item.id)) duplicates.push(item.sn);
+        else known.add(item.id);
       }
-      if (result.blocked.length) setMachineIssues(current => [...current, ...result.blocked].slice(-20));
-    } catch (e) { setMachineIssues(current => [...current, { id: serial, sn: serial, reason: e instanceof Error ? e.message : '无法识别该 SN' }].slice(-20)); }
+      addMachines(result.eligible, false);
+      const resolved = new Set(result.eligible.map(item => item.sn.toLocaleLowerCase()));
+      setMachineIssues(current => [
+        ...current.filter(item => !resolved.has((item.sn || '').toLocaleLowerCase())),
+        ...duplicates.map(sn => ({ id: sn, sn, reason: '已在待登记清单中，重复项已忽略' })),
+        ...result.blocked,
+      ].slice(-20));
+    } catch (error) {
+      setMachineIssues(current => [...current, ...serials.map(sn => ({ id: sn, sn, reason: error instanceof Error ? error.message : '无法识别该 SN' }))].slice(-20));
+    }
   }
 
   async function previewCsv(file: File) {
@@ -231,8 +241,7 @@ export default function InventoryStatusDialog({ mode, machine, machines, onClose
             <button type="button" className="btn-ghost inline-flex items-center gap-1.5" onClick={() => csvInput.current?.click()} disabled={importBusy}><FileSpreadsheet className="h-4 w-4" />{importBusy ? '正在核对…' : '上传 SN 表格'}</button>
             <input ref={csvInput} type="file" accept=".csv,text/csv" className="hidden" aria-label="上传 SN CSV 模板" onChange={event => { const file = event.target.files?.[0]; if (file) void previewCsv(file); }} />
           </div>
-          <label className="block text-xs text-ink-soft">搜索机器或扫码输入 SN<div className="mt-1.5"><MachineSearchInput<StatusMachine> value={machineQuery} onChange={setMachineQuery} endpoint="/api/inventory/lookup?context=status-register" onSelect={item => { addMachines([item]); setMachineQuery(''); }} onScanToken={addScannedSerial} scanEnabled placeholder="输入 SN 后四位搜索；扫码后逗号连续添加" ariaLabel="选择或扫描登记机器" /></div></label>
-          <p className="mt-2 text-[11px] text-ink-soft">CSV 每行填写一个 SN；扫码枪扫描后以逗号结束，可连续录入。最多 100 台。</p>
+          <label className="block text-xs text-ink-soft">选择机器<div className="mt-1.5"><MachineSearchInput<StatusMachine> value={machineQuery} onChange={setMachineQuery} endpoint="/api/inventory/lookup?context=status-register" onSelect={item => { addMachines([item]); setMachineQuery(''); }} onScanTokens={addScannedSerials} scanEnabled batchEnabled placeholder="搜索 SN 或型号" ariaLabel="选择或扫描登记机器" /></div></label>
         </section>
 
         {csvPreview && <section className="rounded-lg border border-primary/15 bg-primary/5 p-3" role="status">

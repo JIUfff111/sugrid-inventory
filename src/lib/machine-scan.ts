@@ -1,9 +1,23 @@
 export function splitMachineScanTokens(value: string) {
   return value
     .replace(/^\uFEFF/, '')
-    .split(/[,，\t\r\n]+/)
+    .split(/[,，;；\t\r\n]+/)
     .map(token => token.trim())
     .filter(Boolean);
+}
+
+export function hasMachineScanDelimiter(value: string) {
+  return /[,，;；\t\r\n]/.test(value);
+}
+
+export function uniqueMachineScanTokens(tokens: string[]) {
+  const seen = new Set<string>();
+  return tokens.filter(token => {
+    const key = token.trim().toLocaleLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 export function parseMachineSNCsv(source: string) {

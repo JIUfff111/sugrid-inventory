@@ -7,7 +7,9 @@ const ts = require('typescript');
 const { NextRequest } = require('next/server');
 const root = path.resolve(__dirname,'..');
 const machineScan=load('src/lib/machine-scan.ts');
-assert.deepEqual(machineScan.splitMachineScanTokens('CS-001,CS-002，CS-003\nCS-004\tCS-005'),['CS-001','CS-002','CS-003','CS-004','CS-005']);
+assert.deepEqual(machineScan.splitMachineScanTokens('CS-001,CS-002，CS-003;CS-004；CS-005\tCS-006'),['CS-001','CS-002','CS-003','CS-004','CS-005','CS-006']);
+assert.equal(machineScan.hasMachineScanDelimiter('CS-001,CS-002'),true);
+assert.deepEqual(machineScan.uniqueMachineScanTokens(['CS-001','cs-001','CS-002']),['CS-001','CS-002']);
 assert.deepEqual(machineScan.parseMachineSNCsv('\ufeffSN\r\n"CS-001"\r\nCS-002\r\ncs-001\r\n'),{serials:['CS-001','CS-002'],duplicates:['cs-001']});
 assert.throws(()=>machineScan.parseMachineSNCsv('机器\r\nCS-001'),/首列应为 SN/);
 function load(relative,deps={}) {
@@ -23,7 +25,7 @@ async function main() {
     const database=load('src/lib/db.ts');db=database.default;let token;
     const api=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':api,'next/headers':{cookies:async()=>({get:()=>token?{value:token}:undefined})}});
-    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts'),'@/lib/manual-sku-options':load('src/lib/manual-sku-options.ts'),'@/lib/inventory-movement-labels':load('src/lib/inventory-movement-labels.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});
+    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts'),'@/lib/machine-scan':machineScan,'@/lib/manual-sku-options':load('src/lib/manual-sku-options.ts'),'@/lib/inventory-movement-labels':load('src/lib/inventory-movement-labels.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});
     const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/status-records/batch','inventory/analysis','inventory/movements'];
     const routes=Object.fromEntries(names.map(name=>[name,load(`src/app/api/${name}/route.ts`,deps)]));
     async function call(name,method,body,expected=200,query='') {
@@ -41,6 +43,18 @@ async function main() {
     const purchase=await call('purchase-orders','POST',{supplierId:'cs-supplier',purchaseDate:'2026-10-21',purchasedBy:admin,warehouseId:warehouse,status:'completed',items:machines},201);
     assert.equal(db.prepare('SELECT supplierOrderNo FROM purchase_orders WHERE id=?').get(purchase.id).supplierOrderNo,'');
     const machine=index=>db.prepare('SELECT * FROM inventory WHERE sn=?').get(machines[index].sn);
+    const lookupParams=new URLSearchParams([['context','sale'],['sn',machine(0).sn],['sn',machine(1).sn]]);
+    let multiLookup=await call('inventory/lookup','GET',undefined,200,'?'+lookupParams.toString());
+    assert.equal(multiLookup.total,2);assert.deepEqual(new Set(multiLookup.items.map(item=>item.sn)),new Set([machine(0).sn,machine(1).sn]));
+    const tooManySerials=new URLSearchParams([['context','inventory'],...Array.from({length:101},(_,index)=>['sn',`CS-${index}`])]);
+    await call('inventory/lookup','GET',undefined,400,'?'+tooManySerials.toString());
+    const tooManyInventorySerials=new URLSearchParams(Array.from({length:101},(_,index)=>['sn',`CS-${index}`]));
+    await call('inventory','GET',undefined,400,'?'+tooManyInventorySerials.toString());
+    const explicitInventorySerials=new URLSearchParams([['sn',machine(0).sn],['sn',machine(1).sn]]);
+    let multiInventory=await call('inventory','GET',undefined,200,'?'+explicitInventorySerials.toString());
+    assert.equal(multiInventory.total,2);assert.deepEqual(new Set(multiInventory.items.map(item=>item.sn)),new Set([machine(0).sn,machine(1).sn]));
+    let ordinaryInventorySearch=await call('inventory','GET',undefined,200,'?search='+encodeURIComponent(`${machine(0).sn}, ${machine(1).sn}`));
+    assert.equal(ordinaryInventorySearch.total,0,'comma-separated text in ordinary search must not trigger multi-SN mode');
     const definition=await call('inventory/status-definitions','POST',{name:'外部保管',color:'#2563eb'},201);
     const batchIds=[10,11,12].map(index=>machine(index).id);
     let resolved=await call('inventory/status-records/batch','POST',{action:'resolve',serials:[machine(10).sn.toLowerCase(),'CS-UNKNOWN']});

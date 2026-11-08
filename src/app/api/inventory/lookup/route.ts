@@ -14,7 +14,11 @@ export async function GET(request: NextRequest) {
     if (user.role === 'viewer' && context !== 'inventory') return NextResponse.json(errorResponse('FORBIDDEN','普通用户只能查询库存信息'), { status: 403 });
     if (['inventory','movements','transfer','status-register'].includes(context)) assertInventoryView(user);
     if (user.role !== 'admin' && !['inventory','transfer','movements'].includes(context)) return NextResponse.json(errorResponse('FORBIDDEN','无权执行此机器查询'), { status: 403 });
-    const q = (query.get('q') || query.get('search') || '').trim().slice(0,200);
+    const serialInputs = query.getAll('sn').map(value => value.trim()).filter(Boolean);
+    if (serialInputs.length > 100) return NextResponse.json(errorResponse('VALIDATION_ERROR','一次最多查询 100 个 SN'), { status: 400 });
+    if (serialInputs.some(value => value.length > 200)) return NextResponse.json(errorResponse('VALIDATION_ERROR','SN 长度不能超过 200 个字符'), { status: 400 });
+    const serials = [...new Map(serialInputs.map(value => [value.toLocaleLowerCase(), value])).values()];
+    const q = serials.length ? '' : (query.get('q') || query.get('search') || '').trim().slice(0,200);
     const limit = Math.min(100,Math.max(1,Number.parseInt(query.get('limit') || query.get('pageSize') || '8',10) || 8));
     const page = Math.max(1,Number.parseInt(query.get('page') || '1',10) || 1);
     const scope = warehouseScope(user,query.get('warehouseId'),'i');
@@ -31,7 +35,12 @@ export async function GET(request: NextRequest) {
     for (const field of ['supplierId','purchaseOrderId']) {
       const value = query.get(field)?.trim(); if (value) { where.push(`i.${field} = ?`); params.push(value); }
     }
-    if (q) {
+    if (serials.length) {
+      const placeholders = serials.map(() => '?').join(',');
+      const normalizedSerials = serials.map(value => value.toLocaleLowerCase());
+      where.push(`(lower(i.sn) IN (${placeholders}) OR lower(COALESCE(i.itemNumber,'')) IN (${placeholders}))`);
+      params.push(...normalizedSerials, ...normalizedSerials);
+    } else if (q) {
       const escaped = q.replace(/[\\%_]/g,'\\$&'); const pattern = `%${escaped}%`;
       where.push(`(i.sn LIKE ? ESCAPE '\\' OR i.itemNumber LIKE ? ESCAPE '\\' OR (COALESCE(i.brand,'') || ' ' || COALESCE(i.model,'') || ' ' || COALESCE(i.year,'')) LIKE ? ESCAPE '\\' OR i.model LIKE ? ESCAPE '\\' OR i.saleOrderNo LIKE ? ESCAPE '\\')`);
       params.push(`%${escaped}`,pattern,pattern,pattern,pattern);

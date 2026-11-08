@@ -21,6 +21,7 @@ import {
 import { verifyPassword } from '@/lib/auth';
 import { createPurgeBackup, getPurgeCandidate } from '@/lib/inventory-purge';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
+import { uniqueMachineScanTokens } from '@/lib/machine-scan';
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
@@ -126,11 +127,16 @@ interface InventoryFilters {
   ageMax?: string;
 }
 
-function getWhere(search: string, status: string, filters: InventoryFilters = {}): { clause: string; params: (string | number)[] } {
+function getWhere(search: string, status: string, filters: InventoryFilters = {}, serials: string[] = []): { clause: string; params: (string | number)[] } {
   const conditions = ['i.deleted = 0'];
   const params: (string | number)[] = [];
 
-  if (search) {
+  if (serials.length) {
+    const placeholders = serials.map(() => '?').join(',');
+    const normalizedSerials = serials.map(value => value.toLocaleLowerCase());
+    conditions.push(`(lower(i.sn) IN (${placeholders}) OR lower(COALESCE(i.itemNumber,'')) IN (${placeholders}))`);
+    params.push(...normalizedSerials, ...normalizedSerials);
+  } else if (search) {
     const pattern = `%${search}%`;
     conditions.push(`(
       i.sn LIKE ? OR i.itemNumber LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR i.year LIKE ? OR
@@ -206,6 +212,9 @@ export async function GET(request: NextRequest) {
       ? parsedPagination.pageSize
       : 20;
     const search = searchParams.get('search')?.trim() || '';
+    const serials = uniqueMachineScanTokens(searchParams.getAll('sn').map(value => value.trim()).filter(Boolean));
+    if (serials.length > 100) return NextResponse.json(errorResponse('VALIDATION_ERROR','一次最多查询 100 个 SN'), { status: 400 });
+    if (serials.some(value => value.length > 200)) return NextResponse.json(errorResponse('VALIDATION_ERROR','SN 长度不能超过 200 个字符'), { status: 400 });
     const status = searchParams.get('status')?.trim() || '';
     if (searchParams.get('meta') === 'filters') {
       const brands = db.prepare(`
@@ -257,7 +266,7 @@ export async function GET(request: NextRequest) {
       ageMax: searchParams.get('ageMax')?.trim() || undefined,
     };
     const scoped = warehouseScope(user, searchParams.get('warehouseId'), 'i');
-    const where = getWhere(search, status, filters);
+    const where = getWhere(search, status, filters, serials);
     const customStatusId = searchParams.get('customStatusId')?.trim();
     if (customStatusId) { where.clause += ' AND EXISTS (SELECT 1 FROM inventory_status_records cr WHERE cr.id=i.currentStatusRecordId AND cr.definitionId=? AND cr.closedAt IS NULL)'; where.params.push(customStatusId); }
     let clause = where.clause + ' AND ' + scoped.sql;

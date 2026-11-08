@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import CustomSelect from '@/components/CustomSelect';
 import BusinessDialog from '@/components/BusinessDialog';
 import ConfirmDialog from '@/components/ConfirmDialog';
@@ -19,6 +19,7 @@ import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import CopyTextButton from '@/components/CopyTextButton';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
+import { uniqueMachineScanTokens } from '@/lib/machine-scan';
 import { TransfersWorkspace } from '@/app/transfers/page';
 import {
   ArrowRightLeft,
@@ -38,7 +39,6 @@ import {
   Printer,
   RefreshCw,
   Save,
-  Search,
   SlidersHorizontal,
   Settings2,
   Wrench,
@@ -267,6 +267,7 @@ export default function InventoryPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
+  const serialSearchTokens = useRef<string[]>([]);
   const [status, setStatus] = useState('');
   const [filters, setFilters] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterDraft, setFilterDraft] = useState<InventoryFilters>(EMPTY_FILTERS);
@@ -368,7 +369,8 @@ export default function InventoryPage() {
       setError('');
       try {
         const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
-        if (search) params.set('search', search);
+        if (serialSearchTokens.current.length) serialSearchTokens.current.forEach(sn => params.append('sn', sn));
+        else if (search) params.set('search', search);
         if (status.startsWith('custom:')) { params.set('status', 'custom'); params.set('customStatusId', status.slice(7)); }
         else if (status) params.set('status', status);
         Object.entries(filters).forEach(([key, value]) => {
@@ -454,11 +456,13 @@ export default function InventoryPage() {
 
   const submitSearch = (event?: FormEvent) => {
     event?.preventDefault();
+    serialSearchTokens.current = [];
     setPage(1);
     setSearch(searchInput.trim());
   };
 
   const clearSearch = () => {
+    serialSearchTokens.current = [];
     setSearchInput('');
     setSearch('');
     setPage(1);
@@ -712,12 +716,8 @@ export default function InventoryPage() {
       <WorkspaceSection active={activeWorkspace === 'list'}>
       <section className="glass p-4 mb-4">
         <div className="flex flex-wrap items-center gap-3">
-          <form onSubmit={submitSearch} className="relative min-w-0 basis-full xl:max-w-xl xl:flex-1">
-            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSearch={query => { setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled placeholder="SN、编号、品牌型号或采购单号" ariaLabel="搜索库存" />
-            {searchInput && (
-              <button type="button" onClick={clearSearch} title="清除搜索" aria-label="清除搜索" className="absolute right-12 top-1/2 -translate-y-1/2 p-1 text-ink-soft hover:text-ink-deep"><X className="w-4 h-4" /></button>
-            )}
-            <button type="submit" title="搜索" aria-label="搜索" className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-primary hover:bg-primary/10 rounded-md"><Search className="w-4 h-4" /></button>
+          <form onSubmit={submitSearch} className="min-w-0 basis-full xl:max-w-xl xl:flex-1">
+            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} onClear={clearSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled placeholder="搜索 SN、型号或编号" ariaLabel="搜索库存" />
           </form>
 
           <div className="order-last flex w-full items-center gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="库存状态筛选">
