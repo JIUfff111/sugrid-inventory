@@ -38,7 +38,9 @@
     ".next-qa-build/types/**/*.ts",
     ".next-qa-build/dev/types/**/*.ts",
     ".next-rental-qa/types/**/*.ts",
-    ".next-rental-qa/dev/types/**/*.ts"
+    ".next-rental-qa/dev/types/**/*.ts",
+    ".next-aftersales-qa/types/**/*.ts",
+    ".next-aftersales-qa/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

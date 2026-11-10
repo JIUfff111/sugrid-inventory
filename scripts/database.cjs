@@ -268,6 +268,10 @@ function initDatabase(db) {
       receivedBy TEXT,
       receivedCondition TEXT,
       receivedNote TEXT,
+      returnTrackingNo TEXT,
+      processingAt TEXT,
+      processingBy TEXT,
+      processingNote TEXT,
       deleted INTEGER NOT NULL DEFAULT 0,
       createdBy TEXT NOT NULL,
       createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
@@ -1154,6 +1158,13 @@ function applyVersionedMigrations(db) {
   migrate(27, 'persist receiving warehouse on purchase orders', () => {
     add('purchase_orders', 'warehouseId', "TEXT NOT NULL DEFAULT 'warehouse_main'");
     db.prepare("UPDATE purchase_orders SET warehouseId = 'warehouse_main' WHERE warehouseId IS NULL OR TRIM(warehouseId) = ''").run();
+  });
+
+  migrate(28, 'record after-sales return shipping and handoff ownership', () => {
+    add('after_sale_records', 'returnTrackingNo', 'TEXT');
+    add('after_sale_records', 'processingAt', 'TEXT');
+    add('after_sale_records', 'processingBy', 'TEXT');
+    add('after_sale_records', 'processingNote', 'TEXT');
   });
 }
 

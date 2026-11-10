@@ -86,7 +86,7 @@ async function main() {
       }
     }
 
-    db.prepare("INSERT INTO users(id, username, password, role, status) VALUES ('flow-admin', 'flow-admin', 'test', 'admin', 'active'), ('flow-manager', 'flow-manager', 'test', 'warehouse_manager', 'active')").run();
+    db.prepare("INSERT INTO users(id, username, password, realName, role, status) VALUES ('flow-admin', 'flow-admin', 'test', '流程管理员', 'admin', 'active'), ('flow-manager', 'flow-manager', 'test', '分仓用户', 'warehouse_manager', 'active')").run();
     token = auth.createSession('flow-admin');
     db.prepare("INSERT INTO suppliers(id, supplierName) VALUES ('flow-supplier', '流程测试供应商')").run();
     db.prepare("INSERT INTO sales_channels(id, channelName) VALUES ('flow-channel', '流程测试渠道')").run();
@@ -114,8 +114,8 @@ async function main() {
     const migratedLegacy = db.prepare('SELECT rentalOrderId FROM rental_records WHERE id = ?').get('legacy-rental');
     assert(migratedLegacy.rentalOrderId, 'legacy rental should receive a compatible one-machine rental order');
     assert.equal(db.prepare('SELECT rentalNo FROM rental_orders WHERE id = ?').get(migratedLegacy.rentalOrderId).rentalNo, '租LEGACY0001');
-    const addRental = async (sn, endDate) => call('rentals', 'POST', {
-      inventoryId: inventory(sn).id, customerName: '测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
+    const addRental = async (sn, endDate, customerName = '测试客户') => call('rentals', 'POST', {
+      inventoryId: inventory(sn).id, customerName, customerPhone: '10000000000', customerAddress: '测试地址',
       rentalStartDate: shiftDate(-30), rentalEndDate: endDate, rentalType: 'day', rentalUnitPrice: 10, deposit: 100,
     }, 201);
 
@@ -251,9 +251,9 @@ async function main() {
       customerName: '重复机器', customerPhone: '10000000000', customerAddress: '测试地址', rentalStartDate: chinaToday, rentalEndDate: shiftDate(1), rentalType: 'day',
     }, 400);
 
-    const dueThree = await addRental('RTN-D3', shiftDate(3));
-    const dueToday = await addRental('RTN-TODAY', chinaToday);
-    const overdue = await addRental('RTN-OVERDUE', shiftDate(-1));
+    const dueThree = await addRental('RTN-D3', shiftDate(3), '王先生');
+    const dueToday = await addRental('RTN-TODAY', chinaToday, '李女士');
+    const overdue = await addRental('RTN-OVERDUE', shiftDate(-1), '赵先生');
     await addRental('RTN-OUTSIDE', shiftDate(4));
     await call('rentals', 'POST', {
       inventoryId: inventory('RTN-D3').id, customerName: '重复租赁', customerPhone: '10000000000', customerAddress: '测试地址',
@@ -270,11 +270,12 @@ async function main() {
       saleChannelId: 'flow-channel', saleOrderNo: 'FLOW-SALE-AFTERSALE', saleDate: chinaToday,
       items: [{ inventoryId: inventory('RTN-AFTERSALE').id, sellingPrice: 1600 }],
     }, 201);
-    const afterSale = await call('after-sales', 'POST', { inventoryId: inventory('RTN-AFTERSALE').id, issueType: '维修', resolutionType: 'repair' }, 201);
-    await call('after-sales', 'PATCH', { id: afterSale.id, action: 'receive' });
+    const afterSale = await call('after-sales', 'POST', { inventoryId: inventory('RTN-AFTERSALE').id, issueType: '系统测试：散热异常', returnTrackingNo: 'SF-FLOW-AFTERSALE-001', resolutionType: 'repair' }, 201);
+    await call('after-sales', 'PATCH', { id: afterSale.id, action: 'receive', condition: '外观正常' });
     const oldReceivedAt = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
     db.prepare("UPDATE after_sale_records SET receivedAt=?, status='received' WHERE id=?").run(oldReceivedAt, afterSale.id);
     db.prepare("UPDATE after_sale_stock SET receivedAt=? WHERE afterSaleId=?").run(oldReceivedAt, afterSale.id);
+    db.prepare("UPDATE rental_records SET customerName='' WHERE id=?").run(overdue.id);
     assert.equal(db.prepare('SELECT status FROM sales_records WHERE id=?').get(sale.id).status, 'completed');
 
     token = auth.createSession('flow-admin');
@@ -283,11 +284,17 @@ async function main() {
     assert(alertIds.has(`rental:${dueThree.id}`), 'rental due in three days must alert');
     assert(alertIds.has(`rental:${dueToday.id}`), 'rental due today must alert');
     assert(alertIds.has(`rental:${overdue.id}`), 'overdue rental must alert');
+    assert.match(alerts.items.find(item => item.id === `rental:${dueThree.id}`).title, /王先生/);
+    assert.match(alerts.items.find(item => item.id === `rental:${dueToday.id}`).title, /李女士/);
+    assert.match(alerts.items.find(item => item.id === `rental:${overdue.id}`).title, /未填写客户姓名/);
     assert(!alertIds.has(`rental:${returnedRental.id}`), 'returned rental must not alert');
     assert(!alertIds.has(`rental:${db.prepare("SELECT id FROM rental_records WHERE sn='RTN-OUTSIDE'").get().id}`), 'rental due in four days must not alert');
     const afterSaleAlert = alerts.items.find((item) => item.id === `after-sale:${afterSale.id}`);
     assert(afterSaleAlert, 'received after-sale machine past 24 hours must alert');
     assert.equal(afterSaleAlert.level, 'danger');
+    assert.match(afterSaleAlert.title, /SF-FLOW-AFTERSALE-001/);
+    assert(!afterSaleAlert.title.includes(afterSale.afterSaleNo), 'alert title should use the customer return tracking number, not the generated after-sale number');
+    assert.match(afterSaleAlert.detail, new RegExp(afterSale.afterSaleNo));
     db.prepare('UPDATE after_sale_records SET receivedAt=? WHERE id=?').run(new Date(Date.now() - 23 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '), afterSale.id);
     const notYetOverdue = await call('alerts', 'GET', undefined);
     assert(!notYetOverdue.items.some((item) => item.id === `after-sale:${afterSale.id}`), 'received after-sale machine under 24 hours must not alert');

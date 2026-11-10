@@ -47,6 +47,13 @@ function move(inventoryId: string, type: string, ref: string, actor: string, not
     note, createdAt: formatDateTime(),
   });
 }
+function normalizeTrackingNo(value: unknown) {
+  if (value === undefined || value === null) return null;
+  if (typeof value !== 'string') throw new Error('寄回快递单号必须为文本');
+  const trackingNo = value.trim();
+  if (trackingNo.length > 100) throw new Error('寄回快递单号不能超过 100 个字符');
+  return trackingNo || null;
+}
 
 type SaleSource = {
   salesRecordId: string | null;
@@ -97,12 +104,19 @@ function saleDataSelect() {
       COALESCE(sri.sellingPrice, i.sellingPrice, 0) AS originalSellingPrice,
       COALESCE(sri.purchasePrice, i.purchasePrice, 0) AS originalPurchasePrice,
       COALESCE(sri.profit, 0) AS originalProfit,
-      s.stockStatus, s.receivedAt AS stockReceivedAt, s.condition AS stockCondition
+      s.stockStatus, s.receivedAt AS stockReceivedAt, s.receivedBy AS stockReceivedBy,
+      s.condition AS stockCondition, s.note AS stockNote,
+      COALESCE(NULLIF(createdUser.realName, ''), createdUser.username) AS createdByName,
+      COALESCE(NULLIF(receivedUser.realName, ''), receivedUser.username) AS receivedByName,
+      COALESCE(NULLIF(processingUser.realName, ''), processingUser.username) AS processingByName
     FROM after_sale_records a
     LEFT JOIN inventory i ON i.id = a.inventoryId
     LEFT JOIN sales_record_items sri ON sri.inventoryId = a.inventoryId AND sri.salesRecordId = a.salesRecordId
     LEFT JOIN sales_records sr ON sr.id = a.salesRecordId
-    LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id`;
+    LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
+    LEFT JOIN users createdUser ON createdUser.id = a.createdBy
+    LEFT JOIN users receivedUser ON receivedUser.id = a.receivedBy
+    LEFT JOIN users processingUser ON processingUser.id = a.processingBy`;
 }
 
 export async function GET(request: NextRequest) {
@@ -149,8 +163,8 @@ export async function GET(request: NextRequest) {
     if (status === 'stored') where.push("s.stockStatus = 'stored'");
     else if (status && status !== 'all') { where.push('a.status = ?'); params.push(status); }
     if (search) {
-      where.push('(a.afterSaleNo LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
-      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern);
+      where.push('(a.afterSaleNo LIKE ? OR a.returnTrackingNo LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
+      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern);
     }
     if (searchParams.get('id')) { where.push('a.id = ?'); params.push(searchParams.get('id')!); }
     const from = `FROM after_sale_records a
@@ -184,9 +198,11 @@ export async function POST(request: NextRequest) {
     const inventoryId = String(body.inventoryId || '').trim();
     const issueType = String(body.issueType || '').trim();
     const resolutionType = String(body.resolutionType || '').trim();
+    const returnTrackingNo = normalizeTrackingNo(body.returnTrackingNo);
     const issueDescription = String(body.issueDescription || '').trim() || null;
     const remark = String(body.remark || '').trim() || null;
-    if (!inventoryId || !issueType || !resolutionType) return bad('请选择已售机器、售后原因和处理方式');
+    if (!inventoryId || !resolutionType) return bad('请选择已售机器和处理方式');
+    if (issueType.length > 160) return bad('售后原因不能超过 160 个字符');
     if (!['repair', 'exchange', 'customer_return'].includes(resolutionType)) return bad('售后处理方式不正确');
     const initial = inventory(inventoryId);
     if (!initial || initial.status !== 'sold') return NextResponse.json(errorResponse(ErrorCode.INVENTORY_NOT_FOUND, '已售机器不存在或状态已变化'), { status: 404 });
@@ -205,10 +221,10 @@ export async function POST(request: NextRequest) {
       if (source.sellingPrice < 0 || !Number.isFinite(source.sellingPrice)) throw new Error('原销售价格无效，无法关联售后');
       if (resolutionType === 'customer_return') {
         if (db.prepare("UPDATE inventory SET status = 'in_stock', soldDate = NULL, sellingPrice = NULL, saleChannel = NULL, saleOrderNo = NULL, profit = NULL, updatedAt = ? WHERE id = ? AND status = 'sold' AND deleted = 0").run(now, inventoryId).changes !== 1) throw new Error('机器状态已发生变化，请刷新后重试');
-        db.prepare(`INSERT INTO after_sale_records (id, afterSaleNo, inventoryId, sn, salesRecordId, saleOrderNo, customerName, customerPhone, issueType, issueDescription, resolutionType, status, refundAmount, resolutionNote, resolvedAt, deleted, createdBy, createdAt, updatedAt)
-          VALUES (?, ?, ?, ?, ?, ?, '', '', ?, ?, 'customer_return', 'resolved', ?, ?, ?, 0, ?, ?, ?)`).run(
+        db.prepare(`INSERT INTO after_sale_records (id, afterSaleNo, inventoryId, sn, salesRecordId, saleOrderNo, customerName, customerPhone, issueType, issueDescription, resolutionType, status, refundAmount, resolutionNote, resolvedAt, returnTrackingNo, deleted, createdBy, createdAt, updatedAt)
+          VALUES (?, ?, ?, ?, ?, ?, '', '', ?, ?, 'customer_return', 'resolved', ?, ?, ?, ?, 0, ?, ?, ?)`).run(
           id, afterSaleNo, inventoryId, item.sn, source.salesRecordId, source.saleOrderNo,
-          issueType, issueDescription, source.sellingPrice, remark || '退货退款并恢复正式库存', now, user.id, now, now,
+          issueType, issueDescription, source.sellingPrice, remark || '退货退款并恢复正式库存', now, returnTrackingNo, user.id, now, now,
         );
         const receiptId = generateId('return_receipt');
         const receiptNo = nextReceiptNo(date);
@@ -222,24 +238,24 @@ export async function POST(request: NextRequest) {
           createdAt: now,
         });
         move(inventoryId, 'sales_return', id, user.id, remark || '客户退货退款并入库', item.warehouseId, null, item.warehouseId);
-        return { id, afterSaleNo, status: 'resolved', resolutionType, inventoryId, receiptId, receiptNo, salesRecordId: source.salesRecordId, saleRecordNo: source.recordNo, warehouseId: item.warehouseId, purchasePrice: source.purchasePrice, sellingPrice: source.sellingPrice, saleChannel: source.saleChannel, saleOrderNo: source.saleOrderNo };
+        return { id, afterSaleNo, status: 'resolved', resolutionType, inventoryId, receiptId, receiptNo, returnTrackingNo, salesRecordId: source.salesRecordId, saleRecordNo: source.recordNo, warehouseId: item.warehouseId, purchasePrice: source.purchasePrice, sellingPrice: source.sellingPrice, saleChannel: source.saleChannel, saleOrderNo: source.saleOrderNo };
       }
 
       if (db.prepare("UPDATE inventory SET status = 'after_sale', updatedAt = ? WHERE id = ? AND status = 'sold' AND deleted = 0").run(now, inventoryId).changes !== 1) throw new Error('机器状态已发生变化，请刷新后重试');
-      db.prepare(`INSERT INTO after_sale_records (id, afterSaleNo, inventoryId, sn, salesRecordId, saleOrderNo, customerName, customerPhone, issueType, issueDescription, resolutionType, status, refundAmount, resolutionNote, deleted, createdBy, createdAt, updatedAt)
-        VALUES (?, ?, ?, ?, ?, ?, '', '', ?, ?, ?, 'created', ?, ?, 0, ?, ?, ?)`).run(
+      db.prepare(`INSERT INTO after_sale_records (id, afterSaleNo, inventoryId, sn, salesRecordId, saleOrderNo, customerName, customerPhone, issueType, issueDescription, resolutionType, status, refundAmount, resolutionNote, returnTrackingNo, deleted, createdBy, createdAt, updatedAt)
+        VALUES (?, ?, ?, ?, ?, ?, '', '', ?, ?, ?, 'created', ?, ?, ?, 0, ?, ?, ?)`).run(
         id, afterSaleNo, inventoryId, item.sn, source.salesRecordId, source.saleOrderNo,
-        issueType, issueDescription, resolutionType, source.sellingPrice, remark, user.id, now, now,
+        issueType, issueDescription, resolutionType, source.sellingPrice, remark, returnTrackingNo, user.id, now, now,
       );
       move(inventoryId, 'after_sale_created', id, user.id, `${resolutionType === 'repair' ? '维修' : '换货'}售后登记`, item.warehouseId);
-      return { id, afterSaleNo, status: 'created', resolutionType, inventoryId, salesRecordId: source.salesRecordId, recordNo: source.recordNo, saleOrderNo: source.saleOrderNo, saleChannel: source.saleChannel, saleDate: source.saleDate, sellingPrice: source.sellingPrice, purchasePrice: source.purchasePrice };
+      return { id, afterSaleNo, status: 'created', resolutionType, inventoryId, returnTrackingNo, salesRecordId: source.salesRecordId, recordNo: source.recordNo, saleOrderNo: source.saleOrderNo, saleChannel: source.saleChannel, saleDate: source.saleDate, sellingPrice: source.sellingPrice, purchasePrice: source.purchasePrice };
     })();
     return NextResponse.json(successResponse(result), { status: 201 });
   } catch (error) {
     const response = authError(error);
     if (response) return response;
     const message = msg(error, '创建售后单失败');
-    const validation = /不能为空|请选择|不正确|无效|不存在|状态已变化|已有进行中|缺少原销售/.test(message);
+    const validation = /不能为空|请选择|不正确|无效|不存在|状态已变化|已有进行中|缺少原销售|快递单号|售后原因/.test(message);
     return NextResponse.json(errorResponse(validation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: validation ? 400 : 500 });
   }
 }
@@ -264,13 +280,19 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'receive') {
       if (record.status !== 'created') return bad('当前售后单不能确认收到');
+      if (typeof body.condition !== 'string' || !body.condition.trim()) return bad('请填写拆包后确认的机器状况');
+      if (body.condition.length > 160) return bad('机器状况不能超过 160 个字符');
+      if (body.note !== undefined && body.note !== null && typeof body.note !== 'string') return bad('拆包核验备注必须为文本');
+      if (typeof body.note === 'string' && body.note.length > 1000) return bad('拆包核验备注不能超过 1000 个字符');
+      const condition = body.condition.trim();
+      const note = String(body.note || '').trim() || null;
       const result = db.transaction(() => {
-        const changed = db.prepare("UPDATE after_sale_records SET status = 'received', receivedAt = COALESCE(receivedAt, ?), receivedBy = COALESCE(receivedBy, ?), updatedAt = ? WHERE id = ? AND status = 'created'").run(now, user.id, now, id).changes;
+        const changed = db.prepare("UPDATE after_sale_records SET status = 'received', receivedAt = COALESCE(receivedAt, ?), receivedBy = COALESCE(receivedBy, ?), receivedCondition = ?, receivedNote = ?, updatedAt = ? WHERE id = ? AND status = 'created'").run(now, user.id, condition, note, now, id).changes;
         if (changed !== 1) throw new Error('售后单状态已变化，请刷新后重试');
         const existing = db.prepare('SELECT id FROM after_sale_stock WHERE afterSaleId = ?').get(id) as Row | undefined;
-        if (!existing) db.prepare("INSERT INTO after_sale_stock (id, afterSaleId, afterSaleRecordId, inventoryId, stockStatus, receivedAt, receivedBy, condition, note, createdAt, updatedAt) VALUES (?, ?, ?, ?, 'stored', ?, ?, ?, ?, ?, ?)").run(
-          generateId('after_stock'), id, id, record.inventoryId, now, user.id,
-          String(body.condition || '').trim() || null, String(body.note || '').trim() || null, now, now,
+        if (existing) db.prepare("UPDATE after_sale_stock SET stockStatus = 'stored', receivedAt = ?, receivedBy = ?, condition = ?, note = ?, updatedAt = ? WHERE id = ?").run(now, user.id, condition, note, now, existing.id);
+        else db.prepare("INSERT INTO after_sale_stock (id, afterSaleId, afterSaleRecordId, inventoryId, stockStatus, receivedAt, receivedBy, condition, note, createdAt, updatedAt) VALUES (?, ?, ?, ?, 'stored', ?, ?, ?, ?, ?, ?)").run(
+          generateId('after_stock'), id, id, record.inventoryId, now, user.id, condition, note, now, now,
         );
         move(record.inventoryId, 'after_sale_receive', id, user.id, '售后机器收到并进入暂存', item.warehouseId);
         return { id, status: 'received' };
@@ -279,13 +301,33 @@ export async function PATCH(request: NextRequest) {
     }
 
     if (action === 'start_processing') {
-      const changed = db.prepare("UPDATE after_sale_records SET status = 'processing', updatedAt = ? WHERE id = ? AND status = 'received'").run(now, id).changes;
-      if (changed !== 1) return bad('当前售后单不能开始处理');
+      const processingNote = String(body.processingNote || '').trim() || null;
+      if (typeof body.processingNote === 'string' && body.processingNote.length > 1000) return bad('处理进展不能超过 1000 个字符');
+      const started = db.transaction(() => {
+        const changed = db.prepare("UPDATE after_sale_records SET status = 'processing', processingAt = ?, processingBy = ?, processingNote = COALESCE(?, processingNote), updatedAt = ? WHERE id = ? AND status = 'received'").run(now, user.id, processingNote, now, id).changes;
+        if (changed !== 1) return false;
+        move(record.inventoryId, 'after_sale_start_processing', id, user.id, processingNote || '开始售后处理', item.warehouseId);
+        return true;
+      });
+      if (!started()) return bad('当前售后单不能开始处理');
       return NextResponse.json(successResponse({ id, status: 'processing' }));
+    }
+
+    if (action === 'update_progress') {
+      const processingNote = String(body.processingNote || '').trim();
+      if (record.status !== 'processing') return bad('仅处理中售后单可以更新进展');
+      if (!processingNote) return bad('请填写当前处理进展');
+      if (processingNote.length > 1000) return bad('处理进展不能超过 1000 个字符');
+      db.transaction(() => {
+        if (db.prepare("UPDATE after_sale_records SET processingNote = ?, updatedAt = ? WHERE id = ? AND status = 'processing'").run(processingNote, now, id).changes !== 1) throw new Error('售后单状态已变化，请刷新后重试');
+        move(record.inventoryId, 'after_sale_progress', id, user.id, processingNote, item.warehouseId);
+      })();
+      return NextResponse.json(successResponse({ id, status: 'processing', processingNote }));
     }
 
     if (!['created', 'received', 'processing'].includes(record.status) || item.status !== 'after_sale') return bad('售后单已结束或机器状态已变化');
     const stock = db.prepare('SELECT * FROM after_sale_stock WHERE afterSaleId = ?').get(id) as Row | undefined;
+    if (['repair_complete', 'customer_return', 'exchange', 'restock'].includes(action) && record.status !== 'processing') return bad('请先开始售后处理并登记处理人');
     if ((!stock || stock.stockStatus !== 'stored') && ['repair_complete', 'customer_return', 'exchange', 'restock'].includes(action)) return bad('请先确认收到机器');
 
     if (action === 'cancel') {

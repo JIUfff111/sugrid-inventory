@@ -104,8 +104,8 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   after_sale_records: {
     key: 'after_sale_records', label: '售后记录', table: 'after_sale_records',
-    fields: ['id', 'afterSaleNo', 'inventoryId', 'sn', 'salesRecordId', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'issueDescription', 'resolutionType', 'replacementInventoryId', 'status', 'refundAmount', 'resolutionNote', 'resolvedAt', 'deleted', 'createdBy', 'createdAt', 'updatedAt', 'receivedAt', 'receivedBy', 'receivedCondition', 'receivedNote'],
-    writable: ['resolutionNote'], deletable: false, creatable: false, searchFields: ['afterSaleNo', 'sn', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'status'], orderBy: 'createdAt DESC', required: ['afterSaleNo', 'inventoryId', 'sn', 'customerName', 'customerPhone', 'issueType', 'resolutionType'],
+    fields: ['id', 'afterSaleNo', 'inventoryId', 'sn', 'salesRecordId', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'issueDescription', 'resolutionType', 'replacementInventoryId', 'status', 'refundAmount', 'resolutionNote', 'resolvedAt', 'deleted', 'createdBy', 'createdAt', 'updatedAt', 'receivedAt', 'receivedBy', 'receivedCondition', 'receivedNote', 'returnTrackingNo', 'processingAt', 'processingBy', 'processingNote'],
+    writable: ['resolutionNote'], deletable: false, creatable: false, searchFields: ['afterSaleNo', 'returnTrackingNo', 'sn', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'status'], orderBy: 'createdAt DESC', required: ['afterSaleNo', 'inventoryId', 'sn', 'customerName', 'customerPhone', 'resolutionType'],
   },
   after_sale_stock: {
     key: 'after_sale_stock', label: '售后暂存', table: 'after_sale_stock',
@@ -287,6 +287,7 @@ export function normalizeImportRecord(
 ): ImportNormalization {
   const record = { ...raw };
   const warnings: string[] = [];
+  if (resource.key === 'after_sale_records' && (record.issueType === undefined || record.issueType === null)) record.issueType = '';
   if (resource.key === 'users') {
     const id = String(record.id ?? '').trim();
     const existingRole = id ? (db.prepare('SELECT role FROM users WHERE id = ?').get(id) as { role: string } | undefined)?.role : undefined;

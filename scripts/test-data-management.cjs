@@ -53,6 +53,13 @@ async function main() {
       sn: 'LAPTOP-IMPORT-001', purchasePrice: 2400,
     });
     assert(laptopPurchaseItemErrors.includes('缺少必填字段 cpu'), 'laptop spec requirements should remain enforced');
+    const afterSaleResource = dataManagement.DATA_RESOURCES.after_sale_records;
+    const normalizedAfterSale = dataManagement.normalizeImportRecord(afterSaleResource, {
+      afterSaleNo: 'AS-IMPORT-OPTIONAL', inventoryId: 'inventory-test', sn: 'SN-IMPORT-OPTIONAL',
+      customerName: '测试客户', customerPhone: '10000', resolutionType: 'repair',
+    }, undefined);
+    assert.equal(normalizedAfterSale.record.issueType, '', 'missing after-sales reason should import as an empty string');
+    assert.deepEqual(dataManagement.validateRecord(afterSaleResource, normalizedAfterSale.record), []);
     const purge = load('src/lib/inventory-purge.ts', { '@/lib/db': database });
     const inventoryStatus = load('src/lib/inventory-status.ts', { ...deps, '@/lib/inventory-status': undefined });
     const routeDeps = {

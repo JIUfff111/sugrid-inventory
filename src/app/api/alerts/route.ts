@@ -9,23 +9,28 @@ export async function GET() {
     const user = await requireRole('admin', 'warehouse_manager');
     const items: Array<{ id: string; kind: string; level: 'info' | 'warning' | 'danger'; title: string; detail: string; href: string }> = [];
     if (user.role === 'admin') {
-      const afterSales = db.prepare("SELECT a.id, a.afterSaleNo, a.sn, a.receivedAt, i.brand, i.model FROM after_sale_records a LEFT JOIN inventory i ON i.id = a.inventoryId WHERE a.deleted = 0 AND a.status IN ('received', 'processing') AND a.receivedAt IS NOT NULL AND datetime(a.receivedAt) <= datetime('now', '-1 day') ORDER BY a.receivedAt ASC").all() as Array<{ id: string; afterSaleNo: string; sn: string; receivedAt: string; brand?: string; model?: string }>;
-      afterSales.forEach((row) => items.push({ id: `after-sale:${row.id}`, kind: 'after_sale', level: 'danger', title: `售后单 ${row.afterSaleNo} 已超过 1 天未处理`, detail: `${formatProductName(row)} · SN ${row.sn} · 收到于 ${row.receivedAt}`, href: '/after-sales?view=stock' }));
+      const afterSales = db.prepare("SELECT a.id, a.afterSaleNo, a.returnTrackingNo, a.status, a.sn, a.receivedAt, i.brand, i.model FROM after_sale_records a LEFT JOIN inventory i ON i.id = a.inventoryId WHERE a.deleted = 0 AND a.status IN ('received', 'processing') AND a.receivedAt IS NOT NULL AND datetime(a.receivedAt) <= datetime('now', '-1 day') ORDER BY a.receivedAt ASC").all() as Array<{ id: string; afterSaleNo: string; returnTrackingNo?: string | null; status: string; sn: string; receivedAt: string; brand?: string; model?: string }>;
+      afterSales.forEach((row) => {
+        const tracking = row.returnTrackingNo?.trim() || '未登记寄回快递号';
+        const progress = row.status === 'processing' ? '处理中' : '待开始处理';
+        items.push({ id: `after-sale:${row.id}`, kind: 'after_sale', level: 'danger', title: `售后快递 ${tracking} 的机器签收超过 1 天仍${progress}`, detail: `售后单 ${row.afterSaleNo} · ${formatProductName(row)} · SN ${row.sn} · 签收于 ${row.receivedAt}`, href: `/after-sales?recordId=${encodeURIComponent(row.id)}` });
+      });
       const transfers = db.prepare("SELECT COUNT(*) AS total FROM transfers WHERE status = 'pending'").get() as { total: number };
       if (Number(transfers.total)) items.push({ id: 'transfers:pending', kind: 'transfer', level: 'warning', title: '有调拨申请待审批', detail: `当前有 ${transfers.total} 条调拨申请等待管理员处理`, href: '/inventory?view=transfers' });
       const pendingUsers = db.prepare("SELECT COUNT(*) AS total FROM users WHERE status = 'pending'").get() as { total: number };
       if (Number(pendingUsers.total)) items.push({ id: 'users:pending', kind: 'users', level: 'warning', title: '有新账号待审核', detail: `当前有 ${pendingUsers.total} 个注册账号等待管理员审核`, href: '/settings/users' });
     }
     if (user.role === 'admin') {
-    const rentals = db.prepare("SELECT id, rentalNo, sn, brand, model, rentalEndDate, CAST(julianday(date(rentalEndDate)) - julianday(date('now', '+8 hours')) AS INTEGER) AS daysUntilDue FROM rental_records WHERE deleted = 0 AND status = 'renting' AND date(rentalEndDate) <= date('now', '+8 hours', '+3 day') ORDER BY rentalEndDate ASC").all() as Array<{ id: string; rentalNo: string; sn: string; brand: string; model: string; rentalEndDate: string; daysUntilDue: number }>;
+    const rentals = db.prepare("SELECT id, rentalNo, customerName, sn, brand, model, rentalEndDate, CAST(julianday(date(rentalEndDate)) - julianday(date('now', '+8 hours')) AS INTEGER) AS daysUntilDue FROM rental_records WHERE deleted = 0 AND status = 'renting' AND date(rentalEndDate) <= date('now', '+8 hours', '+3 day') ORDER BY rentalEndDate ASC").all() as Array<{ id: string; rentalNo: string; customerName: string | null; sn: string; brand: string; model: string; rentalEndDate: string; daysUntilDue: number }>;
     rentals.forEach((row) => {
       const overdue = row.daysUntilDue < 0;
+      const customer = row.customerName?.trim() || '未填写客户姓名';
       const title = overdue
-        ? `租赁单 ${row.rentalNo} 已逾期 ${Math.abs(row.daysUntilDue)} 天，机器尚未归还`
+        ? `${customer} 的租赁机器已逾期 ${Math.abs(row.daysUntilDue)} 天，尚未归还`
         : row.daysUntilDue === 0
-          ? `租赁单 ${row.rentalNo} 今日到期，请确认归还安排`
-          : `租赁单 ${row.rentalNo} 将在 ${row.daysUntilDue} 天后到期`;
-      items.push({ id: `rental:${row.id}`, kind: 'rental', level: overdue || row.daysUntilDue === 0 ? 'danger' : 'warning', title, detail: `${formatProductName(row)} · SN ${row.sn} · 到期日 ${row.rentalEndDate}`, href: '/rental' });
+          ? `${customer} 的租赁机器今日到期，请确认归还安排`
+          : `${customer} 的租赁机器将在 ${row.daysUntilDue} 天后到期`;
+      items.push({ id: `rental:${row.id}`, kind: 'rental', level: overdue || row.daysUntilDue === 0 ? 'danger' : 'warning', title, detail: `租赁单 ${row.rentalNo} · ${formatProductName(row)} · SN ${row.sn} · 到期日 ${row.rentalEndDate}`, href: '/rental' });
     });
     }
     return NextResponse.json(successResponse({ items }));
