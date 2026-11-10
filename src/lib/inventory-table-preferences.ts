@@ -127,7 +127,7 @@ export function createDefaultInventoryTablePreferences(): InventoryTablePreferen
       key,
       visible: defaultVisible !== false,
       width: defaultWidth,
-      freeze: 'none',
+      freeze: key === 'machine' ? 'left' : 'none',
     })),
   };
 }
@@ -198,6 +198,22 @@ export function migrateLegacyInventoryTablePreferences(value: unknown) {
     });
 
   return matchesLegacyDefault ? createDefaultInventoryTablePreferences() : migrateStoredInventoryTablePreferences(preferences);
+}
+
+export function migrateCurrentInventoryTablePreferences(value: unknown) {
+  const preferences = migrateStoredInventoryTablePreferences(value);
+  const defaults = createDefaultInventoryTablePreferences();
+  const matchesPreviousDefault = preferences.density === defaults.density
+    && preferences.columns.length === defaults.columns.length
+    && preferences.columns.every((column, index) => {
+      const currentDefault = defaults.columns[index];
+      return column.key === currentDefault.key
+        && column.visible === currentDefault.visible
+        && column.width === currentDefault.width
+        && column.freeze === 'none';
+    });
+
+  return matchesPreviousDefault ? defaults : preferences;
 }
 
 export function migrateStoredInventoryTablePreferences(value: unknown) {
