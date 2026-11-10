@@ -16,4 +16,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - 浏览器验收固定使用隔离测试账号 `experience-qa`，并确认服务连接独立 QA 数据库；禁止用正式账号或正式数据库做测试，也不要把测试密码写入项目规范文件。
 - After every code change, create a corresponding Git commit so the change can be traced and reverted.
 - After every code change, add or update the relevant tests. Before delivery, run the relevant test suite and confirm that all required checks pass.
-- 每次对话任务完成后，根据任务是否涉及运行环境或用户验收，重启并保持项目服务运行；交付前确认可访问地址，避免用户还要手动启动服务。
+- 硬性要求：每次任务交付前，确认当前项目服务正在运行，并在本对话右侧内置浏览器中复用现有标签打开项目页面；实际确认页面可访问后再回复，写明预览地址、端口和所连接的数据库环境。代码变更需要重启时先完成构建与测试，再重启服务并验证。
+- 测试与演示继续使用独立 QA 数据库和固定测试账号，不把测试数据写进正式数据库。优先复用一个预览端口和浏览器标签；确需额外隔离环境时说明用途，结束时清理自己创建且不再使用的测试服务与标签，不关闭用户正在使用的资源。
