@@ -25,8 +25,9 @@ export interface MachineSearchInputProps<T extends MachineSuggestion> {
   onScanToken?: (token: string) => void | Promise<void>;
   scanEnabled?: boolean;
   batchEnabled?: boolean;
+  batchButtonPlacement?: 'adjacent' | 'inline';
   searchOnEnter?: boolean;
-  placeholder?: string; ariaLabel?: string; disabled?: boolean; minChars?: number;
+  placeholder?: string; ariaLabel?: string; inputId?: string; disabled?: boolean; minChars?: number;
   getItems?: (payload: unknown) => T[]; renderItem?: (item: T) => ReactNode; className?: string;
 }
 function defaultItems<T extends MachineSuggestion>(payload: unknown): T[] {
@@ -44,8 +45,8 @@ function HighlightSN({ sn, query }: { sn: string; query: string }) {
 
 /** Database-backed suggestions; typing never selects a machine implicitly. */
 export default function MachineSearchInput<T extends MachineSuggestion>({
-  value, onChange, endpoint = '/api/inventory/lookup?context=inventory', onSelect, onSearch, onClear, onSelectMany, onScanTokens, onScanToken, scanEnabled = true, batchEnabled = false, searchOnEnter = false,
-  placeholder = '输入 SN 后四位或型号自动匹配', ariaLabel = '搜索机器', disabled = false,
+  value, onChange, endpoint = '/api/inventory/lookup?context=inventory', onSelect, onSearch, onClear, onSelectMany, onScanTokens, onScanToken, scanEnabled = true, batchEnabled = false, batchButtonPlacement = 'adjacent', searchOnEnter = false,
+  placeholder = '输入 SN 后四位或型号自动匹配', ariaLabel = '搜索机器', inputId, disabled = false,
   minChars = 4, getItems = defaultItems, renderItem, className = '',
 }: MachineSearchInputProps<T>) {
   const { active } = useWorkspace(); const listId = useId();
@@ -281,7 +282,7 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
   <div className={'flex min-w-0 items-start gap-2 ' + className}>
    <div ref={containerRef} className="relative min-w-0 flex-1">
     <Search className="pointer-events-none absolute left-3 top-1/2 z-[1] h-4 w-4 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
-    <input ref={inputRef} type="text" role="combobox" value={value} disabled={disabled}
+    <input ref={inputRef} id={inputId} type="text" role="combobox" value={value} disabled={disabled}
       onFocus={() => { setFocused(true); if (query.length >= minChars && selectedQuery.current !== query) { setLoading(true); setOpen(true); setRetry(v => v + 1); } }}
       onBlur={() => { ++sequence.current; abortRef.current?.abort(); setFocused(false); setOpen(false); setLoading(false); }}
       onChange={event => {
@@ -299,9 +300,10 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
       }}
       placeholder={placeholder} aria-label={ariaLabel} aria-autocomplete="list" aria-controls={listId} aria-expanded={showList}
       aria-activedescendant={showList && highlighted >= 0 ? listId + '-' + highlighted : undefined}
-      className="field w-full pl-10 pr-10" />
-    {onClear && value && !loading && <button type="button" className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft transition hover:bg-primary/5 hover:text-ink-deep active:scale-95" onMouseDown={event => event.preventDefault()} onClick={clearInput} aria-label="清除搜索"><X className="h-4 w-4" /></button>}
-    {loading ? <LoaderCircle className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-primary" aria-label="搜索中" /> : scanEnabled && (!onClear || !value) && <ScanLine className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft/60" aria-hidden="true" />}
+      className={`field w-full pl-10 ${batchEnabled && batchButtonPlacement === 'inline' ? 'pr-[4.75rem]' : 'pr-10'}`} />
+    {onClear && value && !loading && <button type="button" className={`absolute top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft transition hover:bg-primary/5 hover:text-ink-deep active:scale-95 ${batchEnabled && batchButtonPlacement === 'inline' ? 'right-11' : 'right-2'}`} onMouseDown={event => event.preventDefault()} onClick={clearInput} aria-label="清除搜索"><X className="h-4 w-4" /></button>}
+    {loading ? <LoaderCircle className={`pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-primary ${batchEnabled && batchButtonPlacement === 'inline' ? 'right-11' : 'right-3'}`} aria-label="搜索中" /> : scanEnabled && (!onClear || !value) && <ScanLine className={`pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft/60 ${batchEnabled && batchButtonPlacement === 'inline' ? 'right-11' : 'right-3'}`} aria-hidden="true" />}
+    {batchEnabled && batchButtonPlacement === 'inline' && <button ref={batchButtonRef} type="button" className="absolute right-1.5 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md border-l border-line/70 pl-1.5 text-ink-soft transition hover:bg-primary/5 hover:text-primary active:scale-95" disabled={disabled} onClick={openBatchEntry} aria-label="批量输入 SN" title="批量输入 SN"><ListPlus className="h-4 w-4" /></button>}
     {scanEnabled && error && !showList && <p role="alert" className="mt-1 text-xs text-danger">{error}</p>}
     {scanEnabled && scanNotice && <p role="status" className="mt-1 text-xs text-primary">{scanNotice}</p>}
     {showList && typeof document !== 'undefined' && createPortal(<div ref={listRef} style={position} className="dropdown-surface fixed z-[12000] flex flex-col overflow-hidden rounded-xl border border-line-strong bg-white shadow-xl animate-fade-in" onMouseDown={event => event.preventDefault()}>
@@ -316,7 +318,7 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
       {expanded && total > limit && <div className="flex shrink-0 items-center justify-between border-t border-line/70 px-3 py-2 text-xs text-ink-soft"><button type="button" disabled={page <= 1} onClick={() => setPage(v => v - 1)} className="btn-ghost p-1 disabled:opacity-30" aria-label="上一页匹配结果"><ChevronLeft className="h-4 w-4" /></button>{page} / {Math.ceil(total / limit)} · {total} 台<button type="button" disabled={page * limit >= total} onClick={() => setPage(v => v + 1)} className="btn-ghost p-1 disabled:opacity-30" aria-label="下一页匹配结果"><ChevronRight className="h-4 w-4" /></button></div>}
     </div>, document.body)}
    </div>
-   {batchEnabled && <button ref={batchButtonRef} type="button" className="btn-secondary inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap" disabled={disabled} onClick={openBatchEntry} aria-label="批量输入 SN"><ListPlus className="h-4 w-4" />批量 SN</button>}
+   {batchEnabled && batchButtonPlacement === 'adjacent' && <button ref={batchButtonRef} type="button" className="btn-secondary inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap" disabled={disabled} onClick={openBatchEntry} aria-label="批量输入 SN"><ListPlus className="h-4 w-4" />批量 SN</button>}
   </div>
   {batchOpen && typeof document !== 'undefined' && createPortal(<div ref={batchPanelRef} style={batchPosition} role="dialog" aria-modal="false" aria-label="批量输入 SN" className="fixed z-[12001] flex flex-col overflow-hidden rounded-xl border border-line-strong bg-white shadow-xl animate-fade-in">
     <header className="flex shrink-0 items-center justify-between border-b border-line/70 px-4 py-3"><h3 className="text-sm font-semibold text-ink-deep">批量输入 SN</h3><button type="button" className="btn-ghost p-1.5" aria-label="关闭批量输入" onClick={() => { setBatchOpen(false); batchButtonRef.current?.focus(); }}><X className="h-4 w-4" /></button></header>

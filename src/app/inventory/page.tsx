@@ -285,7 +285,6 @@ export default function InventoryPage() {
   const [search, setSearch] = useState('');
   const [configSearchInput, setConfigSearchInput] = useState('');
   const [configSearch, setConfigSearch] = useState('');
-  const [searchMode, setSearchMode] = useState<'machine' | 'configuration'>('machine');
   const serialSearchTokens = useRef<string[]>([]);
   const [status, setStatus] = useState('current_stock');
   const [filters, setFilters] = useState<InventoryFilters>(EMPTY_FILTERS);
@@ -452,11 +451,12 @@ export default function InventoryPage() {
       setError('');
       try {
         const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
-        if (searchMode === 'machine' && serialSearchTokens.current.length) serialSearchTokens.current.forEach(sn => params.append('sn', sn));
-        else if (searchMode === 'machine' && search) {
+        if (serialSearchTokens.current.length) serialSearchTokens.current.forEach(sn => params.append('sn', sn));
+        else if (search) {
           params.set('search', search);
           params.set('searchMode', 'machine');
-        } else if (searchMode === 'configuration' && configSearch) params.set('configSearch', configSearch);
+        }
+        if (configSearch) params.set('configSearch', configSearch);
         if (status.startsWith('custom:')) { params.set('status', 'custom'); params.set('customStatusId', status.slice(7)); }
         else if (status) params.set('status', status);
         Object.entries(filters).forEach(([key, value]) => {
@@ -483,13 +483,13 @@ export default function InventoryPage() {
       } finally {
         if (!cancelled) setLoading(false);
       }
-    }, (searchMode === 'machine' ? search : configSearch) ? 220 : 0);
+    }, search || configSearch ? 220 : 0);
 
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [active, activeWorkspace, page, pageSize, search, configSearch, searchMode, status, filters, reloadKey]);
+  }, [active, activeWorkspace, page, pageSize, search, configSearch, status, filters, reloadKey]);
 
   useEffect(() => {
     if (!items.length) return;
@@ -540,26 +540,29 @@ export default function InventoryPage() {
     return () => controller.abort();
   }, [active, selected?.id]);
 
-  const submitSearch = (event?: FormEvent) => {
+  const submitMachineSearch = (event?: FormEvent) => {
     event?.preventDefault();
+    serialSearchTokens.current = [];
+    setSearch(searchInput.trim());
     setPage(1);
-    if (searchMode === 'machine') {
-      serialSearchTokens.current = [];
-      setSearch(searchInput.trim());
-    } else {
-      setConfigSearch(configSearchInput.trim());
-    }
   };
 
-  const clearSearch = () => {
-    if (searchMode === 'machine') {
-      serialSearchTokens.current = [];
-      setSearchInput('');
-      setSearch('');
-    } else {
-      setConfigSearchInput('');
-      setConfigSearch('');
-    }
+  const submitConfigSearch = (event?: FormEvent) => {
+    event?.preventDefault();
+    setConfigSearch(configSearchInput.trim());
+    setPage(1);
+  };
+
+  const clearMachineSearch = () => {
+    serialSearchTokens.current = [];
+    setSearchInput('');
+    setSearch('');
+    setPage(1);
+  };
+
+  const clearConfigSearch = () => {
+    setConfigSearchInput('');
+    setConfigSearch('');
     setPage(1);
   };
 
@@ -917,22 +920,21 @@ export default function InventoryPage() {
 
       <WorkspaceSection active={activeWorkspace === 'list'}>
       <section className="glass p-4 mb-4">
-        <div className="flex flex-wrap items-center gap-3">
-          <form onSubmit={submitSearch} className="min-w-0 basis-full xl:max-w-xl xl:flex-1">
-            <div className="mb-2 inline-flex rounded-md border border-line/70 bg-white/60 p-0.5" role="group" aria-label="库存搜索范围">
-              <button type="button" aria-pressed={searchMode === 'machine'} onClick={() => { setSearchMode('machine'); setPage(1); }} className={`rounded px-2.5 py-1 text-[11px] transition-colors ${searchMode === 'machine' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}>机器</button>
-              <button type="button" aria-pressed={searchMode === 'configuration'} onClick={() => { setSearchMode('configuration'); setPage(1); }} className={`rounded px-2.5 py-1 text-[11px] transition-colors ${searchMode === 'configuration' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}>配置</button>
-            </div>
-            {searchMode === 'machine' ? (
-              <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} onClear={clearSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled searchOnEnter placeholder="搜索 SN、编号、品牌或型号" ariaLabel="搜索库存机器的 SN、编号、品牌或型号" />
-            ) : (
+        <div className="flex flex-wrap items-end gap-3">
+          <div role="group" aria-label="库存搜索" className="grid min-w-0 basis-full grid-cols-1 gap-2.5 sm:grid-cols-2 xl:max-w-xl xl:flex-1">
+            <form onSubmit={submitMachineSearch} className="min-w-0">
+              <label htmlFor="inventory-machine-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">机器信息</label>
+              <MachineSearchInput<InventoryItem> inputId="inventory-machine-search" value={searchInput} onChange={setSearchInput} onClear={clearMachineSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled batchButtonPlacement="inline" searchOnEnter placeholder="搜索 SN、编号、品牌或型号" ariaLabel="搜索库存机器的 SN、编号、品牌或型号" />
+            </form>
+            <form onSubmit={submitConfigSearch} className="min-w-0">
+              <label htmlFor="inventory-config-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">机器配置</label>
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
-                <input type="text" value={configSearchInput} onChange={event => setConfigSearchInput(event.target.value)} placeholder="搜索 CPU、内存、硬盘、显卡或屏幕配置" aria-label="搜索机器配置" className="field w-full pl-10 pr-10" />
-                {configSearchInput && <button type="button" onClick={clearSearch} className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft transition hover:bg-primary/5 hover:text-ink-deep active:scale-95" aria-label="清除配置搜索"><X className="h-4 w-4" /></button>}
+                <input id="inventory-config-search" type="text" value={configSearchInput} onChange={event => setConfigSearchInput(event.target.value)} placeholder="CPU、内存、硬盘、显卡、屏幕" aria-label="按 CPU、内存、硬盘、显卡或屏幕搜索" className="field w-full pl-10 pr-10" />
+                {configSearchInput && <button type="button" onClick={clearConfigSearch} className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft transition hover:bg-primary/5 hover:text-ink-deep active:scale-95" aria-label="清除配置搜索"><X className="h-4 w-4" /></button>}
               </div>
-            )}
-          </form>
+            </form>
+          </div>
 
           <div className="order-last flex w-full items-center gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="库存状态筛选">
             {[

@@ -36,6 +36,8 @@ async function run() {
     for(const term of ['i7','32GB','1TB','RTX%204060','2.5K'])assert.equal((await query(`&configSearch=${term}`)).total,1,`configuration search matches ${term}`);
     assert.equal((await query('&configSearch=i7%201TB&status=current_stock&warehouseId=warehouse_main')).total,1,'configuration terms compose with current-stock and warehouse filters');
     assert.equal((await query('&searchMode=machine&search=RTX%204060')).total,0,'machine search excludes configuration fields');
+    assert.equal((await query('&searchMode=machine&search=QA-SN-0000&configSearch=i7%201TB')).total,1,'machine and configuration searches compose as independent filters');
+    assert.equal((await query('&searchMode=machine&search=QA-SN-0001&configSearch=i7%201TB')).total,0,'configuration filter narrows machine search results');
     assert.equal((await query('&configSearch=RTX%204060&warehouseId=warehouse_east')).total,0,'configuration search respects warehouse scope');
     const pageOne=await route.GET(new NextRequest('http://localhost/api/inventory?page=1&pageSize=20&status=all'));
     const pageTwo=await route.GET(new NextRequest('http://localhost/api/inventory?page=2&pageSize=20&status=all'));
