@@ -118,7 +118,7 @@ export default function InventoryColumnSettingsDialog({
   return (
     <BusinessDialog
       title="库存列设置"
-      description="调整库存清单列的显示、顺序、宽度、冻结位置和行间距。"
+      description="调整库存清单列的显示、顺序、宽度、冻结位置和行间距。冻结列会完整换行显示，其他列保持紧凑。"
       size="wide"
       onClose={onClose}
       footer={<>

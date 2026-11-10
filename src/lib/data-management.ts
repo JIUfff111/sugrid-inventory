@@ -59,7 +59,7 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   purchase_orders: {
     key: 'purchase_orders', label: '采购单', table: 'purchase_orders',
-    fields: ['id', 'purchaseNo', 'supplierOrderNo', 'supplierId', 'supplierName', 'purchaseDate', 'purchasedBy', 'totalAmount', 'totalQuantity', 'isInbounded', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
+    fields: ['id', 'purchaseNo', 'supplierOrderNo', 'supplierId', 'supplierName', 'purchaseDate', 'warehouseId', 'purchasedBy', 'totalAmount', 'totalQuantity', 'isInbounded', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
     writable: ['supplierOrderNo', 'remark'], creatable: false, searchFields: ['purchaseNo', 'supplierOrderNo', 'supplierName', 'purchaseDate', 'remark'], orderBy: 'createdAt DESC', required: ['purchaseNo', 'supplierId', 'supplierName', 'purchaseDate', 'purchasedBy'],
   },
   purchase_items: {
@@ -400,7 +400,7 @@ const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column
   sales_channels: { createdBy: { table: 'users' } },
   skus: { createdBy: { table: 'users' } },
   manual_skus: { createdBy: { table: 'users' }, updatedBy: { table: 'users' } },
-  purchase_orders: { supplierId: { table: 'suppliers' }, purchasedBy: { table: 'users' }, createdBy: { table: 'users' } },
+  purchase_orders: { supplierId: { table: 'suppliers' }, warehouseId: { table: 'warehouses' }, purchasedBy: { table: 'users' }, createdBy: { table: 'users' } },
   purchase_items: {
     purchaseOrderId: { table: 'purchase_orders' }, skuId: { table: 'skus' },
     manualSkuId: { table: 'manual_skus' }, recordedBy: { table: 'users' },

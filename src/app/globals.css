@@ -291,6 +291,20 @@ body {
 .data-table tbody tr:hover td {
   background: color-mix(in srgb, var(--color-primary) 4%, transparent);
 }
+.inventory-configurable-frozen {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--color-line-strong) 75%, transparent);
+}
+.inventory-configurable-frozen .truncate {
+  overflow: visible;
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
+}
+.inventory-configurable-frozen .overflow-hidden {
+  overflow: visible;
+}
 
 @media (max-width: 767px) {
   .inventory-configurable-frozen,

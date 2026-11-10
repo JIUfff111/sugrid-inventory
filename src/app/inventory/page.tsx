@@ -1006,14 +1006,14 @@ export default function InventoryPage() {
               </colgroup>
               <thead><tr>
                 {!isViewer && <th className="inventory-fixed-column" style={{ width: selectionColumnWidth, padding: headerPadding, letterSpacing: 0, ...fixedColumnStyle('left', true) }}><input type="checkbox" checked={allPageChecked} onChange={togglePageChecked} aria-label="选择当前页全部机器" /></th>}
-                {visibleTableColumns.map((column) => <th key={column.key} className={frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: headerPadding, letterSpacing: 0, ...stickyColumnStyle(column.key, true) }}>{INVENTORY_TABLE_COLUMN_DEFINITIONS.find((definition) => definition.key === column.key)?.label}</th>)}
+                {visibleTableColumns.map((column) => <th key={column.key} className={tableColumnFreezingEnabled && frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: headerPadding, letterSpacing: 0, ...stickyColumnStyle(column.key, true) }}>{INVENTORY_TABLE_COLUMN_DEFINITIONS.find((definition) => definition.key === column.key)?.label}</th>)}
                 <th className="inventory-fixed-column text-right" style={{ width: actionColumnWidth, padding: headerPadding, letterSpacing: 0, ...fixedColumnStyle('right', true) }}>操作</th>
               </tr></thead>
               <tbody>
                 {items.map((item) => (
                   <tr key={item.id} onClick={() => openDetails(item)} className="cursor-pointer">
                     {!isViewer && <td className="inventory-fixed-column" onClick={(event) => event.stopPropagation()} style={{ width: selectionColumnWidth, padding: cellPadding, ...fixedColumnStyle('left') }}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>}
-                    {visibleTableColumns.map((column) => <td key={column.key} className={frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: cellPadding, ...stickyColumnStyle(column.key) }}>{renderTableCell(item, column.key)}</td>)}
+                    {visibleTableColumns.map((column) => <td key={column.key} className={tableColumnFreezingEnabled && frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: cellPadding, ...stickyColumnStyle(column.key) }}>{renderTableCell(item, column.key)}</td>)}
                     <td className="inventory-fixed-column text-right" style={{ width: actionColumnWidth, padding: cellPadding, ...fixedColumnStyle('right') }}><button type="button" onClick={(event) => { event.stopPropagation(); openDetails(item); }} title="查看机器详情" aria-label={`查看 ${item.sn} 详情`} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-primary hover:bg-primary/10 rounded-lg transition-colors"><Eye className="w-3.5 h-3.5" />详情</button></td>
                   </tr>
                 ))}

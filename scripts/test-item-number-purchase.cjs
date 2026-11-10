@@ -63,6 +63,7 @@ async function main() {
     const adminId = db.prepare("SELECT id FROM users WHERE username='admin'").get().id;
     token = auth.createSession(adminId);
     db.prepare("INSERT INTO suppliers (id,supplierName,status,createdBy) VALUES ('number-supplier','编号测试供应商','active',?)").run(adminId);
+    db.prepare("INSERT INTO warehouses (id,code,name,warehouseCode,warehouseName,status,isDefault) VALUES ('warehouse-secondary','SECONDARY','二号仓','SECONDARY','二号仓','active',0)").run();
 
     const request = (url, method = 'GET', body) => new NextRequest(`http://localhost${url}`, {
       method,
@@ -83,6 +84,36 @@ async function main() {
       supplierId: 'number-supplier', purchaseDate: '2026-11-07', purchasedBy: adminId, status, items,
     });
 
+    const warehouseDraft = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', {
+      ...order('draft', [{ ...item('WAREHOUSE-NOTE-001', ''), remark: '外壳有轻微划痕', skuRemark: '配置补充说明' }]),
+      warehouseId: 'warehouse-secondary',
+    }, 201)).data;
+    let warehouseDraftDetail = (await call(routes.purchaseOrders.GET, `/api/purchase-orders?id=${warehouseDraft.id}`)).data;
+    assert.equal(warehouseDraftDetail.warehouseId, 'warehouse-secondary', 'a selected receiving warehouse must persist on a draft');
+    assert.equal(warehouseDraftDetail.items[0].remark, '外壳有轻微划痕', 'a per-machine remark must persist on a draft');
+    assert.equal(warehouseDraftDetail.items[0].skuRemark, '配置补充说明', 'SKU supplemental info must remain separate from the per-machine remark');
+    const warehouseItemId = warehouseDraftDetail.items[0].id;
+    await call(routes.purchaseOrders.PATCH, '/api/purchase-orders', 'PATCH', {
+      ...order('draft', [{ ...item('WAREHOUSE-NOTE-001', ''), id: warehouseItemId, remark: '已检查外壳', skuRemark: '配置补充说明' }]),
+      id: warehouseDraft.id,
+      warehouseId: 'warehouse_main',
+    });
+    warehouseDraftDetail = (await call(routes.purchaseOrders.GET, `/api/purchase-orders?id=${warehouseDraft.id}`)).data;
+    assert.equal(warehouseDraftDetail.warehouseId, 'warehouse_main', 'changing the receiving warehouse must update the saved draft');
+    assert.equal(warehouseDraftDetail.items[0].remark, '已检查外壳', 'editing a draft must preserve its per-machine remark');
+    assert.equal(warehouseDraftDetail.items[0].skuRemark, '配置补充说明', 'editing a draft must preserve its separate SKU supplemental info');
+    const warehouseInbound = await call(routes.purchaseOrders.PATCH, '/api/purchase-orders', 'PATCH', {
+      ...order('completed', [{ ...item('WAREHOUSE-NOTE-001', ''), id: warehouseItemId, remark: '入库前确认无异常', skuRemark: '配置补充说明' }]),
+      id: warehouseDraft.id,
+      warehouseId: 'warehouse-secondary',
+      action: 'inbound',
+    });
+    assert.equal(warehouseInbound.data.warehouseId, 'warehouse-secondary', 'the inbound action must retain the selected warehouse');
+    assert.equal(db.prepare('SELECT warehouseId,remark FROM inventory WHERE id=?').get(warehouseInbound.data.inventoryIds[0]).warehouseId, 'warehouse-secondary');
+    assert.equal(db.prepare('SELECT remark FROM inventory WHERE id=?').get(warehouseInbound.data.inventoryIds[0]).remark, '入库前确认无异常');
+    assert.equal(db.prepare('SELECT skuRemark FROM inventory WHERE id=?').get(warehouseInbound.data.inventoryIds[0]).skuRemark, '配置补充说明');
+    assert.equal(db.prepare('SELECT remark FROM purchase_items WHERE id=?').get(warehouseItemId).remark, '入库前确认无异常');
+
     const draft = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('draft', [item('NUMBER-DRAFT-SN', 'GPU-DRAFT-A')]), 201)).data;
     const draftDetail = (await call(routes.purchaseOrders.GET, `/api/purchase-orders?id=${draft.id}`)).data;
     const draftItemId = draftDetail.items[0].id;
@@ -99,6 +130,8 @@ async function main() {
 
     const live = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('completed', [item('NUMBER-LIVE-SN', 'GPU-LIVE-001')]), 201)).data;
     const liveInventoryId = live.inventoryIds[0];
+    assert.equal(db.prepare('SELECT warehouseId FROM purchase_orders WHERE id=?').get(live.id).warehouseId, 'warehouse_main', 'omitting a warehouse must default to the main warehouse');
+    assert.equal(db.prepare('SELECT warehouseId FROM inventory WHERE id=?').get(liveInventoryId).warehouseId, 'warehouse_main');
     const conflictDraft = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('draft', [item('NUMBER-DRAFT-CONFLICT', 'GPU-DRAFT-CONFLICT')]), 201)).data;
     const countsBeforeSnConflict = {
       orders: db.prepare('SELECT COUNT(*) AS count FROM purchase_orders').get().count,
@@ -209,6 +242,14 @@ async function main() {
     const secondPurchaseItemId = db.prepare('SELECT purchaseItemId FROM inventory WHERE id=?').get(duplicateLive.inventoryIds[0]).purchaseItemId;
     assert.throws(() => db.prepare('UPDATE purchase_items SET itemNumber=? WHERE id=?').run(' gpu-live-edited ', secondPurchaseItemId),
       /UNIQUE constraint failed/, 'purchase history must reject duplicate numbers case-insensitively and after trimming');
+    assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
+    assert.deepEqual(db.pragma('foreign_key_check'), []);
+
+    db.exec('ALTER TABLE purchase_orders DROP COLUMN warehouseId');
+    db.prepare('DELETE FROM schema_migrations WHERE version=27').run();
+    initDatabase(db);
+    assert.equal(db.prepare("SELECT COUNT(*) AS count FROM purchase_orders WHERE warehouseId != 'warehouse_main'").get().count, 0,
+      'legacy purchase orders without a warehouse column must migrate to the main warehouse');
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
     assert.deepEqual(db.pragma('foreign_key_check'), []);
     console.log('PASS isolated item-number lifecycle: draft rewrite, deleted-history reservation, inbound mirror, edit uniqueness, lookup and migration rebuilds');

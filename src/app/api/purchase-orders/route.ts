@@ -84,6 +84,7 @@ type OrderRow = {
   supplierId: string;
   supplierName: string;
   purchaseDate: string;
+  warehouseId: string;
   purchasedBy: string;
   totalAmount: number;
   totalQuantity: number;
@@ -355,7 +356,7 @@ function checkItemNumberConflicts(items: NormalizedItem[], allowedItemIds = new 
 function orderRow(id: string) {
   return db.prepare(`
     SELECT id, purchaseNo, supplierOrderNo, supplierId, supplierName,
-      purchaseDate, purchasedBy, totalAmount, totalQuantity, isInbounded,
+      purchaseDate, warehouseId, purchasedBy, totalAmount, totalQuantity, isInbounded,
       remark, createdAt, updatedAt
     FROM purchase_orders WHERE id = ? AND deleted = 0
   `).get(id) as OrderRow | undefined;
@@ -564,17 +565,17 @@ export async function POST(request: NextRequest) {
       if (currentConflicts.length) throw new PurchaseSnConflictError(currentConflicts);
       db.prepare(`
         INSERT INTO purchase_orders (
-          id, purchaseNo, supplierOrderNo, supplierId, supplierName, purchaseDate,
+          id, purchaseNo, supplierOrderNo, supplierId, supplierName, purchaseDate, warehouseId,
           purchasedBy, totalAmount, totalQuantity, isInbounded, remark, deleted,
           createdBy, createdAt, updatedAt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?)
       `).run(
         orderId, purchaseNo, String(body.supplierOrderNo ?? '').trim(), supplier.id,
-        supplier.supplierName, order.purchaseDate, purchasedBy, totalAmount, items.length,
+        supplier.supplierName, order.purchaseDate, order.warehouseId, purchasedBy, totalAmount, items.length,
         status === 'completed' ? 1 : 0, String(body.remark || '').trim() || null,
         userId, now, now
       );
-      insertItemsAndInventory({ ...order, warehouseId: resolveWarehouse(body.warehouseId), actorId: actor.id }, items, status === 'completed', now);
+      insertItemsAndInventory(order, items, status === 'completed', now);
     });
     insertOrder.immediate();
 
@@ -685,7 +686,7 @@ export async function GET(request: NextRequest) {
     const where = `WHERE ${conditions.join(' AND ')}`;
     const rows = db.prepare(`
       SELECT po.id, po.purchaseNo, po.supplierOrderNo, po.supplierId, po.supplierName,
-        po.purchaseDate, po.purchasedBy, po.totalAmount, po.totalQuantity,
+        po.purchaseDate, po.warehouseId, po.purchasedBy, po.totalAmount, po.totalQuantity,
         po.isInbounded, po.remark, po.createdAt,
         (SELECT COUNT(*) FROM purchase_items pi WHERE pi.purchaseOrderId = po.id AND pi.deleted = 0) AS itemCount
       FROM purchase_orders po ${where}
@@ -757,14 +758,14 @@ export async function PATCH(request: NextRequest) {
       if (currentConflicts.length) throw new PurchaseSnConflictError(currentConflicts);
       db.prepare(`
         UPDATE purchase_orders SET supplierOrderNo = ?, supplierId = ?, supplierName = ?,
-          purchaseDate = ?, purchasedBy = ?, totalAmount = ?, totalQuantity = ?, isInbounded = ?,
+          purchaseDate = ?, warehouseId = ?, purchasedBy = ?, totalAmount = ?, totalQuantity = ?, isInbounded = ?,
           remark = ?, updatedAt = ? WHERE id = ? AND deleted = 0
       `).run(
         String(body.supplierOrderNo ?? '').trim(), supplier.id, supplier.supplierName,
-        updatedOrder.purchaseDate, purchasedBy, totalAmount, items.length, action === 'inbound' ? 1 : 0,
+        updatedOrder.purchaseDate, updatedOrder.warehouseId, purchasedBy, totalAmount, items.length, action === 'inbound' ? 1 : 0,
         String(body.remark || '').trim() || null, now, id
       );
-      replaceDraftItemsAndInventory({ ...updatedOrder, warehouseId: resolveWarehouse(body.warehouseId), actorId: actor.id }, items, action === 'inbound', now);
+      replaceDraftItemsAndInventory(updatedOrder, items, action === 'inbound', now);
     });
     updateDraft.immediate();
 

@@ -89,6 +89,7 @@ function initDatabase(db) {
       supplierId TEXT NOT NULL,
       supplierName TEXT NOT NULL,
       purchaseDate TEXT NOT NULL,
+      warehouseId TEXT NOT NULL DEFAULT 'warehouse_main',
       purchasedBy TEXT NOT NULL,
       totalAmount REAL NOT NULL DEFAULT 0,
       totalQuantity INTEGER NOT NULL DEFAULT 0,
@@ -1149,6 +1150,10 @@ function applyVersionedMigrations(db) {
       CREATE INDEX IF NOT EXISTS idx_rental_renewals_batch
         ON rental_renewals(batchId, createdAt);
     `);
+  });
+  migrate(27, 'persist receiving warehouse on purchase orders', () => {
+    add('purchase_orders', 'warehouseId', "TEXT NOT NULL DEFAULT 'warehouse_main'");
+    db.prepare("UPDATE purchase_orders SET warehouseId = 'warehouse_main' WHERE warehouseId IS NULL OR TRIM(warehouseId) = ''").run();
   });
 }
 

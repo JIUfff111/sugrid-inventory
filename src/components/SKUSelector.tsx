@@ -48,6 +48,7 @@ export interface SelectedConfig {
   itemNumber?: string;
   purchasePrice?: number;
   skuRemark?: string; // SKU 补充信息
+  machineRemark?: string;
 }
 
 function getSKUYear(sku: Pick<SKU, 'model' | 'modelYear' | 'year' | 'releaseYear'>): string {
@@ -240,8 +241,9 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
   const [snGenerationError, setSnGenerationError] = useState('');
   const [singlePrice, setSinglePrice] = useState<number>(0);
   const [skuRemark, setSkuRemark] = useState(''); // SKU 补充信息
+  const [machineRemark, setMachineRemark] = useState('');
   const [hasAddedMachine, setHasAddedMachine] = useState(false);
-  useWorkspaceDirty(Boolean(selectedProductType || selectedSKU || singleSN || singleItemNumber || skuRemark));
+  useWorkspaceDirty(Boolean(selectedProductType || selectedSKU || singleSN || singleItemNumber || skuRemark || machineRemark));
 
   // 加载 SKU 列表
   useEffect(() => {
@@ -418,6 +420,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
     setSnGenerationError('');
     setSinglePrice(0);
     setSkuRemark('');
+    setMachineRemark('');
     setStep('config');
   };
 
@@ -540,7 +543,8 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
       sn: normalizedSN,
       itemNumber: normalizedItemNumber,
       purchasePrice: singlePrice,
-      skuRemark: skuRemark.trim() || undefined // 补充信息
+      skuRemark: skuRemark.trim() || undefined, // 补充信息
+      machineRemark: machineRemark.trim() || undefined,
     }, mode);
 
     if (mode === 'continue') {
@@ -556,6 +560,7 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
       setSnGenerationError('');
       setSinglePrice(0);
       setSkuRemark('');
+      setMachineRemark('');
       setHasAddedMachine(true);
     }
   };
@@ -1026,20 +1031,33 @@ export default function SKUSelector({ catalogSource = 'builtin', startInCustomMo
                     </div>
                   </div>
 
-                  {/* SKU 补充信息 */}
-                  <div>
-                    <label className="block text-[12px] font-medium text-ink-deep mb-2">
-                      SKU 补充信息
-                    </label>
-                    <input
-                      type="text"
-                      value={skuRemark}
-                      onChange={(e) => setSkuRemark(e.target.value)}
-                      placeholder="选填，如：成色、特殊说明等"
-                      className="w-full px-3 py-2 bg-white/60 border border-line rounded-lg text-[12px]
-                               placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
-                               focus:ring-primary/20 focus:border-primary transition-all"
-                    />
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="sku-single-machine-remark" className="mb-2 block text-[12px] font-medium text-ink-deep">
+                        机器备注 <span className="font-normal text-ink-soft">（仅此机器）</span>
+                      </label>
+                      <input
+                        id="sku-single-machine-remark"
+                        type="text"
+                        value={machineRemark}
+                        onChange={(event) => setMachineRemark(event.target.value)}
+                        placeholder="如：外壳划痕、配件情况"
+                        className="w-full rounded-lg border border-line bg-white/60 px-3 py-2 text-[12px] transition-all placeholder:text-ink-soft/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="sku-single-sku-remark" className="mb-2 block text-[12px] font-medium text-ink-deep">
+                        SKU 补充信息 <span className="font-normal text-ink-soft">（选填）</span>
+                      </label>
+                      <input
+                        id="sku-single-sku-remark"
+                        type="text"
+                        value={skuRemark}
+                        onChange={(event) => setSkuRemark(event.target.value)}
+                        placeholder="补充该配置的说明"
+                        className="w-full rounded-lg border border-line bg-white/60 px-3 py-2 text-[12px] transition-all placeholder:text-ink-soft/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      />
+                    </div>
                   </div>
 
                 </div>

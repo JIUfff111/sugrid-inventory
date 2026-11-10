@@ -56,6 +56,7 @@ interface MachineItem {
 
 type MachinePayload = Omit<MachineItem, 'id'>;
 type SupplierOption = { id: string; supplierName: string };
+type WarehouseOption = { id: string; name: string; status: string; isDefault: number | boolean };
 type BatchPresetConfig = Omit<MachinePayload, 'sn' | 'purchasePrice' | 'remark'>;
 type PurchaseSnConflictReason = {
   source: 'batch_duplicate' | 'inventory' | 'purchase_draft';
@@ -489,8 +490,11 @@ interface PurchaseOrderFormProps {
 
 function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormProps) {
   const [suppliers, setSuppliers] = useState<SupplierOption[]>([]);
+  const [warehouses, setWarehouses] = useState<WarehouseOption[]>([]);
+  const [warehousesLoaded, setWarehousesLoaded] = useState(false);
   const [formData, setFormData] = useState({
     supplierId: '',
+    warehouseId: 'warehouse_main',
     supplierOrderNo: '',
     purchaseDate: localDateInput(),
     purchasedBy: '当前用户',
@@ -531,6 +535,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
         const order = result.data;
         const loadedForm = {
           supplierId: order.supplierId || '',
+          warehouseId: order.warehouseId || 'warehouse_main',
           supplierOrderNo: order.supplierOrderNo || '',
           purchaseDate: order.purchaseDate || localDateInput(),
           purchasedBy: order.purchasedBy || '当前用户',
@@ -587,6 +592,25 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
     return () => { cancelled = true; };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    const loadWarehouses = async () => {
+      try {
+        const response = await fetch('/api/warehouses');
+        const result = await response.json();
+        if (cancelled) return;
+        setWarehousesLoaded(true);
+        if (!response.ok || !result.success) return;
+        setWarehouses((result.data || []).filter((warehouse: WarehouseOption) => warehouse.status === 'active') as WarehouseOption[]);
+      } catch (error) {
+        if (!cancelled) setWarehousesLoaded(true);
+        console.error('加载入库仓库失败:', error);
+      }
+    };
+    void loadWarehouses();
+    return () => { cancelled = true; };
+  }, []);
+
   // 处理 SKU 选择完成 - 单台录入（现在包含 SN 和价格）
   const handleSKUSelectorComplete = (config: SelectedConfig, mode: 'close' | 'continue') => {
     const isManualSKU = config.sku.catalogSource === 'manual';
@@ -607,7 +631,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       sn: config.sn || '',
       itemNumber: config.itemNumber || '',
       purchasePrice: config.purchasePrice || 0,
-      remark: '',
+      remark: config.machineRemark || '',
       skuRemark: config.skuRemark // SKU 补充信息
     };
     
@@ -815,6 +839,9 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
 
   const validateBeforeSubmit = (inbound: boolean) => {
     if (!formData.supplierId) return '请选择供应商';
+    if (!warehousesLoaded) return '仓库信息正在加载，请稍后重试';
+    if (warehouses.length === 0) return '当前没有启用的仓库，无法保存采购单';
+    if (!warehouses.some((warehouse) => warehouse.id === formData.warehouseId)) return '请选择有效的入库仓库';
     if (!formData.purchaseDate) return '请选择采购时间';
     if (!formData.purchasedBy.trim()) return '请填写采购人';
     if (machineItems.length === 0) return '请至少添加一台机器';
@@ -841,6 +868,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
         body: JSON.stringify({
           id: orderId || undefined,
           supplierId: formData.supplierId,
+          warehouseId: formData.warehouseId,
           supplierOrderNo: formData.supplierOrderNo,
           purchaseDate: formData.purchaseDate,
           purchasedBy: formData.purchasedBy,
@@ -966,6 +994,21 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
               />
             </div>
 
+            <div>
+              <label className="mb-2 block text-[13px] font-medium text-ink-deep">
+                入库仓库 <span className="text-danger">*</span>
+              </label>
+              <CustomSelect
+                value={formData.warehouseId}
+                onChange={(value) => setFormData({ ...formData, warehouseId: value })}
+                options={warehouses.map((warehouse) => ({ value: warehouse.id, label: `${warehouse.name}${warehouse.isDefault ? '（默认总仓）' : ''}` }))}
+                placeholder={warehousesLoaded ? '请选择入库仓库' : '正在加载仓库'}
+                searchable
+                disabled={!warehousesLoaded || warehouses.length === 0}
+                required
+              />
+            </div>
+
             {/* 采购时间 */}
             <div>
               <label className="block text-[13px] font-medium text-ink-deep mb-2">
@@ -1088,6 +1131,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                         </span>
                       </div>
                       <div className="text-[12px] text-ink-soft space-y-1">
+                        {item.remark && <div className="line-clamp-2"><span className="font-medium text-ink-deep">机器备注：</span>{item.remark}</div>}
                         {item.productType === '显卡' ? (
                           <>
                             <div>显卡型号: {formatGPUDisplay(item.gpu) || '待填写'}</div>
