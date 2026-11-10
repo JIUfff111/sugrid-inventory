@@ -292,6 +292,16 @@ body {
   background: color-mix(in srgb, var(--color-primary) 4%, transparent);
 }
 
+@media (max-width: 767px) {
+  .inventory-configurable-frozen,
+  .inventory-fixed-column {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    z-index: auto !important;
+  }
+}
+
 /* ---------- 侧栏（玻璃） ---------- */
 .side-link { position: relative; display: flex; align-items: center; }
 .side-link.active {

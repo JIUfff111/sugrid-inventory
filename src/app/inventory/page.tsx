@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, FormEvent, useEffect, useRef, useState } from 'react';
 import CustomSelect from '@/components/CustomSelect';
 import BusinessDialog from '@/components/BusinessDialog';
 import ConfirmDialog from '@/components/ConfirmDialog';
@@ -17,15 +17,26 @@ import InventoryMovementTimeline from '@/components/InventoryMovementTimeline';
 import InventoryPurgeDialog from '@/components/InventoryPurgeDialog';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
 import CopyTextButton from '@/components/CopyTextButton';
+import InventoryColumnSettingsDialog from '@/components/InventoryColumnSettingsDialog';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 import { uniqueMachineScanTokens } from '@/lib/machine-scan';
+import {
+  createDefaultInventoryTablePreferences,
+  getInventoryTableFrozenOffsets,
+  INVENTORY_TABLE_COLUMN_DEFINITIONS,
+  inventoryTablePreferenceStorageKey,
+  normalizeInventoryTablePreferences,
+  type InventoryTableColumnKey,
+  type InventoryTablePreferences,
+} from '@/lib/inventory-table-preferences';
 import { TransfersWorkspace } from '@/app/transfers/page';
 import {
   ArrowRightLeft,
   BarChart3,
   Check,
   CheckSquare,
+  Columns3,
   ChevronLeft,
   ChevronRight,
   Eye,
@@ -291,6 +302,10 @@ export default function InventoryPage() {
   const [remarkError, setRemarkError] = useState('');
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [viewHydrated, setViewHydrated] = useState(false);
+  const [tableColumnFreezingEnabled, setTableColumnFreezingEnabled] = useState(false);
+  const [tablePreferences, setTablePreferences] = useState<InventoryTablePreferences>(createDefaultInventoryTablePreferences);
+  const [tablePreferencesHydrated, setTablePreferencesHydrated] = useState(false);
+  const [tableSettingsOpen, setTableSettingsOpen] = useState(false);
   const [warehouses, setWarehouses] = useState<Array<{ id: string; name: string }>>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkedIds, setCheckedIds] = useState<Set<string>>(() => new Set());
@@ -346,6 +361,29 @@ export default function InventoryPage() {
     if (!viewHydrated) return;
     try { window.localStorage.setItem('inventory-view-mode', viewMode); } catch {}
   }, [viewHydrated, viewMode]);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setTablePreferencesHydrated(false);
+      return;
+    }
+    const key = inventoryTablePreferenceStorageKey(user.id);
+    setTablePreferencesHydrated(false);
+    try {
+      const stored = window.localStorage.getItem(key);
+      setTablePreferences(stored ? normalizeInventoryTablePreferences(JSON.parse(stored)) : createDefaultInventoryTablePreferences());
+    } catch {
+      setTablePreferences(createDefaultInventoryTablePreferences());
+    }
+    setTablePreferencesHydrated(true);
+  }, [user?.id]);
+
+  useEffect(() => {
+    const update = () => setTableColumnFreezingEnabled(window.innerWidth >= 768);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   useEffect(() => {
     if (!active) return;
@@ -687,6 +725,113 @@ export default function InventoryPage() {
     }
   };
 
+  const saveTablePreferences = (preferences: InventoryTablePreferences) => {
+    if (!user?.id) return false;
+    const normalized = normalizeInventoryTablePreferences(preferences);
+    try {
+      window.localStorage.setItem(inventoryTablePreferenceStorageKey(user.id), JSON.stringify(normalized));
+    } catch {
+      return false;
+    }
+    setTablePreferences(normalized);
+    setTableSettingsOpen(false);
+    return true;
+  };
+
+  const visibleTableColumns = tablePreferences.columns.filter((column) => column.visible);
+  const selectionColumnWidth = isViewer ? 0 : 44;
+  const actionColumnWidth = 100;
+  const frozenOffsets = getInventoryTableFrozenOffsets(tablePreferences.columns, {
+    selectionWidth: selectionColumnWidth,
+    actionsWidth: actionColumnWidth,
+  });
+  const tableMinWidth = visibleTableColumns.reduce((width, column) => width + column.width, selectionColumnWidth + actionColumnWidth);
+  const cellPadding = tablePreferences.density === 'compact' ? '6px 8px' : tablePreferences.density === 'comfortable' ? '16px 16px' : '13px 14px';
+  const headerPadding = tablePreferences.density === 'compact' ? '8px 8px' : tablePreferences.density === 'comfortable' ? '13px 16px' : '11px 14px';
+  const stickyColumnStyle = (key: InventoryTableColumnKey, header = false): CSSProperties => {
+    if (!tableColumnFreezingEnabled) return {};
+    const offsets = frozenOffsets[key];
+    if (!offsets) return {};
+    return {
+      position: 'sticky',
+      ...(offsets.left !== undefined ? { left: offsets.left } : {}),
+      ...(offsets.right !== undefined ? { right: offsets.right } : {}),
+      zIndex: header ? 30 : 10,
+      backgroundColor: 'white',
+    };
+  };
+  const fixedColumnStyle = (side: 'left' | 'right', header = false): CSSProperties => {
+    if (!tableColumnFreezingEnabled) return {};
+    return {
+      position: 'sticky',
+      [side]: 0,
+      zIndex: header ? 40 : 20,
+      backgroundColor: 'white',
+    };
+  };
+  const renderTableCell = (item: InventoryItem, key: InventoryTableColumnKey) => {
+    switch (key) {
+      case 'machine':
+        return <><div className="truncate font-medium text-ink-deep" title={productName(item)}>{productName(item)}</div><div className="mt-1 truncate text-[11px] text-ink-soft" title={item.productType || '未分类'}>{item.productType || '未分类'}</div></>;
+      case 'productType':
+        return <span className="block truncate" title={item.productType || '-'}>{item.productType || '-'}</span>;
+      case 'brand':
+        return <span className="block truncate" title={item.brand || '-'}>{item.brand || '-'}</span>;
+      case 'model':
+        return <span className="block truncate" title={item.model || '-'}>{item.model || '-'}</span>;
+      case 'year':
+        return item.year || '-';
+      case 'configuration':
+        return <><div className="truncate text-[12px] text-ink" title={[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ')}>{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="mt-1 truncate text-[11px] text-ink-soft" title={[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ')}>{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></>;
+      case 'cpu':
+        return <span className="block truncate" title={formatCPUDisplay(item.cpu) || '-'}>{formatCPUDisplay(item.cpu) || '-'}</span>;
+      case 'ram':
+        return item.ram || '-';
+      case 'storage':
+        return item.storage || '-';
+      case 'gpu':
+        return <span className="block truncate" title={formatGPUDisplay(item.gpu) || '-'}>{formatGPUDisplay(item.gpu) || '-'}</span>;
+      case 'screen':
+        return formatScreenDisplay(item.screen) || '-';
+      case 'touchScreen':
+        return item.touchScreen == null ? '未记录' : item.touchScreen ? '是' : '否';
+      case 'remarks':
+        return <InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} />;
+      case 'machineRemark':
+        return <span className="block truncate text-ink-soft" title={item.remark || '-'}>{item.remark?.trim() || '-'}</span>;
+      case 'skuRemark':
+        return <span className="block truncate text-ink-soft" title={item.skuRemark || '-'}>{item.skuRemark?.trim() || '-'}</span>;
+      case 'serial':
+        return <><div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono text-[12px] text-ink-deep" title={item.sn}>{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div>{item.itemNumber && <div className="mt-1 flex min-w-0 items-center gap-1 text-[11px] text-ink-soft"><span className="truncate font-mono" title={item.itemNumber}>编号 {item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div>}</>;
+      case 'sn':
+        return <div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono text-[12px] text-ink-deep" title={item.sn}>{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div>;
+      case 'itemNumber':
+        return item.itemNumber ? <div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono" title={item.itemNumber}>{item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div> : '-';
+      case 'source':
+        return <><div className="truncate text-[12px] text-ink" title={item.supplierName || '-'}>{item.supplierName || '-'}</div><div className="mt-1 truncate font-mono text-[11px] text-ink-soft" title={item.purchaseNo || '-'}>{item.purchaseNo || '-'}</div><div className="mt-1 truncate text-[11px] text-primary" title={item.warehouseName || warehouses.find((warehouse) => warehouse.id === item.warehouseId)?.name || '未分仓'}>{item.warehouseName || warehouses.find((warehouse) => warehouse.id === item.warehouseId)?.name || '未分仓'}</div></>;
+      case 'supplier':
+        return <span className="block truncate" title={item.supplierName || '-'}>{item.supplierName || '-'}</span>;
+      case 'purchaseNo':
+        return <span className="block truncate font-mono" title={item.purchaseNo || '-'}>{item.purchaseNo || '-'}</span>;
+      case 'warehouse':
+        return <span className="block truncate" title={item.warehouseName || warehouses.find((warehouse) => warehouse.id === item.warehouseId)?.name || '未分仓'}>{item.warehouseName || warehouses.find((warehouse) => warehouse.id === item.warehouseId)?.name || '未分仓'}</span>;
+      case 'purchasePrice':
+        return <span className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</span>;
+      case 'status':
+        return <><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span><div className="mt-1.5 truncate text-[11px] text-ink-soft" title={machineDestination(item)}>{machineDestination(item)}</div></>;
+      case 'statusOnly':
+        return <span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span>;
+      case 'destination':
+        return <span className="block truncate text-ink-soft" title={machineDestination(item)}>{machineDestination(item)}</span>;
+      case 'inbound':
+        return <><div className="text-[12px] text-ink">{formatDate(item.inboundDate)}</div><div className={`mt-1 truncate text-[11px] ${item.inboundDays > 30 ? 'text-danger' : item.inboundDays > 7 ? 'text-warning' : 'text-ink-soft'}`}>{['in_stock', 'custom'].includes(item.status) ? '在库' : '入库距今'} {Math.max(0, Number(item.inboundDays || 0))} 天</div></>;
+      case 'inboundDate':
+        return formatDate(item.inboundDate);
+      case 'inboundDays':
+        return <span className={item.inboundDays > 30 ? 'text-danger' : item.inboundDays > 7 ? 'text-warning' : 'text-ink-soft'}>{Math.max(0, Number(item.inboundDays || 0))} 天</span>;
+    }
+  };
+
   const workspaceNavigation = <div role="tablist" aria-label="库存工作区" className="mb-5 flex w-fit max-w-full gap-1 overflow-x-auto rounded-xl border border-line/70 bg-white/55 p-1">
     <button type="button" role="tab" aria-selected={activeWorkspace === 'list'} onClick={() => selectWorkspace('list')} className={'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ' + (activeWorkspace === 'list' ? 'bg-white text-primary shadow-sm' : 'text-ink-soft hover:bg-white/70')}><PackageOpen className="h-4 w-4" />库存清单</button>
     <button type="button" role="tab" aria-selected={activeWorkspace === 'transfers'} onClick={() => selectWorkspace('transfers')} className={'inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm transition ' + (activeWorkspace === 'transfers' ? 'bg-white text-primary shadow-sm' : 'text-ink-soft hover:bg-white/70')}><ArrowRightLeft className="h-4 w-4" />库存调拨</button>
@@ -739,6 +884,7 @@ export default function InventoryPage() {
             <button type="button" onClick={() => setViewMode('table')} aria-pressed={viewMode === 'table'} title="表格视图" className={`rounded-md p-1.5 transition-colors ${viewMode === 'table' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}><Table2 className="h-4 w-4" /></button>
             <button type="button" onClick={() => setViewMode('cards')} aria-pressed={viewMode === 'cards'} title="卡片视图" className={`rounded-md p-1.5 transition-colors ${viewMode === 'cards' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}><LayoutGrid className="h-4 w-4" /></button>
           </div>
+          <button type="button" onClick={() => setTableSettingsOpen(true)} disabled={!tablePreferencesHydrated} title="自定义库存表格列" className="btn-ghost inline-flex items-center gap-1.5 disabled:cursor-not-allowed disabled:opacity-50"><Columns3 className="h-4 w-4" />列设置</button>
           <button type="button" onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen} className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-[12px] transition-colors ${filtersOpen || activeFilterCount > 0 ? 'border-primary/30 bg-primary/10 text-primary' : 'border-line/70 text-ink-soft hover:bg-white/70'}`}><SlidersHorizontal className="h-4 w-4" />组合筛选{activeFilterCount > 0 && <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-white">{activeFilterCount}</span>}</button>
           <button type="button" onClick={() => { setSearchInput(search); setReloadKey((key) => key + 1); }} disabled={loading} title="刷新库存" aria-label="刷新库存" className="self-end lg:self-auto p-2 text-ink-soft hover:text-primary hover:bg-white/70 rounded-lg transition-colors"><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></button>
         </div>
@@ -781,21 +927,23 @@ export default function InventoryPage() {
           </div>
         ) : viewMode === 'table' ? (
           <div className="overflow-x-auto">
-            <table className="w-full data-table min-w-[1240px]">
-              <thead><tr>{!isViewer && <th className="w-10"><input type="checkbox" checked={allPageChecked} onChange={togglePageChecked} aria-label="选择当前页全部机器" /></th>}<th>机器信息</th><th>配置</th><th>备注</th><th>SN / IMEI</th><th>供应商 / 采购单</th><th>采购价</th><th>状态 / 当前去向</th><th>入库日期</th><th className="text-right">操作</th></tr></thead>
+            <table className="data-table" style={{ width: `${tableMinWidth}px`, minWidth: '100%', tableLayout: 'fixed' }}>
+              <colgroup>
+                {!isViewer && <col style={{ width: `${selectionColumnWidth}px` }} />}
+                {visibleTableColumns.map((column) => <col key={column.key} style={{ width: `${column.width}px` }} />)}
+                <col style={{ width: `${actionColumnWidth}px` }} />
+              </colgroup>
+              <thead><tr>
+                {!isViewer && <th className="inventory-fixed-column" style={{ width: selectionColumnWidth, padding: headerPadding, letterSpacing: 0, ...fixedColumnStyle('left', true) }}><input type="checkbox" checked={allPageChecked} onChange={togglePageChecked} aria-label="选择当前页全部机器" /></th>}
+                {visibleTableColumns.map((column) => <th key={column.key} className={frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: headerPadding, letterSpacing: 0, ...stickyColumnStyle(column.key, true) }}>{INVENTORY_TABLE_COLUMN_DEFINITIONS.find((definition) => definition.key === column.key)?.label}</th>)}
+                <th className="inventory-fixed-column text-right" style={{ width: actionColumnWidth, padding: headerPadding, letterSpacing: 0, ...fixedColumnStyle('right', true) }}>操作</th>
+              </tr></thead>
               <tbody>
                 {items.map((item) => (
                   <tr key={item.id} onClick={() => openDetails(item)} className="cursor-pointer">
-                    {!isViewer && <td onClick={(event) => event.stopPropagation()}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>}
-                    <td><div className="font-medium text-ink-deep">{productName(item)}</div><div className="text-[11px] text-ink-soft mt-1">{item.productType || '未分类'}</div></td>
-                    <td><div className="text-[12px] text-ink">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
-                    <td className="w-60 max-w-60"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></td>
-                    <td><div className="flex items-center gap-1"><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div>{item.itemNumber && <div className="mt-1 flex items-center gap-1 text-[11px] text-ink-soft"><span className="font-mono break-all">编号 {item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div>}</td>
-                    <td><div className="text-[12px] text-ink">{item.supplierName || '-'}</div><div className="font-mono text-[11px] text-ink-soft mt-1">{item.purchaseNo || '-'}</div><div className="mt-1 text-[11px] text-primary">{item.warehouseName || warehouses.find(w => w.id === item.warehouseId)?.name || '未分仓'}</div></td>
-                    <td className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</td>
-                    <td><span className={statusClass(item.status)} style={itemStatusStyle(item)}><span className="status-dot" />{itemStatusLabel(item)}</span><div className="mt-1.5 max-w-52 text-[11px] text-ink-soft">{machineDestination(item)}</div></td>
-                    <td><div className="text-[12px] text-ink">{formatDate(item.inboundDate)}</div><div className={`text-[11px] mt-1 ${item.inboundDays > 30 ? 'text-danger' : item.inboundDays > 7 ? 'text-warning' : 'text-ink-soft'}`}>{['in_stock', 'custom'].includes(item.status) ? '在库' : '入库距今'} {Math.max(0, Number(item.inboundDays || 0))} 天</div></td>
-                    <td className="text-right"><button type="button" onClick={(event) => { event.stopPropagation(); openDetails(item); }} title="查看机器详情" aria-label={`查看 ${item.sn} 详情`} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-primary hover:bg-primary/10 rounded-lg transition-colors"><Eye className="w-3.5 h-3.5" />详情</button></td>
+                    {!isViewer && <td className="inventory-fixed-column" onClick={(event) => event.stopPropagation()} style={{ width: selectionColumnWidth, padding: cellPadding, ...fixedColumnStyle('left') }}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>}
+                    {visibleTableColumns.map((column) => <td key={column.key} className={frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: cellPadding, ...stickyColumnStyle(column.key) }}>{renderTableCell(item, column.key)}</td>)}
+                    <td className="inventory-fixed-column text-right" style={{ width: actionColumnWidth, padding: cellPadding, ...fixedColumnStyle('right') }}><button type="button" onClick={(event) => { event.stopPropagation(); openDetails(item); }} title="查看机器详情" aria-label={`查看 ${item.sn} 详情`} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-[12px] text-primary hover:bg-primary/10 rounded-lg transition-colors"><Eye className="w-3.5 h-3.5" />详情</button></td>
                   </tr>
                 ))}
               </tbody>
@@ -872,6 +1020,7 @@ export default function InventoryPage() {
       <ConfirmDialog isOpen={Boolean(pendingAssetPrintId)} title={assetPrintError ? '更新后的标签打印失败' : '资产变更完成，是否打印更新后的标签？'} message={assetPrintError ? `资产变更已保存。${assetPrintError}` : '标签将使用这台机器最新的内存和硬盘信息，并按默认标签模板打印。'} confirmText={printing || assetPrintBusy ? '准备打印…' : assetPrintError ? '重试打印' : '打印更新后的标签'} cancelText="暂不打印" onConfirm={() => { void printUpdatedAssetLabel(); }} onCancel={() => { if (!printing && !assetPrintBusy) { setPendingAssetPrintId(null); setAssetPrintError(''); } }} />
       {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || statusDialog.machines?.map(item => item.id).join(',') || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} machines={statusDialog.machines} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
       {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setCheckedMachines(current => { const next = new Map(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
+      {tableSettingsOpen && tablePreferencesHydrated && user?.id && <InventoryColumnSettingsDialog key={user.id} initialValue={tablePreferences} onClose={() => setTableSettingsOpen(false)} onSave={saveTablePreferences} />}
       </WorkspaceSection>
       {!isViewer && <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>}
     </div>

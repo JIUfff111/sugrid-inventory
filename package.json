@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:init": "node scripts/init-db.js",
-    "db:seed-skus": "node scripts/seed-skus.js"
+    "db:seed-skus": "node scripts/seed-skus.js",
+    "test:inventory-columns": "node --experimental-strip-types --test scripts/test-inventory-table-preferences.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",
