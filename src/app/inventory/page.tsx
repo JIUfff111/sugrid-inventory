@@ -54,6 +54,7 @@ import {
   Printer,
   RefreshCw,
   Save,
+  Search,
   SlidersHorizontal,
   Settings2,
   Wrench,
@@ -282,11 +283,15 @@ export default function InventoryPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
+  const [configSearchInput, setConfigSearchInput] = useState('');
+  const [configSearch, setConfigSearch] = useState('');
+  const [searchMode, setSearchMode] = useState<'machine' | 'configuration'>('machine');
   const serialSearchTokens = useRef<string[]>([]);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('current_stock');
   const [filters, setFilters] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterDraft, setFilterDraft] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterOptions, setFilterOptions] = useState<FilterOptions>(EMPTY_FILTER_OPTIONS);
+  const [filterModelsLoading, setFilterModelsLoading] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -407,11 +412,37 @@ export default function InventoryPage() {
     fetch('/api/inventory?meta=filters', { cache: 'no-store' })
       .then((response) => response.json())
       .then((result) => {
-        if (!cancelled && result.success) setFilterOptions(result.data as FilterOptions);
+        if (!cancelled && result.success) setFilterOptions(current => ({ ...result.data as FilterOptions, models: current.models }));
       })
       .catch(() => {});
     return () => { cancelled = true; };
   }, [active, reloadKey, user?.role]);
+
+  useEffect(() => {
+    if (!active || !filterDraft.brand) {
+      setFilterModelsLoading(false);
+      setFilterOptions(current => current.models.length ? { ...current, models: [] } : current);
+      return;
+    }
+    let cancelled = false;
+    setFilterModelsLoading(true);
+    setFilterOptions(current => current.models.length ? { ...current, models: [] } : current);
+    const params = new URLSearchParams({ meta: 'filters', brand: filterDraft.brand });
+    if (filterDraft.warehouseId) params.set('warehouseId', filterDraft.warehouseId);
+    fetch(`/api/inventory?${params}`, { cache: 'no-store' })
+      .then(response => response.json())
+      .then(result => {
+        if (cancelled || !result.success) return;
+        const models = (result.data as FilterOptions).models || [];
+        setFilterOptions(current => ({ ...current, models }));
+        setFilterDraft(current => current.model && !models.includes(current.model) ? { ...current, model: '' } : current);
+      })
+      .catch(() => {
+        if (!cancelled) setFilterOptions(current => ({ ...current, models: [] }));
+      })
+      .finally(() => { if (!cancelled) setFilterModelsLoading(false); });
+    return () => { cancelled = true; };
+  }, [active, filterDraft.brand, filterDraft.warehouseId, reloadKey]);
 
   useEffect(() => {
     if (!active || activeWorkspace !== 'list') return;
@@ -421,8 +452,11 @@ export default function InventoryPage() {
       setError('');
       try {
         const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
-        if (serialSearchTokens.current.length) serialSearchTokens.current.forEach(sn => params.append('sn', sn));
-        else if (search) params.set('search', search);
+        if (searchMode === 'machine' && serialSearchTokens.current.length) serialSearchTokens.current.forEach(sn => params.append('sn', sn));
+        else if (searchMode === 'machine' && search) {
+          params.set('search', search);
+          params.set('searchMode', 'machine');
+        } else if (searchMode === 'configuration' && configSearch) params.set('configSearch', configSearch);
         if (status.startsWith('custom:')) { params.set('status', 'custom'); params.set('customStatusId', status.slice(7)); }
         else if (status) params.set('status', status);
         Object.entries(filters).forEach(([key, value]) => {
@@ -449,13 +483,13 @@ export default function InventoryPage() {
       } finally {
         if (!cancelled) setLoading(false);
       }
-    }, search ? 220 : 0);
+    }, (searchMode === 'machine' ? search : configSearch) ? 220 : 0);
 
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [active, activeWorkspace, page, pageSize, search, status, filters, reloadKey]);
+  }, [active, activeWorkspace, page, pageSize, search, configSearch, searchMode, status, filters, reloadKey]);
 
   useEffect(() => {
     if (!items.length) return;
@@ -508,15 +542,24 @@ export default function InventoryPage() {
 
   const submitSearch = (event?: FormEvent) => {
     event?.preventDefault();
-    serialSearchTokens.current = [];
     setPage(1);
-    setSearch(searchInput.trim());
+    if (searchMode === 'machine') {
+      serialSearchTokens.current = [];
+      setSearch(searchInput.trim());
+    } else {
+      setConfigSearch(configSearchInput.trim());
+    }
   };
 
   const clearSearch = () => {
-    serialSearchTokens.current = [];
-    setSearchInput('');
-    setSearch('');
+    if (searchMode === 'machine') {
+      serialSearchTokens.current = [];
+      setSearchInput('');
+      setSearch('');
+    } else {
+      setConfigSearchInput('');
+      setConfigSearch('');
+    }
     setPage(1);
   };
 
@@ -876,13 +919,25 @@ export default function InventoryPage() {
       <section className="glass p-4 mb-4">
         <div className="flex flex-wrap items-center gap-3">
           <form onSubmit={submitSearch} className="min-w-0 basis-full xl:max-w-xl xl:flex-1">
-            <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} onClear={clearSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled searchOnEnter placeholder="搜索 SN、型号、编号或配置" ariaLabel="搜索库存的 SN、型号、编号，以及 CPU、内存、硬盘、显卡和屏幕配置" />
+            <div className="mb-2 inline-flex rounded-md border border-line/70 bg-white/60 p-0.5" role="group" aria-label="库存搜索范围">
+              <button type="button" aria-pressed={searchMode === 'machine'} onClick={() => { setSearchMode('machine'); setPage(1); }} className={`rounded px-2.5 py-1 text-[11px] transition-colors ${searchMode === 'machine' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}>机器</button>
+              <button type="button" aria-pressed={searchMode === 'configuration'} onClick={() => { setSearchMode('configuration'); setPage(1); }} className={`rounded px-2.5 py-1 text-[11px] transition-colors ${searchMode === 'configuration' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}>配置</button>
+            </div>
+            {searchMode === 'machine' ? (
+              <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} onClear={clearSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled searchOnEnter placeholder="搜索 SN、编号、品牌或型号" ariaLabel="搜索库存机器的 SN、编号、品牌或型号" />
+            ) : (
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
+                <input type="text" value={configSearchInput} onChange={event => setConfigSearchInput(event.target.value)} placeholder="搜索 CPU、内存、硬盘、显卡或屏幕配置" aria-label="搜索机器配置" className="field w-full pl-10 pr-10" />
+                {configSearchInput && <button type="button" onClick={clearSearch} className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft transition hover:bg-primary/5 hover:text-ink-deep active:scale-95" aria-label="清除配置搜索"><X className="h-4 w-4" /></button>}
+              </div>
+            )}
           </form>
 
           <div className="order-last flex w-full items-center gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="库存状态筛选">
             {[
               ['', '全部'],
-              ['in_stock', '在库'],
+              ['current_stock', '在库'],
               ['sold', '已售'],
               ['renting', '租赁中'],
               ['returned', '已退货'],
@@ -900,7 +955,7 @@ export default function InventoryPage() {
           </div>
           <button type="button" onClick={() => setTableSettingsOpen(true)} disabled={!tablePreferencesHydrated} title="自定义库存表格列" className="btn-ghost inline-flex items-center gap-1.5 disabled:cursor-not-allowed disabled:opacity-50"><Columns3 className="h-4 w-4" />列设置</button>
           <button type="button" onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen} className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-[12px] transition-colors ${filtersOpen || activeFilterCount > 0 ? 'border-primary/30 bg-primary/10 text-primary' : 'border-line/70 text-ink-soft hover:bg-white/70'}`}><SlidersHorizontal className="h-4 w-4" />组合筛选{activeFilterCount > 0 && <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-white">{activeFilterCount}</span>}</button>
-          <button type="button" onClick={() => { setSearchInput(search); setReloadKey((key) => key + 1); }} disabled={loading} title="刷新库存" aria-label="刷新库存" className="self-end lg:self-auto p-2 text-ink-soft hover:text-primary hover:bg-white/70 rounded-lg transition-colors"><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></button>
+          <button type="button" onClick={() => setReloadKey((key) => key + 1)} disabled={loading} title="刷新库存" aria-label="刷新库存" className="self-end lg:self-auto p-2 text-ink-soft hover:text-primary hover:bg-white/70 rounded-lg transition-colors"><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></button>
         </div>
       </section>
 
@@ -908,8 +963,8 @@ export default function InventoryPage() {
         <section className="glass mb-4 border border-primary/10 p-4">
           <div className="mb-3 flex items-center justify-between gap-3"><div className="flex items-center gap-2 text-[13px] font-medium text-ink-deep"><Filter className="h-4 w-4 text-primary" />组合筛选</div><span className="text-[11px] text-ink-soft">应用后会回到第 1 页</span></div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">仓库</span><CustomSelect value={filterDraft.warehouseId} onChange={value => setFilterDraft(current => ({ ...current, warehouseId: value }))} options={[{ value: '', label: '全部授权仓库' }, ...warehouses.map(w => ({ value: w.id, label: w.name }))]} placeholder="全部授权仓库" /></label><FilterSelect label="品牌" value={filterDraft.brand} options={filterOptions.brands} onChange={(value) => setFilterDraft((current) => ({ ...current, brand: value }))} />
-            <FilterSelect label="型号" value={filterDraft.model} options={filterOptions.models} onChange={(value) => setFilterDraft((current) => ({ ...current, model: value }))} />
+            <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">仓库</span><CustomSelect value={filterDraft.warehouseId} onChange={value => { setFilterModelsLoading(Boolean(filterDraft.brand)); setFilterDraft(current => ({ ...current, warehouseId: value, model: '' })); }} options={[{ value: '', label: '全部授权仓库' }, ...warehouses.map(w => ({ value: w.id, label: w.name }))]} placeholder="全部授权仓库" /></label><FilterSelect label="品牌" value={filterDraft.brand} options={filterOptions.brands} onChange={(value) => { setFilterModelsLoading(Boolean(value)); setFilterOptions(current => ({ ...current, models: [] })); setFilterDraft((current) => ({ ...current, brand: value, model: '' })); }} />
+            <FilterSelect label="型号" value={filterDraft.model} options={filterOptions.models} onChange={(value) => setFilterDraft((current) => ({ ...current, model: value }))} disabled={!filterDraft.brand || filterModelsLoading || !filterOptions.models.length} emptyLabel={!filterDraft.brand ? '请先选择品牌' : filterModelsLoading ? '正在加载型号…' : filterOptions.models.length ? '全部型号' : '该品牌暂无库存型号'} />
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">入库日期起</span><input type="date" value={filterDraft.inboundFrom} onChange={(event) => setFilterDraft((current) => ({ ...current, inboundFrom: event.target.value }))} className="field" /></label>
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">入库日期止</span><input type="date" value={filterDraft.inboundTo} onChange={(event) => setFilterDraft((current) => ({ ...current, inboundTo: event.target.value }))} className="field" /></label>
           </div>
@@ -1148,6 +1203,7 @@ function machineDestination(item: InventoryItem) {
   return item.warehouseName || '原归属仓库';
 }
 
-function FilterSelect({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (value: string) => void }) {
-  return <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">{label}</span><CustomSelect value={value} onChange={onChange} options={[{ value: '', label: `全部${label}` }, ...options.map((option) => ({ value: option, label: option }))]} placeholder={`全部${label}`} searchable /></label>;
+function FilterSelect({ label, value, options, onChange, disabled = false, emptyLabel }: { label: string; value: string; options: string[]; onChange: (value: string) => void; disabled?: boolean; emptyLabel?: string }) {
+  const placeholder = emptyLabel || `全部${label}`;
+  return <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">{label}</span><CustomSelect value={value} onChange={onChange} options={[{ value: '', label: placeholder }, ...options.map((option) => ({ value: option, label: option }))]} placeholder={placeholder} searchable disabled={disabled} /></label>;
 }

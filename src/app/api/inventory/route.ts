@@ -127,7 +127,14 @@ interface InventoryFilters {
   ageMax?: string;
 }
 
-function getWhere(search: string, status: string, filters: InventoryFilters = {}, serials: string[] = []): { clause: string; params: (string | number)[] } {
+function getWhere(
+  search: string,
+  status: string,
+  filters: InventoryFilters = {},
+  serials: string[] = [],
+  configSearch = '',
+  searchMode = '',
+): { clause: string; params: (string | number)[] } {
   const conditions = ['i.deleted = 0'];
   const params: (string | number)[] = [];
 
@@ -136,6 +143,10 @@ function getWhere(search: string, status: string, filters: InventoryFilters = {}
     const normalizedSerials = serials.map(value => value.toLocaleLowerCase());
     conditions.push(`(lower(i.sn) IN (${placeholders}) OR lower(COALESCE(i.itemNumber,'')) IN (${placeholders}))`);
     params.push(...normalizedSerials, ...normalizedSerials);
+  } else if (search && searchMode === 'machine') {
+    const pattern = `%${search}%`;
+    conditions.push('(i.sn LIKE ? OR i.itemNumber LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR i.productType LIKE ?)');
+    params.push(pattern, pattern, pattern, pattern, pattern);
   } else if (search) {
     const pattern = `%${search}%`;
     conditions.push(`(
@@ -151,7 +162,18 @@ function getWhere(search: string, status: string, filters: InventoryFilters = {}
     );
   }
 
-  if (status && status !== 'all') {
+  if (configSearch) {
+    const terms = configSearch.split(/\s+/).filter(Boolean);
+    for (const term of terms) {
+      const pattern = `%${term}%`;
+      conditions.push('(i.cpu LIKE ? OR i.ram LIKE ? OR i.storage LIKE ? OR i.gpu LIKE ? OR i.screen LIKE ?)');
+      params.push(pattern, pattern, pattern, pattern, pattern);
+    }
+  }
+
+  if (status === 'current_stock') {
+    conditions.push("i.status IN ('in_stock','custom')");
+  } else if (status && status !== 'all') {
     conditions.push('i.status = ?');
     params.push(status);
   }
@@ -212,11 +234,14 @@ export async function GET(request: NextRequest) {
       ? parsedPagination.pageSize
       : 20;
     const search = searchParams.get('search')?.trim() || '';
+    const configSearch = searchParams.get('configSearch')?.trim() || '';
+    if (configSearch.length > 200) return NextResponse.json(errorResponse('VALIDATION_ERROR','配置搜索内容不能超过 200 个字符'), { status: 400 });
     const serials = uniqueMachineScanTokens(searchParams.getAll('sn').map(value => value.trim()).filter(Boolean));
     if (serials.length > 100) return NextResponse.json(errorResponse('VALIDATION_ERROR','一次最多查询 100 个 SN'), { status: 400 });
     if (serials.some(value => value.length > 200)) return NextResponse.json(errorResponse('VALIDATION_ERROR','SN 长度不能超过 200 个字符'), { status: 400 });
     const status = searchParams.get('status')?.trim() || '';
     if (searchParams.get('meta') === 'filters') {
+      const filterBrand = searchParams.get('brand')?.trim() || '';
       const brands = db.prepare(`
         SELECT DISTINCT brand AS value FROM inventory
         WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(brand, '')) <> ''
@@ -237,8 +262,9 @@ export async function GET(request: NextRequest) {
       const models = db.prepare(`
         SELECT DISTINCT model AS value FROM inventory
         WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(model, '')) <> ''
+          AND (? = '' OR brand = ? COLLATE NOCASE)
         ORDER BY model COLLATE NOCASE
-      `).all(...scope.params) as Array<{ value: string }>;
+      `).all(...scope.params, filterBrand, filterBrand) as Array<{ value: string }>;
       const suppliers = db.prepare(`
         SELECT DISTINCT supplierId AS id, supplierName AS name FROM inventory
         WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(supplierName, '')) <> ''
@@ -266,7 +292,8 @@ export async function GET(request: NextRequest) {
       ageMax: searchParams.get('ageMax')?.trim() || undefined,
     };
     const scoped = warehouseScope(user, searchParams.get('warehouseId'), 'i');
-    const where = getWhere(search, status, filters, serials);
+    const searchMode = searchParams.get('searchMode')?.trim() || '';
+    const where = getWhere(search, status, filters, serials, configSearch, searchMode);
     const customStatusId = searchParams.get('customStatusId')?.trim();
     if (customStatusId) { where.clause += ' AND EXISTS (SELECT 1 FROM inventory_status_records cr WHERE cr.id=i.currentStatusRecordId AND cr.definitionId=? AND cr.closedAt IS NULL)'; where.params.push(customStatusId); }
     let clause = where.clause + ' AND ' + scoped.sql;
