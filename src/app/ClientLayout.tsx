@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import TopNav from '@/components/TopNav';
 import { TabBar, type Tab } from '@/components/TabBar';
-import AlertCenter from '@/components/AlertCenter';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import { WorkspaceProvider } from '@/components/WorkspaceContext';
 import { canVisit, type SessionUser } from '@/lib/access';
@@ -135,7 +134,6 @@ function WorkspaceHost({ user, pathname, href, testMode, children }: { user: Ses
     <TopNav user={user} />
     {testMode && <div role="status" className="flex h-6 items-center justify-center border-y border-primary/15 bg-primary/8 px-3 text-[11px] font-medium text-primary">隔离测试库 · 此处录入不会写入正式数据库</div>}
     <TabBar tabs={tabs} activeTabId={activeId} dirtyIds={dirtyIds} onTabClose={id => dirtyIds.has(id) ? setPendingClose(id) : closeTab(id)} />
-    {user.role !== 'viewer' && <AlertCenter />}
     <main className={`relative overflow-hidden ${tabs.length ? (testMode ? 'h-[calc(100dvh-124px)]' : 'h-[calc(100dvh-100px)]') : (testMode ? 'h-[calc(100dvh-80px)]' : 'h-[calc(100dvh-56px)]')}`}>
       {tabs.filter(tab => visited.has(tab.id)).map(tab => <WorkspaceSlot key={`${tab.id}:${instances[tab.id] || 0}`} tab={tab} active={tab.id === activeId} user={user} onDirtyChange={onDirtyChange} />)}
       {!activeRoute && <div className="h-full overflow-y-auto px-4 py-6">{children}</div>}

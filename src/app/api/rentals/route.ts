@@ -109,6 +109,46 @@ function addRentalMovement(inventoryId: string, rentalId: string, movementType: 
   );
 }
 
+function addRentalEvent(input: {
+  rentalRecordId: string;
+  rentalOrderId: string | null;
+  eventType: string;
+  note?: string | null;
+  beforeData?: unknown;
+  afterData?: unknown;
+  actorId: string;
+  createdAt: string;
+}) {
+  db.prepare(`INSERT INTO rental_events
+    (id, rentalRecordId, rentalOrderId, eventType, note, beforeData, afterData, actorId, createdAt)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
+    generateId('rental_event'), input.rentalRecordId, input.rentalOrderId, input.eventType,
+    input.note?.trim() || null,
+    input.beforeData === undefined ? null : JSON.stringify(input.beforeData),
+    input.afterData === undefined ? null : JSON.stringify(input.afterData),
+    input.actorId, input.createdAt,
+  );
+}
+
+function validDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return !Number.isNaN(date.getTime()) && date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
+function nextSaleRecordNo(saleDate: string) {
+  const prefix = `XS${saleDate.replace(/-/g, '')}`;
+  const latest = db.prepare('SELECT recordNo FROM sales_records WHERE recordNo LIKE ? ORDER BY recordNo DESC LIMIT 1').get(`${prefix}%`) as { recordNo: string } | undefined;
+  let sequence = latest ? Number(latest.recordNo.slice(prefix.length)) + 1 : 1;
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const candidate = `${prefix}${String(sequence).padStart(3, '0')}`;
+    if (!db.prepare('SELECT 1 FROM sales_records WHERE recordNo = ?').get(candidate)) return candidate;
+    sequence += 1;
+  }
+  throw new Error('销售单号生成失败，请稍后重试');
+}
+
 function dueFilter(searchParams: URLSearchParams) {
   const raw = searchParams.get('dueWithinDays') || searchParams.get('dueDays') || searchParams.get('due') || searchParams.get('expiresIn');
   if (raw === null && searchParams.get('dueSoon') !== '1' && searchParams.get('expiring') !== '1') return null;
@@ -162,14 +202,16 @@ export async function GET(request: NextRequest) {
     const rows = db.prepare(`SELECT r.*, COALESCE(ro.rentalNo, r.rentalNo) AS displayRentalNo,
       (SELECT COUNT(*) FROM rental_records siblings WHERE siblings.rentalOrderId = r.rentalOrderId AND siblings.deleted = 0) AS orderMachineCount,
       i.year AS year,
-      CAST(julianday(date(r.rentalEndDate)) - julianday(date('now', 'localtime')) AS INTEGER) AS daysUntilDue,
-      CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) < date('now', 'localtime') THEN 1 ELSE 0 END AS isOverdue,
-      CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) >= date('now', 'localtime') AND date(r.rentalEndDate) <= date('now', 'localtime', '+3 day') THEN 1 ELSE 0 END AS isDueSoon
+      CAST(julianday(date(r.rentalEndDate)) - julianday(date('now', '+8 hours')) AS INTEGER) AS daysUntilDue,
+      CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) < date('now', '+8 hours') THEN 1 ELSE 0 END AS isOverdue,
+      CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) >= date('now', '+8 hours') AND date(r.rentalEndDate) <= date('now', '+8 hours', '+3 day') THEN 1 ELSE 0 END AS isDueSoon
       FROM rental_records r LEFT JOIN inventory i ON i.id = r.inventoryId LEFT JOIN rental_orders ro ON ro.id = r.rentalOrderId ${where} ORDER BY r.rentalEndDate ASC, r.createdAt DESC LIMIT ? OFFSET ?`).all(...params, pageSize, (safePage - 1) * pageSize) as Array<RentalRow & { id: string }>;
     const withMovements = rows.map((row) => ({
       ...row,
       dueStatus: Number(row.isOverdue) ? 'overdue' : Number(row.isDueSoon) ? 'due_soon' : 'normal',
       movements: db.prepare("SELECT id, inventoryId, warehouseId, fromWarehouseId, toWarehouseId, movementType, quantity, referenceType, referenceId, actorId, note, createdAt FROM inventory_movements WHERE referenceType = 'rental' AND referenceId = ? ORDER BY createdAt ASC").all(row.id),
+      events: db.prepare(`SELECT id, eventType, note, beforeData, afterData, actorId, createdAt
+        FROM rental_events WHERE rentalRecordId = ? ORDER BY createdAt DESC, rowid DESC`).all(row.id),
     }));
     return NextResponse.json(successResponse(createPaginatedResponse(withMovements, Number(count.total), safePage, pageSize)));
   } catch (error) {
@@ -260,23 +302,128 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json() as Record<string, unknown>;
     const id = String(body.id || body.rentalId || '').trim();
     if (!id) return jsonError(ErrorCode.VALIDATION_ERROR, '租赁记录 ID 不能为空');
-    if (body.action !== 'return') return jsonError(ErrorCode.VALIDATION_ERROR, '不支持的租赁操作');
-    const rental = db.prepare('SELECT id, inventoryId, status, rentalStartDate FROM rental_records WHERE id = ? AND deleted = 0').get(id) as { id: string; inventoryId: string; status: string; rentalStartDate: string } | undefined;
+    const rental = db.prepare(`SELECT r.id, r.rentalOrderId, r.rentalNo, r.inventoryId, r.sn, r.status,
+      r.rentalStartDate, r.rentalEndDate, r.rentalType, r.rentalUnitPrice, r.rentalDuration,
+      r.rentalTotalPrice, r.purchasePrice, r.customerName, r.customerPhone, r.customerAddress,
+      r.config, r.remark, i.productType, i.year, i.cpu, i.ram, i.gpu, i.storage, i.screen,
+      i.touchScreen, i.warehouseId, i.status AS inventoryStatus, i.rentalRecordId,
+      COALESCE(ro.rentalNo, r.rentalNo) AS displayRentalNo
+      FROM rental_records r JOIN inventory i ON i.id = r.inventoryId
+      LEFT JOIN rental_orders ro ON ro.id = r.rentalOrderId
+      WHERE r.id = ? AND r.deleted = 0`).get(id) as (RentalRow & {
+        rentalOrderId: string | null; productType: string; year: number | null; cpu: string; ram: string;
+        gpu: string | null; storage: string; screen: string; touchScreen: number | null;
+        warehouseId: string; inventoryStatus: string;
+        rentalRecordId: string | null; displayRentalNo: string;
+      }) | undefined;
     if (!rental) return jsonError(ErrorCode.NOT_FOUND, '租赁记录不存在', 404);
-    if (rental.status !== 'renting') return jsonError(ErrorCode.VALIDATION_ERROR, '租赁记录已经归还');
+    const action = String(body.action || '').trim();
     const now = formatDateTime();
-    const returnDate = String(body.returnDate || now.slice(0, 10)).trim();
+    if (rental.status !== 'renting' && ['return', 'renew', 'buyout', 'exception'].includes(action)) {
+      return jsonError(ErrorCode.VALIDATION_ERROR, '这台机器已结束租赁，不能继续办理当前操作');
+    }
+    if (rental.inventoryStatus !== 'renting' || rental.rentalRecordId !== id) {
+      return jsonError(ErrorCode.VALIDATION_ERROR, '库存机器的租赁关联已变化，请刷新后重试');
+    }
+
+    if (action === 'renew') {
+      const newEndDate = typeof body.newEndDate === 'string' ? body.newEndDate.trim() : '';
+      if (!validDate(newEndDate) || newEndDate <= rental.rentalEndDate) return jsonError(ErrorCode.VALIDATION_ERROR, '续期日期必须晚于当前到期日');
+      const duration = rentalDuration(rental.rentalStartDate, newEndDate, rental.rentalType);
+      if (!duration) return jsonError(ErrorCode.VALIDATION_ERROR, '续期日期无效');
+      const total = duration * Number(rental.rentalUnitPrice);
+      db.transaction(() => {
+        const before = { rentalEndDate: rental.rentalEndDate, rentalDuration: rental.rentalDuration, rentalTotalPrice: rental.rentalTotalPrice };
+        const update = db.prepare(`UPDATE rental_records SET rentalEndDate = ?, rentalDuration = ?, rentalTotalPrice = ?, updatedAt = ?
+          WHERE id = ? AND status = 'renting' AND rentalEndDate = ? AND deleted = 0`);
+        if (update.run(newEndDate, duration, total, now, id, rental.rentalEndDate).changes !== 1) throw new Error('租赁记录已发生变化，请刷新后重试');
+        if (rental.rentalOrderId) {
+          const latest = db.prepare("SELECT MAX(rentalEndDate) AS rentalEndDate FROM rental_records WHERE rentalOrderId = ? AND status = 'renting' AND deleted = 0").get(rental.rentalOrderId) as { rentalEndDate: string | null };
+          if (latest.rentalEndDate) db.prepare('UPDATE rental_orders SET rentalEndDate = ?, updatedAt = ? WHERE id = ?').run(latest.rentalEndDate, now, rental.rentalOrderId);
+        }
+        addRentalEvent({ rentalRecordId: id, rentalOrderId: rental.rentalOrderId, eventType: 'renewed', note: '续期至 ' + newEndDate, beforeData: before, afterData: { rentalEndDate: newEndDate, rentalDuration: duration, rentalTotalPrice: total }, actorId: user.id, createdAt: now });
+      })();
+      return NextResponse.json(successResponse({ id, status: 'renting', rentalEndDate: newEndDate, rentalDuration: duration, rentalTotalPrice: total }));
+    }
+
+    if (action === 'exception') {
+      const note = typeof body.note === 'string' ? body.note.trim() : '';
+      if (!note || note.length > 1000) return jsonError(ErrorCode.VALIDATION_ERROR, '请填写异常跟进说明（最多 1000 个字符）');
+      db.transaction(() => {
+        addRentalEvent({ rentalRecordId: id, rentalOrderId: rental.rentalOrderId, eventType: 'exception_followup', note, beforeData: { status: rental.status, rentalEndDate: rental.rentalEndDate }, afterData: { status: rental.status, followUp: note }, actorId: user.id, createdAt: now });
+      })();
+      return NextResponse.json(successResponse({ id, status: 'renting', followUp: note, createdAt: now }));
+    }
+
+    if (action === 'buyout') {
+      const saleDate = typeof body.saleDate === 'string' && body.saleDate.trim() ? body.saleDate.trim() : now.slice(0, 10);
+      const sellingPrice = typeof body.sellingPrice === 'number' ? body.sellingPrice : typeof body.sellingPrice === 'string' && body.sellingPrice.trim() ? Number(body.sellingPrice) : NaN;
+      const channelId = typeof body.saleChannelId === 'string' ? body.saleChannelId.trim() : '';
+      const requestedSaleOrderNo = typeof body.saleOrderNo === 'string' ? body.saleOrderNo.trim() : '';
+      if (!validDate(saleDate) || saleDate < rental.rentalStartDate) return jsonError(ErrorCode.VALIDATION_ERROR, '买断日期不能早于租赁开始日期');
+      if (!Number.isFinite(sellingPrice) || sellingPrice < 0) return jsonError(ErrorCode.VALIDATION_ERROR, '买断价格必须是大于或等于 0 的金额');
+      if (!channelId) return jsonError(ErrorCode.VALIDATION_ERROR, '请选择销售渠道');
+      if (requestedSaleOrderNo.length > 100) return jsonError(ErrorCode.VALIDATION_ERROR, '销售订单号不能超过 100 个字符');
+      const channel = db.prepare("SELECT id, channelName FROM sales_channels WHERE id = ? AND status = 'active' AND deleted = 0").get(channelId) as { id: string; channelName: string } | undefined;
+      if (!channel) return jsonError(ErrorCode.VALIDATION_ERROR, '请选择有效的销售渠道');
+      const saleOrderNo = requestedSaleOrderNo || `ZLMB-${rental.displayRentalNo}-${id.slice(-8)}`;
+      const salesRecordId = generateId('sale');
+      const recordNo = nextSaleRecordNo(saleDate);
+      const sellingProfit = sellingPrice - Number(rental.purchasePrice);
+      const itemSnapshot = {
+        inventoryId: rental.inventoryId, sn: rental.sn, productType: rental.productType,
+        brand: rental.brand, model: rental.model, year: rental.year, cpu: rental.cpu, ram: rental.ram,
+        gpu: rental.gpu, storage: rental.storage, screen: rental.screen, touchScreen: rental.touchScreen,
+        warehouseId: rental.warehouseId, purchasePrice: Number(rental.purchasePrice), sellingPrice,
+        profit: sellingProfit, remark: `租赁买断 · ${rental.displayRentalNo}`, rentalRecordId: id,
+      };
+      db.transaction(() => {
+        const current = db.prepare("SELECT status, rentalEndDate, rentalTotalPrice FROM rental_records WHERE id = ? AND status = 'renting' AND deleted = 0").get(id) as { status: string; rentalEndDate: string; rentalTotalPrice: number } | undefined;
+        const inventory = db.prepare("SELECT status, rentalRecordId FROM inventory WHERE id = ? AND deleted = 0").get(rental.inventoryId) as { status: string; rentalRecordId: string | null } | undefined;
+        if (!current || !inventory || inventory.status !== 'renting' || inventory.rentalRecordId !== id) throw new Error('租赁或库存状态已变化，请刷新后重试');
+        db.prepare(`INSERT INTO sales_records
+          (id, recordNo, saleChannel, saleOrderNo, saleDate, items, totalQuantity, totalCost, totalAmount, totalProfit, status, remark, deleted, createdBy, createdAt)
+          VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?, ?, 'completed', ?, 0, ?, ?)`)
+          .run(salesRecordId, recordNo, channel.channelName, saleOrderNo, saleDate, JSON.stringify([itemSnapshot]), Number(rental.purchasePrice), sellingPrice, sellingProfit, `租赁买断 · ${rental.displayRentalNo}`, user.id, now);
+        db.prepare(`INSERT INTO sales_record_items
+          (id, salesRecordId, saleRecordId, inventoryId, sn, purchasePrice, sellingPrice, profit, warehouseId, snapshot, remark, createdAt)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+          .run(generateId('sale_item'), salesRecordId, salesRecordId, rental.inventoryId, rental.sn, Number(rental.purchasePrice), sellingPrice, sellingProfit, rental.warehouseId, JSON.stringify(itemSnapshot), `租赁买断 · ${rental.displayRentalNo}`, now);
+        const updateInventory = db.prepare(`UPDATE inventory SET status = 'sold', rentalRecordId = NULL, soldDate = ?, sellingPrice = ?,
+          saleChannel = ?, saleOrderNo = ?, profit = ?, updatedAt = ?
+          WHERE id = ? AND status = 'renting' AND rentalRecordId = ? AND deleted = 0`);
+        if (updateInventory.run(saleDate, sellingPrice, channel.channelName, saleOrderNo, sellingProfit, now, rental.inventoryId, id).changes !== 1) throw new Error('库存机器状态已变化，请刷新后重试');
+        const updateRental = db.prepare(`UPDATE rental_records SET status = 'purchased', returnDate = ?, returnType = '客户买断',
+          sellingPrice = ?, priceDifference = ?, saleChannel = ?, saleOrderNo = ?, salesRecordId = ?, updatedAt = ?
+          WHERE id = ? AND status = 'renting' AND deleted = 0`);
+        if (updateRental.run(saleDate, sellingPrice, sellingProfit, channel.channelName, saleOrderNo, salesRecordId, now, id).changes !== 1) throw new Error('租赁记录状态已变化，请刷新后重试');
+        db.prepare(`INSERT INTO inventory_movements
+          (id, inventoryId, warehouseId, fromWarehouseId, movementType, quantity, referenceType, referenceId, actorId, note, statusFrom, statusTo, snapshot, createdAt)
+          VALUES (?, ?, ?, ?, 'sale', 1, 'sales_record', ?, ?, ?, 'renting', 'sold', ?, ?)`)
+          .run(generateId('movement'), rental.inventoryId, rental.warehouseId, rental.warehouseId, salesRecordId, user.id, `租赁买断 · ${saleOrderNo}`, JSON.stringify(itemSnapshot), now);
+        db.prepare('UPDATE sales_channels SET usageCount = usageCount + 1, updatedAt = ? WHERE id = ?').run(now, channel.id);
+        addRentalEvent({ rentalRecordId: id, rentalOrderId: rental.rentalOrderId, eventType: 'buyout', note: `客户买断 · ${saleOrderNo} · ${sellingPrice}`, beforeData: { status: rental.status, rentalEndDate: current.rentalEndDate, rentalTotalPrice: current.rentalTotalPrice }, afterData: { status: 'purchased', saleDate, sellingPrice, saleChannel: channel.channelName, saleOrderNo, salesRecordId }, actorId: user.id, createdAt: now });
+      })();
+      return NextResponse.json(successResponse({ id, status: 'purchased', salesRecordId, recordNo, saleDate, sellingPrice, saleChannel: channel.channelName, saleOrderNo }));
+    }
+
+    if (action !== 'return') return jsonError(ErrorCode.VALIDATION_ERROR, '不支持的租赁操作');
+    const returnDate = typeof body.returnDate === 'string' && body.returnDate.trim() ? body.returnDate.trim() : now.slice(0, 10);
     const returnType = String(body.returnType || '正常归还').trim();
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(returnDate) || Number.isNaN(Date.parse(returnDate)) || returnDate < rental.rentalStartDate) return jsonError(ErrorCode.VALIDATION_ERROR, '归还日期不能早于租赁开始日期');
+    if (!validDate(returnDate) || returnDate < rental.rentalStartDate) return jsonError(ErrorCode.VALIDATION_ERROR, '归还日期不能早于租赁开始日期');
     db.transaction(() => {
       const updateInventory = db.prepare("UPDATE inventory SET status = 'in_stock', rentalRecordId = NULL, updatedAt = ? WHERE id = ? AND status = 'renting' AND rentalRecordId = ? AND deleted = 0");
       if (updateInventory.run(now, rental.inventoryId, id).changes !== 1) throw new Error('库存状态已发生变化，请刷新后重试');
-      db.prepare("UPDATE rental_records SET status = 'returned', returnDate = ?, returnType = ?, updatedAt = ? WHERE id = ? AND status = 'renting' AND deleted = 0").run(returnDate, returnType, now, id);
+      const updateRental = db.prepare("UPDATE rental_records SET status = 'returned', returnDate = ?, returnType = ?, updatedAt = ? WHERE id = ? AND status = 'renting' AND deleted = 0");
+      if (updateRental.run(returnDate, returnType, now, id).changes !== 1) throw new Error('租赁记录状态已发生变化，请刷新后重试');
       addRentalMovement(rental.inventoryId, id, 'rental_return', user.id, '租赁归还入库', now);
+      addRentalEvent({ rentalRecordId: id, rentalOrderId: rental.rentalOrderId, eventType: 'returned', note: returnType, beforeData: { status: rental.status }, afterData: { status: 'returned', returnDate, returnType }, actorId: user.id, createdAt: now });
     })();
     return NextResponse.json(successResponse({ id, status: 'returned', returnDate }));
   } catch (error) {
     const response = authError(error); if (response) return response;
-    return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, messageOf(error, '完成租赁归还失败')), { status: 500 });
+    const message = messageOf(error, '处理租赁操作失败');
+    const validation = /已经结束|状态已变化|状态已发生变化|已发生变化|不能继续办理|无效|必须|不能为空|不能超过|不存在|请选择|早于|晚于|租赁记录已发生变化|库存机器状态已变化/.test(message);
+    return NextResponse.json(errorResponse(validation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: validation ? 400 : 500 });
   }
 }

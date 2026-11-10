@@ -18,7 +18,15 @@ export async function GET() {
     }
     if (user.role === 'admin') {
     const rentals = db.prepare("SELECT id, rentalNo, sn, brand, model, rentalEndDate, CAST(julianday(date(rentalEndDate)) - julianday(date('now', '+8 hours')) AS INTEGER) AS daysUntilDue FROM rental_records WHERE deleted = 0 AND status = 'renting' AND date(rentalEndDate) <= date('now', '+8 hours', '+3 day') ORDER BY rentalEndDate ASC").all() as Array<{ id: string; rentalNo: string; sn: string; brand: string; model: string; rentalEndDate: string; daysUntilDue: number }>;
-    rentals.forEach((row) => { const overdue = row.daysUntilDue < 0; items.push({ id: `rental:${row.id}`, kind: 'rental', level: overdue || row.daysUntilDue === 0 ? 'danger' : 'warning', title: overdue ? `租赁单 ${row.rentalNo} 已逾期` : `租赁单 ${row.rentalNo} 将在 ${row.daysUntilDue} 天内到期`, detail: `${formatProductName(row)} · SN ${row.sn} · 到期日 ${row.rentalEndDate}`, href: '/rental' }); });
+    rentals.forEach((row) => {
+      const overdue = row.daysUntilDue < 0;
+      const title = overdue
+        ? `租赁单 ${row.rentalNo} 已逾期 ${Math.abs(row.daysUntilDue)} 天，机器尚未归还`
+        : row.daysUntilDue === 0
+          ? `租赁单 ${row.rentalNo} 今日到期，请确认归还安排`
+          : `租赁单 ${row.rentalNo} 将在 ${row.daysUntilDue} 天后到期`;
+      items.push({ id: `rental:${row.id}`, kind: 'rental', level: overdue || row.daysUntilDue === 0 ? 'danger' : 'warning', title, detail: `${formatProductName(row)} · SN ${row.sn} · 到期日 ${row.rentalEndDate}`, href: '/rental' });
+    });
     }
     return NextResponse.json(successResponse({ items }));
   } catch (error) { if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status }); return NextResponse.json(errorResponse(ErrorCode.DATABASE_ERROR, error instanceof Error ? error.message : '获取提醒失败'), { status: 500 }); }

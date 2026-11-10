@@ -92,6 +92,11 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
     fields: ['id', 'rentalOrderId', 'rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit', 'status', 'returnDate', 'returnType', 'sellingPrice', 'priceDifference', 'saleChannel', 'saleOrderNo', 'salesRecordId', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
     writable: ['remark'], deletable: false, creatable: false, searchFields: ['rentalNo', 'sn', 'brand', 'model', 'customerName', 'customerPhone', 'status'], orderBy: 'createdAt DESC', required: ['rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit'],
   },
+  rental_events: {
+    key: 'rental_events', label: '租赁操作历史', table: 'rental_events',
+    fields: ['id', 'rentalRecordId', 'rentalOrderId', 'eventType', 'note', 'beforeData', 'afterData', 'actorId', 'createdAt'],
+    writable: [], deletable: false, creatable: false, searchFields: ['rentalRecordId', 'rentalOrderId', 'eventType', 'note', 'actorId'], orderBy: 'createdAt DESC', required: ['id', 'rentalRecordId', 'eventType', 'actorId', 'createdAt'],
+  },
   after_sale_records: {
     key: 'after_sale_records', label: '售后记录', table: 'after_sale_records',
     fields: ['id', 'afterSaleNo', 'inventoryId', 'sn', 'salesRecordId', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'issueDescription', 'resolutionType', 'replacementInventoryId', 'status', 'refundAmount', 'resolutionNote', 'resolvedAt', 'deleted', 'createdBy', 'createdAt', 'updatedAt', 'receivedAt', 'receivedBy', 'receivedCondition', 'receivedNote'],
@@ -232,6 +237,7 @@ const IMPORT_USER_REFERENCE_FIELDS: Record<string, string[]> = {
   sales_records: ['createdBy', 'cancelledBy'],
   rental_records: ['createdBy'],
   rental_orders: ['createdBy'],
+  rental_events: ['actorId'],
   after_sale_records: ['createdBy', 'receivedBy'],
   after_sale_stock: ['receivedBy'],
   return_orders: ['createdBy'],
@@ -404,6 +410,7 @@ const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column
   },
   rental_records: { rentalOrderId: { table: 'rental_orders' }, inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' }, createdBy: { table: 'users' } },
   rental_orders: { createdBy: { table: 'users' } },
+  rental_events: { rentalRecordId: { table: 'rental_records' }, rentalOrderId: { table: 'rental_orders' }, actorId: { table: 'users' } },
   after_sale_records: {
     inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' },
     replacementInventoryId: { table: 'inventory' }, createdBy: { table: 'users' },

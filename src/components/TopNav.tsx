@@ -7,6 +7,7 @@ import { ChevronDown, House, LogOut, UserRound } from "lucide-react";
 import { BrandLogo } from '@/components/Brand';
 import { useRouter } from "next/navigation";
 import { canVisit, type SessionUser } from "@/lib/access";
+import AlertCenter from '@/components/AlertCenter';
 
 interface NavItem {
   label: string;
@@ -356,10 +357,13 @@ export default function TopNav({ user }: { user: SessionUser }) {
             })}
           </div>
 
-          {/* 右侧用户信息 */}
-          <div className="relative shrink-0" onMouseEnter={() => { cancelHoverClose(); cancelHoverOpen(); setHoveredDropdown('user'); }} onMouseLeave={() => scheduleHoverClose('user')} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) { setOpenDropdown(null); setHoveredDropdown(null); } }}>
-            <button type="button" aria-label="用户菜单" aria-haspopup="menu" aria-expanded={visibleDropdown === 'user'} onClick={() => { setOpenDropdown(current => current === 'user' ? null : 'user'); setHoveredDropdown(null); }} className="inline-flex items-center gap-2 rounded-lg p-2 text-xs text-ink-deep transition hover:bg-primary/8 active:scale-95"><UserRound className="h-4 w-4 text-primary" /><span className="hidden max-w-24 truncate lg:block">{user.realName || user.username}</span><ChevronDown className="hidden h-3 w-3 sm:block" /></button>
-            <div className="nav-user-dropdown absolute right-0 top-full w-56 pt-1 transition-[opacity,transform,visibility] duration-150" style={{ visibility: visibleDropdown === 'user' ? 'visible' : 'hidden', opacity: visibleDropdown === 'user' ? 1 : 0, transform: visibleDropdown === 'user' ? 'translateY(0)' : 'translateY(-4px)', pointerEvents: visibleDropdown === 'user' ? 'auto' : 'none' }}><div role="menu" className="dropdown-surface overflow-hidden rounded-xl py-1.5 shadow-lg"><div className="border-b border-line px-4 py-3"><p className="truncate text-sm font-medium">{user.realName || user.username}</p><p className="mt-1 text-xs text-ink-soft">{user.username} · {user.role === 'admin' ? '管理员' : user.role === 'viewer' ? '普通用户' : '分仓管'}</p></div><Link href="/settings/account" role="menuitem" className="flex items-center gap-2.5 px-4 py-3 text-sm transition hover:bg-primary/8"><UserRound className="h-4 w-4 text-primary" />个人账号</Link><button type="button" role="menuitem" disabled={loggingOut} onClick={logout} className="flex w-full items-center gap-2.5 px-4 py-3 text-left text-sm text-danger transition hover:bg-danger/5 disabled:opacity-50"><LogOut className="h-4 w-4" />{loggingOut ? '正在退出…' : '退出登录'}</button>{logoutError && <p role="alert" className="px-4 py-2 text-xs text-danger">{logoutError}</p>}</div></div>
+          {/* 消息和用户信息 */}
+          <div className="flex shrink-0 items-center gap-1">
+            <AlertCenter role={user.role} />
+            <div className="relative shrink-0" onMouseEnter={() => { cancelHoverClose(); cancelHoverOpen(); setHoveredDropdown('user'); }} onMouseLeave={() => scheduleHoverClose('user')} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) { setOpenDropdown(null); setHoveredDropdown(null); } }}>
+              <button type="button" aria-label="用户菜单" aria-haspopup="menu" aria-expanded={visibleDropdown === 'user'} onClick={() => { setOpenDropdown(current => current === 'user' ? null : 'user'); setHoveredDropdown(null); }} className="inline-flex items-center gap-2 rounded-lg p-2 text-xs text-ink-deep transition hover:bg-primary/8 active:scale-95"><UserRound className="h-4 w-4 text-primary" /><span className="hidden max-w-24 truncate lg:block">{user.realName || user.username}</span><ChevronDown className="hidden h-3 w-3 sm:block" /></button>
+              <div className="nav-user-dropdown absolute right-0 top-full w-56 pt-1 transition-[opacity,transform,visibility] duration-150" style={{ visibility: visibleDropdown === 'user' ? 'visible' : 'hidden', opacity: visibleDropdown === 'user' ? 1 : 0, transform: visibleDropdown === 'user' ? 'translateY(0)' : 'translateY(-4px)', pointerEvents: visibleDropdown === 'user' ? 'auto' : 'none' }}><div role="menu" className="dropdown-surface overflow-hidden rounded-xl py-1.5 shadow-lg"><div className="border-b border-line px-4 py-3"><p className="truncate text-sm font-medium">{user.realName || user.username}</p><p className="mt-1 text-xs text-ink-soft">{user.username} · {user.role === 'admin' ? '管理员' : user.role === 'viewer' ? '普通用户' : '分仓管'}</p></div><Link href="/settings/account" role="menuitem" className="flex items-center gap-2.5 px-4 py-3 text-sm transition hover:bg-primary/8"><UserRound className="h-4 w-4 text-primary" />个人账号</Link><button type="button" role="menuitem" disabled={loggingOut} onClick={logout} className="flex w-full items-center gap-2.5 px-4 py-3 text-left text-sm text-danger transition hover:bg-danger/5 disabled:opacity-50"><LogOut className="h-4 w-4" />{loggingOut ? '正在退出…' : '退出登录'}</button>{logoutError && <p role="alert" className="px-4 py-2 text-xs text-danger">{logoutError}</p>}</div></div>
+            </div>
           </div>
         </div>
       </div>

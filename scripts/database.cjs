@@ -1092,6 +1092,25 @@ function applyVersionedMigrations(db) {
       ON inventory(lower(trim(itemNumber)))
       WHERE deleted = 0 AND itemNumber IS NOT NULL AND trim(itemNumber) <> ''`);
   });
+  migrate(25, 'record rental renewals, buyouts, and exception follow-ups', () => {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS rental_events (
+        id TEXT PRIMARY KEY,
+        rentalRecordId TEXT NOT NULL REFERENCES rental_records(id),
+        rentalOrderId TEXT REFERENCES rental_orders(id),
+        eventType TEXT NOT NULL,
+        note TEXT,
+        beforeData TEXT,
+        afterData TEXT,
+        actorId TEXT NOT NULL REFERENCES users(id),
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_rental_events_record_time
+        ON rental_events(rentalRecordId, createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_rental_events_order_time
+        ON rental_events(rentalOrderId, createdAt DESC);
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

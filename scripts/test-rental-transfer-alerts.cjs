@@ -39,9 +39,29 @@ async function main() {
       '@/lib/api-helpers': helpers,
       'next/headers': { cookies: async () => ({ get: () => token ? { value: token } : undefined }) },
     });
-    const deps = { '@/lib/db': database, '@/lib/auth': auth, '@/lib/api-helpers': helpers, '@/lib/sku-brand': load('src/lib/sku-brand.ts'), '@/lib/sku-display': load('src/lib/sku-display.ts') };
+    const deps = {
+      '@/lib/db': database,
+      '@/lib/auth': auth,
+      '@/lib/api-helpers': helpers,
+      '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
+      '@/lib/sku-display': load('src/lib/sku-display.ts'),
+      '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
+      '@/lib/rental-order-groups': load('src/lib/rental-order-groups.ts'),
+    };
     deps['@/lib/product-name'] = load('src/lib/product-name.ts', deps);
     deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
+    const { groupRentalsByOrder } = deps['@/lib/rental-order-groups'];
+    const threeMachines = [1, 2, 3].map((number) => ({
+      id: `rental-${number}`,
+      rentalOrderId: 'order-three-machines',
+      displayRentalNo: '租20261110001',
+      rentalNo: `machine-rental-${number}`,
+    }));
+    const groupedThreeMachines = groupRentalsByOrder(threeMachines);
+    assert.equal(groupedThreeMachines.length, 1, 'three machines from one order should render as one order row');
+    assert.equal(groupedThreeMachines[0].items.length, 3);
+    const legacyGroup = groupRentalsByOrder(threeMachines.map((rental) => ({ ...rental, rentalOrderId: null })));
+    assert.equal(legacyGroup.length, 1, 'legacy rows with the same displayed order number should stay grouped');
     const routes = Object.fromEntries(['purchase-orders', 'sales', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses']
       .map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));
 
@@ -128,12 +148,47 @@ async function main() {
     const batchList = await call('rentals', 'GET', undefined, 200, `?search=${encodeURIComponent(batchRental.rentalNo)}`);
     assert.equal(batchList.items.length, 2);
     assert(batchList.items.every(item => item.displayRentalNo === batchRental.rentalNo && item.orderMachineCount === 2));
+    assert(batchList.items.every(item => item.rentalOrderId === batchRental.id));
+    const renewedEndDate = shiftDate(4);
+    const renewed = await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'renew', newEndDate: renewedEndDate });
+    assert.equal(renewed.rentalEndDate, renewedEndDate);
+    assert.equal(renewed.rentalDuration, 5);
+    assert.equal(renewed.rentalTotalPrice, 200);
+    assert.equal(db.prepare('SELECT rentalEndDate FROM rental_orders WHERE id=?').get(batchRental.id).rentalEndDate, renewedEndDate);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_events WHERE rentalRecordId=? AND eventType='renewed'").get(batchItems[1].id).n, 1);
+    const followUp = '客户暂时无法归还，已约定明日联系';
+    const exception = await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'exception', note: followUp });
+    assert.equal(exception.followUp, followUp);
+    assert.equal(db.prepare("SELECT note FROM rental_events WHERE rentalRecordId=? AND eventType='exception_followup'").get(batchItems[1].id).note, followUp);
+    token = auth.createSession('flow-manager');
+    await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'exception', note: '分仓管不可写租赁历史' }, 403);
+    token = auth.createSession('flow-admin');
+    const salesBeforeFailedBuyout = Number(db.prepare('SELECT COUNT(*) n FROM sales_records').get().n);
+    const movementsBeforeFailedBuyout = Number(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId=?").get(batchItems[1].inventoryId).n);
+    db.exec("CREATE TRIGGER flow_fail_buyout BEFORE INSERT ON sales_record_items BEGIN SELECT RAISE(ABORT, 'forced buyout item failure'); END");
+    await call('rentals', 'PATCH', {
+      id: batchItems[1].id, action: 'buyout', saleDate: chinaToday, sellingPrice: 1200, saleChannelId: 'flow-channel',
+    }, 500);
+    db.exec('DROP TRIGGER flow_fail_buyout');
+    assert.equal(Number(db.prepare('SELECT COUNT(*) n FROM sales_records').get().n), salesBeforeFailedBuyout);
+    assert.equal(Number(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId=?").get(batchItems[1].inventoryId).n), movementsBeforeFailedBuyout);
+    assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'renting');
+    assert.equal(inventory(batchItems[1].sn).status, 'renting');
+    const boughtOut = await call('rentals', 'PATCH', {
+      id: batchItems[1].id, action: 'buyout', saleDate: chinaToday, sellingPrice: 1200, saleChannelId: 'flow-channel', saleOrderNo: 'FLOW-RENTAL-BUYOUT',
+    });
+    assert.equal(boughtOut.status, 'purchased');
+    assert.equal(db.prepare('SELECT status, salesRecordId FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'purchased');
+    assert.equal(db.prepare('SELECT status, rentalRecordId, sellingPrice FROM inventory WHERE id=?').get(batchItems[1].inventoryId).status, 'sold');
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM sales_record_items WHERE salesRecordId=? AND inventoryId=?").get(boughtOut.salesRecordId, batchItems[1].inventoryId).n, 1);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='sale' AND referenceId=? AND inventoryId=?").get(boughtOut.salesRecordId, batchItems[1].inventoryId).n, 1);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_events WHERE rentalRecordId=? AND eventType='buyout'").get(batchItems[1].id).n, 1);
     const firstReturn = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'return', returnDate: chinaToday, returnType: '正常归还' });
     assert.equal(firstReturn.status, 'returned');
     assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[0].id).status, 'returned');
-    assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'renting');
+    assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'purchased');
     assert.equal(inventory(batchItems[0].sn).status, 'in_stock');
-    assert.equal(inventory(batchItems[1].sn).status, 'renting');
+    assert.equal(inventory(batchItems[1].sn).status, 'sold');
     const ordersBeforeRejectedBatch = Number(db.prepare('SELECT COUNT(*) n FROM rental_orders').get().n);
     await call('rentals', 'POST', {
       items: [
@@ -242,7 +297,7 @@ async function main() {
 
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
     assert.deepEqual(db.pragma('foreign_key_check'), []);
-    console.log('PASS real SQLite rental/transfer/alert regression: legacy rental migration, multi-machine rental and separate pricing, single-item return, duplicate rejection, 3-day/today/overdue alerts, 24-hour after-sale alert, transfer permissions/movements, transaction rollback, FK/integrity');
+    console.log('PASS real SQLite rental/transfer/alert regression: order grouping, legacy rental migration, multi-machine pricing, renewal, exception follow-up, buyout accounting and rollback, single-machine return, role checks, due alerts, transfer lifecycle, FK/integrity');
   } finally {
     if (db?.open) db.close();
     if (oldPath === undefined) delete process.env.INVENTORY_DB_PATH;
