@@ -44,7 +44,8 @@ export interface InventoryTablePreferences {
   columns: InventoryTableColumnPreference[];
 }
 
-export const INVENTORY_TABLE_PREFERENCE_KEY = 'inventory-table-preferences:v1';
+export const INVENTORY_TABLE_PREFERENCE_KEY = 'inventory-table-preferences:v2';
+export const INVENTORY_TABLE_LEGACY_PREFERENCE_KEY = 'inventory-table-preferences:v1';
 export const INVENTORY_TABLE_COLUMN_MIN_WIDTH = 75;
 export const INVENTORY_TABLE_COLUMN_MAX_WIDTH = 600;
 export const INVENTORY_TABLE_MAX_FROZEN_COLUMNS = 4;
@@ -73,10 +74,10 @@ export const INVENTORY_TABLE_COLUMN_DEFINITIONS: ReadonlyArray<{
   { key: 'serial', label: 'SN / 编号（汇总）', defaultWidth: 170 },
   { key: 'sn', label: 'SN / IMEI', defaultWidth: 165, defaultVisible: false },
   { key: 'itemNumber', label: '编号', defaultWidth: 120, defaultVisible: false },
-  { key: 'source', label: '采购来源（汇总）', defaultWidth: 210 },
+  { key: 'source', label: '采购来源（汇总）', defaultWidth: 210, defaultVisible: false },
   { key: 'supplier', label: '供应商', defaultWidth: 150, defaultVisible: false },
   { key: 'purchaseNo', label: '采购单号', defaultWidth: 150, defaultVisible: false },
-  { key: 'warehouse', label: '仓库', defaultWidth: 140, defaultVisible: false },
+  { key: 'warehouse', label: '仓库', defaultWidth: 140 },
   { key: 'purchasePrice', label: '采购价', defaultWidth: 110 },
   { key: 'status', label: '状态与去向（汇总）', defaultWidth: 160 },
   { key: 'statusOnly', label: '状态', defaultWidth: 125, defaultVisible: false },
@@ -94,13 +95,17 @@ export const INVENTORY_TABLE_COLUMN_GROUPS: ReadonlyArray<{
   { summary: 'configuration', details: ['cpu', 'ram', 'storage', 'gpu', 'screen', 'touchScreen'] },
   { summary: 'remarks', details: ['machineRemark', 'skuRemark'] },
   { summary: 'serial', details: ['sn', 'itemNumber'] },
-  { summary: 'source', details: ['supplier', 'purchaseNo', 'warehouse'] },
+  { summary: 'source', details: ['supplier', 'purchaseNo'] },
   { summary: 'status', details: ['statusOnly', 'destination'] },
   { summary: 'inbound', details: ['inboundDate', 'inboundDays'] },
 ];
 
 export function inventoryTablePreferenceStorageKey(userId: string) {
   return `${INVENTORY_TABLE_PREFERENCE_KEY}:${encodeURIComponent(userId)}`;
+}
+
+export function legacyInventoryTablePreferenceStorageKey(userId: string) {
+  return `${INVENTORY_TABLE_LEGACY_PREFERENCE_KEY}:${encodeURIComponent(userId)}`;
 }
 
 export function clampInventoryTableColumnWidth(value: unknown, fallback: number) {
@@ -164,6 +169,26 @@ export function normalizeInventoryTablePreferences(value: unknown): InventoryTab
     density: candidate.density === 'compact' || candidate.density === 'comfortable' ? candidate.density : 'normal',
     columns,
   };
+}
+
+export function migrateLegacyInventoryTablePreferences(value: unknown) {
+  const preferences = normalizeInventoryTablePreferences(value);
+  const matchesLegacyDefault = preferences.density === 'normal'
+    && preferences.columns.length === INVENTORY_TABLE_COLUMN_DEFINITIONS.length
+    && preferences.columns.every((column, index) => {
+      const definition = INVENTORY_TABLE_COLUMN_DEFINITIONS[index];
+      const wasVisibleByDefault = column.key === 'source'
+        ? true
+        : column.key === 'warehouse'
+          ? false
+          : definition.defaultVisible !== false;
+      return column.key === definition.key
+        && column.visible === wasVisibleByDefault
+        && column.width === definition.defaultWidth
+        && column.freeze === 'none';
+    });
+
+  return matchesLegacyDefault ? createDefaultInventoryTablePreferences() : preferences;
 }
 
 export function setInventoryTableColumnVisibility(

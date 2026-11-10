@@ -24,8 +24,10 @@ import { uniqueMachineScanTokens } from '@/lib/machine-scan';
 import {
   createDefaultInventoryTablePreferences,
   getInventoryTableFrozenOffsets,
+  legacyInventoryTablePreferenceStorageKey,
   INVENTORY_TABLE_COLUMN_DEFINITIONS,
   inventoryTablePreferenceStorageKey,
+  migrateLegacyInventoryTablePreferences,
   normalizeInventoryTablePreferences,
   type InventoryTableColumnKey,
   type InventoryTablePreferences,
@@ -369,12 +371,20 @@ export default function InventoryPage() {
     }
     const key = inventoryTablePreferenceStorageKey(user.id);
     setTablePreferencesHydrated(false);
+    let preferences = createDefaultInventoryTablePreferences();
     try {
       const stored = window.localStorage.getItem(key);
-      setTablePreferences(stored ? normalizeInventoryTablePreferences(JSON.parse(stored)) : createDefaultInventoryTablePreferences());
+      if (stored) {
+        preferences = normalizeInventoryTablePreferences(JSON.parse(stored));
+      } else {
+        const legacy = window.localStorage.getItem(legacyInventoryTablePreferenceStorageKey(user.id));
+        if (legacy) preferences = migrateLegacyInventoryTablePreferences(JSON.parse(legacy));
+        try { window.localStorage.setItem(key, JSON.stringify(preferences)); } catch {}
+      }
     } catch {
-      setTablePreferences(createDefaultInventoryTablePreferences());
+      preferences = createDefaultInventoryTablePreferences();
     }
+    setTablePreferences(preferences);
     setTablePreferencesHydrated(true);
   }, [user?.id]);
 
@@ -808,7 +818,7 @@ export default function InventoryPage() {
       case 'itemNumber':
         return item.itemNumber ? <div className="flex min-w-0 items-center gap-1"><span className="truncate font-mono" title={item.itemNumber}>{item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div> : '-';
       case 'source':
-        return <><div className="truncate text-[12px] text-ink" title={item.supplierName || '-'}>{item.supplierName || '-'}</div><div className="mt-1 truncate font-mono text-[11px] text-ink-soft" title={item.purchaseNo || '-'}>{item.purchaseNo || '-'}</div><div className="mt-1 truncate text-[11px] text-primary" title={item.warehouseName || warehouses.find((warehouse) => warehouse.id === item.warehouseId)?.name || '未分仓'}>{item.warehouseName || warehouses.find((warehouse) => warehouse.id === item.warehouseId)?.name || '未分仓'}</div></>;
+        return <><div className="truncate text-[12px] text-ink" title={item.supplierName || '-'}>{item.supplierName || '-'}</div><div className="mt-1 truncate font-mono text-[11px] text-ink-soft" title={item.purchaseNo || '-'}>{item.purchaseNo || '-'}</div></>;
       case 'supplier':
         return <span className="block truncate" title={item.supplierName || '-'}>{item.supplierName || '-'}</span>;
       case 'purchaseNo':

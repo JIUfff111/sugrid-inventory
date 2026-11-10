@@ -3,8 +3,10 @@ import test from 'node:test';
 import {
   createDefaultInventoryTablePreferences,
   getInventoryTableFrozenOffsets,
+  legacyInventoryTablePreferenceStorageKey,
   INVENTORY_TABLE_COLUMN_DEFINITIONS,
   inventoryTablePreferenceStorageKey,
+  migrateLegacyInventoryTablePreferences,
   normalizeInventoryTablePreferences,
   setInventoryTableColumnVisibility,
 } from '../src/lib/inventory-table-preferences.ts';
@@ -14,6 +16,10 @@ test('defaults show the main inventory columns with neutral density and independ
   assert.equal(defaults.density, 'normal');
   assert.equal(defaults.columns.length, INVENTORY_TABLE_COLUMN_DEFINITIONS.length);
   assert.equal(defaults.columns.filter((column) => column.visible).length, 8);
+  assert.equal(defaults.columns.find((column) => column.key === 'source').visible, false);
+  assert.equal(defaults.columns.find((column) => column.key === 'supplier').visible, false);
+  assert.equal(defaults.columns.find((column) => column.key === 'purchaseNo').visible, false);
+  assert.equal(defaults.columns.find((column) => column.key === 'warehouse').visible, true);
   assert.ok(defaults.columns.every((column) => column.freeze === 'none'));
   defaults.columns[0].width = 400;
   assert.notEqual(createDefaultInventoryTablePreferences().columns[0].width, 400);
@@ -83,4 +89,22 @@ test('frozen offsets include selection and action columns and adapt for viewers'
 
 test('settings are isolated by account in local storage', () => {
   assert.notEqual(inventoryTablePreferenceStorageKey('admin-1'), inventoryTablePreferenceStorageKey('manager-1'));
+  assert.match(inventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v2:/);
+  assert.match(legacyInventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v1:/);
+});
+
+test('migration applies the new defaults to untouched legacy settings and preserves custom layouts', () => {
+  const legacyDefault = createDefaultInventoryTablePreferences();
+  legacyDefault.columns.find((column) => column.key === 'source').visible = true;
+  legacyDefault.columns.find((column) => column.key === 'warehouse').visible = false;
+
+  const migratedDefault = migrateLegacyInventoryTablePreferences(legacyDefault);
+  assert.equal(migratedDefault.columns.find((column) => column.key === 'source').visible, false);
+  assert.equal(migratedDefault.columns.find((column) => column.key === 'warehouse').visible, true);
+
+  const customized = structuredClone(legacyDefault);
+  customized.density = 'compact';
+  customized.columns.find((column) => column.key === 'brand').visible = true;
+  const migratedCustom = migrateLegacyInventoryTablePreferences(customized);
+  assert.deepEqual(migratedCustom, normalizeInventoryTablePreferences(customized));
 });
