@@ -25,9 +25,11 @@ import {
   createDefaultInventoryTablePreferences,
   getInventoryTableFrozenOffsets,
   legacyInventoryTablePreferenceStorageKey,
+  olderLegacyInventoryTablePreferenceStorageKey,
   INVENTORY_TABLE_COLUMN_DEFINITIONS,
   inventoryTablePreferenceStorageKey,
   migrateLegacyInventoryTablePreferences,
+  migrateStoredInventoryTablePreferences,
   normalizeInventoryTablePreferences,
   type InventoryTableColumnKey,
   type InventoryTablePreferences,
@@ -378,7 +380,9 @@ export default function InventoryPage() {
         preferences = normalizeInventoryTablePreferences(JSON.parse(stored));
       } else {
         const legacy = window.localStorage.getItem(legacyInventoryTablePreferenceStorageKey(user.id));
-        if (legacy) preferences = migrateLegacyInventoryTablePreferences(JSON.parse(legacy));
+        const olderLegacy = window.localStorage.getItem(olderLegacyInventoryTablePreferenceStorageKey(user.id));
+        if (legacy) preferences = migrateStoredInventoryTablePreferences(JSON.parse(legacy));
+        else if (olderLegacy) preferences = migrateLegacyInventoryTablePreferences(JSON.parse(olderLegacy));
         try { window.localStorage.setItem(key, JSON.stringify(preferences)); } catch {}
       }
     } catch {

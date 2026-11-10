@@ -44,11 +44,13 @@ export interface InventoryTablePreferences {
   columns: InventoryTableColumnPreference[];
 }
 
-export const INVENTORY_TABLE_PREFERENCE_KEY = 'inventory-table-preferences:v2';
-export const INVENTORY_TABLE_LEGACY_PREFERENCE_KEY = 'inventory-table-preferences:v1';
+export const INVENTORY_TABLE_PREFERENCE_KEY = 'inventory-table-preferences:v3';
+export const INVENTORY_TABLE_LEGACY_PREFERENCE_KEY = 'inventory-table-preferences:v2';
+export const INVENTORY_TABLE_OLDER_LEGACY_PREFERENCE_KEY = 'inventory-table-preferences:v1';
 export const INVENTORY_TABLE_COLUMN_MIN_WIDTH = 75;
 export const INVENTORY_TABLE_COLUMN_MAX_WIDTH = 600;
 export const INVENTORY_TABLE_MAX_FROZEN_COLUMNS = 4;
+const LEGACY_REMARKS_DEFAULT_WIDTH = 190;
 
 export const INVENTORY_TABLE_COLUMN_DEFINITIONS: ReadonlyArray<{
   key: InventoryTableColumnKey;
@@ -68,7 +70,7 @@ export const INVENTORY_TABLE_COLUMN_DEFINITIONS: ReadonlyArray<{
   { key: 'gpu', label: '显卡', defaultWidth: 150, defaultVisible: false },
   { key: 'screen', label: '屏幕', defaultWidth: 120, defaultVisible: false },
   { key: 'touchScreen', label: '触屏', defaultWidth: 90, defaultVisible: false },
-  { key: 'remarks', label: '备注（汇总）', defaultWidth: 190 },
+  { key: 'remarks', label: '备注（汇总）', defaultWidth: 130 },
   { key: 'machineRemark', label: '机器备注', defaultWidth: 190, defaultVisible: false },
   { key: 'skuRemark', label: 'SKU 备注', defaultWidth: 190, defaultVisible: false },
   { key: 'serial', label: 'SN / 编号（汇总）', defaultWidth: 170 },
@@ -106,6 +108,10 @@ export function inventoryTablePreferenceStorageKey(userId: string) {
 
 export function legacyInventoryTablePreferenceStorageKey(userId: string) {
   return `${INVENTORY_TABLE_LEGACY_PREFERENCE_KEY}:${encodeURIComponent(userId)}`;
+}
+
+export function olderLegacyInventoryTablePreferenceStorageKey(userId: string) {
+  return `${INVENTORY_TABLE_OLDER_LEGACY_PREFERENCE_KEY}:${encodeURIComponent(userId)}`;
 }
 
 export function clampInventoryTableColumnWidth(value: unknown, fallback: number) {
@@ -182,13 +188,25 @@ export function migrateLegacyInventoryTablePreferences(value: unknown) {
         : column.key === 'warehouse'
           ? false
           : definition.defaultVisible !== false;
+      const wasDefaultWidth = column.key === 'remarks'
+        ? column.width === LEGACY_REMARKS_DEFAULT_WIDTH
+        : column.width === definition.defaultWidth;
       return column.key === definition.key
         && column.visible === wasVisibleByDefault
-        && column.width === definition.defaultWidth
+        && wasDefaultWidth
         && column.freeze === 'none';
     });
 
-  return matchesLegacyDefault ? createDefaultInventoryTablePreferences() : preferences;
+  return matchesLegacyDefault ? createDefaultInventoryTablePreferences() : migrateStoredInventoryTablePreferences(preferences);
+}
+
+export function migrateStoredInventoryTablePreferences(value: unknown) {
+  const preferences = normalizeInventoryTablePreferences(value);
+  const remarks = preferences.columns.find((column) => column.key === 'remarks');
+  if (remarks?.width === LEGACY_REMARKS_DEFAULT_WIDTH) {
+    remarks.width = INVENTORY_TABLE_COLUMN_DEFINITIONS.find((column) => column.key === 'remarks')!.defaultWidth;
+  }
+  return preferences;
 }
 
 export function setInventoryTableColumnVisibility(

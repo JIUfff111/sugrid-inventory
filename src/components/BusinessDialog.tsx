@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { useWorkspace } from '@/components/WorkspaceContext';
 
-export default function BusinessDialog({ title, description, children, footer, onClose }: { title: string; description?: string; children: ReactNode; footer?: ReactNode; onClose: () => void }) {
+export default function BusinessDialog({ title, description, children, footer, onClose, size = 'default' }: { title: string; description?: string; children: ReactNode; footer?: ReactNode; onClose: () => void; size?: 'default' | 'wide' }) {
   const { active, user } = useWorkspace();
   const panel = useRef<HTMLElement>(null);
   const close = useRef(onClose);
@@ -30,7 +30,7 @@ export default function BusinessDialog({ title, description, children, footer, o
   }, [active]);
   if (!active) return null;
   return <div style={{ top: user ? 100 : 0 }} className="fixed inset-0 z-[110] flex items-center justify-center bg-black/25 p-3 backdrop-blur-sm animate-fade-in" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-    <section ref={panel} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className="glass-strong flex max-h-[calc(100dvh-124px)] w-full max-w-2xl flex-col overflow-hidden rounded-2xl shadow-2xl outline-none">
+    <section ref={panel} tabIndex={-1} role="dialog" aria-modal="true" aria-label={title} className={`glass-strong flex max-h-[calc(100dvh-124px)] w-full ${size === 'wide' ? 'max-w-5xl' : 'max-w-2xl'} flex-col overflow-hidden rounded-2xl shadow-2xl outline-none`}>
       <header className="flex shrink-0 items-start justify-between gap-3 border-b border-line/70 p-5"><div><h2 className="text-base font-semibold text-ink-deep">{title}</h2>{description && <p className="mt-1 text-xs text-ink-soft">{description}</p>}</div><button type="button" onClick={onClose} aria-label="关闭" className="btn-ghost p-2"><X className="h-4 w-4" /></button></header>
       <div className="min-h-0 flex-1 overflow-y-auto p-5">{children}</div>
       {footer && <footer className="flex shrink-0 flex-wrap justify-end gap-2 border-t border-line/70 bg-white/60 px-5 py-3">{footer}</footer>}

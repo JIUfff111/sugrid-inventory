@@ -4,9 +4,11 @@ import {
   createDefaultInventoryTablePreferences,
   getInventoryTableFrozenOffsets,
   legacyInventoryTablePreferenceStorageKey,
+  olderLegacyInventoryTablePreferenceStorageKey,
   INVENTORY_TABLE_COLUMN_DEFINITIONS,
   inventoryTablePreferenceStorageKey,
   migrateLegacyInventoryTablePreferences,
+  migrateStoredInventoryTablePreferences,
   normalizeInventoryTablePreferences,
   setInventoryTableColumnVisibility,
 } from '../src/lib/inventory-table-preferences.ts';
@@ -20,6 +22,7 @@ test('defaults show the main inventory columns with neutral density and independ
   assert.equal(defaults.columns.find((column) => column.key === 'supplier').visible, false);
   assert.equal(defaults.columns.find((column) => column.key === 'purchaseNo').visible, false);
   assert.equal(defaults.columns.find((column) => column.key === 'warehouse').visible, true);
+  assert.equal(defaults.columns.find((column) => column.key === 'remarks').width, 130);
   assert.ok(defaults.columns.every((column) => column.freeze === 'none'));
   defaults.columns[0].width = 400;
   assert.notEqual(createDefaultInventoryTablePreferences().columns[0].width, 400);
@@ -89,22 +92,44 @@ test('frozen offsets include selection and action columns and adapt for viewers'
 
 test('settings are isolated by account in local storage', () => {
   assert.notEqual(inventoryTablePreferenceStorageKey('admin-1'), inventoryTablePreferenceStorageKey('manager-1'));
-  assert.match(inventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v2:/);
-  assert.match(legacyInventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v1:/);
+  assert.match(inventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v3:/);
+  assert.match(legacyInventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v2:/);
+  assert.match(olderLegacyInventoryTablePreferenceStorageKey('admin-1'), /^inventory-table-preferences:v1:/);
+});
+
+test('migration narrows the old default remarks width and preserves customized table preferences', () => {
+  const oldPreferences = createDefaultInventoryTablePreferences();
+  oldPreferences.columns.find((column) => column.key === 'remarks').width = 190;
+  oldPreferences.columns.find((column) => column.key === 'brand').visible = true;
+  oldPreferences.columns.find((column) => column.key === 'machine').visible = false;
+  oldPreferences.columns.find((column) => column.key === 'model').width = 230;
+
+  const migrated = migrateStoredInventoryTablePreferences(oldPreferences);
+  assert.equal(migrated.columns.find((column) => column.key === 'remarks').width, 130);
+  assert.equal(migrated.columns.find((column) => column.key === 'brand').visible, true);
+  assert.equal(migrated.columns.find((column) => column.key === 'machine').visible, false);
+  assert.equal(migrated.columns.find((column) => column.key === 'model').width, 230);
+
+  const customRemarks = structuredClone(oldPreferences);
+  customRemarks.columns.find((column) => column.key === 'remarks').width = 245;
+  assert.equal(migrateStoredInventoryTablePreferences(customRemarks).columns.find((column) => column.key === 'remarks').width, 245);
 });
 
 test('migration applies the new defaults to untouched legacy settings and preserves custom layouts', () => {
   const legacyDefault = createDefaultInventoryTablePreferences();
+  legacyDefault.columns.find((column) => column.key === 'remarks').width = 190;
   legacyDefault.columns.find((column) => column.key === 'source').visible = true;
   legacyDefault.columns.find((column) => column.key === 'warehouse').visible = false;
 
   const migratedDefault = migrateLegacyInventoryTablePreferences(legacyDefault);
   assert.equal(migratedDefault.columns.find((column) => column.key === 'source').visible, false);
   assert.equal(migratedDefault.columns.find((column) => column.key === 'warehouse').visible, true);
+  assert.equal(migratedDefault.columns.find((column) => column.key === 'remarks').width, 130);
 
   const customized = structuredClone(legacyDefault);
   customized.density = 'compact';
   customized.columns.find((column) => column.key === 'brand').visible = true;
+  customized.columns.find((column) => column.key === 'remarks').width = 145;
   const migratedCustom = migrateLegacyInventoryTablePreferences(customized);
   assert.deepEqual(migratedCustom, normalizeInventoryTablePreferences(customized));
 });
