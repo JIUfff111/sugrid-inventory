@@ -10,6 +10,16 @@ export function hasMachineScanDelimiter(value: string) {
   return /[,，;；\t\r\n]/.test(value);
 }
 
+export function shouldScanMachineSearchOnEnter(
+  value: string,
+  options: { batchEnabled: boolean; searchOnEnter?: boolean },
+) {
+  const query = value.trim();
+  if (!query || !options.batchEnabled) return false;
+  if (options.searchOnEnter) return hasMachineScanDelimiter(query);
+  return !hasMachineScanDelimiter(query);
+}
+
 export function uniqueMachineScanTokens(tokens: string[]) {
   const seen = new Set<string>();
   return tokens.filter(token => {

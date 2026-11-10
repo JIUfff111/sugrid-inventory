@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, ListPlus, LoaderCircle, ScanLine, Search, X 
 import { useWorkspace } from '@/components/WorkspaceContext';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
-import { hasMachineScanDelimiter, splitMachineScanTokens, uniqueMachineScanTokens } from '@/lib/machine-scan';
+import { hasMachineScanDelimiter, shouldScanMachineSearchOnEnter, splitMachineScanTokens, uniqueMachineScanTokens } from '@/lib/machine-scan';
 
 export interface MachineSuggestion {
   id: string; sn: string; itemNumber?: string | null; brand?: string | null; model?: string | null; year?: number | string | null;
@@ -25,6 +25,7 @@ export interface MachineSearchInputProps<T extends MachineSuggestion> {
   onScanToken?: (token: string) => void | Promise<void>;
   scanEnabled?: boolean;
   batchEnabled?: boolean;
+  searchOnEnter?: boolean;
   placeholder?: string; ariaLabel?: string; disabled?: boolean; minChars?: number;
   getItems?: (payload: unknown) => T[]; renderItem?: (item: T) => ReactNode; className?: string;
 }
@@ -43,7 +44,7 @@ function HighlightSN({ sn, query }: { sn: string; query: string }) {
 
 /** Database-backed suggestions; typing never selects a machine implicitly. */
 export default function MachineSearchInput<T extends MachineSuggestion>({
-  value, onChange, endpoint = '/api/inventory/lookup?context=inventory', onSelect, onSearch, onClear, onSelectMany, onScanTokens, onScanToken, scanEnabled = true, batchEnabled = false,
+  value, onChange, endpoint = '/api/inventory/lookup?context=inventory', onSelect, onSearch, onClear, onSelectMany, onScanTokens, onScanToken, scanEnabled = true, batchEnabled = false, searchOnEnter = false,
   placeholder = '输入 SN 后四位或型号自动匹配', ariaLabel = '搜索机器', disabled = false,
   minChars = 4, getItems = defaultItems, renderItem, className = '',
 }: MachineSearchInputProps<T>) {
@@ -293,7 +294,7 @@ export default function MachineSearchInput<T extends MachineSuggestion>({
         if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); ++sequence.current; abortRef.current?.abort(); setOpen(false); setLoading(false); setHighlighted(-1); }
         else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); if (!loading && items.length) { setOpen(true); setHighlighted(current => event.key === 'ArrowDown' ? Math.min(current + 1, items.length - 1) : Math.max(current - 1, 0)); } }
         else if (event.key === 'Enter' && !loading && showList && highlighted >= 0 && items[highlighted]) { event.preventDefault(); select(items[highlighted]); }
-        else if (event.key === 'Enter' && batchEnabled && query && !hasMachineScanDelimiter(query)) { event.preventDefault(); ++sequence.current; abortRef.current?.abort(); setOpen(false); selectedQuery.current = null; onChange(''); void resolveScannedTokens([query], onScanTokens ? undefined : query); }
+        else if (event.key === 'Enter' && shouldScanMachineSearchOnEnter(query, { batchEnabled, searchOnEnter })) { event.preventDefault(); ++sequence.current; abortRef.current?.abort(); setOpen(false); selectedQuery.current = null; if (hasMachineScanDelimiter(query)) void resolveScannedTokens(splitMachineScanTokens(query)); else { onChange(''); void resolveScannedTokens([query], onScanTokens ? undefined : query); } }
         else if (event.key === 'Enter' && onSearch) { event.preventDefault(); setOpen(false); onSearch(query); }
       }}
       placeholder={placeholder} aria-label={ariaLabel} aria-autocomplete="list" aria-controls={listId} aria-expanded={showList}
