@@ -10,6 +10,7 @@
     "db:init": "node scripts/init-db.js",
     "db:seed-skus": "node scripts/seed-skus.js",
     "test:server-manager": "node --test scripts/test-server-manager.cjs",
+    "test:server-manager-window": "powershell.exe -NoProfile -File scripts/test-server-manager-window.ps1",
     "test:inventory-columns": "node --experimental-strip-types --test scripts/test-inventory-table-preferences.mjs"
   },
   "dependencies": {

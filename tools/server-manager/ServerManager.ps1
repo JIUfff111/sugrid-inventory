@@ -16,6 +16,18 @@ $script:ManagerCorePath = Join-Path $PSScriptRoot 'manager-core.cjs'
 $script:BackupScriptPath = Join-Path $PSScriptRoot 'backup-database.cjs'
 $script:Busy = $false
 $script:StatusResult = $null
+$script:CancelRequested = $false
+$script:CloseAfterCancel = $false
+$script:ActiveCommandProcess = $null
+$script:ActiveCommandStartedAt = [DateTime]::MinValue
+$script:HealthProbe = $null
+$script:HealthKey = ''
+$script:HealthCheckedAt = [DateTime]::MinValue
+$script:HealthHealthy = $false
+
+Add-Type -AssemblyName System.Net.Http
+$script:HealthClient = [System.Net.Http.HttpClient]::new()
+$script:HealthClient.Timeout = [TimeSpan]::FromSeconds(2)
 
 New-Item -ItemType Directory -Path $script:LogRoot -Force | Out-Null
 
@@ -96,19 +108,55 @@ function Save-ManagerConfig {
 }
 
 function Get-ListeningProcesses {
-  $connections = @(Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue)
-  $processIds = @($connections | Select-Object -ExpandProperty OwningProcess -Unique)
+  # Get-NetTCPConnection takes several seconds on some Windows hosts and runs on the UI thread.
+  $portsById = @{}
+  foreach ($line in (& (Join-Path $env:WINDIR 'System32\netstat.exe') -ano -p TCP)) {
+    if ($line -notmatch '^\s*TCP\s+\S+:(\d+)\s+\S+\s+LISTENING\s+(\d+)\s*$') { continue }
+    $port = [int]$Matches[1]
+    $processId = [int]$Matches[2]
+    if (-not $portsById.ContainsKey($processId)) { $portsById[$processId] = @() }
+    if ($portsById[$processId] -notcontains $port) { $portsById[$processId] += $port }
+  }
+  $processById = @{}
+  foreach ($process in @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)) {
+    $processById[[int]$process.ProcessId] = $process
+  }
   $results = @()
-  foreach ($processId in $processIds) {
-    $process = Get-CimInstance Win32_Process -Filter "ProcessId = $processId" -ErrorAction SilentlyContinue
+  foreach ($processId in $portsById.Keys) {
+    $process = $processById[[int]$processId]
     if (-not $process) { continue }
     $commandLine = [string]$process.CommandLine
     $isNextStart = $commandLine -match '(?i)next[\\/]dist[\\/]bin[\\/]next(?:\.js)?"?\s+start|node_modules[\\/]next[\\/]dist[\\/]bin[\\/]next(?:\.js)?"?\s+start'
     $isProject = $isNextStart -and $commandLine.IndexOf($script:ProjectRoot, [StringComparison]::OrdinalIgnoreCase) -ge 0
-    $ports = @($connections | Where-Object { $_.OwningProcess -eq $processId } | Select-Object -ExpandProperty LocalPort -Unique)
-    $results += [pscustomobject]@{ ProcessId = [int]$processId; CommandLine = $commandLine; IsNextStart = $isNextStart; IsProject = $isProject; ListeningPorts = $ports }
+    $results += [pscustomobject]@{ ProcessId = [int]$processId; CommandLine = $commandLine; IsNextStart = $isNextStart; IsProject = $isProject; ListeningPorts = $portsById[$processId] }
   }
   return $results
+}
+
+function Get-ServiceHealth([int]$Port, [int]$ProcessId) {
+  $key = "$Port`:$ProcessId"
+  if ($script:HealthKey -ne $key) {
+    $script:HealthKey = $key
+    $script:HealthProbe = $null
+    $script:HealthCheckedAt = [DateTime]::MinValue
+    $script:HealthHealthy = $false
+  }
+  if ($script:HealthProbe -and $script:HealthProbe.IsCompleted) {
+    try {
+      $response = $script:HealthProbe.GetAwaiter().GetResult()
+      $script:HealthHealthy = $response.IsSuccessStatusCode
+      $response.Dispose()
+    } catch {
+      $script:HealthHealthy = $false
+    } finally {
+      $script:HealthProbe = $null
+      $script:HealthCheckedAt = Get-Date
+    }
+  }
+  if (-not $script:HealthProbe -and ((Get-Date) - $script:HealthCheckedAt).TotalSeconds -ge 3) {
+    $script:HealthProbe = $script:HealthClient.GetAsync("http://127.0.0.1:$Port/login")
+  }
+  return $script:HealthHealthy
 }
 
 function Get-RecordedServiceState {
@@ -129,14 +177,15 @@ function Get-ProjectServiceStatus {
     if ($recorded -and $recorded.processId -and $recorded.port -eq $script:Config.port -and [string]::Equals($recordedRoot, $script:ProjectRoot, [StringComparison]::OrdinalIgnoreCase)) {
       $managed = @($projectProcesses | Where-Object { $_.ProcessId -eq [int]$recorded.processId }).Count -gt 0
     }
-    $healthy = $false
-    try { $response = Invoke-WebRequest -Uri "http://127.0.0.1:$($script:Config.port)/login" -UseBasicParsing -TimeoutSec 2; $healthy = $response.StatusCode -eq 200 } catch {}
+    $healthy = Get-ServiceHealth $script:Config.port $projectProcesses[0].ProcessId
     $state = if ($managed) { if ($healthy) { 'Running' } else { 'Starting' } } else { if ($healthy) { 'ExternalProject' } else { 'StartingExternal' } }
     $databasePath = if ($managed) { [string]$recorded.databasePath } else { '' }
     return [pscustomobject]@{ State = $state; Processes = $projectProcesses; OtherProjectProcesses = $otherProjectProcesses; Healthy = $healthy; Managed = $managed; DatabasePath = $databasePath }
   }
   if (@($processes | Where-Object { $_.IsNextStart }).Count -gt 0) {
-    return [pscustomobject]@{ State = 'UnmanagedNext'; Processes = @($processes | Where-Object { $_.IsNextStart }); OtherProjectProcesses = $otherProjectProcesses; Healthy = $true; Managed = $false; DatabasePath = '' }
+    $nextProcesses = @($processes | Where-Object { $_.IsNextStart })
+    $healthy = Get-ServiceHealth $script:Config.port $nextProcesses[0].ProcessId
+    return [pscustomobject]@{ State = 'UnmanagedNext'; Processes = $nextProcesses; OtherProjectProcesses = $otherProjectProcesses; Healthy = $healthy; Managed = $false; DatabasePath = '' }
   }
   return [pscustomobject]@{ State = 'PortConflict'; Processes = $processes; OtherProjectProcesses = $otherProjectProcesses; Healthy = $false; Managed = $false; DatabasePath = '' }
 }
@@ -165,7 +214,7 @@ function Set-DatabaseEnvironment {
   $env:HOSTNAME = $script:Config.host
 }
 
-function Start-ProjectService {
+function Start-ProjectService([switch]$IgnoreCancellation) {
   $status = Get-ProjectServiceStatus
   if ($status.State -eq 'Running') {
     Add-ManagerLog "服务已在运行，PID $((@($status.Processes | ForEach-Object { $_.ProcessId }) -join ', '))"
@@ -201,14 +250,20 @@ function Start-ProjectService {
   $state = @{ processId = $process.Id; projectRoot = $script:ProjectRoot; port = $script:Config.port; databasePath = $script:Config.databasePath; startedAt = (Get-Date).ToString('o'); stdout = $stdoutPath; stderr = $stderrPath }
   $state | ConvertTo-Json | Set-Content -LiteralPath $script:StatePath -Encoding UTF8
   Add-ManagerLog "服务已启动：PID $($process.Id)，端口 $($script:Config.port)，数据库 $($script:Config.databasePath)"
+  $startedAt = Get-Date
   for ($i = 0; $i -lt 30; $i++) {
     Start-Sleep -Milliseconds 400
     [System.Windows.Forms.Application]::DoEvents()
+    if ($script:CancelRequested -and -not $IgnoreCancellation) {
+      Stop-ProcessTree $process.Id $startedAt
+      if (Test-Path $script:StatePath) { Remove-Item $script:StatePath -Force }
+      throw '用户已取消服务启动。'
+    }
     $status = Get-ProjectServiceStatus
     if ($status.State -eq 'Running') { Add-ManagerLog '健康检查通过。'; return $true }
     $process.Refresh()
     if ($status.State -eq 'PortConflict') {
-      if (-not $process.HasExited) { Stop-Process -Id $process.Id -ErrorAction SilentlyContinue }
+      Stop-ProcessTree $process.Id $startedAt
       $recorded = Get-RecordedServiceState
       if ($recorded -and $recorded.processId -eq $process.Id) { Remove-Item $script:StatePath -Force -ErrorAction SilentlyContinue }
       Add-ManagerLog '服务启动时端口被其他进程占用，已清理本次启动状态。'
@@ -218,10 +273,10 @@ function Start-ProjectService {
   }
   $process.Refresh()
   if (Test-Path $script:StatePath) { Remove-Item $script:StatePath -Force }
+  Stop-ProcessTree $process.Id $startedAt
   if ($process.HasExited) {
     Add-ManagerLog "服务启动失败：进程在健康检查通过前已退出。查看错误日志：$stderrPath"
   } else {
-    Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
     Add-ManagerLog "服务启动失败：健康检查超时，已结束启动进程。查看错误日志：$stderrPath"
   }
   return $false
@@ -251,8 +306,40 @@ function Stop-ProjectService {
   return $false
 }
 
+function Stop-ProcessTree([int]$RootId, [DateTime]$StartedAt) {
+  $processes = @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)
+  $family = @($RootId)
+  do {
+    $newChildren = @($processes | Where-Object { $_.ParentProcessId -in $family -and $_.ProcessId -notin $family -and $_.CreationDate -ge $StartedAt.AddSeconds(-2) } | Select-Object -ExpandProperty ProcessId)
+    if ($newChildren.Count -gt 0) { $family += $newChildren }
+  } while ($newChildren.Count -gt 0)
+  $taskkill = Join-Path $env:WINDIR 'System32\taskkill.exe'
+  foreach ($processId in $family) {
+    $active = Get-Process -Id $processId -ErrorAction SilentlyContinue
+    if (-not $active) { continue }
+    try { if ($active.StartTime -lt $StartedAt.AddSeconds(-2)) { continue } } catch { continue }
+    try { & $taskkill /PID $processId /T /F 2>&1 | Out-Null } catch {}
+  }
+}
+
+function Stop-ActiveCommand {
+  $process = $script:ActiveCommandProcess
+  if (-not $process) { return }
+  Stop-ProcessTree $process.Id $script:ActiveCommandStartedAt
+  if (-not $process.WaitForExit(3000)) { throw "无法结束命令进程 PID $($process.Id)，请在任务管理器中检查。" }
+}
+
+function Request-OperationCancel {
+  if (-not $script:Busy -or $script:CancelRequested) { return }
+  $script:CancelRequested = $true
+  if ($script:CancelButton -and -not $script:CancelButton.IsDisposed) { $script:CancelButton.Enabled = $false }
+  Add-ManagerLog '已请求取消当前操作，正在结束命令并等待收尾。'
+}
+
 function Invoke-ManagerCommand {
-  param([string]$Label, [string]$Kind, [string]$Arguments)
+  param([string]$Label, [string]$Kind, [string]$Arguments, [int]$TimeoutSeconds = 0)
+  if ($script:CancelRequested) { throw '用户已取消当前操作。' }
+  if ($TimeoutSeconds -le 0) { $TimeoutSeconds = if ($Kind -eq 'git') { 90 } elseif ($Kind -eq 'npm') { 900 } else { 120 } }
   $stamp = Get-Date -Format 'yyyyMMdd-HHmmss-fff'
   $stdoutPath = Join-Path $script:LogRoot "operation-$stamp.out.log"
   $stderrPath = Join-Path $script:LogRoot "operation-$stamp.err.log"
@@ -285,8 +372,10 @@ function Invoke-ManagerCommand {
   $startInfo.StandardErrorEncoding = [System.Text.Encoding]::UTF8
   $process = New-Object System.Diagnostics.Process
   $process.StartInfo = $startInfo
+  $script:ActiveCommandStartedAt = Get-Date
   try {
     if (-not $process.Start()) { throw "无法启动命令：$Label" }
+    $script:ActiveCommandProcess = $process
     $stdoutTask = $process.StandardOutput.ReadToEndAsync()
     $stderrTask = $process.StandardError.ReadToEndAsync()
   } finally {
@@ -295,19 +384,49 @@ function Invoke-ManagerCommand {
     }
   }
 
-  while (-not $process.HasExited) {
-    [System.Windows.Forms.Application]::DoEvents()
-    Start-Sleep -Milliseconds 100
+  $startedAt = Get-Date
+  $lastProgressAt = $startedAt
+  try {
+    while (-not $process.HasExited) {
+      [System.Windows.Forms.Application]::DoEvents()
+      if ($script:CancelRequested) {
+        Stop-ActiveCommand
+        throw "用户已取消：$Label"
+      }
+      if (((Get-Date) - $startedAt).TotalSeconds -ge $TimeoutSeconds) {
+        Stop-ActiveCommand
+        throw "$Label 超过 $TimeoutSeconds 秒，已停止；请查看操作日志。"
+      }
+      if (((Get-Date) - $lastProgressAt).TotalSeconds -ge 10) {
+        Add-ManagerLog "仍在执行：$Label（已等待 $([int]((Get-Date) - $startedAt).TotalSeconds) 秒）"
+        $lastProgressAt = Get-Date
+      }
+      Start-Sleep -Milliseconds 100
+    }
+    $process.WaitForExit()
+    $outputTasks = [System.Threading.Tasks.Task]::WhenAll([System.Threading.Tasks.Task[]]@($stdoutTask, $stderrTask))
+    $outputDeadline = (Get-Date).AddSeconds(5)
+    while (-not $outputTasks.IsCompleted) {
+      [System.Windows.Forms.Application]::DoEvents()
+      if ($script:CancelRequested -or (Get-Date) -ge $outputDeadline) {
+        Stop-ActiveCommand
+        throw "命令输出未能结束：$Label；已停止残留子进程。"
+      }
+      Start-Sleep -Milliseconds 100
+    }
+    $outputTasks.GetAwaiter().GetResult()
+    $stdout = $stdoutTask.GetAwaiter().GetResult()
+    $stderr = $stderrTask.GetAwaiter().GetResult()
+    [System.IO.File]::WriteAllText($stdoutPath, $stdout, [System.Text.UTF8Encoding]::new($false))
+    [System.IO.File]::WriteAllText($stderrPath, $stderr, [System.Text.UTF8Encoding]::new($false))
+    foreach ($line in ($stdout -split "`r?`n" | Where-Object { $_ })) { Add-ManagerLog $line }
+    foreach ($line in ($stderr -split "`r?`n" | Where-Object { $_ })) { Add-ManagerLog $line }
+    $exitCode = $process.ExitCode
+  } finally {
+    $script:ActiveCommandProcess = $null
+    $script:ActiveCommandStartedAt = [DateTime]::MinValue
+    $process.Dispose()
   }
-  $process.WaitForExit()
-  $stdout = $stdoutTask.GetAwaiter().GetResult()
-  $stderr = $stderrTask.GetAwaiter().GetResult()
-  [System.IO.File]::WriteAllText($stdoutPath, $stdout, [System.Text.UTF8Encoding]::new($false))
-  [System.IO.File]::WriteAllText($stderrPath, $stderr, [System.Text.UTF8Encoding]::new($false))
-  foreach ($line in ($stdout -split "`r?`n" | Where-Object { $_ })) { Add-ManagerLog $line }
-  foreach ($line in ($stderr -split "`r?`n" | Where-Object { $_ })) { Add-ManagerLog $line }
-  $exitCode = $process.ExitCode
-  $process.Dispose()
   Add-ManagerLog "结束：$Label，退出码 $exitCode"
   return [pscustomobject]@{ ExitCode = $exitCode; Stdout = $stdout; Stderr = $stderr }
 }
@@ -410,7 +529,7 @@ function Invoke-SafeUpdate {
     Add-ManagerLog 'Git 更新和维护检查全部完成。'
   } catch {
     if ($wasRunning -and -not $pullApplied -and (Get-ProjectServiceStatus).State -eq 'Stopped') {
-      if (Start-ProjectService) { Add-ManagerLog '拉取前失败，已恢复更新前的服务。' }
+      if (Start-ProjectService -IgnoreCancellation) { Add-ManagerLog '拉取前失败，已恢复更新前的服务。' }
       else { Add-ManagerLog '拉取前失败，尝试恢复服务未成功；请查看启动日志。' }
     } elseif ($pullApplied) {
       Add-ManagerLog '更新已拉取但后续步骤未全部完成；为避免用不完整构建启动，服务保持停止。请按日志检查代码版本、数据库备份和失败步骤。'
@@ -445,6 +564,10 @@ $title.Text = 'SUGRID  服务管理'; $title.Font = New-Object System.Drawing.Fo
 $title.Location = New-Object System.Drawing.Point(24, 15); $title.AutoSize = $true; $header.Controls.Add($title)
 $subtitle = New-Object System.Windows.Forms.Label
 $subtitle.Text = '本机运维控制台'; $subtitle.ForeColor = [System.Drawing.Color]::FromArgb(99, 111, 130); $subtitle.Location = New-Object System.Drawing.Point(28, 47); $subtitle.AutoSize = $true; $header.Controls.Add($subtitle)
+$script:CancelButton = New-Object System.Windows.Forms.Button
+$script:CancelButton.Text = '取消当前操作'; $script:CancelButton.Size = New-Object System.Drawing.Size(128, 34)
+$script:CancelButton.Location = New-Object System.Drawing.Point(876, 21); $script:CancelButton.Anchor = 'Top,Right'
+$script:CancelButton.Visible = $false; $header.Controls.Add($script:CancelButton)
 
 $statusPanel = New-Object System.Windows.Forms.Panel
 $statusPanel.Location = New-Object System.Drawing.Point(20, 92); $statusPanel.Size = New-Object System.Drawing.Size(970, 96); $statusPanel.Anchor = 'Top,Left,Right'; $statusPanel.BackColor = [System.Drawing.Color]::White
@@ -524,19 +647,22 @@ if (Test-Path $script:ManagerLogPath) {
 }
 
 $script:Timer = New-Object System.Windows.Forms.Timer
-$script:Timer.Interval = 2000
-$script:Timer.Add_Tick({ Update-ServiceView })
+$script:Timer.Interval = 4000
+$script:Timer.Add_Tick({ if (-not $script:Busy) { Update-ServiceView } })
 
 function Set-Busy([bool]$Value) {
   $script:Busy = $Value
   foreach ($button in $script:ActionButtons.Values) { $button.Enabled = -not $Value }
   $saveButton.Enabled = -not $Value
+  $script:CancelButton.Visible = $Value
+  $script:CancelButton.Enabled = $Value -and -not $script:CancelRequested
   if ($Value) { $script:StatusLabel.Text = '正在执行维护操作…' }
   else { Update-ServiceView }
 }
 
 function Invoke-UiOperation([string]$Name, [scriptblock]$Action) {
   if ($script:Busy) { return }
+  $script:CancelRequested = $false
   try {
     Save-ManagerConfig
     Set-Busy $true
@@ -545,11 +671,20 @@ function Invoke-UiOperation([string]$Name, [scriptblock]$Action) {
     Add-ManagerLog "操作完成：$Name"
   } catch {
     Add-ManagerLog "操作失败：$($_.Exception.Message)"
-    [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, '操作未完成', [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
-  } finally { Set-Busy $false }
+    if (-not $script:CancelRequested) {
+      [System.Windows.Forms.MessageBox]::Show($_.Exception.Message, '操作未完成', [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error) | Out-Null
+    }
+  } finally {
+    $closeAfterCancel = $script:CloseAfterCancel
+    $script:CancelRequested = $false
+    $script:CloseAfterCancel = $false
+    Set-Busy $false
+    if ($closeAfterCancel) { $form.Close() }
+  }
 }
 
 function Update-ServiceView {
+  if ($script:Busy) { return }
   if (-not $script:StatusLabel -or $script:StatusLabel.IsDisposed) { return }
   try { $script:StatusResult = Get-ProjectServiceStatus } catch { $script:StatusResult = [pscustomobject]@{ State = 'Error'; Processes = @(); Healthy = $false } }
   $status = $script:StatusResult
@@ -558,7 +693,7 @@ function Update-ServiceView {
     'Starting' { $script:StatusLabel.Text = '服务启动中 / 健康检查未通过'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(174, 104, 0) }
     'ExternalProject' { $script:StatusLabel.Text = '运行中 · 外部启动'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(174, 104, 0) }
     'StartingExternal' { $script:StatusLabel.Text = '发现外部服务 · 数据库未核实'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(174, 104, 0) }
-    'UnmanagedNext' { $script:StatusLabel.Text = '发现未托管的 Next.js 进程'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(174, 104, 0) }
+    'UnmanagedNext' { $script:StatusLabel.Text = '发现外部启动的 Next.js 服务'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(174, 104, 0) }
     'PortConflict' { $script:StatusLabel.Text = '端口被其他程序占用'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(177, 55, 55) }
     default { $script:StatusLabel.Text = '已停止'; $script:StatusLabel.ForeColor = [System.Drawing.Color]::FromArgb(84, 96, 113) }
   }
@@ -579,7 +714,7 @@ function Update-ServiceView {
   $script:ActionButtons.Stop.Enabled = $status.State -in @('Running', 'Starting', 'ExternalProject', 'StartingExternal')
   $script:ActionButtons.Restart.Enabled = $status.State -eq 'Running'
   $script:ActionButtons.Adopt.Enabled = $status.State -in @('UnmanagedNext', 'ExternalProject', 'StartingExternal')
-  $script:ActionButtons.Open.Enabled = $status.State -in @('Running', 'ExternalProject')
+  $script:ActionButtons.Open.Enabled = $status.Healthy -and $status.State -in @('Running', 'ExternalProject', 'UnmanagedNext')
   $script:ActionButtons.Install.Enabled = $status.State -eq 'Stopped' -and $otherServices.Count -eq 0
 }
 
@@ -628,11 +763,16 @@ $script:ActionButtons.Check.Add_Click({
   }
 })
 $script:ActionButtons.Update.Add_Click({ Invoke-UiOperation '安全 Git 更新' { Invoke-SafeUpdate } })
+$script:CancelButton.Add_Click({ Request-OperationCancel })
 
 $form.Add_FormClosing({
   if ($script:Busy) {
     $_.Cancel = $true
-    [System.Windows.Forms.MessageBox]::Show('维护操作尚未结束。等待操作完成后再关闭管理器；项目服务可在操作完成后独立运行。', '操作进行中') | Out-Null
+    $choice = [System.Windows.Forms.MessageBox]::Show('当前维护操作仍在执行。取消操作并关闭管理器？已经完成的步骤不会撤销；业务服务保持独立运行。', '取消操作并关闭', [System.Windows.Forms.MessageBoxButtons]::YesNo, [System.Windows.Forms.MessageBoxIcon]::Warning)
+    if ($choice -eq [System.Windows.Forms.DialogResult]::Yes) {
+      $script:CloseAfterCancel = $true
+      Request-OperationCancel
+    }
   }
 })
 
@@ -647,3 +787,4 @@ if ($script:StatusResult.Managed) {
   Add-ManagerLog "管理器已打开：端口 $($script:Config.port)，当前状态 $($script:StatusResult.State)，设置数据库 $($script:Config.databasePath)"
 }
 [void]$form.ShowDialog()
+$script:HealthClient.Dispose()
