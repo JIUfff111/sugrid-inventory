@@ -50,6 +50,7 @@ async function main() {
       '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
       '@/lib/sku-display': load('src/lib/sku-display.ts'),
       '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
+      '@/lib/machine-scan': load('src/lib/machine-scan.ts'),
     };
     const inventoryStatus = load('src/lib/inventory-status.ts', deps);
     const routeDeps = { ...deps, '@/lib/inventory-status': inventoryStatus };
@@ -98,6 +99,57 @@ async function main() {
 
     const live = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('completed', [item('NUMBER-LIVE-SN', 'GPU-LIVE-001')]), 201)).data;
     const liveInventoryId = live.inventoryIds[0];
+    const conflictDraft = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('draft', [item('NUMBER-DRAFT-CONFLICT', 'GPU-DRAFT-CONFLICT')]), 201)).data;
+    const countsBeforeSnConflict = {
+      orders: db.prepare('SELECT COUNT(*) AS count FROM purchase_orders').get().count,
+      inventory: db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE deleted = 0').get().count,
+    };
+    const batchConflict = await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('completed', [
+      item('BATCH-VALID-BEFORE', 'GPU-BATCH-VALID-1'),
+      item('NUMBER-LIVE-SN', 'GPU-BATCH-LIVE-CONFLICT'),
+      item('NUMBER-DRAFT-CONFLICT', 'GPU-BATCH-DRAFT-CONFLICT'),
+      item('BATCH-DUPLICATE', 'GPU-BATCH-DUPLICATE-1'),
+      item('batch-duplicate', 'GPU-BATCH-DUPLICATE-2'),
+      item('BATCH-VALID-AFTER', 'GPU-BATCH-VALID-2'),
+    ]), 409);
+    const snConflictDetails = batchConflict.payload.error.details;
+    assert.equal(snConflictDetails.kind, 'sn_conflicts');
+    assert.deepEqual(snConflictDetails.conflicts.map(conflict => conflict.itemIndex), [1, 2, 3, 4],
+      'all conflicting rows, including case-insensitive duplicates within the submitted batch, must be reported');
+    assert(snConflictDetails.conflicts[0].reasons.some(reason => reason.source === 'inventory' && reason.recordId === liveInventoryId),
+      'live inventory conflicts must identify the occupying inventory record');
+    assert(snConflictDetails.conflicts[1].reasons.some(reason => reason.source === 'purchase_draft' && reason.purchaseNo === conflictDraft.purchaseNo),
+      'draft conflicts must identify the occupying purchase draft');
+    assert(snConflictDetails.conflicts[2].reasons.some(reason => reason.source === 'batch_duplicate'));
+    assert(snConflictDetails.conflicts[3].reasons.some(reason => reason.source === 'batch_duplicate'));
+    assert.match(batchConflict.payload.error.message, /本次采购单未入库/);
+    assert.deepEqual({
+      orders: db.prepare('SELECT COUNT(*) AS count FROM purchase_orders').get().count,
+      inventory: db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE deleted = 0').get().count,
+    }, countsBeforeSnConflict, 'a conflict must leave the entire purchase order and all candidate machines unwritten');
+
+    const patchDraft = (await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', order('draft', [
+      item('PATCH-CONFLICT-KEEP-1', 'GPU-PATCH-KEEP-1'), item('PATCH-CONFLICT-KEEP-2', 'GPU-PATCH-KEEP-2'),
+    ]), 201)).data;
+    const patchDraftDetail = (await call(routes.purchaseOrders.GET, `/api/purchase-orders?id=${patchDraft.id}`)).data;
+    const patchCountsBefore = {
+      inventory: db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE deleted = 0').get().count,
+      itemSNs: patchDraftDetail.items.map(row => row.sn),
+    };
+    const blockedDraftInbound = await call(routes.purchaseOrders.PATCH, '/api/purchase-orders', 'PATCH', {
+      ...order('completed', [
+        { ...item('PATCH-CONFLICT-KEEP-1', 'GPU-PATCH-KEEP-1'), id: patchDraftDetail.items[0].id },
+        { ...item('NUMBER-LIVE-SN', 'GPU-PATCH-LIVE-CONFLICT'), id: patchDraftDetail.items[1].id },
+      ]), id: patchDraft.id, action: 'inbound',
+    }, 409);
+    assert.equal(blockedDraftInbound.payload.error.details.kind, 'sn_conflicts');
+    const unchangedPatchDraft = (await call(routes.purchaseOrders.GET, `/api/purchase-orders?id=${patchDraft.id}`)).data;
+    assert.equal(unchangedPatchDraft.isInbounded, 0, 'a conflicting draft inbound must remain a draft');
+    assert.deepEqual(unchangedPatchDraft.items.map(row => row.sn), patchCountsBefore.itemSNs,
+      'a conflicting draft inbound must preserve its original purchase details');
+    assert.equal(db.prepare('SELECT COUNT(*) AS count FROM inventory WHERE deleted = 0').get().count, patchCountsBefore.inventory,
+      'a conflicting draft inbound must not create inventory for non-conflicting rows');
+
     const inventoryEditFields = (itemNumber) => ({
       sn: 'NUMBER-LIVE-SN', itemNumber, productType: '显卡', brand: '华硕', model: 'RTX 4060', year: null,
       cpu: '', ram: '', gpu: 'RTX 4060', storage: '', screen: '', touchScreen: null, purchasePrice: 0,

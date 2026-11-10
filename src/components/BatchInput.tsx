@@ -168,8 +168,13 @@ export default function BatchInput({ presetConfig, onConfirm, onCancel, existing
         return;
       }
       const sn = row.sn.trim();
+      const existingIndex = existingSNs.findIndex(value => value.trim().toUpperCase() === sn.toUpperCase());
+      if (existingIndex >= 0) {
+        setToast({ show: true, message: `SN [${sn}] 已在本采购单第 ${existingIndex + 1} 台明细中使用，未加入本批次` });
+        return;
+      }
       if (seen.has(sn.toUpperCase())) {
-        setToast({ show: true, message: `当前批次 SN [${sn}] 重复，请检查` });
+        setToast({ show: true, message: `本批次 SN [${sn}] 重复，请检查后再加入` });
         return;
       }
       seen.add(sn.toUpperCase());

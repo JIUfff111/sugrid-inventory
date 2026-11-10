@@ -789,7 +789,7 @@ export default function InventoryPage() {
                     {!isViewer && <td onClick={(event) => event.stopPropagation()}><input type="checkbox" checked={checkedIds.has(item.id)} onChange={() => toggleChecked(item.id)} aria-label={`选择 ${item.sn}`} /></td>}
                     <td><div className="font-medium text-ink-deep">{productName(item)}</div><div className="text-[11px] text-ink-soft mt-1">{item.productType || '未分类'}</div></td>
                     <td><div className="text-[12px] text-ink">{[formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '-'}</div><div className="text-[11px] text-ink-soft mt-1">{[formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen), item.touchScreen ? '触屏' : ''].filter(Boolean).join(' · ') || '配置未补充'}</div></td>
-                    <td className="max-w-60"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></td>
+                    <td className="w-60 max-w-60"><InventoryRemarks remark={item.remark} skuRemark={item.skuRemark} /></td>
                     <td><div className="flex items-center gap-1"><span className="font-mono text-[12px] text-ink-deep break-all">{item.sn}</span><CopyTextButton value={item.sn} label="SN" /></div>{item.itemNumber && <div className="mt-1 flex items-center gap-1 text-[11px] text-ink-soft"><span className="font-mono break-all">编号 {item.itemNumber}</span><CopyTextButton value={item.itemNumber} label="编号" /></div>}</td>
                     <td><div className="text-[12px] text-ink">{item.supplierName || '-'}</div><div className="font-mono text-[11px] text-ink-soft mt-1">{item.purchaseNo || '-'}</div><div className="mt-1 text-[11px] text-primary">{item.warehouseName || warehouses.find(w => w.id === item.warehouseId)?.name || '未分仓'}</div></td>
                     <td className="font-mono text-[13px] text-ink-deep">{formatMoney(item.purchasePrice)}</td>
@@ -887,9 +887,13 @@ function InventoryRemarks({ remark, skuRemark }: { remark: string | null; skuRem
   const skuNote = skuRemark?.trim();
   if (!machineRemark && !skuNote) return <span className="text-[11px] text-ink-soft">-</span>;
 
-  return <div className="space-y-1 whitespace-pre-wrap break-words text-[11px] leading-5 text-ink-soft">
-    {machineRemark && <p><span className="font-medium text-ink-deep">机器备注：</span>{machineRemark}</p>}
-    {skuNote && <p><span className="font-medium text-ink-deep">SKU备注：</span>{skuNote}</p>}
+  const fullRemark = [machineRemark && `机器备注：${machineRemark}`, skuNote && `SKU备注：${skuNote}`]
+    .filter(Boolean)
+    .join('\n');
+
+  return <div title={fullRemark} className="min-w-0 overflow-hidden text-[11px] leading-5 text-ink-soft">
+    {machineRemark && <p className="truncate"><span className="font-medium text-ink-deep">机器备注：</span>{machineRemark}</p>}
+    {skuNote && <p className="truncate"><span className="font-medium text-ink-deep">SKU备注：</span>{skuNote}</p>}
   </div>;
 }
 

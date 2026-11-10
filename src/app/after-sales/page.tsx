@@ -16,6 +16,7 @@ type SoldItem = { id: string; sn: string; brand: string; model: string; year: nu
 type ReplacementItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; gpu?: string | null; storage: string; screen?: string | null };
 type AfterSale = { id: string; afterSaleNo: string; inventoryId: string; sn: string; brand?: string | null; model?: string | null; year?: number | null; cpu?: string | null; ram?: string | null; gpu?: string | null; storage?: string | null; screen?: string | null; customerName?: string | null; customerPhone?: string | null; issueType: string; issueDescription: string | null; resolutionType: string; status: string; refundAmount?: number | null; resolutionNote: string | null; saleOrderNo: string | null; salesRecordNo?: string | null; saleChannel?: string | null; saleDate?: string | null; sellingPrice?: number | null; purchasePrice?: number | null; warehouseId?: string | null; replacementInventoryId: string | null; createdAt: string; receivedAt?: string; stockStatus?: string };
 type ToastMessage = { text: string; tone: 'success' | 'error' };
+const DEFAULT_ISSUE_TYPE = '其他';
 
 function money(value: number | null | undefined) { return '¥' + Number(value || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 function configText(item: Pick<SoldItem, 'cpu' | 'ram' | 'storage'> & { gpu?: string | null; screen?: string | null }) { return [formatCPUDisplay(item.cpu), item.ram, item.storage, formatGPUDisplay(item.gpu), formatScreenDisplay(item.screen)].filter(Boolean).join(' · ') || '配置待补充'; }
@@ -41,7 +42,7 @@ export default function AfterSalesPage() {
   const [machineSearch, setMachineSearch] = useState('');
   const [status, setStatus] = useState('all');
   const [selectedId, setSelectedId] = useState('');
-  const [issueType, setIssueType] = useState('质量问题');
+  const [issueType, setIssueType] = useState(DEFAULT_ISSUE_TYPE);
   const [issueDescription, setIssueDescription] = useState('');
   const [resolutionType, setResolutionType] = useState('repair');
   const [remark, setRemark] = useState('');
@@ -154,7 +155,7 @@ export default function AfterSalesPage() {
   const selectedReplacement = replacementItems.find(item => item.id === replacementId);
   const validity = useMachineEligibility(selectedMachine && createOpen ? [selectedMachine] : [], 'after-sale');
   const replacementValidity = useMachineEligibility(selectedReplacement && selectedRecord ? [selectedReplacement] : [], 'exchange');
-  useWorkspaceDirty(Boolean((createOpen && (selectedId || issueDescription || remark || issueType !== '质量问题' || resolutionType !== 'repair')) || (selectedRecord && (replacementId || handlingNote))));
+  useWorkspaceDirty(Boolean((createOpen && (selectedId || issueDescription || remark || issueType !== DEFAULT_ISSUE_TYPE || resolutionType !== 'repair')) || (selectedRecord && (replacementId || handlingNote))));
   const overdueCount = summaryRecords.filter((record) => ['received', 'processing'].includes(record.status) && record.receivedAt && checkedAt - new Date(record.receivedAt.replace(' ', 'T')).getTime() > 86400000).length;
   const storedCount = summaryRecords.filter((record) => ['received', 'processing'].includes(record.status) && record.stockStatus === 'stored').length;
   const processingCount = summaryRecords.filter((record) => ['created', 'received', 'processing'].includes(record.status)).length;
@@ -162,7 +163,7 @@ export default function AfterSalesPage() {
   const cancelledCount = summaryRecords.filter((record) => record.status === 'cancelled').length;
 
   const resetCreateForm = () => {
-    setSelectedId(''); setIssueType('质量问题'); setIssueDescription(''); setResolutionType('repair'); setRemark(''); setMachineSearch(''); setReturnConfirmOpen(false);
+    setSelectedId(''); setIssueType(DEFAULT_ISSUE_TYPE); setIssueDescription(''); setResolutionType('repair'); setRemark(''); setMachineSearch(''); setReturnConfirmOpen(false);
   };
 
   const createAfterSale = async () => {

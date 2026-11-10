@@ -218,7 +218,6 @@ function validateOrderFields(body: OrderBody): string | null {
 
 function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): string | null {
   if (items.length === 0) return '至少添加一台机器';
-  const seen = new Set<string>();
   for (const item of items) {
     if (item.productType === '显卡' && !item.gpu) return '显卡规格不能为空';
     if (!item.brand || !item.model ||
@@ -236,11 +235,6 @@ function validateItems(items: NormalizedItem[], requireSnAndPrice: boolean): str
     }
     if (requireSnAndPrice && !item.sn) return '确认入库时所有机器必须填写 SN';
     if (requireSnAndPrice && item.productType !== '显卡' && item.purchasePrice <= 0) return '确认入库时非显卡商品必须填写采购价格';
-    if (item.sn) {
-      const normalizedSN = item.sn.toLowerCase();
-      if (seen.has(normalizedSN)) return `本次提交中 SN [${item.sn}] 重复`;
-      seen.add(normalizedSN);
-    }
   }
   return null;
 }
@@ -250,22 +244,92 @@ function findSupplier(supplierId: string) {
     { id: string; supplierName: string } | undefined;
 }
 
-function checkSnConflicts(items: NormalizedItem[], allowedItemIds = new Set<string>()): string | null {
-  for (const item of items) {
-    if (!item.sn) continue;
+type SnConflictReason = {
+  source: 'batch_duplicate' | 'inventory' | 'purchase_draft';
+  message: string;
+  recordId?: string;
+  purchaseNo?: string;
+  status?: string;
+  conflictingItemIndex?: number;
+};
+
+type SnConflict = { itemIndex: number; sn: string; reasons: SnConflictReason[] };
+
+class PurchaseSnConflictError extends Error {
+  constructor(readonly conflicts: SnConflict[]) {
+    super('采购单中存在重复 SN');
+    this.name = 'PurchaseSnConflictError';
+  }
+}
+
+function checkSnConflicts(items: NormalizedItem[], allowedItemIds = new Set<string>()): SnConflict[] {
+  const conflicts = new Map<number, SnConflict>();
+  const addReason = (itemIndex: number, reason: SnConflictReason) => {
+    const item = items[itemIndex];
+    if (!item?.sn) return;
+    let conflict = conflicts.get(itemIndex);
+    if (!conflict) {
+      conflict = { itemIndex, sn: item.sn, reasons: [] };
+      conflicts.set(itemIndex, conflict);
+    }
+    if (!conflict.reasons.some((existing) => existing.source === reason.source && existing.recordId === reason.recordId && existing.conflictingItemIndex === reason.conflictingItemIndex)) {
+      conflict.reasons.push(reason);
+    }
+  };
+
+  const seen = new Map<string, number>();
+  for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+    const item = items[itemIndex];
+    const sn = item.sn.trim();
+    if (!sn) continue;
+    const normalizedSN = sn.toLowerCase();
+    const firstIndex = seen.get(normalizedSN);
+    if (firstIndex !== undefined) {
+      addReason(firstIndex, { source: 'batch_duplicate', message: `与第 ${itemIndex + 1} 条明细重复`, conflictingItemIndex: itemIndex });
+      addReason(itemIndex, { source: 'batch_duplicate', message: `与第 ${firstIndex + 1} 条明细重复`, conflictingItemIndex: firstIndex });
+    } else {
+      seen.set(normalizedSN, itemIndex);
+    }
+
+    const inventoryRows = db.prepare(`
+      SELECT id, status FROM inventory
+      WHERE lower(trim(sn)) = lower(trim(?)) AND deleted = 0
+      ORDER BY createdAt, id
+    `).all(sn) as Array<{ id: string; status: string }>;
+    for (const inventory of inventoryRows) {
+      addReason(itemIndex, {
+        source: 'inventory',
+        message: `已被库存档案占用（状态：${inventory.status}，档案 ID：${inventory.id}）`,
+        recordId: inventory.id,
+        status: inventory.status,
+      });
+    }
+
     const purchaseItems = db.prepare(`
       SELECT pi.id, po.id AS orderId, po.purchaseNo FROM purchase_items pi
       JOIN purchase_orders po ON po.id = pi.purchaseOrderId
       WHERE lower(trim(pi.sn)) = lower(trim(?)) AND pi.deleted = 0 AND po.deleted = 0 AND po.isInbounded = 0
-    `).all(item.sn) as Array<{ id: string; orderId: string; purchaseNo: string }>;
-    const purchaseItem = purchaseItems.find((row) => !allowedItemIds.has(row.id));
-    const inventory = db.prepare('SELECT id, status FROM inventory WHERE lower(trim(sn)) = lower(trim(?)) AND deleted = 0').get(item.sn) as { id: string; status: string } | undefined;
-    const reasons: string[] = [];
-    if (inventory) reasons.push(`SN [${item.sn}] 已被有效库存档案占用（状态：${inventory.status}，档案 ID：${inventory.id}）`);
-    if (purchaseItem) reasons.push(`SN [${item.sn}] 正在未入库采购草稿 ${purchaseItem.purchaseNo || purchaseItem.orderId}（明细 ID：${purchaseItem.id}）中使用，请先编辑或删除该草稿`);
-    if (reasons.length) return reasons.join('；');
+      ORDER BY pi.createdAt, pi.id
+    `).all(sn) as Array<{ id: string; orderId: string; purchaseNo: string }>;
+    for (const purchaseItem of purchaseItems) {
+      if (allowedItemIds.has(purchaseItem.id)) continue;
+      addReason(itemIndex, {
+        source: 'purchase_draft',
+        message: `正在未入库采购草稿 ${purchaseItem.purchaseNo || purchaseItem.orderId} 中使用（明细 ID：${purchaseItem.id}）`,
+        recordId: purchaseItem.id,
+        purchaseNo: purchaseItem.purchaseNo,
+      });
+    }
   }
-  return null;
+  return [...conflicts.values()].sort((a, b) => a.itemIndex - b.itemIndex);
+}
+
+function duplicateSnError(conflicts: SnConflict[]) {
+  return NextResponse.json(errorResponse(
+    ErrorCode.DUPLICATE_ENTRY,
+    `发现 ${conflicts.length} 条 SN 冲突，本次采购单未入库。修改或移除冲突明细后重试。`,
+    { kind: 'sn_conflicts', conflicts },
+  ), { status: 409 });
 }
 
 function checkItemNumberConflicts(items: NormalizedItem[], allowedItemIds = new Set<string>()): string | null {
@@ -460,6 +524,7 @@ function duplicateError(message: string) {
 }
 
 export async function POST(request: NextRequest) {
+  let items: NormalizedItem[] = [];
   try {
     const actor = await requireRole('admin');
     const body = await request.json() as OrderBody;
@@ -468,15 +533,15 @@ export async function POST(request: NextRequest) {
     if (fieldError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, fieldError), { status: 400 });
     const purchasedBy = resolvePurchasedBy(body.purchasedBy, actor.id);
     if (!purchasedBy) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '采购人不存在'), { status: 400 });
-    const items = normalizeItems(body.items);
+    items = normalizeItems(body.items);
     const itemError = validateItems(items, status === 'completed');
     if (itemError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, itemError), { status: 400 });
     const manualSkuError = validateManualSkuReferences(items, undefined, status === 'completed');
     if (manualSkuError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, manualSkuError), { status: 400 });
     const supplier = findSupplier(String(body.supplierId).trim());
     if (!supplier) return NextResponse.json(errorResponse(ErrorCode.SUPPLIER_NOT_FOUND, '供应商不存在'), { status: 400 });
-    const conflict = checkSnConflicts(items);
-    if (conflict) return duplicateError(conflict);
+    const snConflicts = checkSnConflicts(items);
+    if (snConflicts.length) return duplicateSnError(snConflicts);
     const itemNumberConflict = checkItemNumberConflicts(items);
     if (itemNumberConflict) return duplicateError(itemNumberConflict);
 
@@ -494,7 +559,9 @@ export async function POST(request: NextRequest) {
     const totalAmount = items.reduce((sum, item) => sum + item.purchasePrice, 0);
     const userId = actor.id;
 
-    db.transaction(() => {
+    const insertOrder = db.transaction(() => {
+      const currentConflicts = checkSnConflicts(items);
+      if (currentConflicts.length) throw new PurchaseSnConflictError(currentConflicts);
       db.prepare(`
         INSERT INTO purchase_orders (
           id, purchaseNo, supplierOrderNo, supplierId, supplierName, purchaseDate,
@@ -508,7 +575,8 @@ export async function POST(request: NextRequest) {
         userId, now, now
       );
       insertItemsAndInventory({ ...order, warehouseId: resolveWarehouse(body.warehouseId), actorId: actor.id }, items, status === 'completed', now);
-    })();
+    });
+    insertOrder.immediate();
 
     return NextResponse.json(successResponse({
       id: orderId,
@@ -519,12 +587,15 @@ export async function POST(request: NextRequest) {
       inventoryIds: status === 'completed' ? inventoryIdsForOrder(orderId) : [],
     }), { status: 201 });
   } catch (error: unknown) {
+    if (error instanceof PurchaseSnConflictError) return duplicateSnError(error.conflicts);
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
     if (error instanceof Error && /配置选项已满/.test(error.message)) {
       return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, error.message), { status: 400 });
     }
     if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
-      return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
+      const currentConflicts = checkSnConflicts(items);
+      if (currentConflicts.length) return duplicateSnError(currentConflicts);
+      return duplicateError('数据库唯一约束仍判定本次 SN 已被占用，本次采购单未入库。请到“设置 > 数据管理 > 库存机器”开启“显示已删除”检查残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
     }
     if (error instanceof Error && /idx_purchase_items_item_number|idx_inventory_item_number_active/.test(error.message)) return duplicateError('编号已被使用，请填写未使用的编号');
     console.error('POST /api/purchase-orders error:', error);
@@ -630,6 +701,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  let items: NormalizedItem[] = [];
+  let incomingIds = new Set<string>();
   try {
     const actor = await requireRole('admin');
     const body = await request.json() as OrderBody;
@@ -644,14 +717,14 @@ export async function PATCH(request: NextRequest) {
     const purchasedBy = resolvePurchasedBy(body.purchasedBy, actor.id);
     if (!purchasedBy) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, '采购人不存在'), { status: 400 });
     const action = body?.action === 'inbound' ? 'inbound' : 'draft';
-    const items = normalizeItems(body.items);
+    items = normalizeItems(body.items);
     const itemError = validateItems(items, action === 'inbound');
     if (itemError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, itemError), { status: 400 });
     const manualSkuError = validateManualSkuReferences(items, id, action === 'inbound');
     if (manualSkuError) return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, manualSkuError), { status: 400 });
     const existingItems = db.prepare('SELECT id FROM purchase_items WHERE purchaseOrderId = ? AND deleted = 0').all(id) as Array<{ id: string }>;
     const existingItemIds = new Set(existingItems.map((item) => item.id));
-    const incomingIds = new Set<string>();
+    incomingIds = new Set<string>();
     for (const item of items) {
       if (!item.id) continue;
       if (!existingItemIds.has(item.id)) item.id = '';
@@ -660,8 +733,8 @@ export async function PATCH(request: NextRequest) {
       }
       if (item.id) incomingIds.add(item.id);
     }
-    const conflict = checkSnConflicts(items, incomingIds);
-    if (conflict) return duplicateError(conflict);
+    const snConflicts = checkSnConflicts(items, incomingIds);
+    if (snConflicts.length) return duplicateSnError(snConflicts);
     const itemNumberConflict = checkItemNumberConflicts(items, incomingIds);
     if (itemNumberConflict) return duplicateError(itemNumberConflict);
     const supplier = findSupplier(String(body.supplierId).trim());
@@ -679,7 +752,9 @@ export async function PATCH(request: NextRequest) {
       purchasedBy,
     };
 
-    db.transaction(() => {
+    const updateDraft = db.transaction(() => {
+      const currentConflicts = checkSnConflicts(items, incomingIds);
+      if (currentConflicts.length) throw new PurchaseSnConflictError(currentConflicts);
       db.prepare(`
         UPDATE purchase_orders SET supplierOrderNo = ?, supplierId = ?, supplierName = ?,
           purchaseDate = ?, purchasedBy = ?, totalAmount = ?, totalQuantity = ?, isInbounded = ?,
@@ -690,7 +765,8 @@ export async function PATCH(request: NextRequest) {
         String(body.remark || '').trim() || null, now, id
       );
       replaceDraftItemsAndInventory({ ...updatedOrder, warehouseId: resolveWarehouse(body.warehouseId), actorId: actor.id }, items, action === 'inbound', now);
-    })();
+    });
+    updateDraft.immediate();
 
     return NextResponse.json(successResponse({
       ...orderDetail(id),
@@ -698,12 +774,15 @@ export async function PATCH(request: NextRequest) {
       inventoryIds: action === 'inbound' ? inventoryIdsForOrder(id) : [],
     }));
   } catch (error: unknown) {
+    if (error instanceof PurchaseSnConflictError) return duplicateSnError(error.conflicts);
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
     if (error instanceof Error && /配置选项已满/.test(error.message)) {
       return NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, error.message), { status: 400 });
     }
     if (error instanceof Error && /UNIQUE constraint failed: inventory\.sn/i.test(error.message)) {
-      return duplicateError('该 SN 仍被库存档案占用。请在“设置 > 数据管理 > 库存机器”开启“显示已删除”，检查是否有残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
+      const currentConflicts = checkSnConflicts(items, incomingIds);
+      if (currentConflicts.length) return duplicateSnError(currentConflicts);
+      return duplicateError('数据库唯一约束仍判定本次 SN 已被占用，本次采购单未入库。请到“设置 > 数据管理 > 库存机器”开启“显示已删除”检查残留档案；若数据库刚更新，请确认服务与 db:init 使用同一个数据库后重启。');
     }
     if (error instanceof Error && /idx_purchase_items_item_number|idx_inventory_item_number_active/.test(error.message)) return duplicateError('编号已被使用，请填写未使用的编号');
     console.error('PATCH /api/purchase-orders error:', error);

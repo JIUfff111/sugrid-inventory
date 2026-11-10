@@ -5,10 +5,11 @@
 'use client';
 
 import { useCallback, useRef, useState, useEffect } from 'react';
-import { Plus, Search, Package, FileText, ArrowLeft, Pencil, Trash2, RefreshCw, CheckCircle2, Check, X, Shuffle } from 'lucide-react';
+import { Plus, Search, Package, FileText, ArrowLeft, Pencil, Trash2, RefreshCw, CheckCircle2, Check, X, Shuffle, AlertTriangle } from 'lucide-react';
 import SKUSelector, { SelectedConfig } from '@/components/SKUSelector';
 import CustomSelect from '@/components/CustomSelect';
 import BatchInput from '@/components/BatchInput';
+import BusinessDialog from '@/components/BusinessDialog';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import Toast from '@/components/Toast';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
@@ -56,6 +57,21 @@ interface MachineItem {
 type MachinePayload = Omit<MachineItem, 'id'>;
 type SupplierOption = { id: string; supplierName: string };
 type BatchPresetConfig = Omit<MachinePayload, 'sn' | 'purchasePrice' | 'remark'>;
+type PurchaseSnConflictReason = {
+  source: 'batch_duplicate' | 'inventory' | 'purchase_draft';
+  message: string;
+  recordId?: string;
+  purchaseNo?: string;
+  status?: string;
+  conflictingItemIndex?: number;
+  conflictingItemId?: string;
+};
+type PurchaseSnConflict = {
+  itemIndex: number;
+  machineItemId: string;
+  sn: string;
+  reasons: PurchaseSnConflictReason[];
+};
 
 function localDateInput() {
   const date = new Date();
@@ -492,6 +508,8 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
   const [batchPresetConfig, setBatchPresetConfig] = useState<BatchPresetConfig | null>(null); // 批量输入的预设配置
   const [editingMachineId, setEditingMachineId] = useState<string | null>(null);
   const [editingMachineDraft, setEditingMachineDraft] = useState<MachineItem | null>(null);
+  const [snConflicts, setSnConflicts] = useState<PurchaseSnConflict[]>([]);
+  const [snConflictReviewOpen, setSnConflictReviewOpen] = useState(false);
   const editingMachineStorageRequired = Boolean(editingMachineDraft && requiresComputerSpecs(editingMachineDraft.productType) && !editingMachineDraft.skuId && !editingMachineDraft.manualSkuId);
   const [saving, setSaving] = useState(false); // 保存中状态
   useWorkspaceDirty(JSON.stringify({ formData, machineItems }) !== baseline || showSKUSelector || showManualSKUSelector || showBatchInput || editingMachineDraft !== null);
@@ -640,7 +658,9 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
 
   // 删除机器
   const handleRemoveMachine = (id: string) => {
-    setMachineItems(machineItems.filter(item => item.id !== id));
+    const remainingItems = machineItems.filter(item => item.id !== id);
+    setMachineItems(remainingItems);
+    reconcileSnConflictsAfterRemove(remainingItems, id);
     if (editingMachineId === id) {
       setEditingMachineId(null);
       setEditingMachineDraft(null);
@@ -660,6 +680,87 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
 
   const updateEditingMachineDraft = <K extends keyof MachineItem>(field: K, value: MachineItem[K]) => {
     setEditingMachineDraft((draft) => draft ? { ...draft, [field]: value } : draft);
+  };
+
+  const setReconciledSnConflicts = (conflicts: PurchaseSnConflict[]) => {
+    setSnConflicts(conflicts);
+    if (conflicts.length === 0) setSnConflictReviewOpen(false);
+  };
+
+  const reconcileSnConflictsAfterSnChange = (items: MachineItem[], changedItemId: string) => {
+    const conflictsById = new Map<string, PurchaseSnConflict>();
+    snConflicts.forEach(conflict => {
+      const itemIndex = items.findIndex(item => item.id === conflict.machineItemId);
+      if (itemIndex < 0) return;
+      const reasons = conflict.machineItemId === changedItemId
+        ? []
+        : conflict.reasons.filter(reason => reason.source !== 'batch_duplicate');
+      if (reasons.length > 0) {
+        conflictsById.set(conflict.machineItemId, {
+          ...conflict,
+          itemIndex,
+          sn: items[itemIndex].sn,
+          reasons,
+        });
+      }
+    });
+
+    const addBatchDuplicate = (itemIndex: number, conflictingItemIndex: number) => {
+      const item = items[itemIndex];
+      const conflictingItem = items[conflictingItemIndex];
+      const conflict = conflictsById.get(item.id) || {
+        itemIndex,
+        machineItemId: item.id,
+        sn: item.sn,
+        reasons: [],
+      };
+      conflict.reasons.push({
+        source: 'batch_duplicate',
+        message: `与第 ${conflictingItemIndex + 1} 条明细重复`,
+        conflictingItemIndex,
+        conflictingItemId: conflictingItem.id,
+      });
+      conflictsById.set(item.id, conflict);
+    };
+
+    const firstIndexBySn = new Map<string, number>();
+    items.forEach((item, itemIndex) => {
+      const normalizedSn = item.sn.trim().toLowerCase();
+      if (!normalizedSn) return;
+      const firstIndex = firstIndexBySn.get(normalizedSn);
+      if (firstIndex === undefined) {
+        firstIndexBySn.set(normalizedSn, itemIndex);
+        return;
+      }
+      addBatchDuplicate(firstIndex, itemIndex);
+      addBatchDuplicate(itemIndex, firstIndex);
+    });
+
+    setReconciledSnConflicts([...conflictsById.values()].sort((a, b) => a.itemIndex - b.itemIndex));
+  };
+
+  const reconcileSnConflictsAfterRemove = (items: MachineItem[], removedItemId: string) => {
+    // Rebuild batch duplicates after deletion while retaining database conflicts on surviving rows.
+    reconcileSnConflictsAfterSnChange(items, removedItemId);
+  };
+
+  const locateSnConflict = (conflict: PurchaseSnConflict) => {
+    setSnConflictReviewOpen(false);
+    window.setTimeout(() => {
+      const isEditingConflict = editingMachineId === conflict.machineItemId;
+      const inputId = isEditingConflict
+        ? `purchase-edit-sn-${conflict.machineItemId}`
+        : `purchase-sn-${conflict.machineItemId}`;
+      const row = document.getElementById(`purchase-item-${conflict.machineItemId}`);
+      row?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const input = document.getElementById(inputId) as HTMLInputElement | null;
+      if (input) {
+        input.focus();
+        input.select();
+        return;
+      }
+      setToast({ show: true, type: 'warning', message: '请先保存或取消当前明细编辑，再修改这台机器的 SN' });
+    }, 80);
   };
 
   const generateMachineSN = (id: string, editing = false) => {
@@ -695,7 +796,9 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       return;
     }
 
-    setMachineItems((items) => items.map((item) => (
+    const previousSn = machineItems.find(item => item.id === editingMachineDraft.id)?.sn || '';
+    const snChanged = previousSn.trim() !== editingMachineDraft.sn.trim();
+    const updatedItems = machineItems.map((item) => (
       item.id === editingMachineDraft.id ? {
         ...editingMachineDraft,
         ...(isGraphicsCard ? { cpu: '', ram: '', storage: '', screen: '', touchScreen: undefined } : {}),
@@ -704,7 +807,9 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           item.model === editingMachineDraft.model &&
           item.year === editingMachineDraft.year ? item.skuId : undefined,
       } : item
-    )));
+    ));
+    setMachineItems(updatedItems);
+    if (snChanged) reconcileSnConflictsAfterSnChange(updatedItems, editingMachineDraft.id);
     handleCancelMachineEdit();
   };
 
@@ -747,9 +852,32 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
       });
       const result = await response.json();
       if (!result.success) {
+        const conflictDetails = result.error?.details;
+        if (conflictDetails?.kind === 'sn_conflicts' && Array.isArray(conflictDetails.conflicts)) {
+          const conflicts = conflictDetails.conflicts
+            .filter((conflict: any) => Number.isInteger(conflict.itemIndex) && conflict.itemIndex >= 0 && conflict.itemIndex < machineItems.length)
+            .map((conflict: any) => ({
+              itemIndex: conflict.itemIndex as number,
+              machineItemId: machineItems[conflict.itemIndex].id,
+              sn: String(conflict.sn || machineItems[conflict.itemIndex].sn || ''),
+              reasons: Array.isArray(conflict.reasons) ? conflict.reasons.map((reason: PurchaseSnConflictReason) => ({
+                ...reason,
+                conflictingItemId: reason.source === 'batch_duplicate' && reason.conflictingItemIndex !== undefined
+                  ? machineItems[reason.conflictingItemIndex]?.id
+                  : undefined,
+              })) : [],
+            }));
+          if (conflicts.length > 0) {
+            setSnConflicts(conflicts);
+            setSnConflictReviewOpen(true);
+            return;
+          }
+        }
         setToast({ show: true, type: 'error', message: result.error?.message || '保存失败' });
         return;
       }
+      setSnConflicts([]);
+      setSnConflictReviewOpen(false);
       setToast({ show: true, type: 'success', message: action === 'inbound' ? '入库成功' : '草稿保存成功' });
       const inventoryIds = Array.isArray(result.data?.inventoryIds)
         ? result.data.inventoryIds.filter((id: unknown): id is string => typeof id === 'string' && id.trim().length > 0)
@@ -945,7 +1073,7 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
           ) : (
             <div className="space-y-3">
               {machineItems.map((item, index) => (
-                <div key={item.id} className="bg-white/60 p-4 rounded-lg border border-line">
+                <div id={`purchase-item-${item.id}`} key={item.id} className={`bg-white/60 p-4 rounded-lg border ${snConflicts.some(conflict => conflict.machineItemId === item.id) ? 'border-danger/50 ring-1 ring-danger/20' : 'border-line'}`}>
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -1105,7 +1233,8 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                             value={editingMachineDraft.sn}
                             onChange={(event) => updateEditingMachineDraft('sn', event.target.value)}
                             placeholder="请输入 SN"
-                            className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                            aria-invalid={snConflicts.some(conflict => conflict.machineItemId === item.id) || undefined}
+                            className={`w-full px-3 py-2 bg-white border rounded-lg text-[13px] placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${snConflicts.some(conflict => conflict.machineItemId === item.id) ? 'border-danger' : 'border-line'}`}
                           />
                         </div>
                         {editingMachineDraft.productType === '显卡' && <label className="block">
@@ -1165,11 +1294,12 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
                             const updated = [...machineItems];
                             updated[index].sn = e.target.value;
                             setMachineItems(updated);
+                            reconcileSnConflictsAfterSnChange(updated, item.id);
                           }}
                           placeholder="请输入 SN"
-                          className="w-full px-3 py-2 bg-white border border-line rounded-lg text-[13px]
-                                   placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 
-                                   focus:ring-primary/20 focus:border-primary transition-all"
+                          aria-invalid={snConflicts.some(conflict => conflict.machineItemId === item.id) || undefined}
+                          className={`w-full px-3 py-2 bg-white border rounded-lg text-[13px]
+                                   placeholder:text-ink-soft/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all ${snConflicts.some(conflict => conflict.machineItemId === item.id) ? 'border-danger' : 'border-line'}`}
                         />
                       </div>
                       {item.productType === '显卡' && <label className="block">
@@ -1275,6 +1405,48 @@ function PurchaseOrderForm({ onCancel, orderId, onSuccess }: PurchaseOrderFormPr
             setBatchPresetConfig(null);
           }}
         />
+      )}
+
+      {snConflictReviewOpen && snConflicts.length > 0 && (
+        <BusinessDialog
+          title={`发现 ${snConflicts.length} 条 SN 冲突`}
+          description="本次采购单尚未入库，所有机器都没有写入库存。逐条修改或移除冲突明细后，再重新确认入库。"
+          onClose={() => setSnConflictReviewOpen(false)}
+          footer={<button type="button" onClick={() => setSnConflictReviewOpen(false)} className="btn-primary">返回修改</button>}
+        >
+          <div className="mb-3 flex items-start gap-2 rounded-lg border border-warning/25 bg-warning/5 px-3 py-2.5 text-xs leading-5 text-ink-soft">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+            <p>系统不会跳过冲突机器单独入库。解决以下冲突后，整张采购单会一起重新校验。</p>
+          </div>
+          <div className="space-y-2">
+            {snConflicts.map((conflict) => {
+              const currentIndex = machineItems.findIndex(item => item.id === conflict.machineItemId);
+              if (currentIndex < 0) return null;
+              return <article key={conflict.machineItemId} className="rounded-lg border border-line bg-white/70 p-3">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-ink-deep">第 {currentIndex + 1} 台 · <span className="font-mono">{conflict.sn || '未填写 SN'}</span></p>
+                    <ul className="mt-2 space-y-1 text-xs leading-5 text-danger">
+                      {conflict.reasons.map((reason, index) => <li key={`${reason.source}:${reason.recordId || reason.conflictingItemIndex || index}`}>
+                        {reason.source === 'batch_duplicate' && reason.conflictingItemIndex !== undefined
+                          ? `与第 ${reason.conflictingItemIndex + 1} 台的 SN 重复`
+                          : reason.message}
+                        {reason.status && <span className="ml-1 text-ink-soft">状态：{reason.status}</span>}
+                        {reason.purchaseNo && <span className="ml-1 text-ink-soft">采购单：{reason.purchaseNo}</span>}
+                      </li>)}
+                    </ul>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <button type="button" onClick={() => locateSnConflict(conflict)} className="btn-secondary px-2.5 py-1.5 text-xs">定位并修改</button>
+                    <button type="button" onClick={() => handleRemoveMachine(conflict.machineItemId)} className="inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-xs text-danger transition hover:bg-danger/5" title="从本采购单移除此条明细">
+                      <Trash2 className="h-3.5 w-3.5" />移除明细
+                    </button>
+                  </div>
+                </div>
+              </article>;
+            })}
+          </div>
+        </BusinessDialog>
       )}
 
       {/* Toast 提示 */}

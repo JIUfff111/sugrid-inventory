@@ -53,7 +53,7 @@ const responseHelpers = {
     DATABASE_ERROR: 'DATABASE_ERROR', NOT_FOUND: 'NOT_FOUND',
   },
   successResponse: data => ({ success: true, data }),
-  errorResponse: (code, message) => ({ success: false, error: { code, message } }),
+  errorResponse: (code, message, details) => ({ success: false, error: { code, message, details } }),
   generateId: prefix => `${prefix}_${crypto.randomUUID()}`,
   parsePaginationParams: params => ({ page: Math.max(1, Number(params.get('page') || 1)), pageSize: Math.max(1, Number(params.get('pageSize') || 20)) }),
   createPaginatedResponse: (items, total, page, pageSize) => ({ items, total, page, pageSize, totalPages: Math.ceil(total / pageSize) }),
@@ -101,6 +101,7 @@ Module._load = function(request, parent, isMain) {
     endCustomStatus: () => {},
   };
   if (request === '@/lib/inventory-purge') return { createPurgeBackup: () => '', getPurgeCandidate: () => null };
+  if (request === '@/lib/machine-scan') return loadRoute('../src/lib/machine-scan.ts');
   if (request === 'next/server') return { NextResponse: responseMock };
   return oldLoad.call(this, request, parent, isMain);
 };
@@ -531,8 +532,10 @@ const request = (url, body) => ({ url: `http://localhost${url}`, json: async () 
         gpu: 'RTX 4060', sn, purchasePrice: 2600,
       })),
     }));
-    assert.equal(duplicateGeneratedSnResponse.status, 400, 'SNs edited to differ only by case must be rejected in one order');
-    assert.match(duplicateGeneratedSnResponse.body.error.message, /重复/);
+    assert.equal(duplicateGeneratedSnResponse.status, 409, 'SNs edited to differ only by case must be rejected in one order');
+    assert.match(duplicateGeneratedSnResponse.body.error.message, /SN 冲突/);
+    assert.equal(duplicateGeneratedSnResponse.body.error.details.kind, 'sn_conflicts');
+    assert.deepEqual(duplicateGeneratedSnResponse.body.error.details.conflicts.map(conflict => conflict.itemIndex), [0, 1]);
     assert.equal(db.prepare("SELECT COUNT(*) AS count FROM inventory WHERE lower(sn) = lower(?)").get('SG-20261107-ABC123').count, 0);
 
     const unsupportedTypeResponse = await manualSkus.POST(request('/api/manual-skus', {

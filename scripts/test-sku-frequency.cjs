@@ -45,6 +45,7 @@ async function main() {
       '@/lib/api-helpers': helpers,
       '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
       '@/lib/sku-display': load('src/lib/sku-display.ts'),
+      '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
     };
     const purchase = load('src/app/api/purchase-orders/route.ts', deps);
     const frequent = load('src/app/api/skus/frequent/route.ts', deps);

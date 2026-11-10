@@ -63,6 +63,7 @@ async function main() {
       '@/lib/sku-brand': load('src/lib/sku-brand.ts'),
       '@/lib/sku-display': load('src/lib/sku-display.ts'),
       '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
+      '@/lib/machine-scan': load('src/lib/machine-scan.ts'),
     };
     const previewImport = load('src/app/api/data-management/import/preview/route.ts', routeDeps);
     const routes = {
@@ -436,10 +437,14 @@ async function main() {
       supplierId: 'dm-supplier', purchaseDate: '2026-11-01', purchasedBy: adminId, status: 'draft',
       items: [{ productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', cpu: 'I5-10210U', ram: '16GB', storage: '512GB', screen: '2.5K', sn: 'DRAFT-SN-001', purchasePrice: 1000 }],
     }, 201);
-    await call(routes.purchaseOrders.POST, '/api/purchase-orders', 'POST', {
+    const draftSnCollisionResponse = await routes.purchaseOrders.POST(request('/api/purchase-orders', 'POST', {
       supplierId: 'dm-supplier', purchaseDate: '2026-11-01', purchasedBy: adminId, status: 'completed',
       items: [{ productType: '笔记本电脑', brand: 'ThinkPad', model: 'X13', cpu: 'I5-10210U', ram: '16GB', storage: '512GB', screen: '2.5K', sn: 'DRAFT-SN-001', purchasePrice: 1000 }],
-    }, 400);
+    }));
+    const draftSnCollision = await draftSnCollisionResponse.json();
+    assert.equal(draftSnCollisionResponse.status, 409);
+    assert.equal(draftSnCollision.error.details.kind, 'sn_conflicts');
+    assert(draftSnCollision.error.details.conflicts[0].reasons.some(reason => reason.source === 'purchase_draft'));
 
     db.prepare(`INSERT INTO inventory
       (id,purchaseOrderId,purchaseItemId,sn,productType,brand,model,cpu,ram,storage,screen,purchasePrice,supplierId,supplierName,status,inboundDate,warehouseId)
