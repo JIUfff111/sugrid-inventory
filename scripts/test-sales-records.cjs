@@ -64,6 +64,12 @@ async function main() {
   assert.equal(service.querySalesRecords(db,{...blank,status:'cancelled'}).summary.quantity,0);
   const october=service.querySalesRecords(db,{...blank,dateFrom:'2026-10-01',dateTo:'2026-10-31',channel:'平台A'});assert.equal(october.summary.quantity,24);
   assert.equal(all.byDate.reduce((sum,row)=>sum+row.amount,0),all.summary.amount);assert.equal(all.byChannel.reduce((sum,row)=>sum+row.amount,0),all.summary.amount);
+  sale('rental-buyout',[52],{date:'2026-10-22',channel:'租赁买断'});
+  db.prepare("UPDATE sales_records SET transactionType='rental_buyout',buyoutBuyerName='个人客户',buyoutSource='线下转介绍' WHERE id='rental-buyout'").run();
+  const withBuyout=service.querySalesRecords(db,blank);
+  assert(!withBuyout.channels.includes('租赁买断'),'rental buyout source must not become a normal selectable channel');
+  assert.equal(withBuyout.byChannel.find(row=>row.name==='租赁买断').amount,200,'buyout revenue remains separately visible in channel summaries');
+  assert.equal(service.querySalesRecords(db,{...blank,channel:'租赁买断'}).summary.amount,200,'buyouts remain filterable as their own transaction category');
   const detail=service.salesRecordDetail(db,'order-2');assert.equal(detail.order.items.length,4);assert.equal(detail.afterSales.length,3);assert.equal(detail.order.amount,400);
   assert.equal(service.salesCsv(all,'machines').split('\r\n').length,54);assert.equal(service.salesCsv(all,'orders').split('\r\n').length,27);
   const escaped=service.salesCsv({...all,orders:[{...all.orders[0],saleOrderNo:'=HYPERLINK("x")'}]},'orders');assert(escaped.includes("'=HYPERLINK"));
@@ -71,12 +77,12 @@ async function main() {
   class AuthError extends Error {constructor(){super('权限不足');this.status=403;this.code='FORBIDDEN';}}
   let denied=false;
   const route=load('src/app/api/sales/records/route.ts',{'@/lib/db':{default:db,__esModule:true},'@/lib/auth':{AuthError,requireRole:async()=>{if(denied)throw new AuthError();return {id:user};}},'@/lib/api-helpers':load('src/lib/api-helpers.ts'),'@/lib/sales-records':service});
-  let response=await route.GET(new NextRequest('http://localhost/api/sales/records?page=2&pageSize=20'));let payload=await response.json();assert.equal(payload.data.items.length,20);assert.equal(payload.data.pagination.total,53);assert.equal(payload.data.summary.amount,9800);
-  response=await route.GET(new NextRequest('http://localhost/api/sales/records?view=orders&page=2&pageSize=20'));payload=await response.json();assert.equal(payload.data.items.length,6);assert.equal(payload.data.summary.quantity,49);
-  response=await route.GET(new NextRequest('http://localhost/api/sales/records?format=csv'));assert.equal((await response.text()).split('\r\n').length,54);
+  let response=await route.GET(new NextRequest('http://localhost/api/sales/records?page=2&pageSize=20'));let payload=await response.json();assert.equal(payload.data.items.length,20);assert.equal(payload.data.pagination.total,54);assert.equal(payload.data.summary.amount,10000);
+  response=await route.GET(new NextRequest('http://localhost/api/sales/records?view=orders&page=2&pageSize=20'));payload=await response.json();assert.equal(payload.data.items.length,7);assert.equal(payload.data.summary.quantity,50);
+  response=await route.GET(new NextRequest('http://localhost/api/sales/records?format=csv'));assert.equal((await response.text()).split('\r\n').length,55);
   response=await route.GET(new NextRequest('http://localhost/api/sales/records?lookup=1&q=0002'));payload=await response.json();assert.equal(payload.data.items.length,1);assert.equal(payload.data.items[0].sn,machines[2].sn);
   denied=true;assert.equal((await route.GET(new NextRequest('http://localhost/api/sales/records'))).status,403);
   assert.equal(db.pragma('integrity_check',{simple:true}),'ok');assert.equal(db.pragma('foreign_key_check').length,0);db.close();
-  console.log('Sales records: snapshot, 26 orders, multi-machine, legacy JSON, repeated sale, continuous exchanges, filters, summaries, CSV, pagination and permission checks passed.');
+  console.log('Sales records: snapshot, order grouping, legacy JSON, repeat sales, exchanges, buyout channel separation, filters, summaries, CSV, pagination and permission checks passed.');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

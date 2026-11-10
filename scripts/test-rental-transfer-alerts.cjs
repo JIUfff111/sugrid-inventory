@@ -62,7 +62,7 @@ async function main() {
     assert.equal(groupedThreeMachines[0].items.length, 3);
     const legacyGroup = groupRentalsByOrder(threeMachines.map((rental) => ({ ...rental, rentalOrderId: null })));
     assert.equal(legacyGroup.length, 1, 'legacy rows with the same displayed order number should stay grouped');
-    const routes = Object.fromEntries(['purchase-orders', 'sales', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses']
+    const routes = Object.fromEntries(['purchase-orders', 'sales', 'sales-returns', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses']
       .map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));
 
     async function call(name, method, body, expected = 200, query = '') {
@@ -96,7 +96,7 @@ async function main() {
     const chinaToday = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
     const shiftDate = (days) => new Date(Date.parse(`${chinaToday}T00:00:00Z`) + days * 86400000).toISOString().slice(0, 10);
 
-    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2'];
+    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL'];
     const purchase = await call('purchase-orders', 'POST', {
       supplierId: 'flow-supplier', supplierOrderNo: 'FLOW-PO', purchaseDate: chinaToday, purchasedBy: 'flow-admin',
       status: 'completed', warehouseId: mainWarehouse,
@@ -150,12 +150,36 @@ async function main() {
     assert(batchList.items.every(item => item.displayRentalNo === batchRental.rentalNo && item.orderMachineCount === 2));
     assert(batchList.items.every(item => item.rentalOrderId === batchRental.id));
     const renewedEndDate = shiftDate(4);
-    const renewed = await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'renew', newEndDate: renewedEndDate });
-    assert.equal(renewed.rentalEndDate, renewedEndDate);
-    assert.equal(renewed.rentalDuration, 5);
-    assert.equal(renewed.rentalTotalPrice, 200);
+    const renewals = await call('rentals', 'PATCH', { action: 'renew_batch', items: batchItems.map((item, index) => ({
+      id: item.id, newEndDate: renewedEndDate, billingUnit: 'day', priceMode: 'custom_total',
+      totalAmount: index === 0 ? 80 : 100, depositDelta: index === 0 ? 25 : -20,
+      depositChangeReason: '按续租约定调整押金', note: `批量续租 ${item.sn}`,
+    })) });
+    assert.equal(renewals.items.length, 2);
+    assert(renewals.items.every(item => item.rentalEndDate === renewedEndDate));
+    const renewalRows = db.prepare('SELECT * FROM rental_renewals WHERE batchId=? ORDER BY rentalRecordId').all(renewals.batchId);
+    assert.equal(renewalRows.length, 2);
+    assert.deepEqual(renewalRows.map(row => row.totalAmount).sort((a, b) => a - b), [80, 100]);
+    assert(renewalRows.every(row => row.duration === 2));
+    assert.equal(db.prepare('SELECT rentalDuration,rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).rentalDuration, 3);
+    assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 75);
+    assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).deposit, 125);
+    assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[1].id).rentalTotalPrice, 120);
+    assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[1].id).deposit, 180);
     assert.equal(db.prepare('SELECT rentalEndDate FROM rental_orders WHERE id=?').get(batchRental.id).rentalEndDate, renewedEndDate);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_events WHERE rentalRecordId=? AND eventType='renewed'").get(batchItems[1].id).n, 1);
+    await call('rentals', 'PATCH', { action: 'renew', id: batchItems[0].id, newEndDate: shiftDate(5), priceMode: 'custom_total', totalAmount: '', note: '不应将空值作为零元续租' }, 400);
+    await call('rentals', 'PATCH', { action: 'renew', id: batchItems[1].id, newEndDate: shiftDate(5), priceMode: 'custom_unit', unitPrice: '' }, 400);
+    db.exec("CREATE TRIGGER flow_fail_renewal_event BEFORE INSERT ON rental_events WHEN NEW.eventType='renewed' BEGIN SELECT RAISE(ABORT, 'forced renewal audit failure'); END");
+    await call('rentals', 'PATCH', { action: 'renew_batch', items: batchItems.map((item) => ({ id: item.id, newEndDate: shiftDate(5), priceMode: 'custom_total', totalAmount: 120, note: '事务回滚测试' })) }, 500);
+    db.exec('DROP TRIGGER flow_fail_renewal_event');
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM rental_renewals WHERE rentalRecordId IN (?,?)').get(...batchItems.map(item => item.id)).n, 2);
+    assert.equal(db.prepare('SELECT rentalEndDate FROM rental_records WHERE id=?').get(batchItems[0].id).rentalEndDate, renewedEndDate);
+    const singleRenewal = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'renew', newEndDate: shiftDate(5), priceMode: 'original_unit' });
+    assert.equal(singleRenewal.renewalAmount, 25);
+    assert.equal(singleRenewal.cumulativeRentalAmount, 180);
+    assert.equal(db.prepare('SELECT rentalDuration,rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalDuration, 3);
+    assert.equal(db.prepare('SELECT rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 75);
     const followUp = '客户暂时无法归还，已约定明日联系';
     const exception = await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'exception', note: followUp });
     assert.equal(exception.followUp, followUp);
@@ -165,24 +189,46 @@ async function main() {
     token = auth.createSession('flow-admin');
     const salesBeforeFailedBuyout = Number(db.prepare('SELECT COUNT(*) n FROM sales_records').get().n);
     const movementsBeforeFailedBuyout = Number(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId=?").get(batchItems[1].inventoryId).n);
+    const channelsBeforeBuyout = Number(db.prepare('SELECT COUNT(*) n FROM sales_channels').get().n);
+    const channelUsageBeforeBuyout = Number(db.prepare("SELECT usageCount FROM sales_channels WHERE id='flow-channel'").get().usageCount);
+    const buyoutInput = (id, saleOrderNo) => ({
+      id, action: 'buyout', saleDate: chinaToday, sellingPrice: 1200, buyerName: '买断测试客户',
+      buyoutSource: '个人·转介绍', saleOrderNo, depositRefundAmount: 50, depositAppliedAmount: 100,
+      depositRetainedAmount: 30, settlementAdjustment: -20, settlementNote: '抵扣其他欠款并留存部分押金',
+    });
     db.exec("CREATE TRIGGER flow_fail_buyout BEFORE INSERT ON sales_record_items BEGIN SELECT RAISE(ABORT, 'forced buyout item failure'); END");
-    await call('rentals', 'PATCH', {
-      id: batchItems[1].id, action: 'buyout', saleDate: chinaToday, sellingPrice: 1200, saleChannelId: 'flow-channel',
-    }, 500);
+    await call('rentals', 'PATCH', buyoutInput(batchItems[1].id, 'FLOW-RENTAL-BUYOUT-ROLLBACK'), 500);
     db.exec('DROP TRIGGER flow_fail_buyout');
     assert.equal(Number(db.prepare('SELECT COUNT(*) n FROM sales_records').get().n), salesBeforeFailedBuyout);
     assert.equal(Number(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId=?").get(batchItems[1].inventoryId).n), movementsBeforeFailedBuyout);
     assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'renting');
     assert.equal(inventory(batchItems[1].sn).status, 'renting');
-    const boughtOut = await call('rentals', 'PATCH', {
-      id: batchItems[1].id, action: 'buyout', saleDate: chinaToday, sellingPrice: 1200, saleChannelId: 'flow-channel', saleOrderNo: 'FLOW-RENTAL-BUYOUT',
-    });
+    const boughtOut = await call('rentals', 'PATCH', buyoutInput(batchItems[1].id, 'FLOW-RENTAL-BUYOUT'));
     assert.equal(boughtOut.status, 'purchased');
+    assert.equal(boughtOut.netDue, 1080);
     assert.equal(db.prepare('SELECT status, salesRecordId FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'purchased');
     assert.equal(db.prepare('SELECT status, rentalRecordId, sellingPrice FROM inventory WHERE id=?').get(batchItems[1].inventoryId).status, 'sold');
+    const storedBuyout = db.prepare('SELECT saleChannel,transactionType,buyoutBuyerName,buyoutSource,depositRefundAmount,depositAppliedAmount,depositRetainedAmount,settlementAdjustment,settlementNote FROM sales_records WHERE id=?').get(boughtOut.salesRecordId);
+    assert.deepEqual(storedBuyout, { saleChannel: '租赁买断', transactionType: 'rental_buyout', buyoutBuyerName: '买断测试客户', buyoutSource: '个人·转介绍', depositRefundAmount: 50, depositAppliedAmount: 100, depositRetainedAmount: 30, settlementAdjustment: -20, settlementNote: '抵扣其他欠款并留存部分押金' });
     assert.equal(db.prepare("SELECT COUNT(*) n FROM sales_record_items WHERE salesRecordId=? AND inventoryId=?").get(boughtOut.salesRecordId, batchItems[1].inventoryId).n, 1);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='sale' AND referenceId=? AND inventoryId=?").get(boughtOut.salesRecordId, batchItems[1].inventoryId).n, 1);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_events WHERE rentalRecordId=? AND eventType='buyout'").get(batchItems[1].id).n, 1);
+    assert.equal(Number(db.prepare('SELECT COUNT(*) n FROM sales_channels').get().n), channelsBeforeBuyout, 'buyout must not create an ordinary channel');
+    assert.equal(Number(db.prepare("SELECT usageCount FROM sales_channels WHERE id='flow-channel'").get().usageCount), channelUsageBeforeBuyout, 'buyout must not increment ordinary channel usage');
+    await call('sales', 'PATCH', { id: boughtOut.salesRecordId, action: 'cancel' }, 400);
+    await call('sales-returns', 'POST', { sn: batchItems[1].sn, reason: '普通销售退货不应处理租赁买断' }, 400);
+    assert.equal(inventory(batchItems[1].sn).status, 'sold');
+    const reversalRental = await addRental('RTN-BUYOUT-REVERSAL', shiftDate(5));
+    const reversalBuyout = await call('rentals', 'PATCH', {
+      id: reversalRental.id, action: 'buyout', saleDate: chinaToday, sellingPrice: 800, buyerName: '撤销测试客户',
+      buyoutSource: '原租赁客户', depositRefundAmount: 100, depositAppliedAmount: 0, depositRetainedAmount: 0,
+      saleOrderNo: 'FLOW-RENTAL-BUYOUT-REVERSAL',
+    });
+    await call('rentals', 'PATCH', { id: reversalRental.id, action: 'cancel_buyout', reason: '双方撤销买断约定' });
+    assert.equal(db.prepare('SELECT status,salesRecordId FROM rental_records WHERE id=?').get(reversalRental.id).status, 'renting');
+    assert.equal(inventory('RTN-BUYOUT-REVERSAL').status, 'renting');
+    assert.equal(db.prepare('SELECT status FROM sales_records WHERE id=?').get(reversalBuyout.salesRecordId).status, 'cancelled');
+    assert.equal(Number(db.prepare('SELECT COUNT(*) n FROM sales_channels').get().n), channelsBeforeBuyout, 'buyout reversals must not change ordinary channels');
     const firstReturn = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'return', returnDate: chinaToday, returnType: '正常归还' });
     assert.equal(firstReturn.status, 'returned');
     assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[0].id).status, 'returned');

@@ -6,11 +6,13 @@ type Row = Record<string, unknown>;
 export interface SalesFilters { search: string; dateFrom: string; dateTo: string; channel: string; warehouseId: string; status: string; }
 export interface SalesMachine {
   id: string; recordId: string; recordNo: string; saleDate: string; outboundAt: string; saleChannel: string; saleOrderNo: string; trackingNo: string;
+  transactionType: string; buyoutBuyerName: string; buyoutSource: string;
   status: string; inventoryId: string; sn: string; product: string; config: string; warehouseId: string; warehouseName: string;
   sellingPrice: number; purchasePrice: number; profit: number; itemType: 'sale' | 'exchange'; afterSaleId: string; originalInventoryId: string; actorName: string; remark: string;
 }
 export interface SalesOrder {
   id: string; recordNo: string; saleDate: string; saleChannel: string; saleOrderNo: string; trackingNo: string; status: string; actorName: string;
+  transactionType: string; buyoutBuyerName: string; buyoutSource: string;
   quantity: number; amount: number; cost: number; profit: number; exchangeQuantity: number; cancelReason: string; cancelledAt: string; remark: string; items: SalesMachine[];
 }
 export interface SalesSummary { quantity: number; amount: number; cost: number; profit: number; orders: number; exchangeQuantity: number; }
@@ -84,7 +86,7 @@ export function querySalesRecords(db: Database.Database, filters: SalesFilters) 
       if (!terms.every(term => searchable.includes(term))) continue;
       const line: SalesMachine = {
         id: text(source.id) || `${record.id}:${index}`, recordId: text(record.id), recordNo: text(record.recordNo), saleDate: text(record.saleDate), outboundAt: itemType === 'exchange' ? text(source.createdAt) || text(record.createdAt) : text(record.saleDate),
-        saleChannel: text(record.saleChannel), saleOrderNo: text(record.saleOrderNo), trackingNo: text(record.trackingNo), status: text(record.status) || 'completed', inventoryId: text(source.inventoryId || source.id), sn: text(source.sn), product, config,
+        saleChannel: text(record.saleChannel), saleOrderNo: text(record.saleOrderNo), trackingNo: text(record.trackingNo), transactionType: text(record.transactionType) || 'regular', buyoutBuyerName: text(record.buyoutBuyerName), buyoutSource: text(record.buyoutSource), status: text(record.status) || 'completed', inventoryId: text(source.inventoryId || source.id), sn: text(source.sn), product, config,
         warehouseId, warehouseName: warehouseNames.get(warehouseId) || '未记录', sellingPrice: number(source.sellingPrice), purchasePrice: number(source.purchasePrice), profit: source.profit == null ? number(source.sellingPrice) - number(source.purchasePrice) : number(source.profit),
         itemType, afterSaleId: text(source.afterSaleId), originalInventoryId: text(source.originalInventoryId), actorName: text(itemType === 'exchange' ? source.exchangeActorName || record.actorName : record.actorName), remark: text(source.remark),
       };
@@ -92,7 +94,7 @@ export function querySalesRecords(db: Database.Database, filters: SalesFilters) 
     }
     if (!matching.length) continue;
     const saleLines = matching.filter(line => line.itemType === 'sale');
-    orders.push({ id: text(record.id), recordNo: text(record.recordNo), saleDate: text(record.saleDate), saleChannel: text(record.saleChannel), saleOrderNo: text(record.saleOrderNo), trackingNo: text(record.trackingNo), status: text(record.status) || 'completed', actorName: text(record.actorName), quantity: saleLines.length, amount: saleLines.reduce((sum,line) => sum + line.sellingPrice,0), cost: saleLines.reduce((sum,line) => sum + line.purchasePrice,0), profit: saleLines.reduce((sum,line) => sum + line.profit,0), exchangeQuantity: matching.length - saleLines.length, cancelReason: text(record.cancelReason), cancelledAt: text(record.cancelledAt), remark: text(record.remark), items: matching });
+    orders.push({ id: text(record.id), recordNo: text(record.recordNo), saleDate: text(record.saleDate), saleChannel: text(record.saleChannel), saleOrderNo: text(record.saleOrderNo), trackingNo: text(record.trackingNo), transactionType: text(record.transactionType) || 'regular', buyoutBuyerName: text(record.buyoutBuyerName), buyoutSource: text(record.buyoutSource), status: text(record.status) || 'completed', actorName: text(record.actorName), quantity: saleLines.length, amount: saleLines.reduce((sum,line) => sum + line.sellingPrice,0), cost: saleLines.reduce((sum,line) => sum + line.purchasePrice,0), profit: saleLines.reduce((sum,line) => sum + line.profit,0), exchangeQuantity: matching.length - saleLines.length, cancelReason: text(record.cancelReason), cancelledAt: text(record.cancelledAt), remark: text(record.remark), items: matching });
   }
   const summary = summarizeSales(machines);
   const groups = (key: 'saleDate' | 'saleChannel') => {
@@ -100,7 +102,7 @@ export function querySalesRecords(db: Database.Database, filters: SalesFilters) 
     for (const line of machines) { const value = line[key]; const bucket = buckets.get(value) || []; bucket.push(line); buckets.set(value, bucket); }
     return Array.from(buckets, ([name, lines]) => ({ name, ...summarizeSales(lines) })).sort((a,b) => key === 'saleDate' ? b.name.localeCompare(a.name) : b.amount - a.amount);
   };
-  const channels = (db.prepare('SELECT DISTINCT saleChannel AS name FROM sales_records WHERE deleted=0 ORDER BY saleChannel').all() as Array<{name: string}>).map(row => row.name);
+  const channels = (db.prepare("SELECT DISTINCT saleChannel AS name FROM sales_records WHERE deleted=0 AND COALESCE(transactionType,'regular') <> 'rental_buyout' ORDER BY saleChannel").all() as Array<{name: string}>).map(row => row.name);
   return { machines, orders, summary, byDate: groups('saleDate'), byChannel: groups('saleChannel'), warehouses, channels };
 }
 /** Suggestions come from every retained sale snapshot, including machines since returned or re-sold. */

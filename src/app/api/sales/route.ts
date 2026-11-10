@@ -135,6 +135,7 @@ function parseSnapshot(value: unknown): SaleItemSnapshot[] {
 function saleRecordSelect(detail = false) {
   const columns = tableColumns('sales_records');
   const fields = ['sr.id', 'sr.recordNo', 'sr.saleChannel', 'sr.saleOrderNo', 'sr.saleDate'];
+  fields.push(columns.has('transactionType') ? 'sr.transactionType' : "'regular' AS transactionType");
   fields.push(columns.has('trackingNo') ? 'sr.trackingNo' : 'NULL AS trackingNo');
   fields.push('sr.items', 'sr.totalQuantity', 'sr.totalCost', 'sr.totalAmount', 'sr.totalProfit', 'sr.remark', 'sr.deleted', 'sr.createdBy', 'sr.createdAt');
   fields.push(columns.has('status') ? 'sr.status' : "'completed' AS status");
@@ -252,6 +253,7 @@ export async function PATCH(request: NextRequest) {
   try {
     const actor = await requireRole('admin');
     const body = await request.json() as SaleRequestBody; const action = typeof body.action === 'string' ? body.action.trim().toLowerCase() : 'cancel'; if (!['cancel', 'cancelled', 'revoke', 'void'].includes(action)) throw new Error('不支持的销售操作'); const record = resolveRecord(body); if (!record) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '销售记录不存在'), { status: 404 }); if (record.status === 'cancelled') return NextResponse.json(successResponse(serializeRecord(record))); if (record.status && record.status !== 'completed') throw new Error('当前销售记录不可撤销'); const userId = actor.id; const reason = typeof body.cancelReason === 'string' ? body.cancelReason.trim() : typeof body.reason === 'string' ? body.reason.trim() : null;
+    if (record.transactionType === 'rental_buyout') throw new Error('租赁买断记录请从租赁详情执行专用撤销，不能按普通销售撤销');
     const result = db.transaction(() => {
       const now = formatDateTime(); const items = snapshotItemsForRecord(record.id, record.items); if (!items.length) throw new Error('销售记录没有机器明细');
       for (const item of items) assertCancellationAllowed(record.id, item.inventoryId);
@@ -262,7 +264,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json(successResponse(result));
   } catch (error: unknown) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
-    console.error('PATCH /api/sales error:', error); const message = messageFromError(error, '撤销销售失败'); const validation = /不能为空|不支持|不可撤销|没有机器|不存在|状态不是|状态已变化|无法撤销/.test(message); return NextResponse.json(errorResponse(validation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: validation ? 400 : 500 });
+    console.error('PATCH /api/sales error:', error); const message = messageFromError(error, '撤销销售失败'); const validation = /不能为空|不支持|不可撤销|没有机器|不存在|状态不是|状态已变化|无法撤销|租赁买断|不能按普通销售撤销/.test(message); return NextResponse.json(errorResponse(validation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: validation ? 400 : 500 });
   }
 }
 export async function DELETE(request: NextRequest) { const { searchParams } = new URL(request.url); const id = searchParams.get('id') || searchParams.get('recordId') || searchParams.get('recordNo'); return PATCH(new NextRequest(request.url, { method: 'PATCH', headers: request.headers, body: JSON.stringify({ id, action: 'cancel', reason: searchParams.get('reason') || undefined }) })); }

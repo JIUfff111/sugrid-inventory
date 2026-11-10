@@ -67,10 +67,11 @@ export async function POST(request: NextRequest) {
     const reason = typeof body.reason === 'string' ? body.reason.trim() || '客户退货' : '客户退货'; const remark = body.remark === null || body.remark === undefined ? null : String(body.remark).trim() || null; const userId = user.id;
     const result = db.transaction(() => {
       const now = formatDateTime(); const date = now.slice(0, 10); const receiptId = generateId('return_receipt'); const receiptNo = exists('return_receipts') ? nextReceiptNo(date) : `SR${date.replace(/-/g, '')}${Date.now().toString().slice(-3)}`;
-      const sale = db.prepare(`SELECT sr.id, sr.items, sr.saleOrderNo, sr.saleChannel FROM sales_records sr
+      const sale = db.prepare(`SELECT sr.id, sr.items, sr.saleOrderNo, sr.saleChannel, sr.transactionType FROM sales_records sr
         JOIN sales_record_items si ON si.salesRecordId = sr.id
         WHERE si.inventoryId = ? AND sr.status = 'completed' AND sr.deleted = 0
-        ORDER BY sr.createdAt DESC, sr.rowid DESC LIMIT 1`).get(row.id) as { id: string; items: string; saleOrderNo: string; saleChannel: string } | undefined;
+        ORDER BY sr.createdAt DESC, sr.rowid DESC LIMIT 1`).get(row.id) as { id: string; items: string; saleOrderNo: string; saleChannel: string; transactionType?: string } | undefined;
+      if (sale?.transactionType === 'rental_buyout') throw new Error('租赁买断机器不能办理普通销售退货，请先在租赁详情中撤销买断');
       const snapshot = candidateBySn(row.sn);
       const updates = ['status = \'in_stock\'', 'purchasePrice = ?', 'soldDate = NULL', 'sellingPrice = NULL', 'saleChannel = NULL', 'saleOrderNo = NULL', 'profit = NULL', 'updatedAt = ?']; const values: unknown[] = [purchasePrice, now]; if (inventoryColumns.has('warehouseId')) { updates.splice(1, 0, 'warehouseId = ?'); values.splice(0, 0, targetWarehouse); } values.push(row.id);
       if (db.prepare(`UPDATE inventory SET ${updates.join(', ')} WHERE id = ? AND status = 'sold' AND deleted = 0`).run(...values).changes !== 1) throw new Error(`SN [${row.sn}] 状态已变化，请刷新后重试`);

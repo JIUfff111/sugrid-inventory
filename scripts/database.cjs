@@ -1111,6 +1111,45 @@ function applyVersionedMigrations(db) {
         ON rental_events(rentalOrderId, createdAt DESC);
     `);
   });
+  migrate(26, 'preserve rental renewal terms and separate rental buyouts from sales channels', () => {
+    add('sales_records', 'transactionType', "TEXT NOT NULL DEFAULT 'regular'");
+    add('sales_records', 'buyoutBuyerName', 'TEXT');
+    add('sales_records', 'buyoutSource', 'TEXT');
+    add('sales_records', 'depositRefundAmount', 'REAL NOT NULL DEFAULT 0');
+    add('sales_records', 'depositAppliedAmount', 'REAL NOT NULL DEFAULT 0');
+    add('sales_records', 'depositRetainedAmount', 'REAL NOT NULL DEFAULT 0');
+    add('sales_records', 'settlementAdjustment', 'REAL NOT NULL DEFAULT 0');
+    add('sales_records', 'settlementNote', 'TEXT');
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS rental_renewals (
+        id TEXT PRIMARY KEY,
+        batchId TEXT NOT NULL,
+        rentalRecordId TEXT NOT NULL REFERENCES rental_records(id),
+        rentalOrderId TEXT REFERENCES rental_orders(id),
+        periodStartDate TEXT NOT NULL,
+        previousEndDate TEXT NOT NULL,
+        newEndDate TEXT NOT NULL,
+        billingUnit TEXT NOT NULL CHECK (billingUnit IN ('day', 'month')),
+        duration REAL NOT NULL CHECK (duration > 0),
+        priceMode TEXT NOT NULL CHECK (priceMode IN ('original_unit', 'custom_unit', 'custom_total')),
+        unitPrice REAL NOT NULL CHECK (unitPrice >= 0),
+        totalAmount REAL NOT NULL CHECK (totalAmount >= 0),
+        depositBefore REAL NOT NULL CHECK (depositBefore >= 0),
+        depositDelta REAL NOT NULL DEFAULT 0,
+        depositAfter REAL NOT NULL CHECK (depositAfter >= 0),
+        depositChangeReason TEXT,
+        note TEXT,
+        actorId TEXT NOT NULL REFERENCES users(id),
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
+      );
+      CREATE INDEX IF NOT EXISTS idx_rental_renewals_record_time
+        ON rental_renewals(rentalRecordId, createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_rental_renewals_order_time
+        ON rental_renewals(rentalOrderId, createdAt DESC);
+      CREATE INDEX IF NOT EXISTS idx_rental_renewals_batch
+        ON rental_renewals(batchId, createdAt);
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

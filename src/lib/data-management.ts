@@ -74,8 +74,8 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   sales_records: {
     key: 'sales_records', label: '销售记录', table: 'sales_records',
-    fields: ['id', 'recordNo', 'saleChannel', 'saleOrderNo', 'saleDate', 'items', 'totalQuantity', 'totalCost', 'totalAmount', 'totalProfit', 'remark', 'deleted', 'createdBy', 'createdAt', 'trackingNo', 'status', 'cancelledAt', 'cancelledBy', 'cancelReason'],
-    writable: ['remark'], deletable: false, creatable: false, searchFields: ['recordNo', 'saleChannel', 'saleOrderNo', 'saleDate', 'trackingNo', 'status'], orderBy: 'createdAt DESC', required: ['recordNo', 'saleChannel', 'saleOrderNo', 'saleDate', 'items'],
+    fields: ['id', 'recordNo', 'saleChannel', 'saleOrderNo', 'saleDate', 'items', 'totalQuantity', 'totalCost', 'totalAmount', 'totalProfit', 'remark', 'deleted', 'createdBy', 'createdAt', 'trackingNo', 'status', 'cancelledAt', 'cancelledBy', 'cancelReason', 'transactionType', 'buyoutBuyerName', 'buyoutSource', 'depositRefundAmount', 'depositAppliedAmount', 'depositRetainedAmount', 'settlementAdjustment', 'settlementNote'],
+    writable: ['remark'], deletable: false, creatable: false, searchFields: ['recordNo', 'saleChannel', 'saleOrderNo', 'saleDate', 'trackingNo', 'status', 'transactionType', 'buyoutBuyerName', 'buyoutSource'], orderBy: 'createdAt DESC', required: ['recordNo', 'saleChannel', 'saleOrderNo', 'saleDate', 'items'],
   },
   sales_record_items: {
     key: 'sales_record_items', label: '销售明细', table: 'sales_record_items',
@@ -91,6 +91,11 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
     key: 'rental_records', label: '租赁记录', table: 'rental_records',
     fields: ['id', 'rentalOrderId', 'rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit', 'status', 'returnDate', 'returnType', 'sellingPrice', 'priceDifference', 'saleChannel', 'saleOrderNo', 'salesRecordId', 'remark', 'deleted', 'createdBy', 'createdAt', 'updatedAt'],
     writable: ['remark'], deletable: false, creatable: false, searchFields: ['rentalNo', 'sn', 'brand', 'model', 'customerName', 'customerPhone', 'status'], orderBy: 'createdAt DESC', required: ['rentalNo', 'inventoryId', 'sn', 'brand', 'model', 'config', 'purchasePrice', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'rentalUnitPrice', 'rentalDuration', 'rentalTotalPrice', 'deposit'],
+  },
+  rental_renewals: {
+    key: 'rental_renewals', label: '续租条款记录', table: 'rental_renewals',
+    fields: ['id', 'batchId', 'rentalRecordId', 'rentalOrderId', 'periodStartDate', 'previousEndDate', 'newEndDate', 'billingUnit', 'duration', 'priceMode', 'unitPrice', 'totalAmount', 'depositBefore', 'depositDelta', 'depositAfter', 'depositChangeReason', 'note', 'actorId', 'createdAt'],
+    writable: [], deletable: false, creatable: false, searchFields: ['batchId', 'rentalRecordId', 'rentalOrderId', 'periodStartDate', 'newEndDate', 'note'], orderBy: 'createdAt DESC', required: ['id', 'batchId', 'rentalRecordId', 'periodStartDate', 'previousEndDate', 'newEndDate', 'billingUnit', 'duration', 'priceMode', 'unitPrice', 'totalAmount', 'depositBefore', 'depositAfter', 'actorId', 'createdAt'],
   },
   rental_events: {
     key: 'rental_events', label: '租赁操作历史', table: 'rental_events',
@@ -236,6 +241,7 @@ const IMPORT_USER_REFERENCE_FIELDS: Record<string, string[]> = {
   purchase_items: ['recordedBy'],
   sales_records: ['createdBy', 'cancelledBy'],
   rental_records: ['createdBy'],
+  rental_renewals: ['actorId'],
   rental_orders: ['createdBy'],
   rental_events: ['actorId'],
   after_sale_records: ['createdBy', 'receivedBy'],
@@ -403,7 +409,7 @@ const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column
     purchaseOrderId: { table: 'purchase_orders' }, purchaseItemId: { table: 'purchase_items' },
     supplierId: { table: 'suppliers' }, warehouseId: { table: 'warehouses' }, manualSkuId: { table: 'manual_skus' },
   },
-  sales_records: { createdBy: { table: 'users' } },
+  sales_records: { createdBy: { table: 'users' }, cancelledBy: { table: 'users' } },
   sales_record_items: {
     salesRecordId: { table: 'sales_records' }, saleRecordId: { table: 'sales_records' },
     inventoryId: { table: 'inventory' }, afterSaleId: { table: 'after_sale_records' }, originalInventoryId: { table: 'inventory' },
@@ -411,6 +417,7 @@ const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column
   rental_records: { rentalOrderId: { table: 'rental_orders' }, inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' }, createdBy: { table: 'users' } },
   rental_orders: { createdBy: { table: 'users' } },
   rental_events: { rentalRecordId: { table: 'rental_records' }, rentalOrderId: { table: 'rental_orders' }, actorId: { table: 'users' } },
+  rental_renewals: { rentalRecordId: { table: 'rental_records' }, rentalOrderId: { table: 'rental_orders' }, actorId: { table: 'users' } },
   after_sale_records: {
     inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' },
     replacementInventoryId: { table: 'inventory' }, createdBy: { table: 'users' },
@@ -797,6 +804,14 @@ export function deletionReferences(resource: DataResource, id: string) {
       { table: 'rental_records', field: 'salesRecordId', label: '租赁记录' },
       { table: 'after_sale_records', field: 'salesRecordId', label: '售后记录' },
       { table: 'return_receipts', field: 'salesRecordId', label: '客户退货凭证' },
+    ],
+    rental_records: [
+      { table: 'rental_renewals', field: 'rentalRecordId', label: '续租条款' },
+      { table: 'rental_events', field: 'rentalRecordId', label: '租赁操作历史' },
+    ],
+    rental_orders: [
+      { table: 'rental_renewals', field: 'rentalOrderId', label: '续租条款' },
+      { table: 'rental_events', field: 'rentalOrderId', label: '租赁操作历史' },
     ],
     after_sale_records: [
       { table: 'after_sale_stock', field: 'afterSaleId', label: '售后暂存记录' },
