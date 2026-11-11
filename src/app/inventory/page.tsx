@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { type CSSProperties, FormEvent, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, FormEvent, type KeyboardEvent, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from 'react';
 import CustomSelect from '@/components/CustomSelect';
 import BusinessDialog from '@/components/BusinessDialog';
 import ConfirmDialog from '@/components/ConfirmDialog';
@@ -23,15 +23,19 @@ import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TY
 import { uniqueMachineScanTokens } from '@/lib/machine-scan';
 import {
   createDefaultInventoryTablePreferences,
+  clampInventoryTableColumnWidth,
   getInventoryTableFrozenOffsets,
   legacyInventoryTablePreferenceStorageKey,
   olderLegacyInventoryTablePreferenceStorageKey,
   INVENTORY_TABLE_COLUMN_DEFINITIONS,
+  INVENTORY_TABLE_COLUMN_MAX_WIDTH,
+  INVENTORY_TABLE_COLUMN_MIN_WIDTH,
   inventoryTablePreferenceStorageKey,
   migrateCurrentInventoryTablePreferences,
   migrateLegacyInventoryTablePreferences,
   migrateStoredInventoryTablePreferences,
   normalizeInventoryTablePreferences,
+  setInventoryTableColumnWidth,
   type InventoryTableColumnKey,
   type InventoryTablePreferences,
 } from '@/lib/inventory-table-preferences';
@@ -315,6 +319,8 @@ export default function InventoryPage() {
   const [tablePreferences, setTablePreferences] = useState<InventoryTablePreferences>(createDefaultInventoryTablePreferences);
   const [tablePreferencesHydrated, setTablePreferencesHydrated] = useState(false);
   const [tableSettingsOpen, setTableSettingsOpen] = useState(false);
+  const [columnResizePreview, setColumnResizePreview] = useState<{ key: InventoryTableColumnKey; width: number } | null>(null);
+  const columnResizeSession = useRef<{ key: InventoryTableColumnKey; pointerId: number; startX: number; startWidth: number; currentWidth: number } | null>(null);
   const [warehouses, setWarehouses] = useState<Array<{ id: string; name: string }>>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkedIds, setCheckedIds] = useState<Set<string>>(() => new Set());
@@ -800,16 +806,74 @@ export default function InventoryPage() {
     return true;
   };
 
-  const visibleTableColumns = tablePreferences.columns.filter((column) => column.visible);
+  const saveTableColumnWidth = (key: InventoryTableColumnKey, width: number) => {
+    if (!user?.id || !tablePreferencesHydrated) return;
+    const next = setInventoryTableColumnWidth(tablePreferences, key, width);
+    if (next === tablePreferences) return;
+    setTablePreferences(next);
+    try {
+      window.localStorage.setItem(inventoryTablePreferenceStorageKey(user.id), JSON.stringify(next));
+    } catch {
+      setError('列宽已调整，但浏览器未能保存设置；刷新后可能恢复原宽度');
+    }
+  };
+
+  const beginColumnResize = (event: ReactPointerEvent<HTMLSpanElement>, key: InventoryTableColumnKey, width: number) => {
+    if (event.button !== 0 || !tablePreferencesHydrated) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    columnResizeSession.current = { key, pointerId: event.pointerId, startX: event.clientX, startWidth: width, currentWidth: width };
+    setColumnResizePreview({ key, width });
+  };
+
+  const moveColumnResize = (event: ReactPointerEvent<HTMLSpanElement>) => {
+    const session = columnResizeSession.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    const width = clampInventoryTableColumnWidth(session.startWidth + event.clientX - session.startX, session.startWidth);
+    if (width === session.currentWidth) return;
+    session.currentWidth = width;
+    setColumnResizePreview({ key: session.key, width });
+  };
+
+  const finishColumnResize = (event: ReactPointerEvent<HTMLSpanElement>, useLastWidth = false) => {
+    const session = columnResizeSession.current;
+    if (!session || session.pointerId !== event.pointerId) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const width = useLastWidth
+      ? session.currentWidth
+      : clampInventoryTableColumnWidth(session.startWidth + event.clientX - session.startX, session.startWidth);
+    columnResizeSession.current = null;
+    setColumnResizePreview(null);
+    saveTableColumnWidth(session.key, width);
+  };
+
+  const adjustColumnWidthWithKeyboard = (event: KeyboardEvent<HTMLSpanElement>, key: InventoryTableColumnKey, width: number) => {
+    let nextWidth = width;
+    if (event.key === 'ArrowLeft') nextWidth -= event.shiftKey ? 25 : 10;
+    else if (event.key === 'ArrowRight') nextWidth += event.shiftKey ? 25 : 10;
+    else if (event.key === 'Home') nextWidth = INVENTORY_TABLE_COLUMN_MIN_WIDTH;
+    else if (event.key === 'End') nextWidth = INVENTORY_TABLE_COLUMN_MAX_WIDTH;
+    else return;
+    event.preventDefault();
+    event.stopPropagation();
+    saveTableColumnWidth(key, nextWidth);
+  };
+
+  const displayedTablePreferences = columnResizePreview
+    ? setInventoryTableColumnWidth(tablePreferences, columnResizePreview.key, columnResizePreview.width)
+    : tablePreferences;
+  const visibleTableColumns = displayedTablePreferences.columns.filter((column) => column.visible);
   const selectionColumnWidth = isViewer ? 0 : 44;
   const actionColumnWidth = 100;
-  const frozenOffsets = getInventoryTableFrozenOffsets(tablePreferences.columns, {
+  const frozenOffsets = getInventoryTableFrozenOffsets(displayedTablePreferences.columns, {
     selectionWidth: selectionColumnWidth,
     actionsWidth: actionColumnWidth,
   });
   const tableMinWidth = visibleTableColumns.reduce((width, column) => width + column.width, selectionColumnWidth + actionColumnWidth);
-  const cellPadding = tablePreferences.density === 'compact' ? '6px 8px' : tablePreferences.density === 'comfortable' ? '16px 16px' : '13px 14px';
-  const headerPadding = tablePreferences.density === 'compact' ? '8px 8px' : tablePreferences.density === 'comfortable' ? '13px 16px' : '11px 14px';
+  const cellPadding = displayedTablePreferences.density === 'compact' ? '6px 8px' : displayedTablePreferences.density === 'comfortable' ? '16px 16px' : '13px 14px';
+  const headerPadding = displayedTablePreferences.density === 'compact' ? '8px 8px' : displayedTablePreferences.density === 'comfortable' ? '13px 16px' : '11px 14px';
   const stickyColumnStyle = (key: InventoryTableColumnKey, header = false): CSSProperties => {
     if (!tableColumnFreezingEnabled) return {};
     const offsets = frozenOffsets[key];
@@ -999,8 +1063,8 @@ export default function InventoryPage() {
             <p className="text-ink-soft text-[13px]">{search || status || activeFilterCount > 0 ? '没有匹配的库存记录' : '暂无库存记录'}</p>
           </div>
         ) : viewMode === 'table' ? (
-          <div className="overflow-x-auto">
-            <table className="data-table" style={{ width: `${tableMinWidth}px`, minWidth: '100%', tableLayout: 'fixed' }}>
+          <div className="overflow-x-auto" role="region" aria-label="库存表格，可左右滚动" tabIndex={0}>
+            <table className="data-table" style={{ width: `${tableMinWidth}px`, tableLayout: 'fixed' }}>
               <colgroup>
                 {!isViewer && <col style={{ width: `${selectionColumnWidth}px` }} />}
                 {visibleTableColumns.map((column) => <col key={column.key} style={{ width: `${column.width}px` }} />)}
@@ -1008,7 +1072,30 @@ export default function InventoryPage() {
               </colgroup>
               <thead><tr>
                 {!isViewer && <th className="inventory-fixed-column" style={{ width: selectionColumnWidth, padding: headerPadding, letterSpacing: 0, ...fixedColumnStyle('left', true) }}><input type="checkbox" checked={allPageChecked} onChange={togglePageChecked} aria-label="选择当前页全部机器" /></th>}
-                {visibleTableColumns.map((column) => <th key={column.key} className={tableColumnFreezingEnabled && frozenOffsets[column.key] ? 'inventory-configurable-frozen' : undefined} style={{ width: column.width, padding: headerPadding, letterSpacing: 0, ...stickyColumnStyle(column.key, true) }}>{INVENTORY_TABLE_COLUMN_DEFINITIONS.find((definition) => definition.key === column.key)?.label}</th>)}
+                {visibleTableColumns.map((column) => {
+                  const label = INVENTORY_TABLE_COLUMN_DEFINITIONS.find((definition) => definition.key === column.key)?.label || column.key;
+                  return <th key={column.key} className={`group relative ${tableColumnFreezingEnabled && frozenOffsets[column.key] ? 'inventory-configurable-frozen' : ''}`} style={{ width: column.width, padding: headerPadding, letterSpacing: 0, ...stickyColumnStyle(column.key, true) }}>
+                    <span className="block truncate pr-2" title={label}>{label}</span>
+                    <span
+                      role="separator"
+                      aria-label={`调整${label}列宽`}
+                      aria-orientation="vertical"
+                      aria-valuemin={INVENTORY_TABLE_COLUMN_MIN_WIDTH}
+                      aria-valuemax={INVENTORY_TABLE_COLUMN_MAX_WIDTH}
+                      aria-valuenow={column.width}
+                      tabIndex={tablePreferencesHydrated ? 0 : -1}
+                      aria-disabled={!tablePreferencesHydrated}
+                      title="拖动调整列宽；方向键微调"
+                      onPointerDown={(event) => beginColumnResize(event, column.key, column.width)}
+                      onPointerMove={moveColumnResize}
+                      onPointerUp={(event) => finishColumnResize(event)}
+                      onPointerCancel={(event) => finishColumnResize(event, true)}
+                      onLostPointerCapture={(event) => finishColumnResize(event, true)}
+                      onKeyDown={(event) => adjustColumnWidthWithKeyboard(event, column.key, column.width)}
+                      className={`absolute inset-y-0 right-0 z-50 flex w-3 touch-none select-none items-center justify-center outline-none focus-visible:bg-primary/10 ${tablePreferencesHydrated ? 'cursor-col-resize' : 'pointer-events-none'}`}
+                    ><span className="h-5 w-0.5 rounded-full bg-line-strong transition-colors group-hover:bg-primary group-focus-visible:bg-primary" /></span>
+                  </th>;
+                })}
                 <th className="inventory-fixed-column text-right" style={{ width: actionColumnWidth, padding: headerPadding, letterSpacing: 0, ...fixedColumnStyle('right', true) }}>操作</th>
               </tr></thead>
               <tbody>

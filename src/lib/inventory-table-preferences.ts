@@ -242,6 +242,21 @@ export function setInventoryTableColumnVisibility(
   return normalizeInventoryTablePreferences({ ...preferences, columns });
 }
 
+export function setInventoryTableColumnWidth(
+  preferences: InventoryTablePreferences,
+  key: InventoryTableColumnKey,
+  width: number,
+): InventoryTablePreferences {
+  const column = preferences.columns.find((item) => item.key === key);
+  if (!column) return preferences;
+  const nextWidth = clampInventoryTableColumnWidth(width, column.width);
+  if (nextWidth === column.width) return preferences;
+  return {
+    ...preferences,
+    columns: preferences.columns.map((item) => item.key === key ? { ...item, width: nextWidth } : item),
+  };
+}
+
 export function getInventoryTableFrozenOffsets(
   columns: InventoryTableColumnPreference[],
   options: { selectionWidth?: number; actionsWidth?: number } = {},

@@ -296,7 +296,7 @@ body {
   overflow-wrap: anywhere;
   box-shadow: inset -1px 0 0 color-mix(in srgb, var(--color-line-strong) 75%, transparent);
 }
-.inventory-configurable-frozen .truncate {
+.data-table td.inventory-configurable-frozen .truncate {
   overflow: visible;
   overflow-wrap: anywhere;
   text-overflow: clip;

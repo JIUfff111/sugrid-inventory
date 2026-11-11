@@ -11,6 +11,7 @@ import {
   migrateCurrentInventoryTablePreferences,
   migrateStoredInventoryTablePreferences,
   normalizeInventoryTablePreferences,
+  setInventoryTableColumnWidth,
   setInventoryTableColumnVisibility,
 } from '../src/lib/inventory-table-preferences.ts';
 
@@ -91,6 +92,23 @@ test('frozen offsets include selection and action columns and adapt for viewers'
   assert.equal(withSelection.inbound.right, 96);
   assert.equal(forViewer.machine.left, 0);
   assert.equal(forViewer.configuration.left, 180);
+});
+
+test('resizing one column clamps its width and moves following frozen columns', () => {
+  const defaults = createDefaultInventoryTablePreferences();
+  const withSecondFrozen = normalizeInventoryTablePreferences({
+    ...defaults,
+    columns: defaults.columns.map((column) => column.key === 'configuration' ? { ...column, freeze: 'left' } : column),
+  });
+  const resized = setInventoryTableColumnWidth(withSecondFrozen, 'machine', 235);
+  assert.equal(resized.columns.find((column) => column.key === 'machine').width, 235);
+  assert.equal(withSecondFrozen.columns.find((column) => column.key === 'machine').width, 180);
+  assert.equal(resized.columns.find((column) => column.key === 'configuration').width, 210);
+  assert.equal(getInventoryTableFrozenOffsets(resized.columns, { selectionWidth: 44 }).configuration.left, 279);
+  assert.equal(setInventoryTableColumnWidth(resized, 'machine', 20).columns.find((column) => column.key === 'machine').width, 75);
+  assert.equal(setInventoryTableColumnWidth(resized, 'machine', 999).columns.find((column) => column.key === 'machine').width, 600);
+  assert.equal(setInventoryTableColumnWidth(resized, 'missing', 300), resized);
+  assert.equal(normalizeInventoryTablePreferences(JSON.parse(JSON.stringify(resized))).columns.find((column) => column.key === 'machine').width, 235);
 });
 
 test('settings are isolated by account in local storage', () => {
