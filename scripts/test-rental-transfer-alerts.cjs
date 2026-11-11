@@ -47,6 +47,7 @@ async function main() {
       '@/lib/sku-display': load('src/lib/sku-display.ts'),
       '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
       '@/lib/rental-order-groups': load('src/lib/rental-order-groups.ts'),
+      '@/lib/rental-duration': load('src/lib/rental-duration.ts'),
     };
     deps['@/lib/product-name'] = load('src/lib/product-name.ts', deps);
     deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
@@ -128,6 +129,21 @@ async function main() {
     assert.equal(inventory('RTN-RETURN').rentalRecordId, null);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='rental_return' AND referenceId=? AND actorId='flow-admin'").get(returnedRental.id).n, 1);
     await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return' }, 400);
+    await call('rentals', 'PATCH', {
+      id: returnedRental.id, action: 'edit_terms', rentalStartDate: shiftDate(-30), rentalEndDate: shiftDate(4),
+      reason: '已结束租赁不能更正', items: [{ id: returnedRental.id, rentalUnitPrice: 10 }],
+    }, 400);
+    const monthlyRental = await call('rentals', 'POST', {
+      inventoryId: inventory('RTN-RETURN').id, customerName: '按月测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
+      rentalStartDate: '2026-01-31', rentalEndDate: '2026-02-28', rentalType: 'month', rentalUnitPrice: 100, deposit: 0,
+    }, 201);
+    assert.equal(monthlyRental.duration, 1, 'month-end anniversary should be one completed month');
+    assert.equal(monthlyRental.totalPrice, 100);
+    await call('rentals', 'PATCH', { id: monthlyRental.id, action: 'return', returnDate: chinaToday, returnType: '测试归还' });
+    await call('rentals', 'POST', {
+      inventoryId: inventory('RTN-RETURN').id, customerName: '零租期测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
+      rentalStartDate: chinaToday, rentalEndDate: chinaToday, rentalType: 'day', rentalUnitPrice: 10, deposit: 0,
+    }, 400);
 
     const batchRental = await call('rentals', 'POST', {
       items: [
@@ -138,7 +154,8 @@ async function main() {
       rentalStartDate: chinaToday, rentalEndDate: shiftDate(2), rentalType: 'day',
     }, 201);
     assert.equal(batchRental.count, 2);
-    assert.equal(batchRental.totalPrice, 195);
+    assert.equal(batchRental.duration, 2, 'a 2-day range should not charge the start date twice');
+    assert.equal(batchRental.totalPrice, 130);
     const batchItems = db.prepare('SELECT * FROM rental_records WHERE rentalOrderId = ? ORDER BY sn').all(batchRental.id);
     assert.equal(batchItems.length, 2);
     assert(batchItems.every(item => item.rentalNo !== batchRental.rentalNo));
@@ -149,6 +166,36 @@ async function main() {
     assert.equal(batchList.items.length, 2);
     assert(batchList.items.every(item => item.displayRentalNo === batchRental.rentalNo && item.orderMachineCount === 2));
     assert(batchList.items.every(item => item.rentalOrderId === batchRental.id));
+    db.prepare('UPDATE rental_records SET rentalDuration=3,rentalTotalPrice=75 WHERE id=?').run(batchItems[0].id);
+    const repairedLegacyTerms = await call('rentals', 'PATCH', {
+      id: batchItems[0].id, action: 'edit_terms', rentalStartDate: chinaToday, rentalEndDate: shiftDate(2),
+      reason: '回归测试：重算旧算法保存的租期总额', items: [{ id: batchItems[0].id, rentalUnitPrice: 25 }],
+    });
+    assert.equal(repairedLegacyTerms.rentalDuration, 2);
+    assert.equal(db.prepare('SELECT rentalDuration,rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalDuration, 2);
+    assert.equal(db.prepare('SELECT rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 50);
+    const corrected = await call('rentals', 'PATCH', {
+      id: batchItems[0].id, action: 'edit_terms', rentalStartDate: shiftDate(-1), rentalEndDate: shiftDate(2),
+      reason: '回归测试：更正录入日期和租金',
+      items: [{ id: batchItems[0].id, rentalUnitPrice: 30 }],
+    });
+    assert.equal(corrected.count, 2, 'a term correction applies to the entire order');
+    assert.equal(corrected.rentalDuration, 3);
+    const correctedRows = db.prepare('SELECT rentalStartDate,rentalEndDate,rentalDuration,rentalUnitPrice,rentalTotalPrice FROM rental_records WHERE rentalOrderId=? ORDER BY sn').all(batchRental.id);
+    assert.deepEqual(correctedRows.map(item => [item.rentalStartDate, item.rentalEndDate, item.rentalDuration, item.rentalUnitPrice, item.rentalTotalPrice]), [
+      [shiftDate(-1), shiftDate(2), 3, 30, 90], [shiftDate(-1), shiftDate(2), 3, 40, 120],
+    ]);
+    assert.equal(db.prepare('SELECT rentalStartDate,rentalEndDate FROM rental_orders WHERE id=?').get(batchRental.id).rentalStartDate, shiftDate(-1));
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_events WHERE rentalOrderId=? AND eventType='terms_corrected'").get(batchRental.id).n, 4);
+    db.exec("CREATE TRIGGER flow_fail_terms_event BEFORE INSERT ON rental_events WHEN NEW.eventType='terms_corrected' BEGIN SELECT RAISE(ABORT, 'forced terms audit failure'); END");
+    await call('rentals', 'PATCH', {
+      id: batchItems[0].id, action: 'edit_terms', rentalStartDate: shiftDate(-2), rentalEndDate: shiftDate(2),
+      reason: '事务回滚测试', items: [{ id: batchItems[0].id, rentalUnitPrice: 31 }],
+    }, 500);
+    db.exec('DROP TRIGGER flow_fail_terms_event');
+    const afterFailedCorrection = db.prepare('SELECT rentalStartDate,rentalEndDate,rentalDuration,rentalUnitPrice,rentalTotalPrice FROM rental_records WHERE rentalOrderId=? ORDER BY sn').all(batchRental.id);
+    assert.deepEqual(afterFailedCorrection, correctedRows, 'failed audit insertion rolls back every machine term');
+    assert.equal(db.prepare('SELECT rentalStartDate,rentalEndDate FROM rental_orders WHERE id=?').get(batchRental.id).rentalStartDate, shiftDate(-1));
     const renewedEndDate = shiftDate(4);
     const renewals = await call('rentals', 'PATCH', { action: 'renew_batch', items: batchItems.map((item, index) => ({
       id: item.id, newEndDate: renewedEndDate, billingUnit: 'day', priceMode: 'custom_total',
@@ -162,7 +209,7 @@ async function main() {
     assert.deepEqual(renewalRows.map(row => row.totalAmount).sort((a, b) => a - b), [80, 100]);
     assert(renewalRows.every(row => row.duration === 2));
     assert.equal(db.prepare('SELECT rentalDuration,rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).rentalDuration, 3);
-    assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 75);
+    assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 90);
     assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[0].id).deposit, 125);
     assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[1].id).rentalTotalPrice, 120);
     assert.equal(db.prepare('SELECT rentalTotalPrice,deposit FROM rental_records WHERE id=?').get(batchItems[1].id).deposit, 180);
@@ -176,15 +223,20 @@ async function main() {
     assert.equal(db.prepare('SELECT COUNT(*) n FROM rental_renewals WHERE rentalRecordId IN (?,?)').get(...batchItems.map(item => item.id)).n, 2);
     assert.equal(db.prepare('SELECT rentalEndDate FROM rental_records WHERE id=?').get(batchItems[0].id).rentalEndDate, renewedEndDate);
     const singleRenewal = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'renew', newEndDate: shiftDate(5), priceMode: 'original_unit' });
-    assert.equal(singleRenewal.renewalAmount, 25);
-    assert.equal(singleRenewal.cumulativeRentalAmount, 180);
+    assert.equal(singleRenewal.renewalAmount, 30);
+    assert.equal(singleRenewal.cumulativeRentalAmount, 200);
     assert.equal(db.prepare('SELECT rentalDuration,rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalDuration, 3);
-    assert.equal(db.prepare('SELECT rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 75);
+    assert.equal(db.prepare('SELECT rentalTotalPrice FROM rental_records WHERE id=?').get(batchItems[0].id).rentalTotalPrice, 90);
+    await call('rentals', 'PATCH', {
+      id: batchItems[0].id, action: 'edit_terms', rentalStartDate: shiftDate(-1), rentalEndDate: shiftDate(5),
+      reason: '续租后不覆盖原条款', items: batchItems.map(item => ({ id: item.id, rentalUnitPrice: 30 })),
+    }, 400);
     const followUp = '客户暂时无法归还，已约定明日联系';
     const exception = await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'exception', note: followUp });
     assert.equal(exception.followUp, followUp);
     assert.equal(db.prepare("SELECT note FROM rental_events WHERE rentalRecordId=? AND eventType='exception_followup'").get(batchItems[1].id).note, followUp);
     token = auth.createSession('flow-manager');
+    await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'edit_terms' }, 403);
     await call('rentals', 'PATCH', { id: batchItems[1].id, action: 'exception', note: '分仓管不可写租赁历史' }, 403);
     token = auth.createSession('flow-admin');
     const salesBeforeFailedBuyout = Number(db.prepare('SELECT COUNT(*) n FROM sales_records').get().n);
@@ -272,6 +324,18 @@ async function main() {
     }, 201);
     const afterSale = await call('after-sales', 'POST', { inventoryId: inventory('RTN-AFTERSALE').id, issueType: '系统测试：散热异常', returnTrackingNo: 'SF-FLOW-AFTERSALE-001', resolutionType: 'repair' }, 201);
     await call('after-sales', 'PATCH', { id: afterSale.id, action: 'receive', condition: '外观正常' });
+    const groupedAlertSns = Array.from({ length: 33 }, (_, index) => `RTN-GROUP-${String(index + 1).padStart(2, '0')}`);
+    await call('purchase-orders', 'POST', {
+      supplierId: 'flow-supplier', supplierOrderNo: 'FLOW-PO-GROUPED-ALERT', purchaseDate: chinaToday,
+      purchasedBy: 'flow-admin', status: 'completed', warehouseId: mainWarehouse,
+      items: groupedAlertSns.map(sn => ({ productType: 'laptop', brand: 'ThinkPad', model: 'X13', year: 2020, cpu: 'i5', ram: '16GB', storage: '512GB', screen: '13.3', sn, purchasePrice: 1000 })),
+    }, 201);
+    const groupedAlertOrder = await call('rentals', 'POST', {
+      items: groupedAlertSns.map(sn => ({ inventoryId: inventory(sn).id, rentalUnitPrice: 10, deposit: 0 })),
+      customerName: '三十三台测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
+      rentalStartDate: shiftDate(-30), rentalEndDate: chinaToday, rentalType: 'day',
+    }, 201);
+    assert.equal(groupedAlertOrder.count, 33);
     const oldReceivedAt = new Date(Date.now() - 25 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
     db.prepare("UPDATE after_sale_records SET receivedAt=?, status='received' WHERE id=?").run(oldReceivedAt, afterSale.id);
     db.prepare("UPDATE after_sale_stock SET receivedAt=? WHERE afterSaleId=?").run(oldReceivedAt, afterSale.id);
@@ -281,14 +345,18 @@ async function main() {
     token = auth.createSession('flow-admin');
     const alerts = await call('alerts', 'GET', undefined);
     const alertIds = new Set(alerts.items.map((item) => item.id));
-    assert(alertIds.has(`rental:${dueThree.id}`), 'rental due in three days must alert');
-    assert(alertIds.has(`rental:${dueToday.id}`), 'rental due today must alert');
-    assert(alertIds.has(`rental:${overdue.id}`), 'overdue rental must alert');
-    assert.match(alerts.items.find(item => item.id === `rental:${dueThree.id}`).title, /王先生/);
-    assert.match(alerts.items.find(item => item.id === `rental:${dueToday.id}`).title, /李女士/);
-    assert.match(alerts.items.find(item => item.id === `rental:${overdue.id}`).title, /未填写客户姓名/);
-    assert(!alertIds.has(`rental:${returnedRental.id}`), 'returned rental must not alert');
-    assert(!alertIds.has(`rental:${db.prepare("SELECT id FROM rental_records WHERE sn='RTN-OUTSIDE'").get().id}`), 'rental due in four days must not alert');
+    assert(alertIds.has(`rental:${dueThree.rentalOrderId}`), 'rental order due in three days must alert');
+    assert(alertIds.has(`rental:${dueToday.rentalOrderId}`), 'rental order due today must alert');
+    assert(alertIds.has(`rental:${overdue.rentalOrderId}`), 'overdue rental order must alert');
+    assert.match(alerts.items.find(item => item.id === `rental:${dueThree.rentalOrderId}`).title, /王先生/);
+    assert.match(alerts.items.find(item => item.id === `rental:${dueToday.rentalOrderId}`).title, /李女士/);
+    assert.match(alerts.items.find(item => item.id === `rental:${overdue.rentalOrderId}`).title, /未填写客户姓名/);
+    assert(!alertIds.has(`rental:${returnedRental.rentalOrderId}`), 'returned rental must not alert');
+    const outsideRentalOrderId = db.prepare("SELECT rentalOrderId FROM rental_records WHERE sn='RTN-OUTSIDE'").get().rentalOrderId;
+    assert(!alertIds.has(`rental:${outsideRentalOrderId}`), 'rental due in four days must not alert');
+    const groupedAlertItems = alerts.items.filter(item => item.kind === 'rental' && item.id === `rental:${groupedAlertOrder.rentalOrderId}`);
+    assert.equal(groupedAlertItems.length, 1, '33 machines in one rental order should create one alert');
+    assert.match(groupedAlertItems[0].title, /三十三台测试客户.*33 台/);
     const afterSaleAlert = alerts.items.find((item) => item.id === `after-sale:${afterSale.id}`);
     assert(afterSaleAlert, 'received after-sale machine past 24 hours must alert');
     assert.equal(afterSaleAlert.level, 'danger');

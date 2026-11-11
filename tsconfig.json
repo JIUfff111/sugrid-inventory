@@ -40,7 +40,9 @@
     ".next-rental-qa/types/**/*.ts",
     ".next-rental-qa/dev/types/**/*.ts",
     ".next-aftersales-qa/types/**/*.ts",
-    ".next-aftersales-qa/dev/types/**/*.ts"
+    ".next-aftersales-qa/dev/types/**/*.ts",
+    ".next-rental-management-qa/types/**/*.ts",
+    ".next-rental-management-qa/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
