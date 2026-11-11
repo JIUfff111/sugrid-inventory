@@ -28,6 +28,8 @@ pub fn run() {
             backend::scan_services,
             backend::start_service,
             backend::stop_service,
+            backend::stop_external_service,
+            backend::open_system,
             backend::create_backup,
             backend::validate_backup,
             backend::restore_backup,

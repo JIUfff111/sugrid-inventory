@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Badge,
   Button,
@@ -50,7 +50,7 @@ import {
 import { UPDATE_STEPS, type StepStatus } from "./update-flow";
 
 type PageKey = "overview" | "services" | "update" | "database" | "logs" | "settings";
-type DialogKind = "update" | "backup" | "restore" | "stop" | null;
+type DialogKind = "update" | "backup" | "restore" | "stop" | "stopExternal" | null;
 type Tone = "success" | "error" | "info" | "warning";
 
 interface AppConfig {
@@ -213,9 +213,12 @@ export function NativeApp() {
   const [activeDialog, setActiveDialog] = useState<DialogKind>(null);
   const [selectedBackup, setSelectedBackup] = useState<BackupItem | null>(null);
   const [selectedProcess, setSelectedProcess] = useState<ServiceProcess | null>(null);
+  const [stopPhrase, setStopPhrase] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [openingSystem, setOpeningSystem] = useState(false);
   const [notice, setNotice] = useState("");
+  const noticeTimer = useRef<number | null>(null);
   const [filter, setFilter] = useState<"all" | "errors">("all");
   const [stepStatuses, setStepStatuses] = useState<StepStatus[]>(() => UPDATE_STEPS.map(() => "pending"));
   const [stepDetails, setStepDetails] = useState<Record<string, string>>({});
@@ -226,9 +229,15 @@ export function NativeApp() {
   const visibleLogs = useMemo(() => filter === "errors" ? logs.filter((item) => !item.success) : logs, [filter, logs]);
   const currentTitle = PAGE_TITLES[activePage];
 
-  function showNotice(message: string) {
+  function showNotice(message: string, durationMs = 3600) {
+    if (noticeTimer.current !== null) window.clearTimeout(noticeTimer.current);
     setNotice(message);
-    window.setTimeout(() => setNotice(""), 3600);
+    noticeTimer.current = durationMs > 0
+      ? window.setTimeout(() => {
+        setNotice("");
+        noticeTimer.current = null;
+      }, durationMs)
+      : null;
   }
 
   async function refresh() {
@@ -263,6 +272,7 @@ export function NativeApp() {
     return () => {
       active = false;
       unlisten?.();
+      if (noticeTimer.current !== null) window.clearTimeout(noticeTimer.current);
     };
   }, []);
 
@@ -322,6 +332,27 @@ export function NativeApp() {
     if (result) showNotice(result.message);
   }
 
+  async function openSystem() {
+    if (busy || openingSystem) return;
+    setBusy(true);
+    setOpeningSystem(true);
+    showNotice("正在检查库存服务并打开系统窗口…", 0);
+    try {
+      const message = await invoke<string>("open_system");
+      showNotice(message, 0);
+      try {
+        await refresh();
+      } catch (error) {
+        showNotice(`${message} 管理器状态刷新失败：${error instanceof Error ? error.message : String(error)}`, 0);
+      }
+    } catch (error) {
+      showNotice(error instanceof Error ? error.message : String(error), 0);
+    } finally {
+      setBusy(false);
+      setOpeningSystem(false);
+    }
+  }
+
   async function confirmDialog() {
     if (activeDialog === "update") {
       void runUpdate();
@@ -340,6 +371,18 @@ export function NativeApp() {
     if (activeDialog === "stop") {
       setActiveDialog(null);
       await runAction(() => invoke<string>("stop_service"), (message) => message);
+      return;
+    }
+    if (activeDialog === "stopExternal" && selectedProcess) {
+      const process = selectedProcess;
+      setActiveDialog(null);
+      setDrawerOpen(false);
+      await runAction(() => invoke<string>("stop_external_service", {
+        processId: process.processId,
+        port: process.port,
+        startedAt: process.startedAt,
+        confirmation: stopPhrase,
+      }), (message) => message);
     }
   }
 
@@ -359,11 +402,15 @@ export function NativeApp() {
   function renderHeaderActions() {
     if (!dashboard) return null;
     if (activePage === "services") {
+      const managedProcess = dashboard.service.processes.find((process) => process.managed);
+      const externalProcess = dashboard.service.processes.find((process) => !process.managed);
       return <div className="header-actions">
         <Button appearance="secondary" icon={<RefreshCw size={16} />} onClick={() => void scanServices()} disabled={busy}>重新扫描</Button>
-        {dashboard.service.running
-          ? <Button appearance="secondary" icon={<Square size={14} />} onClick={() => setActiveDialog("stop")} disabled={busy || !dashboard.service.processes.some((process) => process.managed)}>停止管理器服务</Button>
-          : <Button appearance="primary" icon={<Play size={16} />} onClick={() => void runAction(() => invoke<ServiceSnapshot>("start_service"), (service) => service.message)} disabled={busy || !dashboard.configured || !dashboard.service.scanComplete || dashboard.service.processes.length > 0}>启动服务</Button>}
+        {managedProcess
+          ? <Button appearance="secondary" icon={<Square size={14} />} onClick={() => setActiveDialog("stop")}>停止管理器服务</Button>
+          : externalProcess
+            ? <Button appearance="secondary" icon={<FileSearch size={16} />} onClick={() => { setSelectedProcess(externalProcess); setDrawerOpen(true); }}>核验现有进程</Button>
+            : <Button appearance="primary" icon={<Play size={16} />} onClick={() => void runAction(() => invoke<ServiceSnapshot>("start_service"), (service) => service.message)} disabled={busy || !dashboard.configured || !dashboard.service.scanComplete}>启动服务</Button>}
       </div>;
     }
     if (activePage === "update") {
@@ -400,7 +447,7 @@ export function NativeApp() {
           </div>
         </div>
         <div className="overview-service-actions">
-          <Button appearance="secondary" icon={<ExternalLink size={16} />} onClick={() => service.url && window.open(`${service.url}/login`, "_blank")} disabled={!service.healthy}>打开系统</Button>
+          <Button appearance="secondary" icon={openingSystem ? <LoaderCircle size={16} className="spin" /> : <ExternalLink size={16} />} onClick={() => void openSystem()} disabled={busy || openingSystem}>{openingSystem ? "正在打开…" : "打开系统"}</Button>
           <Button appearance="primary" icon={<GitBranch size={16} />} onClick={() => setActivePage("update")}>检查更新</Button>
         </div>
       </section>
@@ -428,7 +475,7 @@ export function NativeApp() {
     const service = dashboard?.service;
     return <div className="page-stack">
       <section className="table-surface">
-        <div className="table-toolbar"><div><h2>库存项目进程</h2><span>只允许停止当前管理器启动的 PID</span></div><Button appearance="secondary" icon={<RefreshCw size={16} />} onClick={() => void scanServices()} disabled={busy}>重新扫描</Button></div>
+        <div className="table-toolbar"><div><h2>库存项目进程</h2><span>外部项目进程需核验身份并确认后逐个停止</span></div><Button appearance="secondary" icon={<RefreshCw size={16} />} onClick={() => void scanServices()} disabled={busy}>重新扫描</Button></div>
         {service?.processes.length ? <div className="table-scroll"><table>
           <thead><tr><th>服务 / 进程</th><th>来源</th><th>状态</th><th>端口</th><th>PID</th><th>启动时间</th><th /></tr></thead>
           <tbody>{service.processes.map((process) => <tr key={`${process.processId}-${process.port}`}>
@@ -439,7 +486,7 @@ export function NativeApp() {
           </tr>)}</tbody>
         </table></div> : <div className="empty-state service-empty">{service?.scanComplete === false ? "进程清单读取不完整，暂时无法确认运行中的服务。" : "目前没有占用配置端口的进程"}</div>}
       </section>
-      <section className="notice-inline"><ShieldCheck size={18} /><p>{service?.message ?? "服务信息尚未读取。"} 外部进程只展示，不提供停止入口。</p></section>
+      <section className="notice-inline"><ShieldCheck size={18} /><p>{service?.message ?? "服务信息尚未读取。"} 无法核验项目路径或启动时间的进程不会提供停止操作。</p></section>
     </div>;
   }
 
@@ -524,6 +571,7 @@ export function NativeApp() {
     if (activeDialog === "update") return "确认安全更新";
     if (activeDialog === "backup") return "创建数据库备份";
     if (activeDialog === "restore") return "确认恢复数据库";
+    if (activeDialog === "stopExternal") return "强制停止已核验的外部项目进程";
     return "停止库存服务";
   }
 
@@ -531,6 +579,7 @@ export function NativeApp() {
     if (activeDialog === "update") return <><p>更新会短暂停止库存服务，且只允许从 origin/main 快进。任何步骤失败后都不会自动启动服务。</p><dl className="confirm-facts"><div><dt>当前分支</dt><dd>{dashboard?.git.branch}</dd></div><div><dt>待更新</dt><dd>{dashboard?.git.behind} 个提交</dd></div><div><dt>数据库</dt><dd>{dashboard?.database.path}</dd></div><div><dt>执行顺序</dt><dd>SQLite 备份、停止、拉取、npm ci、迁移、检查、构建、启动、健康检查</dd></div></dl><p className="dialog-warning"><AlertCircle size={16} />本地工作区必须干净；更新不会 stash、reset 或覆盖本地改动。</p></>;
     if (activeDialog === "backup") return <><p>将使用 SQLite 在线备份当前数据库，包括 WAL 中尚未合并的数据。</p><dl className="confirm-facts"><div><dt>数据库</dt><dd>{dashboard?.database.path}</dd></div><div><dt>保存位置</dt><dd>{dashboard?.database.path ? `${dashboard.database.path.replace(/[\\/][^\\/]+$/, "")}${dashboard.database.path.includes("\\") ? "\\" : "/"}backups` : "未配置"}</dd></div></dl></>;
     if (activeDialog === "restore") return <><p>恢复会替换当前数据库，无法在应用内撤销。</p><dl className="confirm-facts"><div><dt>目标数据库</dt><dd>{dashboard?.database.path}</dd></div><div><dt>恢复备份</dt><dd>{selectedBackup?.path}</dd></div><div><dt>自动保留</dt><dd>先创建并校验当前数据库备份</dd></div></dl><p className="dialog-warning"><AlertCircle size={16} />请确认目标数据库和备份文件正确。恢复前必须停止相关服务。</p></>;
+    if (activeDialog === "stopExternal" && selectedProcess) return <><p>这会立即强制结束该进程，库存系统会断开，未完成的请求或数据库写入可能中断。只对下方单个 PID 执行；请先确认没有人在使用。</p><dl className="confirm-facts"><div><dt>项目目录</dt><dd>{dashboard?.config.projectRoot}</dd></div><div><dt>管理器配置库</dt><dd>{dashboard?.config.databasePath}（外部进程实际使用的数据库路径无法确认）</dd></div><div><dt>端口 / PID</dt><dd>{selectedProcess.port} / {selectedProcess.processId}</dd></div><div><dt>启动时间</dt><dd>{formatTime(selectedProcess.startedAt)}</dd></div><div><dt>命令</dt><dd className="mono">{selectedProcess.commandLine}</dd></div></dl><label className="confirm-input-label">输入“停止 {selectedProcess.processId}”确认<Input value={stopPhrase} onChange={(_, data) => setStopPhrase(data.value)} autoComplete="off" /></label><p className="dialog-warning"><AlertCircle size={16} />停止前会复核 PID、启动时间、项目路径、Next 启动命令和监听端口；核验失败时不会停止。</p></>;
     return <><p>只会停止由当前管理器启动并持有进程句柄的服务，不会按进程名或端口停止外部程序。</p><dl className="confirm-facts"><div><dt>项目目录</dt><dd>{dashboard?.config.projectRoot}</dd></div><div><dt>数据库</dt><dd>{dashboard?.config.databasePath}</dd></div><div><dt>端口</dt><dd>{dashboard?.config.port}</dd></div><div><dt>PID</dt><dd>{dashboard?.service.processes.find((process) => process.managed)?.processId ?? "未找到"}</dd></div></dl></>;
   }
 
@@ -538,6 +587,7 @@ export function NativeApp() {
     if (activeDialog === "update") return "开始更新";
     if (activeDialog === "backup") return "创建备份";
     if (activeDialog === "restore") return "恢复数据库";
+    if (activeDialog === "stopExternal") return "强制停止";
     return "停止服务";
   }
 
@@ -549,9 +599,9 @@ export function NativeApp() {
         <aside className="side-nav"><div className="sidebar-brand"><img src="/brand/sugrid-wordmark.png" alt="溯格 SUGRID" /></div><nav aria-label="主导航" className="nav-list">{NAV_ITEMS.map(({ key, label, icon: Icon }) => <Button key={key} appearance="subtle" className={`nav-item${activePage === key ? " nav-item-active" : ""}`} icon={<Icon size={19} strokeWidth={1.9} />} onClick={() => setActivePage(key)} aria-current={activePage === key ? "page" : undefined}><span>{label}</span></Button>)}</nav><div className="sidebar-bottom"><div className="sample-note"><span className="sample-dot" />本机数据 · 不发送遥测</div><div className="sidebar-version">SUGRID Server Manager <span>0.2</span></div></div></aside>
         <main className="main-area"><div className="content-wrap"><header className="page-heading"><div><div className="eyebrow">SUGRID / 本机运维</div><h1>{currentTitle}</h1><div className="project-location"><Folder size={15} /><span>{dashboard?.config.projectRoot || "请先配置项目目录"}</span></div></div><div className="heading-meta"><Badge appearance="tint" className="native-badge">{dashboard?.configured ? "已连接本机项目" : "待配置"}</Badge></div></header>{renderHeaderActions()}{renderPage()}</div></main>
       </div>
-      {notice && <div className="toast-message" role="status"><Info size={16} />{notice}</div>}
-      <Dialog open={activeDialog !== null} onOpenChange={(_, data) => { if (!data.open) setActiveDialog(null); }}><DialogSurface><DialogBody><DialogTitle>{dialogTitle()}</DialogTitle><DialogContent>{dialogBody()}</DialogContent><DialogActions><Button appearance="secondary" onClick={() => setActiveDialog(null)} disabled={busy}>取消</Button><Button appearance="primary" onClick={() => void confirmDialog()} disabled={busy || (activeDialog === "restore" && (!selectedBackup || dashboard?.service.scanComplete !== true || dashboard.service.processes.length > 0))}>{busy ? <LoaderCircle size={15} className="spin" /> : null}{dialogActionLabel()}</Button></DialogActions></DialogBody></DialogSurface></Dialog>
-      <Drawer open={drawerOpen} onOpenChange={(_, data) => { if (!data.open) setDrawerOpen(false); }} position="end" size="medium" type="overlay"><DrawerHeader><DrawerHeaderTitle action={<Button appearance="subtle" icon={<X size={17} />} aria-label="关闭详情" onClick={() => setDrawerOpen(false)} />}>{drawerTitle}</DrawerHeaderTitle></DrawerHeader><DrawerBody>{selectedProcess && <div className="drawer-section"><div className={`service-trust ${selectedProcess.managed ? "service-trust-good" : "service-trust-warn"}`}>{selectedProcess.managed ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}<div><strong>{selectedProcess.state}</strong><span>{selectedProcess.managed ? "由当前管理器启动，可安全停止" : "外部进程仅展示，无法确认实际数据库路径"}</span></div></div><dl className="detail-list"><div><dt>PID</dt><dd>{selectedProcess.processId}</dd></div><div><dt>父进程 PID</dt><dd>{selectedProcess.parentProcessId ?? "未知"}</dd></div><div><dt>端口</dt><dd>{selectedProcess.port}</dd></div><div><dt>启动时间</dt><dd>{formatTime(selectedProcess.startedAt)}</dd></div><div><dt>可执行文件</dt><dd className="mono">{selectedProcess.executablePath || "当前权限无法读取"}</dd></div><div><dt>命令行</dt><dd className="mono">{selectedProcess.commandLine || "未展示"}</dd></div><div><dt>项目目录</dt><dd className="mono">{dashboard?.config.projectRoot}</dd></div><div><dt>数据库</dt><dd className="mono">{dashboard?.config.databasePath}</dd></div></dl><div className="drawer-actions"><Button appearance="secondary" icon={<RefreshCw size={15} />} onClick={() => void scanServices()} disabled={busy}>重新核验</Button><Button appearance="secondary" disabled={!selectedProcess.managed || busy} icon={<Square size={14} />} onClick={() => { setDrawerOpen(false); setActiveDialog("stop"); }}>停止服务</Button></div><p className="drawer-footnote"><ShieldCheck size={16} />停止命令针对管理器持有的进程句柄，不通过 PID 批量结束。</p></div>}</DrawerBody></Drawer>
+      {notice && <div className="toast-message" role="status"><Info size={16} /><span>{notice}</span><button type="button" className="toast-dismiss" aria-label="关闭提示" onClick={() => showNotice("", 0)}><X size={15} /></button></div>}
+      <Dialog open={activeDialog !== null} onOpenChange={(_, data) => { if (!data.open) setActiveDialog(null); }}><DialogSurface><DialogBody><DialogTitle>{dialogTitle()}</DialogTitle><DialogContent>{dialogBody()}</DialogContent><DialogActions><Button appearance="secondary" onClick={() => setActiveDialog(null)} disabled={busy}>取消</Button><Button appearance="primary" onClick={() => void confirmDialog()} disabled={busy || (activeDialog === "restore" && (!selectedBackup || dashboard?.service.scanComplete !== true || dashboard.service.processes.length > 0)) || (activeDialog === "stopExternal" && (!selectedProcess || selectedProcess.state !== "待核验" || stopPhrase !== `停止 ${selectedProcess.processId}`))}>{busy ? <LoaderCircle size={15} className="spin" /> : null}{dialogActionLabel()}</Button></DialogActions></DialogBody></DialogSurface></Dialog>
+      <Drawer open={drawerOpen} onOpenChange={(_, data) => { if (!data.open) setDrawerOpen(false); }} position="end" size="medium" type="overlay"><DrawerHeader><DrawerHeaderTitle action={<Button appearance="subtle" icon={<X size={17} />} aria-label="关闭详情" onClick={() => setDrawerOpen(false)} />}>{drawerTitle}</DrawerHeaderTitle></DrawerHeader><DrawerBody>{selectedProcess && <div className="drawer-section"><div className={`service-trust ${selectedProcess.managed ? "service-trust-good" : "service-trust-warn"}`}>{selectedProcess.managed ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}<div><strong>{selectedProcess.state}</strong><span>{selectedProcess.managed ? "由当前管理器启动，可安全停止" : selectedProcess.source === "外部项目候选（待核验）" ? "候选进程路径属于本项目；停止前还会再次核验身份" : "无法确认进程归属，管理器不会停止它"}</span></div></div><dl className="detail-list"><div><dt>PID</dt><dd>{selectedProcess.processId}</dd></div><div><dt>父进程 PID</dt><dd>{selectedProcess.parentProcessId ?? "未知"}</dd></div><div><dt>端口</dt><dd>{selectedProcess.port}</dd></div><div><dt>启动时间</dt><dd>{formatTime(selectedProcess.startedAt)}</dd></div><div><dt>可执行文件</dt><dd className="mono">{selectedProcess.executablePath || "当前权限无法读取"}</dd></div><div><dt>命令行</dt><dd className="mono">{selectedProcess.commandLine || "未展示"}</dd></div><div><dt>项目目录</dt><dd className="mono">{dashboard?.config.projectRoot}</dd></div><div><dt>数据库</dt><dd className="mono">{dashboard?.config.databasePath}</dd></div></dl><div className="drawer-actions"><Button appearance="secondary" icon={<RefreshCw size={15} />} onClick={() => void scanServices()} disabled={busy}>重新核验</Button><Button appearance="secondary" disabled={busy || (!selectedProcess.managed && (selectedProcess.source !== "外部项目候选（待核验）" || selectedProcess.startedAt === "未知"))} icon={<Square size={14} />} onClick={() => { if (!selectedProcess.managed) { setStopPhrase(""); setActiveDialog("stopExternal"); } else { setActiveDialog("stop"); } }}>停止此进程</Button></div><p className="drawer-footnote"><ShieldCheck size={16} />只停止这一条核验过的 PID，不按进程名批量结束。</p></div>}</DrawerBody></Drawer>
     </div>
   </FluentProvider>;
 }

@@ -2,6 +2,7 @@ use rusqlite::{Connection, OpenFlags, backup::Backup};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::BTreeSet,
+    ffi::OsStr,
     fs::{self, File, OpenOptions},
     io::Read,
     net::{TcpStream, ToSocketAddrs},
@@ -11,9 +12,19 @@ use std::{
     thread,
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
-use tauri::{AppHandle, Emitter, State};
+use tauri::{AppHandle, Emitter, Manager, State, WebviewUrl, WebviewWindowBuilder};
 
 type AppResult<T> = Result<T, String>;
+
+fn hidden_command(program: impl AsRef<OsStr>) -> Command {
+    let mut command = Command::new(program);
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        command.creation_flags(windows_sys::Win32::System::Threading::CREATE_NO_WINDOW);
+    }
+    command
+}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -661,7 +672,7 @@ fn sidecar_path(path: &Path, suffix: &str) -> PathBuf {
 
 fn listening_endpoints() -> AppResult<Vec<(u16, u32)>> {
     let script = r#"$ErrorActionPreference = 'Stop'; try { $rows = @(Get-NetTCPConnection -State Listen -ErrorAction Stop | Select-Object LocalPort,OwningProcess); $json = ConvertTo-Json -InputObject @($rows) -Compress; [Console]::Out.Write($json) } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }"#;
-    let output = Command::new("powershell.exe")
+    let output = hidden_command("powershell.exe")
         .args([
             "-NoLogo",
             "-NoProfile",
@@ -720,7 +731,7 @@ struct ProcessDetails {
 
 fn all_process_details_checked() -> AppResult<std::collections::HashMap<u32, ProcessDetails>> {
     let script = r#"$OutputEncoding = New-Object System.Text.UTF8Encoding; [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding; $ErrorActionPreference = 'Stop'; try { $p = @(Get-CimInstance Win32_Process -ErrorAction Stop | Select-Object Name,ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine); if ($p.Count -eq 0) { throw '进程清单为空' }; ConvertTo-Json -InputObject @($p) -Compress -Depth 4 } catch { [Console]::Error.WriteLine($_.Exception.Message); exit 1 }"#;
-    let output = Command::new("powershell.exe")
+    let output = hidden_command("powershell.exe")
         .args([
             "-NoLogo",
             "-NoProfile",
@@ -799,13 +810,65 @@ fn is_node_process(details: &ProcessDetails) -> bool {
             .is_some_and(|command| command.to_ascii_lowercase().contains("node.exe"))
 }
 
-fn is_next_service_command(command_line: &str) -> bool {
+fn next_service_subcommand(command_line: &str) -> Option<&'static str> {
     let command = command_line.replace('/', "\\").to_ascii_lowercase();
-    command.contains("node_modules\\next\\dist\\bin\\next")
-        || command.contains(" next start")
-        || command.contains("\"next\" start")
-        || command.contains(" next dev")
-        || command.contains("\"next\" dev")
+    let markers = [
+        "node_modules\\next\\dist\\bin\\next",
+        "node_modules\\.bin\\next",
+    ];
+    for marker in markers {
+        if let Some(index) = command.find(marker) {
+            let rest = command[index + marker.len()..]
+                .strip_prefix('"')
+                .unwrap_or(&command[index + marker.len()..])
+                .trim_start();
+            let subcommand = rest.split_whitespace().next()?.trim_matches('"');
+            return match subcommand {
+                "start" => Some("start"),
+                "dev" => Some("dev"),
+                _ => None,
+            };
+        }
+    }
+    let tokens = command.split_whitespace().collect::<Vec<_>>();
+    tokens.windows(2).find_map(|pair| {
+        if pair[0].trim_matches('"') == "next" {
+            match pair[1].trim_matches('"') {
+                "start" => Some("start"),
+                "dev" => Some("dev"),
+                _ => None,
+            }
+        } else {
+            None
+        }
+    })
+}
+
+fn next_service_port(command_line: &str) -> Option<u16> {
+    let tokens = command_line.split_whitespace().collect::<Vec<_>>();
+    for (index, token) in tokens.iter().enumerate() {
+        let token = token.trim_matches('"');
+        if let Some(value) = token.strip_prefix("--port=") {
+            if let Ok(port) = value.parse() {
+                return Some(port);
+            }
+        }
+        if matches!(token, "--port" | "-p") {
+            return tokens
+                .get(index + 1)
+                .and_then(|value| value.trim_matches('"').parse().ok());
+        }
+    }
+    None
+}
+
+fn next_service_uses_port(command_line: &str, port: u16) -> bool {
+    next_service_subcommand(command_line).is_some()
+        && next_service_port(command_line).unwrap_or(3000) == port
+}
+
+fn is_next_service_command(command_line: &str) -> bool {
+    next_service_subcommand(command_line).is_some()
 }
 
 fn next_cli_path(command_line: &str) -> Option<PathBuf> {
@@ -925,6 +988,141 @@ fn is_managed_process_candidate(
         && command_line.contains(&format!("--port {port}"))
 }
 
+fn is_stoppable_external_service(
+    details: Option<&ProcessDetails>,
+    project_root: &Path,
+    expected_started_at: &str,
+    expected_port: u16,
+    listeners: &[(u16, u32)],
+) -> bool {
+    let Some(details) = details else {
+        return false;
+    };
+    if expected_started_at.is_empty()
+        || expected_started_at == "未知"
+        || details.creation_date.as_deref() != Some(expected_started_at)
+        || !is_node_process(details)
+        || !is_project_candidate(Some(details), project_root)
+    {
+        return false;
+    }
+    details.command_line.as_deref().is_some_and(|command_line| {
+        next_service_uses_port(command_line, expected_port)
+            && listeners
+                .iter()
+                .any(|(port, pid)| *port == expected_port && Some(*pid) == details.process_id)
+    })
+}
+
+#[cfg(windows)]
+fn terminate_external_service_checked(
+    process_id: u32,
+    port: u16,
+    project_root: &Path,
+    expected_started_at: &str,
+) -> AppResult<()> {
+    use windows_sys::Win32::{
+        Foundation::{CloseHandle, FILETIME, WAIT_OBJECT_0},
+        System::Threading::{
+            GetProcessTimes, OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION, PROCESS_SYNCHRONIZE,
+            PROCESS_TERMINATE, TerminateProcess, WaitForSingleObject,
+        },
+    };
+
+    unsafe {
+        let access = PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_TERMINATE | PROCESS_SYNCHRONIZE;
+        let handle = OpenProcess(access, 0, process_id);
+        if handle.is_null() {
+            return Err(format!(
+                "无法安全打开 PID {process_id}：{}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        let mut created = FILETIME::default();
+        let mut exited = FILETIME::default();
+        let mut kernel = FILETIME::default();
+        let mut user = FILETIME::default();
+        if GetProcessTimes(handle, &mut created, &mut exited, &mut kernel, &mut user) == 0 {
+            let error = std::io::Error::last_os_error();
+            CloseHandle(handle);
+            return Err(format!("无法核验 PID {process_id} 的启动时间：{error}"));
+        }
+        let opened_creation_time =
+            ((created.dwHighDateTime as u64) << 32) | created.dwLowDateTime as u64;
+
+        let details = match all_process_details_checked() {
+            Ok(details) => details,
+            Err(error) => {
+                CloseHandle(handle);
+                return Err(format!("无法完整复核进程清单，拒绝停止：{error}"));
+            }
+        };
+        let listeners = match listening_endpoints() {
+            Ok(listeners) => listeners,
+            Err(error) => {
+                CloseHandle(handle);
+                return Err(format!(
+                    "无法确认 PID {process_id} 是否仍监听端口 {port}：{error}"
+                ));
+            }
+        };
+        if !is_stoppable_external_service(
+            details.get(&process_id),
+            project_root,
+            expected_started_at,
+            port,
+            &listeners,
+        ) {
+            CloseHandle(handle);
+            return Err("该进程已不再监听所选端口，或启动时间、项目路径、服务命令发生变化，拒绝停止。请重新扫描。".into());
+        }
+
+        let mut created_again = FILETIME::default();
+        if GetProcessTimes(
+            handle,
+            &mut created_again,
+            &mut exited,
+            &mut kernel,
+            &mut user,
+        ) == 0
+        {
+            let error = std::io::Error::last_os_error();
+            CloseHandle(handle);
+            return Err(format!("停止前复核 PID {process_id} 失败：{error}"));
+        }
+        let creation_time_again =
+            ((created_again.dwHighDateTime as u64) << 32) | created_again.dwLowDateTime as u64;
+        if creation_time_again != opened_creation_time {
+            CloseHandle(handle);
+            return Err("PID 身份在停止前发生变化，拒绝停止。".into());
+        }
+
+        if TerminateProcess(handle, 1) == 0 {
+            let error = std::io::Error::last_os_error();
+            CloseHandle(handle);
+            return Err(format!("停止 PID {process_id} 失败：{error}"));
+        }
+        let wait = WaitForSingleObject(handle, 10_000);
+        CloseHandle(handle);
+        if wait != WAIT_OBJECT_0 {
+            return Err(format!(
+                "PID {process_id} 已收到停止请求，但未在 10 秒内退出。"
+            ));
+        }
+        Ok(())
+    }
+}
+
+#[cfg(not(windows))]
+fn terminate_external_service_checked(
+    _process_id: u32,
+    _port: u16,
+    _project_root: &Path,
+    _expected_started_at: &str,
+) -> AppResult<()> {
+    Err("外部项目进程控制仅支持 Windows。".into())
+}
+
 #[cfg(windows)]
 fn process_creation_time(
     process_id: u32,
@@ -966,6 +1164,10 @@ fn process_creation_time(
 }
 
 fn managed_process_is_alive(service: &ManagedService) -> AppResult<bool> {
+    let details = all_process_details_checked()?;
+    let Some(process_details) = details.get(&service.process_id) else {
+        return Ok(false);
+    };
     let (handle, creation_time) =
         process_creation_time(service.process_id, windows_query_process_access())?;
     #[cfg(windows)]
@@ -977,9 +1179,8 @@ fn managed_process_is_alive(service: &ManagedService) -> AppResult<bool> {
     if creation_time != service.process_creation_time {
         return Ok(false);
     }
-    let details = all_process_details_checked()?;
     Ok(is_managed_process_candidate(
-        details.get(&service.process_id),
+        Some(process_details),
         &service.project_root,
         service.port,
     ))
@@ -1201,6 +1402,51 @@ fn health_check(port: u16) -> bool {
     };
     let first_line = String::from_utf8_lossy(&response[..read]);
     first_line.starts_with("HTTP/1.1 200") || first_line.starts_with("HTTP/1.0 200")
+}
+
+fn system_login_url(config: &AppConfig) -> AppResult<String> {
+    configured_root(config)?;
+    if !inventory_login_page_check(config.port) {
+        return Err(
+            "配置端口上没有检测到可识别的溯格库存登录页。请先启动库存服务并检查端口配置。".into(),
+        );
+    }
+    Ok(format!("http://127.0.0.1:{}/login", config.port))
+}
+
+fn inventory_login_page_check(port: u16) -> bool {
+    let address = ("127.0.0.1", port)
+        .to_socket_addrs()
+        .ok()
+        .and_then(|mut addresses| addresses.next());
+    let Some(address) = address else { return false };
+    let Ok(mut stream) = TcpStream::connect_timeout(&address, Duration::from_millis(700)) else {
+        return false;
+    };
+    let _ = stream.set_read_timeout(Some(Duration::from_secs(2)));
+    let _ = stream.set_write_timeout(Some(Duration::from_secs(2)));
+    use std::io::Write;
+    if stream
+        .write_all(
+            b"GET /login HTTP/1.1\r\nHost: 127.0.0.1\r\nAccept-Encoding: identity\r\nConnection: close\r\n\r\n",
+        )
+        .is_err()
+    {
+        return false;
+    }
+    let mut response = Vec::new();
+    if stream.take(128 * 1024).read_to_end(&mut response).is_err() {
+        return false;
+    }
+    let response = String::from_utf8_lossy(&response);
+    let Some((headers, body)) = response.split_once("\r\n\r\n") else {
+        return false;
+    };
+    let status_ok = headers
+        .lines()
+        .next()
+        .is_some_and(|line| line.starts_with("HTTP/1.1 200") || line.starts_with("HTTP/1.0 200"));
+    status_ok && body.to_ascii_lowercase().contains("sugrid")
 }
 
 fn service_snapshot(config: &AppConfig, state: &ManagerState) -> ServiceSnapshot {
@@ -1463,7 +1709,7 @@ fn start_managed_service_with_scan(
         ));
     }
 
-    let mut child = Command::new(node)
+    let mut child = hidden_command(node)
         .arg(next_cli)
         .args([
             "start",
@@ -1580,7 +1826,7 @@ fn command_output(
     let stderr_path = log_dir.join(format!("command-{stamp}.err.log"));
     let stdout = File::create(&stdout_path).map_err(|error| error.to_string())?;
     let stderr = File::create(&stderr_path).map_err(|error| error.to_string())?;
-    let mut child = Command::new(program)
+    let mut child = hidden_command(program)
         .args(args)
         .current_dir(root)
         .env("GIT_TERMINAL_PROMPT", "0")
@@ -1815,7 +2061,7 @@ fn diagnostics(
     let node = find_executable("node.exe").ok();
     let node_version = node
         .as_ref()
-        .and_then(|path| Command::new(path).arg("--version").output().ok())
+        .and_then(|path| hidden_command(path).arg("--version").output().ok())
         .filter(|output| output.status.success())
         .map(|output| String::from_utf8_lossy(&output.stdout).trim().to_string());
     items.push(DiagnosticItem {
@@ -1830,7 +2076,7 @@ fn diagnostics(
     });
     let git_version = find_executable("git.exe")
         .ok()
-        .and_then(|path| Command::new(path).arg("--version").output().ok())
+        .and_then(|path| hidden_command(path).arg("--version").output().ok())
         .filter(|output| output.status.success())
         .map(|output| String::from_utf8_lossy(&output.stdout).trim().to_string());
     items.push(DiagnosticItem {
@@ -2004,6 +2250,99 @@ pub async fn stop_service(state: State<'_, Arc<ManagerState>>) -> AppResult<Stri
 }
 
 #[tauri::command]
+pub async fn stop_external_service(
+    process_id: u32,
+    port: u16,
+    started_at: String,
+    confirmation: String,
+    state: State<'_, Arc<ManagerState>>,
+) -> AppResult<String> {
+    let shared = state.inner().clone();
+    tauri::async_runtime::spawn_blocking(move || {
+        let result: AppResult<String> = (|| {
+            if confirmation != format!("停止 {process_id}") {
+                return Err("确认文字不正确，未停止任何进程。".into());
+            }
+            let config = shared.config();
+            let root = configured_root(&config)?;
+            let processes = project_process_rows_checked(&root, config.port)?;
+            let candidate = processes
+                .iter()
+                .find(|process| process.process_id == process_id && process.port == port)
+                .ok_or("该进程已不存在或端口已变化，请重新扫描。")?;
+            if candidate.managed
+                || candidate.source != "外部项目候选（待核验）"
+                || candidate.state != "待核验"
+                || candidate.started_at != started_at
+            {
+                return Err("该进程不是正在监听所选端口的库存服务，或身份与确认时不一致，拒绝停止。请重新扫描。".into());
+            }
+            terminate_external_service_checked(process_id, port, &root, &started_at)?;
+            Ok(format!(
+                "已停止核验过的项目进程 PID {process_id}（端口 {port}）。"
+            ))
+        })();
+        match result {
+            Ok(message) => {
+                shared.record("停止外部项目服务", true, message.clone());
+                Ok(message)
+            }
+            Err(error) => {
+                shared.record("停止外部项目服务", false, error.clone());
+                Err(error)
+            }
+        }
+    })
+    .await
+    .map_err(|error| error.to_string())?
+}
+
+#[tauri::command]
+pub async fn open_system(app: AppHandle, state: State<'_, Arc<ManagerState>>) -> AppResult<String> {
+    let shared = state.inner().clone();
+    let config = shared.config();
+    let url = tauri::async_runtime::spawn_blocking(move || system_login_url(&config))
+        .await
+        .map_err(|error| error.to_string())??;
+    let result: AppResult<String> = (|| {
+        let target = url
+            .parse::<tauri::Url>()
+            .map_err(|error| format!("库存系统地址无效：{error}"))?;
+        let window = if let Some(window) = app.get_webview_window("inventory-system") {
+            window
+                .navigate(target)
+                .map_err(|error| format!("切换到库存系统失败：{error}"))?;
+            window
+        } else {
+            WebviewWindowBuilder::new(&app, "inventory-system", WebviewUrl::External(target))
+                .title("溯格库存系统")
+                .inner_size(1360.0, 900.0)
+                .min_inner_size(980.0, 680.0)
+                .center()
+                .build()
+                .map_err(|error| format!("打开库存系统窗口失败：{error}"))?
+        };
+        window
+            .show()
+            .map_err(|error| format!("显示库存系统窗口失败：{error}"))?;
+        window
+            .set_focus()
+            .map_err(|error| format!("切换到库存系统窗口失败：{error}"))?;
+        Ok(format!("已在新窗口打开库存系统：{url}"))
+    })();
+    match result {
+        Ok(message) => {
+            shared.record("打开库存系统", true, message.clone());
+            Ok(message)
+        }
+        Err(error) => {
+            shared.record("打开库存系统", false, error.clone());
+            Err(error)
+        }
+    }
+}
+
+#[tauri::command]
 pub async fn create_backup(state: State<'_, Arc<ManagerState>>) -> AppResult<BackupItem> {
     let shared = state.inner().clone();
     tauri::async_runtime::spawn_blocking(move || {
@@ -2153,7 +2492,7 @@ fn run_command_with_env(
     let stderr_path = log_dir.join(format!("update-{stamp}.err.log"));
     let stdout = File::create(&stdout_path).map_err(|error| error.to_string())?;
     let stderr = File::create(&stderr_path).map_err(|error| error.to_string())?;
-    let mut command = Command::new(program);
+    let mut command = hidden_command(program);
     command
         .args(args)
         .current_dir(root)
@@ -2429,6 +2768,29 @@ mod tests {
     use super::*;
     use std::net::TcpListener;
 
+    #[cfg(windows)]
+    #[test]
+    fn hidden_command_does_not_attach_a_console() {
+        let script = r#"Add-Type -MemberDefinition '[DllImport("kernel32.dll")] public static extern IntPtr GetConsoleWindow();' -Name ConsoleProbe -Namespace Native; if ([Native.ConsoleProbe]::GetConsoleWindow() -eq [IntPtr]::Zero) { [Console]::Write('hidden') } else { [Console]::Error.Write('console attached'); exit 1 }"#;
+        let output = hidden_command("powershell.exe")
+            .args([
+                "-NoLogo",
+                "-NoProfile",
+                "-NonInteractive",
+                "-Command",
+                script,
+            ])
+            .output()
+            .expect("PowerShell should be available on Windows");
+
+        assert!(
+            output.status.success(),
+            "the child process attached a console: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert_eq!(String::from_utf8_lossy(&output.stdout).trim(), "hidden");
+    }
+
     #[test]
     fn update_requires_clean_main_and_fast_forward_remote() {
         assert!(update_decision("main", &[], 0, 2, true, true).0);
@@ -2478,6 +2840,63 @@ mod tests {
         let path = std::env::temp_dir().join(format!("sugrid-manager-{label}-{}", now_millis()));
         fs::create_dir_all(&path).unwrap();
         path
+    }
+
+    fn test_login_server(body: &'static str) -> (u16, thread::JoinHandle<()>) {
+        let listener = TcpListener::bind(("127.0.0.1", 0)).unwrap();
+        let port = listener.local_addr().unwrap().port();
+        let server = thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            let mut request = [0_u8; 512];
+            let _ = stream.read(&mut request);
+            use std::io::Write;
+            let response = format!(
+                "HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
+                body.len()
+            );
+            stream.write_all(response.as_bytes()).unwrap();
+        });
+        (port, server)
+    }
+
+    #[test]
+    fn open_system_accepts_a_healthy_external_service_without_process_scanning() {
+        let directory = temp_dir("open-system");
+        fs::create_dir_all(directory.join(".git")).unwrap();
+        fs::write(directory.join("package.json"), "{} ").unwrap();
+        let (port, server) = test_login_server("<title>溯格 SUGRID</title>");
+        let config = AppConfig {
+            project_root: directory.to_string_lossy().into_owned(),
+            database_path: "data/inventory.db".into(),
+            port,
+            host: "127.0.0.1".into(),
+        };
+
+        let url = system_login_url(&config).unwrap();
+        server.join().unwrap();
+
+        assert_eq!(url, format!("http://127.0.0.1:{port}/login"));
+        fs::remove_dir_all(directory).unwrap();
+    }
+
+    #[test]
+    fn open_system_rejects_an_unrelated_server_on_the_configured_port() {
+        let directory = temp_dir("open-system-unrelated");
+        fs::create_dir_all(directory.join(".git")).unwrap();
+        fs::write(directory.join("package.json"), "{} ").unwrap();
+        let (port, server) = test_login_server("<title>Other local application</title>");
+        let config = AppConfig {
+            project_root: directory.to_string_lossy().into_owned(),
+            database_path: "data/inventory.db".into(),
+            port,
+            host: "127.0.0.1".into(),
+        };
+
+        let error = system_login_url(&config).unwrap_err();
+        server.join().unwrap();
+
+        assert!(error.contains("没有检测到可识别的溯格库存登录页"));
+        fs::remove_dir_all(directory).unwrap();
     }
 
     #[test]
@@ -2682,6 +3101,171 @@ mod tests {
         fs::remove_dir_all(directory).unwrap();
     }
 
+    #[test]
+    fn external_stop_requires_the_same_project_command_and_start_time() {
+        let directory = temp_dir("external-stop-identity");
+        let project = directory.join("inventory");
+        let next_cli = project.join("node_modules/next/dist/bin/next");
+        fs::create_dir_all(next_cli.parent().unwrap()).unwrap();
+        fs::write(&next_cli, "").unwrap();
+        let started_at = "2026-11-11T10:00:00.000000Z";
+        let matching = ProcessDetails {
+            name: Some("node.exe".into()),
+            process_id: Some(91),
+            parent_process_id: Some(10),
+            creation_date: Some(started_at.into()),
+            executable_path: Some(r"C:\Program Files\nodejs\node.exe".into()),
+            command_line: Some(format!(
+                "node.exe \"{}\" start --port 3003",
+                next_cli.display()
+            )),
+        };
+        let listeners = [(3003, 91)];
+        assert!(is_stoppable_external_service(
+            Some(&matching),
+            &project,
+            started_at,
+            3003,
+            &listeners
+        ));
+        assert!(!is_stoppable_external_service(
+            Some(&matching),
+            &project,
+            "2026-11-11T10:00:01.000000Z",
+            3003,
+            &listeners
+        ));
+        assert!(!is_stoppable_external_service(
+            Some(&matching),
+            &project,
+            started_at,
+            3004,
+            &listeners
+        ));
+        assert!(!is_stoppable_external_service(
+            Some(&matching),
+            &project,
+            started_at,
+            3003,
+            &[(3003, 92)]
+        ));
+
+        let unrelated = ProcessDetails {
+            command_line: Some(
+                r"node.exe C:\other-project\node_modules\next\dist\bin\next start --port 3003"
+                    .into(),
+            ),
+            ..matching.clone()
+        };
+        assert!(!is_stoppable_external_service(
+            Some(&unrelated),
+            &project,
+            started_at,
+            3003,
+            &listeners
+        ));
+
+        let build_process = ProcessDetails {
+            command_line: Some(format!(
+                "node.exe \"{}\" build --port 3003",
+                next_cli.display()
+            )),
+            ..matching.clone()
+        };
+        assert!(!is_stoppable_external_service(
+            Some(&build_process),
+            &project,
+            started_at,
+            3003,
+            &listeners
+        ));
+        fs::remove_dir_all(directory).unwrap();
+    }
+
+    #[test]
+    fn next_service_commands_only_accept_start_or_dev_and_match_explicit_port() {
+        assert!(next_service_uses_port(
+            r#"node.exe .\node_modules\next\dist\bin\next start --port 3003"#,
+            3003
+        ));
+        assert!(next_service_uses_port(
+            r#"node.exe .\node_modules\next\dist\bin\next dev -p 3010"#,
+            3010
+        ));
+        assert!(next_service_uses_port("node next start", 3000));
+        assert!(!next_service_uses_port(
+            r#"node.exe .\node_modules\next\dist\bin\next build"#,
+            3003
+        ));
+        assert!(!next_service_uses_port(
+            r#"node.exe .\node_modules\next\dist\bin\next start --port=3003"#,
+            3004
+        ));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn external_stop_terminates_only_the_verified_temporary_project_service() {
+        struct ChildGuard(Child);
+        impl Drop for ChildGuard {
+            fn drop(&mut self) {
+                let _ = self.0.kill();
+                let _ = self.0.wait();
+            }
+        }
+
+        let directory = temp_dir("external-stop-runtime");
+        let project = directory.join("inventory");
+        let next_cli = project.join("node_modules/next/dist/bin/next");
+        fs::create_dir_all(next_cli.parent().unwrap()).unwrap();
+        fs::create_dir_all(project.join(".git")).unwrap();
+        fs::write(project.join("package.json"), "{} ").unwrap();
+        fs::write(
+            &next_cli,
+            "const http=require('node:http');const args=process.argv;const port=Number(args[args.indexOf('--port')+1]);http.createServer((_req,res)=>{res.writeHead(200);res.end('ok')}).listen(port,'127.0.0.1');",
+        )
+        .unwrap();
+        let port = TcpListener::bind(("127.0.0.1", 0))
+            .unwrap()
+            .local_addr()
+            .unwrap()
+            .port();
+        let node = find_executable("node.exe").unwrap();
+        let child = hidden_command(node)
+            .arg(&next_cli)
+            .args(["start", "--port", &port.to_string()])
+            .current_dir(&project)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap();
+        let mut child = ChildGuard(child);
+
+        for _ in 0..50 {
+            if health_check(port) {
+                break;
+            }
+            thread::sleep(Duration::from_millis(50));
+        }
+        assert!(
+            health_check(port),
+            "temporary project process failed to start"
+        );
+        let processes = project_process_rows_checked(&project, 3000).unwrap();
+        let candidate = processes
+            .iter()
+            .find(|process| process.process_id == child.0.id() && process.port == port)
+            .expect("temporary process should be recognized as this project");
+        let started_at = candidate.started_at.clone();
+        assert_ne!(started_at, "未知");
+
+        terminate_external_service_checked(child.0.id(), port, &project, &started_at).unwrap();
+        assert!(child.0.try_wait().unwrap().is_some());
+        assert!(!health_check(port));
+        fs::remove_dir_all(directory).unwrap();
+    }
+
     #[cfg(windows)]
     #[test]
     fn canonical_next_cli_path_matches_the_project_through_a_directory_junction() {
@@ -2697,7 +3281,7 @@ mod tests {
             quote_path(&junction),
             quote_path(&project)
         );
-        let output = Command::new("powershell.exe")
+        let output = hidden_command("powershell.exe")
             .args(["-NoLogo", "-NoProfile", "-NonInteractive", "-Command"])
             .arg(command)
             .output()
