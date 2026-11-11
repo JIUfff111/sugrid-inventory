@@ -17,6 +17,7 @@ import {
   webLightTheme,
 } from "@fluentui/react-components";
 import { isTauri } from "@tauri-apps/api/core";
+import { NativeApp } from "./NativeApp";
 import {
   Activity,
   AlertCircle,
@@ -897,5 +898,5 @@ function ActivityList({ items, showDetail = false }: { items: ActivityItem[]; sh
 }
 
 export function App() {
-  return <AppContent />;
+  return isTauri() ? <NativeApp /> : <AppContent />;
 }

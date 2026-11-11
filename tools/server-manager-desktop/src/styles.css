@@ -298,6 +298,79 @@ button.nav-item-active:hover {
   background: #e8f6ef;
 }
 
+.native-badge {
+  min-height: 24px;
+  padding: 2px 9px;
+  color: #2763bc;
+  background: #eaf1ff;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.state-badge-blocked {
+  color: #8a5b0c;
+  background: #fff3d8;
+}
+
+.state-badge-current {
+  color: #15794b;
+  background: #e8f6ef;
+}
+
+.state-badge-idle {
+  color: #536983;
+  background: #eef2f7;
+}
+
+.git-reason {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--line-strong);
+  color: var(--muted);
+  background: var(--surface-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.git-reason-ready {
+  color: #1c6944;
+  background: var(--green-soft);
+  border-left-color: var(--green);
+}
+
+.git-reason-blocked {
+  color: #80540e;
+  background: var(--amber-soft);
+  border-left-color: var(--amber);
+}
+
+.git-reason-current {
+  color: #2763bc;
+  background: var(--blue-soft);
+  border-left-color: var(--blue);
+}
+
+.dirty-path-list {
+  max-height: 150px;
+  overflow: auto;
+  margin: 0 0 12px;
+  padding: 10px 12px 10px 30px;
+  color: #81550f;
+  background: #fffaf0;
+  border: 1px solid #f0dfbf;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.dirty-path-list li + li {
+  margin-top: 5px;
+}
+
+.service-empty {
+  border-top: 1px solid #edf0f4;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
