@@ -97,7 +97,7 @@ async function main() {
     const chinaToday = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
     const shiftDate = (days) => new Date(Date.parse(`${chinaToday}T00:00:00Z`) + days * 86400000).toISOString().slice(0, 10);
 
-    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL'];
+    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL', 'RTN-APPEND-BASE', 'RTN-APPEND-ADDED', 'RTN-APPEND-ROLLBACK', 'RTN-APPEND-ENDED'];
     const purchase = await call('purchase-orders', 'POST', {
       supplierId: 'flow-supplier', supplierOrderNo: 'FLOW-PO', purchaseDate: chinaToday, purchasedBy: 'flow-admin',
       status: 'completed', warehouseId: mainWarehouse,
@@ -144,6 +144,50 @@ async function main() {
       inventoryId: inventory('RTN-RETURN').id, customerName: '零租期测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
       rentalStartDate: chinaToday, rentalEndDate: chinaToday, rentalType: 'day', rentalUnitPrice: 10, deposit: 0,
     }, 400);
+
+    const appendBase = await call('rentals', 'POST', {
+      inventoryId: inventory('RTN-APPEND-BASE').id, customerName: '原租赁客户', customerPhone: '10000000001', customerAddress: '原租赁地址',
+      rentalStartDate: shiftDate(-2), rentalEndDate: shiftDate(8), rentalType: 'day', rentalUnitPrice: 35, deposit: 80,
+    }, 201);
+    const appendBaseRow = db.prepare('SELECT * FROM rental_records WHERE id=?').get(appendBase.id);
+    const appended = await call('rentals', 'POST', {
+      rentalOrderId: appendBase.rentalOrderId,
+      items: [{ inventoryId: inventory('RTN-APPEND-ADDED').id, rentalUnitPrice: 45, deposit: 120 }],
+      customerName: '不应覆盖原客户', customerPhone: '10000000002', customerAddress: '不应覆盖原地址',
+      rentalStartDate: chinaToday, rentalEndDate: shiftDate(10), rentalType: 'day',
+    }, 201);
+    assert.equal(appended.appended, true);
+    assert.equal(appended.rentalOrderId, appendBase.rentalOrderId);
+    assert.equal(appended.rentalNo, appendBase.rentalNo);
+    assert.equal(appended.count, 1);
+    const appendedRow = db.prepare('SELECT * FROM rental_records WHERE inventoryId=? AND status=?').get(inventory('RTN-APPEND-ADDED').id, 'renting');
+    assert.equal(appendedRow.rentalNo, `${appendBase.rentalNo}-02`);
+    assert.deepEqual([appendedRow.customerName, appendedRow.customerPhone, appendedRow.customerAddress], ['原租赁客户', '10000000001', '原租赁地址']);
+    assert.deepEqual([appendedRow.rentalStartDate, appendedRow.rentalEndDate, appendedRow.rentalUnitPrice, appendedRow.rentalDuration, appendedRow.rentalTotalPrice, appendedRow.deposit], [chinaToday, shiftDate(10), 45, 10, 450, 120]);
+    assert.equal(inventory('RTN-APPEND-ADDED').status, 'renting');
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId=? AND movementType='rental_out' AND note LIKE '追加租赁出库%' ").get(inventory('RTN-APPEND-ADDED').id).n, 1);
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_events WHERE rentalRecordId=? AND eventType='item_added'").get(appendedRow.id).n, 1);
+    assert.deepEqual(db.prepare('SELECT rentalStartDate,rentalEndDate FROM rental_orders WHERE id=?').get(appendBase.rentalOrderId), { rentalStartDate: shiftDate(-2), rentalEndDate: shiftDate(10) });
+    await call('rentals', 'PATCH', {
+      id: appendBase.id, action: 'edit_terms', rentalStartDate: chinaToday, rentalEndDate: shiftDate(10),
+      reason: '异期机器不能整单更正', items: [{ id: appendBase.id, rentalUnitPrice: 35 }],
+    }, 400);
+    const orderBeforeAppendRollback = db.prepare('SELECT rentalStartDate,rentalEndDate FROM rental_orders WHERE id=?').get(appendBase.rentalOrderId);
+    db.exec("CREATE TRIGGER flow_fail_append_event BEFORE INSERT ON rental_events WHEN NEW.eventType='item_added' BEGIN SELECT RAISE(ABORT, 'forced append audit failure'); END");
+    await call('rentals', 'POST', {
+      rentalOrderId: appendBase.rentalOrderId, items: [{ inventoryId: inventory('RTN-APPEND-ROLLBACK').id, rentalUnitPrice: 10, deposit: 0 }],
+      rentalStartDate: chinaToday, rentalEndDate: shiftDate(12), rentalType: 'day',
+    }, 500);
+    db.exec('DROP TRIGGER flow_fail_append_event');
+    assert.equal(inventory('RTN-APPEND-ROLLBACK').status, 'in_stock');
+    assert.equal(db.prepare('SELECT COUNT(*) n FROM rental_records WHERE inventoryId=?').get(inventory('RTN-APPEND-ROLLBACK').id).n, 0);
+    assert.deepEqual(db.prepare('SELECT rentalStartDate,rentalEndDate FROM rental_orders WHERE id=?').get(appendBase.rentalOrderId), orderBeforeAppendRollback);
+    await call('rentals', 'POST', {
+      rentalOrderId: returnedRental.rentalOrderId, inventoryId: inventory('RTN-APPEND-ENDED').id,
+      customerName: '结束订单不可追加', rentalStartDate: chinaToday, rentalEndDate: shiftDate(2), rentalType: 'day', rentalUnitPrice: 10,
+    }, 400);
+    assert.equal(inventory('RTN-APPEND-ENDED').status, 'in_stock');
+    assert.equal(db.prepare('SELECT rentalStartDate,rentalEndDate FROM rental_records WHERE id=?').get(appendBase.id).rentalStartDate, appendBaseRow.rentalStartDate);
 
     const batchRental = await call('rentals', 'POST', {
       items: [
