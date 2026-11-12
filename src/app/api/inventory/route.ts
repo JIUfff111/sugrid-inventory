@@ -21,7 +21,7 @@ import {
 import { verifyPassword } from '@/lib/auth';
 import { createPurgeBackup, getPurgeCandidate } from '@/lib/inventory-purge';
 import { canonicalSKUBrand } from '@/lib/sku-brand';
-import { uniqueMachineScanTokens } from '@/lib/machine-scan';
+import { getInventoryWhere, validateInventoryQuery } from '@/lib/inventory-query';
 
 function getErrorMessage(error: unknown, fallback: string) {
   return error instanceof Error ? error.message : fallback;
@@ -115,107 +115,6 @@ const inventorySelect = `
   LEFT JOIN after_sale_stock ast ON ast.afterSaleId = a.id
 `;
 
-interface InventoryFilters {
-  brand?: string;
-  model?: string;
-  supplierId?: string;
-  inboundFrom?: string;
-  inboundTo?: string;
-  priceMin?: string;
-  priceMax?: string;
-  ageMin?: string;
-  ageMax?: string;
-}
-
-function getWhere(
-  search: string,
-  status: string,
-  filters: InventoryFilters = {},
-  serials: string[] = [],
-  configSearch = '',
-  searchMode = '',
-): { clause: string; params: (string | number)[] } {
-  const conditions = ['i.deleted = 0'];
-  const params: (string | number)[] = [];
-
-  if (serials.length) {
-    const placeholders = serials.map(() => '?').join(',');
-    const normalizedSerials = serials.map(value => value.toLocaleLowerCase());
-    conditions.push(`(lower(i.sn) IN (${placeholders}) OR lower(COALESCE(i.itemNumber,'')) IN (${placeholders}))`);
-    params.push(...normalizedSerials, ...normalizedSerials);
-  } else if (search && searchMode === 'machine') {
-    const pattern = `%${search}%`;
-    conditions.push('(i.sn LIKE ? OR i.itemNumber LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR i.productType LIKE ?)');
-    params.push(pattern, pattern, pattern, pattern, pattern);
-  } else if (search) {
-    const pattern = `%${search}%`;
-    conditions.push(`(
-      i.sn LIKE ? OR i.itemNumber LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR i.year LIKE ? OR
-      i.cpu LIKE ? OR i.ram LIKE ? OR i.gpu LIKE ? OR
-      i.storage LIKE ? OR i.screen LIKE ? OR i.supplierName LIKE ? OR
-      po.purchaseNo LIKE ? OR i.saleOrderNo LIKE ? OR i.remark LIKE ? OR
-      i.skuRemark LIKE ?
-    )`);
-    params.push(
-      pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern,
-      pattern, pattern, pattern, pattern, pattern, pattern,
-    );
-  }
-
-  if (configSearch) {
-    const terms = configSearch.split(/\s+/).filter(Boolean);
-    for (const term of terms) {
-      const pattern = `%${term}%`;
-      conditions.push('(i.cpu LIKE ? OR i.ram LIKE ? OR i.storage LIKE ? OR i.gpu LIKE ? OR i.screen LIKE ?)');
-      params.push(pattern, pattern, pattern, pattern, pattern);
-    }
-  }
-
-  if (status === 'current_stock') {
-    conditions.push("i.status IN ('in_stock','custom')");
-  } else if (status && status !== 'all') {
-    conditions.push('i.status = ?');
-    params.push(status);
-  }
-
-  if (filters.brand) {
-    conditions.push('i.brand = ?');
-    params.push(filters.brand);
-  }
-  if (filters.model) {
-    conditions.push('i.model = ?');
-    params.push(filters.model);
-  }
-  if (filters.supplierId) {
-    conditions.push('i.supplierId = ?');
-    params.push(filters.supplierId);
-  }
-  if (filters.inboundFrom) {
-    conditions.push("date(i.inboundDate) >= date(?)");
-    params.push(filters.inboundFrom);
-  }
-  if (filters.inboundTo) {
-    conditions.push("date(i.inboundDate) <= date(?)");
-    params.push(filters.inboundTo);
-  }
-
-  const numericFilters: Array<[keyof InventoryFilters, string, string]> = [
-    ['priceMin', 'i.purchasePrice >= ?', 'priceMin'],
-    ['priceMax', 'i.purchasePrice <= ?', 'priceMax'],
-    ['ageMin', "julianday(date('now', 'localtime')) - julianday(date(i.inboundDate)) >= ?", 'ageMin'],
-    ['ageMax', "julianday(date('now', 'localtime')) - julianday(date(i.inboundDate)) <= ?", 'ageMax'],
-  ];
-  for (const [key, condition] of numericFilters) {
-    const value = filters[key];
-    if (value && Number.isFinite(Number(value))) {
-      conditions.push(condition);
-      params.push(Number(value));
-    }
-  }
-
-  return { clause: `WHERE ${conditions.join(' AND ')}`, params };
-}
-
 /** 获取库存列表。已删除记录永远不会出现在结果中。 */
 export async function GET(request: NextRequest) {
   try {
@@ -233,13 +132,8 @@ export async function GET(request: NextRequest) {
     const pageSize = Number.isFinite(parsedPagination.pageSize) && parsedPagination.pageSize >= 1
       ? parsedPagination.pageSize
       : 20;
-    const search = searchParams.get('search')?.trim() || '';
-    const configSearch = searchParams.get('configSearch')?.trim() || '';
-    if (configSearch.length > 200) return NextResponse.json(errorResponse('VALIDATION_ERROR','配置搜索内容不能超过 200 个字符'), { status: 400 });
-    const serials = uniqueMachineScanTokens(searchParams.getAll('sn').map(value => value.trim()).filter(Boolean));
-    if (serials.length > 100) return NextResponse.json(errorResponse('VALIDATION_ERROR','一次最多查询 100 个 SN'), { status: 400 });
-    if (serials.some(value => value.length > 200)) return NextResponse.json(errorResponse('VALIDATION_ERROR','SN 长度不能超过 200 个字符'), { status: 400 });
-    const status = searchParams.get('status')?.trim() || '';
+    const validationError = validateInventoryQuery(searchParams);
+    if (validationError) return NextResponse.json(errorResponse('VALIDATION_ERROR', validationError), { status: 400 });
     if (searchParams.get('meta') === 'filters') {
       const filterBrand = searchParams.get('brand')?.trim() || '';
       const brands = db.prepare(`
@@ -280,24 +174,10 @@ export async function GET(request: NextRequest) {
       }));
     }
 
-    const filters: InventoryFilters = {
-      brand: searchParams.get('brand')?.trim() || undefined,
-      model: searchParams.get('model')?.trim() || undefined,
-      supplierId: searchParams.get('supplierId')?.trim() || undefined,
-      inboundFrom: searchParams.get('inboundFrom')?.trim() || undefined,
-      inboundTo: searchParams.get('inboundTo')?.trim() || undefined,
-      priceMin: searchParams.get('priceMin')?.trim() || undefined,
-      priceMax: searchParams.get('priceMax')?.trim() || undefined,
-      ageMin: searchParams.get('ageMin')?.trim() || undefined,
-      ageMax: searchParams.get('ageMax')?.trim() || undefined,
-    };
     const scoped = warehouseScope(user, searchParams.get('warehouseId'), 'i');
-    const searchMode = searchParams.get('searchMode')?.trim() || '';
-    const where = getWhere(search, status, filters, serials, configSearch, searchMode);
-    const customStatusId = searchParams.get('customStatusId')?.trim();
-    if (customStatusId) { where.clause += ' AND EXISTS (SELECT 1 FROM inventory_status_records cr WHERE cr.id=i.currentStatusRecordId AND cr.definitionId=? AND cr.closedAt IS NULL)'; where.params.push(customStatusId); }
+    const where = getInventoryWhere(searchParams);
+    if (searchParams.get('availableFor')) where.clause += ` AND ${stockEligibleSql('i')}`;
     let clause = where.clause + ' AND ' + scoped.sql;
-    if (searchParams.get('availableFor')) clause += ' AND ' + stockEligibleSql('i');
     const params = [...where.params, ...scoped.params];
 
     const count = db.prepare(`

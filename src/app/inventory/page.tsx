@@ -200,7 +200,32 @@ interface InventoryFilters {
   model: string;
   inboundFrom: string;
   inboundTo: string;
+  productType: string;
+  cpu: string;
+  ram: string;
+  storage: string;
+  gpu: string;
+  screen: string;
+  snContains: string;
+  itemNumberContains: string;
+  remarks: string;
+  touchScreen: string;
 }
+
+type ExtraInventoryFilterKey = Exclude<keyof InventoryFilters, 'warehouseId' | 'brand' | 'model' | 'inboundFrom' | 'inboundTo'>;
+
+const EXTRA_INVENTORY_FILTERS: ReadonlyArray<{ key: ExtraInventoryFilterKey; label: string; placeholder: string }> = [
+  { key: 'productType', label: '产品类型', placeholder: '输入产品类型' },
+  { key: 'cpu', label: 'CPU', placeholder: '输入 CPU 配置' },
+  { key: 'ram', label: '内存', placeholder: '输入内存配置' },
+  { key: 'storage', label: '硬盘', placeholder: '输入硬盘配置' },
+  { key: 'gpu', label: '显卡', placeholder: '输入显卡配置' },
+  { key: 'screen', label: '屏幕', placeholder: '输入屏幕规格' },
+  { key: 'snContains', label: 'SN / IMEI', placeholder: '输入完整或部分序列号' },
+  { key: 'itemNumberContains', label: '编号', placeholder: '输入完整或部分编号' },
+  { key: 'remarks', label: '备注', placeholder: '搜索机器备注或 SKU 备注' },
+  { key: 'touchScreen', label: '触屏', placeholder: '' },
+];
 
 interface FilterOptions {
   brands: string[];
@@ -223,9 +248,50 @@ const EMPTY_FILTERS: InventoryFilters = {
   model: '',
   inboundFrom: '',
   inboundTo: '',
+  productType: '',
+  cpu: '',
+  ram: '',
+  storage: '',
+  gpu: '',
+  screen: '',
+  snContains: '',
+  itemNumberContains: '',
+  remarks: '',
+  touchScreen: '',
 };
 
 const EMPTY_FILTER_OPTIONS: FilterOptions = { brands: [], models: [] };
+
+function buildInventoryQueryParams(input: {
+  page: number;
+  pageSize: number;
+  search: string;
+  configSearch: string;
+  status: string;
+  filters: InventoryFilters;
+  serials: string[];
+  paginate?: boolean;
+}) {
+  const params = new URLSearchParams();
+  if (input.paginate !== false) {
+    params.set('page', String(input.page));
+    params.set('pageSize', String(input.pageSize));
+  }
+  if (input.serials.length) input.serials.forEach(serial => params.append('sn', serial));
+  else if (input.search) {
+    params.set('search', input.search);
+    params.set('searchMode', 'machine');
+  }
+  if (input.configSearch) params.set('configSearch', input.configSearch);
+  if (input.status.startsWith('custom:')) {
+    params.set('status', 'custom');
+    params.set('customStatusId', input.status.slice(7));
+  } else if (input.status) params.set('status', input.status);
+  Object.entries(input.filters).forEach(([key, value]) => {
+    if (value) params.set(key, value);
+  });
+  return params;
+}
 
 const STATUS_LABELS: Record<string, string> = {
   in_stock: '在库',
@@ -291,6 +357,7 @@ export default function InventoryPage() {
   const [configSearchInput, setConfigSearchInput] = useState('');
   const [configSearch, setConfigSearch] = useState('');
   const serialSearchTokens = useRef<string[]>([]);
+  const [serialSearchList, setSerialSearchList] = useState<string[]>([]);
   const [status, setStatus] = useState('current_stock');
   const [filters, setFilters] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterDraft, setFilterDraft] = useState<InventoryFilters>(EMPTY_FILTERS);
@@ -325,6 +392,15 @@ export default function InventoryPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkedIds, setCheckedIds] = useState<Set<string>>(() => new Set());
   const [checkedMachines, setCheckedMachines] = useState<Map<string, InventoryItem>>(() => new Map());
+  const [extraFilterKeys, setExtraFilterKeys] = useState<ExtraInventoryFilterKey[]>([]);
+  const [newFilterKey, setNewFilterKey] = useState<ExtraInventoryFilterKey | ''>('');
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportMode, setExportMode] = useState<'filtered' | 'selected'>('filtered');
+  const [exportColumns, setExportColumns] = useState<InventoryTableColumnKey[]>([]);
+  const [exportPreviewCount, setExportPreviewCount] = useState<number | null>(null);
+  const [exportPreviewLoading, setExportPreviewLoading] = useState(false);
+  const [exportBusy, setExportBusy] = useState(false);
+  const [exportError, setExportError] = useState('');
   const [statusDialog, setStatusDialog] = useState<{ mode: 'register' | 'restore' | 'manage'; machine?: InventoryItem; machines?: InventoryItem[] } | null>(null);
   const [assetChangeMachine, setAssetChangeMachine] = useState<InventoryItem | null>(null);
   const [pendingAssetPrintId, setPendingAssetPrintId] = useState<string | null>(null);
@@ -336,6 +412,9 @@ export default function InventoryPage() {
   const machineEditBrandOptions = [...new Set([...(filterOptions.editBrands || filterOptions.brands), machineEditDraft?.brand || ''].filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, 'zh-CN'));
   const machineEditProductTypeOptions = [...new Set([...SKU_PRODUCT_TYPES, machineEditDraft?.productType || ''].filter(Boolean))];
+  const currentExportQuery = buildInventoryQueryParams({ page, pageSize, search, configSearch, status, filters, serials: serialSearchList, paginate: false }).toString();
+  const currentExportIds = JSON.stringify([...checkedMachines.keys()]);
+  const exportColumnsKey = exportColumns.join(',');
   useEffect(() => { setPageJump(String(page)); }, [page]);
   const applyPageJump = () => {
     const requested = Number.parseInt(pageJump, 10);
@@ -458,17 +537,14 @@ export default function InventoryPage() {
       setLoading(true);
       setError('');
       try {
-        const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) });
-        if (serialSearchTokens.current.length) serialSearchTokens.current.forEach(sn => params.append('sn', sn));
-        else if (search) {
-          params.set('search', search);
-          params.set('searchMode', 'machine');
-        }
-        if (configSearch) params.set('configSearch', configSearch);
-        if (status.startsWith('custom:')) { params.set('status', 'custom'); params.set('customStatusId', status.slice(7)); }
-        else if (status) params.set('status', status);
-        Object.entries(filters).forEach(([key, value]) => {
-          if (value) params.set(key, value);
+        const params = buildInventoryQueryParams({
+          page,
+          pageSize,
+          search,
+          configSearch,
+          status,
+          filters,
+          serials: serialSearchList,
         });
 
         const response = await fetch(`/api/inventory?${params.toString()}`, { cache: 'no-store' });
@@ -497,7 +573,37 @@ export default function InventoryPage() {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [active, activeWorkspace, page, pageSize, search, configSearch, status, filters, reloadKey]);
+  }, [active, activeWorkspace, page, pageSize, search, configSearch, status, filters, serialSearchList, reloadKey]);
+
+  useEffect(() => {
+    if (!exportOpen) return;
+    const controller = new AbortController();
+    setExportPreviewLoading(true);
+    setExportPreviewCount(null);
+    setExportError('');
+    void fetch('/api/inventory/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'preview',
+        mode: exportMode,
+        query: currentExportQuery,
+        ...(exportMode === 'selected' ? { ids: JSON.parse(currentExportIds) as string[] } : {}),
+        columns: exportColumns,
+      }),
+      signal: controller.signal,
+    }).then(async response => {
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.error?.message || '无法预览导出数量');
+      setExportPreviewCount(Number(result.data?.total || 0));
+    }).catch(error => {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      setExportError(error instanceof Error ? error.message : '无法预览导出数量');
+    }).finally(() => {
+      if (!controller.signal.aborted) setExportPreviewLoading(false);
+    });
+    return () => controller.abort();
+  }, [exportOpen, exportMode, currentExportQuery, currentExportIds, exportColumnsKey]);
 
   useEffect(() => {
     if (!items.length) return;
@@ -551,6 +657,7 @@ export default function InventoryPage() {
   const submitMachineSearch = (event?: FormEvent) => {
     event?.preventDefault();
     serialSearchTokens.current = [];
+    setSerialSearchList([]);
     setSearch(searchInput.trim());
     setPage(1);
   };
@@ -563,6 +670,7 @@ export default function InventoryPage() {
 
   const clearMachineSearch = () => {
     serialSearchTokens.current = [];
+    setSerialSearchList([]);
     setSearchInput('');
     setSearch('');
     setPage(1);
@@ -592,10 +700,87 @@ export default function InventoryPage() {
   const resetFilters = () => {
     setFilterDraft(EMPTY_FILTERS);
     setFilters(EMPTY_FILTERS);
+    setExtraFilterKeys([]);
+    setNewFilterKey('');
     setPage(1);
   };
 
-  const activeFilterCount = Object.values(filters).filter(Boolean).length;
+  const activeFilterEntries = Object.entries(filters).filter(([, value]) => Boolean(value)) as Array<[keyof InventoryFilters, string]>;
+  const activeFilterCount = activeFilterEntries.length;
+  const filterFieldLabel = (key: keyof InventoryFilters) => {
+    if (key === 'warehouseId') return '仓库';
+    if (key === 'brand') return '品牌';
+    if (key === 'model') return '型号';
+    if (key === 'inboundFrom') return '入库日期起';
+    if (key === 'inboundTo') return '入库日期止';
+    return EXTRA_INVENTORY_FILTERS.find(field => field.key === key)?.label || key;
+  };
+  const filterFieldValue = (key: keyof InventoryFilters, value: string) => {
+    if (key === 'warehouseId') return warehouses.find(warehouse => warehouse.id === value)?.name || value;
+    if (key === 'brand' || key === 'model') return value;
+    if (key === 'touchScreen') return value === '1' ? '是' : '否';
+    return value;
+  };
+  const removeActiveFilter = (key: keyof InventoryFilters) => {
+    const clearedKeys: Array<keyof InventoryFilters> = key === 'brand' ? ['brand', 'model'] : [key];
+    setFilters(current => clearedKeys.reduce((next, filterKey) => ({ ...next, [filterKey]: '' }), { ...current }));
+    setFilterDraft(current => clearedKeys.reduce((next, filterKey) => ({ ...next, [filterKey]: '' }), { ...current }));
+    setPage(1);
+  };
+  const addFilterField = () => {
+    if (!newFilterKey || extraFilterKeys.includes(newFilterKey)) return;
+    setExtraFilterKeys(current => [...current, newFilterKey]);
+    setFilterDraft(current => ({ ...current, [newFilterKey]: '' }));
+    setNewFilterKey('');
+  };
+  const openInventoryExport = (mode: 'filtered' | 'selected') => {
+    const visibleColumns = tablePreferences.columns.filter(column => column.visible).map(column => column.key);
+    setExportColumns(visibleColumns.length ? visibleColumns : ['machine', 'serial']);
+    setExportMode(mode);
+    setExportError('');
+    setExportOpen(true);
+  };
+  const toggleExportColumn = (key: InventoryTableColumnKey) => {
+    setExportColumns(current => current.includes(key)
+      ? current.filter(column => column !== key)
+      : [...current, key]);
+  };
+  const downloadInventoryExport = async () => {
+    if (!exportColumns.length || exportPreviewLoading || exportBusy) return;
+    setExportBusy(true);
+    setExportError('');
+    try {
+      const response = await fetch('/api/inventory/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'download',
+          mode: exportMode,
+          query: currentExportQuery,
+          ...(exportMode === 'selected' ? { ids: JSON.parse(currentExportIds) as string[] } : {}),
+          columns: exportColumns,
+        }),
+      });
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error?.message || '导出库存失败');
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `库存导出-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setExportOpen(false);
+    } catch (error) {
+      setExportError(error instanceof Error ? error.message : '导出库存失败');
+    } finally {
+      setExportBusy(false);
+    }
+  };
   const checkedItems = [...checkedMachines.values()];
   const allPageChecked = items.length > 0 && items.every((item) => checkedIds.has(item.id));
 
@@ -633,20 +818,6 @@ export default function InventoryPage() {
   const openPrintSelected = () => {
     if (checkedItems.length === 0) return;
     router.push(`/settings/print/preview?ids=${encodeURIComponent(checkedItems.map((item) => item.id).join(','))}`);
-  };
-
-  const exportSelected = () => {
-    if (checkedItems.length === 0) return;
-    const headers = ['SN / IMEI', '品牌', '型号', '年份', '状态', '采购价', '供应商', '采购单号', '入库日期', '库龄（天）'];
-    const rows = checkedItems.map((item) => [item.sn, item.brand, item.model, item.year || '', itemStatusLabel(item), item.purchasePrice, item.supplierName, item.purchaseNo || '', formatDate(item.inboundDate), item.inboundDays]);
-    const csvCell = (value: unknown) => { const text = String(value ?? ''); return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text; };
-    const csv = [headers, ...rows].map((row) => row.map(csvCell).join(',')).join('\r\n');
-    const url = URL.createObjectURL(new Blob([`\ufeff${csv}`], { type: 'text/csv;charset=utf-8' }));
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = `库存选中记录-${new Date().toISOString().slice(0, 10)}.csv`;
-    anchor.click();
-    URL.revokeObjectURL(url);
   };
 
   const openDetails = (item: InventoryItem) => {
@@ -990,7 +1161,7 @@ export default function InventoryPage() {
           <div role="group" aria-label="库存搜索" className="grid min-w-0 basis-full grid-cols-1 gap-2.5 sm:grid-cols-2 xl:max-w-xl xl:flex-1">
             <form onSubmit={submitMachineSearch} className="min-w-0">
               <label htmlFor="inventory-machine-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">机器信息</label>
-              <MachineSearchInput<InventoryItem> inputId="inventory-machine-search" value={searchInput} onChange={setSearchInput} onClear={clearMachineSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled batchButtonPlacement="inline" searchOnEnter placeholder="搜索 SN、编号、品牌或型号" ariaLabel="搜索库存机器的 SN、编号、品牌或型号" />
+              <MachineSearchInput<InventoryItem> inputId="inventory-machine-search" value={searchInput} onChange={setSearchInput} onClear={clearMachineSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSerialSearchList([item.sn]); setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; setSerialSearchList(tokens); const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSerialSearchList([]); setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled batchButtonPlacement="inline" searchOnEnter placeholder="搜索 SN、编号、品牌或型号" ariaLabel="搜索库存机器的 SN、编号、品牌或型号" />
             </form>
             <form onSubmit={submitConfigSearch} className="min-w-0">
               <label htmlFor="inventory-config-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">机器配置</label>
@@ -1022,6 +1193,7 @@ export default function InventoryPage() {
             <button type="button" onClick={() => setViewMode('cards')} aria-pressed={viewMode === 'cards'} title="卡片视图" className={`rounded-md p-1.5 transition-colors ${viewMode === 'cards' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-white'}`}><LayoutGrid className="h-4 w-4" /></button>
           </div>
           <button type="button" onClick={() => setTableSettingsOpen(true)} disabled={!tablePreferencesHydrated} title="自定义库存表格列" className="btn-ghost inline-flex items-center gap-1.5 disabled:cursor-not-allowed disabled:opacity-50"><Columns3 className="h-4 w-4" />列设置</button>
+          {!isViewer && <button type="button" onClick={() => openInventoryExport('filtered')} className="btn-ghost inline-flex items-center gap-1.5"><FileDown className="h-4 w-4" />导出结果</button>}
           <button type="button" onClick={() => setFiltersOpen((open) => !open)} aria-expanded={filtersOpen} className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-[12px] transition-colors ${filtersOpen || activeFilterCount > 0 ? 'border-primary/30 bg-primary/10 text-primary' : 'border-line/70 text-ink-soft hover:bg-white/70'}`}><SlidersHorizontal className="h-4 w-4" />组合筛选{activeFilterCount > 0 && <span className="rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-white">{activeFilterCount}</span>}</button>
           <button type="button" onClick={() => setReloadKey((key) => key + 1)} disabled={loading} title="刷新库存" aria-label="刷新库存" className="self-end lg:self-auto p-2 text-ink-soft hover:text-primary hover:bg-white/70 rounded-lg transition-colors"><RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /></button>
         </div>
@@ -1035,10 +1207,23 @@ export default function InventoryPage() {
             <FilterSelect label="型号" value={filterDraft.model} options={filterOptions.models} onChange={(value) => setFilterDraft((current) => ({ ...current, model: value }))} disabled={!filterDraft.brand || filterModelsLoading || !filterOptions.models.length} emptyLabel={!filterDraft.brand ? '请先选择品牌' : filterModelsLoading ? '正在加载型号…' : filterOptions.models.length ? '全部型号' : '该品牌暂无库存型号'} />
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">入库日期起</span><input type="date" value={filterDraft.inboundFrom} onChange={(event) => setFilterDraft((current) => ({ ...current, inboundFrom: event.target.value }))} className="field" /></label>
             <label className="block"><span className="mb-1.5 block text-[11px] text-ink-soft">入库日期止</span><input type="date" value={filterDraft.inboundTo} onChange={(event) => setFilterDraft((current) => ({ ...current, inboundTo: event.target.value }))} className="field" /></label>
+            {extraFilterKeys.map(key => {
+              const definition = EXTRA_INVENTORY_FILTERS.find(item => item.key === key)!;
+              return <label key={key} className="block min-w-0"><span className="mb-1.5 block text-[11px] text-ink-soft">{definition.label}</span>{key === 'touchScreen'
+                ? <CustomSelect aria-label="按触屏筛选" value={filterDraft.touchScreen} onChange={value => setFilterDraft(current => ({ ...current, touchScreen: value }))} options={[{ value: '', label: '不限' }, { value: '1', label: '触屏' }, { value: '0', label: '非触屏' }]} />
+                : <input type="text" value={filterDraft[key]} onChange={event => setFilterDraft(current => ({ ...current, [key]: event.target.value }))} maxLength={200} placeholder={definition.placeholder} className="field" />}</label>;
+            })}
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line/60 pt-4">
+            <span className="text-[11px] text-ink-soft">添加筛选条件</span>
+            <div className="min-w-[200px] flex-1 sm:max-w-xs"><CustomSelect aria-label="选择要添加的库存筛选条件" value={newFilterKey} onChange={value => setNewFilterKey(value as ExtraInventoryFilterKey)} options={EXTRA_INVENTORY_FILTERS.filter(field => !extraFilterKeys.includes(field.key)).map(field => ({ value: field.key, label: field.label }))} placeholder="选择条件" /></div>
+            <button type="button" onClick={addFilterField} disabled={!newFilterKey} className="btn-ghost inline-flex items-center gap-1.5 disabled:cursor-not-allowed disabled:opacity-50"><Check className="h-4 w-4" />添加</button>
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-end gap-2"><button type="button" onClick={resetFilters} className="btn-ghost">清空条件</button><button type="button" onClick={applyFilters} className="btn-primary inline-flex items-center gap-1.5"><Check className="h-4 w-4" />应用筛选</button></div>
         </section>
       )}
+
+      {activeFilterEntries.length > 0 && <div className="mb-4 flex flex-wrap items-center gap-2" aria-label="已应用的库存筛选条件"><span className="text-[11px] text-ink-soft">已应用</span>{activeFilterEntries.map(([key, value]) => <button key={key} type="button" onClick={() => removeActiveFilter(key)} title={`清除${filterFieldLabel(key)}筛选`} className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-primary/15 bg-white/75 px-2.5 py-1 text-[11px] text-ink-deep transition hover:border-primary/30 hover:bg-primary/5"><span className="text-ink-soft">{filterFieldLabel(key)}</span><span className="max-w-[180px] truncate">{filterFieldValue(key, value)}</span><X className="h-3 w-3 shrink-0 text-ink-soft" /></button>)}</div>}
 
       {error && (
         <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-danger/20 bg-danger/5 px-4 py-3 text-[13px] text-danger">
@@ -1050,7 +1235,7 @@ export default function InventoryPage() {
       {!isViewer && checkedItems.length > 0 && (
         <section className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/15 bg-primary/5 px-4 py-3">
           <div className="flex items-center gap-2 text-[12px] text-ink-deep"><CheckSquare className="h-4 w-4 text-primary" />已选 <b>{checkedItems.length}</b> 台机器</div>
-          <div className="flex flex-wrap items-center gap-2">{isAdmin && checkedItems.length === 1 && checkedItems[0].status === 'in_stock' && <button type="button" onClick={() => setAssetChangeMachine(checkedItems[0])} className="btn-ghost inline-flex items-center gap-1.5"><MemoryStick className="h-4 w-4" />资产变更</button>}{isAdmin && <button type="button" onClick={() => setStatusDialog({ mode: 'register', machines: checkedItems })} title="在机器状态登记窗口中统一登记" className="btn-ghost inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" />登记所选机器状态</button>}<button type="button" onClick={openPrintSelected} className="btn-ghost inline-flex items-center gap-1.5"><Printer className="h-4 w-4" />打印所选标签</button><button type="button" onClick={exportSelected} className="btn-ghost inline-flex items-center gap-1.5"><FileDown className="h-4 w-4" />导出所选</button><button type="button" onClick={() => { setCheckedIds(new Set()); setCheckedMachines(new Map()); }} className="text-[12px] text-ink-soft hover:text-ink-deep">清除选择</button></div>
+          <div className="flex flex-wrap items-center gap-2">{isAdmin && checkedItems.length === 1 && checkedItems[0].status === 'in_stock' && <button type="button" onClick={() => setAssetChangeMachine(checkedItems[0])} className="btn-ghost inline-flex items-center gap-1.5"><MemoryStick className="h-4 w-4" />资产变更</button>}{isAdmin && <button type="button" onClick={() => setStatusDialog({ mode: 'register', machines: checkedItems })} title="在机器状态登记窗口中统一登记" className="btn-ghost inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" />登记所选机器状态</button>}<button type="button" onClick={openPrintSelected} className="btn-ghost inline-flex items-center gap-1.5"><Printer className="h-4 w-4" />打印所选标签</button><button type="button" onClick={() => openInventoryExport('selected')} className="btn-ghost inline-flex items-center gap-1.5"><FileDown className="h-4 w-4" />导出所选</button><button type="button" onClick={() => { setCheckedIds(new Set()); setCheckedMachines(new Map()); }} className="text-[12px] text-ink-soft hover:text-ink-deep">清除选择</button></div>
         </section>
       )}
 
@@ -1180,6 +1365,25 @@ export default function InventoryPage() {
       <ConfirmDialog isOpen={Boolean(pendingAssetPrintId)} title={assetPrintError ? '更新后的标签打印失败' : '资产变更完成，是否打印更新后的标签？'} message={assetPrintError ? `资产变更已保存。${assetPrintError}` : '标签将使用这台机器最新的内存和硬盘信息，并按默认标签模板打印。'} confirmText={printing || assetPrintBusy ? '准备打印…' : assetPrintError ? '重试打印' : '打印更新后的标签'} cancelText="暂不打印" onConfirm={() => { void printUpdatedAssetLabel(); }} onCancel={() => { if (!printing && !assetPrintBusy) { setPendingAssetPrintId(null); setAssetPrintError(''); } }} />
       {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || statusDialog.machines?.map(item => item.id).join(',') || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} machines={statusDialog.machines} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
       {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setCheckedMachines(current => { const next = new Map(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
+      {exportOpen && <BusinessDialog title="导出库存" description="服务端会重新查询并检查仓库权限；导出设置不会改变日常表格列。" onClose={() => { if (!exportBusy) setExportOpen(false); }} footer={<><button type="button" className="btn-ghost" onClick={() => setExportOpen(false)} disabled={exportBusy}>取消</button><button type="button" className="btn-primary inline-flex items-center gap-1.5" onClick={() => void downloadInventoryExport()} disabled={exportBusy || exportPreviewLoading || !exportPreviewCount || !exportColumns.length}><FileDown className="h-4 w-4" />{exportBusy ? '正在生成…' : `导出 ${exportPreviewCount ?? 0} 台`}</button></>}>
+        <div className="space-y-5">
+          <fieldset>
+            <legend className="mb-2 text-xs font-medium text-ink-deep">导出范围</legend>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <label className={`flex cursor-pointer items-start gap-2.5 rounded-lg border p-3 transition ${exportMode === 'filtered' ? 'border-primary/40 bg-primary/5' : 'border-line/70 bg-white/60 hover:bg-white'}`}><input type="radio" name="inventory-export-mode" value="filtered" checked={exportMode === 'filtered'} onChange={() => setExportMode('filtered')} className="mt-0.5 accent-primary" /><span><span className="block text-xs font-medium text-ink-deep">当前筛选的全部机器</span><span className="mt-1 block text-[11px] text-ink-soft">忽略分页，导出所有符合条件的记录</span></span></label>
+              <label className={`flex cursor-pointer items-start gap-2.5 rounded-lg border p-3 transition ${exportMode === 'selected' ? 'border-primary/40 bg-primary/5' : 'border-line/70 bg-white/60 hover:bg-white'}`}><input type="radio" name="inventory-export-mode" value="selected" checked={exportMode === 'selected'} onChange={() => setExportMode('selected')} className="mt-0.5 accent-primary" /><span><span className="block text-xs font-medium text-ink-deep">仅导出所选机器</span><span className="mt-1 block text-[11px] text-ink-soft">已勾选 {checkedItems.length} 台；导出前会重新核对记录</span></span></label>
+            </div>
+          </fieldset>
+          <section>
+            <div className="mb-2 flex items-center justify-between gap-3"><h3 className="text-xs font-medium text-ink-deep">导出字段</h3><span className="text-[11px] text-ink-soft">默认跟随当前可见列 · 已选 {exportColumns.length} 项</span></div>
+            <div className="grid max-h-64 grid-cols-1 gap-x-4 gap-y-1 overflow-y-auto rounded-lg border border-line/70 bg-white/50 p-3 sm:grid-cols-2">
+              {INVENTORY_TABLE_COLUMN_DEFINITIONS.map(column => <label key={column.key} className="flex min-w-0 items-center gap-2 rounded px-1.5 py-1.5 text-xs text-ink-deep hover:bg-primary/5"><input type="checkbox" checked={exportColumns.includes(column.key)} onChange={() => toggleExportColumn(column.key)} className="accent-primary" /><span className="truncate">{column.label}</span></label>)}
+            </div>
+          </section>
+          <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line/70 bg-white/60 px-3 py-2.5 text-xs" aria-live="polite"><span className="text-ink-soft">预计导出</span><strong className="font-mono text-ink-deep">{exportPreviewLoading ? '正在统计…' : `${exportPreviewCount ?? 0} 台机器`}</strong></div>
+          {exportError && <p role="alert" className="rounded-lg border border-danger/20 bg-danger/5 p-3 text-xs text-danger">{exportError}</p>}
+        </div>
+      </BusinessDialog>}
       {tableSettingsOpen && tablePreferencesHydrated && user?.id && <InventoryColumnSettingsDialog key={user.id} initialValue={tablePreferences} onClose={() => setTableSettingsOpen(false)} onSave={saveTablePreferences} />}
       </WorkspaceSection>
       {!isViewer && <WorkspaceSection active={activeWorkspace === 'transfers'}><TransfersWorkspace /></WorkspaceSection>}
