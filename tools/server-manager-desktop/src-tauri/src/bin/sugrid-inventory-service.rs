@@ -7,7 +7,7 @@ mod service_host {
     use std::{
         ffi::{OsStr, OsString},
         fs::{self, OpenOptions},
-        io::Write,
+        io::{self, Write},
         net::TcpListener,
         path::{Path, PathBuf},
         process::{Command, Stdio},
@@ -115,6 +115,71 @@ mod service_host {
         millis.to_string()
     }
 
+    fn windows_service_error(error: &WindowsServiceError) -> String {
+        let code = std::error::Error::source(error)
+            .and_then(|source| source.downcast_ref::<io::Error>())
+            .and_then(io::Error::raw_os_error);
+        match code {
+            Some(code) => format!("{error} (Win32 error {code})"),
+            None => error.to_string(),
+        }
+    }
+
+    fn io_error_summary(error: &io::Error) -> String {
+        match error.raw_os_error() {
+            Some(code) => format!("{error} (os error {code})"),
+            None => error.to_string(),
+        }
+    }
+
+    fn install_diagnostic_path(root: &Path) -> PathBuf {
+        root.join("install-diagnostics.txt")
+    }
+
+    fn install_error_code(error: &str) -> String {
+        // Keep the public summary free of local paths and database contents.
+        let marker = "Win32 error ";
+        if let Some(start) = error.find(marker) {
+            let code = error[start + marker.len()..]
+                .chars()
+                .take_while(char::is_ascii_digit)
+                .collect::<String>();
+            if !code.is_empty() {
+                return format!("win32={code}");
+            }
+        }
+        let marker = "os error ";
+        if let Some(start) = error.find(marker) {
+            let code = error[start + marker.len()..]
+                .chars()
+                .take_while(char::is_ascii_digit)
+                .collect::<String>();
+            if !code.is_empty() {
+                return format!("os={code}");
+            }
+        }
+        "code=unavailable".into()
+    }
+
+    fn write_install_diagnostic(root: &Path, step: &str, error: &str) {
+        let _ = fs::create_dir_all(root);
+        let path = install_diagnostic_path(root);
+        let summary = format!(
+            "step={step}; {}; service={SERVICE_NAME}; port={PORT}\r\n",
+            install_error_code(error)
+        );
+        if fs::write(&path, summary).is_ok() {
+            // The summary contains no database data, credentials, or local paths.
+            let _ = hidden_command("icacls.exe")
+                .args([
+                    path.to_string_lossy().as_ref(),
+                    "/grant:r",
+                    "BUILTIN\\Users:(R)",
+                ])
+                .output();
+        }
+    }
+
     fn append_log(paths: &Paths, message: &str) {
         let _ = fs::create_dir_all(&paths.logs);
         if let Ok(mut file) = OpenOptions::new()
@@ -123,6 +188,20 @@ mod service_host {
             .open(paths.logs.join("service-manager.log"))
         {
             let _ = writeln!(file, "{} {message}", now_stamp());
+        }
+    }
+
+    fn append_service_host_log(message: &str) {
+        // This also works when current_paths fails before the service handler is registered.
+        if let Ok(root) = data_root() {
+            let logs = root.join("logs");
+            if let Ok(mut file) = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(logs.join("service-host.log"))
+            {
+                let _ = writeln!(file, "{} {message}", now_stamp());
+            }
         }
     }
 
@@ -219,7 +298,10 @@ mod service_host {
         inspect_database(destination_path)
     }
 
-    fn create_backup_file(database: &Path, backup_dir: &Path) -> Result<PathBuf, String> {
+    fn create_backup_file(
+        database: &Path,
+        backup_dir: &Path,
+    ) -> Result<(PathBuf, Option<String>), String> {
         if !database.is_file() {
             return Err(format!(
                 "Database file does not exist: {}",
@@ -229,8 +311,9 @@ mod service_host {
         fs::create_dir_all(backup_dir).map_err(|error| error.to_string())?;
         let destination = backup_dir.join(format!("inventory.before-install-{}.db", now_stamp()));
         online_backup(database, &destination)?;
-        write_backup_manifest(backup_dir)?;
-        Ok(destination)
+        // The verified database copy remains usable if its listing cannot be refreshed.
+        let manifest_warning = write_backup_manifest(backup_dir).err();
+        Ok((destination, manifest_warning))
     }
 
     fn write_backup_manifest(backup_dir: &Path) -> Result<(), String> {
@@ -263,25 +346,67 @@ mod service_host {
             .collect::<Vec<_>>();
         items.sort_by(|left, right| right.modified_at.cmp(&left.modified_at));
         let manifest = backup_dir.join("manifest.json");
+        // Write to a sibling file first so a permission or interruption never
+        // truncates the last usable manifest. Callers may keep the verified
+        // database backup even when this metadata refresh is unavailable.
+        let temporary = backup_dir.join(format!(
+            ".manifest-{}-{}.tmp",
+            std::process::id(),
+            now_stamp()
+        ));
         fs::write(
-            &manifest,
+            &temporary,
             serde_json::to_vec_pretty(&items).map_err(|error| error.to_string())?,
         )
-        .map_err(|error| format!("Could not write backup manifest: {error}"))?;
+        .map_err(|error| format!("Could not stage backup manifest: {error}"))?;
         let output = hidden_command("icacls.exe")
             .args([
-                manifest.to_string_lossy().as_ref(),
+                temporary.to_string_lossy().as_ref(),
                 "/grant:r",
                 "BUILTIN\\Users:(R)",
             ])
             .output()
             .map_err(|error| {
+                let _ = fs::remove_file(&temporary);
                 format!("Could not allow the manager to read backup metadata: {error}")
             })?;
         if !output.status.success() {
+            let _ = fs::remove_file(&temporary);
             return Err(format!(
                 "Could not allow the manager to read backup metadata: {}",
                 String::from_utf8_lossy(&output.stderr).trim()
+            ));
+        }
+        if let Err(error) = replace_manifest_file(&temporary, &manifest) {
+            let _ = fs::remove_file(&temporary);
+            return Err(error);
+        }
+        Ok(())
+    }
+
+    fn replace_manifest_file(temporary: &Path, manifest: &Path) -> Result<(), String> {
+        use std::os::windows::ffi::OsStrExt;
+        let source = temporary
+            .as_os_str()
+            .encode_wide()
+            .chain(std::iter::once(0))
+            .collect::<Vec<_>>();
+        let destination = manifest
+            .as_os_str()
+            .encode_wide()
+            .chain(std::iter::once(0))
+            .collect::<Vec<_>>();
+        let ok = unsafe {
+            windows_sys::Win32::Storage::FileSystem::MoveFileExW(
+                source.as_ptr(),
+                destination.as_ptr(),
+                windows_sys::Win32::Storage::FileSystem::MOVEFILE_REPLACE_EXISTING,
+            )
+        };
+        if ok == 0 {
+            return Err(format!(
+                "Could not replace backup manifest: {}",
+                std::io::Error::last_os_error()
             ));
         }
         Ok(())
@@ -621,7 +746,28 @@ mod service_host {
         let backups = root.join("backups");
         grant_users_directory_listing(&backups)?;
         grant_users_directory_listing(&root.join("logs"))?;
-        write_backup_manifest(&backups)?;
+        // Backup metadata is refreshed by explicit backup operations. ACL repair
+        // must not depend on writing a manifest for pre-existing backup files.
+        let instance_file = root.join("logs").join("service-instance.txt");
+        OpenOptions::new()
+            .create(true)
+            .write(true)
+            .open(&instance_file)
+            .map_err(|error| format!("Could not prepare service identity file: {error}"))?;
+        let instance_acl = hidden_command("icacls.exe")
+            .args([
+                instance_file.to_string_lossy().as_ref(),
+                "/grant:r",
+                "BUILTIN\\Users:(R)",
+            ])
+            .output()
+            .map_err(|error| format!("Could not grant service identity read access: {error}"))?;
+        if !instance_acl.status.success() {
+            return Err(format!(
+                "Could not grant service identity read access: {}",
+                String::from_utf8_lossy(&instance_acl.stderr).trim()
+            ));
+        }
         for directory in ["app", "inventory"] {
             let path = root.join(directory);
             if !path.exists() {
@@ -836,24 +982,14 @@ mod service_host {
     }
 
     fn new_service_instance(paths: &Paths) -> Result<String, String> {
-        fs::create_dir_all(&paths.logs).map_err(|error| error.to_string())?;
         let instance = format!("{}-{}", now_stamp(), std::process::id());
-        fs::write(service_instance_path(paths), &instance)
+        let mut file = OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open(service_instance_path(paths))
+            .map_err(|error| format!("Could not open prepared service identity file: {error}"))?;
+        file.write_all(instance.as_bytes())
             .map_err(|error| format!("Could not record service instance: {error}"))?;
-        let output = hidden_command("icacls.exe")
-            .args([
-                service_instance_path(paths).to_string_lossy().as_ref(),
-                "/grant:r",
-                "BUILTIN\\Users:(R)",
-            ])
-            .output()
-            .map_err(|error| format!("Could not publish service health identity: {error}"))?;
-        if !output.status.success() {
-            return Err(format!(
-                "Could not publish service health identity: {}",
-                String::from_utf8_lossy(&output.stderr).trim()
-            ));
-        }
         Ok(instance)
     }
 
@@ -951,12 +1087,34 @@ mod service_host {
         let service = open_service(ServiceAccess::QUERY_STATUS | ServiceAccess::START)?;
         let state = service
             .query_status()
-            .map_err(|error| error.to_string())?
+            .map_err(|error| {
+                format!(
+                    "Could not query inventory service before start: {}",
+                    windows_service_error(&error)
+                )
+            })?
             .current_state;
         match state {
-            ServiceState::Stopped => service
-                .start::<OsString>(&[])
-                .map_err(|error| format!("Could not start the inventory service: {error}"))?,
+            ServiceState::Stopped => service.start::<OsString>(&[]).map_err(|error| {
+                let status = service
+                    .query_status()
+                    .map(|status| {
+                        format!(
+                            "state={:?}, exit_code={:?}",
+                            status.current_state, status.exit_code
+                        )
+                    })
+                    .unwrap_or_else(|status_error| {
+                        format!(
+                            "status unavailable: {}",
+                            windows_service_error(&status_error)
+                        )
+                    });
+                format!(
+                    "Could not start the inventory service: {}; {status}",
+                    windows_service_error(&error)
+                )
+            })?,
             ServiceState::Running | ServiceState::StartPending | ServiceState::ContinuePending => {}
             other => {
                 return Err(format!(
@@ -976,10 +1134,25 @@ mod service_host {
             }
             thread::sleep(Duration::from_millis(500));
         }
-        Err(format!(
-            "The inventory service did not become healthy at http://127.0.0.1:{PORT}/api/health. Check {}.",
+        let status = service
+            .query_status()
+            .map(|status| {
+                format!(
+                    "state={:?}, exit_code={:?}",
+                    status.current_state, status.exit_code
+                )
+            })
+            .unwrap_or_else(|status_error| {
+                format!(
+                    "status unavailable: {}",
+                    windows_service_error(&status_error)
+                )
+            });
+        let error = format!(
+            "The inventory service did not become healthy at http://127.0.0.1:{PORT}/api/health ({status}). Check {}.",
             paths.logs.join("service.log").display()
-        ))
+        );
+        Err(error)
     }
 
     fn health_check(port: u16, instance: &str) -> bool {
@@ -1010,7 +1183,12 @@ mod service_host {
     fn ensure_port_available(port: u16) -> Result<(), String> {
         TcpListener::bind(("0.0.0.0", port))
             .map(drop)
-            .map_err(|error| format!("Port {port} is already in use or unavailable: {error}"))
+            .map_err(|error| {
+                format!(
+                    "Port {port} is already in use or unavailable: {}",
+                    io_error_summary(&error)
+                )
+            })
     }
 
     fn install(legacy_config: &Path) -> Result<(), String> {
@@ -1018,8 +1196,11 @@ mod service_host {
         let service_was_installed = service_installed()?;
         let was_running = stop_service_if_running()?;
         let mut runtime_stage = None;
+        let mut install_step = "preflight";
         let install_result = (|| {
+            install_step = "port-preflight";
             ensure_port_available(PORT)?;
+            install_step = "prepare-program-data";
             fs::create_dir_all(&paths.program_data).map_err(|error| error.to_string())?;
             fs::create_dir_all(
                 &paths
@@ -1031,14 +1212,24 @@ mod service_host {
             fs::create_dir_all(&paths.backups).map_err(|error| error.to_string())?;
             fs::create_dir_all(&paths.logs).map_err(|error| error.to_string())?;
             if paths.database.is_file() {
-                let backup = create_backup_file(&paths.database, &paths.backups)?;
+                install_step = "backup-database";
+                let (backup, manifest_warning) =
+                    create_backup_file(&paths.database, &paths.backups)?;
                 append_log(
                     &paths,
                     &format!("Pre-install SQLite backup created: {}", backup.display()),
                 );
+                if let Some(warning) = manifest_warning {
+                    append_log(
+                        &paths,
+                        &format!("Backup listing could not be refreshed: {warning}"),
+                    );
+                }
             }
+            install_step = "stage-runtime";
             runtime_stage = Some(stage_runtime(&paths)?);
             paths.inventory = paths.program_data.join("inventory");
+            install_step = "migrate-database";
             migrate_or_initialize(
                 &paths.inventory,
                 &paths.database,
@@ -1046,8 +1237,11 @@ mod service_host {
                 &paths.logs,
                 legacy_config,
             )?;
+            install_step = "apply-data-permissions";
             set_data_permissions(&paths.program_data)?;
+            install_step = "install-windows-service";
             install_windows_service(&paths)?;
+            install_step = "start-and-health-check";
             start_and_wait_healthy(&paths)?;
             Ok::<(), String>(())
         })();
@@ -1090,9 +1284,17 @@ mod service_host {
             };
             append_log(
                 &paths,
-                &format!("Installation failed: {install_error}. {detail}"),
+                &format!(
+                    "Installation failed at {install_step}: {install_error}. {detail}. Diagnostic: {}",
+                    install_diagnostic_path(&paths.program_data).display()
+                ),
             );
-            return Err(format!("{install_error}. {detail}"));
+            // Recovery may reset ACLs; publish the user-readable summary last.
+            write_install_diagnostic(&paths.program_data, install_step, &install_error);
+            return Err(format!(
+                "Installation failed at {install_step}: {install_error}. {detail}. Diagnostic: {}",
+                install_diagnostic_path(&paths.program_data).display()
+            ));
         }
         if let Some(stage) = runtime_stage {
             commit_runtime(stage);
@@ -1165,7 +1367,12 @@ mod service_host {
             .backups
             .join(format!("inventory.before-restore-{}.db", now_stamp()));
         online_backup(&paths.database, &safety)?;
-        write_backup_manifest(&paths.backups)?;
+        if let Err(error) = write_backup_manifest(&paths.backups) {
+            append_log(
+                &paths,
+                &format!("Backup listing could not be refreshed: {error}"),
+            );
+        }
         let stage = paths
             .database
             .with_file_name(format!("inventory.restore-{}.db", std::process::id()));
@@ -1219,6 +1426,7 @@ mod service_host {
 
     fn service_main(_arguments: Vec<OsString>) {
         if let Err(error) = run_service() {
+            append_service_host_log(&format!("Service host stopped with error: {error}"));
             if let Ok(paths) = current_paths() {
                 append_log(&paths, &format!("Service host stopped with error: {error}"));
             }
@@ -1280,7 +1488,9 @@ mod service_host {
     }
 
     fn run_service() -> Result<(), String> {
+        append_service_host_log("Service host entered startup.");
         let paths = current_paths()?;
+        append_service_host_log("Bundled runtime paths verified.");
         let (shutdown_tx, shutdown_rx) = mpsc::channel::<()>();
         let handler = move |event| match event {
             ServiceControl::Interrogate => ServiceControlHandlerResult::NoError,
@@ -1301,43 +1511,64 @@ mod service_host {
             Duration::from_secs(30),
         )?;
 
-        ensure_port_available(PORT)?;
-        let instance = new_service_instance(&paths)?;
-        let mut child = launch_inventory(&paths)?;
-        let mut healthy = false;
-        for _ in 0..120 {
-            if health_check(PORT, &instance) {
-                healthy = true;
-                break;
+        let startup = (|| {
+            ensure_port_available(PORT)?;
+            append_service_host_log("Port 3000 is available.");
+            let instance = new_service_instance(&paths)?;
+            append_service_host_log("Service identity recorded.");
+            let mut child = launch_inventory(&paths)?;
+            append_service_host_log(&format!(
+                "Bundled inventory process launched with PID {}.",
+                child.id()
+            ));
+            for _ in 0..120 {
+                if health_check(PORT, &instance) {
+                    return Ok(child);
+                }
+                if let Some(status) = child.try_wait().map_err(|error| {
+                    format!("Could not inspect inventory server startup: {error}")
+                })? {
+                    return Err(format!(
+                        "The inventory server exited with {status} before passing health checks. Check {}.",
+                        paths.logs.join("service.log").display()
+                    ));
+                }
+                thread::sleep(Duration::from_millis(500));
             }
-            if child
-                .try_wait()
-                .map_err(|error| format!("Could not inspect inventory server startup: {error}"))?
-                .is_some()
-            {
-                return Err(format!(
-                    "The inventory server exited before passing health checks. Check {}.",
-                    paths.logs.join("service.log").display()
-                ));
-            }
-            thread::sleep(Duration::from_millis(500));
-        }
-        if !healthy {
             let _ = child.kill();
             let _ = child.wait();
-            return Err(format!(
+            Err(format!(
                 "The inventory server did not become healthy. Check {}.",
                 paths.logs.join("service.log").display()
-            ));
-        }
-        set_status(
+            ))
+        })();
+        let mut child = match startup {
+            Ok(child) => child,
+            Err(error) => {
+                append_service_host_log(&format!("Service startup failed: {error}"));
+                let _ = set_status(
+                    &status_handle,
+                    ServiceState::Stopped,
+                    ServiceControlAccept::empty(),
+                    ServiceExitCode::ServiceSpecific(1),
+                    0,
+                    Duration::default(),
+                );
+                return Err(error);
+            }
+        };
+        if let Err(error) = set_status(
             &status_handle,
             ServiceState::Running,
             ServiceControlAccept::STOP | ServiceControlAccept::SHUTDOWN,
             ServiceExitCode::Win32(0),
             0,
             Duration::default(),
-        )?;
+        ) {
+            let _ = child.kill();
+            let _ = child.wait();
+            return Err(format!("Could not report running service status: {error}"));
+        }
         append_log(
             &paths,
             &format!("Inventory server started with PID {}.", child.id()),
@@ -1478,8 +1709,20 @@ mod service_host {
             }
             "backup" => {
                 let paths = current_paths()?;
-                let backup = create_backup_file(&paths.database, &paths.backups)?;
-                Ok(format!("Database backup created: {}", backup.display()))
+                let (backup, manifest_warning) =
+                    create_backup_file(&paths.database, &paths.backups)?;
+                if let Some(warning) = manifest_warning {
+                    append_log(
+                        &paths,
+                        &format!("Backup listing could not be refreshed: {warning}"),
+                    );
+                    Ok(format!(
+                        "Database backup created and verified at {}. The backup listing could not be refreshed; see service-manager.log.",
+                        backup.display()
+                    ))
+                } else {
+                    Ok(format!("Database backup created: {}", backup.display()))
+                }
             }
             "run" => {
                 windows_service::service_dispatcher::start(SERVICE_NAME, ffi_service_main)
@@ -1588,6 +1831,38 @@ mod service_host {
                 backups: program_data.join("backups"),
                 logs: program_data.join("logs"),
             }
+        }
+
+        #[test]
+        fn install_error_code_extracts_win32_and_os_codes_without_local_details() {
+            assert_eq!(
+                install_error_code("Could not start: IO error in winapi call (Win32 error 5)"),
+                "win32=5"
+            );
+            assert_eq!(
+                install_error_code("Port 3000 unavailable: Permission denied (os error 10013)"),
+                "os=10013"
+            );
+            assert_eq!(
+                install_error_code("health check failed"),
+                "code=unavailable"
+            );
+        }
+
+        #[test]
+        fn install_diagnostic_is_a_small_user_readable_summary() {
+            let root = temp_dir("diagnostic");
+            write_install_diagnostic(
+                &root,
+                "service-start",
+                "IO error in winapi call (Win32 error 5)",
+            );
+            let diagnostic = fs::read_to_string(install_diagnostic_path(&root)).unwrap();
+            assert!(diagnostic.contains("step=service-start"));
+            assert!(diagnostic.contains("win32=5"));
+            assert!(!diagnostic.contains("C:\\Users"));
+            assert!(!diagnostic.contains("database"));
+            let _ = fs::remove_dir_all(root);
         }
 
         #[test]
