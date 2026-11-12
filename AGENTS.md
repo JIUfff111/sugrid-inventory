@@ -18,3 +18,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - After every code change, add or update the relevant tests. Before delivery, run the relevant test suite and confirm that all required checks pass.
 - 硬性要求：每次任务交付前，确认当前项目服务正在运行，并在本对话右侧内置浏览器中复用现有标签打开项目页面；实际确认页面可访问后再回复，写明预览地址、端口和所连接的数据库环境。代码变更需要重启时先完成构建与测试，再重启服务并验证。
 - 测试与演示继续使用独立 QA 数据库和固定测试账号，不把测试数据写进正式数据库。优先复用一个预览端口和浏览器标签；确需额外隔离环境时说明用途，结束时清理自己创建且不再使用的测试服务与标签，不关闭用户正在使用的资源。
+- 硬性要求：不能只依赖模拟测试。每次涉及服务管理器、安装器或启动链的交付，都必须在本开发机执行一次真实运行/安装验收；安装前先确认端口、服务状态和数据库备份，安装后检查 Windows 服务状态、实际健康接口、日志和回滚结果。真实验收失败时必须保留诊断证据并修复或明确阻塞原因，不得把构建成功当作验收完成。
