@@ -224,7 +224,7 @@ mod service_host {
         if root.is_empty() {
             return Ok(None);
         }
-        let raw = PathBuf::from(legacy.database_path.trim());
+        let raw = normalize_legacy_path(&legacy.database_path);
         if raw.as_os_str().is_empty() {
             return Err("Previous manager settings do not contain a database path.".into());
         }
@@ -247,6 +247,17 @@ mod service_host {
                 .canonicalize()
                 .map_err(|error| error.to_string())?,
         ))
+    }
+
+    fn normalize_legacy_path(value: &str) -> PathBuf {
+        let value = value.trim();
+        if let Some(path) = value.strip_prefix(r#"\\?\UNC\"#) {
+            return PathBuf::from(format!(r#"\\{}"#, path));
+        }
+        if let Some(path) = value.strip_prefix(r#"\\?\"#) {
+            return PathBuf::from(path);
+        }
+        PathBuf::from(value)
     }
 
     fn same_path(left: &Path, right: &Path) -> bool {
@@ -1770,6 +1781,22 @@ mod service_host {
             ));
             fs::create_dir_all(&path).unwrap();
             path
+        }
+
+        #[test]
+        fn legacy_extended_path_prefixes_are_normalized() {
+            assert_eq!(
+                normalize_legacy_path(r"\\?\C:\data\inventory.db"),
+                PathBuf::from(r"C:\data\inventory.db")
+            );
+            assert_eq!(
+                normalize_legacy_path(r"\\?\UNC\server\share\inventory.db"),
+                PathBuf::from(r"\\server\share\inventory.db")
+            );
+            assert_eq!(
+                normalize_legacy_path(r"C:\data\inventory.db"),
+                PathBuf::from(r"C:\data\inventory.db")
+            );
         }
 
         fn migrate_for_test(
