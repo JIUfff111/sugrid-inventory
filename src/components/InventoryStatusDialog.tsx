@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Check, Download, FileSpreadsheet, Pencil, Plus, Settings2, X } from 'lucide-react';
+import { Check, Download, FileSpreadsheet, Pencil, Pin, Plus, Search, Settings2, X } from 'lucide-react';
 import BusinessDialog from '@/components/BusinessDialog';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import CustomSelect from '@/components/CustomSelect';
@@ -11,7 +11,7 @@ import { useMachineEligibility } from '@/components/useMachineEligibility';
 import { formatProductName } from '@/lib/product-name';
 import { parseMachineSNCsv } from '@/lib/machine-scan';
 
-export interface InventoryStatusDefinition { id: string; name: string; color: string; allowStockOperations: number | boolean; isActive: number | boolean; }
+export interface InventoryStatusDefinition { id: string; name: string; color: string; allowStockOperations: number | boolean; isActive: number | boolean; machineCount?: number; }
 export interface InventoryStatusRecord {
   id: string; reason: string; location: string; responsiblePerson: string; expectedReturnDate?: string | null;
   remark?: string | null; createdAt?: string; startedAt?: string; resultNote?: string | null;
@@ -25,12 +25,16 @@ type ResolvedMachine = Pick<StatusMachine, 'id' | 'sn' | 'brand' | 'model' | 'ye
 type CsvPreview = { machines: ResolvedMachine[]; issues: BlockedMachine[]; duplicates: string[] };
 const EMPTY_DEFINITION = { name: '', color: '#3b82f6', allowStockOperations: false };
 
-export default function InventoryStatusDialog({ mode, machine, machines, onClose, onChanged }: {
-  mode: 'register' | 'restore' | 'manage'; machine?: StatusMachine; machines?: StatusMachine[]; onClose: () => void; onChanged: (inventoryIds?: string[]) => void;
+export default function InventoryStatusDialog({ mode, machine, machines, pinnedStatusIds = [], onTogglePin, onClose, onChanged }: {
+  mode: 'register' | 'restore' | 'manage'; machine?: StatusMachine; machines?: StatusMachine[];
+  pinnedStatusIds?: string[]; onTogglePin?: (id: string) => void;
+  onClose: () => void; onChanged: (inventoryIds?: string[]) => void;
 }) {
   const { user } = useWorkspace();
   const initialMachines = machines?.length ? machines : machine ? [machine] : [];
   const [definitions, setDefinitions] = useState<InventoryStatusDefinition[]>([]);
+  const [statusSearch, setStatusSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const selectedMachine = machine || null;
   const [selectedMachines, setSelectedMachines] = useState<ResolvedMachine[]>(initialMachines);
   const selectedMachinesRef = useRef<ResolvedMachine[]>(initialMachines);
@@ -64,6 +68,11 @@ export default function InventoryStatusDialog({ mode, machine, machines, onClose
       : selectionTouched || Boolean(definitionId || form.reason || form.location || form.expectedReturnDate || form.remark || form.responsiblePerson !== defaultResponsiblePerson);
   const currentEligible = previewKey === idsKey ? eligible : [];
   const currentBlocked = previewKey === idsKey ? blocked : [];
+  const filteredDefinitions = definitions.filter(item => {
+    const matchesSearch = item.name.toLocaleLowerCase().includes(statusSearch.trim().toLocaleLowerCase());
+    const isActive = item.isActive === true || item.isActive === 1;
+    return matchesSearch && (statusFilter === 'all' || (statusFilter === 'active' ? isActive : !isActive));
+  });
   useWorkspaceDirty(dirty);
 
   useEffect(() => { selectedMachinesRef.current = selectedMachines; }, [selectedMachines]);
@@ -222,10 +231,22 @@ export default function InventoryStatusDialog({ mode, machine, machines, onClose
       {error && <p role="alert" className="mb-4 rounded-lg border border-danger/20 bg-danger/5 p-3 text-sm text-danger">{error}</p>}
       {mode === 'restore' && (validity.error || validity.invalidIds.length > 0) && <p role="alert" className="mb-4 rounded-lg border border-danger/20 bg-danger/5 p-3 text-sm text-danger">{validity.error || '所选机器状态已变化或已被调拨占用，请重新选择机器。未提交内容已保留。'}</p>}
       {mode === 'manage' ? <div className="space-y-5">
-        <div className="space-y-2">{definitions.length === 0 && <p className="rounded-xl bg-white/60 p-4 text-sm text-ink-soft">先创建一个状态，例如维修中或外部保管。</p>}{definitions.map(item => <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line/70 bg-white/65 p-3">
-          <div className="min-w-0"><p className="flex items-center gap-2 text-sm font-medium"><span className="h-2.5 w-2.5 rounded-full" style={{ background: item.color }} />{item.name}{!item.isActive && <span className="text-xs text-ink-soft">已停用</span>}</p><p className="mt-1 text-xs text-ink-soft">{item.allowStockOperations ? '允许销售、租赁、调拨和供应商退货' : '暂停销售、租赁、调拨和供应商退货'}</p></div>
-          <div className="flex gap-2"><button type="button" className="btn-ghost inline-flex items-center gap-1" disabled={busy} onClick={() => { const value = { name: item.name, color: item.color, allowStockOperations: !!item.allowStockOperations }; setEditingId(item.id); setDefinition(value); setDefinitionBaseline(value); }}><Pencil className="h-3.5 w-3.5" />编辑</button><button type="button" className="btn-ghost" disabled={busy} onClick={() => setConfirm(item)}>{item.isActive ? '停用' : '启用'}</button></div>
-        </div>)}</div>
+        <section className="space-y-3 rounded-xl border border-line/70 bg-white/45 p-3">
+          <div className="flex flex-wrap items-center justify-between gap-2"><p className="text-xs text-ink-soft">显示在状态栏的快捷状态：{pinnedStatusIds.length}/4</p><span className="text-[11px] text-ink-soft">停用状态仍保留机器记录</span></div>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="relative min-w-[180px] flex-1"><Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-soft" aria-hidden="true" /><input className="field h-9 pl-8 text-xs" aria-label="搜索状态名称" placeholder="搜索状态名称" value={statusSearch} onChange={event => setStatusSearch(event.target.value)} /></div>
+            <div className="flex items-center gap-1 rounded-lg border border-line/70 bg-white p-1" role="group" aria-label="按状态启用情况筛选"><button type="button" aria-pressed={statusFilter === 'all'} className={`rounded-md px-2.5 py-1.5 text-[11px] ${statusFilter === 'all' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-primary/5'}`} onClick={() => setStatusFilter('all')}>全部 {definitions.length}</button><button type="button" aria-pressed={statusFilter === 'active'} className={`rounded-md px-2.5 py-1.5 text-[11px] ${statusFilter === 'active' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-primary/5'}`} onClick={() => setStatusFilter('active')}>启用 {definitions.filter(item => item.isActive === true || item.isActive === 1).length}</button><button type="button" aria-pressed={statusFilter === 'inactive'} className={`rounded-md px-2.5 py-1.5 text-[11px] ${statusFilter === 'inactive' ? 'bg-primary text-white' : 'text-ink-soft hover:bg-primary/5'}`} onClick={() => setStatusFilter('inactive')}>停用 {definitions.filter(item => item.isActive !== true && item.isActive !== 1).length}</button></div>
+          </div>
+          <div className="max-h-72 space-y-2 overflow-y-auto pr-1">{definitions.length === 0 && <p className="rounded-xl bg-white/60 p-4 text-sm text-ink-soft">先创建一个状态，例如维修中或外部保管。</p>}{filteredDefinitions.map(item => {
+            const isActive = item.isActive === true || item.isActive === 1;
+            const isPinned = pinnedStatusIds.includes(item.id);
+            const pinLimitReached = pinnedStatusIds.length >= 4;
+            return <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line/70 bg-white/65 p-3">
+              <div className="min-w-0"><p className="flex items-center gap-2 text-sm font-medium"><span className="h-2.5 w-2.5 rounded-full" style={{ background: item.color }} />{item.name}{!isActive && <span className="text-xs text-ink-soft">已停用</span>}</p><p className="mt-1 text-xs text-ink-soft">{item.allowStockOperations ? '允许销售、租赁、调拨和供应商退货' : '暂停销售、租赁、调拨和供应商退货'} · {Number(item.machineCount || 0)} 台机器</p></div>
+              <div className="flex flex-wrap items-center gap-1.5"><button type="button" className="btn-ghost inline-flex items-center gap-1" aria-pressed={isPinned} aria-label={isPinned ? `从状态栏移除 ${item.name}` : `显示 ${item.name} 在状态栏`} title={!isPinned && pinLimitReached ? '状态栏最多显示 4 个自定义状态' : undefined} disabled={busy || !onTogglePin || (!isPinned && (!isActive || pinLimitReached))} onClick={() => onTogglePin?.(item.id)}><Pin className="h-3.5 w-3.5" />{isPinned ? '已置顶' : '显示在状态栏'}</button><button type="button" className="btn-ghost inline-flex items-center gap-1" disabled={busy} onClick={() => { const value = { name: item.name, color: item.color, allowStockOperations: !!item.allowStockOperations }; setEditingId(item.id); setDefinition(value); setDefinitionBaseline(value); }}><Pencil className="h-3.5 w-3.5" />编辑</button><button type="button" className="btn-ghost" disabled={busy} onClick={() => setConfirm(item)}>{isActive ? '停用' : '启用'}</button></div>
+            </div>;
+          })}{definitions.length > 0 && filteredDefinitions.length === 0 && <p className="rounded-xl bg-white/60 p-5 text-center text-sm text-ink-soft">没有匹配的库存状态</p>}</div>
+        </section>
         <section className="rounded-xl border border-line/70 p-4"><div className="mb-3 flex items-center justify-between"><h3 className="flex items-center gap-2 text-sm font-medium"><Settings2 className="h-4 w-4 text-primary" />{editingId ? '编辑状态' : '新建状态'}</h3>{editingId && <button type="button" className="btn-ghost inline-flex items-center gap-1" onClick={() => { setEditingId(''); setDefinition(EMPTY_DEFINITION); setDefinitionBaseline(EMPTY_DEFINITION); }}><Plus className="h-3.5 w-3.5" />新建</button>}</div>
           <div className="grid gap-3 sm:grid-cols-[1fr_auto]"><label className="text-xs text-ink-soft">状态名称 *<input className="field mt-1.5" aria-label="状态名称" value={definition.name} maxLength={30} onChange={e => setDefinition(v => ({ ...v, name: e.target.value }))} placeholder="例如：维修中" /></label><label className="text-xs text-ink-soft">标识颜色<input type="color" aria-label="状态颜色" className="mt-1.5 block h-[40px] w-16 cursor-pointer rounded-lg border border-line bg-white p-1" value={definition.color} onChange={e => setDefinition(v => ({ ...v, color: e.target.value }))} /></label></div>
           <label className="mt-4 flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1" checked={definition.allowStockOperations} onChange={e => setDefinition(v => ({ ...v, allowStockOperations: e.target.checked }))} /><span>允许参与在库业务<span className="mt-1 block text-xs text-ink-soft">开启后可销售、租赁、调拨、供应商退货及换机出库，保存后立即生效。</span></span></label>

@@ -113,8 +113,8 @@ export function getWhere(
     const terms = configSearch.split(/\s+/).filter(Boolean);
     for (const term of terms) {
       const pattern = containsPattern(term);
-      conditions.push("(i.cpu LIKE ? ESCAPE '!' OR i.ram LIKE ? ESCAPE '!' OR i.storage LIKE ? ESCAPE '!' OR i.gpu LIKE ? ESCAPE '!' OR i.screen LIKE ? ESCAPE '!')");
-      params.push(pattern, pattern, pattern, pattern, pattern);
+      conditions.push("(i.cpu LIKE ? ESCAPE '!' OR i.ram LIKE ? ESCAPE '!' OR i.storage LIKE ? ESCAPE '!' OR i.gpu LIKE ? ESCAPE '!' OR i.screen LIKE ? ESCAPE '!' OR i.remark LIKE ? ESCAPE '!' OR i.skuRemark LIKE ? ESCAPE '!')");
+      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern);
     }
   }
 

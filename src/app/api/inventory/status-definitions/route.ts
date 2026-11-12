@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
-import { assertInventoryView, authErrorResponse, requireRole, requireUser } from '@/lib/auth';
+import { assertInventoryView, authErrorResponse, requireRole, requireUser, warehouseScope } from '@/lib/auth';
 import { errorResponse, formatDateTime, generateId, successResponse } from '@/lib/api-helpers';
+import { listInventoryStatusDefinitions } from '@/lib/inventory-status';
 
 function failure(error: unknown) {
   return authErrorResponse(error) || NextResponse.json(errorResponse('VALIDATION_ERROR', error instanceof Error ? error.message : '状态保存失败'), { status: 400 });
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
   try {
     const user = await requireUser();
     assertInventoryView(user);
-    const items = db.prepare(`SELECT * FROM inventory_status_definitions ${request.nextUrl.searchParams.get('active') === '1' ? 'WHERE isActive = 1' : ''} ORDER BY createdAt,id`).all();
+    const items = listInventoryStatusDefinitions(warehouseScope(user, null, 'i'), request.nextUrl.searchParams.get('active') === '1');
     return NextResponse.json(successResponse({ items }));
   } catch (error) { return failure(error); }
 }

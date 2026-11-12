@@ -1,4 +1,4 @@
-import { serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
+import { listInventoryStatusDefinitions, serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
 import { requireUser, requireSystemAccount, warehouseScope, authErrorResponse, assertWarehouseAccess, assertInventoryEdit, assertInventoryView } from '@/lib/auth';
 /**
  * 在库清单 API
@@ -164,7 +164,7 @@ export async function GET(request: NextRequest) {
         WHERE deleted = 0 AND ${scope.sql} AND TRIM(COALESCE(supplierName, '')) <> ''
         ORDER BY supplierName COLLATE NOCASE
       `).all(...scope.params) as Array<{ id: string; name: string }>;
-      const statusDefinitions = db.prepare('SELECT * FROM inventory_status_definitions ORDER BY createdAt,id').all();
+      const statusDefinitions = listInventoryStatusDefinitions(warehouseScope(user, searchParams.get('warehouseId'), 'i'));
       return NextResponse.json(successResponse({
         statusDefinitions,
         brands: brands.map((item) => item.value),

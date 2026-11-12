@@ -1,6 +1,22 @@
 import db from '@/lib/db';
 import { formatDateTime, generateId } from '@/lib/api-helpers';
 
+export function listInventoryStatusDefinitions(
+  scope: { sql: string; params: Array<string | number> },
+  activeOnly = false,
+) {
+  const activeCondition = activeOnly ? 'WHERE d.isActive = 1' : '';
+  return db.prepare(`
+    SELECT d.*, COUNT(DISTINCT i.id) AS machineCount
+    FROM inventory_status_definitions d
+    LEFT JOIN inventory_status_records r ON r.definitionId = d.id AND r.closedAt IS NULL
+    LEFT JOIN inventory i ON i.currentStatusRecordId = r.id AND i.status = 'custom' AND i.deleted = 0 AND ${scope.sql}
+    ${activeCondition}
+    GROUP BY d.id
+    ORDER BY d.createdAt, d.id
+  `).all(...scope.params);
+}
+
 /** SQL fragments only accept application-owned aliases, never request values. */
 export function stockEligibleSql(alias = 'i', excludeTransferId?: string) {
   const transferExclusion = excludeTransferId ? ` AND t.id <> '${excludeTransferId.replaceAll("'", "''")}'` : '';

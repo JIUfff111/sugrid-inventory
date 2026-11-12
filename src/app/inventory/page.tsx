@@ -22,6 +22,12 @@ import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay, SKU_PRODUCT_TYPES } from '@/lib/sku-display';
 import { uniqueMachineScanTokens } from '@/lib/machine-scan';
 import {
+  defaultPinnedInventoryStatusIds,
+  inventoryStatusPreferenceStorageKey,
+  normalizePinnedInventoryStatusIds,
+  readPinnedInventoryStatusIds,
+} from '@/lib/inventory-status-preferences';
+import {
   createDefaultInventoryTablePreferences,
   clampInventoryTableColumnWidth,
   getInventoryTableFrozenOffsets,
@@ -48,6 +54,7 @@ import {
   Columns3,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Eye,
   FileDown,
   Filter,
@@ -56,6 +63,7 @@ import {
   MemoryStick,
   PackageOpen,
   Pencil,
+  Pin,
   Printer,
   RefreshCw,
   Save,
@@ -234,6 +242,11 @@ interface FilterOptions {
   statusDefinitions?: InventoryStatusDefinition[];
 }
 
+interface InventoryStatusPinPreference {
+  userId: string;
+  stored: string | null;
+}
+
 const EMPTY_STATS: InventoryStats = {
   total: 0,
   inStock: 0,
@@ -362,6 +375,11 @@ export default function InventoryPage() {
   const [filters, setFilters] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterDraft, setFilterDraft] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterOptions, setFilterOptions] = useState<FilterOptions>(EMPTY_FILTER_OPTIONS);
+  const [statusPinPreference, setStatusPinPreference] = useState<InventoryStatusPinPreference>({ userId: '', stored: null });
+  const [statusOptionsLoaded, setStatusOptionsLoaded] = useState(false);
+  const [statusMenuOpen, setStatusMenuOpen] = useState(false);
+  const [statusMenuSearch, setStatusMenuSearch] = useState('');
+  const statusMenuRef = useRef<HTMLDivElement>(null);
   const [filterModelsLoading, setFilterModelsLoading] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
@@ -415,6 +433,17 @@ export default function InventoryPage() {
   const currentExportQuery = buildInventoryQueryParams({ page, pageSize, search, configSearch, status, filters, serials: serialSearchList, paginate: false }).toString();
   const currentExportIds = JSON.stringify([...checkedMachines.keys()]);
   const exportColumnsKey = exportColumns.join(',');
+  const statusDefinitions = filterOptions.statusDefinitions || [];
+  const statusPinRaw = statusPinPreference.userId === user?.id ? statusPinPreference.stored : null;
+  const pinnedStatusIds = statusPinPreference.userId === user?.id
+    ? readPinnedInventoryStatusIds(statusPinRaw, statusDefinitions)
+    : defaultPinnedInventoryStatusIds(statusDefinitions);
+  const activeStatusDefinitions = statusDefinitions.filter(item => item.isActive === true || item.isActive === 1);
+  const pinnedStatusDefinitions = activeStatusDefinitions.filter(item => pinnedStatusIds.includes(item.id));
+  const otherStatusDefinitions = statusDefinitions.filter(item => !pinnedStatusIds.includes(item.id)
+    && ((item.isActive === true || item.isActive === 1) || Number(item.machineCount || 0) > 0));
+  const selectedCustomStatus = statusDefinitions.find(item => status === `custom:${item.id}`);
+  const filteredOtherStatusDefinitions = otherStatusDefinitions.filter(item => item.name.toLocaleLowerCase().includes(statusMenuSearch.trim().toLocaleLowerCase()));
   useEffect(() => { setPageJump(String(page)); }, [page]);
   const applyPageJump = () => {
     const requested = Number.parseInt(pageJump, 10);
@@ -459,6 +488,7 @@ export default function InventoryPage() {
   useEffect(() => {
     if (!user?.id) {
       setTablePreferencesHydrated(false);
+      setStatusPinPreference({ userId: '', stored: null });
       return;
     }
     const key = inventoryTablePreferenceStorageKey(user.id);
@@ -484,6 +514,38 @@ export default function InventoryPage() {
   }, [user?.id]);
 
   useEffect(() => {
+    if (!user?.id || statusPinPreference.userId === user.id) return;
+    let stored: string | null = null;
+    try { stored = window.localStorage.getItem(inventoryStatusPreferenceStorageKey(user.id)); } catch {}
+    setStatusPinPreference({ userId: user.id, stored });
+  }, [user?.id, statusPinPreference.userId]);
+
+  useEffect(() => {
+    if (!user?.id || !statusOptionsLoaded || statusPinPreference.userId !== user.id || statusPinPreference.stored === null) return;
+    const normalized = normalizePinnedInventoryStatusIds(readPinnedInventoryStatusIds(statusPinPreference.stored, statusDefinitions), statusDefinitions);
+    if (JSON.stringify(normalized) === statusPinPreference.stored) return;
+    const stored = JSON.stringify(normalized);
+    try { window.localStorage.setItem(inventoryStatusPreferenceStorageKey(user.id), stored); } catch {}
+    setStatusPinPreference({ userId: user.id, stored });
+  }, [user?.id, statusOptionsLoaded, statusDefinitions, statusPinPreference]);
+
+  useEffect(() => {
+    if (!statusMenuOpen) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!statusMenuRef.current?.contains(event.target as Node)) setStatusMenuOpen(false);
+    };
+    const closeOnEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') setStatusMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [statusMenuOpen]);
+
+  useEffect(() => {
     const update = () => setTableColumnFreezingEnabled(window.innerWidth >= 768);
     update();
     window.addEventListener('resize', update);
@@ -493,12 +555,16 @@ export default function InventoryPage() {
   useEffect(() => {
     if (!active) return;
     let cancelled = false;
+    setStatusOptionsLoaded(false);
     void fetch('/api/warehouses').then(r => r.json()).then(r => { if (!cancelled && r.success) setWarehouses(r.data || []); });
     setIsAdmin(user?.role === 'admin');
     fetch('/api/inventory?meta=filters', { cache: 'no-store' })
       .then((response) => response.json())
       .then((result) => {
-        if (!cancelled && result.success) setFilterOptions(current => ({ ...result.data as FilterOptions, models: current.models }));
+        if (!cancelled && result.success) {
+          setFilterOptions(current => ({ ...result.data as FilterOptions, models: current.models }));
+          setStatusOptionsLoaded(true);
+        }
       })
       .catch(() => {});
     return () => { cancelled = true; };
@@ -684,7 +750,22 @@ export default function InventoryPage() {
 
   const selectStatus = (nextStatus: string) => {
     setStatus(nextStatus);
+    setStatusMenuOpen(false);
+    setStatusMenuSearch('');
     setPage(1);
+  };
+
+  const togglePinnedStatus = (id: string) => {
+    const next = pinnedStatusIds.includes(id)
+      ? pinnedStatusIds.filter(statusId => statusId !== id)
+      : pinnedStatusIds.length < 4 ? [...pinnedStatusIds, id] : pinnedStatusIds;
+    const normalized = normalizePinnedInventoryStatusIds(next, statusDefinitions);
+    const stored = JSON.stringify(normalized);
+    if (user?.id) {
+      try { window.localStorage.setItem(inventoryStatusPreferenceStorageKey(user.id), stored); }
+      catch { setError('状态栏设置未能保存到当前浏览器'); }
+      setStatusPinPreference({ userId: user.id, stored });
+    }
   };
 
   const applyFilters = () => {
@@ -1164,26 +1245,40 @@ export default function InventoryPage() {
               <MachineSearchInput<InventoryItem> inputId="inventory-machine-search" value={searchInput} onChange={setSearchInput} onClear={clearMachineSearch} endpoint={`/api/inventory/lookup?context=inventory${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSerialSearchList([item.sn]); setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; setSerialSearchList(tokens); const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSerialSearchList([]); setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled batchButtonPlacement="inline" searchOnEnter placeholder="搜索 SN、编号、品牌或型号" ariaLabel="搜索库存机器的 SN、编号、品牌或型号" />
             </form>
             <form onSubmit={submitConfigSearch} className="min-w-0">
-              <label htmlFor="inventory-config-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">机器配置</label>
+              <label htmlFor="inventory-config-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">配置 / 备注</label>
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" aria-hidden="true" />
-                <input id="inventory-config-search" type="text" value={configSearchInput} onChange={event => setConfigSearchInput(event.target.value)} placeholder="CPU、内存、硬盘、显卡、屏幕" aria-label="按 CPU、内存、硬盘、显卡或屏幕搜索" className="field w-full pl-10 pr-10" />
+                <input id="inventory-config-search" type="text" value={configSearchInput} onChange={event => setConfigSearchInput(event.target.value)} placeholder="CPU、内存、硬盘、显卡、屏幕或备注" aria-label="搜索机器配置、机器备注或 SKU 备注" className="field w-full pl-10 pr-10" />
                 {configSearchInput && <button type="button" onClick={clearConfigSearch} className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft transition hover:bg-primary/5 hover:text-ink-deep active:scale-95" aria-label="清除配置搜索"><X className="h-4 w-4" /></button>}
               </div>
             </form>
           </div>
 
-          <div className="order-last flex w-full items-center gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="库存状态筛选">
-            {[
-              ['', '全部'],
-              ['current_stock', '在库'],
-              ['sold', '已售'],
-              ['renting', '租赁中'],
-              ['returned', '已退货'],
-              ...(filterOptions.statusDefinitions || []).map(item => [`custom:${item.id}`, item.name]),
-            ].map(([value, label]) => (
-              <button key={value || 'all'} type="button" role="tab" aria-selected={status === value} onClick={() => selectStatus(value)} className={`shrink-0 px-3 py-1.5 rounded-full text-[12px] transition-colors ${status === value ? 'bg-primary text-white shadow-sm' : 'text-ink-soft hover:bg-white/70'}`}>{label}</button>
-            ))}
+          <div className="order-last flex min-w-0 w-full items-center gap-1.5 pb-0.5">
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto" role="tablist" aria-label="库存状态筛选">
+              {[
+                ['', '全部'],
+                ['current_stock', '在库'],
+                ['sold', '已售'],
+                ['renting', '租赁中'],
+                ...pinnedStatusDefinitions.map(item => [`custom:${item.id}`, item.name]),
+              ].map(([value, label]) => (
+                <button key={value || 'all'} type="button" role="tab" aria-selected={status === value} onClick={() => selectStatus(value)} className={`shrink-0 px-3 py-1.5 rounded-full text-[12px] transition-colors ${status === value ? 'bg-primary text-white shadow-sm' : 'text-ink-soft hover:bg-white/70'}`}>{label}</button>
+              ))}
+            </div>
+            {otherStatusDefinitions.length > 0 && <div ref={statusMenuRef} className="relative shrink-0">
+              <button type="button" aria-haspopup="dialog" aria-expanded={statusMenuOpen} aria-controls="inventory-other-statuses" onClick={() => setStatusMenuOpen(open => !open)} className={`inline-flex max-w-[180px] items-center gap-1 rounded-full border px-3 py-1.5 text-[12px] transition-colors ${selectedCustomStatus && !pinnedStatusIds.includes(selectedCustomStatus.id) ? 'border-primary/25 bg-primary/10 text-primary' : 'border-line/70 text-ink-soft hover:bg-white/70'}`}>
+                <span className="truncate">{selectedCustomStatus && !pinnedStatusIds.includes(selectedCustomStatus.id) ? selectedCustomStatus.name : `其他状态${otherStatusDefinitions.length > 1 ? ` ${otherStatusDefinitions.length}` : ''}`}</span><ChevronDown className="h-3.5 w-3.5 shrink-0" />
+              </button>
+              {statusMenuOpen && <div id="inventory-other-statuses" role="dialog" aria-label="选择库存状态" className="absolute left-0 top-full z-40 mt-2 w-[min(300px,calc(100vw-2rem))] overflow-hidden rounded-xl border border-line bg-white shadow-xl">
+                <div className="border-b border-line/70 p-2.5"><div className="relative"><Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-soft" aria-hidden="true" /><input autoFocus value={statusMenuSearch} onChange={event => setStatusMenuSearch(event.target.value)} placeholder="查找状态" aria-label="搜索库存状态" className="field h-9 pl-8 text-xs" /></div></div>
+                <div role="listbox" aria-label="其他库存状态" className="max-h-64 overflow-y-auto p-1.5">
+                  {filteredOtherStatusDefinitions.map(item => <button key={item.id} type="button" role="option" aria-selected={status === `custom:${item.id}`} onClick={() => selectStatus(`custom:${item.id}`)} className={`flex w-full items-center justify-between gap-3 rounded-lg px-2.5 py-2 text-left text-xs transition-colors ${status === `custom:${item.id}` ? 'bg-primary/10 text-primary' : 'text-ink-deep hover:bg-primary/5'}`}><span className="flex min-w-0 items-center gap-2"><span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: item.color }} /><span className="truncate">{item.name}</span>{!(item.isActive === true || item.isActive === 1) && <span className="shrink-0 text-[10px] text-ink-soft">已停用</span>}</span><span className="shrink-0 tabular-nums text-ink-soft">{Number(item.machineCount || 0)}</span></button>)}
+                  {filteredOtherStatusDefinitions.length === 0 && <p className="px-2.5 py-5 text-center text-xs text-ink-soft">没有匹配的库存状态</p>}
+                </div>
+                {isAdmin && <button type="button" onClick={() => { setStatusMenuOpen(false); setStatusDialog({ mode: 'manage' }); }} className="flex w-full items-center gap-2 border-t border-line/70 px-3 py-2.5 text-left text-xs text-primary transition hover:bg-primary/5"><Pin className="h-3.5 w-3.5" />管理状态栏显示</button>}
+              </div>}
+            </div>}
           </div>
 
           {isAdmin && <><button type="button" onClick={() => setStatusDialog({ mode: 'register' })} className="btn-ghost inline-flex items-center gap-1.5"><Wrench className="h-4 w-4" />状态登记</button><button type="button" onClick={() => setStatusDialog({ mode: 'manage' })} className="btn-ghost inline-flex items-center gap-1.5"><Settings2 className="h-4 w-4" />状态管理</button></>}
@@ -1363,7 +1458,7 @@ export default function InventoryPage() {
       <ConfirmDialog isOpen={machineEditDiscardConfirm} title="放弃机器资料修改？" message="关闭后，本次尚未保存的机器资料修改将被清除。" confirmText="关闭并放弃" cancelText="继续编辑" danger onCancel={() => setMachineEditDiscardConfirm(false)} onConfirm={() => { setMachineEditDiscardConfirm(false); setMachineEditOpen(false); setMachineEditDraft(null); setMachineEditError(''); }} />
       {assetChangeMachine && <InventoryAssetChangeDialog key={assetChangeMachine.id} machine={assetChangeMachine} onClose={() => setAssetChangeMachine(null)} onSaved={assetChanged} />}
       <ConfirmDialog isOpen={Boolean(pendingAssetPrintId)} title={assetPrintError ? '更新后的标签打印失败' : '资产变更完成，是否打印更新后的标签？'} message={assetPrintError ? `资产变更已保存。${assetPrintError}` : '标签将使用这台机器最新的内存和硬盘信息，并按默认标签模板打印。'} confirmText={printing || assetPrintBusy ? '准备打印…' : assetPrintError ? '重试打印' : '打印更新后的标签'} cancelText="暂不打印" onConfirm={() => { void printUpdatedAssetLabel(); }} onCancel={() => { if (!printing && !assetPrintBusy) { setPendingAssetPrintId(null); setAssetPrintError(''); } }} />
-      {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || statusDialog.machines?.map(item => item.id).join(',') || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} machines={statusDialog.machines} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
+      {statusDialog && <InventoryStatusDialog key={`${statusDialog.mode}:${statusDialog.machine?.id || statusDialog.machines?.map(item => item.id).join(',') || 'new'}`} mode={statusDialog.mode} machine={statusDialog.machine} machines={statusDialog.machines} pinnedStatusIds={pinnedStatusIds} onTogglePin={togglePinnedStatus} onClose={() => setStatusDialog(null)} onChanged={statusChanged} />}
       {purgeMachine && <InventoryPurgeDialog key={purgeMachine.id} machine={purgeMachine} onClose={() => setPurgeMachine(null)} onDeleted={() => { setPurgeMachine(null); setSelected(null); setCheckedIds(current => { const next = new Set(current); next.delete(purgeMachine.id); return next; }); setCheckedMachines(current => { const next = new Map(current); next.delete(purgeMachine.id); return next; }); setReloadKey(current => current + 1); }} />}
       {exportOpen && <BusinessDialog title="导出库存" description="服务端会重新查询并检查仓库权限；导出设置不会改变日常表格列。" onClose={() => { if (!exportBusy) setExportOpen(false); }} footer={<><button type="button" className="btn-ghost" onClick={() => setExportOpen(false)} disabled={exportBusy}>取消</button><button type="button" className="btn-primary inline-flex items-center gap-1.5" onClick={() => void downloadInventoryExport()} disabled={exportBusy || exportPreviewLoading || !exportPreviewCount || !exportColumns.length}><FileDown className="h-4 w-4" />{exportBusy ? '正在生成…' : `导出 ${exportPreviewCount ?? 0} 台`}</button></>}>
         <div className="space-y-5">
