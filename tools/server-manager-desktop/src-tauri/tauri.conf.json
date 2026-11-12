@@ -29,6 +29,9 @@
   "bundle": {
     "active": true,
     "targets": ["nsis"],
+    "resources": {
+      "resources/inventory/": "inventory/"
+    },
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -37,6 +40,10 @@
       "icons/icon.ico"
     ],
     "windows": {
+      "nsis": {
+        "installMode": "perMachine",
+        "installerHooks": "installer-hooks.nsh"
+      },
       "webviewInstallMode": {
         "type": "downloadBootstrapper",
         "silent": true

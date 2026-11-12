@@ -43,6 +43,7 @@
 /scripts/create-experience-qa.cjs
 /patch-glass*.cjs
 /dev-server*.log
+/tools/server-manager-desktop/src-tauri/resources/inventory/
 
 # debug
 npm-debug.log*

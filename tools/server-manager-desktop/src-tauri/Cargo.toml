@@ -1,5 +1,6 @@
 [package]
 name = "app"
+default-run = "app"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
@@ -24,6 +25,11 @@ log = "0.4"
 tauri = { version = "2.12.5", features = [] }
 tauri-plugin-log = "2"
 rusqlite = { version = "0.37", features = ["bundled", "backup"] }
+reqwest = { version = "0.13.5", features = ["json"] }
+sha2 = "0.10"
+hex = "0.4"
+semver = "1"
 
 [target.'cfg(windows)'.dependencies]
-windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_Threading"] }
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_Registry", "Win32_System_Threading", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+windows-service = "0.8.1"

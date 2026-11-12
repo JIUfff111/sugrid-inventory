@@ -19,6 +19,10 @@ const allowedDevOrigins = ["127.0.0.1", "localhost", ...interfaceHosts, ...(conf
 
 const nextConfig: NextConfig = {
   /* config options here */
+  output: "standalone",
+  outputFileTracingExcludes: {
+    '/*': ['./tools/**/*', './data/**/*', './docs/**/*', './.tmp/**/*', './backups/**/*'],
+  },
   distDir: process.env.NEXT_DIST_DIR?.trim() || '.next',
   allowedDevOrigins: [...new Set(allowedDevOrigins)],
   experimental: {

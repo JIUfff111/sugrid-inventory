@@ -12,7 +12,9 @@
     "test": "tsx --test src/update-flow.test.ts",
     "test:sites": "node --test tests/sites-worker.test.mjs",
     "desktop:dev": "tauri dev",
-    "desktop:build": "tauri build"
+    "build:inventory": "npm --prefix ../.. run build:integrated-server",
+    "build:service-host": "cargo build --release --bin sugrid-inventory-service --manifest-path src-tauri/Cargo.toml && node scripts/prepare-service-host.mjs",
+    "desktop:build": "npm run build:inventory && npm run build:service-host && tauri build"
   },
   "dependencies": {
     "@fluentui/react-components": "9.75.2",
