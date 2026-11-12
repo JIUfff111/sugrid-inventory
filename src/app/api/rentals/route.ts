@@ -1,4 +1,4 @@
-import { assertStockEligible, endCustomStatus, stockEligibleSql, serializeInventoryStatus } from '@/lib/inventory-status';
+import { assertInventoryOperationEligible, endCustomStatus, inventoryOperationEligibleSql, serializeInventoryStatus } from '@/lib/inventory-status';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import {
@@ -264,7 +264,7 @@ export async function GET(request: NextRequest) {
     const dueDays = dueFilter(searchParams);
 
     if (resource === 'inventory') {
-      const conditions = [stockEligibleSql('i')];
+      const conditions = [inventoryOperationEligibleSql('rentals', 'i')];
       const params: string[] = [];
       if (search) {
         const pattern = `%${search}%`;
@@ -422,7 +422,7 @@ export async function POST(request: NextRequest) {
         status, remark, deleted, createdBy, createdAt, updatedAt
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'renting', ?, 0, ?, ?, ?)`);
       for (const line of lineInputs) {
-        assertStockEligible(line.inventoryId);
+        assertInventoryOperationEligible(line.inventoryId, 'rentals');
         const inventory = inventoryById.get(line.inventoryId)!;
         const id = generateId('rental');
         const config = [inventory.cpu, inventory.ram, inventory.gpu, inventory.storage, inventory.screen].filter(Boolean).join(' / ') || '配置待补充';

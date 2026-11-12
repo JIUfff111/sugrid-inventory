@@ -36,8 +36,9 @@ export async function POST(request: NextRequest) {
       if (db.prepare("SELECT 1 FROM transfer_items ti JOIN transfers t ON t.id = ti.transferId WHERE ti.inventoryId = ? AND t.status IN ('pending','approved','in_transit')").get(inventoryId)) throw new Error('机器有进行中的调拨申请');
       const definition = db.prepare('SELECT * FROM inventory_status_definitions WHERE id = ? AND isActive = 1').get(definitionId) as Record<string, unknown> | undefined;
       if (!definition) throw new Error('状态不存在或已停用');
-      db.prepare(`INSERT INTO inventory_status_records(id,inventoryId,definitionId,definitionSnapshot,reason,location,responsiblePerson,expectedReturnDate,remark,warehouseId,createdBy,createdAt)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).run(id,inventoryId,definitionId,JSON.stringify(definition),reason,location,responsiblePerson,expectedReturnDate,String(body.remark || '').trim() || null,item.warehouseId,user.id,now);
+      const allowed = Number(definition.allowStockOperations) === 1 ? 1 : 0;
+      db.prepare(`INSERT INTO inventory_status_records(id,inventoryId,definitionId,definitionSnapshot,reason,location,responsiblePerson,expectedReturnDate,remark,warehouseId,createdBy,createdAt,allowSales,allowRentals,allowTransfers,allowSupplierReturns)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(id,inventoryId,definitionId,JSON.stringify(definition),reason,location,responsiblePerson,expectedReturnDate,String(body.remark || '').trim() || null,item.warehouseId,user.id,now,allowed,allowed,allowed,allowed);
       if (db.prepare("UPDATE inventory SET status = 'custom',currentStatusRecordId = ?,updatedAt = ? WHERE id = ? AND status = 'in_stock' AND currentStatusRecordId IS NULL").run(id,now,inventoryId).changes !== 1) throw new Error('机器状态已变化');
       const note = [definition.name, reason, location ? `地点：${location}` : ''].filter(Boolean).join('；');
       db.prepare(`INSERT INTO inventory_movements(id,inventoryId,warehouseId,movementType,referenceType,referenceId,actorId,note,statusFrom,statusTo,snapshot,createdAt)
@@ -49,17 +50,67 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const user = await requireRole('admin'); assertInventoryView(user); const body = await request.json();
-    if (body.action !== 'restore') throw new Error('不支持的状态操作');
+    if (body.action !== 'restore' && body.action !== 'transition') throw new Error('不支持的状态操作');
     const resultNote = String(body.resultNote || '').trim(); if (!resultNote) throw new Error('请填写处理结果备注');
     let inventoryId = String(body.inventoryId || '').trim();
     if (!inventoryId && body.id) inventoryId = String((db.prepare('SELECT inventoryId FROM inventory_status_records WHERE id = ?').get(String(body.id)) as {inventoryId:string} | undefined)?.inventoryId || '');
+    const targetType = body.action === 'restore' ? 'warehouse' : String(body.targetType || '').trim();
+    if (!['warehouse', 'custom'].includes(targetType)) throw new Error('请选择机器处理后的去向');
+    const targetDefinitionId = String(body.targetDefinitionId || '').trim();
+    const locationType = String(body.locationType || '').trim();
+    const location = String(body.location || '').trim();
+    const responsiblePerson = String(body.responsiblePerson || user.realName || user.username).trim();
+    const expectedReturnDate = String(body.expectedReturnDate || '').trim() || null;
+    const remark = String(body.remark || '').trim() || null;
+    const capabilities = body.businessCapabilities && typeof body.businessCapabilities === 'object'
+      ? body.businessCapabilities as Record<string, unknown>
+      : null;
+    const capabilityKeys = ['sales', 'rentals', 'transfers', 'supplierReturns'] as const;
+    if (targetType === 'custom') {
+      if (!['warehouse', 'external'].includes(locationType)) throw new Error('请选择实际位置类型');
+      if (!targetDefinitionId) throw new Error('请选择机器的新状态');
+      if (locationType === 'external' && !location) throw new Error('请填写外部平台或实际位置');
+      if (!capabilities || capabilityKeys.some(key => typeof capabilities[key] !== 'boolean')) throw new Error('请确认单台机器的业务权限');
+      if (!capabilityKeys.some(key => capabilities[key] === true)) throw new Error('至少开放一项业务后才能恢复业务资格');
+    }
+    if ([resultNote, location, responsiblePerson, remark || ''].some(value => value.length > 500)) throw new Error('处理信息不能超过 500 个字符');
+    if (expectedReturnDate && (!/^\d{4}-\d{2}-\d{2}$/.test(expectedReturnDate) || Number.isNaN(Date.parse(expectedReturnDate)))) throw new Error('预计归还日期格式不正确');
+    const now = formatDateTime();
+    const newRecordId = targetType === 'custom' ? generateId('status_record') : '';
     db.transaction(() => {
-      const item = db.prepare('SELECT * FROM inventory WHERE id = ? AND deleted = 0').get(inventoryId) as {id:string;status:string;warehouseId:string;currentStatusRecordId:string|null} | undefined;
-      if (!item || item.status !== 'custom' || !item.currentStatusRecordId || (body.id && body.id !== item.currentStatusRecordId)) throw new Error('机器状态已变化或已恢复在库');
+      const item = db.prepare('SELECT * FROM inventory WHERE id = ? AND deleted = 0').get(inventoryId) as {id:string;sn:string;status:string;warehouseId:string;currentStatusRecordId:string|null} | undefined;
+      if (!item || item.status !== 'custom' || !item.currentStatusRecordId || (body.id && body.id !== item.currentStatusRecordId)) throw new Error('机器状态已变化或已完成处理');
       assertWarehouseAccess(user,item.warehouseId);
       if (db.prepare("SELECT 1 FROM transfer_items ti JOIN transfers t ON t.id = ti.transferId WHERE ti.inventoryId = ? AND t.status IN ('pending','approved','in_transit')").get(inventoryId)) throw new Error('请先处理或取消机器的调拨申请');
-      endCustomStatus(inventoryId,user.id,resultNote,'inventory_status',item.currentStatusRecordId,'in_stock');
-      if (db.prepare("UPDATE inventory SET status = 'in_stock', updatedAt = ? WHERE id = ? AND status = 'custom'").run(formatDateTime(),inventoryId).changes !== 1) throw new Error('机器状态已变化');
+      if (targetType === 'warehouse') {
+        endCustomStatus(inventoryId,user.id,resultNote,'inventory_status',item.currentStatusRecordId,'in_stock');
+        if (db.prepare("UPDATE inventory SET status = 'in_stock', updatedAt = ? WHERE id = ? AND status = 'custom' AND currentStatusRecordId IS NULL").run(now,inventoryId).changes !== 1) throw new Error('机器状态已变化');
+        return;
+      }
+
+      const previous = db.prepare(`SELECT r.*, d.name AS definitionName FROM inventory_status_records r
+        JOIN inventory_status_definitions d ON d.id = r.definitionId
+        WHERE r.id = ? AND r.inventoryId = ? AND r.closedAt IS NULL`).get(item.currentStatusRecordId,inventoryId) as Record<string, unknown> | undefined;
+      const definition = db.prepare('SELECT * FROM inventory_status_definitions WHERE id = ? AND isActive = 1').get(targetDefinitionId) as Record<string, unknown> | undefined;
+      if (!previous || !definition) throw new Error('当前状态或目标状态已变化，请刷新后重试');
+      const closed = db.prepare(`UPDATE inventory_status_records SET closedAt=?,closedBy=?,resultNote=?,closingReferenceType='inventory_status_transition',closingReferenceId=?
+        WHERE id=? AND inventoryId=? AND closedAt IS NULL`).run(now,user.id,resultNote,newRecordId,item.currentStatusRecordId,inventoryId);
+      if (closed.changes !== 1) throw new Error('当前状态已被其他操作结束');
+      const flags = capabilityKeys.map(key => Number(capabilities?.[key] === true));
+      db.prepare(`INSERT INTO inventory_status_records(
+        id,inventoryId,definitionId,definitionSnapshot,reason,location,responsiblePerson,expectedReturnDate,remark,warehouseId,createdBy,createdAt,
+        locationType,allowSales,allowRentals,allowTransfers,allowSupplierReturns
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(
+        newRecordId,inventoryId,targetDefinitionId,JSON.stringify(definition),`由“${String(previous.definitionName || '自定义状态')}”转入`,location,responsiblePerson,
+        expectedReturnDate,remark,item.warehouseId,user.id,now,locationType,...flags,
+      );
+      if (db.prepare("UPDATE inventory SET currentStatusRecordId=?,updatedAt=? WHERE id=? AND status='custom' AND currentStatusRecordId=?").run(newRecordId,now,inventoryId,item.currentStatusRecordId).changes !== 1) throw new Error('机器状态已变化');
+      const nextRecord = db.prepare('SELECT * FROM inventory_status_records WHERE id=?').get(newRecordId);
+      const note = [`${String(previous.definitionName || '自定义状态')} → ${String(definition.name || '自定义状态')}`,location ? `实际位置：${location}` : '',resultNote].filter(Boolean).join('；');
+      db.prepare(`INSERT INTO inventory_movements(id,inventoryId,warehouseId,movementType,referenceType,referenceId,actorId,note,statusFrom,statusTo,snapshot,createdAt)
+        VALUES (?,?,?,'custom_status_transition','inventory_status_transition',?,?,?,?,?,?,?)`).run(
+        generateId('movement'),inventoryId,item.warehouseId,newRecordId,user.id,note,'custom','custom',JSON.stringify({inventoryId,sn:item.sn,previousStatus:previous,nextStatus:nextRecord}),now,
+      );
     })();
     return NextResponse.json(successResponse(serializeInventoryStatus(db.prepare('SELECT * FROM inventory WHERE id = ?').get(inventoryId) as {id:string})));
   } catch (error) { return failure(error); }

@@ -118,7 +118,7 @@ export function getWhere(
     }
   }
 
-  if (status === 'current_stock') conditions.push("i.status IN ('in_stock','custom')");
+  if (status === 'current_stock') conditions.push(`(i.status = 'in_stock' OR (i.status = 'custom' AND COALESCE((SELECT r.locationType FROM inventory_status_records r WHERE r.id = i.currentStatusRecordId AND r.closedAt IS NULL), 'warehouse') <> 'external'))`);
   else if (status && status !== 'all') { conditions.push('i.status = ?'); params.push(status); }
 
   if (filters.brand) { conditions.push('i.brand = ?'); params.push(filters.brand); }

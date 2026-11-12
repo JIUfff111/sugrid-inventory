@@ -1,4 +1,4 @@
-import { assertStockEligible, endCustomStatus, stockEligibleSql, serializeInventoryStatus } from '@/lib/inventory-status';
+import { assertInventoryOperationEligible, endCustomStatus, inventoryOperationEligibleSql, serializeInventoryStatus } from '@/lib/inventory-status';
 /**
  * 采购售后退货 API
  *
@@ -216,7 +216,7 @@ export async function GET(request: NextRequest) {
     const pattern = `%${search}%`;
 
     if (isInventory) {
-      const conditions = [stockEligibleSql('i')];
+      const conditions = [inventoryOperationEligibleSql('supplierReturns', 'i')];
       const params: string[] = [];
       if (search) {
         conditions.push(`(
@@ -287,7 +287,7 @@ export async function POST(request: NextRequest) {
 
     const rows = findInventory(ids);
     if (rows.length !== ids.length) return jsonError(ErrorCode.INVENTORY_NOT_FOUND, '部分机器不存在或已从库存移除');
-    for (const row of rows) assertStockEligible(row.id);
+    for (const row of rows) assertInventoryOperationEligible(row.id, 'supplierReturns');
 
     // return_orders 的采购信息是单值，因此一张退货单必须属于同一采购单。
     const first = rows[0];
@@ -310,7 +310,7 @@ export async function POST(request: NextRequest) {
         WHERE id = ? AND status IN ('in_stock','custom') AND deleted = 0
       `);
       for (const row of rows) {
-        assertStockEligible(row.id);
+        assertInventoryOperationEligible(row.id, 'supplierReturns');
         const result = updated.run(now, row.id);
         if (result.changes !== 1) throw new Error(`机器 ${row.sn} 状态已发生变化，请刷新后重试`);
       }

@@ -8,6 +8,7 @@ import { NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { errorResponse, successResponse } from '@/lib/api-helpers';
 import { querySalesRecords } from '@/lib/sales-records';
+import { warehouseStockSql } from '@/lib/inventory-status';
 
 type CountRow = {
   total: number | null;
@@ -39,12 +40,12 @@ export async function GET() {
     const inventory = canViewInventory ? db.prepare(`
       SELECT
         COUNT(*) AS total,
-        SUM(CASE WHEN status IN ('in_stock','custom') THEN 1 ELSE 0 END) AS inStock,
+        SUM(CASE WHEN ${warehouseStockSql('i')} THEN 1 ELSE 0 END) AS inStock,
         SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) AS sold,
         SUM(CASE WHEN status = 'returning' THEN 1 ELSE 0 END) AS returningCount,
-        COALESCE(SUM(CASE WHEN status IN ('in_stock','custom') THEN purchasePrice ELSE 0 END), 0) AS inStockCost
-      FROM inventory
-      WHERE deleted = 0
+        COALESCE(SUM(CASE WHEN ${warehouseStockSql('i')} THEN purchasePrice ELSE 0 END), 0) AS inStockCost
+      FROM inventory i
+      WHERE i.deleted = 0
     `).get() as CountRow : { total: 0, inStock: 0, sold: 0, returningCount: 0, inStockCost: 0 };
 
     const orderStats = db.prepare(`

@@ -1,4 +1,4 @@
-import { assertStockEligible, endCustomStatus, stockEligibleSql, serializeInventoryStatus } from '@/lib/inventory-status';
+import { assertInventoryOperationEligible, endCustomStatus, inventoryOperationEligibleSql, serializeInventoryStatus } from '@/lib/inventory-status';
 /**
  * 销售出库与销售记录 API。
  *
@@ -165,7 +165,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(successResponse(serializeRecord(record)));
     }
     const search = searchParams.get('search')?.trim() || ''; const requestedLimit = Number(searchParams.get('limit') || 100); const limit = Math.min(100, Math.max(1, Number.isFinite(requestedLimit) ? Math.floor(requestedLimit) : 100));
-    const params: string[] = []; let where = stockEligibleSql('i');
+    const params: string[] = []; let where = inventoryOperationEligibleSql('sales', 'i');
     for (const term of search.split(/\s+/).filter(Boolean)) { const pattern = `%${term}%`; where += ' AND (i.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR i.cpu LIKE ? OR i.ram LIKE ? OR i.storage LIKE ? OR i.supplierName LIKE ?)'; params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern); }
     const inventoryColumns = tableColumns('inventory'); const warehouseField = inventoryColumns.has('warehouseId') ? 'i.warehouseId' : "'warehouse_main' AS warehouseId";
     const items = db.prepare(`SELECT i.id, i.sn, i.status, i.currentStatusRecordId, i.productType, i.brand, i.model, i.year, i.cpu, i.ram, i.gpu, i.storage, i.screen, i.touchScreen, i.purchasePrice, i.supplierName, i.inboundDate, i.skuRemark, ${warehouseField} FROM inventory i WHERE ${where} ORDER BY i.createdAt DESC LIMIT ?`).all(...params, limit) as InventoryForSale[];
@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
     if (!saleOrderNo) throw new Error('销售订单号不能为空'); const channel = getActiveChannel(channelId, channelName); if (!channel) throw new Error('请选择有效的销售渠道'); const saleDate = normalizeDate(body.saleDate); const items = normalizeItems(body); const userId = actor.id;
     const result = db.transaction(() => {
       const inventoryColumns = tableColumns('inventory'); const warehouseField = inventoryColumns.has('warehouseId') ? ', warehouseId' : ''; const inventoryRows: InventoryForSale[] = [];
-      for (const item of items) { const inventory = db.prepare(`SELECT id, sn, productType, brand, model, year, cpu, ram, gpu, storage, screen, touchScreen, purchasePrice, supplierName, inboundDate, skuRemark, status${warehouseField} FROM inventory WHERE id = ? AND deleted = 0`).get(item.inventoryId) as InventoryForSale | undefined; if (!inventory) throw new Error(`库存机器不存在：${item.inventoryId}`); assertStockEligible(inventory.id); inventoryRows.push(inventory); }
+      for (const item of items) { const inventory = db.prepare(`SELECT id, sn, productType, brand, model, year, cpu, ram, gpu, storage, screen, touchScreen, purchasePrice, supplierName, inboundDate, skuRemark, status${warehouseField} FROM inventory WHERE id = ? AND deleted = 0`).get(item.inventoryId) as InventoryForSale | undefined; if (!inventory) throw new Error(`库存机器不存在：${item.inventoryId}`); assertInventoryOperationEligible(inventory.id, 'sales'); inventoryRows.push(inventory); }
       const assetChanges = inventoryRows.map((inventory, index) => resolveAssetChange(inventory, items[index].assetChange));
       if (assetChanges.some(Boolean) && (!tableExists('inventory_movements') || !tableColumns('inventory_movements').has('snapshot'))) throw new Error('机器变更记录不可用，销售出库已取消');
       const now = formatDateTime(); const recordId = generateId('sale');

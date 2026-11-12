@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { assertInventoryView, authErrorResponse, requireUser, warehouseScope } from '@/lib/auth';
-import { serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
+import { inventoryOperationEligibleSql, serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
 import { errorResponse, successResponse, createPaginatedResponse } from '@/lib/api-helpers';
 
-const contexts = ['inventory','sale','rental','after-sale','exchange','supplier-return','transfer','movements','status-register'];
-const stockContexts = ['sale','rental','exchange','supplier-return','transfer'];
+const contexts = ['inventory','sale','rental','after-sale','exchange','supplier-return','transfer','movements','status-register','status-restore'];
+const stockContextOperations = { sale: 'sales', rental: 'rentals', exchange: 'sales', 'supplier-return': 'supplierReturns', transfer: 'transfers' } as const;
 export async function GET(request: NextRequest) {
   try {
     const user = await requireUser(); const query = request.nextUrl.searchParams;
     const context = query.get('context') || 'inventory';
     if (!contexts.includes(context)) return NextResponse.json(errorResponse('VALIDATION_ERROR','无效的机器查询用途'), { status: 400 });
     if (user.role === 'viewer' && context !== 'inventory') return NextResponse.json(errorResponse('FORBIDDEN','普通用户只能查询库存信息'), { status: 403 });
-    if (['inventory','movements','transfer','status-register'].includes(context)) assertInventoryView(user);
+    if (['inventory','movements','transfer','status-register','status-restore'].includes(context)) assertInventoryView(user);
     if (user.role !== 'admin' && !['inventory','transfer','movements'].includes(context)) return NextResponse.json(errorResponse('FORBIDDEN','无权执行此机器查询'), { status: 403 });
     const serialInputs = query.getAll('sn').map(value => value.trim()).filter(Boolean);
     if (serialInputs.length > 100) return NextResponse.json(errorResponse('VALIDATION_ERROR','一次最多查询 100 个 SN'), { status: 400 });
@@ -23,8 +23,9 @@ export async function GET(request: NextRequest) {
     const page = Math.max(1,Number.parseInt(query.get('page') || '1',10) || 1);
     const scope = warehouseScope(user,query.get('warehouseId'),'i');
     const where = ['i.deleted = 0',scope.sql]; const params: Array<string|number> = [...scope.params];
-    if (stockContexts.includes(context)) where.push(stockEligibleSql('i'));
+    if (context in stockContextOperations) where.push(inventoryOperationEligibleSql(stockContextOperations[context as keyof typeof stockContextOperations], 'i'));
     if (context === 'status-register') where.push("i.status = 'in_stock' AND i.currentStatusRecordId IS NULL",stockEligibleSql('i'));
+    if (context === 'status-restore') where.push("i.status = 'custom' AND EXISTS (SELECT 1 FROM inventory_status_records current_record WHERE current_record.id=i.currentStatusRecordId AND current_record.inventoryId=i.id AND current_record.closedAt IS NULL)");
     if (context === 'after-sale') where.push("i.status = 'sold'", "NOT EXISTS (SELECT 1 FROM after_sale_records a WHERE a.inventoryId = i.id AND a.deleted = 0 AND a.status NOT IN ('resolved','cancelled'))");
     if (context === 'movements' && user.role !== 'admin') {
       // A previously authorized warehouse can still inspect a transferred machine's audit trail.

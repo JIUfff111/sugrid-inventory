@@ -1166,6 +1166,23 @@ function applyVersionedMigrations(db) {
     add('after_sale_records', 'processingBy', 'TEXT');
     add('after_sale_records', 'processingNote', 'TEXT');
   });
+  migrate(32, 'track per-machine business availability and physical location', () => {
+    add('inventory_status_records', 'locationType', "TEXT NOT NULL DEFAULT 'warehouse'");
+    add('inventory_status_records', 'allowSales', 'INTEGER');
+    add('inventory_status_records', 'allowRentals', 'INTEGER');
+    add('inventory_status_records', 'allowTransfers', 'INTEGER');
+    add('inventory_status_records', 'allowSupplierReturns', 'INTEGER');
+    db.exec(`CREATE INDEX IF NOT EXISTS idx_status_record_location ON inventory_status_records(locationType, closedAt)`);
+  });
+
+  migrate(33, 'snapshot default business permissions on inventory status records', () => {
+    db.exec(`UPDATE inventory_status_records
+      SET allowSales = COALESCE(allowSales, CASE WHEN locationType = 'external' THEN 1 ELSE (SELECT allowStockOperations FROM inventory_status_definitions WHERE id = inventory_status_records.definitionId) END, 0),
+          allowRentals = COALESCE(allowRentals, CASE WHEN locationType = 'external' THEN 0 ELSE (SELECT allowStockOperations FROM inventory_status_definitions WHERE id = inventory_status_records.definitionId) END, 0),
+          allowTransfers = COALESCE(allowTransfers, CASE WHEN locationType = 'external' THEN 0 ELSE (SELECT allowStockOperations FROM inventory_status_definitions WHERE id = inventory_status_records.definitionId) END, 0),
+          allowSupplierReturns = COALESCE(allowSupplierReturns, CASE WHEN locationType = 'external' THEN 0 ELSE (SELECT allowStockOperations FROM inventory_status_definitions WHERE id = inventory_status_records.definitionId) END, 0)
+      WHERE closedAt IS NULL AND (allowSales IS NULL OR allowRentals IS NULL OR allowTransfers IS NULL OR allowSupplierReturns IS NULL)`);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

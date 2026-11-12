@@ -1,6 +1,19 @@
 import db from '@/lib/db';
 import { formatDateTime, generateId } from '@/lib/api-helpers';
 
+export type InventoryBusinessOperation = 'sales' | 'rentals' | 'transfers' | 'supplierReturns';
+
+const operationColumns: Record<InventoryBusinessOperation, string> = {
+  sales: 'allowSales',
+  rentals: 'allowRentals',
+  transfers: 'allowTransfers',
+  supplierReturns: 'allowSupplierReturns',
+};
+
+export function warehouseStockSql(alias = 'i') {
+  return `(${alias}.status = 'in_stock' OR (${alias}.status = 'custom' AND COALESCE((SELECT location_record.locationType FROM inventory_status_records location_record WHERE location_record.id = ${alias}.currentStatusRecordId AND location_record.closedAt IS NULL), 'warehouse') <> 'external'))`;
+}
+
 export function listInventoryStatusDefinitions(
   scope: { sql: string; params: Array<string | number> },
   activeOnly = false,
@@ -17,14 +30,31 @@ export function listInventoryStatusDefinitions(
   `).all(...scope.params);
 }
 
-/** SQL fragments only accept application-owned aliases, never request values. */
-export function stockEligibleSql(alias = 'i', excludeTransferId?: string) {
+/** SQL fragments only accept application-owned aliases and operation names. */
+function stockEligibilitySql(alias: string, eligibleCustomStatusSql: string, excludeTransferId?: string) {
   const transferExclusion = excludeTransferId ? ` AND t.id <> '${excludeTransferId.replaceAll("'", "''")}'` : '';
   return `(${alias}.deleted = 0 AND EXISTS (SELECT 1 FROM warehouses eligible_warehouse WHERE eligible_warehouse.id=${alias}.warehouseId AND eligible_warehouse.status='active') AND (${alias}.status = 'in_stock' OR (${alias}.status = 'custom' AND EXISTS (
     SELECT 1 FROM inventory_status_records csr JOIN inventory_status_definitions csd ON csd.id = csr.definitionId
-    WHERE csr.id = ${alias}.currentStatusRecordId AND csr.inventoryId = ${alias}.id AND csr.closedAt IS NULL AND csd.allowStockOperations = 1
+    WHERE csr.id = ${alias}.currentStatusRecordId AND csr.inventoryId = ${alias}.id AND csr.closedAt IS NULL AND (${eligibleCustomStatusSql})
   ))) AND NOT EXISTS (SELECT 1 FROM transfer_items ti JOIN transfers t ON t.id = ti.transferId
     WHERE ti.inventoryId = ${alias}.id AND t.status IN ('pending','approved','in_transit')${transferExclusion}))`;
+}
+
+export function stockEligibleSql(alias = 'i', excludeTransferId?: string) {
+  const anyOperation = (Object.values(operationColumns) as string[])
+    .map(column => `COALESCE(csr.${column}, csd.allowStockOperations) = 1`)
+    .join(' OR ');
+  return stockEligibilitySql(alias, anyOperation, excludeTransferId);
+}
+
+export function inventoryOperationEligibleSql(operation: InventoryBusinessOperation, alias = 'i', excludeTransferId?: string) {
+  return stockEligibilitySql(alias, `COALESCE(csr.${operationColumns[operation]}, csd.allowStockOperations) = 1`, excludeTransferId);
+}
+
+export function assertInventoryOperationEligible(inventoryId: string, operation: InventoryBusinessOperation, excludeTransferId?: string) {
+  const row = db.prepare(`SELECT i.* FROM inventory i WHERE i.id = ? AND ${inventoryOperationEligibleSql(operation, 'i', excludeTransferId)}`).get(inventoryId) as { id: string; sn: string; status: string; warehouseId: string; currentStatusRecordId: string | null } | undefined;
+  if (!row) throw new Error('机器当前不可参与该项业务，状态、位置或调拨占用已变化，请刷新后重试');
+  return row;
 }
 
 export function assertStockEligible(inventoryId: string, excludeTransferId?: string) {
@@ -56,6 +86,13 @@ export function endCustomStatus(inventoryId: string, actorId: string, resultNote
 
 export function serializeInventoryStatus<T extends { id: string }>(row: T) {
   const record = statusDetails(row.id) as Record<string, unknown> | null;
+  const enabled = (field: string) => record?.[field] == null
+    ? Boolean(record?.allowStockOperations)
+    : Boolean(record[field]);
+  const inStock = (row as T & { status?: string }).status === 'in_stock';
   return { ...row, customStatusId: record?.definitionId || null, customStatusName: record?.name || null,
-    customStatusColor: record?.color || null, allowStockOperations: Boolean(record?.allowStockOperations), statusRecord: record };
+    customStatusColor: record?.color || null, locationType: record?.locationType || 'warehouse',
+    allowSales: inStock || enabled('allowSales'), allowRentals: inStock || enabled('allowRentals'),
+    allowTransfers: inStock || enabled('allowTransfers'), allowSupplierReturns: inStock || enabled('allowSupplierReturns'),
+    allowStockOperations: inStock || Object.values(operationColumns).some(column => enabled(column)), statusRecord: record };
 }

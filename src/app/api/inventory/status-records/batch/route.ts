@@ -147,8 +147,9 @@ export async function POST(request: NextRequest) {
       if (!definition) throw new Error('状态不存在或已停用，请刷新后重新选择');
       const inserted: Array<{ id: string; inventoryId: string; item: InventoryRow }> = [];
       const insertStatus = db.prepare(`INSERT INTO inventory_status_records(
-        id,inventoryId,definitionId,definitionSnapshot,reason,location,responsiblePerson,expectedReturnDate,remark,warehouseId,createdBy,createdAt
-      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`);
+        id,inventoryId,definitionId,definitionSnapshot,reason,location,responsiblePerson,expectedReturnDate,remark,warehouseId,createdBy,createdAt,
+        allowSales,allowRentals,allowTransfers,allowSupplierReturns
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
       const updateInventory = db.prepare("UPDATE inventory SET status='custom',currentStatusRecordId=?,updatedAt=? WHERE id=? AND deleted=0 AND status='in_stock' AND currentStatusRecordId IS NULL");
       const insertMovement = db.prepare(`INSERT INTO inventory_movements(
         id,inventoryId,warehouseId,movementType,referenceType,referenceId,actorId,note,statusFrom,statusTo,snapshot,createdAt
@@ -159,7 +160,8 @@ export async function POST(request: NextRequest) {
         const id = generateId('status_record');
         const statusRecord = { id, definitionId: form.definitionId, definition, reason: form.reason, location: form.location,
           responsiblePerson: form.responsiblePerson, expectedReturnDate: form.expectedReturnDate, remark: form.remark, createdBy: user.id, createdAt: now };
-        insertStatus.run(id,item.id,form.definitionId,JSON.stringify(definition),form.reason,form.location,form.responsiblePerson,form.expectedReturnDate,form.remark,item.warehouseId,user.id,now);
+        const allowed = Number(definition.allowStockOperations) === 1 ? 1 : 0;
+        insertStatus.run(id,item.id,form.definitionId,JSON.stringify(definition),form.reason,form.location,form.responsiblePerson,form.expectedReturnDate,form.remark,item.warehouseId,user.id,now,allowed,allowed,allowed,allowed);
         if (updateInventory.run(id,now,item.id).changes !== 1) throw new BatchConflict([{ id: item.id, sn: item.sn, reason: '机器状态已变化' }]);
         insertMovement.run(generateId('movement'),item.id,item.warehouseId,id,user.id,note,snapshotMachine(item,statusRecord),now);
         inserted.push({ id, inventoryId: item.id, item });

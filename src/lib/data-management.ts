@@ -139,7 +139,7 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   inventory_status_records: {
     key: 'inventory_status_records', label: '库存状态记录', table: 'inventory_status_records',
-    fields: ['id', 'inventoryId', 'definitionId', 'definitionSnapshot', 'reason', 'location', 'responsiblePerson', 'expectedReturnDate', 'remark', 'warehouseId', 'createdBy', 'createdAt', 'closedAt', 'closedBy', 'resultNote', 'closingReferenceType', 'closingReferenceId'],
+    fields: ['id', 'inventoryId', 'definitionId', 'definitionSnapshot', 'reason', 'location', 'locationType', 'allowSales', 'allowRentals', 'allowTransfers', 'allowSupplierReturns', 'responsiblePerson', 'expectedReturnDate', 'remark', 'warehouseId', 'createdBy', 'createdAt', 'closedAt', 'closedBy', 'resultNote', 'closingReferenceType', 'closingReferenceId'],
     writable: ['remark', 'resultNote'], deletable: false, creatable: false, searchFields: ['inventoryId', 'reason', 'location', 'responsiblePerson'], orderBy: 'createdAt DESC', required: ['inventoryId', 'definitionId', 'definitionSnapshot', 'reason', 'location', 'responsiblePerson', 'warehouseId', 'createdBy'],
   },
   label_templates: {

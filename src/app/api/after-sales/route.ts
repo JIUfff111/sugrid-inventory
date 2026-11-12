@@ -1,4 +1,4 @@
-import { assertStockEligible, endCustomStatus } from '@/lib/inventory-status';
+import { assertInventoryOperationEligible, endCustomStatus } from '@/lib/inventory-status';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { createPaginatedResponse, errorResponse, ErrorCode, formatDateTime, generateId, parsePaginationParams, successResponse } from '@/lib/api-helpers';
@@ -372,11 +372,11 @@ export async function PATCH(request: NextRequest) {
       if (!replacementInventoryId || replacementInventoryId === record.inventoryId) return bad('换机必须选择替换机器');
       const replacement = inventory(replacementInventoryId);
       if (!replacement) return bad('替换机器不存在');
-      assertStockEligible(replacementInventoryId);
+      assertInventoryOperationEligible(replacementInventoryId, 'sales');
       const source = saleSource(record.inventoryId, item);
       const result = db.transaction(() => {
         if (db.prepare("UPDATE inventory SET status = 'in_stock', soldDate = NULL, sellingPrice = NULL, saleChannel = NULL, saleOrderNo = NULL, profit = NULL, updatedAt = ? WHERE id = ? AND status = 'after_sale'").run(now, record.inventoryId).changes !== 1) throw new Error('原机器状态已变化');
-        assertStockEligible(replacementInventoryId);
+        assertInventoryOperationEligible(replacementInventoryId, 'sales');
         endCustomStatus(replacementInventoryId,user.id,'售后换机出库','after_sale',id,'sold');
         if (db.prepare("UPDATE inventory SET status = 'sold', soldDate = ?, sellingPrice = ?, saleChannel = ?, saleOrderNo = ?, profit = ?, updatedAt = ? WHERE id = ? AND status IN ('in_stock','custom') AND deleted = 0").run(now.slice(0, 10), source.sellingPrice, source.saleChannel, source.saleOrderNo, source.sellingPrice - Number(replacement.purchasePrice || 0), now, replacementInventoryId).changes !== 1) throw new Error('替换机器状态已变化');
         if (db.prepare("UPDATE after_sale_stock SET stockStatus = 'exchanged_out', updatedAt = ? WHERE id = ? AND stockStatus = 'stored'").run(now, stock!.id).changes !== 1) throw new Error('售后暂存状态已变化');

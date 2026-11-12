@@ -1,4 +1,4 @@
-import { listInventoryStatusDefinitions, serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
+import { listInventoryStatusDefinitions, serializeInventoryStatus, stockEligibleSql, warehouseStockSql } from '@/lib/inventory-status';
 import { requireUser, requireSystemAccount, warehouseScope, authErrorResponse, assertWarehouseAccess, assertInventoryEdit, assertInventoryView } from '@/lib/auth';
 /**
  * 在库清单 API
@@ -203,17 +203,19 @@ export async function GET(request: NextRequest) {
     const stats = db.prepare(`
       SELECT
         COUNT(*) AS total,
-        SUM(CASE WHEN status IN ('in_stock','custom') THEN 1 ELSE 0 END) AS inStock,
+        SUM(CASE WHEN ${warehouseStockSql('i')} THEN 1 ELSE 0 END) AS inStock,
         SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) AS sold,
         SUM(CASE WHEN status = 'returning' THEN 1 ELSE 0 END) AS returningCount,
-        COALESCE(SUM(CASE WHEN status IN ('in_stock','custom') THEN purchasePrice ELSE 0 END), 0) AS inStockCost
-      FROM inventory
-      WHERE deleted = 0 AND ${scope.sql}
+        SUM(CASE WHEN status = 'custom' AND COALESCE((SELECT location_record.locationType FROM inventory_status_records location_record WHERE location_record.id = i.currentStatusRecordId AND location_record.closedAt IS NULL),'warehouse') = 'external' THEN 1 ELSE 0 END) AS externalCount,
+        COALESCE(SUM(CASE WHEN ${warehouseStockSql('i')} THEN purchasePrice ELSE 0 END), 0) AS inStockCost
+      FROM inventory i
+      WHERE i.deleted = 0 AND ${scope.sql}
     `).get(...scope.params) as {
       total: number;
       inStock: number;
       sold: number;
       returningCount: number;
+      externalCount: number;
       inStockCost: number;
     };
 
@@ -228,6 +230,7 @@ export async function GET(request: NextRequest) {
         inStock: Number(stats.inStock || 0),
         sold: Number(stats.sold || 0),
         returning: Number(stats.returningCount || 0),
+        external: Number(stats.externalCount || 0),
         inStockCost: Number(stats.inStockCost || 0),
       },
     }));

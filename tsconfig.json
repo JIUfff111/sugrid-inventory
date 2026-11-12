@@ -34,17 +34,11 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts",
-    ".next-qa-build/types/**/*.ts",
-    ".next-qa-build/dev/types/**/*.ts",
-    ".next-rental-qa/types/**/*.ts",
-    ".next-rental-qa/dev/types/**/*.ts",
-    ".next-aftersales-qa/types/**/*.ts",
-    ".next-aftersales-qa/dev/types/**/*.ts",
-    ".next-rental-management-qa/types/**/*.ts",
-    ".next-rental-management-qa/dev/types/**/*.ts"
+    "**/*.mts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "tools/server-manager-desktop/src-tauri/resources/inventory",
+    "tools/server-manager-desktop/src-tauri/target"
   ]
 }
