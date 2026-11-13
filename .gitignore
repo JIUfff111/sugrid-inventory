@@ -44,6 +44,7 @@
 /patch-glass*.cjs
 /dev-server*.log
 /tools/server-manager-desktop/src-tauri/resources/inventory/
+/tools/server-manager-desktop/src-tauri/resources/inventory-installer/
 
 # debug
 npm-debug.log*

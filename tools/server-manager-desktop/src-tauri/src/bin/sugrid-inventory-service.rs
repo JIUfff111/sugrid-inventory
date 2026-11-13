@@ -2,15 +2,16 @@
 
 #[cfg(windows)]
 mod service_host {
-    use rusqlite::{Connection, OpenFlags, backup::Backup};
+    use rusqlite::{Connection, OpenFlags, backup::Backup, ffi};
     use serde::{Deserialize, Serialize};
     use std::{
-        ffi::{OsStr, OsString},
+        ffi::{CString, OsStr, OsString},
         fs::{self, OpenOptions},
         io::{self, Write},
         net::TcpListener,
         path::{Path, PathBuf},
         process::{Command, Stdio},
+        ptr,
         sync::mpsc,
         thread,
         time::{Duration, SystemTime, UNIX_EPOCH},
@@ -138,6 +139,24 @@ mod service_host {
 
     fn install_error_code(error: &str) -> String {
         // Keep the public summary free of local paths and database contents.
+        if error.contains("sqlite_primary=") && error.contains("sqlite_extended=") {
+            let primary = error_value(error, "sqlite_primary=").unwrap_or("unknown");
+            let extended = error_value(error, "sqlite_extended=").unwrap_or("unknown");
+            let system = error_value(error, "sqlite_system=").unwrap_or("unknown");
+            return format!(
+                "sqlite_primary={primary},sqlite_extended={extended},sqlite_system={system}"
+            );
+        }
+        if let Some(exit_code) = error_value(error, "command_exit=") {
+            let mut details = vec![format!("command_exit={exit_code}")];
+            if let Some(os_code) = error_value(error, "acl_os=") {
+                details.push(format!("os={os_code}"));
+            }
+            return details.join(",");
+        }
+        if let Some(os_code) = error_value(error, "acl_os=") {
+            return format!("os={os_code}");
+        }
         let marker = "Win32 error ";
         if let Some(start) = error.find(marker) {
             let code = error[start + marker.len()..]
@@ -161,23 +180,161 @@ mod service_host {
         "code=unavailable".into()
     }
 
-    fn write_install_diagnostic(root: &Path, step: &str, error: &str) {
-        let _ = fs::create_dir_all(root);
+    fn error_value<'a>(error: &'a str, marker: &str) -> Option<&'a str> {
+        let start = error.find(marker)? + marker.len();
+        let value = error[start..]
+            .chars()
+            .take_while(char::is_ascii_digit)
+            .collect::<String>();
+        (!value.is_empty()).then_some(&error[start..start + value.len()])
+    }
+
+    fn diagnostic_token<'a>(error: &'a str, marker: &str) -> Option<&'a str> {
+        let start = error.find(marker)? + marker.len();
+        let value = error[start..]
+            .chars()
+            .take_while(|character| {
+                character.is_ascii_alphanumeric() || *character == '-' || *character == '_'
+            })
+            .count();
+        (value > 0).then_some(&error[start..start + value])
+    }
+
+    fn install_error_kind(step: &str, error: &str) -> &'static str {
+        if step == "backup-database" {
+            if error.starts_with("Database file does not exist:") {
+                "source-database-missing"
+            } else if error.starts_with("Cannot open source database:") {
+                "source-database-open-failed"
+            } else if error.starts_with("Cannot create database copy:") {
+                "backup-file-create-failed"
+            } else if error.starts_with("SQLite online backup failed:") {
+                "sqlite-backup-failed"
+            } else if error.starts_with("Cannot open database:")
+                || error.starts_with("SQLite integrity_check")
+            {
+                "backup-verification-failed"
+            } else {
+                "backup-failed"
+            }
+        } else {
+            match step {
+                "prepare-program-data" | "apply-data-permissions" | "apply-runtime-permissions" => {
+                    "data-permissions-failed"
+                }
+                "install-windows-service" => "service-install-failed",
+                "start-and-health-check" => "service-start-or-health-check-failed",
+                "migrate-database" => "database-migration-failed",
+                _ => "installation-step-failed",
+            }
+        }
+    }
+
+    fn is_permission_setup_step(step: &str) -> bool {
+        matches!(
+            step,
+            "prepare-program-data" | "apply-data-permissions" | "apply-runtime-permissions"
+        )
+    }
+
+    fn install_diagnostic_contents(step: &str, error: &str) -> String {
+        format!(
+            "step={step}; reason={}; operation={}; previous_operation={}; command={}; failure={}; {}; service={SERVICE_NAME}; port={PORT}\r\n",
+            install_error_kind(step, error),
+            diagnostic_token(error, "acl-operation=").unwrap_or("not-available"),
+            diagnostic_token(error, "previous-operation=").unwrap_or("not-available"),
+            diagnostic_token(error, "acl-command=").unwrap_or("not-available"),
+            diagnostic_token(error, "acl-reason=").unwrap_or("not-available"),
+            install_error_code(error),
+        )
+    }
+
+    fn write_install_diagnostic_to(
+        root: &Path,
+        fallback_directory: &Path,
+        step: &str,
+        error: &str,
+    ) -> Option<PathBuf> {
+        let summary = install_diagnostic_contents(step, error);
         let path = install_diagnostic_path(root);
-        let summary = format!(
-            "step={step}; {}; service={SERVICE_NAME}; port={PORT}\r\n",
-            install_error_code(error)
-        );
-        if fs::write(&path, summary).is_ok() {
+        if fs::create_dir_all(root).is_ok() && fs::write(&path, &summary).is_ok() {
             // The summary contains no database data, credentials, or local paths.
-            let _ = hidden_command("icacls.exe")
+            let grant = hidden_command("icacls.exe")
                 .args([
                     path.to_string_lossy().as_ref(),
                     "/grant:r",
                     "BUILTIN\\Users:(R)",
                 ])
                 .output();
+            if grant.is_ok_and(|output| output.status.success()) {
+                return Some(path);
+            }
+            let _ = fs::remove_file(&path);
         }
+
+        let fallback = fallback_directory.join("sugrid-install-diagnostics.txt");
+        if fs::write(&fallback, summary).is_ok() {
+            Some(fallback)
+        } else {
+            None
+        }
+    }
+
+    fn write_install_diagnostic(root: &Path, step: &str, error: &str) -> Option<PathBuf> {
+        write_install_diagnostic_to(root, &std::env::temp_dir(), step, error)
+    }
+
+    fn command_diagnostic_contents(command: &str, error: &str) -> String {
+        let safe_command = match command {
+            "install"
+            | "uninstall"
+            | "stop"
+            | "start"
+            | "restore"
+            | "backup"
+            | "prepare-data-permissions"
+            | "run" => command,
+            _ => "unknown",
+        };
+        let step = match safe_command {
+            "prepare-data-permissions" => "apply-data-permissions",
+            "backup" | "restore" => "backup-database",
+            _ => "preflight",
+        };
+        format!(
+            "command={safe_command}; reason={}; {}; service={SERVICE_NAME}; port={PORT}\r\n",
+            install_error_kind(step, error),
+            install_error_code(error),
+        )
+    }
+
+    fn write_command_diagnostic(command: &str, error: &str) -> Option<PathBuf> {
+        let path = std::env::temp_dir().join("sugrid-service-host-diagnostic.txt");
+        fs::write(&path, command_diagnostic_contents(command, error))
+            .ok()
+            .map(|()| path)
+    }
+
+    fn clear_stale_install_diagnostics(root: &Path, temporary_directory: &Path) -> Vec<String> {
+        let mut failures = Vec::new();
+        for (location, path) in [
+            ("program-data", install_diagnostic_path(root)),
+            (
+                "temporary-installer",
+                temporary_directory.join("sugrid-install-diagnostics.txt"),
+            ),
+            (
+                "temporary-service-host",
+                temporary_directory.join("sugrid-service-host-diagnostic.txt"),
+            ),
+        ] {
+            match fs::remove_file(&path) {
+                Ok(()) => {}
+                Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+                Err(error) => failures.push(format!("{location}: {}", io_error_summary(&error))),
+            }
+        }
+        failures
     }
 
     fn append_log(paths: &Paths, message: &str) {
@@ -291,11 +448,7 @@ mod service_host {
     }
 
     fn online_backup(source_path: &Path, destination_path: &Path) -> Result<(), String> {
-        let source = Connection::open_with_flags(
-            source_path,
-            OpenFlags::SQLITE_OPEN_READ_ONLY | OpenFlags::SQLITE_OPEN_FULL_MUTEX,
-        )
-        .map_err(|error| format!("Cannot open source database: {error}"))?;
+        let source = open_backup_source_database(source_path)?;
         let mut destination = Connection::open(destination_path)
             .map_err(|error| format!("Cannot create database copy: {error}"))?;
         let backup = Backup::new(&source, &mut destination).map_err(|error| error.to_string())?;
@@ -307,6 +460,168 @@ mod service_host {
             .close()
             .map_err(|(_, error)| error.to_string())?;
         inspect_database(destination_path)
+    }
+
+    fn open_source_database(path: &Path) -> Result<Connection, String> {
+        open_source_database_with_flags(
+            path,
+            OpenFlags::SQLITE_OPEN_READ_ONLY
+                | OpenFlags::SQLITE_OPEN_FULL_MUTEX
+                | OpenFlags::SQLITE_OPEN_EXRESCODE,
+        )
+    }
+
+    fn open_backup_source_database(path: &Path) -> Result<Connection, String> {
+        open_backup_source_database_with(path, open_source_database, |path| {
+            open_source_database_with_flags(
+                path,
+                OpenFlags::SQLITE_OPEN_READ_WRITE
+                    | OpenFlags::SQLITE_OPEN_FULL_MUTEX
+                    | OpenFlags::SQLITE_OPEN_EXRESCODE,
+            )
+        })
+    }
+
+    fn open_backup_source_database_with<ReadOnly, ReadWrite>(
+        path: &Path,
+        read_only_open: ReadOnly,
+        read_write_open: ReadWrite,
+    ) -> Result<Connection, String>
+    where
+        ReadOnly: FnOnce(&Path) -> Result<Connection, String>,
+        ReadWrite: FnOnce(&Path) -> Result<Connection, String>,
+    {
+        match read_only_open(path) {
+            Ok(database) => Ok(database),
+            Err(read_only_error)
+                if read_only_error.contains("sqlite_primary=14")
+                    && read_only_error.contains("sqlite_system=5")
+                    && path.is_file() =>
+            {
+                read_write_open(path).map_err(|read_write_error| {
+                    format!(
+                        "Cannot open source database: read-only WAL access failed ({read_only_error}); read-write recovery access failed ({read_write_error})"
+                    )
+                })
+            }
+            Err(error) => Err(error),
+        }
+    }
+
+    fn open_source_database_with_flags(
+        path: &Path,
+        flags: OpenFlags,
+    ) -> Result<Connection, String> {
+        let path_text = path
+            .to_str()
+            .ok_or_else(|| "Cannot open source database: invalid database path".to_string())?;
+        let c_path = CString::new(path_text)
+            .map_err(|_| "Cannot open source database: invalid database path".to_string())?;
+        let flags = flags.bits();
+        let mut handle = ptr::null_mut();
+        let result =
+            unsafe { ffi::sqlite3_open_v2(c_path.as_ptr(), &mut handle, flags, ptr::null()) };
+        if result != ffi::SQLITE_OK {
+            let details = if handle.is_null() {
+                format!(
+                    "sqlite_primary={} sqlite_extended={result} sqlite_system=0",
+                    result & 0xff
+                )
+            } else {
+                let primary = unsafe { ffi::sqlite3_errcode(handle) };
+                let extended = unsafe { ffi::sqlite3_extended_errcode(handle) };
+                let system = unsafe { ffi::sqlite3_system_errno(handle) };
+                let _ = unsafe { ffi::sqlite3_close(handle) };
+                format!(
+                    "sqlite_primary={primary} sqlite_extended={extended} sqlite_system={system}"
+                )
+            };
+            return Err(format!("Cannot open source database: {details}"));
+        }
+        unsafe { Connection::from_handle_owned(handle) }
+            .map_err(|error| format!("Cannot wrap source database connection: {error}"))
+    }
+
+    fn migration_sidecar_path(database: &Path, suffix: &str) -> PathBuf {
+        let mut name = database.file_name().unwrap_or_default().to_os_string();
+        name.push(suffix);
+        database.with_file_name(name)
+    }
+
+    fn finalize_database_for_activation(database_path: &Path) -> Result<(), String> {
+        let database = Connection::open_with_flags(
+            database_path,
+            OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_FULL_MUTEX,
+        )
+        .map_err(|error| format!("Cannot prepare migration database: {error}"))?;
+        let (busy, wal_frames, checkpointed_frames): (i64, i64, i64) = database
+            .query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |row| {
+                Ok((row.get(0)?, row.get(1)?, row.get(2)?))
+            })
+            .map_err(|error| format!("Cannot checkpoint migration database: {error}"))?;
+        if busy != 0 || (wal_frames >= 0 && checkpointed_frames < wal_frames) {
+            return Err(format!(
+                "Migration database WAL checkpoint was incomplete (busy={busy}, frames={wal_frames}, checkpointed={checkpointed_frames})."
+            ));
+        }
+        let journal_mode: String = database
+            .query_row("PRAGMA journal_mode=DELETE", [], |row| row.get(0))
+            .map_err(|error| format!("Cannot switch migration database to DELETE mode: {error}"))?;
+        if !journal_mode.eq_ignore_ascii_case("delete") {
+            return Err(format!(
+                "Migration database stayed in {journal_mode} journal mode."
+            ));
+        }
+        drop(database);
+
+        for suffix in ["-wal", "-shm"] {
+            let sidecar = migration_sidecar_path(database_path, suffix);
+            if sidecar.exists() {
+                fs::remove_file(&sidecar).map_err(|error| {
+                    format!("Could not remove finalized SQLite sidecar: {error}")
+                })?;
+            }
+        }
+        Ok(())
+    }
+
+    fn recover_legacy_migration_sidecars(
+        database_path: &Path,
+        staging_path: &Path,
+    ) -> Result<(), String> {
+        if staging_path.exists() {
+            return Err(
+                "Both the active database and the migration staging database exist. Neither was changed.".into(),
+            );
+        }
+        let staging_wal = migration_sidecar_path(staging_path, "-wal");
+        let database_wal = migration_sidecar_path(database_path, "-wal");
+        if staging_wal.exists() {
+            let staging_wal_len = fs::metadata(&staging_wal)
+                .map_err(|error| format!("Could not inspect the migration WAL file: {error}"))?
+                .len();
+            if staging_wal_len == 0 {
+                fs::remove_file(&staging_wal).map_err(|error| {
+                    format!("Could not remove the empty migration WAL file: {error}")
+                })?;
+            } else {
+                if database_wal.exists() {
+                    return Err(
+                        "Both the migrated database and its old staging database have WAL files. They were preserved for manual recovery.".into(),
+                    );
+                }
+                fs::rename(&staging_wal, &database_wal).map_err(|error| {
+                    format!("Could not recover the migration WAL file: {error}")
+                })?;
+            }
+        }
+        finalize_database_for_activation(database_path)?;
+        let staging_shm = migration_sidecar_path(staging_path, "-shm");
+        if staging_shm.exists() {
+            fs::remove_file(&staging_shm)
+                .map_err(|error| format!("Could not remove stale migration SHM file: {error}"))?;
+        }
+        Ok(())
     }
 
     fn create_backup_file(
@@ -568,6 +883,10 @@ mod service_host {
         let staging = database.with_file_name("inventory.migrating.db");
 
         if complete.is_file() {
+            let state: MigrationState =
+                serde_json::from_slice(&fs::read(&complete).map_err(|error| error.to_string())?)
+                    .map_err(|error| format!("Database migration record is invalid: {error}"))?;
+            recover_legacy_migration_sidecars(database, &state.staging)?;
             inspect_database(database)?;
             return Ok(());
         }
@@ -579,12 +898,15 @@ mod service_host {
                         format!("Database migration recovery record is invalid: {error}")
                     })?;
             if !database.exists() && state.staging.is_file() {
+                finalize_database_for_activation(&state.staging)?;
                 inspect_database(&state.staging)?;
                 if let Some(backup) = state.backup.as_ref() {
                     verify_critical_rows(backup, &state.staging)?;
                 }
                 fs::rename(&state.staging, database)
                     .map_err(|error| format!("Could not finish database migration: {error}"))?;
+            } else if database.exists() {
+                recover_legacy_migration_sidecars(database, &state.staging)?;
             }
             inspect_database(database)?;
             if let Some(backup) = state.backup.as_ref() {
@@ -603,6 +925,7 @@ mod service_host {
                     source.unwrap().display()
                 ));
             }
+            finalize_database_for_activation(database)?;
             inspect_database(database)?;
             let state = MigrationState {
                 source: None,
@@ -636,6 +959,7 @@ mod service_host {
                 .map_err(|error| format!("Could not stage database migration: {error}"))?;
         }
         initialize(&staging)?;
+        finalize_database_for_activation(&staging)?;
         inspect_database(&staging)?;
         if let Some(backup_path) = backup.as_ref() {
             verify_critical_rows(backup_path, &staging)?;
@@ -654,165 +978,418 @@ mod service_host {
     }
 
     fn grant_local_service_modify(path: &Path) -> Result<(), String> {
-        let path_text = path.to_string_lossy().into_owned();
-        let output = hidden_command("icacls.exe")
-            .args([
-                path_text.as_str(),
-                "/grant:r",
-                "NT AUTHORITY\\LOCAL SERVICE:(OI)(CI)(M)",
-                "/T",
-                "/C",
-            ])
-            .output()
-            .map_err(|error| format!("Could not set {} permissions: {error}", path.display()))?;
-        if !output.status.success() {
-            return Err(format!(
-                "Could not set {} permissions: {}",
-                path.display(),
-                String::from_utf8_lossy(&output.stderr).trim()
-            ));
-        }
-        Ok(())
+        run_path_icacls(
+            "grant-runtime-cache-modify",
+            path,
+            &["/grant:r", "NT AUTHORITY\\LOCAL SERVICE:(OI)(CI)(M)"],
+        )?;
+        run_path_icacls(
+            "enable-runtime-cache-inheritance",
+            path,
+            &["/inheritance:e", "/T"],
+        )
     }
 
-    fn grant_users_directory_listing(path: &Path) -> Result<(), String> {
-        let path_text = path.to_string_lossy().into_owned();
-        let output = hidden_command("icacls.exe")
-            .args([path_text.as_str(), "/grant:r", "BUILTIN\\Users:(RX)"])
+    fn acl_command_failure(
+        operation: &str,
+        command: &str,
+        exit_code: Option<i32>,
+        os_code: Option<i32>,
+    ) -> String {
+        let exit = exit_code
+            .map(|code| code.to_string())
+            .unwrap_or_else(|| "unknown".into());
+        let os = os_code
+            .map(|code| format!("; acl_os={code}"))
+            .unwrap_or_default();
+        let reason = if exit_code == Some(5) || os_code == Some(5) {
+            "access-denied"
+        } else if exit_code.is_some() {
+            "command-failed"
+        } else {
+            "process-start-failed"
+        };
+        format!(
+            "acl-operation={operation}; acl-command={command}; command_exit={exit}{os}; acl-reason={reason}"
+        )
+    }
+
+    fn is_access_denied(error: &str) -> bool {
+        diagnostic_token(error, "acl-reason=") == Some("access-denied")
+            || error_value(error, "acl_os=") == Some("5")
+            || error_value(error, "sqlite_system=") == Some("5")
+    }
+
+    fn ensure_no_reparse_points(root: &Path) -> Result<(), String> {
+        use std::os::windows::fs::MetadataExt;
+
+        fn visit(path: &Path) -> Result<(), String> {
+            let metadata = fs::symlink_metadata(path)
+                .map_err(|error| acl_io_failure("inspect-program-data-entry", &error))?;
+            if metadata.file_attributes() & 0x400 != 0 {
+                return Err(acl_command_failure(
+                    "reject-program-data-reparse-point",
+                    "filesystem",
+                    Some(1),
+                    None,
+                ));
+            }
+            if metadata.is_dir() {
+                for entry in fs::read_dir(path)
+                    .map_err(|error| acl_io_failure("list-program-data-entry", &error))?
+                {
+                    let entry =
+                        entry.map_err(|error| acl_io_failure("read-program-data-entry", &error))?;
+                    visit(&entry.path())?;
+                }
+            }
+            Ok(())
+        }
+
+        visit(root)
+    }
+
+    fn output_reports_access_denied(output: &[u8]) -> bool {
+        let utf8 = String::from_utf8_lossy(output);
+        let utf16 = String::from_utf16_lossy(
+            &output
+                .chunks_exact(2)
+                .map(|bytes| u16::from_le_bytes([bytes[0], bytes[1]]))
+                .collect::<Vec<_>>(),
+        );
+        [utf8.as_ref(), utf16.as_str()].iter().any(|text| {
+            text.contains("Access is denied")
+                || text.contains("Access denied")
+                || text.contains("拒绝访问")
+                || text.contains("拒绝存取")
+        })
+    }
+
+    fn acl_io_failure(operation: &str, error: &io::Error) -> String {
+        let code = error.raw_os_error();
+        let mut message = acl_command_failure(operation, "filesystem", None, code);
+        if code != Some(5) {
+            message = message.replace(
+                "acl-reason=process-start-failed",
+                "acl-reason=filesystem-failed",
+            );
+        }
+        message
+    }
+
+    fn run_hidden_checked(operation: &str, program: &str, args: &[OsString]) -> Result<(), String> {
+        let output = hidden_command(program)
+            .args(args)
             .output()
             .map_err(|error| {
-                format!(
-                    "Could not allow safe metadata access to {}: {error}",
-                    path.display()
+                acl_command_failure(
+                    operation,
+                    program.trim_end_matches(".exe"),
+                    None,
+                    error.raw_os_error(),
                 )
             })?;
-        if !output.status.success() {
-            return Err(format!(
-                "Could not allow safe metadata access to {}: {}",
-                path.display(),
-                String::from_utf8_lossy(&output.stderr).trim()
+        if output.status.success() {
+            return Ok(());
+        }
+        let denied = output_reports_access_denied(&output.stdout)
+            || output_reports_access_denied(&output.stderr);
+        Err(acl_command_failure(
+            operation,
+            program.trim_end_matches(".exe"),
+            output.status.code(),
+            denied.then_some(5),
+        ))
+    }
+
+    fn run_path_icacls(operation: &str, path: &Path, options: &[&str]) -> Result<(), String> {
+        let mut args = vec![path.as_os_str().to_owned()];
+        args.extend(options.iter().map(OsString::from));
+        run_hidden_checked(operation, "icacls.exe", &args)
+    }
+
+    struct AclSnapshot {
+        path: PathBuf,
+        complete: bool,
+        exit_code: Option<i32>,
+    }
+
+    fn save_acl_snapshot(root: &Path) -> Result<AclSnapshot, String> {
+        let path = std::env::temp_dir().join(format!(
+            "sugrid-inventory-acl-{}-{}.acl",
+            now_stamp(),
+            std::process::id()
+        ));
+        let args = vec![
+            root.as_os_str().to_owned(),
+            OsString::from("/save"),
+            path.as_os_str().to_owned(),
+            OsString::from("/T"),
+            OsString::from("/C"),
+        ];
+        let output = hidden_command("icacls.exe")
+            .args(&args)
+            .output()
+            .map_err(|error| {
+                acl_command_failure("save-acl-snapshot", "icacls", None, error.raw_os_error())
+            })?;
+        let metadata = fs::metadata(&path).map_err(|error| {
+            acl_command_failure(
+                "save-acl-snapshot",
+                "icacls",
+                output.status.code(),
+                error.raw_os_error(),
+            )
+        })?;
+        if metadata.len() == 0 {
+            return Err(acl_command_failure(
+                "save-acl-snapshot",
+                "icacls",
+                output.status.code(),
+                None,
             ));
         }
+        Ok(AclSnapshot {
+            path,
+            complete: output.status.success(),
+            exit_code: output.status.code(),
+        })
+    }
+
+    fn retain_acl_snapshot(snapshot: &AclSnapshot, paths: &Paths) -> Result<(), String> {
+        let retained = paths.logs.join(format!(
+            "permissions-before-{}-{}.acl",
+            now_stamp(),
+            std::process::id()
+        ));
+        fs::copy(&snapshot.path, &retained)
+            .map_err(|error| acl_io_failure("retain-acl-snapshot", &error))?;
+        run_path_icacls(
+            "secure-acl-snapshot",
+            &retained,
+            &[
+                "/inheritance:r",
+                "/grant:r",
+                "SYSTEM:(F)",
+                "BUILTIN\\Administrators:(F)",
+            ],
+        )?;
+        let _ = fs::remove_file(&snapshot.path);
         Ok(())
     }
 
-    fn set_data_permissions(root: &Path) -> Result<(), String> {
-        let root_text = root.to_string_lossy().into_owned();
-        let output = hidden_command("icacls.exe")
-            .args([root_text.as_str(), "/reset", "/T", "/C"])
-            .output()
-            .map_err(|error| format!("Could not reset inherited data permissions: {error}"))?;
-        if !output.status.success() {
-            return Err(format!(
-                "Could not reset inherited data permissions: {}",
-                String::from_utf8_lossy(&output.stderr).trim()
-            ));
-        }
-        let output = hidden_command("icacls.exe")
-            .args([
-                root_text.as_str(),
+    fn probe_directory_write(path: &Path, operation: &str) -> Result<(), String> {
+        let probe = path.join(format!(".sugrid-permission-check-{}", now_stamp()));
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&probe)
+            .map_err(|error| acl_io_failure(operation, &error))?;
+        file.write_all(b"permission-check")
+            .map_err(|error| acl_io_failure(operation, &error))?;
+        drop(file);
+        fs::remove_file(&probe).map_err(|error| acl_io_failure(operation, &error))
+    }
+
+    fn apply_data_acl_policy(root: &Path) -> Result<(), String> {
+        run_path_icacls("reset-existing-acls", root, &["/reset", "/T"])?;
+        run_path_icacls(
+            "set-program-data-root-acl",
+            root,
+            &[
                 "/inheritance:r",
                 "/grant:r",
                 "SYSTEM:(OI)(CI)(F)",
                 "BUILTIN\\Administrators:(OI)(CI)(F)",
                 "NT AUTHORITY\\LOCAL SERVICE:(OI)(CI)(RX)",
-            ])
-            .output()
-            .map_err(|error| format!("Could not secure the ProgramData directory: {error}"))?;
-        if !output.status.success() {
-            return Err(format!(
-                "Could not set ProgramData permissions: {}",
-                String::from_utf8_lossy(&output.stderr).trim()
-            ));
-        }
-        grant_users_directory_listing(root)?;
+            ],
+        )?;
+        run_path_icacls(
+            "grant-root-directory-listing",
+            root,
+            &["/grant:r", "BUILTIN\\Users:(RX)"],
+        )?;
 
-        for directory in ["data", "backups", "logs"] {
+        for (directory, operation) in [
+            ("data", "grant-data-directory-access"),
+            ("backups", "grant-backup-directory-access"),
+            ("logs", "grant-log-directory-access"),
+        ] {
             let path = root.join(directory);
-            fs::create_dir_all(&path).map_err(|error| error.to_string())?;
-            let path_text = path.to_string_lossy().into_owned();
-            let output = hidden_command("icacls.exe")
-                .args([
-                    path_text.as_str(),
+            fs::create_dir_all(&path).map_err(|error| {
+                acl_io_failure(&format!("create-{directory}-directory"), &error)
+            })?;
+            run_path_icacls(
+                operation,
+                &path,
+                &[
                     "/inheritance:r",
                     "/grant:r",
                     "SYSTEM:(OI)(CI)(F)",
                     "BUILTIN\\Administrators:(OI)(CI)(F)",
                     "NT AUTHORITY\\LOCAL SERVICE:(OI)(CI)(M)",
-                    "/T",
-                    "/C",
-                ])
-                .output()
-                .map_err(|error| {
-                    format!("Could not set {} permissions: {error}", path.display())
-                })?;
-            if !output.status.success() {
-                return Err(format!(
-                    "Could not set {} permissions: {}",
-                    path.display(),
-                    String::from_utf8_lossy(&output.stderr).trim()
-                ));
-            }
+                ],
+            )?;
         }
-        let backups = root.join("backups");
-        grant_users_directory_listing(&backups)?;
-        grant_users_directory_listing(&root.join("logs"))?;
-        // Backup metadata is refreshed by explicit backup operations. ACL repair
-        // must not depend on writing a manifest for pre-existing backup files.
+
+        for directory in ["data", "backups", "logs"] {
+            run_path_icacls(
+                &format!("enable-{directory}-descendant-inheritance"),
+                &root.join(directory),
+                &["/inheritance:e", "/T"],
+            )?;
+        }
+
+        run_path_icacls(
+            "grant-backup-directory-listing",
+            &root.join("backups"),
+            &["/grant:r", "BUILTIN\\Users:(RX)"],
+        )?;
+        run_path_icacls(
+            "grant-log-directory-listing",
+            &root.join("logs"),
+            &["/grant:r", "BUILTIN\\Users:(RX)"],
+        )?;
+
         let instance_file = root.join("logs").join("service-instance.txt");
         OpenOptions::new()
             .create(true)
             .write(true)
             .open(&instance_file)
-            .map_err(|error| format!("Could not prepare service identity file: {error}"))?;
-        let instance_acl = hidden_command("icacls.exe")
-            .args([
-                instance_file.to_string_lossy().as_ref(),
-                "/grant:r",
-                "BUILTIN\\Users:(R)",
-            ])
-            .output()
-            .map_err(|error| format!("Could not grant service identity read access: {error}"))?;
-        if !instance_acl.status.success() {
-            return Err(format!(
-                "Could not grant service identity read access: {}",
-                String::from_utf8_lossy(&instance_acl.stderr).trim()
-            ));
+            .map_err(|error| acl_io_failure("prepare-service-identity-file", &error))?;
+        run_path_icacls(
+            "grant-service-identity-read",
+            &instance_file,
+            &["/grant:r", "BUILTIN\\Users:(R)"],
+        )?;
+
+        apply_runtime_acl_policy(root)?;
+
+        run_path_icacls("verify-inventory-acl-tree", root, &["/verify", "/T"])?;
+        for (directory, operation) in [
+            ("data", "verify-data-directory-access"),
+            ("backups", "verify-backup-directory-access"),
+            ("logs", "verify-log-directory-access"),
+        ] {
+            probe_directory_write(&root.join(directory), operation)?;
         }
+        Ok(())
+    }
+
+    fn apply_runtime_acl_policy(root: &Path) -> Result<(), String> {
         for directory in ["app", "inventory"] {
             let path = root.join(directory);
-            if !path.exists() {
-                continue;
+            match fs::metadata(&path) {
+                Ok(metadata) if metadata.is_dir() => {}
+                Ok(_) => continue,
+                Err(error) if error.kind() == io::ErrorKind::NotFound => continue,
+                Err(error) => {
+                    return Err(acl_io_failure(
+                        &format!("inspect-{directory}-runtime-directory"),
+                        &error,
+                    ));
+                }
             }
-            let path_text = path.to_string_lossy().into_owned();
-            let output = hidden_command("icacls.exe")
-                .args([
-                    path_text.as_str(),
+            run_path_icacls(
+                &format!("grant-{directory}-runtime-access"),
+                &path,
+                &[
                     "/inheritance:r",
                     "/grant:r",
                     "SYSTEM:(OI)(CI)(F)",
                     "BUILTIN\\Administrators:(OI)(CI)(F)",
                     "NT AUTHORITY\\LOCAL SERVICE:(OI)(CI)(RX)",
-                    "/T",
-                    "/C",
-                ])
-                .output()
-                .map_err(|error| {
-                    format!("Could not set {} permissions: {error}", path.display())
-                })?;
-            if !output.status.success() {
-                return Err(format!(
-                    "Could not set {} permissions: {}",
-                    path.display(),
-                    String::from_utf8_lossy(&output.stderr).trim()
-                ));
+                ],
+            )?;
+        }
+        for directory in ["app", "inventory"] {
+            let path = root.join(directory);
+            if path.is_dir() {
+                run_path_icacls(
+                    &format!("enable-{directory}-descendant-inheritance"),
+                    &path,
+                    &["/inheritance:e", "/T"],
+                )?;
             }
         }
+
         let cache = root.join("inventory").join(".next").join("cache");
-        if cache.exists() {
-            grant_local_service_modify(&cache)?;
+        match cache.try_exists() {
+            Ok(true) => grant_local_service_modify(&cache)?,
+            Ok(false) => {}
+            Err(error) => return Err(acl_io_failure("inspect-runtime-cache", &error)),
         }
         Ok(())
+    }
+
+    fn apply_and_verify_data_permissions(paths: &Paths) -> Result<(), String> {
+        apply_data_acl_policy(&paths.program_data)?;
+        if paths.database.is_file() {
+            let database = open_backup_source_database(&paths.database).map_err(|error| {
+                format!("acl-operation=verify-database-file-access; acl-command=sqlite; {error}")
+            })?;
+            drop(database);
+        }
+        Ok(())
+    }
+
+    fn set_data_permissions(paths: &Paths) -> Result<(), String> {
+        ensure_no_reparse_points(&paths.program_data)?;
+        let snapshot = save_acl_snapshot(&paths.program_data)?;
+        if !snapshot.complete {
+            let retained = retain_acl_snapshot(&snapshot, paths).is_ok();
+            let failure =
+                acl_command_failure("save-acl-snapshot", "icacls", snapshot.exit_code, None);
+            return Err(if retained {
+                format!("{failure}; acl-snapshot=retained")
+            } else {
+                format!("{failure}; acl-snapshot=temporary")
+            });
+        }
+
+        let permission_result = match apply_and_verify_data_permissions(paths) {
+            Ok(()) => Ok(()),
+            Err(initial_error) => {
+                if !is_access_denied(&initial_error) {
+                    let snapshot_result = retain_acl_snapshot(&snapshot, paths);
+                    return Err(if snapshot_result.is_ok() {
+                        format!("{initial_error}; acl-snapshot=retained")
+                    } else {
+                        format!("{initial_error}; acl-snapshot=temporary")
+                    });
+                }
+                let previous_operation = diagnostic_token(&initial_error, "acl-operation=")
+                    .unwrap_or("unknown-operation");
+                let take_ownership = run_hidden_checked(
+                    "take-ownership",
+                    "takeown.exe",
+                    &[
+                        OsString::from("/F"),
+                        paths.program_data.as_os_str().to_owned(),
+                        OsString::from("/R"),
+                        OsString::from("/D"),
+                        OsString::from("Y"),
+                        OsString::from("/SKIPSL"),
+                    ],
+                );
+                match take_ownership {
+                    Err(error) => Err(format!("{error}; previous-operation={previous_operation}")),
+                    Ok(()) => apply_and_verify_data_permissions(paths).map_err(|error| {
+                        format!(
+                            "{error}; previous-operation={previous_operation}; ownership=updated"
+                        )
+                    }),
+                }
+            }
+        };
+
+        let snapshot_result = retain_acl_snapshot(&snapshot, paths);
+        match (permission_result, snapshot_result) {
+            (Ok(()), Ok(())) => Ok(()),
+            (Ok(()), Err(error)) => Err(error),
+            (Err(error), Ok(())) => Err(format!("{error}; acl-snapshot=retained")),
+            (Err(error), Err(_)) => Err(format!("{error}; acl-snapshot=temporary")),
+        }
     }
 
     struct RuntimeStage {
@@ -1204,6 +1781,7 @@ mod service_host {
 
     fn install(legacy_config: &Path) -> Result<(), String> {
         let mut paths = current_paths()?;
+        let _ = clear_stale_install_diagnostics(&paths.program_data, &std::env::temp_dir());
         let service_was_installed = service_installed()?;
         let was_running = stop_service_if_running()?;
         let mut runtime_stage = None;
@@ -1212,16 +1790,21 @@ mod service_host {
             install_step = "port-preflight";
             ensure_port_available(PORT)?;
             install_step = "prepare-program-data";
-            fs::create_dir_all(&paths.program_data).map_err(|error| error.to_string())?;
-            fs::create_dir_all(
-                &paths
-                    .database
-                    .parent()
-                    .ok_or("Invalid database directory.")?,
-            )
-            .map_err(|error| error.to_string())?;
-            fs::create_dir_all(&paths.backups).map_err(|error| error.to_string())?;
-            fs::create_dir_all(&paths.logs).map_err(|error| error.to_string())?;
+            fs::create_dir_all(&paths.program_data)
+                .map_err(|error| acl_io_failure("create-program-data-root", &error))?;
+            install_step = "apply-data-permissions";
+            set_data_permissions(&paths)?;
+            let diagnostic_cleanup_failures =
+                clear_stale_install_diagnostics(&paths.program_data, &std::env::temp_dir());
+            if !diagnostic_cleanup_failures.is_empty() {
+                append_log(
+                    &paths,
+                    &format!(
+                        "Could not remove stale diagnostics after permission repair: {}",
+                        diagnostic_cleanup_failures.join("; ")
+                    ),
+                );
+            }
             if paths.database.is_file() {
                 install_step = "backup-database";
                 let (backup, manifest_warning) =
@@ -1240,6 +1823,8 @@ mod service_host {
             install_step = "stage-runtime";
             runtime_stage = Some(stage_runtime(&paths)?);
             paths.inventory = paths.program_data.join("inventory");
+            install_step = "apply-runtime-permissions";
+            apply_runtime_acl_policy(&paths.program_data)?;
             install_step = "migrate-database";
             migrate_or_initialize(
                 &paths.inventory,
@@ -1248,8 +1833,6 @@ mod service_host {
                 &paths.logs,
                 legacy_config,
             )?;
-            install_step = "apply-data-permissions";
-            set_data_permissions(&paths.program_data)?;
             install_step = "install-windows-service";
             install_windows_service(&paths)?;
             install_step = "start-and-health-check";
@@ -1261,12 +1844,13 @@ mod service_host {
             let rollback_error = runtime_stage
                 .take()
                 .and_then(|stage| rollback_runtime(stage).err());
-            let permissions_error = if rollback_error.is_none() {
-                set_data_permissions(&paths.program_data).err()
-            } else {
-                None
-            };
-            let recovery_error = if service_was_installed {
+            let recovery_error = if is_permission_setup_step(install_step) {
+                if service_was_installed && was_running {
+                    start_and_wait_healthy(&paths).err()
+                } else {
+                    None
+                }
+            } else if service_was_installed {
                 install_windows_service(&paths)
                     .and_then(|_| {
                         if was_running {
@@ -1279,32 +1863,28 @@ mod service_host {
             } else {
                 uninstall().err()
             };
-            let details = [
-                stop_error,
-                rollback_error,
-                permissions_error,
-                recovery_error,
-            ]
-            .into_iter()
-            .flatten()
-            .collect::<Vec<_>>();
+            let details = [stop_error, rollback_error, recovery_error]
+                .into_iter()
+                .flatten()
+                .collect::<Vec<_>>();
             let detail = if details.is_empty() {
                 "Previous service files were restored.".to_string()
             } else {
                 format!("Recovery also reported: {}", details.join("; "))
             };
+            // Recovery may reset ACLs; publish the user-readable summary last.
+            let diagnostic =
+                write_install_diagnostic(&paths.program_data, install_step, &install_error)
+                    .map(|path| path.display().to_string())
+                    .unwrap_or_else(|| "No diagnostic file could be written.".into());
             append_log(
                 &paths,
                 &format!(
-                    "Installation failed at {install_step}: {install_error}. {detail}. Diagnostic: {}",
-                    install_diagnostic_path(&paths.program_data).display()
+                    "Installation failed at {install_step}: {install_error}. {detail}. Diagnostic: {diagnostic}"
                 ),
             );
-            // Recovery may reset ACLs; publish the user-readable summary last.
-            write_install_diagnostic(&paths.program_data, install_step, &install_error);
             return Err(format!(
-                "Installation failed at {install_step}: {install_error}. {detail}. Diagnostic: {}",
-                install_diagnostic_path(&paths.program_data).display()
+                "Installation failed at {install_step}: {install_error}. {detail}. Diagnostic: {diagnostic}"
             ));
         }
         if let Some(stage) = runtime_stage {
@@ -1671,6 +2251,11 @@ mod service_host {
 
     fn dispatch(command: &str, legacy_config: Option<&Path>) -> Result<String, String> {
         match command {
+            "prepare-data-permissions" => {
+                let paths = current_paths()?;
+                set_data_permissions(&paths)?;
+                Ok("ProgramData permissions were repaired and verified.".into())
+            }
             "install" => {
                 let config =
                     legacy_config.ok_or("Installer must pass the previous manager config path.")?;
@@ -1752,14 +2337,27 @@ mod service_host {
         let path = argument.as_deref().map(Path::new);
         match dispatch(&command, path) {
             Ok(message) => {
+                let _ = fs::remove_file(
+                    std::env::temp_dir().join("sugrid-service-host-diagnostic.txt"),
+                );
                 if let Ok(paths) = current_paths() {
                     append_log(&paths, &message);
                 }
                 std::process::exit(0);
             }
             Err(error) => {
+                let diagnostic = write_command_diagnostic(&command, &error);
                 if let Ok(paths) = current_paths() {
-                    append_log(&paths, &error);
+                    append_log(
+                        &paths,
+                        &format!(
+                            "{error}. Diagnostic: {}",
+                            diagnostic
+                                .as_ref()
+                                .map(|path| path.display().to_string())
+                                .unwrap_or_else(|| "unavailable".into())
+                        ),
+                    );
                 }
                 std::process::exit(1);
             }
@@ -1834,6 +2432,19 @@ mod service_host {
             })
         }
 
+        fn persist_wal_after_close(database: &Connection) {
+            let mut persist = 1i32;
+            let result = unsafe {
+                ffi::sqlite3_file_control(
+                    database.handle(),
+                    c"main".as_ptr(),
+                    ffi::SQLITE_FCNTL_PERSIST_WAL,
+                    (&mut persist as *mut i32).cast(),
+                )
+            };
+            assert_eq!(result, ffi::SQLITE_OK);
+        }
+
         fn runtime_paths_for_test(root: &Path) -> Paths {
             let source = root.join("installer-resource").join("inventory");
             fs::create_dir_all(&source).unwrap();
@@ -1860,6 +2471,18 @@ mod service_host {
             }
         }
 
+        fn service_paths_for_data_root(root: &Path) -> Paths {
+            Paths {
+                inventory: root.join("inventory"),
+                service_exe: root.join("app").join("sugrid-inventory-service.exe"),
+                source_service_exe: root.join("service-host.exe"),
+                program_data: root.to_path_buf(),
+                database: root.join("data").join("inventory.db"),
+                backups: root.join("backups"),
+                logs: root.join("logs"),
+            }
+        }
+
         #[test]
         fn install_error_code_extracts_win32_and_os_codes_without_local_details() {
             assert_eq!(
@@ -1874,6 +2497,124 @@ mod service_host {
                 install_error_code("health check failed"),
                 "code=unavailable"
             );
+            assert_eq!(
+                install_error_code(
+                    "Cannot open source database: sqlite_primary=14 sqlite_extended=14 sqlite_system=5"
+                ),
+                "sqlite_primary=14,sqlite_extended=14,sqlite_system=5"
+            );
+            assert_eq!(
+                install_error_code(
+                    "acl-operation=reset-existing-acls; acl-command=icacls; command_exit=1; acl-reason=command-failed"
+                ),
+                "command_exit=1"
+            );
+            assert_eq!(
+                diagnostic_token(
+                    "acl-operation=reset-existing-acls; command_exit=1",
+                    "acl-operation="
+                ),
+                Some("reset-existing-acls")
+            );
+        }
+
+        #[test]
+        fn source_open_failure_reports_sqlite_codes_without_local_paths() {
+            let root = temp_dir("sqlite-open-diagnostic");
+            let missing = root.join("missing.db");
+            let error = open_source_database(&missing).unwrap_err();
+            assert!(error.contains("sqlite_primary=14"));
+            assert!(error.contains("sqlite_extended=14"));
+            assert!(!error.contains(&root.to_string_lossy().to_string()));
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn online_backup_recovers_wal_source_without_shared_memory_sidecar() {
+            let root = temp_dir("wal-readonly-fallback");
+            let source = root.join("source.db");
+            let writer = Connection::open(&source).unwrap();
+            writer.pragma_update(None, "journal_mode", "WAL").unwrap();
+            writer
+                .execute_batch(
+                    "CREATE TABLE inventory(id TEXT); INSERT INTO inventory VALUES ('wal-row');",
+                )
+                .unwrap();
+            persist_wal_after_close(&writer);
+            drop(writer);
+
+            let shared_memory = migration_sidecar_path(&source, "-shm");
+            assert!(migration_sidecar_path(&source, "-wal").is_file());
+            fs::remove_file(&shared_memory).unwrap();
+
+            let destination = root.join("backup.db");
+            online_backup(&source, &destination).unwrap();
+            let backup =
+                Connection::open_with_flags(&destination, OpenFlags::SQLITE_OPEN_READ_ONLY)
+                    .unwrap();
+            let row: String = backup
+                .query_row("SELECT id FROM inventory", [], |row| row.get(0))
+                .unwrap();
+            assert_eq!(row, "wal-row");
+            drop(backup);
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn backup_source_uses_readwrite_fallback_after_sqlite_access_denied() {
+            let root = temp_dir("backup-open-fallback");
+            let source = root.join("source.db");
+            let database = Connection::open(&source).unwrap();
+            database
+                .execute_batch("CREATE TABLE inventory(id TEXT)")
+                .unwrap();
+            drop(database);
+
+            let read_write_called = std::cell::Cell::new(false);
+            let opened = open_backup_source_database_with(
+                &source,
+                |_| {
+                    Err("Cannot open source database: sqlite_primary=14 sqlite_extended=14 sqlite_system=5".into())
+                },
+                |path| {
+                    read_write_called.set(true);
+                    Connection::open_with_flags(
+                        path,
+                        OpenFlags::SQLITE_OPEN_READ_WRITE | OpenFlags::SQLITE_OPEN_FULL_MUTEX,
+                    )
+                    .map_err(|error| error.to_string())
+                },
+            )
+            .unwrap();
+
+            assert!(read_write_called.get());
+            drop(opened);
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn install_error_kind_identifies_database_backup_failure_stage() {
+            assert_eq!(
+                install_error_kind(
+                    "backup-database",
+                    "Cannot open source database: unable to open database file"
+                ),
+                "source-database-open-failed"
+            );
+            assert_eq!(
+                install_error_kind(
+                    "backup-database",
+                    "Cannot create database copy: Access is denied (os error 5)"
+                ),
+                "backup-file-create-failed"
+            );
+            assert_eq!(
+                install_error_kind(
+                    "backup-database",
+                    "SQLite online backup failed: database is locked"
+                ),
+                "sqlite-backup-failed"
+            );
         }
 
         #[test]
@@ -1881,14 +2622,299 @@ mod service_host {
             let root = temp_dir("diagnostic");
             write_install_diagnostic(
                 &root,
-                "service-start",
+                "start-and-health-check",
                 "IO error in winapi call (Win32 error 5)",
             );
             let diagnostic = fs::read_to_string(install_diagnostic_path(&root)).unwrap();
-            assert!(diagnostic.contains("step=service-start"));
+            assert!(diagnostic.contains("step=start-and-health-check"));
+            assert!(diagnostic.contains("reason=service-start-or-health-check-failed"));
             assert!(diagnostic.contains("win32=5"));
             assert!(!diagnostic.contains("C:\\Users"));
             assert!(!diagnostic.contains("database"));
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn acl_failure_diagnostic_names_the_failed_command_without_paths() {
+            let root = temp_dir("acl-failure-diagnostic");
+            let error = acl_command_failure("reset-existing-acls", "icacls", Some(1), Some(5));
+            write_install_diagnostic(&root, "apply-data-permissions", &error);
+            let diagnostic = fs::read_to_string(install_diagnostic_path(&root)).unwrap();
+            assert!(diagnostic.contains("operation=reset-existing-acls"));
+            assert!(diagnostic.contains("command=icacls"));
+            assert!(diagnostic.contains("failure=access-denied"));
+            assert!(diagnostic.contains("command_exit=1,os=5"));
+            assert!(!diagnostic.contains(&root.to_string_lossy().to_string()));
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn install_diagnostic_falls_back_when_program_data_cannot_be_written() {
+            let root = temp_dir("diagnostic-fallback");
+            let blocked_root = root.join("not-a-directory");
+            fs::write(&blocked_root, "file").unwrap();
+            let fallback = root.join("fallback");
+            fs::create_dir_all(&fallback).unwrap();
+
+            let path = write_install_diagnostic_to(
+                &blocked_root,
+                &fallback,
+                "apply-data-permissions",
+                &acl_command_failure("grant-log-directory-access", "icacls", Some(1), Some(5)),
+            )
+            .unwrap();
+
+            assert_eq!(path, fallback.join("sugrid-install-diagnostics.txt"));
+            let diagnostic = fs::read_to_string(path).unwrap();
+            assert!(diagnostic.contains("operation=grant-log-directory-access"));
+            assert!(diagnostic.contains("command=icacls"));
+            assert!(diagnostic.contains("command_exit=1,os=5"));
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn command_diagnostic_does_not_include_paths_or_database_details() {
+            let diagnostic = command_diagnostic_contents(
+                "backup",
+                "Cannot open source database: sqlite_primary=14 sqlite_extended=14 sqlite_system=5 at C:\\Users\\example\\inventory.db",
+            );
+            assert!(diagnostic.contains("command=backup"));
+            assert!(diagnostic.contains("sqlite_system=5"));
+            assert!(!diagnostic.contains("C:\\Users"));
+            assert!(!diagnostic.contains("inventory.db"));
+            assert!(
+                command_diagnostic_contents("prepare-data-permissions", "ok")
+                    .contains("command=prepare-data-permissions")
+            );
+            let permission_error = command_diagnostic_contents(
+                "prepare-data-permissions",
+                &acl_command_failure("reset-existing-acls", "icacls", Some(1), Some(5)),
+            );
+            assert!(permission_error.contains("reason=data-permissions-failed"));
+            assert!(permission_error.contains("command_exit=1,os=5"));
+        }
+
+        #[test]
+        fn ownership_is_taken_only_after_access_denied() {
+            assert!(is_access_denied(
+                "acl-operation=reset-existing-acls; acl-reason=access-denied; command_exit=1; acl_os=5"
+            ));
+            assert!(is_access_denied("acl-operation=probe; acl_os=5"));
+            assert!(!is_access_denied(
+                "acl-operation=reset-existing-acls; acl-reason=command-failed; command_exit=1"
+            ));
+            assert!(is_access_denied(
+                "acl-operation=verify-database-file-access; sqlite_primary=14; sqlite_system=5"
+            ));
+            assert!(is_permission_setup_step("apply-data-permissions"));
+            assert!(is_permission_setup_step("apply-runtime-permissions"));
+            assert!(!is_permission_setup_step("backup-database"));
+        }
+
+        #[test]
+        fn data_permissions_refuse_reparse_points_before_recursive_acl_commands() {
+            use std::os::windows::fs::symlink_dir;
+
+            let root = temp_dir("acl-reparse-point");
+            let external = temp_dir("acl-reparse-target");
+            symlink_dir(&external, root.join("junction")).unwrap();
+
+            let error = ensure_no_reparse_points(&root).unwrap_err();
+
+            assert!(error.contains("reject-program-data-reparse-point"));
+            assert!(!error.contains(&external.to_string_lossy().to_string()));
+            let _ = fs::remove_dir(root.join("junction"));
+            let _ = fs::remove_dir_all(root);
+            let _ = fs::remove_dir_all(external);
+        }
+
+        #[test]
+        fn stale_install_diagnostics_are_removed_before_a_retry() {
+            let root = temp_dir("stale-diagnostic");
+            let temporary_directory = root.join("temp");
+            fs::create_dir_all(&temporary_directory).unwrap();
+            for path in [
+                install_diagnostic_path(&root),
+                temporary_directory.join("sugrid-install-diagnostics.txt"),
+                temporary_directory.join("sugrid-service-host-diagnostic.txt"),
+            ] {
+                fs::write(path, "previous failure").unwrap();
+            }
+
+            assert!(clear_stale_install_diagnostics(&root, &temporary_directory).is_empty());
+
+            assert!(!install_diagnostic_path(&root).exists());
+            assert!(
+                !temporary_directory
+                    .join("sugrid-install-diagnostics.txt")
+                    .exists()
+            );
+            assert!(
+                !temporary_directory
+                    .join("sugrid-service-host-diagnostic.txt")
+                    .exists()
+            );
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn stale_diagnostic_cleanup_failure_does_not_block_other_cleanup() {
+            let root = temp_dir("stale-diagnostic-cleanup-failure");
+            let temporary_directory = root.join("temp");
+            fs::create_dir_all(&temporary_directory).unwrap();
+            fs::create_dir_all(install_diagnostic_path(&root)).unwrap();
+            let stale_temp = temporary_directory.join("sugrid-install-diagnostics.txt");
+            let stale_service = temporary_directory.join("sugrid-service-host-diagnostic.txt");
+            fs::write(&stale_temp, "previous installer failure").unwrap();
+            fs::write(&stale_service, "previous service failure").unwrap();
+
+            let failures = clear_stale_install_diagnostics(&root, &temporary_directory);
+
+            assert_eq!(failures.len(), 1);
+            assert!(failures[0].contains("program-data"));
+            assert!(install_diagnostic_path(&root).is_dir());
+            assert!(!stale_temp.exists());
+            assert!(!stale_service.exists());
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn data_permissions_repair_a_restricted_acl_and_keep_a_snapshot() {
+            let root = temp_dir("acl-repair");
+            let paths = service_paths_for_data_root(&root);
+            for directory in ["data", "backups", "logs", "app", "inventory"] {
+                fs::create_dir_all(root.join(directory)).unwrap();
+                fs::write(root.join(directory).join("existing.txt"), "existing").unwrap();
+            }
+            fs::create_dir_all(root.join("inventory/.next/cache")).unwrap();
+
+            run_path_icacls(
+                "test-restrict-acl",
+                &paths.database.parent().unwrap().to_path_buf(),
+                &[
+                    "/inheritance:r",
+                    "/grant:r",
+                    "*S-1-5-32-545:(RX)",
+                    "SYSTEM:(OI)(CI)(F)",
+                ],
+            )
+            .unwrap();
+
+            set_data_permissions(&paths).unwrap();
+
+            assert!(paths.logs.join("service-instance.txt").is_file());
+            assert!(
+                paths
+                    .logs
+                    .read_dir()
+                    .unwrap()
+                    .filter_map(Result::ok)
+                    .any(|entry| entry
+                        .file_name()
+                        .to_string_lossy()
+                        .starts_with("permissions-before-"))
+            );
+            for directory in ["data", "backups", "logs"] {
+                assert!(root.join(directory).read_dir().unwrap().all(|entry| {
+                    !entry
+                        .unwrap()
+                        .file_name()
+                        .to_string_lossy()
+                        .starts_with(".sugrid-permission-check-")
+                }));
+            }
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn data_permissions_repair_a_database_file_with_an_empty_protected_acl() {
+            let root = temp_dir("acl-empty-file");
+            let paths = service_paths_for_data_root(&root);
+            for directory in ["data", "backups", "logs", "app", "inventory"] {
+                fs::create_dir_all(root.join(directory)).unwrap();
+            }
+            let database_path = paths.database.clone();
+            let database = Connection::open(&database_path).unwrap();
+            database
+                .execute_batch(
+                    "CREATE TABLE inventory(id TEXT); INSERT INTO inventory VALUES ('kept-row');",
+                )
+                .unwrap();
+            drop(database);
+            run_path_icacls("test-empty-file-acl", &database_path, &["/inheritance:r"]).unwrap();
+
+            assert!(open_source_database(&database_path).is_err());
+
+            set_data_permissions(&paths).unwrap();
+
+            let database = open_source_database(&database_path).unwrap();
+            let row: String = database
+                .query_row("SELECT id FROM inventory", [], |row| row.get(0))
+                .unwrap();
+            assert_eq!(row, "kept-row");
+            drop(database);
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn runtime_acl_is_applied_when_cache_is_created_after_base_permissions() {
+            let root = temp_dir("runtime-acl-after-copy");
+            let paths = service_paths_for_data_root(&root);
+            fs::create_dir_all(paths.database.parent().unwrap()).unwrap();
+            fs::create_dir_all(&paths.backups).unwrap();
+            fs::create_dir_all(&paths.logs).unwrap();
+            apply_data_acl_policy(&root).unwrap();
+
+            let cache = root.join("inventory/.next/cache");
+            fs::create_dir_all(&cache).unwrap();
+            fs::write(cache.join("existing.bin"), b"cache-entry").unwrap();
+
+            apply_runtime_acl_policy(&root).unwrap();
+
+            probe_directory_write(&cache, "verify-runtime-cache-write").unwrap();
+            let output = hidden_command("icacls.exe").arg(&cache).output().unwrap();
+            assert!(output.status.success());
+            let acl = String::from_utf8_lossy(&output.stdout);
+            assert!(acl.contains("LOCAL SERVICE"));
+            assert!(acl.contains("(OI)(CI)(M)"));
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn data_permissions_take_ownership_only_after_a_real_acl_denial() {
+            let root = temp_dir("acl-take-ownership");
+            let paths = service_paths_for_data_root(&root);
+            for directory in ["data", "backups", "logs"] {
+                fs::create_dir_all(root.join(directory)).unwrap();
+            }
+            let restricted = paths.database.parent().unwrap().join("restricted.bin");
+            fs::write(&restricted, b"preserve").unwrap();
+            run_path_icacls(
+                "test-set-non-admin-owner",
+                &restricted,
+                &["/setowner", "*S-1-5-20"],
+            )
+            .unwrap();
+            run_path_icacls(
+                "test-restrict-owner-acl",
+                &restricted,
+                &["/inheritance:r", "/grant:r", "*S-1-1-0:(RC)"],
+            )
+            .unwrap();
+            let reset = hidden_command("icacls.exe")
+                .args([restricted.as_os_str(), OsStr::new("/reset")])
+                .output()
+                .unwrap();
+            assert!(!reset.status.success(), "test ACL must deny WRITE_DAC");
+
+            set_data_permissions(&paths).unwrap();
+
+            assert_eq!(fs::read(&restricted).unwrap(), b"preserve");
+            probe_directory_write(
+                &paths.database.parent().unwrap(),
+                "verify-takeover-data-write",
+            )
+            .unwrap();
             let _ = fs::remove_dir_all(root);
         }
 
@@ -1991,6 +3017,160 @@ mod service_host {
             assert_eq!(backup_count, 1);
             drop(reader);
             drop(source_writer);
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn migration_checkpoints_staging_wal_before_activating_database() {
+            let root = temp_dir("wal-staging-activation");
+            let target = root.join("ProgramData/data/inventory.db");
+            let backups = root.join("ProgramData/backups");
+            let inventory = target.parent().unwrap().join("app");
+            let logs = target.parent().unwrap().join("logs");
+            let config = target.parent().unwrap().join("legacy.json");
+            fs::create_dir_all(&inventory).unwrap();
+            fs::create_dir_all(&logs).unwrap();
+            fs::write(
+                &config,
+                br#"{"projectRoot":"","databasePath":"data/inventory.db"}"#,
+            )
+            .unwrap();
+
+            migrate_database_paths(
+                &inventory,
+                &target,
+                &backups,
+                &logs,
+                &config,
+                |staging| {
+                    let database = Connection::open(staging).map_err(|error| error.to_string())?;
+                    database
+                        .pragma_update(None, "journal_mode", "WAL")
+                        .map_err(|error| error.to_string())?;
+                    persist_wal_after_close(&database);
+                    database
+                        .execute_batch(
+                            "CREATE TABLE users(id TEXT); CREATE TABLE inventory(id TEXT); CREATE TABLE purchase_orders(id TEXT); CREATE TABLE purchase_items(id TEXT); INSERT INTO inventory VALUES ('wal-row');",
+                        )
+                        .map_err(|error| error.to_string())?;
+                    Ok(())
+                },
+            )
+            .unwrap();
+
+            let database = Connection::open(&target).unwrap();
+            let journal_mode: String = database
+                .query_row("PRAGMA journal_mode", [], |row| row.get(0))
+                .unwrap();
+            let inventory_count: i64 = database
+                .query_row("SELECT COUNT(*) FROM inventory", [], |row| row.get(0))
+                .unwrap();
+            assert_eq!(journal_mode, "delete");
+            assert_eq!(inventory_count, 1);
+            drop(database);
+            for suffix in ["-wal", "-shm"] {
+                assert!(!migration_sidecar_path(&target, suffix).exists());
+                assert!(
+                    !migration_sidecar_path(
+                        &target.with_file_name("inventory.migrating.db"),
+                        suffix
+                    )
+                    .exists()
+                );
+            }
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn completed_legacy_migration_recovers_staging_wal_sidecar_before_validation() {
+            let root = temp_dir("legacy-wal-recovery");
+            let target = root.join("ProgramData/data/inventory.db");
+            let staging = target.with_file_name("inventory.migrating.db");
+            let backups = root.join("ProgramData/backups");
+            let inventory = target.parent().unwrap().join("app");
+            let logs = target.parent().unwrap().join("logs");
+            let config = target.parent().unwrap().join("legacy.json");
+            fs::create_dir_all(&inventory).unwrap();
+            fs::create_dir_all(&logs).unwrap();
+            fs::write(
+                &config,
+                br#"{"projectRoot":"","databasePath":"data/inventory.db"}"#,
+            )
+            .unwrap();
+            let database = Connection::open(&staging).unwrap();
+            database.pragma_update(None, "journal_mode", "WAL").unwrap();
+            persist_wal_after_close(&database);
+            database.execute_batch("CREATE TABLE users(id TEXT); CREATE TABLE inventory(id TEXT); CREATE TABLE purchase_orders(id TEXT); CREATE TABLE purchase_items(id TEXT); INSERT INTO inventory VALUES ('recovered-wal-row');").unwrap();
+            drop(database);
+            let staging_wal = migration_sidecar_path(&staging, "-wal");
+            assert!(staging_wal.is_file());
+            fs::rename(&staging, &target).unwrap();
+            let state = MigrationState {
+                source: None,
+                backup: None,
+                staging: staging.clone(),
+            };
+            write_state(&migration_complete_path(&target), &state).unwrap();
+
+            migrate_database_paths(&inventory, &target, &backups, &logs, &config, |_| {
+                panic!("completed migrations must not rerun the initializer")
+            })
+            .unwrap();
+
+            let database = Connection::open(&target).unwrap();
+            let inventory_count: i64 = database
+                .query_row("SELECT COUNT(*) FROM inventory", [], |row| row.get(0))
+                .unwrap();
+            assert_eq!(inventory_count, 1);
+            assert!(!staging_wal.exists());
+            assert!(!migration_sidecar_path(&target, "-wal").exists());
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn completed_legacy_migration_discards_empty_staging_wal_sidecar() {
+            let root = temp_dir("legacy-empty-wal-recovery");
+            let target = root.join("ProgramData/data/inventory.db");
+            let staging = target.with_file_name("inventory.migrating.db");
+            let backups = root.join("ProgramData/backups");
+            let inventory = target.parent().unwrap().join("app");
+            let logs = target.parent().unwrap().join("logs");
+            let config = target.parent().unwrap().join("legacy.json");
+            fs::create_dir_all(&inventory).unwrap();
+            fs::create_dir_all(&logs).unwrap();
+            fs::write(
+                &config,
+                br#"{"projectRoot":"","databasePath":"data/inventory.db"}"#,
+            )
+            .unwrap();
+            let database = Connection::open(&staging).unwrap();
+            database.pragma_update(None, "journal_mode", "WAL").unwrap();
+            database.execute_batch("CREATE TABLE users(id TEXT); CREATE TABLE inventory(id TEXT); CREATE TABLE purchase_orders(id TEXT); CREATE TABLE purchase_items(id TEXT); INSERT INTO inventory VALUES ('kept-row');").unwrap();
+            drop(database);
+            let staging_wal = migration_sidecar_path(&staging, "-wal");
+            fs::write(&staging_wal, []).unwrap();
+            let staging_shm = migration_sidecar_path(&staging, "-shm");
+            fs::write(&staging_shm, vec![0u8; 32_768]).unwrap();
+            fs::rename(&staging, &target).unwrap();
+            let state = MigrationState {
+                source: None,
+                backup: None,
+                staging: staging.clone(),
+            };
+            write_state(&migration_complete_path(&target), &state).unwrap();
+
+            migrate_database_paths(&inventory, &target, &backups, &logs, &config, |_| {
+                panic!("completed migrations must not rerun the initializer")
+            })
+            .unwrap();
+
+            let database = Connection::open(&target).unwrap();
+            let inventory_count: i64 = database
+                .query_row("SELECT COUNT(*) FROM inventory", [], |row| row.get(0))
+                .unwrap();
+            assert_eq!(inventory_count, 1);
+            assert!(!staging_wal.exists());
+            assert!(!staging_shm.exists());
             let _ = fs::remove_dir_all(root);
         }
 

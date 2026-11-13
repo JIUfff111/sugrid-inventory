@@ -15,7 +15,11 @@
   ${If} $0 != 0
     ReadEnvStr $1 "ProgramData"
     StrCpy $2 "$1\SUGRID\Inventory\install-diagnostics.txt"
+    IfFileExists $2 nsis_install_diagnostic_found nsis_install_diagnostic_temp
+  nsis_install_diagnostic_temp:
+    StrCpy $2 "$TEMP\sugrid-install-diagnostics.txt"
     IfFileExists $2 0 nsis_install_diagnostic_missing
+  nsis_install_diagnostic_found:
       MessageBox MB_ICONSTOP|MB_OK "The SUGRID inventory service could not be installed or verified (installer exit code $0). The database and its backups have been preserved. A sanitized diagnostic was written to:$\r$\n$2$\r$\nPlease provide that file when reporting the issue."
       Abort
     nsis_install_diagnostic_missing:

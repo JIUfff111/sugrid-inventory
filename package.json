@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:integrated-server": "next build && node scripts/prepare-integrated-server.mjs",
+    "build": "node scripts/build-next-isolated.mjs",
+    "build:integrated-server": "node scripts/build-next-isolated.mjs --prepare-integrated-server",
     "start": "next start",
     "lint": "eslint",
     "db:init": "node scripts/init-db.js",
