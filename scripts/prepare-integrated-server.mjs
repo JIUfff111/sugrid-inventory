@@ -80,7 +80,8 @@ export async function prepareIntegratedServer({
     const staticSource = path.join(sourceRoot, 'static');
     try {
       await stat(staticSource);
-      await cp(staticSource, path.join(stagingRoot, '.next/static'), { recursive: true, force: true });
+      const stagedDistDir = path.relative(absoluteRoot, sourceRoot);
+      await cp(staticSource, path.join(stagingRoot, stagedDistDir, 'static'), { recursive: true, force: true });
     } catch (error) {
       if (error?.code !== 'ENOENT') throw error;
     }

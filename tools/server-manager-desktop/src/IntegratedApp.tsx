@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { InventoryUpdates, type InventoryCache } from "./InventoryUpdates";
 import { Badge, Button, FluentProvider, Spinner, webLightTheme } from "@fluentui/react-components";
 import { invoke } from "@tauri-apps/api/core";
 import {
@@ -6,7 +7,6 @@ import {
   AlertCircle,
   ArrowDownToLine,
   CheckCircle2,
-  CircleHelp,
   Database,
   ExternalLink,
   FileClock,
@@ -34,6 +34,11 @@ interface BackupSummary {
 }
 
 interface Dashboard {
+  managerVersion: string;
+  serviceHostVersion: string | null;
+  inventoryVersion: string | null;
+  updaterAvailable: boolean;
+  canManage: boolean;
   serviceInstalled: boolean;
   serviceState: string;
   servicePid: number | null;
@@ -58,11 +63,23 @@ interface UpdateInfo {
   message: string;
 }
 
+interface UpdaterStatus {
+  available: boolean;
+  canManage: boolean;
+  updaterProtocol: number | null;
+  inventoryVersion: string | null;
+  operationId: string | null;
+  stage: string | null;
+  state: string | null;
+  backupName: string | null;
+  error: string | null;
+}
+
 const NAV: Array<{ key: PageKey; title: string; icon: IconComponent }> = [
   { key: "overview", title: "概览", icon: LayoutDashboard },
   { key: "service", title: "库存服务", icon: Server },
   { key: "database", title: "数据库与备份", icon: Database },
-  { key: "updates", title: "一体化更新", icon: ArrowDownToLine },
+  { key: "updates", title: "版本更新", icon: ArrowDownToLine },
   { key: "logs", title: "运行状态", icon: ScrollText },
   { key: "settings", title: "固定配置", icon: Settings },
 ];
@@ -71,7 +88,7 @@ const TITLES: Record<PageKey, string> = {
   overview: "服务概览",
   service: "库存服务",
   database: "数据库与备份",
-  updates: "一体化更新",
+  updates: "版本更新",
   logs: "运行状态",
   settings: "固定配置",
 };
@@ -96,15 +113,20 @@ export function IntegratedApp() {
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [inventoryCache, setInventoryCache] = useState<InventoryCache>({ state: "idle", version: null, message: "正在读取本机缓存状态。" });
+  const [prefetchBusy, setPrefetchBusy] = useState(false);
+  const cacheReadOnLaunch = useRef(false);
+  const prefetchOnLaunch = useRef(false);
+  const cacheRequestId = useRef(0);
 
   const refresh = useCallback(async (quiet = false) => {
     if (!quiet) setBusy("refresh");
     try {
       const next = await invoke<Dashboard>("integrated_dashboard");
       setDashboard(next);
-      setError("");
+      if (!quiet) setError("");
     } catch (reason) {
-      setError(errorText(reason));
+      if (!quiet) setError(errorText(reason));
     } finally {
       if (!quiet) setBusy("");
     }
@@ -115,6 +137,35 @@ export function IntegratedApp() {
     const timer = window.setInterval(() => void refresh(true), 5000);
     return () => window.clearInterval(timer);
   }, [refresh]);
+
+  const prefetchInventory = useCallback(async () => {
+    const requestId = ++cacheRequestId.current;
+    setPrefetchBusy(true);
+    setInventoryCache((previous) => ({ state: "checking", version: previous.version, message: "正在查找并下载最新正式库存包，当前库存服务不会中断。" }));
+    try {
+      const result = await invoke<InventoryCache>("integrated_prefetch_inventory");
+      if (requestId === cacheRequestId.current) setInventoryCache(result);
+    } catch (reason) {
+      if (requestId === cacheRequestId.current) setInventoryCache({ state: "failed", version: null, message: errorText(reason) });
+    } finally {
+      if (requestId === cacheRequestId.current) setPrefetchBusy(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!dashboard) return;
+    if (dashboard.updaterAvailable && !dashboard.inventoryVersion && !prefetchOnLaunch.current) {
+      prefetchOnLaunch.current = true;
+      cacheReadOnLaunch.current = true;
+      void prefetchInventory();
+    } else if (!cacheReadOnLaunch.current) {
+      cacheReadOnLaunch.current = true;
+      const requestId = ++cacheRequestId.current;
+      void invoke<InventoryCache>("integrated_cached_inventory")
+        .then((result) => { if (requestId === cacheRequestId.current) setInventoryCache(result); })
+        .catch((reason) => { if (requestId === cacheRequestId.current) setInventoryCache({ state: "failed", version: null, message: errorText(reason) }); });
+    }
+  }, [dashboard, prefetchInventory]);
 
   async function runAction(label: string, action: () => Promise<Dashboard>) {
     setBusy(label);
@@ -129,6 +180,26 @@ export function IntegratedApp() {
     } finally {
       setBusy("");
     }
+  }
+
+  async function queueMaintenance(label: string, action: () => Promise<UpdaterStatus>) {
+    setBusy(label);
+    setError("");
+    setNotice("");
+    try {
+      const result = await action();
+      setPage("updates");
+      setNotice(result.operationId ? "维护任务已开始，请查看库存版本页的进度。" : "维护操作已完成。");
+      void refresh(true);
+    } catch (reason) {
+      setError(errorText(reason));
+    } finally {
+      setBusy("");
+    }
+  }
+
+  async function createBackup() {
+    await queueMaintenance("backup", () => invoke<UpdaterStatus>("integrated_create_backup"));
   }
 
   async function checkUpdate() {
@@ -147,7 +218,7 @@ export function IntegratedApp() {
 
   async function installUpdate() {
     if (!update?.latestVersion) return;
-    const confirmed = window.confirm(`下载 ${update.latestVersion} 的一体化安装包。安装程序会备份数据库、停止并更新 Windows 服务，然后重新启动服务。继续吗？`);
+    const confirmed = window.confirm(`下载管理器版本 ${update.latestVersion} 的安装包？Windows 将要求管理员确认；现有库存包和数据库会保留。`);
     if (!confirmed) return;
     setBusy("update-install");
     setError("");
@@ -162,7 +233,7 @@ export function IntegratedApp() {
   async function restoreBackup(backup: BackupSummary) {
     const confirmed = window.confirm(`将数据库恢复到 ${formatDate(backup.modifiedAt)} 的备份。恢复前会自动创建当前数据库备份，期间库存服务会短暂停止。继续吗？`);
     if (!confirmed) return;
-    await runAction("restore", () => invoke<Dashboard>("integrated_restore_backup", { name: backup.name }));
+    await queueMaintenance("restore", () => invoke<UpdaterStatus>("integrated_restore_backup", { name: backup.name }));
   }
 
   async function openInventory() {
@@ -183,34 +254,103 @@ export function IntegratedApp() {
       <section className={`integrated-service-banner ${dashboard?.healthy ? "is-healthy" : "is-warning"}`}>
         <div className="integrated-banner-icon">{dashboard?.healthy ? <CheckCircle2 size={24} /> : <AlertCircle size={24} />}</div>
         <div className="integrated-banner-copy"><span>Windows 服务 · {dashboard?.serviceState === "running" ? "运行中" : dashboard?.serviceState === "not_installed" ? "未安装" : "已停止"}</span><strong>{dashboard?.statusMessage ?? "正在连接本机服务…"}</strong></div>
-        <div className="integrated-banner-actions"><Button appearance="secondary" icon={<RefreshCw size={16} />} onClick={() => void refresh()} disabled={Boolean(busy)}>刷新状态</Button>{dashboard?.serviceInstalled && dashboard.serviceState !== "running" ? <Button appearance="primary" icon={<Play size={15} />} onClick={() => void runAction("start", () => invoke<Dashboard>("integrated_start_service"))} disabled={Boolean(busy)}>启动服务</Button> : null}</div>
+        <div className="integrated-banner-actions"><Button appearance="secondary" icon={<RefreshCw size={16} />} onClick={() => void refresh()} disabled={Boolean(busy)}>刷新状态</Button>{dashboard?.canManage && dashboard.serviceInstalled && dashboard.serviceState !== "running" ? <Button appearance="primary" icon={<Play size={15} />} onClick={() => void runAction("start", () => invoke<Dashboard>("integrated_start_service"))} disabled={Boolean(busy)}>启动服务</Button> : null}</div>
       </section>
       <section className="integrated-metrics">
-        <Metric icon={Server} label="服务端口" value={`:${dashboard?.port ?? 3000}`} detail="局域网库存服务" />
+        <Metric icon={Server} label="库存版本" value={dashboard?.inventoryVersion ?? "旧版 · 待核验"} detail={`管理器 ${dashboard?.managerVersion ?? "—"} · 服务宿主 ${dashboard?.serviceHostVersion ?? "—"}`} />
         <Metric icon={Database} label="数据库" value={dashboard?.databaseExists ? "已就绪" : "尚未创建"} detail={dashboard?.databasePath ?? "%ProgramData%\\SUGRID\\Inventory\\data\\inventory.db"} />
         <Metric icon={HardDrive} label="已验证备份" value={`${dashboard?.backups.filter((backup) => backup.verified).length ?? 0}`} detail={dashboard?.backupDirectory ?? "%ProgramData%\\SUGRID\\Inventory\\backups"} />
       </section>
       <section className="integrated-section"><div className="integrated-section-heading"><div><h2>常用操作</h2><span>直接管理本机库存服务</span></div></div><div className="integrated-action-grid">
-        <ActionTile icon={dashboard?.serviceState === "running" ? Square : Play} title={dashboard?.serviceState === "running" ? "停止库存服务" : "启动库存服务"} detail={dashboard?.serviceState === "running" ? "局域网用户会暂时无法访问" : "启动 Windows 服务并检查数据库"} onClick={() => void runAction(dashboard?.serviceState === "running" ? "stop" : "start", () => invoke<Dashboard>(dashboard?.serviceState === "running" ? "integrated_stop_service" : "integrated_start_service"))} disabled={!dashboard?.serviceInstalled || Boolean(busy)} />
-        <ActionTile icon={HardDrive} title="创建数据库备份" detail="通过管理员确认创建 SQLite 一致性备份" onClick={() => void runAction("backup", () => invoke<Dashboard>("integrated_create_backup"))} disabled={!dashboard?.serviceInstalled || Boolean(busy)} />
+        {dashboard?.canManage ? <ActionTile icon={dashboard?.serviceState === "running" ? Square : Play} title={dashboard?.serviceState === "running" ? "停止库存服务" : "启动库存服务"} detail={dashboard?.serviceState === "running" ? "局域网用户会暂时无法访问" : "启动 Windows 服务并检查数据库"} onClick={() => void runAction(dashboard?.serviceState === "running" ? "stop" : "start", () => invoke<Dashboard>(dashboard?.serviceState === "running" ? "integrated_stop_service" : "integrated_start_service"))} disabled={!dashboard.serviceInstalled || Boolean(busy)} /> : null}
+        {dashboard?.canManage ? <ActionTile icon={HardDrive} title="创建数据库备份" detail="由后台更新服务创建 SQLite 一致性备份" onClick={() => void createBackup()} disabled={!dashboard.serviceInstalled || Boolean(busy)} /> : null}
         <ActionTile icon={ExternalLink} title="打开库存系统" detail="在独立窗口打开本机库存页面" onClick={() => void openInventory()} disabled={!dashboard?.healthy || Boolean(busy)} />
-        <ActionTile icon={ArrowDownToLine} title="检查一体化更新" detail="从项目 GitHub Release 获取安装包" onClick={() => { setPage("updates"); void checkUpdate(); }} disabled={Boolean(busy)} />
+        <ActionTile icon={ArrowDownToLine} title={dashboard?.inventoryVersion ? "检查库存版本" : "安装库存系统"} detail="库存系统与管理器分别发布和更新" onClick={() => setPage("updates")} disabled={Boolean(busy)} />
       </div></section>
-      <section className="integrated-section"><div className="integrated-section-heading"><div><h2>最近数据库备份</h2><span>只显示文件名、大小和校验状态</span></div><Button appearance="subtle" onClick={() => setPage("database")}>查看全部</Button></div><BackupTable backups={(dashboard?.backups ?? []).slice(0, 4)} onRestore={(backup) => void restoreBackup(backup)} busy={Boolean(busy)} /></section>
+      <section className="integrated-section"><div className="integrated-section-heading"><div><h2>最近数据库备份</h2><span>只显示文件名、大小和校验状态</span></div><Button appearance="subtle" onClick={() => setPage("database")}>查看全部</Button></div><BackupTable backups={(dashboard?.backups ?? []).slice(0, 4)} onRestore={(backup) => void restoreBackup(backup)} busy={Boolean(busy) || !dashboard?.canManage} /></section>
     </div>;
   }
 
   function renderService() {
     const running = dashboard?.serviceState === "running";
-    return <div className="integrated-stack"><section className="integrated-section"><div className="integrated-section-heading"><div><h2>库存业务服务</h2><span>由 Windows 服务控制器管理，随系统开机运行</span></div><Badge appearance="tint" className={dashboard?.healthy ? "integrated-badge-good" : "integrated-badge-muted"}>{dashboard?.healthy ? "健康" : dashboard?.serviceInstalled ? dashboard.serviceState : "未安装"}</Badge></div><dl className="integrated-details"><div><dt>服务名称</dt><dd>SUGRIDInventory</dd></div><div><dt>运行状态</dt><dd>{dashboard?.serviceState ?? "读取中"}</dd></div><div><dt>服务进程 PID</dt><dd>{dashboard?.servicePid ?? "—"}</dd></div><div><dt>局域网端口</dt><dd>{dashboard?.port ?? 3000}</dd></div><div><dt>本机地址</dt><dd>{dashboard?.serviceUrl ?? "http://127.0.0.1:3000"}</dd></div><div><dt>健康检查</dt><dd>{dashboard?.healthy ? "网页与数据库均可用" : "尚未通过"}</dd></div></dl><div className="integrated-control-bar"><Button appearance="primary" icon={running ? <Square size={15} /> : <Play size={15} />} onClick={() => void runAction(running ? "stop" : "start", () => invoke<Dashboard>(running ? "integrated_stop_service" : "integrated_start_service"))} disabled={!dashboard?.serviceInstalled || Boolean(busy)}>{running ? "停止服务" : "启动服务"}</Button><Button appearance="secondary" icon={<ExternalLink size={15} />} onClick={() => void openInventory()} disabled={!dashboard?.healthy || Boolean(busy)}>打开库存系统</Button><Button appearance="secondary" icon={<RefreshCw size={15} />} onClick={() => void refresh()} disabled={Boolean(busy)}>检查状态</Button></div></section><Notice icon={ShieldCheck}>服务只管理专用的 SUGRIDInventory Windows 服务，不会按进程名结束其他 Node 或项目进程。</Notice></div>;
+    return (
+      <div className="integrated-stack">
+        <section className="integrated-section">
+          <div className="integrated-section-heading">
+            <div><h2>库存业务服务</h2><span>Windows 服务随系统开机运行</span></div>
+            <Badge appearance="tint" className={dashboard?.healthy ? "integrated-badge-good" : "integrated-badge-muted"}>{dashboard?.healthy ? "健康" : dashboard?.serviceInstalled ? dashboard.serviceState : "未安装"}</Badge>
+          </div>
+          <dl className="integrated-details">
+            <div><dt>服务名称</dt><dd>SUGRIDInventory</dd></div>
+            <div><dt>运行状态</dt><dd>{dashboard?.serviceState ?? "读取中"}</dd></div>
+            <div><dt>进程 PID</dt><dd>{dashboard?.servicePid ?? "—"}</dd></div>
+            <div><dt>服务端口</dt><dd>{dashboard?.port ?? 3000}</dd></div>
+            <div><dt>库存版本</dt><dd>{dashboard?.inventoryVersion ?? "旧版，业务版本待核验"}</dd></div>
+            <div><dt>服务宿主版本</dt><dd>{dashboard?.serviceHostVersion ?? "待核验"}</dd></div>
+            <div><dt>管理器版本</dt><dd>{dashboard?.managerVersion ?? "待核验"}</dd></div>
+            <div><dt>健康检查</dt><dd>{dashboard?.healthy ? "网页与数据库均可用" : "尚未通过"}</dd></div>
+          </dl>
+          <div className="integrated-control-bar">
+            {dashboard?.canManage ? <Button appearance="primary" icon={running ? <Square size={15} /> : <Play size={15} />} onClick={() => void runAction(running ? "stop" : "start", () => invoke<Dashboard>(running ? "integrated_stop_service" : "integrated_start_service"))} disabled={!dashboard.serviceInstalled || Boolean(busy)}>{running ? "停止服务" : "启动服务"}</Button> : null}
+            <Button appearance="secondary" icon={<ExternalLink size={15} />} onClick={() => void openInventory()} disabled={!dashboard?.healthy || Boolean(busy)}>打开库存系统</Button>
+            <Button appearance="secondary" icon={<RefreshCw size={15} />} onClick={() => void refresh()} disabled={Boolean(busy)}>检查状态</Button>
+          </div>
+        </section>
+        <Notice icon={ShieldCheck}>服务只管理本项目的库存进程。维护操作由指定维护账号或管理员通过更新服务执行。</Notice>
+      </div>
+    );
   }
-
   function renderDatabase() {
-    return <div className="integrated-stack"><section className="integrated-db-summary"><div className="integrated-db-icon"><Database size={22} /></div><div><span>当前数据库</span><strong>{dashboard?.databasePath ?? "%ProgramData%\\SUGRID\\Inventory\\data\\inventory.db"}</strong><small>由库存 Windows 服务账号读写，管理器不直接打开数据库内容</small></div><Button appearance="primary" icon={<HardDrive size={16} />} onClick={() => void runAction("backup", () => invoke<Dashboard>("integrated_create_backup"))} disabled={!dashboard?.serviceInstalled || Boolean(busy)}>创建备份</Button></section><section className="integrated-section"><div className="integrated-section-heading"><div><h2>可恢复备份</h2><span>恢复时自动备份当前库，并在事务完成后验证健康状态</span></div><Button appearance="secondary" icon={<RefreshCw size={15} />} onClick={() => void refresh()} disabled={Boolean(busy)}>刷新</Button></div><BackupTable backups={dashboard?.backups ?? []} onRestore={(backup) => void restoreBackup(backup)} busy={Boolean(busy)} /></section><Notice icon={ShieldCheck}>备份数据库包含用户凭据哈希和业务数据，文件仅管理员与 LocalService 可读。普通页面仅读取不敏感的备份清单；创建和恢复时会出现 Windows 管理员确认。</Notice></div>;
+    const canManage = Boolean(dashboard?.canManage);
+    return (
+      <div className="integrated-stack">
+        <section className="integrated-db-summary">
+          <div className="integrated-db-icon"><Database size={22} /></div>
+          <div><span>当前数据库</span><strong>{dashboard?.databasePath ?? "%ProgramData%\\SUGRID\\Inventory\\data\\inventory.db"}</strong><small>独立保存于 ProgramData，库存版本更新不会覆盖数据</small></div>
+          {canManage ? <Button appearance="primary" icon={<HardDrive size={16} />} onClick={() => void createBackup()} disabled={!dashboard?.serviceInstalled || Boolean(busy)}>创建备份</Button> : null}
+        </section>
+        <section className="integrated-section">
+          <div className="integrated-section-heading"><div><h2>可恢复备份</h2><span>恢复前再次备份当前数据库，并验证完整性</span></div><Button appearance="secondary" icon={<RefreshCw size={15} />} onClick={() => void refresh()} disabled={Boolean(busy)}>刷新</Button></div>
+          <BackupTable backups={dashboard?.backups ?? []} onRestore={(backup) => void restoreBackup(backup)} busy={Boolean(busy)} canRestore={canManage} />
+        </section>
+        <Notice icon={ShieldCheck}>指定的 Windows 维护账号或管理员可创建、恢复数据库备份。操作由本机受限后台服务执行。</Notice>
+      </div>
+    );
   }
-
+  function renderManagerUpdatePanel() {
+    return (
+      <section className="integrated-section integrated-update-panel">
+        <div className="integrated-section-heading">
+          <div><h2>服务器管理器</h2><span>管理器与库存系统各自发布</span></div>
+          <Badge appearance="tint" className="integrated-badge-muted">当前 {dashboard?.managerVersion ?? update?.currentVersion ?? "—"}</Badge>
+        </div>
+        <p>{update?.message ?? "检查管理器的独立安装包。更新管理器仍需 Windows 管理员确认。"}</p>
+        {update?.releaseNotes ? <pre className="integrated-release-notes">{update.releaseNotes}</pre> : null}
+        <div className="integrated-control-bar">
+          <Button appearance="secondary" icon={busy === "update-check" ? <LoaderCircle className="spin" size={15} /> : <RefreshCw size={15} />} onClick={() => void checkUpdate()} disabled={Boolean(busy)}>检查管理器更新</Button>
+          {update?.updateAvailable && update.installerAvailable && update.latestVersion ? <Button appearance="primary" icon={<ArrowDownToLine size={15} />} onClick={() => void installUpdate()} disabled={Boolean(busy)}>下载安装包</Button> : null}
+          {update?.releaseUrl ? <Button appearance="subtle" icon={<ExternalLink size={15} />} onClick={() => window.open(update.releaseUrl!, "_blank", "noopener,noreferrer")}>查看发布记录</Button> : null}
+        </div>
+      </section>
+    );
+  }
   function renderUpdates() {
-    return <div className="integrated-stack"><section className="integrated-section integrated-update-panel"><div className="integrated-section-heading"><div><h2>库存服务与管理器更新</h2><span>从项目 GitHub Release 获取一体化安装程序</span></div><Badge appearance="tint" className="integrated-badge-muted">当前版本 {update?.currentVersion ?? "内置版本"}</Badge></div><p>{update?.message ?? "检查 GitHub Release 是否提供更新版本和一体化安装包。安装前会自动备份数据库。"}</p>{update?.releaseNotes ? <pre className="integrated-release-notes">{update.releaseNotes}</pre> : null}<div className="integrated-control-bar"><Button appearance="secondary" icon={busy === "update-check" ? <LoaderCircle className="spin" size={15} /> : <RefreshCw size={15} />} onClick={() => void checkUpdate()} disabled={Boolean(busy)}>检查更新</Button>{update?.updateAvailable && update.installerAvailable && update.latestVersion ? <Button appearance="primary" icon={<ArrowDownToLine size={15} />} onClick={() => void installUpdate()} disabled={Boolean(busy)}>{busy === "update-install" ? "正在准备安装程序…" : `安装 ${update.latestVersion}`}</Button> : null}{update?.releaseUrl ? <Button appearance="subtle" icon={<ExternalLink size={15} />} onClick={() => window.open(update.releaseUrl!, "_blank", "noopener,noreferrer")}>打开 Release</Button> : null}</div></section><Notice icon={CircleHelp}>若 GitHub Release 没有上传名为 SUGRID-Server-Manager-Setup.exe 的安装包，管理器会明确提示无法更新，不会尝试 Git pull 或修改项目目录。</Notice></div>;
+    return <div className="integrated-stack">
+      <section className="integrated-version-strip" aria-label="已安装版本">
+        <div><span>管理器</span><strong>{dashboard?.managerVersion ?? "读取中"}</strong></div>
+        <div><span>服务宿主</span><strong>{dashboard?.serviceHostVersion ?? "旧版 · 待核验"}</strong></div>
+        <div><span>库存系统</span><strong>{dashboard?.inventoryVersion ?? "旧版 · 待核验"}</strong></div>
+      </section>
+      <InventoryUpdates
+        canManage={Boolean(dashboard?.canManage)}
+        updaterAvailable={Boolean(dashboard?.updaterAvailable)}
+        currentVersion={dashboard?.inventoryVersion ?? null}
+        cache={inventoryCache}
+        prefetchBusy={prefetchBusy}
+        onPrefetch={prefetchInventory}
+      />
+      {renderManagerUpdatePanel()}
+    </div>;
   }
 
   function renderLogs() {
@@ -234,9 +374,9 @@ function ActionTile({ icon: Icon, title, detail, onClick, disabled }: { icon: Ic
   return <button type="button" className="integrated-action-tile" onClick={onClick} disabled={disabled}><span className="integrated-tile-icon"><Icon size={19}/></span><span className="integrated-tile-copy"><strong>{title}</strong><small>{detail}</small></span></button>;
 }
 
-function BackupTable({ backups, onRestore, busy }: { backups: BackupSummary[]; onRestore: (backup: BackupSummary) => void; busy: boolean }) {
+function BackupTable({ backups, onRestore, busy, canRestore = true }: { backups: BackupSummary[]; onRestore: (backup: BackupSummary) => void; busy: boolean; canRestore?: boolean }) {
   if (!backups.length) return <div className="integrated-empty">尚无备份。首次安装及每次数据库操作前会创建备份。</div>;
-  return <div className="integrated-table-scroll"><table className="integrated-table"><thead><tr><th>备份文件</th><th>创建时间</th><th>大小</th><th>完整性</th><th>操作</th></tr></thead><tbody>{backups.map((backup) => <tr key={backup.name}><td><strong className="integrated-mono">{backup.name}</strong></td><td>{formatDate(backup.modifiedAt)}</td><td>{formatSize(backup.size)}</td><td><span className={`integrated-table-state ${backup.verified ? "is-good" : "is-bad"}`}>{backup.verified ? "已验证" : "校验失败"}</span></td><td><Button appearance="subtle" size="small" onClick={() => onRestore(backup)} disabled={busy || !backup.verified}>恢复</Button></td></tr>)}</tbody></table></div>;
+  return <div className="integrated-table-scroll"><table className="integrated-table"><thead><tr><th>备份文件</th><th>创建时间</th><th>大小</th><th>完整性</th><th>操作</th></tr></thead><tbody>{backups.map((backup) => <tr key={backup.name}><td><strong className="integrated-mono">{backup.name}</strong></td><td>{formatDate(backup.modifiedAt)}</td><td>{formatSize(backup.size)}</td><td><span className={`integrated-table-state ${backup.verified ? "is-good" : "is-bad"}`}>{backup.verified ? "已验证" : "校验失败"}</span></td><td><Button appearance="subtle" size="small" onClick={() => onRestore(backup)} disabled={busy || !canRestore || !backup.verified}>恢复</Button></td></tr>)}</tbody></table></div>;
 }
 
 function Notice({ icon: Icon, children }: { icon: IconComponent; children: string }) {

@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "SUGRID Server Manager",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "identifier": "cc.sugrid.servermanager",
   "build": {
     "frontendDist": "../dist/client",
@@ -30,7 +30,8 @@
     "active": true,
     "targets": ["nsis"],
     "resources": {
-      "resources/inventory/": "inventory/"
+      "resources/service-host/": "service-host/",
+      "resources/updater/": "updater/"
     },
     "icon": [
       "icons/32x32.png",
@@ -42,7 +43,8 @@
     "windows": {
       "nsis": {
         "installMode": "perMachine",
-        "installerHooks": "installer-hooks.nsh"
+        "installerHooks": "installer-hooks.nsh",
+        "template": "installer-safe-upgrade.nsi"
       },
       "webviewInstallMode": {
         "type": "downloadBootstrapper",

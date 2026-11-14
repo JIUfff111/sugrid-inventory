@@ -22,6 +22,8 @@ const eslintConfig = defineConfig([
     "tools/server-manager-desktop/src-tauri/target/**",
     "tools/server-manager-desktop/src-tauri/resources/inventory/**",
     "tools/server-manager-desktop/src-tauri/resources/inventory-installer/**",
+    "tools/server-manager-desktop/src-tauri/resources/service-host/**",
+    "tools/server-manager-desktop/src-tauri/resources/updater/**",
     "next-env.d.ts",
   ]),
   {

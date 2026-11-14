@@ -45,6 +45,8 @@
 /dev-server*.log
 /tools/server-manager-desktop/src-tauri/resources/inventory/
 /tools/server-manager-desktop/src-tauri/resources/inventory-installer/
+/tools/server-manager-desktop/src-tauri/resources/service-host/
+/tools/server-manager-desktop/src-tauri/resources/updater/
 
 # debug
 npm-debug.log*

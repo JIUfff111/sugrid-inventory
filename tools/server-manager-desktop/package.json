@@ -12,13 +12,14 @@
     "test": "tsx --test src/update-flow.test.ts",
     "test:sites": "node --test tests/sites-worker.test.mjs",
     "desktop:dev": "tauri dev",
-    "build:inventory": "npm --prefix ../.. run build:integrated-server",
     "build:service-host": "cargo build --release --bin sugrid-inventory-service --manifest-path src-tauri/Cargo.toml && node scripts/prepare-service-host.mjs",
-    "desktop:build": "npm run build:inventory && npm run build:service-host && tauri build"
+    "build:updater": "cargo build --release --bin sugrid-inventory-updater --manifest-path src-tauri/Cargo.toml && node scripts/prepare-updater.mjs",
+    "desktop:build": "npm run build:service-host && npm run build:updater && tauri build"
   },
   "dependencies": {
     "@fluentui/react-components": "9.75.2",
     "@tauri-apps/api": "2.12.4",
+    "@tauri-apps/plugin-dialog": "2.8.4",
     "lucide-react": "1.71.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"

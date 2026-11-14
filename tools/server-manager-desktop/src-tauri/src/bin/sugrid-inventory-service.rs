@@ -1,4 +1,4 @@
-#![cfg_attr(windows, windows_subsystem = "windows")]
+#![cfg_attr(all(windows, not(feature = "updater-qa")), windows_subsystem = "windows")]
 
 #[cfg(windows)]
 mod service_host {
@@ -20,17 +20,31 @@ mod service_host {
         Error as WindowsServiceError, define_windows_service,
         service::{
             ServiceAccess, ServiceAction, ServiceActionType, ServiceControl, ServiceControlAccept,
-            ServiceErrorControl, ServiceExitCode, ServiceFailureActions, ServiceFailureResetPeriod,
-            ServiceInfo, ServiceStartType, ServiceState, ServiceStatus, ServiceType,
+            ServiceDependency, ServiceErrorControl, ServiceExitCode, ServiceFailureActions,
+            ServiceFailureResetPeriod, ServiceInfo, ServiceStartType, ServiceState, ServiceStatus,
+            ServiceType,
         },
         service_control_handler::{self, ServiceControlHandlerResult},
         service_manager::{ServiceManager, ServiceManagerAccess},
     };
 
+    #[cfg(not(feature = "updater-qa"))]
     const SERVICE_NAME: &str = "SUGRIDInventory";
+    #[cfg(feature = "updater-qa")]
+    const SERVICE_NAME: &str = "SUGRIDInventoryQA";
+    #[cfg(not(feature = "updater-qa"))]
+    const UPDATER_SERVICE_NAME: &str = "SUGRIDInventoryUpdater";
+    #[cfg(feature = "updater-qa")]
+    const UPDATER_SERVICE_NAME: &str = "SUGRIDInventoryUpdaterQA";
+    #[cfg(not(feature = "updater-qa"))]
     const SERVICE_DISPLAY_NAME: &str = "SUGRID Inventory Server";
+    #[cfg(feature = "updater-qa")]
+    const SERVICE_DISPLAY_NAME: &str = "SUGRID Inventory Server QA";
     const DATA_FOLDER: &str = "SUGRID\\Inventory";
+    #[cfg(not(feature = "updater-qa"))]
     const PORT: u16 = 3000;
+    #[cfg(feature = "updater-qa")]
+    const PORT: u16 = 3300;
 
     #[derive(Debug, Serialize, Deserialize)]
     #[serde(rename_all = "camelCase")]
@@ -44,6 +58,24 @@ mod service_host {
         source: Option<PathBuf>,
         backup: Option<PathBuf>,
         staging: PathBuf,
+    }
+
+    #[derive(Debug, Deserialize)]
+    #[serde(rename_all = "camelCase", deny_unknown_fields)]
+    struct UpdaterMigrationRequest {
+        format_version: u32,
+        operation_id: String,
+        runtime_relative: String,
+        database_relative: String,
+    }
+
+    #[derive(Serialize)]
+    #[serde(rename_all = "camelCase")]
+    struct UpdaterMigrationResult<'a> {
+        format_version: u32,
+        operation_id: &'a str,
+        success: bool,
+        error_code: Option<&'a str>,
     }
 
     #[derive(Debug, Serialize, Deserialize)]
@@ -67,10 +99,19 @@ mod service_host {
     }
 
     fn data_root() -> Result<PathBuf, String> {
+        #[cfg(feature = "updater-qa")]
+        {
+            return option_env!("SUGRID_UPDATER_QA_ROOT")
+                .map(PathBuf::from)
+                .ok_or("QA build requires SUGRID_UPDATER_QA_ROOT at compile time.".into());
+        }
+        #[cfg(not(feature = "updater-qa"))]
+        {
         let root = std::env::var_os("PROGRAMDATA")
             .map(PathBuf::from)
             .ok_or("Windows did not provide the ProgramData directory.")?;
         Ok(root.join(DATA_FOLDER))
+        }
     }
 
     fn current_paths() -> Result<Paths, String> {
@@ -87,13 +128,31 @@ mod service_host {
         } else {
             program_data.join("inventory")
         };
-        if !inventory.join("node.exe").is_file() || !inventory.join("server.js").is_file() {
-            return Err(format!(
-                "The bundled inventory server is incomplete: {}",
-                inventory.display()
-            ));
-        }
         Ok(paths_for(&inventory, &program_data, &executable))
+    }
+
+    fn inventory_runtime_available(paths: &Paths) -> bool {
+        paths.inventory.join("node.exe").is_file() && paths.inventory.join("server.js").is_file()
+    }
+
+    fn installed_inventory_version(paths: &Paths) -> String {
+        fs::read(paths.program_data.join("inventory-version.json"))
+            .ok()
+            .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+            .and_then(|value| {
+                value
+                    .get("version")
+                    .and_then(|version| version.as_str())
+                    .map(str::to_owned)
+            })
+            .filter(|version| {
+                !version.is_empty()
+                    && version.len() <= 64
+                    && version.bytes().all(|byte| {
+                        byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'-' | b'_')
+                    })
+            })
+            .unwrap_or_else(|| "legacy-unknown".to_string())
     }
 
     fn paths_for(inventory: &Path, root: &Path, executable: &Path) -> Paths {
@@ -850,6 +909,70 @@ mod service_host {
         Ok(())
     }
 
+    fn staged_migration_paths(
+        paths: &Paths,
+        request: &UpdaterMigrationRequest,
+    ) -> Result<(PathBuf, PathBuf), String> {
+        let id = &request.operation_id;
+        if request.format_version != 1
+            || id.is_empty()
+            || id.len() > 80
+            || !id.bytes().all(|byte| byte.is_ascii_digit() || byte == b'-')
+            || request.runtime_relative != format!("updater/jobs/{id}/extracted/inventory")
+            || request.database_relative != format!("data/inventory.migrating-{id}.db")
+        {
+            return Err("Invalid staged updater migration request.".into());
+        }
+        let runtime = paths.program_data.join(&request.runtime_relative);
+        let database = paths.program_data.join(&request.database_relative);
+        if !runtime.join("node.exe").is_file()
+            || !runtime.join("scripts").join("init-db.js").is_file()
+        {
+            return Err("Staged updater runtime is unavailable.".into());
+        }
+        Ok((runtime, database))
+    }
+
+    fn run_staged_updater_migration(paths: &Paths) -> Result<Option<()>, String> {
+        let data = paths.program_data.join("data");
+        let request_path = data.join(".updater-migration-request.json");
+        if !request_path.exists() {
+            return Ok(None);
+        }
+        let request: UpdaterMigrationRequest = serde_json::from_slice(
+            &fs::read(&request_path).map_err(|error| error.to_string())?,
+        )
+        .map_err(|_| "Staged updater migration request is malformed.")?;
+        let migration = staged_migration_paths(paths, &request).and_then(|(runtime, database)| {
+            run_initializer(&runtime, &database, &paths.logs)?;
+            finalize_database_for_activation(&database)?;
+            inspect_database(&database)
+        });
+        let error_code = if migration.is_ok() {
+            None
+        } else {
+            Some("migration-failed")
+        };
+        let result = UpdaterMigrationResult {
+            format_version: 1,
+            operation_id: &request.operation_id,
+            success: migration.is_ok(),
+            error_code,
+        };
+        let result_path = data.join(".updater-migration-result.json");
+        let temporary = data.join(format!(
+            ".updater-migration-result-{}.tmp",
+            request.operation_id
+        ));
+        fs::write(
+            &temporary,
+            serde_json::to_vec(&result).map_err(|error| error.to_string())?,
+        )
+        .map_err(|error| error.to_string())?;
+        fs::rename(&temporary, &result_path).map_err(|error| error.to_string())?;
+        migration.map(Some)
+    }
+
     fn migrate_or_initialize(
         inventory: &Path,
         database: &Path,
@@ -1192,7 +1315,8 @@ mod service_host {
     }
 
     fn apply_data_acl_policy(root: &Path) -> Result<(), String> {
-        run_path_icacls("reset-existing-acls", root, &["/reset", "/T"])?;
+        // The updater owns its private jobs and operator settings. Resetting
+        // the whole root would erase their protected ACLs during host upgrades.
         run_path_icacls(
             "set-program-data-root-acl",
             root,
@@ -1212,13 +1336,17 @@ mod service_host {
 
         for (directory, operation) in [
             ("data", "grant-data-directory-access"),
-            ("backups", "grant-backup-directory-access"),
             ("logs", "grant-log-directory-access"),
         ] {
             let path = root.join(directory);
             fs::create_dir_all(&path).map_err(|error| {
                 acl_io_failure(&format!("create-{directory}-directory"), &error)
             })?;
+            run_path_icacls(
+                &format!("reset-{directory}-descendant-acls"),
+                &path,
+                &["/reset", "/T"],
+            )?;
             run_path_icacls(
                 operation,
                 &path,
@@ -1231,6 +1359,22 @@ mod service_host {
                 ],
             )?;
         }
+
+        let backups = root.join("backups");
+        fs::create_dir_all(&backups)
+            .map_err(|error| acl_io_failure("create-backups-directory", &error))?;
+        run_path_icacls("reset-backup-descendant-acls", &backups, &["/reset", "/T"])?;
+        run_path_icacls(
+            "grant-backup-directory-access",
+            &backups,
+            &[
+                "/inheritance:r",
+                "/grant:r",
+                "SYSTEM:(OI)(CI)(F)",
+                "BUILTIN\\Administrators:(OI)(CI)(F)",
+                "NT AUTHORITY\\LOCAL SERVICE:(OI)(CI)(RX)",
+            ],
+        )?;
 
         for directory in ["data", "backups", "logs"] {
             run_path_icacls(
@@ -1366,6 +1510,7 @@ mod service_host {
                     &[
                         OsString::from("/F"),
                         paths.program_data.as_os_str().to_owned(),
+                        OsString::from("/A"),
                         OsString::from("/R"),
                         OsString::from("/D"),
                         OsString::from("Y"),
@@ -1599,18 +1744,18 @@ mod service_host {
         Ok(true)
     }
 
-    fn install_windows_service(paths: &Paths) -> Result<(), String> {
+    fn install_windows_service(paths: &Paths, start_type: ServiceStartType) -> Result<(), String> {
         let manager =
             service_manager(ServiceManagerAccess::CONNECT | ServiceManagerAccess::CREATE_SERVICE)?;
         let info = ServiceInfo {
             name: OsString::from(SERVICE_NAME),
             display_name: OsString::from(SERVICE_DISPLAY_NAME),
             service_type: ServiceType::OWN_PROCESS,
-            start_type: ServiceStartType::AutoStart,
+            start_type,
             error_control: ServiceErrorControl::Normal,
             executable_path: paths.service_exe.clone(),
             launch_arguments: vec![OsString::from("run")],
-            dependencies: vec![],
+            dependencies: vec![ServiceDependency::Service(OsString::from(UPDATER_SERVICE_NAME))],
             account_name: Some(OsString::from("NT AUTHORITY\\LocalService")),
             account_password: None,
         };
@@ -1622,11 +1767,6 @@ mod service_host {
             | ServiceAccess::DELETE;
         let service = match open_optional_service(&manager, access)? {
             Some(service) => {
-                let status = service.query_status().map_err(|error| error.to_string())?;
-                if status.current_state != ServiceState::Stopped {
-                    service.stop().map_err(|error| error.to_string())?;
-                    wait_for_state(&service, ServiceState::Stopped)?;
-                }
                 service.change_config(&info).map_err(|error| {
                     format!("Could not update Windows service configuration: {error}")
                 })?;
@@ -1656,15 +1796,14 @@ mod service_host {
                 ]),
             })
             .map_err(|error| format!("Could not configure service recovery: {error}"))?;
-        let acl =
-            "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;LCRPWP;;;BU)";
+        let acl = "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCRC;;;AU)";
         let acl_result = hidden_command("sc.exe")
             .args(["sdset", SERVICE_NAME, acl])
             .output()
             .map_err(|error| format!("Could not configure service controls: {error}"))?;
         if !acl_result.status.success() {
             return Err(format!(
-                "Could not grant local users start/stop access to this service: {}",
+                "Could not grant authenticated users read access to this service: {}",
                 String::from_utf8_lossy(&acl_result.stderr).trim()
             ));
         }
@@ -1834,7 +1973,7 @@ mod service_host {
                 legacy_config,
             )?;
             install_step = "install-windows-service";
-            install_windows_service(&paths)?;
+            install_windows_service(&paths, ServiceStartType::AutoStart)?;
             install_step = "start-and-health-check";
             start_and_wait_healthy(&paths)?;
             Ok::<(), String>(())
@@ -1851,7 +1990,7 @@ mod service_host {
                     None
                 }
             } else if service_was_installed {
-                install_windows_service(&paths)
+                install_windows_service(&paths, ServiceStartType::AutoStart)
                     .and_then(|_| {
                         if was_running {
                             start_and_wait_healthy(&paths)
@@ -1899,38 +2038,152 @@ mod service_host {
         Ok(())
     }
 
-    fn uninstall() -> Result<(), String> {
+    fn remove_service_registration_only() -> Result<(), String> {
         let manager = service_manager(ServiceManagerAccess::CONNECT)?;
-        let Some(service) = open_optional_service(
+        if let Some(service) = open_optional_service(
             &manager,
             ServiceAccess::QUERY_STATUS | ServiceAccess::STOP | ServiceAccess::DELETE,
-        )?
-        else {
-            return Ok(());
-        };
-        let status = service.query_status().map_err(|error| error.to_string())?;
-        if status.current_state != ServiceState::Stopped {
-            service
-                .stop()
-                .map_err(|error| format!("Could not stop service before uninstall: {error}"))?;
-            wait_for_state(&service, ServiceState::Stopped)?;
-        }
-        service
-            .delete()
-            .map_err(|error| format!("Could not remove Windows service: {error}"))?;
-        let paths = current_paths()?;
-        for directory in ["app", "inventory"] {
-            let path = paths.program_data.join(directory);
-            if let Err(error) = fs::remove_dir_all(&path) {
-                if error.kind() != std::io::ErrorKind::NotFound {
-                    return Err(format!(
-                        "Windows service was removed, but runtime files at {} could not be deleted: {error}",
-                        path.display()
-                    ));
-                }
+        )? {
+            if service
+                .query_status()
+                .map_err(|error| error.to_string())?
+                .current_state
+                != ServiceState::Stopped
+            {
+                service.stop().map_err(|error| error.to_string())?;
+                wait_for_state(&service, ServiceState::Stopped)?;
             }
+            service.delete().map_err(|error| error.to_string())?;
         }
         Ok(())
+    }
+
+    // The manager installer carries only the service host. Inventory runtime and
+    // the ProgramData database belong to the separately released product.
+    fn install_host_only() -> Result<(), String> {
+        let paths = current_paths()?;
+        let active_transaction = paths
+            .program_data
+            .join("updater")
+            .join("active-transaction.json");
+        if active_transaction
+            .try_exists()
+            .map_err(|error| format!("Cannot inspect updater transaction: {error}"))?
+        {
+            return Err("Inventory update or recovery is active; finish it before upgrading the service host.".into());
+        }
+        fs::create_dir_all(&paths.program_data)
+            .map_err(|error| acl_io_failure("create-program-data-root", &error))?;
+        set_data_permissions(&paths)?;
+        if paths.database.is_file() {
+            let (backup, warning) = create_backup_file(&paths.database, &paths.backups)?;
+            append_log(
+                &paths,
+                &format!("Host upgrade backup created: {}", backup.display()),
+            );
+            if let Some(warning) = warning {
+                append_log(
+                    &paths,
+                    &format!("Backup listing could not be refreshed: {warning}"),
+                );
+            }
+        }
+
+        let suffix = format!("{}-{}", now_stamp(), std::process::id());
+        let stage = paths.program_data.join(format!(".app-stage-{suffix}"));
+        let previous = paths.program_data.join(format!(".app-previous-{suffix}"));
+        let target = paths.program_data.join("app");
+        if stage.exists() || previous.exists() {
+            return Err("Interrupted host upgrade directories require review.".into());
+        }
+        fs::create_dir(&stage).map_err(|error| format!("Could not stage service host: {error}"))?;
+        if let Err(error) = fs::copy(
+            &paths.source_service_exe,
+            stage.join("sugrid-inventory-service.exe"),
+        ) {
+            let _ = fs::remove_dir_all(&stage);
+            return Err(format!("Could not copy service host: {error}"));
+        }
+        fs::write(
+            stage.join("host-version.json"),
+            serde_json::to_vec(&serde_json::json!({ "version": env!("CARGO_PKG_VERSION") }))
+                .map_err(|error| error.to_string())?,
+        )
+        .map_err(|error| format!("Could not write host version: {error}"))?;
+
+        let service_existed = service_installed()?;
+        let was_running = stop_service_if_running()?;
+        let had_target = target.exists();
+        let mut activated = false;
+        let result = (|| {
+            if had_target {
+                fs::rename(&target, &previous)
+                    .map_err(|error| format!("Could not preserve old service host: {error}"))?;
+            }
+            fs::rename(&stage, &target)
+                .map_err(|error| format!("Could not activate new service host: {error}"))?;
+            activated = true;
+            apply_runtime_acl_policy(&paths.program_data)?;
+            install_windows_service(
+                &paths,
+                if inventory_runtime_available(&paths) && paths.database.is_file() {
+                    ServiceStartType::AutoStart
+                } else {
+                    ServiceStartType::OnDemand
+                },
+            )?;
+            if inventory_runtime_available(&paths) && paths.database.is_file() {
+                start_and_wait_healthy(&paths)?;
+            }
+            Ok::<(), String>(())
+        })();
+        if let Err(error) = result {
+            let _ = stop_service_if_running();
+            if activated {
+                let _ = fs::remove_dir_all(&target);
+            }
+            let restore_result = if had_target {
+                fs::rename(&previous, &target)
+                    .map_err(|restore| format!("Could not restore old service host: {restore}"))
+            } else {
+                Ok(())
+            };
+            let _ = fs::remove_dir_all(&stage);
+            let service_result = if service_existed && had_target {
+                install_windows_service(&paths, ServiceStartType::AutoStart).and_then(|_| {
+                    if was_running
+                        && inventory_runtime_available(&paths)
+                        && paths.database.is_file()
+                    {
+                        start_and_wait_healthy(&paths)
+                    } else {
+                        Ok(())
+                    }
+                })
+            } else if !service_existed {
+                remove_service_registration_only()
+            } else {
+                Ok(())
+            };
+            return Err(format!(
+                "Host-only installation failed: {error}; runtime recovery: {}; service recovery: {}",
+                restore_result.err().unwrap_or_else(|| "ok".into()),
+                service_result.err().unwrap_or_else(|| "ok".into())
+            ));
+        }
+        let _ = fs::remove_dir_all(&previous);
+        append_log(
+            &paths,
+            "Service host installed without replacing inventory runtime or database.",
+        );
+        Ok(())
+    }
+
+    fn uninstall() -> Result<(), String> {
+        // Removing the manager must never delete independently released runtime
+        // files, the database, or its backups. Keep the installed host binary
+        // for a safe subsequent repair or reinstall as well.
+        remove_service_registration_only()
     }
 
     fn restore_backup(backup_path: &Path) -> Result<String, String> {
@@ -2062,7 +2315,7 @@ mod service_host {
             .env("PORT", PORT.to_string())
             .env("HOSTNAME", "0.0.0.0")
             .env("INVENTORY_DB_PATH", &paths.database)
-            .env("SUGRID_APP_VERSION", env!("CARGO_PKG_VERSION"))
+            .env("SUGRID_APP_VERSION", installed_inventory_version(paths))
             .env(
                 "SUGRID_SERVICE_INSTANCE",
                 fs::read_to_string(service_instance_path(paths))
@@ -2101,6 +2354,25 @@ mod service_host {
             1,
             Duration::from_secs(30),
         )?;
+
+        if paths
+            .program_data
+            .join("data")
+            .join(".updater-migration-request.json")
+            .exists()
+        {
+            let migration = run_staged_updater_migration(&paths);
+            // The result file, not SCM failure actions, controls updater recovery.
+            set_status(
+                &status_handle,
+                ServiceState::Stopped,
+                ServiceControlAccept::empty(),
+                ServiceExitCode::Win32(0),
+                0,
+                Duration::default(),
+            )?;
+            return migration.map(|_| ());
+        }
 
         let startup = (|| {
             ensure_port_available(PORT)?;
@@ -2251,6 +2523,25 @@ mod service_host {
 
     fn dispatch(command: &str, legacy_config: Option<&Path>) -> Result<String, String> {
         match command {
+            "enable-autostart" => {
+                let paths = current_paths()?;
+                if !inventory_runtime_available(&paths) || !paths.database.is_file() {
+                    return Err(
+                        "Cannot enable automatic startup before inventory is installed.".into(),
+                    );
+                }
+                install_windows_service(&paths, ServiceStartType::AutoStart)?;
+                Ok("Inventory Windows service is configured for automatic startup.".into())
+            }
+            "disable-autostart" => {
+                let paths = current_paths()?;
+                install_windows_service(&paths, ServiceStartType::OnDemand)?;
+                Ok("Inventory Windows service is configured for manual startup.".into())
+            }
+            "install-host" => {
+                install_host_only()?;
+                Ok("Windows service host installed; inventory runtime was preserved.".into())
+            }
             "prepare-data-permissions" => {
                 let paths = current_paths()?;
                 set_data_permissions(&paths)?;
@@ -2379,6 +2670,30 @@ mod service_host {
             ));
             fs::create_dir_all(&path).unwrap();
             path
+        }
+
+        #[test]
+        fn staged_updater_migration_rejects_path_substitution() {
+            let base = temp_dir("staged-updater-paths");
+            let paths = paths_for(&base.join("inventory"), &base, &base.join("host.exe"));
+            let runtime = base.join("updater/jobs/123-456/extracted/inventory");
+            fs::create_dir_all(runtime.join("scripts")).unwrap();
+            fs::write(runtime.join("node.exe"), "qa").unwrap();
+            fs::write(runtime.join("scripts/init-db.js"), "qa").unwrap();
+            let mut request = UpdaterMigrationRequest {
+                format_version: 1,
+                operation_id: "123-456".into(),
+                runtime_relative: "updater/jobs/123-456/extracted/inventory".into(),
+                database_relative: "data/inventory.migrating-123-456.db".into(),
+            };
+            let (selected, _) = staged_migration_paths(&paths, &request).unwrap();
+            assert_eq!(selected, runtime);
+            request.database_relative = "../inventory.db".into();
+            assert!(staged_migration_paths(&paths, &request).is_err());
+            request.database_relative = "data/inventory.migrating-123-456.db".into();
+            request.operation_id = "../../outside".into();
+            assert!(staged_migration_paths(&paths, &request).is_err());
+            fs::remove_dir_all(base).unwrap();
         }
 
         #[test]
@@ -2823,6 +3138,40 @@ mod service_host {
                         .starts_with(".sugrid-permission-check-")
                 }));
             }
+            let _ = fs::remove_dir_all(root);
+        }
+
+        #[test]
+        fn data_permissions_remove_explicit_denials_only_in_managed_data_trees() {
+            let root = temp_dir("acl-explicit-deny");
+            let paths = service_paths_for_data_root(&root);
+            let managed = [
+                root.join("data/nested/machine.bin"),
+                root.join("backups/backup.bin"),
+                root.join("logs/trace.bin"),
+            ];
+            let private = root.join("updater/operators.json");
+            for path in managed.iter().chain(std::iter::once(&private)) {
+                fs::create_dir_all(path.parent().unwrap()).unwrap();
+                fs::write(path, b"preserve").unwrap();
+                run_path_icacls("test-deny-local-service", path, &["/deny", "*S-1-5-19:(R)"])
+                    .unwrap();
+            }
+
+            set_data_permissions(&paths).unwrap();
+
+            for path in &managed {
+                assert_eq!(fs::read(path).unwrap(), b"preserve");
+                let output = hidden_command("icacls.exe").arg(path).output().unwrap();
+                assert!(output.status.success());
+                let acl = String::from_utf8_lossy(&output.stdout);
+                assert!(!acl.contains("(DENY)"), "explicit denial remains: {acl}");
+                assert!(acl.contains("LOCAL SERVICE"), "service ACE is missing: {acl}");
+            }
+            let output = hidden_command("icacls.exe").arg(&private).output().unwrap();
+            assert!(output.status.success());
+            assert!(String::from_utf8_lossy(&output.stdout).contains("(DENY)"));
+            assert_eq!(fs::read(&private).unwrap(), b"preserve");
             let _ = fs::remove_dir_all(root);
         }
 

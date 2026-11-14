@@ -84,6 +84,11 @@
 .integrated-badge-muted { color: #4b5b70 !important; background: #eef2f7 !important; }
 
 .integrated-stack { display: grid; gap: 16px; padding-top: 20px; animation: integrated-enter 180ms ease-out both; }
+.integrated-version-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--int-line); border-radius: 6px; background: #fff; }
+.integrated-version-strip > div { display: grid; min-width: 0; gap: 5px; padding: 12px 16px; }
+.integrated-version-strip > div + div { border-left: 1px solid var(--int-line); }
+.integrated-version-strip span { color: var(--int-muted); font-size: 11px; }
+.integrated-version-strip strong { overflow: hidden; color: var(--int-ink); font-size: 13px; font-weight: 620; text-overflow: ellipsis; white-space: nowrap; }
 .integrated-service-banner { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 18px 20px; border: 1px solid var(--int-line); border-left: 3px solid #9aa9bb; border-radius: 6px; background: #fff; }
 .integrated-service-banner.is-healthy { border-left-color: var(--int-green); }
 .integrated-service-banner.is-warning { border-left-color: #d09a3c; }
@@ -144,6 +149,23 @@
 .integrated-notice-block svg { margin-top: 2px; color: var(--int-blue); }
 .integrated-notice-block p { margin: 0; font-size: 11px; line-height: 1.55; }
 .integrated-update-panel > p { max-width: 780px; color: #53647b; font-size: 12px; line-height: 1.6; }
+.integrated-cache-state { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: start; gap: 9px; padding: 11px 12px; color: #42536a; border: 1px solid #dce6f2; border-radius: 5px; background: #f8fbff; }
+.integrated-cache-state.is-cached { color: #176b43; border-color: #d4eadc; background: #f4fbf6; }
+.integrated-cache-state.is-failed { color: #933b3b; border-color: #efcccc; background: #fff7f7; }
+.integrated-cache-state.is-offline { color: #685b37; border-color: #ebe1c9; background: #fffdf6; }
+.integrated-cache-state > svg { margin-top: 1px; }
+.integrated-cache-state strong, .integrated-cache-state span { display: block; }
+.integrated-cache-state strong { font-size: 11px; font-weight: 650; }
+.integrated-cache-state span { margin-top: 4px; overflow-wrap: anywhere; font-size: 11px; line-height: 1.45; }
+.integrated-progress { display: grid; gap: 11px; margin: 14px 0 4px; padding: 13px 14px; border: 1px solid #dce8f7; border-radius: 5px; background: #f7fbff; }
+.integrated-progress.is-submitting { grid-template-columns: minmax(0, 1fr) 18px; align-items: center; }
+.integrated-progress > div:first-child { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: 12px; }
+.integrated-progress > div:first-child span { color: #53647b; }
+.integrated-progress-steps { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; }
+.integrated-progress-steps span { height: 4px; border-radius: 2px; background: #dce5f1; transition: background-color 180ms ease; }
+.integrated-progress-steps span.is-reached { background: var(--int-blue); }
+.integrated-inline-help { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; color: var(--int-muted); font-size: 11px; line-height: 1.5; }
+.integrated-inline-help svg { flex: 0 0 auto; margin-top: 1px; }
 .integrated-release-notes { max-height: 280px; overflow: auto; padding: 12px; color: #35455b; border: 1px solid var(--int-line); border-radius: 4px; background: #f8fafc; font: 11px/1.55 "Segoe UI", sans-serif; white-space: pre-wrap; }
 .integrated-diagnostic-list { border-top: 1px solid var(--int-line); }
 .integrated-diagnostic { display: grid; grid-template-columns: 20px 190px minmax(0, 1fr); align-items: center; gap: 10px; min-height: 46px; border-bottom: 1px solid #edf0f4; }
@@ -184,6 +206,8 @@
   .integrated-banner-icon { width: 32px; height: 32px; }
   .integrated-banner-actions { grid-column: 1 / -1; justify-content: flex-start; }
   .integrated-metrics { grid-template-columns: 1fr; }
+  .integrated-version-strip { grid-template-columns: 1fr; }
+  .integrated-version-strip > div + div { border-top: 1px solid var(--int-line); border-left: 0; }
   .integrated-metric { grid-template-columns: 32px minmax(0, 1fr); padding: 11px 13px; }
   .integrated-metric + .integrated-metric { border-top: 1px solid var(--int-line); border-left: 0; }
   .integrated-section { padding: 13px; }

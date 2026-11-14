@@ -1,0 +1,126 @@
+name: manager-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Approved 40-character commit SHA from main
+        required: true
+        type: string
+      version:
+        description: Manager version X.Y.Z matching Tauri and Cargo
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: manager-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-2022
+    environment: manager-release
+    env:
+      APPROVED_SHA: ${{ inputs.commit_sha }}
+      MANAGER_VERSION: ${{ inputs.version }}
+      SUGRID_INVENTORY_VERIFY_KEY_HEX: ${{ vars.SUGRID_INVENTORY_VERIFY_KEY_HEX }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select approved main commit
+        shell: pwsh
+        run: |
+          if ($env:APPROVED_SHA -cnotmatch '^[0-9a-f]{40}$') { throw 'Commit SHA must be 40 lowercase hexadecimal characters.' }
+          if ($env:MANAGER_VERSION -notmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$') { throw 'Manager version must be X.Y.Z.' }
+          $commitType = git cat-file -t $env:APPROVED_SHA
+          if ($LASTEXITCODE -ne 0 -or $commitType -ne 'commit') { throw 'The approved SHA is not a commit in this repository.' }
+          git merge-base --is-ancestor $env:APPROVED_SHA HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'The approved commit is not in main history.' }
+          git checkout --detach $env:APPROVED_SHA
+          if ($LASTEXITCODE -ne 0 -or (git rev-parse HEAD).Trim() -cne $env:APPROVED_SHA) { throw 'Could not check out the approved commit.' }
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: tools/server-manager-desktop/package-lock.json
+      - name: Set up Rust
+        shell: pwsh
+        run: |
+          rustup toolchain install stable --profile minimal
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          rustup default stable
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Verify versions and production trust root
+        shell: pwsh
+        run: |
+          if ($env:SUGRID_INVENTORY_VERIFY_KEY_HEX -cnotmatch '^[0-9a-f]{64}$') { throw 'The production inventory verification key is not configured.' }
+          $tauriConfig = Get-Content 'tools/server-manager-desktop/src-tauri/tauri.conf.json' -Raw | ConvertFrom-Json
+          $tauriVersion = $tauriConfig.version
+          if ($tauriVersion -cne $env:MANAGER_VERSION) { throw 'Tauri version differs from the requested manager version.' }
+          if ($tauriConfig.bundle.resources.PSObject.Properties.Name -match '(^|/)inventory(/|$)') { throw 'The manager installer must not bundle the inventory runtime.' }
+          $metadataJson = cargo metadata --locked --no-deps --format-version 1 --manifest-path tools/server-manager-desktop/src-tauri/Cargo.toml
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $cargoVersion = (($metadataJson | ConvertFrom-Json).packages | Where-Object name -eq 'app' | Select-Object -First 1).version
+          if ($cargoVersion -cne $env:MANAGER_VERSION) { throw 'Cargo version differs from the requested manager version.' }
+      - name: Reject an existing manager version
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $headers = @{ Authorization = "Bearer $env:GH_TOKEN"; 'User-Agent' = 'SUGRID manager release'; Accept = 'application/vnd.github+json' }
+          $tagUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/git/ref/tags/manager-v$env:MANAGER_VERSION"
+          $response = Invoke-WebRequest -Uri $tagUri -Headers $headers -SkipHttpErrorCheck
+          if ($response.StatusCode -eq 200) { throw 'This manager version tag already exists.' }
+          if ($response.StatusCode -ne 404) { throw "Could not confirm whether the manager tag exists (HTTP $($response.StatusCode))." }
+      - name: Install manager dependencies
+        working-directory: tools/server-manager-desktop
+        run: npm ci
+      - name: Check manager frontend
+        working-directory: tools/server-manager-desktop
+        shell: pwsh
+        run: |
+          npm run lint
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run typecheck
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm test
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Test manager Rust code
+        shell: pwsh
+        run: |
+          cargo test --locked --manifest-path tools/server-manager-desktop/src-tauri/Cargo.toml
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build standalone manager installer
+        working-directory: tools/server-manager-desktop
+        shell: pwsh
+        run: |
+          npm run desktop:build
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Stage exact installer asset
+        shell: pwsh
+        run: |
+          $name = "SUGRID Server Manager_$env:MANAGER_VERSION" + '_x64-setup.exe'
+          $source = Join-Path 'tools/server-manager-desktop/src-tauri/target/release/bundle/nsis' $name
+          if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "The expected installer is missing: $name" }
+          $output = '.tmp/manager-release'
+          New-Item -ItemType Directory -Force -Path $output | Out-Null
+          Copy-Item -LiteralPath $source -Destination (Join-Path $output 'SUGRID-Server-Manager-Setup.exe')
+      - name: Publish manager release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = "manager-v$env:MANAGER_VERSION"
+          $asset = '.tmp/manager-release/SUGRID-Server-Manager-Setup.exe'
+          gh release create $tag $asset --repo $env:GITHUB_REPOSITORY --target $env:APPROVED_SHA --draft --latest=false --title "SUGRID Server Manager $env:MANAGER_VERSION" --notes "Manager, inventory service host, and updater from commit $env:APPROVED_SHA."
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          gh release edit $tag --repo $env:GITHUB_REPOSITORY --draft=false
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

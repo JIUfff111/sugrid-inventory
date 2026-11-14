@@ -65,6 +65,28 @@ test('copies a standalone server with public assets, static assets, and optional
   }
 });
 
+test('keeps static assets in a custom Next dist directory', async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), 'sugrid-integrated-custom-dist-'));
+  try {
+    await createInitializerFixture(root);
+    const distDir = '.next-inventory-release-qa';
+    const standalone = path.join(root, distDir, 'standalone');
+    const staticRoot = path.join(root, distDir, 'static');
+    await mkdir(standalone, { recursive: true });
+    await mkdir(staticRoot, { recursive: true });
+    await writeFile(path.join(standalone, 'server.js'), 'custom dist server');
+    await writeFile(path.join(staticRoot, 'chunk.js'), 'custom dist chunk');
+    const output = path.join(root, 'package/inventory');
+
+    await prepareIntegratedServer({ root, output, distDir });
+
+    assert.equal(await readFile(path.join(output, distDir, 'static/chunk.js'), 'utf8'), 'custom dist chunk');
+    await assert.rejects(readFile(path.join(output, '.next/static/chunk.js')));
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test('excludes nested manager resources and rejects SQLite files anywhere in the payload', async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), 'sugrid-integrated-private-data-'));
   try {

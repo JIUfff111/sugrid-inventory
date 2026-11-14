@@ -18,16 +18,18 @@ permissions:
 
 jobs:
   release:
+    if: github.ref == 'refs/heads/main'
     runs-on: windows-2022
     environment: inventory-release
     env:
       CANDIDATE_RUN_ID: ${{ inputs.candidate_run_id }}
       INVENTORY_VERSION: ${{ inputs.version }}
-      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Verify candidate workflow run
         id: candidate
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if ($env:CANDIDATE_RUN_ID -notmatch '^[1-9][0-9]*$') { throw 'Candidate run ID must be numeric.' }
           if ($env:INVENTORY_VERSION -notmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$') { throw 'Version must be X.Y.Z.' }
@@ -37,16 +39,21 @@ jobs:
           "sha=$($run.head_sha)" >> $env:GITHUB_OUTPUT
       - uses: actions/checkout@v4
         with:
+          ref: main
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
       - name: Reject an existing version
         shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          git ls-remote --exit-code origin "refs/tags/inventory-v$env:INVENTORY_VERSION" | Out-Null
-          if ($LASTEXITCODE -eq 0) { throw 'This inventory version tag already exists.' }
-          if ($LASTEXITCODE -ne 2) { throw 'Could not confirm whether the inventory tag exists.' }
+          $headers = @{ Authorization = "Bearer $env:GH_TOKEN"; 'User-Agent' = 'SUGRID inventory release'; Accept = 'application/vnd.github+json' }
+          $tagUri = "https://api.github.com/repos/$env:GITHUB_REPOSITORY/git/ref/tags/inventory-v$env:INVENTORY_VERSION"
+          $response = Invoke-WebRequest -Uri $tagUri -Headers $headers -SkipHttpErrorCheck
+          if ($response.StatusCode -eq 200) { throw 'This inventory version tag already exists.' }
+          if ($response.StatusCode -ne 404) { throw "Could not confirm whether the inventory tag exists (HTTP $($response.StatusCode))." }
       - uses: actions/download-artifact@v4
         with:
           run-id: ${{ inputs.candidate_run_id }}
@@ -71,6 +78,7 @@ jobs:
         shell: pwsh
         env:
           APPROVED_SHA: ${{ steps.candidate.outputs.sha }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           $tag = "inventory-v$env:INVENTORY_VERSION"
           $asset = '.tmp/inventory-release/release/sugrid-inventory-windows-x64.zip'

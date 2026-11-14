@@ -5,8 +5,7 @@ use std::{
     io::{Read, Write},
     net::TcpStream,
     path::{Path, PathBuf},
-    thread,
-    time::Duration,
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder};
 use windows_service::{
@@ -32,6 +31,11 @@ pub struct BackupSummary {
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct IntegratedDashboard {
+    pub manager_version: String,
+    pub service_host_version: Option<String>,
+    pub inventory_version: Option<String>,
+    pub updater_available: bool,
+    pub can_manage: bool,
     pub service_installed: bool,
     pub service_state: String,
     pub service_pid: Option<u32>,
@@ -58,11 +62,32 @@ pub struct IntegratedUpdate {
     pub message: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct InventoryUpdate {
+    pub current_version: Option<String>,
+    pub latest_version: String,
+    pub release_url: String,
+    pub release_notes: Option<String>,
+    pub update_available: bool,
+    pub message: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct InventoryCache {
+    pub state: String,
+    pub version: Option<String>,
+    pub message: String,
+}
+
+#[derive(Clone, Deserialize)]
 struct GithubRelease {
     tag_name: String,
     html_url: String,
     body: Option<String>,
+    draft: bool,
+    prerelease: bool,
     assets: Vec<GithubAsset>,
 }
 
@@ -72,6 +97,166 @@ struct GithubAsset {
     browser_download_url: String,
     size: u64,
     digest: Option<String>,
+}
+
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct UpdaterStatus {
+    pub available: bool,
+    pub can_manage: bool,
+    pub updater_protocol: Option<u32>,
+    pub inventory_version: Option<String>,
+    pub operation_id: Option<String>,
+    pub stage: Option<String>,
+    pub state: Option<String>,
+    pub backup_name: Option<String>,
+    pub error: Option<String>,
+}
+
+#[derive(Deserialize)]
+struct UpdaterResponse {
+    id: u64,
+    ok: bool,
+    result: Option<UpdaterStatus>,
+    error: Option<String>,
+}
+
+#[cfg(windows)]
+fn open_updater_pipe() -> AppResult<fs::File> {
+    use std::os::windows::{ffi::OsStrExt, io::FromRawHandle};
+    use windows_sys::Win32::{
+        Foundation::{GetLastError, INVALID_HANDLE_VALUE},
+        Storage::FileSystem::{CreateFileW, OPEN_EXISTING},
+        System::Pipes::GetNamedPipeServerProcessId,
+    };
+
+    let pipe_name: Vec<u16> = std::ffi::OsStr::new(r"\\.\pipe\SUGRIDInventoryUpdater-v1")
+        .encode_wide()
+        .chain(Some(0))
+        .collect();
+    // FILE_GENERIC_READ plus WRITE_DATA and WRITE_ATTRIBUTES. GENERIC_WRITE
+    // also grants FILE_CREATE_PIPE_INSTANCE, which clients must not receive.
+    let handle = unsafe {
+        CreateFileW(
+            pipe_name.as_ptr(),
+            0x0012_0089 | 0x0002 | 0x0100,
+            0,
+            std::ptr::null(),
+            OPEN_EXISTING,
+            0,
+            std::ptr::null_mut(),
+        )
+    };
+    if handle == INVALID_HANDLE_VALUE {
+        return Err(format!(
+            "库存更新服务不可用，Windows 错误码 {}。",
+            unsafe { GetLastError() }
+        ));
+    }
+    let mut pipe_server_pid = 0u32;
+    if unsafe { GetNamedPipeServerProcessId(handle, &mut pipe_server_pid) } == 0 {
+        unsafe { windows_sys::Win32::Foundation::CloseHandle(handle) };
+        return Err("无法核实库存更新服务进程。".into());
+    }
+    let expected_pid = ServiceManager::local_computer(None::<&str>, ServiceManagerAccess::CONNECT)
+        .and_then(|manager| {
+            manager.open_service("SUGRIDInventoryUpdater", ServiceAccess::QUERY_STATUS)
+        })
+        .and_then(|service| service.query_status());
+    if !expected_pid.is_ok_and(|status| {
+        status.current_state == ServiceState::Running
+            && status.process_id == Some(pipe_server_pid)
+    }) {
+        unsafe { windows_sys::Win32::Foundation::CloseHandle(handle) };
+        return Err("库存更新管道不属于已启动的 Windows 更新服务。".into());
+    }
+    Ok(unsafe { fs::File::from_raw_handle(handle) })
+}
+
+#[cfg(windows)]
+fn read_updater_response(pipe: &mut fs::File) -> AppResult<Vec<u8>> {
+    use std::os::windows::io::AsRawHandle;
+    use windows_sys::Win32::System::Pipes::{PIPE_NOWAIT, SetNamedPipeHandleState};
+
+    let mode = PIPE_NOWAIT;
+    if unsafe {
+        SetNamedPipeHandleState(pipe.as_raw_handle() as _, &mode, std::ptr::null(), std::ptr::null())
+    } == 0
+    {
+        return Err("无法设置库存更新服务响应超时。".into());
+    }
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let mut response = Vec::with_capacity(1024);
+    let mut chunk = [0u8; 4096];
+    loop {
+        if Instant::now() >= deadline {
+            return Err("库存更新服务响应超时。".into());
+        }
+        if response.len() >= 64 * 1024 {
+            return Err("库存更新服务响应过大。".into());
+        }
+        let remaining = 64 * 1024 - response.len();
+        let read_limit = remaining.min(chunk.len());
+        match pipe.read(&mut chunk[..read_limit]) {
+            Ok(0) => std::thread::sleep(Duration::from_millis(10)),
+            Ok(count) => {
+                response.extend_from_slice(&chunk[..count]);
+                if let Some(newline) = response.iter().position(|byte| *byte == b'\n') {
+                    if newline + 1 != response.len() {
+                        return Err("库存更新服务响应包含额外数据。".into());
+                    }
+                    return Ok(response);
+                }
+            }
+            Err(error)
+                if error.raw_os_error() == Some(232)
+                    || error.kind() == std::io::ErrorKind::WouldBlock =>
+            {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            Err(error) => return Err(format!("无法读取库存更新服务响应：{error}")),
+        }
+    }
+}
+
+#[cfg(windows)]
+fn updater_request(command: &str, fields: serde_json::Value) -> AppResult<UpdaterStatus> {
+    let mut request = serde_json::Map::new();
+    request.insert("id".into(), serde_json::json!(1));
+    request.insert("command".into(), serde_json::json!(command));
+    if let serde_json::Value::Object(fields) = fields {
+        request.extend(fields);
+    }
+    let mut pipe = open_updater_pipe()?;
+    let mut bytes = serde_json::to_vec(&request).map_err(|error| error.to_string())?;
+    bytes.push(b'\n');
+    pipe.write_all(&bytes)
+        .map_err(|error| format!("无法向库存更新服务发送请求：{error}"))?;
+    pipe.flush()
+        .map_err(|error| format!("无法提交库存更新请求：{error}"))?;
+    let response_line = read_updater_response(&mut pipe)?;
+    let response: UpdaterResponse = serde_json::from_slice(&response_line)
+        .map_err(|error| format!("库存更新服务响应无效：{error}"))?;
+    if response.id != 1 {
+        return Err("库存更新服务响应编号不匹配。".into());
+    }
+    if !response.ok {
+        return Err(response
+            .error
+            .unwrap_or_else(|| "库存更新服务拒绝此操作。".into()));
+    }
+    let mut result = response.result.unwrap_or_default();
+    result.available = true;
+    Ok(result)
+}
+
+#[cfg(not(windows))]
+fn updater_request(_command: &str, _fields: serde_json::Value) -> AppResult<UpdaterStatus> {
+    Err("库存更新服务仅支持 Windows。".into())
+}
+
+fn updater_status() -> AppResult<UpdaterStatus> {
+    updater_request("status", serde_json::json!({}))
 }
 
 fn program_data_root() -> AppResult<PathBuf> {
@@ -177,6 +362,7 @@ fn service_status() -> AppResult<(bool, String, Option<u32>, bool)> {
 fn read_dashboard() -> AppResult<IntegratedDashboard> {
     let database = database_path()?;
     let backups = backup_directory()?;
+    let updater = updater_status().ok();
     let (service_installed, service_state, service_pid, healthy) = service_status()?;
     let status_message = if !service_installed {
         "尚未安装 Windows 服务。请使用一体化安装包完成安装。".into()
@@ -188,6 +374,21 @@ fn read_dashboard() -> AppResult<IntegratedDashboard> {
         "库存服务当前已停止。".into()
     };
     Ok(IntegratedDashboard {
+        manager_version: env!("CARGO_PKG_VERSION").to_string(),
+        service_host_version: fs::read(program_data_root()?.join("app").join("host-version.json"))
+            .ok()
+            .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+            .and_then(|value| {
+                value
+                    .get("version")
+                    .and_then(serde_json::Value::as_str)
+                    .map(str::to_owned)
+            }),
+        inventory_version: updater
+            .as_ref()
+            .and_then(|status| status.inventory_version.clone()),
+        updater_available: updater.as_ref().is_some_and(|status| status.available),
+        can_manage: updater.as_ref().is_some_and(|status| status.can_manage),
         service_installed,
         service_state,
         service_pid,
@@ -203,21 +404,43 @@ fn read_dashboard() -> AppResult<IntegratedDashboard> {
     })
 }
 
-async fn latest_release() -> AppResult<(GithubRelease, GithubAsset)> {
-    let release = reqwest::Client::builder()
+async fn releases() -> AppResult<Vec<GithubRelease>> {
+    reqwest::Client::builder()
         .user_agent("SUGRID-Server-Manager")
         .timeout(Duration::from_secs(30))
         .build()
         .map_err(|error| error.to_string())?
-        .get("https://api.github.com/repos/JIUfff111/sugrid-inventory/releases/latest")
+        .get("https://api.github.com/repos/JIUfff111/sugrid-inventory/releases?per_page=100")
         .send()
         .await
         .map_err(|error| format!("Cannot check GitHub releases: {error}"))?
         .error_for_status()
         .map_err(|error| format!("GitHub release check failed: {error}"))?
-        .json::<GithubRelease>()
+        .json::<Vec<GithubRelease>>()
         .await
-        .map_err(|error| format!("GitHub release data is invalid: {error}"))?;
+        .map_err(|error| format!("GitHub release data is invalid: {error}"))
+}
+
+async fn latest_manager_release() -> AppResult<(GithubRelease, GithubAsset)> {
+    let release = releases()
+        .await?
+        .into_iter()
+        .filter(|release| !release.draft && !release.prerelease)
+        .filter(|release| {
+            release.tag_name.starts_with("manager-v") || release.tag_name.starts_with('v')
+        })
+        .filter_map(|release| {
+            let version = release
+                .tag_name
+                .strip_prefix("manager-v")
+                .unwrap_or_else(|| release.tag_name.trim_start_matches('v'));
+            semver::Version::parse(version)
+                .ok()
+                .map(|version| (version, release))
+        })
+        .max_by(|left, right| left.0.cmp(&right.0))
+        .map(|(_, release)| release)
+        .ok_or("GitHub 尚无正式管理器版本。")?;
     let installer = release
         .assets
         .iter()
@@ -235,10 +458,304 @@ async fn latest_release() -> AppResult<(GithubRelease, GithubAsset)> {
     Ok((release, installer))
 }
 
+async fn latest_inventory_release() -> AppResult<(GithubRelease, GithubAsset)> {
+    let release = releases()
+        .await?
+        .into_iter()
+        .filter(|release| !release.draft && !release.prerelease)
+        .filter_map(|release| {
+            let version = release.tag_name.strip_prefix("inventory-v")?;
+            semver::Version::parse(version)
+                .ok()
+                .filter(|version| version.pre.is_empty())
+                .map(|version| (version, release))
+        })
+        .max_by(|left, right| left.0.cmp(&right.0))
+        .map(|(_, release)| release)
+        .ok_or("GitHub 尚无已发布的库存版本。")?;
+    let asset = release
+        .assets
+        .iter()
+        .find(|asset| asset.name == "sugrid-inventory-windows-x64.zip")
+        .cloned()
+        .ok_or("库存版本缺少 Windows x64 发布包。")?;
+    if !asset
+        .browser_download_url
+        .starts_with("https://github.com/JIUfff111/sugrid-inventory/releases/download/")
+    {
+        return Err("库存包下载地址不属于当前项目仓库。".into());
+    }
+    Ok((release, asset))
+}
+
+fn cache_result(
+    state: &str,
+    version: Option<String>,
+    message: impl Into<String>,
+) -> InventoryCache {
+    InventoryCache {
+        state: state.into(),
+        version,
+        message: message.into(),
+    }
+}
+
+fn inventory_cache_directory(app: &AppHandle) -> AppResult<PathBuf> {
+    app.path()
+        .app_local_data_dir()
+        .map(|path| path.join("inventory-downloads"))
+        .map_err(|error| format!("无法定位库存包缓存目录：{error}"))
+}
+
+fn release_package_identity(
+    release: &GithubRelease,
+    asset: &GithubAsset,
+) -> AppResult<(String, String)> {
+    let version = release
+        .tag_name
+        .strip_prefix("inventory-v")
+        .ok_or("库存 Release 标签无效。")?;
+    let parsed = semver::Version::parse(version).map_err(|_| "库存 Release 版本无效。")?;
+    if !parsed.pre.is_empty() {
+        return Err("候选库存版本不能作为正式包缓存。".into());
+    }
+    if asset.size == 0 || asset.size > 1024 * 1024 * 1024 {
+        return Err("库存包大小不符合限制。".into());
+    }
+    let digest = asset
+        .digest
+        .as_deref()
+        .and_then(|value| value.strip_prefix("sha256:"))
+        .ok_or("库存 Release 没有 SHA-256 摘要，拒绝缓存。")?;
+    if digest.len() != 64
+        || !digest
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    {
+        return Err("库存 Release 的 SHA-256 摘要无效。".into());
+    }
+    Ok((version.to_owned(), digest.to_owned()))
+}
+
+fn cache_path(directory: &Path, version: &str, digest: &str) -> PathBuf {
+    directory.join(format!("inventory-{version}-{digest}.zip"))
+}
+
+fn parse_cache_filename(name: &str) -> Option<(semver::Version, String)> {
+    let body = name.strip_prefix("inventory-")?.strip_suffix(".zip")?;
+    let (version, digest) = body.rsplit_once('-')?;
+    if digest.len() != 64
+        || !digest
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+    {
+        return None;
+    }
+    let version = semver::Version::parse(version).ok()?;
+    if !version.pre.is_empty() {
+        return None;
+    }
+    Some((version, digest.to_owned()))
+}
+
+fn unique_cache_suffix() -> String {
+    let nanos = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| duration.as_nanos())
+        .unwrap_or(0);
+    format!("{}-{nanos}", std::process::id())
+}
+
+fn verify_cached_package(path: &Path, version: &str, digest: &str) -> AppResult<()> {
+    let key = crate::updater_package::embedded_public_key()
+        .map_err(|_| "管理器未配置有效的库存发布公钥，无法验证缓存包。")?;
+    let directory = path.parent().ok_or("库存包缓存路径无效。")?;
+    let extraction = directory.join(format!(".verify-{}", unique_cache_suffix()));
+    let result =
+        crate::updater_package::verify_and_extract(path, &extraction, key).and_then(|package| {
+            if package.manifest.version != version || package.package_sha256 != digest {
+                Err("库存包版本或 SHA-256 与发布记录不符。".into())
+            } else {
+                Ok(())
+            }
+        });
+    let _ = fs::remove_dir_all(extraction);
+    result
+}
+
+async fn verify_cached_package_async(
+    path: PathBuf,
+    version: String,
+    digest: String,
+) -> AppResult<()> {
+    tauri::async_runtime::spawn_blocking(move || verify_cached_package(&path, &version, &digest))
+        .await
+        .map_err(|error| format!("库存包校验任务失败：{error}"))?
+}
+
+fn cached_inventory(directory: &Path) -> InventoryCache {
+    let entries = match fs::read_dir(directory) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            return cache_result("empty", None, "本机尚无已验证的库存包缓存。");
+        }
+        Err(error) => return cache_result("failed", None, format!("无法读取库存包缓存：{error}")),
+    };
+    let mut candidates = entries
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_type().is_ok_and(|kind| kind.is_file()))
+        .filter_map(|entry| {
+            let name = entry.file_name().to_string_lossy().into_owned();
+            parse_cache_filename(&name).map(|(version, digest)| (version, digest, entry.path()))
+        })
+        .collect::<Vec<_>>();
+    candidates.sort_by(|left, right| right.0.cmp(&left.0));
+    if candidates.is_empty() {
+        return cache_result("empty", None, "本机尚无已验证的库存包缓存。");
+    }
+    let mut last_error = String::new();
+    for (version, digest, path) in candidates {
+        match verify_cached_package(&path, &version.to_string(), &digest) {
+            Ok(()) => {
+                return cache_result(
+                    "cached",
+                    Some(version.to_string()),
+                    format!("库存版本 {version} 已缓存，签名与文件清单校验通过。"),
+                );
+            }
+            Err(error) => last_error = error,
+        }
+    }
+    cache_result(
+        "failed",
+        None,
+        format!("已有库存包缓存校验失败：{last_error}"),
+    )
+}
+
+fn prune_inventory_cache(directory: &Path, keep: &Path) -> AppResult<()> {
+    for entry in fs::read_dir(directory).map_err(|error| error.to_string())? {
+        let entry = entry.map_err(|error| error.to_string())?;
+        if entry.path() == keep {
+            continue;
+        }
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let kind = entry.file_type().map_err(|error| error.to_string())?;
+        if kind.is_file() && name.starts_with("inventory-") && name.ends_with(".zip") {
+            fs::remove_file(entry.path())
+                .map_err(|error| format!("无法清理旧库存包缓存：{error}"))?;
+        } else if (kind.is_file() && name.starts_with("inventory-") && name.ends_with(".part"))
+            || (kind.is_dir() && name.starts_with(".verify-"))
+        {
+            let stale = entry
+                .metadata()
+                .and_then(|metadata| metadata.modified())
+                .ok()
+                .and_then(|modified| SystemTime::now().duration_since(modified).ok())
+                .is_some_and(|age| age >= Duration::from_secs(24 * 60 * 60));
+            if stale && kind.is_file() {
+                let _ = fs::remove_file(entry.path());
+            } else if stale && kind.is_dir() {
+                let _ = fs::remove_dir_all(entry.path());
+            }
+        }
+    }
+    Ok(())
+}
+
+async fn download_inventory_package(
+    asset: &GithubAsset,
+    temporary: &Path,
+    digest: &str,
+) -> AppResult<()> {
+    let client = reqwest::Client::builder()
+        .user_agent("SUGRID-Server-Manager")
+        .timeout(Duration::from_secs(600))
+        .build()
+        .map_err(|error| error.to_string())?;
+    let mut response = client
+        .get(&asset.browser_download_url)
+        .send()
+        .await
+        .map_err(|error| format!("无法连接库存包下载地址：{error}"))?
+        .error_for_status()
+        .map_err(|error| format!("库存包下载失败：{error}"))?;
+    let mut output = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(temporary)
+        .map_err(|error| format!("无法建立库存包临时文件：{error}"))?;
+    let mut hasher = sha2::Sha256::new();
+    let mut count = 0u64;
+    while let Some(chunk) = response
+        .chunk()
+        .await
+        .map_err(|error| format!("库存包下载中断：{error}"))?
+    {
+        count += chunk.len() as u64;
+        if count > asset.size {
+            return Err("库存包下载大小超过发布记录。".into());
+        }
+        output
+            .write_all(&chunk)
+            .map_err(|error| error.to_string())?;
+        hasher.update(&chunk);
+    }
+    output.sync_all().map_err(|error| error.to_string())?;
+    if count != asset.size || hex::encode(hasher.finalize()) != digest {
+        return Err("库存包的大小或 SHA-256 与发布记录不符。".into());
+    }
+    Ok(())
+}
+
+async fn ensure_inventory_cached(
+    app: &AppHandle,
+    release: &GithubRelease,
+    asset: &GithubAsset,
+) -> AppResult<PathBuf> {
+    let (version, digest) = release_package_identity(release, asset)?;
+    crate::updater_package::embedded_public_key()
+        .map_err(|_| "管理器未配置有效的库存发布公钥，拒绝缓存正式包。")?;
+    let directory = inventory_cache_directory(app)?;
+    fs::create_dir_all(&directory).map_err(|error| format!("无法建立库存包缓存目录：{error}"))?;
+    let cached = cache_path(&directory, &version, &digest);
+    if cached.is_file() {
+        if verify_cached_package_async(cached.clone(), version.clone(), digest.clone())
+            .await
+            .is_ok()
+        {
+            prune_inventory_cache(&directory, &cached)?;
+            return Ok(cached);
+        }
+        fs::remove_file(&cached).map_err(|error| format!("无法替换失效库存包缓存：{error}"))?;
+    }
+    let temporary = directory.join(format!(
+        "inventory-{version}-{}.part",
+        unique_cache_suffix()
+    ));
+    let result = async {
+        download_inventory_package(asset, &temporary, &digest).await?;
+        verify_cached_package_async(temporary.clone(), version, digest).await?;
+        fs::rename(&temporary, &cached)
+            .map_err(|error| format!("无法保存已验证库存包：{error}"))?;
+        prune_inventory_cache(&directory, &cached)?;
+        Ok(cached)
+    }
+    .await;
+    if result.is_err() {
+        let _ = fs::remove_file(&temporary);
+    }
+    result
+}
+
 fn update_available(latest: &str) -> bool {
     let current = env!("CARGO_PKG_VERSION");
     let current = semver::Version::parse(current);
-    let latest = semver::Version::parse(latest.trim_start_matches('v'));
+    let latest = semver::Version::parse(
+        latest
+            .strip_prefix("manager-v")
+            .unwrap_or_else(|| latest.trim_start_matches('v')),
+    );
     match (current, latest) {
         (Ok(current), Ok(latest)) => latest > current,
         _ => false,
@@ -248,7 +765,7 @@ fn update_available(latest: &str) -> bool {
 #[tauri::command]
 pub async fn integrated_check_update() -> AppResult<IntegratedUpdate> {
     let current_version = env!("CARGO_PKG_VERSION").to_string();
-    let (release, _) = latest_release().await?;
+    let (release, _) = latest_manager_release().await?;
     let update_available = update_available(&release.tag_name);
     Ok(IntegratedUpdate {
         current_version,
@@ -258,11 +775,178 @@ pub async fn integrated_check_update() -> AppResult<IntegratedUpdate> {
         installer_available: true,
         update_available,
         message: if update_available {
-            format!("发现版本 {}，可获取一体化安装包更新。", release.tag_name)
+            format!(
+                "发现管理器版本 {}，可获取独立安装包更新。",
+                release.tag_name
+            )
         } else {
             "当前管理器已是最新版本。".into()
         },
     })
+}
+
+#[tauri::command]
+pub async fn integrated_check_inventory_update() -> AppResult<InventoryUpdate> {
+    let status = updater_status().ok();
+    let current_version = status.and_then(|status| status.inventory_version);
+    let (release, _) = latest_inventory_release().await?;
+    let latest_version = release
+        .tag_name
+        .strip_prefix("inventory-v")
+        .ok_or("库存 Release 标签无效。")?
+        .to_string();
+    let update_available = match current_version.as_deref() {
+        Some(current) => match (
+            semver::Version::parse(current),
+            semver::Version::parse(&latest_version),
+        ) {
+            (Ok(current), Ok(latest)) => latest > current,
+            _ => false,
+        },
+        None => true,
+    };
+    Ok(InventoryUpdate {
+        current_version,
+        latest_version: latest_version.clone(),
+        release_url: release.html_url,
+        release_notes: release.body,
+        update_available,
+        message: if update_available {
+            format!("库存版本 {latest_version} 已发布，可由维护账号安装。")
+        } else {
+            "当前库存系统已是最新正式版本。".into()
+        },
+    })
+}
+
+async fn read_local_inventory_cache(app: &AppHandle) -> InventoryCache {
+    let directory = match inventory_cache_directory(app) {
+        Ok(directory) => directory,
+        Err(error) => return cache_result("failed", None, error),
+    };
+    tauri::async_runtime::spawn_blocking(move || cached_inventory(&directory))
+        .await
+        .unwrap_or_else(|error| cache_result("failed", None, format!("缓存校验任务失败：{error}")))
+}
+
+#[tauri::command]
+pub async fn integrated_cached_inventory(app: AppHandle) -> InventoryCache {
+    read_local_inventory_cache(&app).await
+}
+
+#[tauri::command]
+pub async fn integrated_prefetch_inventory(app: AppHandle) -> InventoryCache {
+    let (release, asset) = match latest_inventory_release().await {
+        Ok(value) => value,
+        Err(error) => {
+            let local = read_local_inventory_cache(&app).await;
+            let offline = error.starts_with("Cannot check GitHub releases:");
+            let state = if offline { "offline" } else { "failed" };
+            let detail = if local.version.is_some() {
+                format!(
+                    "无法查询正式库存版本：{error}。本机已验证缓存版本 {} 可供离线安装。",
+                    local.version.as_deref().unwrap_or_default()
+                )
+            } else {
+                format!("无法查询正式库存版本：{error}。{}", local.message)
+            };
+            return cache_result(state, local.version, detail);
+        }
+    };
+    let version = release
+        .tag_name
+        .trim_start_matches("inventory-v")
+        .to_owned();
+    match ensure_inventory_cached(&app, &release, &asset).await {
+        Ok(_) => cache_result(
+            "cached",
+            Some(version.clone()),
+            format!("正式库存版本 {version} 已缓存，签名与文件清单校验通过。"),
+        ),
+        Err(error) => {
+            let local = read_local_inventory_cache(&app).await;
+            let offline = error.starts_with("无法连接库存包下载地址：")
+                || error.starts_with("库存包下载中断：");
+            let state = if offline { "offline" } else { "failed" };
+            let detail = if let Some(cached_version) = local.version.as_deref() {
+                format!(
+                    "库存版本 {version} 缓存失败：{error}。本机已验证缓存版本 {cached_version} 可供离线安装。"
+                )
+            } else {
+                format!("库存版本 {version} 缓存失败：{error}")
+            };
+            cache_result(state, local.version, detail)
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn integrated_updater_status() -> AppResult<UpdaterStatus> {
+    updater_status()
+}
+
+#[tauri::command]
+pub async fn integrated_install_inventory_online(
+    app: AppHandle,
+    version: String,
+) -> AppResult<UpdaterStatus> {
+    if !updater_status()?.can_manage {
+        return Err("当前 Windows 账号没有库存更新权限。".into());
+    }
+    let (release, asset) = latest_inventory_release().await?;
+    if release.tag_name != format!("inventory-v{version}") {
+        return Err("库存 Release 已变化，请重新检查版本。".into());
+    }
+    let package_path = ensure_inventory_cached(&app, &release, &asset).await?;
+    updater_request("install", serde_json::json!({"packagePath": package_path}))
+}
+
+#[tauri::command]
+pub async fn integrated_install_inventory_cached(
+    app: AppHandle,
+    version: String,
+) -> AppResult<UpdaterStatus> {
+    if !updater_status()?.can_manage {
+        return Err("当前 Windows 账号没有库存更新权限。".into());
+    }
+    let wanted = semver::Version::parse(&version).map_err(|_| "缓存的库存版本无效。")?;
+    if !wanted.pre.is_empty() {
+        return Err("不能安装候选库存版本。".into());
+    }
+    let directory = inventory_cache_directory(&app)?;
+    let (path, digest) = fs::read_dir(&directory)
+        .map_err(|error| format!("无法读取库存包缓存：{error}"))?
+        .filter_map(Result::ok)
+        .filter(|entry| entry.file_type().is_ok_and(|kind| kind.is_file()))
+        .find_map(|entry| {
+            let name = entry.file_name().to_string_lossy().into_owned();
+            parse_cache_filename(&name)
+                .and_then(|(found, digest)| (found == wanted).then_some((entry.path(), digest)))
+        })
+        .ok_or("本机没有指定版本的已缓存库存包。")?;
+    verify_cached_package_async(path.clone(), version, digest).await?;
+    updater_request("install", serde_json::json!({"packagePath": path}))
+}
+
+#[tauri::command]
+pub async fn integrated_install_inventory_file(path: String) -> AppResult<UpdaterStatus> {
+    if !updater_status()?.can_manage {
+        return Err("当前 Windows 账号没有库存更新权限。".into());
+    }
+    let path = PathBuf::from(path);
+    if path
+        .extension()
+        .is_none_or(|extension| extension.to_string_lossy().to_ascii_lowercase() != "zip")
+        || !path.is_file()
+    {
+        return Err("请选择有效的库存签名 ZIP 包。".into());
+    }
+    updater_request("install", serde_json::json!({"packagePath": path}))
+}
+
+#[tauri::command]
+pub async fn integrated_cancel_inventory_update(operation_id: String) -> AppResult<UpdaterStatus> {
+    updater_request("cancel", serde_json::json!({"operationId": operation_id}))
 }
 
 #[cfg(windows)]
@@ -282,11 +966,13 @@ fn launch_installer_as_admin(path: &Path) -> AppResult<()> {
         .chain(Some(0))
         .collect::<Vec<_>>();
     let verb = "runas".encode_utf16().chain(Some(0)).collect::<Vec<_>>();
+    let parameters = "/UPDATE".encode_utf16().chain(Some(0)).collect::<Vec<_>>();
     let mut info = SHELLEXECUTEINFOW::default();
     info.cbSize = std::mem::size_of::<SHELLEXECUTEINFOW>() as u32;
     info.fMask = SEE_MASK_NOCLOSEPROCESS;
     info.lpVerb = verb.as_ptr();
     info.lpFile = file.as_ptr();
+    info.lpParameters = parameters.as_ptr();
     info.nShow = SW_SHOWNORMAL;
     if unsafe { ShellExecuteExW(&mut info) } == 0 {
         return Err(format!(
@@ -302,7 +988,7 @@ fn launch_installer_as_admin(path: &Path) -> AppResult<()> {
 
 #[tauri::command]
 pub async fn integrated_install_update(app: AppHandle, version: String) -> AppResult<()> {
-    let (release, installer) = latest_release().await?;
+    let (release, installer) = latest_manager_release().await?;
     if release.tag_name != version || !update_available(&version) {
         return Err(
             "The GitHub release changed or is not newer. Check again before installing.".into(),
@@ -383,203 +1069,27 @@ pub async fn integrated_open_inventory(app: AppHandle) -> AppResult<()> {
 
 #[tauri::command]
 pub async fn integrated_start_service() -> AppResult<IntegratedDashboard> {
-    let manager = service_manager(ServiceManagerAccess::CONNECT)?;
-    let service = manager
-        .open_service(
-            SERVICE_NAME,
-            ServiceAccess::QUERY_STATUS | ServiceAccess::START,
-        )
-        .map_err(|error| format!("Cannot open inventory service; install it first: {error}"))?;
-    let state = service
-        .query_status()
-        .map_err(|error| error.to_string())?
-        .current_state;
-    match state {
-        ServiceState::Stopped => service
-            .start::<std::ffi::OsString>(&[])
-            .map_err(|error| format!("Cannot start inventory service: {error}"))?,
-        ServiceState::Running | ServiceState::StartPending | ServiceState::ContinuePending => {}
-        other => {
-            return Err(format!("库存服务当前处于 {other:?}，暂时不能启动。"));
-        }
-    }
-    for _ in 0..120 {
-        let dashboard = read_dashboard()?;
-        if dashboard.healthy {
-            return Ok(dashboard);
-        }
-        if dashboard.service_state == "stopped" {
-            return Err(
-                "服务启动失败，请查看 ProgramData\\SUGRID\\Inventory\\logs\\service.log".into(),
-            );
-        }
-        thread::sleep(Duration::from_millis(500));
-    }
-    Err("服务启动超时；请查看 ProgramData\\SUGRID\\Inventory\\logs\\service.log".into())
+    updater_request("start", serde_json::json!({}))?;
+    read_dashboard()
 }
 
 #[tauri::command]
 pub async fn integrated_stop_service() -> AppResult<IntegratedDashboard> {
-    let manager = service_manager(ServiceManagerAccess::CONNECT)?;
-    let service = manager
-        .open_service(
-            SERVICE_NAME,
-            ServiceAccess::QUERY_STATUS | ServiceAccess::STOP,
-        )
-        .map_err(|error| format!("Cannot open inventory service: {error}"))?;
-    if service
-        .query_status()
-        .map_err(|error| error.to_string())?
-        .current_state
-        != ServiceState::Stopped
-    {
-        service
-            .stop()
-            .map_err(|error| format!("Cannot stop inventory service: {error}"))?;
-    }
-    for _ in 0..100 {
-        if service
-            .query_status()
-            .is_ok_and(|status| status.current_state == ServiceState::Stopped)
-        {
-            return read_dashboard();
-        }
-        thread::sleep(Duration::from_millis(250));
-    }
-    Err("服务在 25 秒内未停止，请检查 Windows 服务状态。".into())
-}
-
-#[cfg(windows)]
-fn service_host_path(app: &AppHandle) -> AppResult<PathBuf> {
-    let packaged = app
-        .path()
-        .resource_dir()
-        .map_err(|error| error.to_string())?
-        .join("inventory")
-        .join("sugrid-inventory-service.exe");
-    if packaged.is_file() {
-        return Ok(packaged);
-    }
-    let development = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("resources")
-        .join("inventory")
-        .join("sugrid-inventory-service.exe");
-    if development.is_file() {
-        return Ok(development);
-    }
-    Err("找不到库存服务维护程序；请重新安装管理器。".into())
-}
-
-#[cfg(windows)]
-fn quote_windows_arg(value: &str) -> String {
-    let mut result = String::from("\"");
-    let mut slashes = 0;
-    for character in value.chars() {
-        match character {
-            '\\' => slashes += 1,
-            '"' => {
-                result.push_str(&"\\".repeat(slashes * 2 + 1));
-                result.push('"');
-                slashes = 0;
-            }
-            _ => {
-                result.push_str(&"\\".repeat(slashes));
-                result.push(character);
-                slashes = 0;
-            }
-        }
-    }
-    result.push_str(&"\\".repeat(slashes * 2));
-    result.push('"');
-    result
-}
-
-#[cfg(windows)]
-fn run_elevated_host(app: &AppHandle, args: &[String]) -> AppResult<()> {
-    use std::os::windows::ffi::OsStrExt;
-    use windows_sys::Win32::{
-        Foundation::{CloseHandle, GetLastError, WAIT_OBJECT_0},
-        System::Threading::{GetExitCodeProcess, WaitForSingleObject},
-        UI::{
-            Shell::{SEE_MASK_NOCLOSEPROCESS, SHELLEXECUTEINFOW, ShellExecuteExW},
-            WindowsAndMessaging::SW_HIDE,
-        },
-    };
-
-    let executable = service_host_path(app)?;
-    let file = executable
-        .as_os_str()
-        .encode_wide()
-        .chain(Some(0))
-        .collect::<Vec<_>>();
-    let verb = "runas".encode_utf16().chain(Some(0)).collect::<Vec<_>>();
-    let parameters = args
-        .iter()
-        .map(|argument| quote_windows_arg(argument))
-        .collect::<Vec<_>>()
-        .join(" ")
-        .encode_utf16()
-        .chain(Some(0))
-        .collect::<Vec<_>>();
-    let mut info = SHELLEXECUTEINFOW::default();
-    info.cbSize = std::mem::size_of::<SHELLEXECUTEINFOW>() as u32;
-    info.fMask = SEE_MASK_NOCLOSEPROCESS;
-    info.lpVerb = verb.as_ptr();
-    info.lpFile = file.as_ptr();
-    info.lpParameters = parameters.as_ptr();
-    info.nShow = SW_HIDE;
-    if unsafe { ShellExecuteExW(&mut info) } == 0 {
-        return Err(format!(
-            "Windows could not start the administrator task ({})",
-            unsafe { GetLastError() }
-        ));
-    }
-    let process = info.hProcess;
-    if process.is_null() {
-        return Err("Windows did not return the administrator task process handle.".into());
-    }
-    let wait = unsafe { WaitForSingleObject(process, 300_000) };
-    if wait != WAIT_OBJECT_0 {
-        unsafe { CloseHandle(process) };
-        return Err("管理员任务等待超过 5 分钟，未确认操作结果。".into());
-    }
-    let mut exit_code = 1u32;
-    let exit_result = unsafe { GetExitCodeProcess(process, &mut exit_code) };
-    unsafe { CloseHandle(process) };
-    if exit_result == 0 || exit_code != 0 {
-        return Err(format!("管理员任务失败，退出代码：{exit_code}"));
-    }
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn integrated_create_backup(app: AppHandle) -> AppResult<IntegratedDashboard> {
-    #[cfg(windows)]
-    run_elevated_host(&app, &["backup".into()])?;
-    #[cfg(not(windows))]
-    return Err("数据库备份管理仅支持 Windows 服务部署。".into());
+    updater_request("stop", serde_json::json!({}))?;
     read_dashboard()
 }
 
 #[tauri::command]
-pub async fn integrated_restore_backup(
-    app: AppHandle,
-    name: String,
-) -> AppResult<IntegratedDashboard> {
+pub async fn integrated_create_backup() -> AppResult<UpdaterStatus> {
+    updater_request("backup", serde_json::json!({}))
+}
+
+#[tauri::command]
+pub async fn integrated_restore_backup(name: String) -> AppResult<UpdaterStatus> {
     if !safe_backup_name(&name) {
         return Err("备份文件名无效。".into());
     }
-    #[cfg(windows)]
-    {
-        let path = backup_directory()?.join(name);
-        run_elevated_host(
-            &app,
-            &["restore".into(), path.to_string_lossy().into_owned()],
-        )?;
-    }
-    #[cfg(not(windows))]
-    return Err("数据库备份恢复仅支持 Windows 服务部署。".into());
-    read_dashboard()
+    updater_request("restore", serde_json::json!({"backupName": name}))
 }
 
 #[cfg(test)]
@@ -600,5 +1110,71 @@ mod tests {
         assert!(!update_available("v0.0.1"));
         assert!(!update_available("not-a-version"));
         assert!(update_available("999.0.0"));
+    }
+
+    #[test]
+    fn inventory_cache_only_accepts_versioned_sha256_names() {
+        let digest = "a".repeat(64);
+        assert_eq!(
+            parse_cache_filename(&format!("inventory-1.2.3-{digest}.zip"))
+                .map(|(version, _)| version.to_string()),
+            Some("1.2.3".into())
+        );
+        assert!(parse_cache_filename("inventory-1.2.3-other.zip").is_none());
+        assert!(parse_cache_filename(&format!("inventory-../../1.2.3-{digest}.zip")).is_none());
+        assert!(parse_cache_filename(&format!("inventory-1.2.3-rc.1-{digest}.zip")).is_none());
+        assert!(parse_cache_filename(&format!("manager-1.2.3-{digest}.zip")).is_none());
+    }
+
+    #[test]
+    fn inventory_release_identity_requires_formal_version_and_digest() {
+        let release = GithubRelease {
+            tag_name: "inventory-v1.2.3".into(),
+            html_url: String::new(),
+            body: None,
+            draft: false,
+            prerelease: false,
+            assets: Vec::new(),
+        };
+        let asset = GithubAsset {
+            name: "sugrid-inventory-windows-x64.zip".into(),
+            browser_download_url: String::new(),
+            size: 1024,
+            digest: Some(format!("sha256:{}", "b".repeat(64))),
+        };
+        assert_eq!(
+            release_package_identity(&release, &asset).unwrap().0,
+            "1.2.3"
+        );
+        assert!(
+            release_package_identity(
+                &GithubRelease {
+                    tag_name: "manager-v1.2.3".into(),
+                    ..release.clone()
+                },
+                &asset
+            )
+            .is_err()
+        );
+        assert!(
+            release_package_identity(
+                &GithubRelease {
+                    tag_name: "inventory-v1.2.3-rc.1".into(),
+                    ..release.clone()
+                },
+                &asset
+            )
+            .is_err()
+        );
+        assert!(
+            release_package_identity(
+                &release,
+                &GithubAsset {
+                    digest: Some("sha256:bad".into()),
+                    ..asset
+                }
+            )
+            .is_err()
+        );
     }
 }
