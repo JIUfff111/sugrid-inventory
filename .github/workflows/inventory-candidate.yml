@@ -1,0 +1,38 @@
+name: inventory-candidate
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm run test:integrated-server
+      - run: npm run test:inventory-release
+      - run: npm run build
+      - name: Prepare candidate runtime
+        shell: pwsh
+        run: |
+          node scripts/prepare-integrated-server.mjs --output .tmp/inventory-release/candidate/inventory
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/inventory-release-cli.mjs candidate --root .tmp/inventory-release/candidate --commit $env:GITHUB_SHA
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: inventory-candidate-${{ github.sha }}
+          path: .tmp/inventory-release/candidate/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30

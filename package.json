@@ -13,7 +13,8 @@
     "test:server-manager": "node --test scripts/test-server-manager.cjs",
     "test:server-manager-window": "powershell.exe -NoProfile -File scripts/test-server-manager-window.ps1",
     "test:inventory-columns": "node --experimental-strip-types --test scripts/test-inventory-table-preferences.mjs",
-    "test:integrated-server": "node --test scripts/test-integrated-server-prep.mjs"
+    "test:integrated-server": "node --test scripts/test-integrated-server-prep.mjs",
+    "test:inventory-release": "node --test scripts/test-inventory-release-package.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",

@@ -1,0 +1,80 @@
+name: inventory-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_run_id:
+        description: Successful main-branch inventory-candidate workflow run ID
+        required: true
+        type: string
+      version:
+        description: Inventory version X.Y.Z
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+    environment: inventory-release
+    env:
+      CANDIDATE_RUN_ID: ${{ inputs.candidate_run_id }}
+      INVENTORY_VERSION: ${{ inputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Verify candidate workflow run
+        id: candidate
+        shell: pwsh
+        run: |
+          if ($env:CANDIDATE_RUN_ID -notmatch '^[1-9][0-9]*$') { throw 'Candidate run ID must be numeric.' }
+          if ($env:INVENTORY_VERSION -notmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$') { throw 'Version must be X.Y.Z.' }
+          $headers = @{ Authorization = "Bearer $env:GH_TOKEN"; 'User-Agent' = 'SUGRID inventory release'; Accept = 'application/vnd.github+json' }
+          $run = Invoke-RestMethod -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:CANDIDATE_RUN_ID" -Headers $headers
+          if ($run.event -ne 'push' -or $run.head_branch -ne 'main' -or $run.conclusion -ne 'success' -or $run.head_repository.full_name -ne $env:GITHUB_REPOSITORY -or $run.path -notlike '*.github/workflows/inventory-candidate.yml@*') { throw 'Only a successful main-branch inventory-candidate run from this repository can be released.' }
+          "sha=$($run.head_sha)" >> $env:GITHUB_OUTPUT
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Reject an existing version
+        shell: pwsh
+        run: |
+          git ls-remote --exit-code origin "refs/tags/inventory-v$env:INVENTORY_VERSION" | Out-Null
+          if ($LASTEXITCODE -eq 0) { throw 'This inventory version tag already exists.' }
+          if ($LASTEXITCODE -ne 2) { throw 'Could not confirm whether the inventory tag exists.' }
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.candidate_run_id }}
+          github-token: ${{ github.token }}
+          name: inventory-candidate-${{ steps.candidate.outputs.sha }}
+          path: .tmp/inventory-release/candidate
+      - name: Test release packaging
+        shell: pwsh
+        run: |
+          node --test scripts/test-inventory-release-package.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Sign exact candidate
+        shell: pwsh
+        env:
+          APPROVED_SHA: ${{ steps.candidate.outputs.sha }}
+          SUGRID_INVENTORY_SIGNING_KEY_PKCS8_B64: ${{ secrets.SUGRID_INVENTORY_SIGNING_KEY_PKCS8_B64 }}
+          SUGRID_INVENTORY_VERIFY_KEY_HEX: ${{ vars.SUGRID_INVENTORY_VERIFY_KEY_HEX }}
+        run: |
+          node scripts/inventory-release-cli.mjs release --candidate .tmp/inventory-release/candidate --output .tmp/inventory-release/release --version $env:INVENTORY_VERSION --commit $env:APPROVED_SHA
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish signed release
+        shell: pwsh
+        env:
+          APPROVED_SHA: ${{ steps.candidate.outputs.sha }}
+        run: |
+          $tag = "inventory-v$env:INVENTORY_VERSION"
+          $asset = '.tmp/inventory-release/release/sugrid-inventory-windows-x64.zip'
+          gh release create $tag $asset --repo $env:GITHUB_REPOSITORY --target $env:APPROVED_SHA --draft --latest=false --title "SUGRID Inventory $env:INVENTORY_VERSION" --notes "Inventory runtime from commit $env:APPROVED_SHA."
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          gh release edit $tag --repo $env:GITHUB_REPOSITORY --draft=false
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
