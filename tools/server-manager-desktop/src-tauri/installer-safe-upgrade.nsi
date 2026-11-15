@@ -235,10 +235,20 @@ Function PageReinstall
 
   nsis_tauri_utils::SemverCompare "${VERSION}" $R0
   Pop $R0
-  ; Keep the inventory runtime when upgrading from the integrated 0.1.x
-  ; installer. The old uninstaller removes that runtime.
+  ; A downgrade must not reach the install section, including in GUI mode.
+  !if "${ALLOWDOWNGRADES}" == "false"
+  ${If} $R0 = -1
+    MessageBox MB_ICONSTOP|MB_OK "A newer SUGRID Server Manager is already installed. Downgrades are not supported."
+    SetErrorLevel 6
+    Quit
+  ${EndIf}
+  !endif
+
+  ; Reinstall and upgrade NSIS installations in place. Running the old
+  ; uninstaller removes the inventory services and can strand them if the
+  ; replacement installation fails. Explicit uninstall remains available in
+  ; Windows Installed Apps.
   ${If} $WixMode = 0
-  ${AndIf} $R0 = 1
     StrCpy $UpdateMode 1
     Abort
   ${EndIf}
@@ -413,6 +423,9 @@ Function PageOperator
   IfFileExists "$COMMONAPPDATA\SUGRID\Inventory\updater\operators.json" 0 operator_create
     Abort
   operator_create:
+  ${If} $OperatorAccount == ""
+    ExpandEnvStrings $OperatorAccount "%USERDOMAIN%\%USERNAME%"
+  ${EndIf}
   nsDialogs::Create 1018
   Pop $0
   ${If} $0 == error
@@ -434,6 +447,18 @@ Function PageLeaveOperator
   ${If} $0 != ""
     MessageBox MB_ICONEXCLAMATION|MB_OK "The Windows account cannot contain quotation marks."
     Abort
+  ${EndIf}
+  ; Reject ambiguous local names before touching either installed service.
+  StrCpy $1 $OperatorAccount 4
+  ${If} $1 != "S-1-"
+    ${StrLoc} $0 $OperatorAccount '\' ">"
+    ${If} $0 == ""
+      ${StrLoc} $0 $OperatorAccount '@' ">"
+      ${If} $0 == ""
+        MessageBox MB_ICONEXCLAMATION|MB_OK "Enter a qualified account such as .\user or DOMAIN\user, or a Windows SID."
+        Abort
+      ${EndIf}
+    ${EndIf}
   ${EndIf}
 FunctionEnd
 

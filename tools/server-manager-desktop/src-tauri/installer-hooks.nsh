@@ -16,13 +16,32 @@
 !macro NSIS_HOOK_POSTINSTALL
   ; Existing operator SIDs are retained across manager upgrades.
   IfFileExists "$COMMONAPPDATA\SUGRID\Inventory\updater\operators.json" 0 nsis_new_operator
-    ExecWait '"${SUGRID_UPDATER}" install-service' $0
+    nsExec::ExecToStack '"${SUGRID_UPDATER}" install-service'
+    Pop $0
+    Pop $1
     Goto nsis_operator_done
   nsis_new_operator:
-    ExecWait '"${SUGRID_UPDATER}" install-service "$OperatorAccount"' $0
+    nsExec::ExecToStack '"${SUGRID_UPDATER}" install-service "$OperatorAccount"'
+    Pop $0
+    Pop $1
   nsis_operator_done:
   ${If} $0 != 0
-    MessageBox MB_ICONSTOP|MB_OK "The SUGRID updater could not be installed ($0). Inventory data was preserved."
+    ; The preinstall hook already stopped both Windows services. Restore them
+    ; before aborting so a failed manager upgrade does not take inventory offline.
+    nsExec::ExecToStack '"${SUGRID_SERVICE_HOST}" start'
+    Pop $2
+    Pop $3
+    DetailPrint "Inventory service recovery exit $2: $3"
+    nsExec::ExecToStack '"${SUGRID_UPDATER}" start-service'
+    Pop $4
+    Pop $5
+    DetailPrint "Updater service recovery exit $4: $5"
+    ${If} $1 == ""
+      StrCpy $1 "The updater returned no diagnostic text. Check Windows service permissions and the installer details."
+    ${EndIf}
+    DetailPrint "Updater installation failed (exit $0): $1"
+    MessageBox MB_ICONSTOP|MB_OK "The SUGRID updater could not be installed (exit $0):$\r$\n$1$\r$\nInventory data was preserved."
+    SetErrorLevel 1
     Abort
   ${EndIf}
   ExecWait '"${SUGRID_SERVICE_HOST}" install-host' $0

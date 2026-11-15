@@ -621,30 +621,44 @@ fn read_bounded_request(file: &mut File, pipe: HANDLE) -> Result<Vec<u8>, String
 fn service_manager(access: ServiceManagerAccess) -> Result<ServiceManager, String> {
     ServiceManager::local_computer(None::<&str>, access).map_err(|error| error.to_string())
 }
-fn install_service(operator: Option<&str>) -> Result<(), String> {
-    let sid = if let Some(sid) = operator {
-        if sid.starts_with("S-1-") {
-            validate_sid(sid)?;
-            sid.into()
-        } else {
-            account_name_sid(sid)?
+fn saved_operator_sid(bytes: &[u8]) -> Result<String, String> {
+    let saved: Operators = serde_json::from_slice(bytes)
+        .map_err(|_| "Existing updater operator configuration is invalid.")?;
+    let sid = saved
+        .allowed_sids
+        .first()
+        .ok_or("Existing updater operator list is empty.")?;
+    validate_sid(sid)?;
+    Ok(sid.clone())
+}
+
+fn operator_for_install_at(path: &Path, operator: Option<&str>) -> Result<(String, bool), String> {
+    match fs::read(path) {
+        // A repair or upgrade must retain the protected operator list even if
+        // the installer accidentally forwards a stale or empty account field.
+        Ok(bytes) => Ok((saved_operator_sid(&bytes)?, false)),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            let input = operator.ok_or("First install requires an explicit maintenance account.")?;
+            let sid = if input.starts_with("S-1-") {
+                validate_sid(input)?;
+                input.to_owned()
+            } else {
+                account_name_sid(input)?
+            };
+            Ok((sid, true))
         }
-    } else {
-        let bytes = fs::read(updater_root()?.join("operators.json")).map_err(|_| {
-            "First install requires an explicit maintenance account; existing operator list is unavailable."
-                .to_string()
-        })?;
-        let saved: Operators = serde_json::from_slice(&bytes)
-            .map_err(|_| "Existing updater operator configuration is invalid.")?;
-        let sid = saved
-            .allowed_sids
-            .first()
-            .ok_or("First install requires an explicit maintenance account.")?;
-        validate_sid(sid)?;
-        sid.clone()
-    };
-    let manager =
-        service_manager(ServiceManagerAccess::CONNECT | ServiceManagerAccess::CREATE_SERVICE)?;
+        Err(error) => Err(format!("Cannot read updater operator configuration: {error}")),
+    }
+}
+
+fn operator_for_install(operator: Option<&str>) -> Result<(String, bool), String> {
+    operator_for_install_at(&updater_root()?.join("operators.json"), operator)
+}
+
+fn install_service(operator: Option<&str>) -> Result<(), String> {
+    let (sid, first_install) = operator_for_install(operator)?;
+    let manager = service_manager(ServiceManagerAccess::CONNECT | ServiceManagerAccess::CREATE_SERVICE)
+        .map_err(|error| format!("Cannot open Windows Service Control Manager for updater install: {error}"))?;
     let info = ServiceInfo {
         name: OsString::from(SERVICE_NAME),
         display_name: OsString::from(SERVICE_DISPLAY_NAME),
@@ -666,16 +680,16 @@ fn install_service(operator: Option<&str>) -> Result<(), String> {
         Ok(service) => {
             service
                 .change_config(&info)
-                .map_err(|error| error.to_string())?;
+                .map_err(|error| format!("Cannot update existing updater service configuration: {error}"))?;
             service
         }
         Err(_) => manager
             .create_service(&info, access)
-            .map_err(|error| error.to_string())?,
+            .map_err(|error| format!("Cannot create updater service: {error}"))?,
     };
     service
         .set_description("Installs authenticated SUGRID inventory releases and manages backups.")
-        .map_err(|error| error.to_string())?;
+        .map_err(|error| format!("Cannot set updater service description: {error}"))?;
     service
         .update_failure_actions(ServiceFailureActions {
             reset_period: ServiceFailureResetPeriod::After(Duration::from_secs(86400)),
@@ -695,16 +709,19 @@ fn install_service(operator: Option<&str>) -> Result<(), String> {
         .map_err(|error| format!("Cannot configure updater service recovery: {error}"))?;
     if service
         .query_status()
-        .map_err(|error| error.to_string())?
+        .map_err(|error| format!("Cannot query updater service state: {error}"))?
         .current_state
         == ServiceState::Stopped
     {
         service
             .start::<OsString>(&[])
-            .map_err(|error| error.to_string())?;
+            .map_err(|error| format!("Cannot start updater service: {error}"))?;
     }
-    // Do not persist a new operator when SCM registration or startup failed.
-    update_operators(&sid, true)?;
+    // Do not rewrite a protected operator list during a repair or upgrade.
+    if first_install {
+        update_operators(&sid, true)
+            .map_err(|error| format!("Cannot save updater maintenance account: {error}"))?;
+    }
     Ok(())
 }
 fn stop_service() -> Result<(), String> {
@@ -767,6 +784,30 @@ fn stop_service() -> Result<(), String> {
     }
     Err("Updater service did not stop in time.".into())
 }
+
+fn start_service() -> Result<(), String> {
+    let manager = service_manager(ServiceManagerAccess::CONNECT)
+        .map_err(|error| format!("Cannot open Windows Service Control Manager: {error}"))?;
+    let service = manager
+        .open_service(
+            SERVICE_NAME,
+            ServiceAccess::QUERY_STATUS | ServiceAccess::START,
+        )
+        .map_err(|error| format!("Cannot open updater service: {error}"))?;
+    match service
+        .query_status()
+        .map_err(|error| format!("Cannot query updater service state: {error}"))?
+        .current_state
+    {
+        ServiceState::Stopped => service
+            .start::<OsString>(&[])
+            .map_err(|error| format!("Cannot start updater service: {error}"))?,
+        ServiceState::Running | ServiceState::StartPending | ServiceState::ContinuePending => {}
+        state => return Err(format!("Updater service cannot start from state {state:?}.")),
+    }
+    Ok(())
+}
+
 fn uninstall_service() -> Result<(), String> {
     stop_service()?;
     let manager = service_manager(ServiceManagerAccess::CONNECT)?;
@@ -932,6 +973,33 @@ mod tests {
         assert!(account_name_sid("").is_err());
         assert!(account_name_sid(".\\sugrid_qa_user_does_not_exist").is_err());
     }
+
+    #[test]
+    fn saved_operator_list_is_authoritative_for_repairs() {
+        let bytes = serde_json::to_vec(&Operators {
+            allowed_sids: vec!["S-1-5-18".into()],
+        })
+        .unwrap();
+        assert_eq!(saved_operator_sid(&bytes).unwrap(), "S-1-5-18");
+        assert!(saved_operator_sid(b"not-json").is_err());
+        assert!(saved_operator_sid(b"{\"allowedSids\":[]}").is_err());
+    }
+
+    #[test]
+    fn existing_operator_file_overrides_stale_installer_input() {
+        let path = std::env::temp_dir().join(format!(
+            "sugrid-operator-repair-test-{}.json",
+            std::process::id()
+        ));
+        let bytes = serde_json::to_vec(&Operators {
+            allowed_sids: vec!["S-1-5-18".into()],
+        })
+        .unwrap();
+        fs::write(&path, bytes).unwrap();
+        let result = operator_for_install_at(&path, Some("bare-user"));
+        fs::remove_file(&path).unwrap();
+        assert_eq!(result.unwrap(), ("S-1-5-18".into(), false));
+    }
 }
 fn status(state: &Arc<State>, permitted: bool) -> Result<Value, String> {
     let operation = state
@@ -1047,6 +1115,7 @@ pub fn main() {
         "remove-operator" => argument
             .ok_or_else(|| "An operator SID is required.".to_string())
             .and_then(|sid| update_operators(&sid, false)),
+        "start-service" if argument.is_none() => start_service(),
         "stop-service" if argument.is_none() => stop_service(),
         "uninstall-service" if argument.is_none() => uninstall_service(),
         #[cfg(feature = "updater-qa")]

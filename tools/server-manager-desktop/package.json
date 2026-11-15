@@ -11,6 +11,7 @@
     "lint": "eslint src",
     "test": "tsx --test src/update-flow.test.ts",
     "test:sites": "node --test tests/sites-worker.test.mjs",
+    "test:installer": "node --test tests/installer-contract.test.mjs",
     "desktop:dev": "tauri dev",
     "build:service-host": "cargo build --release --bin sugrid-inventory-service --manifest-path src-tauri/Cargo.toml && node scripts/prepare-service-host.mjs",
     "build:updater": "cargo build --release --bin sugrid-inventory-updater --manifest-path src-tauri/Cargo.toml && node scripts/prepare-updater.mjs",
