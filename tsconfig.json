@@ -38,7 +38,6 @@
   ],
   "exclude": [
     "node_modules",
-    "tools/server-manager-desktop/src-tauri/resources/inventory",
-    "tools/server-manager-desktop/src-tauri/target"
+    "tools/server-manager-desktop"
   ]
 }
