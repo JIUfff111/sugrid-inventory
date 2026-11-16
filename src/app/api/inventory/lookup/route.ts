@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
     if (serialInputs.some(value => value.length > 200)) return NextResponse.json(errorResponse('VALIDATION_ERROR','SN 长度不能超过 200 个字符'), { status: 400 });
     const serials = [...new Map(serialInputs.map(value => [value.toLocaleLowerCase(), value])).values()];
     const q = serials.length ? '' : (query.get('q') || query.get('search') || '').trim().slice(0,200);
+    const searchMode = query.get('searchMode')?.trim() || '';
     const limit = Math.min(100,Math.max(1,Number.parseInt(query.get('limit') || query.get('pageSize') || '8',10) || 8));
     const page = Math.max(1,Number.parseInt(query.get('page') || '1',10) || 1);
     const scope = warehouseScope(user,query.get('warehouseId'),'i');
@@ -43,8 +44,13 @@ export async function GET(request: NextRequest) {
       params.push(...normalizedSerials, ...normalizedSerials);
     } else if (q) {
       const escaped = q.replace(/[\\%_]/g,'\\$&'); const pattern = `%${escaped}%`;
-      where.push(`(i.sn LIKE ? ESCAPE '\\' OR i.itemNumber LIKE ? ESCAPE '\\' OR (COALESCE(i.brand,'') || ' ' || COALESCE(i.model,'') || ' ' || COALESCE(i.year,'')) LIKE ? ESCAPE '\\' OR i.model LIKE ? ESCAPE '\\' OR i.saleOrderNo LIKE ? ESCAPE '\\')`);
-      params.push(`%${escaped}`,pattern,pattern,pattern,pattern);
+      if (searchMode === 'machine') {
+        where.push(`(i.sn LIKE ? ESCAPE '\\' OR i.itemNumber LIKE ? ESCAPE '\\')`);
+        params.push(pattern, pattern);
+      } else {
+        where.push(`(i.sn LIKE ? ESCAPE '\\' OR i.itemNumber LIKE ? ESCAPE '\\' OR (COALESCE(i.brand,'') || ' ' || COALESCE(i.model,'') || ' ' || COALESCE(i.year,'')) LIKE ? ESCAPE '\\' OR i.model LIKE ? ESCAPE '\\' OR i.saleOrderNo LIKE ? ESCAPE '\\')`);
+        params.push(`%${escaped}`,pattern,pattern,pattern,pattern);
+      }
     }
     const from = `FROM inventory i LEFT JOIN warehouses w ON w.id=i.warehouseId LEFT JOIN purchase_orders po ON po.id=i.purchaseOrderId WHERE ${where.join(' AND ')}`;
     const total = Number((db.prepare(`SELECT COUNT(*) total ${from}`).get(...params) as {total:number}).total);

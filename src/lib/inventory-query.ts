@@ -94,8 +94,8 @@ export function getWhere(
     params.push(...normalizedSerials, ...normalizedSerials);
   } else if (search && searchMode === 'machine') {
     const pattern = containsPattern(search);
-    conditions.push("(i.sn LIKE ? ESCAPE '!' OR i.itemNumber LIKE ? ESCAPE '!' OR i.brand LIKE ? ESCAPE '!' OR i.model LIKE ? ESCAPE '!' OR i.productType LIKE ? ESCAPE '!')");
-    params.push(pattern, pattern, pattern, pattern, pattern);
+    conditions.push("(i.sn LIKE ? ESCAPE '!' OR i.itemNumber LIKE ? ESCAPE '!')");
+    params.push(pattern, pattern);
   } else if (search) {
     const pattern = containsPattern(search);
     conditions.push(`(
@@ -113,8 +113,17 @@ export function getWhere(
     const terms = configSearch.split(/\s+/).filter(Boolean);
     for (const term of terms) {
       const pattern = containsPattern(term);
-      conditions.push("(i.cpu LIKE ? ESCAPE '!' OR i.ram LIKE ? ESCAPE '!' OR i.storage LIKE ? ESCAPE '!' OR i.gpu LIKE ? ESCAPE '!' OR i.screen LIKE ? ESCAPE '!' OR i.remark LIKE ? ESCAPE '!' OR i.skuRemark LIKE ? ESCAPE '!')");
-      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern);
+      conditions.push(`(
+        i.productType LIKE ? ESCAPE '!' OR i.brand LIKE ? ESCAPE '!' OR i.model LIKE ? ESCAPE '!' OR
+        i.year LIKE ? ESCAPE '!' OR i.cpu LIKE ? ESCAPE '!' OR i.ram LIKE ? ESCAPE '!' OR
+        i.storage LIKE ? ESCAPE '!' OR i.gpu LIKE ? ESCAPE '!' OR i.screen LIKE ? ESCAPE '!' OR
+        i.supplierName LIKE ? ESCAPE '!' OR po.purchaseNo LIKE ? ESCAPE '!' OR i.saleOrderNo LIKE ? ESCAPE '!' OR
+        i.remark LIKE ? ESCAPE '!' OR i.skuRemark LIKE ? ESCAPE '!'
+      )`);
+      params.push(
+        pattern, pattern, pattern, pattern, pattern, pattern, pattern,
+        pattern, pattern, pattern, pattern, pattern, pattern, pattern,
+      );
     }
   }
 
