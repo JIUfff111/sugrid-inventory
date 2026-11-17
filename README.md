@@ -42,7 +42,7 @@ git stash push -m "backup-lock-before-update" -- package-lock.json
 
 该备份会保留在 `git stash list` 中；更新后使用仓库的新锁文件，不需要重新应用旧锁文件。不要删除数据库或使用 `git reset --hard` 来解决锁文件冲突。Windows PowerShell 5 不支持 `&&`，可以使用 Git Bash 执行此流程，或手动逐条检查命令退出结果。
 
-`npm start` 只启动已有的生产构建。`.next` 不随 Git 分发；首次安装、更新源码或清理构建目录后都需要先完成 `npm run build`。如果出现 `Could not find a production build`，先查看构建是否成功，不需要删除数据库。
+`npm start` 使用 standalone 生产服务，独立于桌面服务器管理器。它会把静态资源和数据库初始化文件准备好，并把数据库路径固定解析到项目目录；如在 `.env.local` 或环境变量中设置了 `INVENTORY_DB_PATH`，则使用该路径。`.next` 不随 Git 分发；首次安装、更新源码或清理构建目录后都需要先完成 `npm run build`。构建被 Ctrl+C 中断时会退出 130，必须重新执行并等待命令正常返回，再启动服务。不要删除数据库来解决构建问题。
 
 本机访问 `http://127.0.0.1:3000`，局域网访问 `http://服务器局域网IP:3000`。局域网访问需要主机防火墙允许相应端口。
 

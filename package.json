@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "node scripts/build-next-isolated.mjs",
     "build:integrated-server": "node scripts/build-next-isolated.mjs --prepare-integrated-server",
-    "start": "next start",
+    "start": "node scripts/start-standalone.mjs",
     "lint": "eslint",
     "db:init": "node scripts/init-db.js",
     "db:seed-skus": "node scripts/seed-skus.js",
@@ -14,11 +14,13 @@
     "test:server-manager-window": "powershell.exe -NoProfile -File scripts/test-server-manager-window.ps1",
     "test:inventory-columns": "node --experimental-strip-types --test scripts/test-inventory-table-preferences.mjs",
     "test:integrated-server": "node --test scripts/test-integrated-server-prep.mjs",
+    "test:start-standalone": "node --test scripts/test-start-standalone.mjs",
     "test:inventory-release": "node --test scripts/test-inventory-release-package.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.3.0",
     "@fontsource/noto-sans-sc": "^5.3.0",
+    "@next/env": "16.4.3",
     "@types/better-sqlite3": "^9.6.0",
     "better-sqlite3": "^13.0.3",
     "jsbarcode": "^3.12.3",

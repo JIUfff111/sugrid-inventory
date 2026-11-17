@@ -28,7 +28,7 @@ function resolveInside(root, value, label) {
   return resolved;
 }
 
-async function copyDatabaseInitializer(root, destination) {
+export async function copyDatabaseInitializer(root, destination) {
   for (const relativePath of databaseInitializerFiles) {
     const source = resolveInside(root, relativePath, 'initializer file');
     const target = path.join(destination, relativePath);

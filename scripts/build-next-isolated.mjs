@@ -1,10 +1,20 @@
 import { spawn } from 'node:child_process';
-import { mkdir, mkdtemp, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prepareIntegratedServer } from './prepare-integrated-server.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+process.env.NODE_ENV = 'production';
+createRequire(import.meta.url)('@next/env').loadEnvConfig(root, false);
+const distDir = process.env.NEXT_DIST_DIR?.trim() || '.next';
+const buildRoot = path.resolve(root, distDir);
+const buildDir = path.relative(root, buildRoot);
+if (!buildDir || buildDir === '..' || buildDir.startsWith(`..${path.sep}`) || path.isAbsolute(buildDir)) {
+  throw new Error('NEXT_DIST_DIR must be a directory inside the project.');
+}
+const buildMarker = path.join(buildRoot, 'sugrid-build-success.json');
 const temporaryRoot = path.join(root, '.tmp');
 await mkdir(temporaryRoot, { recursive: true });
 const buildData = await mkdtemp(path.join(temporaryRoot, 'next-build-'));
@@ -16,6 +26,7 @@ const env = {
 };
 
 try {
+  await rm(buildMarker, { force: true });
   const result = await new Promise((resolve, reject) => {
     const child = spawn(process.execPath, [nextCli, 'build'], {
       cwd: root,
@@ -34,6 +45,13 @@ try {
     const destination = await prepareIntegratedServer({ root });
     console.log(`Standalone inventory server prepared at ${destination}`);
   }
+
+  const buildId = (await readFile(path.join(buildRoot, 'BUILD_ID'), 'utf8')).trim();
+  const standaloneBuildId = (await readFile(path.join(buildRoot, 'standalone', buildDir, 'BUILD_ID'), 'utf8')).trim();
+  if (!buildId || buildId !== standaloneBuildId) {
+    throw new Error('Standalone BUILD_ID does not match the completed Next.js build.');
+  }
+  await writeFile(buildMarker, JSON.stringify({ buildId }));
 } finally {
   await rm(buildData, { recursive: true, force: true });
 }
