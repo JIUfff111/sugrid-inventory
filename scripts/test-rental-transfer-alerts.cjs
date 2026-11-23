@@ -51,6 +51,9 @@ async function main() {
     };
     deps['@/lib/product-name'] = load('src/lib/product-name.ts', deps);
     deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
+    deps['@/lib/machine-scan'] = load('src/lib/machine-scan.ts', deps);
+    deps['@/lib/inventory-query'] = load('src/lib/inventory-query.ts', deps);
+    deps['@/lib/inventory-purge'] = load('src/lib/inventory-purge.ts', deps);
     const { groupRentalsByOrder } = deps['@/lib/rental-order-groups'];
     const threeMachines = [1, 2, 3].map((number) => ({
       id: `rental-${number}`,
@@ -63,13 +66,18 @@ async function main() {
     assert.equal(groupedThreeMachines[0].items.length, 3);
     const legacyGroup = groupRentalsByOrder(threeMachines.map((rental) => ({ ...rental, rentalOrderId: null })));
     assert.equal(legacyGroup.length, 1, 'legacy rows with the same displayed order number should stay grouped');
-    const routes = Object.fromEntries(['purchase-orders', 'sales', 'sales-returns', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses']
+    const routes = Object.fromEntries(['purchase-orders', 'sales', 'sales-returns', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses', 'inventory']
       .map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));
 
-    async function call(name, method, body, expected = 200, query = '') {
+    async function call(name, method, body, expected = 200, query = '', fillRentalMetadata = true) {
+      const requestBody = name === 'rentals' && method === 'POST' && fillRentalMetadata
+        ? { handlerUserId: 'flow-admin', salespersonName: '测试业务员', sourceType: 'offline', ...body }
+        : name === 'rentals' && method === 'PATCH' && body?.action === 'return' && fillRentalMetadata
+          ? { returnWarehouseId: mainWarehouse, ...body }
+          : body;
       const request = new NextRequest(`http://localhost/api/${name}${query}`, {
         method,
-        ...(body === undefined ? {} : { headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }),
+        ...(requestBody === undefined ? {} : { headers: { 'content-type': 'application/json' }, body: JSON.stringify(requestBody) }),
       });
       const oldError = console.error;
       if (expected >= 400) console.error = () => {};
@@ -109,37 +117,75 @@ async function main() {
       (id,rentalNo,inventoryId,sn,brand,model,config,purchasePrice,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,rentalUnitPrice,rentalDuration,rentalTotalPrice,deposit,status,deleted,createdBy,createdAt,updatedAt)
       VALUES ('legacy-rental','租LEGACY0001',?,'RTN-OUTSIDE','ThinkPad','X13','16GB / 512GB',1000,'历史客户','10000000000','测试地址',?,?, 'day',10,1,10,100,'returned',0,'flow-admin',?,?)`)
       .run(inventory('RTN-OUTSIDE').id, chinaToday, chinaToday, chinaToday + ' 00:00:00', chinaToday + ' 00:00:00');
-    db.prepare('DELETE FROM schema_migrations WHERE version = 13').run();
+    db.prepare('DELETE FROM schema_migrations WHERE version IN (13, 34)').run();
     db.exec('DROP TABLE rental_orders');
     database.initDatabase();
     const migratedLegacy = db.prepare('SELECT rentalOrderId FROM rental_records WHERE id = ?').get('legacy-rental');
     assert(migratedLegacy.rentalOrderId, 'legacy rental should receive a compatible one-machine rental order');
     assert.equal(db.prepare('SELECT rentalNo FROM rental_orders WHERE id = ?').get(migratedLegacy.rentalOrderId).rentalNo, '租LEGACY0001');
+    assert.equal(db.prepare('SELECT handlerName FROM rental_orders WHERE id = ?').get(migratedLegacy.rentalOrderId).handlerName, null);
     const addRental = async (sn, endDate, customerName = '测试客户') => call('rentals', 'POST', {
       inventoryId: inventory(sn).id, customerName, customerPhone: '10000000000', customerAddress: '测试地址',
       rentalStartDate: shiftDate(-30), rentalEndDate: endDate, rentalType: 'day', rentalUnitPrice: 10, deposit: 100,
     }, 201);
 
     const returnedRental = await addRental('RTN-RETURN', shiftDate(4));
+    assert.deepEqual(
+      db.prepare('SELECT handlerUserId,handlerName,salespersonName,sourceType,platformName,platformOrderNo FROM rental_orders WHERE id=?').get(returnedRental.rentalOrderId),
+      { handlerUserId: 'flow-admin', handlerName: '流程管理员', salespersonName: '测试业务员', sourceType: 'offline', platformName: null, platformOrderNo: null },
+    );
     assert.equal(inventory('RTN-RETURN').status, 'renting');
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='rental_out' AND referenceId=? AND actorId='flow-admin'").get(returnedRental.id).n, 1);
-    const returnResult = await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return', returnDate: chinaToday, returnType: '正常归还' });
+    await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return', returnDate: chinaToday }, 400, '', false);
+    await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return', returnDate: chinaToday, returnWarehouseId: 'missing-warehouse' }, 400, '', false);
+    assert.equal(inventory('RTN-RETURN').status, 'renting');
+    const returnResult = await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return', returnDate: chinaToday, returnType: '正常归还', returnWarehouseId: targetWarehouse.id });
     assert.equal(returnResult.status, 'returned');
     assert.equal(inventory('RTN-RETURN').status, 'in_stock');
     assert.equal(inventory('RTN-RETURN').rentalRecordId, null);
+    assert.equal(inventory('RTN-RETURN').warehouseId, targetWarehouse.id);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='rental_return' AND referenceId=? AND actorId='flow-admin'").get(returnedRental.id).n, 1);
+    assert.deepEqual(
+      db.prepare("SELECT warehouseId, fromWarehouseId, toWarehouseId, statusFrom, statusTo FROM inventory_movements WHERE movementType='rental_return' AND referenceId=?").get(returnedRental.id),
+      { warehouseId: targetWarehouse.id, fromWarehouseId: mainWarehouse, toWarehouseId: targetWarehouse.id, statusFrom: 'renting', statusTo: 'in_stock' },
+    );
+    const returnedInventory = await call('inventory', 'GET', undefined, 200, `?status=current_stock&sn=${encodeURIComponent('RTN-RETURN')}`);
+    assert.equal(returnedInventory.total, 1, 'returned machine must appear in the default stock view');
+    assert.equal(returnedInventory.items[0].sn, 'RTN-RETURN');
+    const returnedInWarehouse = await call('inventory', 'GET', undefined, 200, `?status=current_stock&warehouseId=${encodeURIComponent(targetWarehouse.id)}&sn=${encodeURIComponent('RTN-RETURN')}`);
+    assert.equal(returnedInWarehouse.total, 1, 'returned machine must remain visible in its receiving warehouse');
+    const notInOriginalWarehouse = await call('inventory', 'GET', undefined, 200, `?status=current_stock&warehouseId=${encodeURIComponent(mainWarehouse)}&sn=${encodeURIComponent('RTN-RETURN')}`);
+    assert.equal(notInOriginalWarehouse.total, 0, 'returned machine must leave its previous warehouse filter');
     await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return' }, 400);
     await call('rentals', 'PATCH', {
       id: returnedRental.id, action: 'edit_terms', rentalStartDate: shiftDate(-30), rentalEndDate: shiftDate(4),
       reason: '已结束租赁不能更正', items: [{ id: returnedRental.id, rentalUnitPrice: 10 }],
     }, 400);
+    await call('rentals', 'POST', {
+      inventoryId: inventory('RTN-RETURN').id, customerName: '缺少经办信息', customerPhone: '10000000000', customerAddress: '测试地址',
+      rentalStartDate: chinaToday, rentalEndDate: shiftDate(1), rentalType: 'day', rentalUnitPrice: 100,
+    }, 400, '', false);
+    await call('rentals', 'POST', {
+      inventoryId: inventory('RTN-RETURN').id, customerName: '线上资料不完整', customerPhone: '10000000000', customerAddress: '测试地址',
+      handlerUserId: 'flow-admin', salespersonName: '业务员', sourceType: 'online',
+      rentalStartDate: chinaToday, rentalEndDate: shiftDate(1), rentalType: 'day', rentalUnitPrice: 100,
+    }, 400, '', false);
+    assert.equal(inventory('RTN-RETURN').status, 'in_stock');
     const monthlyRental = await call('rentals', 'POST', {
       inventoryId: inventory('RTN-RETURN').id, customerName: '按月测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
+      handlerUserId: 'flow-admin', salespersonName: '李业务', sourceType: 'online', platformName: '测试租赁平台', platformOrderNo: 'ONLINE-RENT-001',
       rentalStartDate: '2026-01-31', rentalEndDate: '2026-02-28', rentalType: 'month', rentalUnitPrice: 100, deposit: 0,
     }, 201);
+    assert.deepEqual(
+      db.prepare('SELECT handlerUserId,handlerName,salespersonName,sourceType,platformName,platformOrderNo FROM rental_orders WHERE id=?').get(monthlyRental.rentalOrderId),
+      { handlerUserId: 'flow-admin', handlerName: '流程管理员', salespersonName: '李业务', sourceType: 'online', platformName: '测试租赁平台', platformOrderNo: 'ONLINE-RENT-001' },
+    );
+    const onlineSearch = await call('rentals', 'GET', undefined, 200, '?search=ONLINE-RENT-001');
+    assert.equal(onlineSearch.total, 1);
+    assert.equal(onlineSearch.items[0].salespersonName, '李业务');
     assert.equal(monthlyRental.duration, 1, 'month-end anniversary should be one completed month');
     assert.equal(monthlyRental.totalPrice, 100);
-    await call('rentals', 'PATCH', { id: monthlyRental.id, action: 'return', returnDate: chinaToday, returnType: '测试归还' });
+    await call('rentals', 'PATCH', { id: monthlyRental.id, action: 'return', returnDate: chinaToday, returnType: '测试归还', returnWarehouseId: mainWarehouse });
     await call('rentals', 'POST', {
       inventoryId: inventory('RTN-RETURN').id, customerName: '零租期测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
       rentalStartDate: chinaToday, rentalEndDate: chinaToday, rentalType: 'day', rentalUnitPrice: 10, deposit: 0,
@@ -154,6 +200,8 @@ async function main() {
       rentalOrderId: appendBase.rentalOrderId,
       items: [{ inventoryId: inventory('RTN-APPEND-ADDED').id, rentalUnitPrice: 45, deposit: 120 }],
       customerName: '不应覆盖原客户', customerPhone: '10000000002', customerAddress: '不应覆盖原地址',
+      handlerUserId: 'flow-manager', salespersonName: '不应覆盖业务员', sourceType: 'online',
+      platformName: '不应覆盖平台', platformOrderNo: '不应覆盖订单号',
       rentalStartDate: chinaToday, rentalEndDate: shiftDate(10), rentalType: 'day',
     }, 201);
     assert.equal(appended.appended, true);
@@ -163,6 +211,10 @@ async function main() {
     const appendedRow = db.prepare('SELECT * FROM rental_records WHERE inventoryId=? AND status=?').get(inventory('RTN-APPEND-ADDED').id, 'renting');
     assert.equal(appendedRow.rentalNo, `${appendBase.rentalNo}-02`);
     assert.deepEqual([appendedRow.customerName, appendedRow.customerPhone, appendedRow.customerAddress], ['原租赁客户', '10000000001', '原租赁地址']);
+    assert.deepEqual(
+      db.prepare('SELECT handlerUserId,handlerName,salespersonName,sourceType,platformName,platformOrderNo FROM rental_orders WHERE id=?').get(appendBase.rentalOrderId),
+      { handlerUserId: 'flow-admin', handlerName: '流程管理员', salespersonName: '测试业务员', sourceType: 'offline', platformName: null, platformOrderNo: null },
+    );
     assert.deepEqual([appendedRow.rentalStartDate, appendedRow.rentalEndDate, appendedRow.rentalUnitPrice, appendedRow.rentalDuration, appendedRow.rentalTotalPrice, appendedRow.deposit], [chinaToday, shiftDate(10), 45, 10, 450, 120]);
     assert.equal(inventory('RTN-APPEND-ADDED').status, 'renting');
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE inventoryId=? AND movementType='rental_out' AND note LIKE '追加租赁出库%' ").get(inventory('RTN-APPEND-ADDED').id).n, 1);
@@ -325,7 +377,7 @@ async function main() {
     assert.equal(inventory('RTN-BUYOUT-REVERSAL').status, 'renting');
     assert.equal(db.prepare('SELECT status FROM sales_records WHERE id=?').get(reversalBuyout.salesRecordId).status, 'cancelled');
     assert.equal(Number(db.prepare('SELECT COUNT(*) n FROM sales_channels').get().n), channelsBeforeBuyout, 'buyout reversals must not change ordinary channels');
-    const firstReturn = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'return', returnDate: chinaToday, returnType: '正常归还' });
+    const firstReturn = await call('rentals', 'PATCH', { id: batchItems[0].id, action: 'return', returnDate: chinaToday, returnType: '正常归还', returnWarehouseId: mainWarehouse });
     assert.equal(firstReturn.status, 'returned');
     assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[0].id).status, 'returned');
     assert.equal(db.prepare('SELECT status FROM rental_records WHERE id=?').get(batchItems[1].id).status, 'purchased');
@@ -356,7 +408,7 @@ async function main() {
       rentalStartDate: chinaToday, rentalEndDate: shiftDate(5), rentalType: 'day', rentalUnitPrice: 10, deposit: 0,
     }, 400);
     db.exec("CREATE TRIGGER flow_fail_rental_return BEFORE INSERT ON inventory_movements WHEN NEW.movementType='rental_return' BEGIN SELECT RAISE(ABORT, 'forced rental return movement failure'); END");
-    await call('rentals', 'PATCH', { id: dueThree.id, action: 'return', returnDate: chinaToday, returnType: '测试回滚' }, 500);
+    await call('rentals', 'PATCH', { id: dueThree.id, action: 'return', returnDate: chinaToday, returnType: '测试回滚', returnWarehouseId: mainWarehouse }, 500);
     assert.equal(inventory('RTN-D3').status, 'renting');
     assert.equal(db.prepare('SELECT status, returnDate FROM rental_records WHERE id=?').get(dueThree.id).status, 'renting');
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='rental_return' AND referenceId=?").get(dueThree.id).n, 0);

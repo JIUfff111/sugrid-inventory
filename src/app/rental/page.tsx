@@ -2,6 +2,7 @@
 
 import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArchiveRestore, CalendarPlus, Check, ChevronDown, CircleDollarSign, Clock3, MessageSquareText, Pencil, Plus, RotateCcw, X } from 'lucide-react';
+import Link from 'next/link';
 import CustomSelect, { SelectOption } from '@/components/CustomSelect';
 import BusinessDialog from '@/components/BusinessDialog';
 import MachineSearchInput from '@/components/MachineSearchInput';
@@ -13,11 +14,13 @@ import { groupRentalsByOrder } from '@/lib/rental-order-groups';
 import { addRentalDays, addRentalMonths, calculateRentalDuration } from '@/lib/rental-duration';
 
 type InventoryItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; storage: string; purchasePrice: number; supplierName: string };
+type Warehouse = { id: string; name: string; status: string };
 type RentalEvent = { id?: string; eventType?: string; note?: string | null; actorName?: string | null; actorId?: string | null; createdAt?: string };
 type RentalRenewal = { id: string; batchId: string; periodStartDate: string; previousEndDate: string; newEndDate: string; billingUnit: 'day' | 'month'; duration: number; priceMode: string; unitPrice: number; totalAmount: number; depositBefore: number; depositDelta: number; depositAfter: number; depositChangeReason: string | null; note: string | null; actorName: string; createdAt: string };
-type Rental = { id: string; rentalOrderId: string | null; rentalNo: string; displayRentalNo?: string; orderMachineCount?: number; inventoryId: string; sn: string; brand: string; model: string; year: number | null; config: string; customerName: string; customerPhone: string; customerAddress: string; rentalStartDate: string; rentalEndDate: string; rentalType: string; rentalUnitPrice: number; rentalDuration: number; rentalTotalPrice: number; renewalTotal?: number; cumulativeRentalAmount?: number; renewals?: RentalRenewal[]; deposit: number; status: string; returnDate: string | null; returnType: string | null; remark: string | null; salesRecordId?: string | null; saleTransactionType?: string | null; buyoutBuyerName?: string | null; buyoutSource?: string | null; depositRefundAmount?: number; depositAppliedAmount?: number; depositRetainedAmount?: number; settlementAdjustment?: number; settlementNote?: string | null; events?: RentalEvent[] };
+type Rental = { id: string; rentalOrderId: string | null; rentalNo: string; displayRentalNo?: string; orderMachineCount?: number; inventoryId: string; sn: string; brand: string; model: string; year: number | null; warehouseId: string | null; config: string; customerName: string; customerPhone: string; customerAddress: string; handlerUserId: string | null; handlerName: string | null; salespersonName: string | null; sourceType: string | null; platformName: string | null; platformOrderNo: string | null; rentalStartDate: string; rentalEndDate: string; rentalType: string; rentalUnitPrice: number; rentalDuration: number; rentalTotalPrice: number; renewalTotal?: number; cumulativeRentalAmount?: number; renewals?: RentalRenewal[]; deposit: number; status: string; returnDate: string | null; returnType: string | null; remark: string | null; salesRecordId?: string | null; saleTransactionType?: string | null; buyoutBuyerName?: string | null; buyoutSource?: string | null; depositRefundAmount?: number; depositAppliedAmount?: number; depositRetainedAmount?: number; settlementAdjustment?: number; settlementNote?: string | null; events?: RentalEvent[] };
 type RentalTerms = { rentalUnitPrice: string; deposit: string };
 type RentalAppendTarget = { orderId: string; rentalNo: string; customerName: string; rentalType: 'day' | 'month' };
+type HandlerUser = { id: string; username: string; realName: string | null; status: string };
 type ToastMessage = { text: string; tone: 'success' | 'error' };
 type RentalAction = 'renew' | 'buyout' | 'exception' | 'cancel_buyout' | 'edit_terms' | null;
 type RenewalPriceMode = 'original_unit' | 'custom_unit' | 'custom_total';
@@ -42,7 +45,7 @@ function ModalShell({ title, subtitle, onClose, children, footer }: { title: str
 }
 
 export default function RentalPage() {
-  const { active } = useWorkspace();
+  const { active, user } = useWorkspace();
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [rentals, setRentals] = useState<Rental[]>([]);
   const [summaryRentals, setSummaryRentals] = useState<Rental[]>([]);
@@ -54,6 +57,14 @@ export default function RentalPage() {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
+  const [handlerUserId, setHandlerUserId] = useState('');
+  const [handlerName, setHandlerName] = useState('');
+  const [salespersonName, setSalespersonName] = useState('');
+  const [sourceType, setSourceType] = useState('');
+  const [platformName, setPlatformName] = useState('');
+  const [platformOrderNo, setPlatformOrderNo] = useState('');
+  const [handlerUsers, setHandlerUsers] = useState<HandlerUser[]>([]);
+  const [handlerLoadError, setHandlerLoadError] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [rentalType, setRentalType] = useState('day');
@@ -62,6 +73,9 @@ export default function RentalPage() {
   const [remark, setRemark] = useState('');
   const [returnDate, setReturnDate] = useState('');
   const [returnType, setReturnType] = useState('正常归还');
+  const [returnWarehouseId, setReturnWarehouseId] = useState('');
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [warehouseLoadError, setWarehouseLoadError] = useState('');
   const [expandedOrders, setExpandedOrders] = useState<Set<string>>(() => new Set());
   const [selectedRenewalIds, setSelectedRenewalIds] = useState<Set<string>>(() => new Set());
   const [rentalAction, setRentalAction] = useState<RentalAction>(null);
@@ -156,6 +170,30 @@ export default function RentalPage() {
     const timer = window.setTimeout(() => { void loadData(); }, 250);
     return () => { window.clearTimeout(timer); loadController.current?.abort(); };
   }, [active, loadData]);
+  useEffect(() => {
+    if (!active || !createOpen || appendTarget) return;
+    const controller = new AbortController();
+    fetch('/api/users?status=active', { cache: 'no-store', signal: controller.signal })
+      .then(response => response.json().then(payload => {
+        if (!response.ok || !payload.success) throw new Error(payload.error?.message || '加载经手人账号失败');
+        setHandlerUsers((payload.data?.users || []).filter((entry: HandlerUser) => entry.status === 'active'));
+        setHandlerLoadError('');
+      }))
+      .catch(error => { if (!controller.signal.aborted) setHandlerLoadError(error instanceof Error ? error.message : '加载经手人账号失败'); });
+    return () => controller.abort();
+  }, [active, createOpen, appendTarget]);
+  useEffect(() => {
+    if (!active) return;
+    const controller = new AbortController();
+    fetch('/api/warehouses', { cache: 'no-store', signal: controller.signal })
+      .then(response => response.json().then(payload => {
+        if (!response.ok || !payload.success) throw new Error(payload.error?.message || '加载仓库失败');
+        setWarehouses((payload.data || []).filter((entry: Warehouse) => entry.status === 'active'));
+        setWarehouseLoadError('');
+      }))
+      .catch(error => { if (!controller.signal.aborted) setWarehouseLoadError(error instanceof Error ? error.message : '加载仓库失败'); });
+    return () => controller.abort();
+  }, [active]);
 
   useEffect(() => {
     if (!active || (!createOpen && !selectedRental)) return;
@@ -183,6 +221,10 @@ export default function RentalPage() {
         rentalNo: first.displayRentalNo || first.rentalNo,
         customerName: first.customerName,
         customerPhone: first.customerPhone,
+        salespersonName: first.salespersonName,
+        sourceType: first.sourceType,
+        platformName: first.platformName,
+        platformOrderNo: first.platformOrderNo,
         startDate: orderedItems.map(item => item.rentalStartDate).sort()[0],
         endDate: orderedItems.map(item => item.rentalEndDate).sort().at(-1) || first.rentalEndDate,
         activeCount: orderedItems.filter(item => item.status === 'renting').length,
@@ -205,7 +247,7 @@ export default function RentalPage() {
     item.rentalType !== selectedRentalOrder.items[0].rentalType));
   const selectedOrderCanEditTerms = Boolean(selectedRentalOrder?.items.length && !selectedOrderHasMixedTerms && selectedRentalOrder.items.every(item => item.status === 'renting' && !(item.renewals?.length)));
   const validity = useMachineEligibility(selectedMachines.map(({ id, sn }) => ({ id, sn })), 'rental');
-  useWorkspaceDirty(Boolean((createOpen && (selectedIds.length || customerName || customerPhone || customerAddress || remark || rentalType !== 'day')) || returnOpen || rentalAction));
+  useWorkspaceDirty(Boolean((createOpen && (selectedIds.length || customerName || customerPhone || customerAddress || salespersonName || sourceType || platformName || platformOrderNo || remark || rentalType !== 'day')) || returnOpen || rentalAction));
   const duration = useMemo(() => {
     return calculateRentalDuration(startDate, endDate, rentalType === 'month' ? 'month' : 'day');
   }, [startDate, endDate, rentalType]);
@@ -232,7 +274,9 @@ export default function RentalPage() {
     : renewalPriceMode === 'custom_unit' && renewalTargets.some(rental => !(renewalUnitPrices[rental.id] ?? '').trim());
 
   const resetCreateForm = () => {
-    setAppendTarget(null); setSelectedIds([]); setRentalTerms({}); setCustomerName(''); setCustomerPhone(''); setCustomerAddress(''); setStartDate(dateInput()); setEndDate(dateInput(1)); setRentalType('day'); setUnitPrice(''); setDeposit(''); setRemark(''); setMachineSearch('');
+    setAppendTarget(null); setSelectedIds([]); setRentalTerms({}); setCustomerName(''); setCustomerPhone(''); setCustomerAddress('');
+    setHandlerUserId(''); setHandlerName(''); setSalespersonName(''); setSourceType(''); setPlatformName(''); setPlatformOrderNo('');
+    setStartDate(dateInput()); setEndDate(dateInput(1)); setRentalType('day'); setUnitPrice(''); setDeposit(''); setRemark(''); setMachineSearch('');
   };
 
   const addMachine = (item: InventoryItem) => {
@@ -259,6 +303,12 @@ export default function RentalPage() {
     setCustomerName(first.customerName);
     setCustomerPhone(first.customerPhone);
     setCustomerAddress(first.customerAddress);
+    setHandlerUserId(first.handlerUserId || '');
+    setHandlerName(first.handlerName || '');
+    setSalespersonName(first.salespersonName || '');
+    setSourceType(first.sourceType || '');
+    setPlatformName(first.platformName || '');
+    setPlatformOrderNo(first.platformOrderNo || '');
     setStartDate(start);
     setEndDate(end);
     setRentalType(rentalType);
@@ -275,12 +325,15 @@ export default function RentalPage() {
   const submitRental = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedIds.length) { notify('请至少选择一台可租机器', 'error'); return; }
+    if (!appendTarget && (!handlerUserId || !salespersonName.trim())) { notify('请确认经手账号并填写业务员', 'error'); return; }
+    if (!appendTarget && (sourceType !== 'online' && sourceType !== 'offline')) { notify('请选择线上或线下租赁来源', 'error'); return; }
+    if (!appendTarget && sourceType === 'online' && (!platformName.trim() || !platformOrderNo.trim())) { notify('线上租赁请填写平台和平台订单号', 'error'); return; }
     if (selectedIds.some(id => !(Number(rentalTerms[id]?.rentalUnitPrice) > 0) || !(Number(rentalTerms[id]?.deposit || 0) >= 0))) { notify('请检查每台机器的租赁单价和押金', 'error'); return; }
     if (validity.checking || validity.error || validity.invalidIds.length) { notify(validity.error || '所选机器已不可租赁，请移除失效机器后重试', 'error'); return; }
     setSubmitting(true);
     const appendAtSubmit = appendTarget;
     try {
-      const response = await fetch('/api/rentals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selectedIds.map(inventoryId => ({ inventoryId, rentalUnitPrice: Number(rentalTerms[inventoryId]?.rentalUnitPrice), deposit: Number(rentalTerms[inventoryId]?.deposit || 0) })), ...(appendAtSubmit ? { rentalOrderId: appendAtSubmit.orderId } : { customerName, customerPhone, customerAddress }), rentalStartDate: startDate, rentalEndDate: endDate, rentalType, remark }) });
+      const response = await fetch('/api/rentals', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selectedIds.map(inventoryId => ({ inventoryId, rentalUnitPrice: Number(rentalTerms[inventoryId]?.rentalUnitPrice), deposit: Number(rentalTerms[inventoryId]?.deposit || 0) })), ...(appendAtSubmit ? { rentalOrderId: appendAtSubmit.orderId } : { customerName, customerPhone, customerAddress, handlerUserId, salespersonName, sourceType, platformName, platformOrderNo }), rentalStartDate: startDate, rentalEndDate: endDate, rentalType, remark }) });
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error(payload.error?.message || '创建租赁记录失败');
       setCreateOpen(false); resetCreateForm(); notify(appendAtSubmit ? `已向租赁单 ${appendAtSubmit.rentalNo} 追加 ${payload.data.count} 台机器` : '租赁单 ' + payload.data.rentalNo + ' 已创建，共 ' + payload.data.count + ' 台');
@@ -291,14 +344,18 @@ export default function RentalPage() {
   const completeReturn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedRental) return;
+    if (!returnWarehouseId) { notify('请选择实际接收仓库', 'error'); return; }
     setReturning(true);
     try {
-      const response = await fetch('/api/rentals', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: selectedRental.id, action: 'return', returnDate, returnType }) });
+      const response = await fetch('/api/rentals', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: selectedRental.id, action: 'return', returnDate, returnType, returnWarehouseId }) });
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error(payload.error?.message || '归还失败');
-      const rentalNo = selectedRental.rentalNo;
-      setSelectedRental(null); setReturnOpen(false); notify('租赁单 ' + rentalNo + ' 已归还');
-      await loadData();
+      const updated = { ...selectedRental, status: 'returned', returnDate, returnType, warehouseId: returnWarehouseId };
+      setSelectedRental(updated);
+      setReturnOpen(false);
+      notify('租赁单 ' + selectedRental.rentalNo + ' 已归还');
+      const nextRentals = await loadData();
+      setSelectedRental(current => current?.id === selectedRental.id ? nextRentals?.find(item => item.id === selectedRental.id) || updated : current);
     } catch (returnError) { notify(returnError instanceof Error ? returnError.message : '归还失败', 'error'); } finally { setReturning(false); }
   };
 
@@ -431,6 +488,13 @@ export default function RentalPage() {
   const typeOptions: SelectOption[] = [
     { value: 'day', label: '按日计费' }, { value: 'month', label: '按月计费' },
   ];
+  const sourceOptions: SelectOption[] = [
+    { value: 'offline', label: '线下' }, { value: 'online', label: '线上' },
+  ];
+  const handlerOptions: SelectOption[] = [
+    ...(user ? [{ value: user.id, label: `${user.realName || user.username}（当前账号）` }] : []),
+    ...handlerUsers.filter(entry => entry.id !== user?.id).map(entry => ({ value: entry.id, label: `${entry.realName || entry.username}（${entry.username}）` })),
+  ];
   const returnOptions: SelectOption[] = [
     { value: '正常归还', label: '正常归还' }, { value: '维修归还', label: '维修归还' }, { value: '其他', label: '其他' },
   ];
@@ -465,7 +529,7 @@ export default function RentalPage() {
           const urgentDueItems = order.dueItems.filter(item => dueLabel(item).startsWith('已逾期') || dueLabel(item) === '今日到期');
           return <div key={order.key}>
             <button type="button" aria-expanded={expanded} onClick={() => toggleOrder(order.key)} className="grid w-full gap-3 px-4 py-4 text-left transition-colors hover:bg-white/45 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-center sm:px-5">
-              <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><ChevronDown className={'h-4 w-4 shrink-0 text-primary transition-transform ' + (expanded ? 'rotate-180' : '')} /><span className="font-mono text-sm font-semibold text-ink-deep">{order.rentalNo}</span><span className="status-pill info">{order.items.length} 台</span><span className={'status-pill ' + (order.activeCount ? 'warn' : 'ok')}>{statusLabel}</span>{order.returnedCount > 0 && order.activeCount > 0 && <span className="status-pill ok">已归还 {order.returnedCount} 台</span>}{order.boughtOutCount > 0 && <span className="status-pill info">已买断 {order.boughtOutCount} 台</span>}{urgentDueItems.length > 0 && <span className="status-pill danger">{urgentDueItems.length} 台需关注</span>}{order.dueItems.length > urgentDueItems.length && <span className="status-pill warn">{order.dueItems.length - urgentDueItems.length} 台即将到期</span>}</div><p className="mt-1 truncate pl-6 text-[13px] text-ink-deep">{order.customerName} · {order.customerPhone}</p></div>
+              <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><ChevronDown className={'h-4 w-4 shrink-0 text-primary transition-transform ' + (expanded ? 'rotate-180' : '')} /><span className="font-mono text-sm font-semibold text-ink-deep">{order.rentalNo}</span><span className="status-pill info">{order.items.length} 台</span><span className={'status-pill ' + (order.activeCount ? 'warn' : 'ok')}>{statusLabel}</span>{order.returnedCount > 0 && order.activeCount > 0 && <span className="status-pill ok">已归还 {order.returnedCount} 台</span>}{order.boughtOutCount > 0 && <span className="status-pill info">已买断 {order.boughtOutCount} 台</span>}{urgentDueItems.length > 0 && <span className="status-pill danger">{urgentDueItems.length} 台需关注</span>}{order.dueItems.length > urgentDueItems.length && <span className="status-pill warn">{order.dueItems.length - urgentDueItems.length} 台即将到期</span>}</div><p className="mt-1 truncate pl-6 text-[13px] text-ink-deep">{order.customerName} · {order.customerPhone}</p><p className="mt-1 truncate pl-6 text-[11px] text-ink-soft">业务员 {order.salespersonName || '历史未记录'} · {order.sourceType === 'online' ? `线上 · ${order.platformName || '平台未记录'}` : order.sourceType === 'offline' ? '线下' : '来源历史未记录'}</p></div>
               <div className="text-xs text-ink-soft"><p>{order.startDate} 至最晚到期 {order.endDate}</p><p className="mt-1">租赁中 {order.activeCount} 台 · 已归还 {order.returnedCount} 台</p></div>
               <div className="text-xs"><p className="font-medium text-ink-deep">累计约定租金 {money(order.totalPrice)}</p><p className="mt-1 text-ink-soft">在租押金 {money(order.activeDeposit)}</p></div>
               <span className="hidden text-xs text-primary sm:block">{expanded ? '收起机器' : '展开机器'}</span>
@@ -487,7 +551,7 @@ export default function RentalPage() {
 
     {createOpen && <ModalShell title={appendTarget ? '追加机器到租赁单' : '新建租赁'} subtitle={appendTarget ? `${appendTarget.rentalNo} · ${appendTarget.customerName}` : '可一次选择多台机器，同单共用客户和租期，租金与押金逐台登记'} onClose={() => { setCreateOpen(false); setAppendTarget(null); }} footer={<><span className="mr-auto self-center text-xs text-ink-soft">已选择 {selectedIds.length} 台</span><button type="button" onClick={() => { setCreateOpen(false); setAppendTarget(null); }} className="btn-ghost">取消</button><button form="rental-create-form" type="submit" disabled={submitting || !selectedIds.length || !duration || validity.checking || !!validity.error || validity.invalidIds.length > 0} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{submitting ? '提交中...' : appendTarget ? `追加到原单 ${selectedIds.length || ''}` : `开始租赁 ${selectedIds.length || ''}`}</button></>}>
       <form id="rental-create-form" onSubmit={submitRental} className="space-y-5">
-        {appendTarget && <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5"><p className="text-xs font-semibold text-ink-deep">沿用租赁单 {appendTarget.rentalNo} · {appendTarget.customerName}</p><p className="mt-1 text-xs text-ink-soft">客户资料和计费方式沿用原单；新机器按下方租期单独计费，原有机器条款不变。</p></div>}
+        {appendTarget && <div className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5"><p className="text-xs font-semibold text-ink-deep">沿用租赁单 {appendTarget.rentalNo} · {appendTarget.customerName}</p><p className="mt-1 text-xs text-ink-soft">客户、经办、来源和计费方式沿用原单；新机器按下方租期单独计费，原有机器条款不变。</p></div>}
         <section><div className="mb-2"><h3 className="text-sm font-semibold text-ink-deep">选择在库机器 <span className="text-danger">*</span></h3><p className="mt-1 text-xs text-ink-soft">输入 SN 后四位或型号搜索，选中后可继续添加其他机器</p></div>
           <MachineSearchInput<InventoryItem> value={machineSearch} onChange={setMachineSearch} endpoint="/api/inventory/lookup?context=rental" onSelect={item => { addMachine(item); setMachineSearch(''); }} onSelectMany={items => { items.forEach(addMachine); setMachineSearch(''); }} onSearch={setMachineSearch} scanEnabled batchEnabled ariaLabel="搜索可租机器" />
           <div className="mt-2 grid gap-2 rounded-xl border border-line/70 bg-white/40 p-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end"><label className="text-[10px] text-ink-soft">批量单价<input type="number" min="0.01" step="0.01" value={unitPrice} onChange={event => setUnitPrice(event.target.value)} className="field mt-1 !px-2 !py-1.5 text-xs" placeholder="应用到新选机器" /></label><label className="text-[10px] text-ink-soft">批量押金<input type="number" min="0" step="0.01" value={deposit} onChange={event => setDeposit(event.target.value)} className="field mt-1 !px-2 !py-1.5 text-xs" placeholder="选填，默认 0" /></label><button type="button" className="btn-secondary py-1.5 text-xs" disabled={!selectedIds.length} onClick={() => setRentalTerms(Object.fromEntries(selectedIds.map(id => [id, { rentalUnitPrice: unitPrice, deposit }])))}>应用到已选</button></div>
@@ -495,6 +559,14 @@ export default function RentalPage() {
           <div className="mt-2 max-h-40 overflow-y-auto rounded-xl border border-line/80 bg-white/55">{inventory.length === 0 ? <p className="p-4 text-center text-xs text-ink-soft">输入 SN 后四位或型号查找可租机器</p> : inventory.map((item) => { const chosen = selectedIds.includes(item.id); return <button type="button" key={item.id} disabled={chosen} onClick={() => addMachine(item)} className={'flex w-full items-center justify-between gap-3 border-b border-line/70 px-3 py-2.5 text-left last:border-0 ' + (chosen ? 'bg-primary/5 opacity-60' : 'hover:bg-white/70')}><span className="min-w-0"><span className="block truncate text-xs font-medium text-ink-deep">{productName(item)}</span><span className="mt-0.5 block truncate font-mono text-[10px] text-ink-soft">{item.sn} · {configText(item)}</span></span><span className="shrink-0 text-xs font-medium text-primary">{chosen ? '已添加' : '添加'}</span></button>; })}</div>
         </section>
         {(validity.error || validity.invalidIds.length > 0) && <p role="alert" className="rounded-xl bg-danger/5 p-3 text-xs text-danger">{validity.error || '部分所选机器状态已变化，请移除不可租机器后重试。'}</p>}
+        <section className="space-y-3 rounded-xl border border-line/70 bg-white/45 p-4">
+          <div><h3 className="text-sm font-semibold text-ink-deep">经办与订单来源</h3><p className="mt-1 text-xs text-ink-soft">经手账号与业务员分别登记；请确认实际经手人，建单账号会另外保留在操作记录中。</p></div>
+          {appendTarget ? <div className="grid gap-2 text-xs text-ink-soft sm:grid-cols-2"><p>经手人：<span className="text-ink-deep">{handlerName || '历史未记录'}</span></p><p>业务员：<span className="text-ink-deep">{salespersonName || '历史未记录'}</span></p><p className="sm:col-span-2">来源：<span className="text-ink-deep">{sourceType === 'online' ? `线上 · ${platformName || '平台未记录'} · 订单号 ${platformOrderNo || '未记录'}` : sourceType === 'offline' ? '线下' : '历史未记录'}</span></p></div> : <>
+            <div className="grid gap-3 sm:grid-cols-2"><div className="text-xs text-ink-soft"><span>经手账号 <span className="text-danger">*</span></span><div className="mt-1.5"><CustomSelect value={handlerUserId} onChange={value => { setHandlerUserId(value); const selected = handlerUsers.find(entry => entry.id === value); setHandlerName(selected?.realName || selected?.username || (value === user?.id ? user.realName || user.username : '')); }} options={handlerOptions} placeholder="请选择经手账号" /></div>{handlerLoadError && <p role="alert" className="mt-1 text-[11px] text-danger">{handlerLoadError}</p>}</div><label className="text-xs text-ink-soft">业务员 <span className="text-danger">*</span><input value={salespersonName} onChange={event => setSalespersonName(event.target.value)} className="field mt-1.5" maxLength={80} required /></label></div>
+            <div role="group" aria-label="租赁来源" className="space-y-1.5"><p className="text-xs text-ink-soft">租赁来源 <span className="text-danger">*</span></p><div className="flex gap-2">{sourceOptions.map(option => <button type="button" key={option.value} aria-pressed={sourceType === option.value} onClick={() => setSourceType(option.value)} className={'btn-secondary min-w-20 py-1.5 text-xs transition-transform active:scale-[0.98] ' + (sourceType === option.value ? 'border-primary bg-primary/8 text-primary' : '')}>{option.label}</button>)}</div></div>
+            {sourceType === 'online' && <div className="grid gap-3 sm:grid-cols-2"><label className="text-xs text-ink-soft">线上平台 <span className="text-danger">*</span><input value={platformName} onChange={event => setPlatformName(event.target.value)} className="field mt-1.5" maxLength={100} placeholder="填写客户下单的平台" required /></label><label className="text-xs text-ink-soft">平台订单号 <span className="text-danger">*</span><input value={platformOrderNo} onChange={event => setPlatformOrderNo(event.target.value)} className="field mt-1.5" maxLength={120} placeholder="填写平台原始订单号" required /></label></div>}
+          </>}
+        </section>
         <section className="grid gap-3 sm:grid-cols-2">
           {appendTarget ? <div className="rounded-lg border border-line/70 bg-white/55 px-3 py-2.5 sm:col-span-2"><p className="text-xs font-medium text-ink-deep">客户资料已沿用原租赁单</p><p className="mt-1 text-xs text-ink-soft">{customerName} · {customerPhone} · {customerAddress}</p></div> : <>
             <label className="text-xs text-ink-soft">客户姓名 <span className="text-danger">*</span><input value={customerName} onChange={(event) => setCustomerName(event.target.value)} className="field mt-1.5" required /></label>
@@ -510,14 +582,14 @@ export default function RentalPage() {
       </form>
     </ModalShell>}
 
-    {selectedRental && <ModalShell title={selectedRental.displayRentalNo || selectedRental.rentalNo} subtitle={rentalAction === 'renew' && renewalTargets.length > 1 ? `批量续租 · ${renewalTargets.length} 台机器` : rentalAction === 'edit_terms' ? `更正整张订单 · ${selectedRental.orderMachineCount || selectedRentalOrder?.items.length || 1} 台机器` : `机器租赁详情 · SN ${selectedRental.sn}`} onClose={() => { setSelectedRental(null); setRenewalTargets([]); setReturnOpen(false); setRentalAction(null); }} footer={returnOpen ? <><button type="button" onClick={() => setReturnOpen(false)} className="btn-ghost">返回详情</button><button form="rental-return-form" type="submit" disabled={returning} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{returning ? '处理中...' : '确认归还'}</button></> : rentalAction ? <><button type="button" onClick={() => setRentalAction(null)} className="btn-ghost">取消</button><button form="rental-action-form" type="submit" disabled={savingAction} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{savingAction ? '处理中...' : rentalAction === 'renew' ? `确认续租 ${renewalTargets.length} 台` : rentalAction === 'edit_terms' ? '保存租赁更正' : rentalAction === 'buyout' ? '确认买断出库' : rentalAction === 'cancel_buyout' ? '确认撤销买断' : '保存跟进'}</button></> : <><button type="button" onClick={() => setSelectedRental(null)} className="btn-ghost">关闭</button>{selectedRental.status === 'renting' && <>{selectedOrderCanEditTerms && <button type="button" onClick={() => openRentalAction('edit_terms')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><Pencil className="h-4 w-4" />更正租赁条款</button>}<button type="button" onClick={() => openRentalAction('renew')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><CalendarPlus className="h-4 w-4" />续租</button><button type="button" onClick={() => openRentalAction('buyout')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><CircleDollarSign className="h-4 w-4" />买断</button><button type="button" onClick={() => openRentalAction('exception')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><MessageSquareText className="h-4 w-4" />异常跟进</button><button type="button" onClick={() => { setRentalAction(null); setReturnDate(dateInput()); setReturnOpen(true); }} className="btn-primary inline-flex items-center gap-1.5 py-2 text-xs"><RotateCcw className="h-4 w-4" />归还</button></>}{selectedRental.status === 'purchased' && selectedRental.returnType === '客户买断' && <button type="button" onClick={() => openRentalAction('cancel_buyout')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs text-danger"><RotateCcw className="h-4 w-4" />撤销买断</button>}</>}>
+    {selectedRental && <ModalShell title={selectedRental.displayRentalNo || selectedRental.rentalNo} subtitle={rentalAction === 'renew' && renewalTargets.length > 1 ? `批量续租 · ${renewalTargets.length} 台机器` : rentalAction === 'edit_terms' ? `更正整张订单 · ${selectedRental.orderMachineCount || selectedRentalOrder?.items.length || 1} 台机器` : `机器租赁详情 · SN ${selectedRental.sn}`} onClose={() => { setSelectedRental(null); setRenewalTargets([]); setReturnOpen(false); setRentalAction(null); }} footer={returnOpen ? <><button type="button" onClick={() => setReturnOpen(false)} className="btn-ghost">返回详情</button><button form="rental-return-form" type="submit" disabled={returning || !returnWarehouseId} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{returning ? '处理中...' : '确认归还'}</button></> : rentalAction ? <><button type="button" onClick={() => setRentalAction(null)} className="btn-ghost">取消</button><button form="rental-action-form" type="submit" disabled={savingAction} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{savingAction ? '处理中...' : rentalAction === 'renew' ? `确认续租 ${renewalTargets.length} 台` : rentalAction === 'edit_terms' ? '保存租赁更正' : rentalAction === 'buyout' ? '确认买断出库' : rentalAction === 'cancel_buyout' ? '确认撤销买断' : '保存跟进'}</button></> : <><button type="button" onClick={() => setSelectedRental(null)} className="btn-ghost">关闭</button>{selectedRental.status === 'renting' && <>{selectedOrderCanEditTerms && <button type="button" onClick={() => openRentalAction('edit_terms')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><Pencil className="h-4 w-4" />更正租赁条款</button>}<button type="button" onClick={() => openRentalAction('renew')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><CalendarPlus className="h-4 w-4" />续租</button><button type="button" onClick={() => openRentalAction('buyout')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><CircleDollarSign className="h-4 w-4" />买断</button><button type="button" onClick={() => openRentalAction('exception')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs"><MessageSquareText className="h-4 w-4" />异常跟进</button><button type="button" onClick={() => { setRentalAction(null); setReturnDate(dateInput()); setReturnWarehouseId(''); setReturnOpen(true); }} className="btn-primary inline-flex items-center gap-1.5 py-2 text-xs"><RotateCcw className="h-4 w-4" />归还</button></>}{selectedRental.status === 'purchased' && selectedRental.returnType === '客户买断' && <button type="button" onClick={() => openRentalAction('cancel_buyout')} className="btn-secondary inline-flex items-center gap-1.5 py-2 text-xs text-danger"><RotateCcw className="h-4 w-4" />撤销买断</button>}</>}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-2"><span className={'status-pill ' + (selectedRental.status === 'renting' ? 'warn' : selectedRental.status === 'purchased' ? 'info' : 'ok')}>{rentalStatusLabel(selectedRental.status)}</span>{dueLabel(selectedRental) && <span className={'status-pill ' + (dueLabel(selectedRental).startsWith('已逾期') || dueLabel(selectedRental) === '今日到期' ? 'danger' : 'warn')}>{dueLabel(selectedRental)}</span>}<span className="font-mono text-xs text-ink-soft">机器 SN：{selectedRental.sn}</span></div>
         {selectedOrderHasMixedTerms && <p className="rounded-lg border border-warning/20 bg-warning/5 px-3 py-2 text-xs text-ink-soft">本单机器租期不同，整单租期更正已停用；各机器租期分别保留。</p>}
         <section className="rounded-xl border border-line/80 bg-white/45 p-4"><h3 className="text-sm font-semibold text-ink-deep">机器信息</h3><p className="mt-2 text-sm text-ink-deep">{productName(selectedRental)}</p><p className="mt-1 text-xs text-ink-soft">{selectedRental.config || '配置待补充'}</p></section>
-        <section className="grid gap-3 sm:grid-cols-2"><DetailValue label="客户" value={selectedRental.customerName + ' · ' + selectedRental.customerPhone} /><DetailValue label="地址" value={selectedRental.customerAddress || '未填写'} /><DetailValue label="租赁开始 / 当前到期" value={selectedRental.rentalStartDate + ' 至 ' + selectedRental.rentalEndDate} /><DetailValue label="原始计费方式" value={(selectedRental.rentalType === 'month' ? '按月' : '按日') + ' · ' + selectedRental.rentalDuration + ' 个单位'} /><DetailValue label="原租金" value={money(selectedRental.rentalTotalPrice)} /><DetailValue label="续租费用累计" value={money(selectedRental.renewalTotal || 0)} /><DetailValue label="累计约定租金" value={money(selectedRental.cumulativeRentalAmount ?? selectedRental.rentalTotalPrice)} /><DetailValue label={selectedRental.status === 'purchased' && selectedRental.returnType === '客户买断' ? '买断前押金' : '当前押金余额'} value={money(selectedRental.deposit)} />{selectedRental.status === 'purchased' && selectedRental.returnType === '客户买断' && <DetailValue label="押金结算状态" value="已按买断结算拆分完成" />}<DetailValue label="备注" value={selectedRental.remark || '无'} /></section>
+        <section className="grid gap-3 sm:grid-cols-2"><DetailValue label="客户" value={selectedRental.customerName + ' · ' + selectedRental.customerPhone} /><DetailValue label="地址" value={selectedRental.customerAddress || '未填写'} /><DetailValue label="经手人" value={selectedRental.handlerName || '历史未记录'} /><DetailValue label="业务员" value={selectedRental.salespersonName || '历史未记录'} /><DetailValue label="订单来源" value={selectedRental.sourceType === 'online' ? `线上 · ${selectedRental.platformName || '平台未记录'}` : selectedRental.sourceType === 'offline' ? '线下' : '历史未记录'} />{selectedRental.sourceType === 'online' && <DetailValue label="平台订单号" value={selectedRental.platformOrderNo || '历史未记录'} />}<DetailValue label="租赁开始 / 当前到期" value={selectedRental.rentalStartDate + ' 至 ' + selectedRental.rentalEndDate} /><DetailValue label="原始计费方式" value={(selectedRental.rentalType === 'month' ? '按月' : '按日') + ' · ' + selectedRental.rentalDuration + ' 个单位'} /><DetailValue label="原租金" value={money(selectedRental.rentalTotalPrice)} /><DetailValue label="续租费用累计" value={money(selectedRental.renewalTotal || 0)} /><DetailValue label="累计约定租金" value={money(selectedRental.cumulativeRentalAmount ?? selectedRental.rentalTotalPrice)} /><DetailValue label={selectedRental.status === 'purchased' && selectedRental.returnType === '客户买断' ? '买断前押金' : '当前押金余额'} value={money(selectedRental.deposit)} />{selectedRental.status === 'purchased' && selectedRental.returnType === '客户买断' && <DetailValue label="押金结算状态" value="已按买断结算拆分完成" />}<DetailValue label="备注" value={selectedRental.remark || '无'} /></section>
         {selectedRental.returnType === '客户买断' && <section className="rounded-xl border border-primary/15 bg-primary/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">买断结算</h3><dl className="mt-3 grid gap-3 text-xs sm:grid-cols-2"><DetailValue label="买断方" value={selectedRental.buyoutBuyerName || selectedRental.customerName} /><DetailValue label="买断来源/渠道" value={selectedRental.buyoutSource || '未记录'} /><DetailValue label="押金退还 / 抵扣 / 留存" value={`${money(selectedRental.depositRefundAmount || 0)} / ${money(selectedRental.depositAppliedAmount || 0)} / ${money(selectedRental.depositRetainedAmount || 0)}`} /><DetailValue label="其他结算调整" value={money(selectedRental.settlementAdjustment || 0)} /></dl>{selectedRental.settlementNote && <p className="mt-3 whitespace-pre-wrap text-xs text-ink-soft">说明：{selectedRental.settlementNote}</p>}</section>}
-        {selectedRental.status === 'returned' && <section className="rounded-xl border border-success/15 bg-success/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">归还信息</h3><p className="mt-2 text-xs text-ink-soft">{selectedRental.returnDate || '日期未记录'} · {selectedRental.returnType || '归还方式未记录'}</p></section>}
+        {selectedRental.status === 'returned' && <section className="rounded-xl border border-success/15 bg-success/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">归还信息</h3><p className="mt-2 text-xs text-ink-soft">{selectedRental.returnDate || '日期未记录'} · {selectedRental.returnType || '归还方式未记录'} · 当前仓库：{warehouses.find(item => item.id === selectedRental.warehouseId)?.name || selectedRental.warehouseId || '未记录'}</p><Link href={`/inventory?sn=${encodeURIComponent(selectedRental.sn)}`} className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary transition hover:underline">在库存中查看这台机器</Link></section>}
         {!!selectedRental.renewals?.length && <section className="rounded-xl border border-line/70 bg-white/35 p-4"><div className="flex items-center justify-between gap-3"><h3 className="text-sm font-semibold text-ink-deep">续租费用与押金调整</h3><span className="text-[11px] text-ink-soft">{selectedRental.renewals.length} 次</span></div><ol className="mt-3 space-y-3">{selectedRental.renewals.map(renewal => <li key={renewal.id} className="border-l border-primary/20 pl-3 text-xs"><p className="font-medium text-ink-deep">{renewal.periodStartDate} 至 {renewal.newEndDate} · {money(renewal.totalAmount)}</p><p className="mt-1 text-ink-soft">{renewal.billingUnit === 'month' ? '按月' : '按日'} {renewal.duration} 个单位 · 单价 {money(renewal.unitPrice)} · {renewal.actorName} · {renewal.createdAt}</p>{renewal.depositDelta !== 0 && <p className="mt-1 text-ink-soft">押金 {money(renewal.depositBefore)} → {money(renewal.depositAfter)} · {renewal.depositChangeReason}</p>}{renewal.note && <p className="mt-1 whitespace-pre-wrap text-ink-soft">{renewal.note}</p>}</li>)}</ol></section>}
         {rentalAction === 'edit_terms' && <form id="rental-action-form" onSubmit={submitRentalAction} className="space-y-4 rounded-xl border border-primary/20 bg-primary/5 p-4">
           <div><h3 className="text-sm font-semibold text-ink-deep">更正租赁条款</h3><p className="mt-1 text-xs text-ink-soft">起止日期应用于整张订单；只更新下方列出的机器租金，未列出的机器保留原租金。提交后按新租期重新计算总额并记录更正前后内容。</p></div>
@@ -544,7 +616,7 @@ export default function RentalPage() {
         </form>}
         {rentalAction === 'cancel_buyout' && <form id="rental-action-form" onSubmit={submitRentalAction} className="rounded-xl border border-danger/20 bg-danger/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">撤销租赁买断</h3><p className="mt-1 text-xs text-ink-soft">只有机器尚无后续业务、销售凭证也未产生售后或退货时才能撤销。撤销会关闭买断销售记录，并将机器恢复为租赁中。</p><p className="mt-2 rounded-md bg-warning/10 p-2 text-xs text-warning">系统只恢复业务状态和销售记录；若已发生退款、收款或押金抵扣，不会自动冲正资金，请核对后另行处理。</p><label className="mt-4 block text-xs text-ink-soft">撤销原因<textarea value={buyoutCancelReason} onChange={event => setBuyoutCancelReason(event.target.value)} className="field mt-1.5 min-h-20 resize-y" maxLength={500} required /></label></form>}
         {rentalAction === 'exception' && <form id="rental-action-form" onSubmit={submitRentalAction} className="rounded-xl border border-primary/20 bg-primary/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">异常跟进</h3><p className="mt-1 text-xs text-ink-soft">记录沟通、逾期说明或机器状态跟进，不会自动改变库存状态。</p><label className="mt-4 block text-xs text-ink-soft">跟进内容<textarea value={exceptionNote} onChange={event => setExceptionNote(event.target.value)} className="field mt-1.5 min-h-24 resize-y" maxLength={1000} placeholder="记录已确认的信息和下一步安排" required /></label><p className="mt-1 text-right text-[11px] text-ink-soft">{exceptionNote.length}/1000</p></form>}
-        {returnOpen && <form id="rental-return-form" onSubmit={completeReturn} className="rounded-xl border border-primary/20 bg-primary/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">确认机器归还</h3><p className="mt-1 text-xs text-ink-soft">确认后机器将恢复为在库状态。</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><label className="text-xs text-ink-soft">归还日期<input type="date" value={returnDate} onChange={(event) => setReturnDate(event.target.value)} className="field mt-1.5" required /></label><label className="text-xs text-ink-soft">归还方式<div className="mt-1.5"><CustomSelect value={returnType} onChange={setReturnType} options={returnOptions} /></div></label></div></form>}
+        {returnOpen && <form id="rental-return-form" onSubmit={completeReturn} className="rounded-xl border border-primary/20 bg-primary/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">确认机器归还</h3><p className="mt-1 text-xs text-ink-soft">确认后机器会转为在库，并出现在所选接收仓库。</p><div className="mt-4 grid gap-3 sm:grid-cols-2"><label className="text-xs text-ink-soft">归还日期<input type="date" value={returnDate} onChange={(event) => setReturnDate(event.target.value)} className="field mt-1.5" required /></label><label className="text-xs text-ink-soft">归还方式<div className="mt-1.5"><CustomSelect value={returnType} onChange={setReturnType} options={returnOptions} /></div></label><div className="text-xs text-ink-soft sm:col-span-2"><span>实际接收仓库 <span className="text-danger">*</span></span><div className="mt-1.5"><CustomSelect value={returnWarehouseId} onChange={setReturnWarehouseId} options={warehouses.map(item => ({ value: item.id, label: item.name }))} placeholder="请选择机器实际收回的仓库" /></div>{warehouseLoadError && <p role="alert" className="mt-1 text-danger">{warehouseLoadError}</p>}<p className="mt-1 text-[11px]">原归属仓库：{warehouses.find(item => item.id === selectedRental.warehouseId)?.name || selectedRental.warehouseId || '未记录'}</p></div></div></form>}
         <section className="rounded-xl border border-line/70 bg-white/35 p-4"><div className="flex items-center justify-between gap-3"><h3 className="text-sm font-semibold text-ink-deep">租赁跟进记录</h3><span className="text-[11px] text-ink-soft">{selectedRental.events?.length || 0} 条</span></div>{selectedRental.events?.length ? <ol className="mt-3 space-y-3">{selectedRental.events.map((event, index) => <li key={event.id || `${event.createdAt || ''}-${index}`} className="relative border-l border-primary/20 pb-1 pl-4 last:border-0"><span className="absolute -left-[4px] top-1 h-2 w-2 rounded-full bg-primary/70" /><p className="text-xs font-medium text-ink-deep">{rentalEventLabel(event.eventType)}</p>{event.note && <p className="mt-1 whitespace-pre-wrap text-xs leading-5 text-ink-soft">{event.note}</p>}<p className="mt-1 text-[10px] text-ink-soft">{event.createdAt || '时间未记录'}{(event.actorName || event.actorId) ? ` · ${event.actorName || event.actorId}` : ''}</p></li>)}</ol> : <p className="mt-3 text-xs text-ink-soft">暂无租赁跟进记录</p>}</section>
       </div>
     </ModalShell>}

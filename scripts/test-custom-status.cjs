@@ -29,7 +29,7 @@ async function main() {
     const database=load('src/lib/db.ts');db=database.default;let token;
     const api=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':api,'next/headers':{cookies:async()=>({get:()=>token?{value:token}:undefined})}});
-    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts'),'@/lib/machine-scan':machineScan,'@/lib/manual-sku-options':load('src/lib/manual-sku-options.ts'),'@/lib/inventory-movement-labels':load('src/lib/inventory-movement-labels.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});
+    const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts'),'@/lib/machine-scan':machineScan,'@/lib/manual-sku-options':load('src/lib/manual-sku-options.ts'),'@/lib/inventory-movement-labels':load('src/lib/inventory-movement-labels.ts'),'@/lib/rental-duration':load('src/lib/rental-duration.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});deps['@/lib/inventory-query']=load('src/lib/inventory-query.ts',deps);
     const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/status-records/batch','inventory/analysis','inventory/movements'];
     const routes=Object.fromEntries(names.map(name=>[name,load(`src/app/api/${name}/route.ts`,deps)]));
     async function call(name,method,body,expected=200,query='') {
@@ -112,14 +112,15 @@ async function main() {
     result=await call('inventory/lookup','GET',undefined,200,'?context=inventory&q=%5F');assert.equal(result.total,0);
     result=await call('inventory/lookup','GET',undefined,200,'?context=inventory&q=CS-000');assert.equal(result.total,0,'SN middle fragments are not suffix matches');
     const saleBody=index=>({saleChannelId:'cs-channel',saleOrderNo:'CS-SALE-'+index,saleDate:'2026-10-21',items:[{inventoryId:machine(index).id,sellingPrice:1800}]});
-    await call('inventory/status-definitions','PATCH',{id:definition.id,allowStockOperations:false});
+    // Eligibility is copied to each status record at registration time; definition edits do not retroactively change it.
+    db.prepare('UPDATE inventory_status_records SET allowSales=0 WHERE id=?').run(machine(0).currentStatusRecordId);
     await call('sales','POST',saleBody(0),400);assert.equal(machine(0).status,'custom');
-    await call('inventory/status-definitions','PATCH',{id:definition.id,allowStockOperations:true});
+    db.prepare('UPDATE inventory_status_records SET allowSales=1 WHERE id=?').run(machine(0).currentStatusRecordId);
     const sale=await call('sales','POST',saleBody(0),201);assert.equal(machine(0).status,'sold');assert.equal(machine(0).currentStatusRecordId,null);
     await call('sales','PATCH',{id:sale.id,action:'cancel',cancelReason:'测试撤销'});assert.equal(machine(0).status,'in_stock');assert.equal(machine(0).currentStatusRecordId,null);
-    const rental=await call('rentals','POST',{inventoryId:machine(1).id,customerName:'测试',customerPhone:'10000',customerAddress:'测试地址',rentalStartDate:'2026-10-21',rentalEndDate:'2026-10-25',rentalType:'day',rentalUnitPrice:100,deposit:500},201);
+    const rental=await call('rentals','POST',{inventoryId:machine(1).id,customerName:'测试',customerPhone:'10000',customerAddress:'测试地址',handlerUserId:admin,salespersonName:'测试业务员',sourceType:'offline',rentalStartDate:'2026-10-21',rentalEndDate:'2026-10-25',rentalType:'day',rentalUnitPrice:100,deposit:500},201);
     assert.equal(machine(1).status,'renting');assert.equal(machine(1).currentStatusRecordId,null);
-    await call('rentals','PATCH',{id:rental.id,action:'return',returnDate:'2026-10-25',returnType:'正常归还'});assert.equal(machine(1).status,'in_stock');
+    await call('rentals','PATCH',{id:rental.id,action:'return',returnDate:'2026-10-25',returnType:'正常归还',returnWarehouseId:warehouse});assert.equal(machine(1).status,'in_stock');
     const supplierReturn=await call('returns','POST',{inventoryIds:[machine(2).id],returnReason:'测试退货',refundAmount:1000},201);
     assert.equal(machine(2).status,'returning');assert(machine(2).currentStatusRecordId,'supplier return application must retain status registration');
     await call('returns','PATCH',{id:supplierReturn.id,action:'complete'});assert.equal(machine(2).status,'returned');assert.equal(machine(2).currentStatusRecordId,null);
@@ -128,9 +129,9 @@ async function main() {
     const transfer=await call('transfers','POST',{sourceWarehouseId:warehouse,targetWarehouseId:'cs-target',inventoryIds:[machine(3).id]},201);
     assert(machine(3).currentStatusRecordId);await call('sales','POST',saleBody(3),400);
     await call('returns','POST',{inventoryIds:[machine(3).id],returnReason:'占用测试',refundAmount:1000},400);
-    await call('rentals','POST',{inventoryId:machine(3).id,customerName:'测试',customerPhone:'10000',customerAddress:'地址',rentalStartDate:'2026-10-21',rentalEndDate:'2026-10-25',rentalType:'day',rentalUnitPrice:100},400);await call('inventory/status-records','PATCH',{inventoryId:machine(3).id,action:'restore',resultNote:'不应允许'},400);
+    await call('rentals','POST',{inventoryId:machine(3).id,customerName:'测试',customerPhone:'10000',customerAddress:'地址',handlerUserId:admin,salespersonName:'测试业务员',sourceType:'offline',rentalStartDate:'2026-10-21',rentalEndDate:'2026-10-25',rentalType:'day',rentalUnitPrice:100},400);await call('inventory/status-records','PATCH',{inventoryId:machine(3).id,action:'restore',resultNote:'不应允许'},400);
     result=await call('inventory/lookup','GET',undefined,200,'?context=status-register&q='+encodeURIComponent(machine(3).sn));assert.equal(result.total,0);
-    await call('sales','POST',saleBody(9),201);const occupiedExchange=await call('after-sales','POST',{inventoryId:machine(9).id,issueType:'占用换机',resolutionType:'exchange'},201);await call('after-sales','PATCH',{id:occupiedExchange.id,action:'receive'});
+    await call('sales','POST',saleBody(9),201);const occupiedExchange=await call('after-sales','POST',{inventoryId:machine(9).id,issueType:'占用换机',resolutionType:'exchange'},201);await call('after-sales','PATCH',{id:occupiedExchange.id,action:'receive',condition:'外观完好'});await call('after-sales','PATCH',{id:occupiedExchange.id,action:'start_processing'});
     await call('after-sales','PATCH',{id:occupiedExchange.id,action:'exchange',replacementInventoryId:machine(3).id},400);assert.equal(machine(9).status,'after_sale');await call('after-sales','PATCH',{id:occupiedExchange.id,action:'cancel'});
     await call('transfers','PATCH',{id:transfer.id,action:'complete'});assert.equal(machine(3).warehouseId,'cs-target');assert.equal(machine(3).status,'in_stock');assert.equal(machine(3).currentStatusRecordId,null);
     // A downstream log failure rolls back status closure, sale and inventory as one unit.
@@ -138,7 +139,8 @@ async function main() {
     const recordBefore=machine(4).currentStatusRecordId;await call('sales','POST',saleBody(4),500);assert.equal(machine(4).status,'custom');assert.equal(machine(4).currentStatusRecordId,recordBefore);assert.equal(db.prepare('SELECT closedAt FROM inventory_status_records WHERE id=?').get(recordBefore).closedAt,null);db.exec('DROP TRIGGER cs_force_failure');
     // Exchange can use an eligible custom machine and must end its previous registration.
     await call('sales','POST',saleBody(6),201);const afterSale=await call('after-sales','POST',{inventoryId:machine(6).id,issueType:'测试换货',resolutionType:'exchange'},201);
-    await call('after-sales','PATCH',{id:afterSale.id,action:'receive'});
+    await call('after-sales','PATCH',{id:afterSale.id,action:'receive',condition:'外观完好'});
+    await call('after-sales','PATCH',{id:afterSale.id,action:'start_processing'});
     await call('after-sales','PATCH',{id:afterSale.id,action:'exchange',replacementInventoryId:machine(5).id,resolutionNote:'测试换机'});assert.equal(machine(5).status,'sold');assert.equal(machine(5).currentStatusRecordId,null);
     const rollbackTransfer=await call('transfers','POST',{sourceWarehouseId:warehouse,targetWarehouseId:'cs-target',inventoryIds:[machine(4).id]},201);
     db.exec("CREATE TRIGGER cs_transfer_failure BEFORE INSERT ON inventory_movements WHEN NEW.movementType='transfer_in' BEGIN SELECT RAISE(ABORT,'forced transfer failure'); END");

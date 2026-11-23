@@ -480,6 +480,22 @@ export default function InventoryPage() {
     if (view === 'movements') router.replace('/inventory', { scroll: false });
   }, [isViewer, router, searchParams]);
 
+  useEffect(() => {
+    const sn = searchParams.get('sn')?.trim();
+    if (!sn) return;
+    serialSearchTokens.current = [sn];
+    setSerialSearchList([sn]);
+    setSearchInput(sn);
+    setSearch(sn);
+    setConfigSearchInput('');
+    setConfigSearch('');
+    setFilters({ ...EMPTY_FILTERS });
+    setFilterDraft({ ...EMPTY_FILTERS });
+    setStatus('');
+    setPage(1);
+    setSelected(null);
+  }, [searchParams]);
+
   const selectWorkspace = (workspace: 'list' | 'transfers') => {
     if (isViewer && workspace === 'transfers') return;
     setActiveWorkspace(workspace);

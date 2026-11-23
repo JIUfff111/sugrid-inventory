@@ -333,7 +333,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof AuthError) return NextResponse.json(errorResponse(error.code, error.message), { status: error.status });
     console.error('POST /api/returns error:', error);
     const message = messageOf(error,'创建退货申请失败');
-    const conflict = /不可参与在库业务|状态已发生变化/.test(message);
+    const conflict = /不可参与在库业务|不可参与该项业务|状态已发生变化/.test(message);
     return NextResponse.json(errorResponse(conflict ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: conflict ? 400 : 500 });
   }
 }

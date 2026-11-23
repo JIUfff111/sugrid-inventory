@@ -1183,6 +1183,14 @@ function applyVersionedMigrations(db) {
           allowSupplierReturns = COALESCE(allowSupplierReturns, CASE WHEN locationType = 'external' THEN 0 ELSE (SELECT allowStockOperations FROM inventory_status_definitions WHERE id = inventory_status_records.definitionId) END, 0)
       WHERE closedAt IS NULL AND (allowSales IS NULL OR allowRentals IS NULL OR allowTransfers IS NULL OR allowSupplierReturns IS NULL)`);
   });
+  migrate(34, 'record rental handler salesperson and order source', () => {
+    add('rental_orders', 'handlerUserId', 'TEXT REFERENCES users(id)');
+    add('rental_orders', 'handlerName', 'TEXT');
+    add('rental_orders', 'salespersonName', 'TEXT');
+    add('rental_orders', 'sourceType', 'TEXT');
+    add('rental_orders', 'platformName', 'TEXT');
+    add('rental_orders', 'platformOrderNo', 'TEXT');
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

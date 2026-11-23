@@ -290,17 +290,18 @@ export async function GET(request: NextRequest) {
     }
     if (search) {
       const pattern = `%${search}%`;
-      conditions.push('(r.rentalNo LIKE ? OR r.sn LIKE ? OR r.brand LIKE ? OR r.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR r.customerName LIKE ? OR r.customerPhone LIKE ?)');
-      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern);
+      conditions.push('(r.rentalNo LIKE ? OR r.sn LIKE ? OR r.brand LIKE ? OR r.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR r.customerName LIKE ? OR r.customerPhone LIKE ? OR ro.handlerName LIKE ? OR ro.salespersonName LIKE ? OR ro.platformName LIKE ? OR ro.platformOrderNo LIKE ?)');
+      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern);
     }
     const where = `WHERE ${conditions.join(' AND ')}`;
     const count = db.prepare(`SELECT COUNT(*) AS total FROM rental_records r LEFT JOIN inventory i ON i.id = r.inventoryId LEFT JOIN rental_orders ro ON ro.id = r.rentalOrderId ${where}`).get(...params) as { total: number };
     const safePage = Math.min(page, Math.max(1, Math.ceil(Number(count.total) / pageSize)));
     const rows = db.prepare(`SELECT r.*, COALESCE(ro.rentalNo, r.rentalNo) AS displayRentalNo,
+      ro.handlerUserId, ro.handlerName, ro.salespersonName, ro.sourceType, ro.platformName, ro.platformOrderNo,
       (SELECT COUNT(*) FROM rental_records siblings WHERE siblings.rentalOrderId = r.rentalOrderId AND siblings.deleted = 0) AS orderMachineCount,
       sr.transactionType AS saleTransactionType, sr.buyoutBuyerName, sr.buyoutSource,
       sr.depositRefundAmount, sr.depositAppliedAmount, sr.depositRetainedAmount, sr.settlementAdjustment, sr.settlementNote,
-      i.year AS year,
+      i.year AS year, i.warehouseId AS warehouseId,
       CAST(julianday(date(r.rentalEndDate)) - julianday(date('now', '+8 hours')) AS INTEGER) AS daysUntilDue,
       CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) < date('now', '+8 hours') THEN 1 ELSE 0 END AS isOverdue,
       CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) >= date('now', '+8 hours') AND date(r.rentalEndDate) <= date('now', '+8 hours', '+3 day') THEN 1 ELSE 0 END AS isDueSoon
@@ -334,9 +335,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json() as Record<string, unknown>;
     const appendToOrderId = String(body.rentalOrderId || '').trim();
     const appendOrder = appendToOrderId
-      ? db.prepare(`SELECT id, rentalNo, customerName, customerPhone, customerAddress, rentalStartDate, rentalEndDate, rentalType, remark
+      ? db.prepare(`SELECT id, rentalNo, customerName, customerPhone, customerAddress, handlerUserId, handlerName, salespersonName,
+        sourceType, platformName, platformOrderNo, rentalStartDate, rentalEndDate, rentalType, remark
         FROM rental_orders WHERE id = ?`).get(appendToOrderId) as {
           id: string; rentalNo: string; customerName: string; customerPhone: string; customerAddress: string;
+          handlerUserId: string | null; handlerName: string | null; salespersonName: string | null; sourceType: string | null;
+          platformName: string | null; platformOrderNo: string | null;
           rentalStartDate: string; rentalEndDate: string; rentalType: string; remark: string | null;
         } | undefined
       : undefined;
@@ -358,10 +362,27 @@ export async function POST(request: NextRequest) {
     const customerName = appendOrder?.customerName || String(body.customerName || '').trim();
     const customerPhone = appendOrder?.customerPhone || String(body.customerPhone || '').trim();
     const customerAddress = appendOrder?.customerAddress || String(body.customerAddress || '').trim();
+    const handlerUserId = appendOrder ? appendOrder.handlerUserId : String(body.handlerUserId || '').trim();
+    const salespersonName = appendOrder ? appendOrder.salespersonName || '' : String(body.salespersonName || '').trim();
+    const sourceType = appendOrder ? appendOrder.sourceType || '' : String(body.sourceType || '').trim();
+    const platformName = appendOrder ? appendOrder.platformName || '' : String(body.platformName || '').trim();
+    const platformOrderNo = appendOrder ? appendOrder.platformOrderNo || '' : String(body.platformOrderNo || '').trim();
     const rentalStartDate = String(body.rentalStartDate || '').trim();
     const rentalEndDate = String(body.rentalEndDate || '').trim();
     const rentalType = appendOrder?.rentalType === 'month' ? 'month' : body.rentalType === 'month' ? 'month' : 'day';
     if (!customerName || !customerPhone || !customerAddress || !rentalStartDate || !rentalEndDate) return jsonError(ErrorCode.VALIDATION_ERROR, '请填写完整的租赁和客户信息');
+    let handlerName = appendOrder?.handlerName || '';
+    if (!appendOrder) {
+      if (!handlerUserId || !salespersonName) return jsonError(ErrorCode.VALIDATION_ERROR, '请确认经手账号并填写业务员');
+      const handler = db.prepare(`SELECT COALESCE(NULLIF(TRIM(realName), ''), username) AS name FROM users
+        WHERE id = ? AND status = 'active'`).get(handlerUserId) as { name: string } | undefined;
+      if (!handler) return jsonError(ErrorCode.VALIDATION_ERROR, '经手账号不存在或已停用');
+      handlerName = handler.name;
+      if (salespersonName.length > 80) return jsonError(ErrorCode.VALIDATION_ERROR, '业务员姓名最多 80 个字符');
+      if (sourceType !== 'online' && sourceType !== 'offline') return jsonError(ErrorCode.VALIDATION_ERROR, '请选择线上或线下租赁来源');
+      if (sourceType === 'online' && (!platformName || !platformOrderNo)) return jsonError(ErrorCode.VALIDATION_ERROR, '线上租赁请填写平台和平台订单号');
+      if (platformName.length > 100 || platformOrderNo.length > 120) return jsonError(ErrorCode.VALIDATION_ERROR, '平台或订单号内容过长');
+    }
     const lineInputs = itemInputs.map(item => ({
       inventoryId: String(item.inventoryId || '').trim(),
       rentalUnitPrice: Number(item.rentalUnitPrice ?? body.rentalUnitPrice),
@@ -411,8 +432,10 @@ export async function POST(request: NextRequest) {
         ).changes !== 1) throw new Error('租赁单日期已变化，请刷新后重试');
       } else {
         db.prepare(`INSERT INTO rental_orders
-          (id,rentalNo,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,remark,createdBy,createdAt,updatedAt)
-          VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).run(orderId,no,customerName,customerPhone,customerAddress,rentalStartDate,rentalEndDate,rentalType,orderRemark,user.id,now,now);
+          (id,rentalNo,customerName,customerPhone,customerAddress,handlerUserId,handlerName,salespersonName,sourceType,platformName,platformOrderNo,rentalStartDate,rentalEndDate,rentalType,remark,createdBy,createdAt,updatedAt)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(orderId,no,customerName,customerPhone,customerAddress,
+          handlerUserId,handlerName,salespersonName,sourceType,sourceType === 'online' ? platformName : null,sourceType === 'online' ? platformOrderNo : null,
+          rentalStartDate,rentalEndDate,rentalType,orderRemark,user.id,now,now);
       }
       const update = db.prepare("UPDATE inventory SET status = 'renting', rentalRecordId = ?, updatedAt = ? WHERE id = ? AND status IN ('in_stock','custom') AND deleted = 0");
       const insertRental = db.prepare(`INSERT INTO rental_records (
@@ -450,7 +473,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const response = authError(error); if (response) return response;
     const message = messageOf(error,'创建租赁记录失败');
-    const conflict = /不可参与在库业务|状态已发生变化|租赁条款已被其他操作修改|租赁订单日期已变化|租赁单已结束|租赁单信息已变化|订单计费方式已变化|租赁单日期已变化/.test(message);
+    const conflict = /不可参与在库业务|不可参与该项业务|状态已发生变化|租赁条款已被其他操作修改|租赁订单日期已变化|租赁单已结束|租赁单信息已变化|订单计费方式已变化|租赁单日期已变化/.test(message);
     return NextResponse.json(errorResponse(conflict ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: conflict ? 400 : 500 });
   }
 }
@@ -712,15 +735,22 @@ export async function PATCH(request: NextRequest) {
     const returnDate = typeof body.returnDate === 'string' && body.returnDate.trim() ? body.returnDate.trim() : now.slice(0, 10);
     const returnType = String(body.returnType || '正常归还').trim();
     if (!validDate(returnDate) || returnDate < rental.rentalStartDate) return jsonError(ErrorCode.VALIDATION_ERROR, '归还日期不能早于租赁开始日期');
+    const returnWarehouseId = String(body.returnWarehouseId || '').trim();
+    if (!returnWarehouseId) return jsonError(ErrorCode.VALIDATION_ERROR, '请选择实际接收仓库');
+    const returnWarehouse = db.prepare("SELECT id FROM warehouses WHERE id = ? AND status = 'active'").get(returnWarehouseId);
+    if (!returnWarehouse) return jsonError(ErrorCode.VALIDATION_ERROR, '接收仓库不存在或已停用');
     db.transaction(() => {
-      const updateInventory = db.prepare("UPDATE inventory SET status = 'in_stock', rentalRecordId = NULL, updatedAt = ? WHERE id = ? AND status = 'renting' AND rentalRecordId = ? AND deleted = 0");
-      if (updateInventory.run(now, rental.inventoryId, id).changes !== 1) throw new Error('库存状态已发生变化，请刷新后重试');
+      const updateInventory = db.prepare("UPDATE inventory SET status = 'in_stock', warehouseId = ?, rentalRecordId = NULL, updatedAt = ? WHERE id = ? AND status = 'renting' AND rentalRecordId = ? AND deleted = 0");
+      if (updateInventory.run(returnWarehouseId, now, rental.inventoryId, id).changes !== 1) throw new Error('库存状态已发生变化，请刷新后重试');
       const updateRental = db.prepare("UPDATE rental_records SET status = 'returned', returnDate = ?, returnType = ?, updatedAt = ? WHERE id = ? AND status = 'renting' AND deleted = 0");
       if (updateRental.run(returnDate, returnType, now, id).changes !== 1) throw new Error('租赁记录状态已发生变化，请刷新后重试');
-      addRentalMovement(rental.inventoryId, id, 'rental_return', user.id, '租赁归还入库', now);
-      addRentalEvent({ rentalRecordId: id, rentalOrderId: rental.rentalOrderId, eventType: 'returned', note: returnType, beforeData: { status: rental.status }, afterData: { status: 'returned', returnDate, returnType }, actorId: user.id, createdAt: now });
+      db.prepare(`INSERT INTO inventory_movements
+        (id, inventoryId, warehouseId, fromWarehouseId, toWarehouseId, movementType, quantity, referenceType, referenceId, actorId, note, statusFrom, statusTo, createdAt)
+        VALUES (?, ?, ?, ?, ?, 'rental_return', 1, 'rental', ?, ?, ?, 'renting', 'in_stock', ?)`)
+        .run(generateId('movement'), rental.inventoryId, returnWarehouseId, rental.warehouseId, returnWarehouseId, id, user.id, '租赁归还入库', now);
+      addRentalEvent({ rentalRecordId: id, rentalOrderId: rental.rentalOrderId, eventType: 'returned', note: returnType, beforeData: { status: rental.status, warehouseId: rental.warehouseId }, afterData: { status: 'returned', returnDate, returnType, warehouseId: returnWarehouseId }, actorId: user.id, createdAt: now });
     })();
-    return NextResponse.json(successResponse({ id, status: 'returned', returnDate }));
+    return NextResponse.json(successResponse({ id, sn: rental.sn, status: 'returned', returnDate, warehouseId: returnWarehouseId }));
   } catch (error) {
     const response = authError(error); if (response) return response;
     const message = messageOf(error, '处理租赁操作失败');

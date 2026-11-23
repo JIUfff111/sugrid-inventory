@@ -84,8 +84,8 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   rental_orders: {
     key: 'rental_orders', label: '租赁主单', table: 'rental_orders',
-    fields: ['id', 'rentalNo', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'remark', 'createdBy', 'createdAt', 'updatedAt'],
-    writable: ['remark'], deletable: false, creatable: false, searchFields: ['rentalNo', 'customerName', 'customerPhone'], orderBy: 'createdAt DESC', required: ['rentalNo', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'createdBy'],
+    fields: ['id', 'rentalNo', 'customerName', 'customerPhone', 'customerAddress', 'handlerUserId', 'handlerName', 'salespersonName', 'sourceType', 'platformName', 'platformOrderNo', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'remark', 'createdBy', 'createdAt', 'updatedAt'],
+    writable: ['remark'], deletable: false, creatable: false, searchFields: ['rentalNo', 'customerName', 'customerPhone', 'handlerName', 'salespersonName', 'platformName', 'platformOrderNo'], orderBy: 'createdAt DESC', required: ['rentalNo', 'customerName', 'customerPhone', 'customerAddress', 'rentalStartDate', 'rentalEndDate', 'rentalType', 'createdBy'],
   },
   rental_records: {
     key: 'rental_records', label: '租赁记录', table: 'rental_records',
