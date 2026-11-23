@@ -302,6 +302,7 @@ export async function GET(request: NextRequest) {
       sr.transactionType AS saleTransactionType, sr.buyoutBuyerName, sr.buyoutSource,
       sr.depositRefundAmount, sr.depositAppliedAmount, sr.depositRetainedAmount, sr.settlementAdjustment, sr.settlementNote,
       i.year AS year, i.warehouseId AS warehouseId,
+      CASE WHEN i.deleted = 0 THEN i.sn END AS currentInventorySn,
       CAST(julianday(date(r.rentalEndDate)) - julianday(date('now', '+8 hours')) AS INTEGER) AS daysUntilDue,
       CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) < date('now', '+8 hours') THEN 1 ELSE 0 END AS isOverdue,
       CASE WHEN r.status = 'renting' AND date(r.rentalEndDate) >= date('now', '+8 hours') AND date(r.rentalEndDate) <= date('now', '+8 hours', '+3 day') THEN 1 ELSE 0 END AS isDueSoon

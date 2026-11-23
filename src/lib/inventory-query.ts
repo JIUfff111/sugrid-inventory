@@ -44,6 +44,7 @@ export function inventoryFiltersFromParams(searchParams: URLSearchParams): Inven
 }
 
 export function validateInventoryQuery(searchParams: URLSearchParams) {
+  if ((searchParams.get('inventoryId') || '').length > 120) return '机器档案 ID 无效';
   for (const key of ['search', 'configSearch', ...stringFilterKeys]) {
     if ((searchParams.get(key) || '').length > 200) return `${key === 'configSearch' ? '配置搜索' : '筛选条件'}不能超过 200 个字符`;
   }
@@ -68,6 +69,11 @@ export function getInventoryWhere(searchParams: URLSearchParams) {
   const serials = uniqueMachineScanTokens(searchParams.getAll('sn').map(value => value.trim()).filter(Boolean));
   const filters = inventoryFiltersFromParams(searchParams);
   const where = getWhere(search, status, filters, serials, configSearch, searchParams.get('searchMode')?.trim() || '');
+  const inventoryId = searchParams.get('inventoryId')?.trim();
+  if (inventoryId) {
+    where.clause += ' AND i.id = ?';
+    where.params.push(inventoryId);
+  }
   const customStatusId = searchParams.get('customStatusId')?.trim();
   if (customStatusId) {
     where.clause += ' AND EXISTS (SELECT 1 FROM inventory_status_records cr WHERE cr.id=i.currentStatusRecordId AND cr.definitionId=? AND cr.closedAt IS NULL)';

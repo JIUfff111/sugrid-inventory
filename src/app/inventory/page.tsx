@@ -289,6 +289,7 @@ function buildInventoryQueryParams(input: {
   status: string;
   filters: InventoryFilters;
   serials: string[];
+  inventoryId: string;
   paginate?: boolean;
 }) {
   const params = new URLSearchParams();
@@ -296,6 +297,7 @@ function buildInventoryQueryParams(input: {
     params.set('page', String(input.page));
     params.set('pageSize', String(input.pageSize));
   }
+  if (input.inventoryId) params.set('inventoryId', input.inventoryId);
   if (input.serials.length) input.serials.forEach(serial => params.append('sn', serial));
   else if (input.search) {
     params.set('search', input.search);
@@ -387,6 +389,7 @@ export default function InventoryPage() {
   const [configSearch, setConfigSearch] = useState('');
   const serialSearchTokens = useRef<string[]>([]);
   const [serialSearchList, setSerialSearchList] = useState<string[]>([]);
+  const [focusedInventoryId, setFocusedInventoryId] = useState('');
   const [status, setStatus] = useState('current_stock');
   const [filters, setFilters] = useState<InventoryFilters>(EMPTY_FILTERS);
   const [filterDraft, setFilterDraft] = useState<InventoryFilters>(EMPTY_FILTERS);
@@ -447,7 +450,7 @@ export default function InventoryPage() {
   const machineEditBrandOptions = [...new Set([...(filterOptions.editBrands || filterOptions.brands), machineEditDraft?.brand || ''].filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, 'zh-CN'));
   const machineEditProductTypeOptions = [...new Set([...SKU_PRODUCT_TYPES, machineEditDraft?.productType || ''].filter(Boolean))];
-  const currentExportQuery = buildInventoryQueryParams({ page, pageSize, search, configSearch, status, filters, serials: serialSearchList, paginate: false }).toString();
+  const currentExportQuery = buildInventoryQueryParams({ page, pageSize, search, configSearch, status, filters, serials: serialSearchList, inventoryId: focusedInventoryId, paginate: false }).toString();
   const currentExportIds = JSON.stringify([...checkedMachines.keys()]);
   const exportColumnsKey = exportColumns.join(',');
   const statusDefinitions = filterOptions.statusDefinitions || [];
@@ -481,12 +484,16 @@ export default function InventoryPage() {
   }, [isViewer, router, searchParams]);
 
   useEffect(() => {
+    const inventoryId = searchParams.get('inventoryId')?.trim() || '';
     const sn = searchParams.get('sn')?.trim();
-    if (!sn) return;
-    serialSearchTokens.current = [sn];
-    setSerialSearchList([sn]);
-    setSearchInput(sn);
-    setSearch(sn);
+    setFocusedInventoryId(inventoryId);
+    if (!inventoryId && !sn) return;
+    const linkedSn = inventoryId ? '' : sn || '';
+    const serials = linkedSn ? [linkedSn] : [];
+    serialSearchTokens.current = serials;
+    setSerialSearchList(serials);
+    setSearchInput(linkedSn);
+    setSearch(linkedSn);
     setConfigSearchInput('');
     setConfigSearch('');
     setFilters({ ...EMPTY_FILTERS });
@@ -654,6 +661,7 @@ export default function InventoryPage() {
           status,
           filters,
           serials: serialSearchList,
+          inventoryId: focusedInventoryId,
         });
 
         const response = await fetch(`/api/inventory?${params.toString()}`, { cache: 'no-store' });
@@ -682,7 +690,7 @@ export default function InventoryPage() {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [active, activeWorkspace, page, pageSize, search, configSearch, status, filters, serialSearchList, reloadKey]);
+  }, [active, activeWorkspace, page, pageSize, search, configSearch, status, filters, serialSearchList, focusedInventoryId, reloadKey]);
 
   useEffect(() => {
     if (!exportOpen) return;
@@ -763,25 +771,39 @@ export default function InventoryPage() {
     return () => controller.abort();
   }, [active, selected?.id]);
 
-  const submitMachineSearch = (event?: FormEvent) => {
-    event?.preventDefault();
+  const clearInventoryFocus = () => {
+    setFocusedInventoryId('');
+    setPage(1);
+    if (searchParams.has('inventoryId')) router.replace('/inventory', { scroll: false });
+  };
+
+  const searchMachines = (query: string) => {
+    clearInventoryFocus();
     serialSearchTokens.current = [];
     setSerialSearchList([]);
-    setSearch(searchInput.trim());
-    setPage(1);
+    setSearchInput(query);
+    setSearch(query.trim());
+  };
+
+  const submitMachineSearch = (event: FormEvent) => {
+    event.preventDefault();
+    searchMachines(searchInput);
+  };
+
+  const selectMachineSerials = (serials: string[]) => {
+    clearInventoryFocus();
+    serialSearchTokens.current = serials;
+    setSerialSearchList(serials);
+    const query = serials.join(', ');
+    setSearchInput(query);
+    setSearch(query);
+    return query;
   };
 
   const submitConfigSearch = (event?: FormEvent) => {
     event?.preventDefault();
+    if (configSearchInput.trim()) clearInventoryFocus();
     setConfigSearch(configSearchInput.trim());
-    setPage(1);
-  };
-
-  const clearMachineSearch = () => {
-    serialSearchTokens.current = [];
-    setSerialSearchList([]);
-    setSearchInput('');
-    setSearch('');
     setPage(1);
   };
 
@@ -1282,11 +1304,32 @@ export default function InventoryPage() {
 
       <WorkspaceSection active={activeWorkspace === 'list'}>
       <section className="glass p-4 mb-4">
+        {focusedInventoryId && (
+          <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-ink-soft">
+            <span>正在查看租赁单关联的机器档案</span>
+            <button type="button" className="btn-ghost inline-flex items-center gap-1" onClick={clearInventoryFocus}><X className="h-3.5 w-3.5" />清除档案定位</button>
+          </div>
+        )}
         <div className="flex flex-wrap items-end gap-3">
           <div role="group" aria-label="库存搜索" className="grid min-w-0 basis-full grid-cols-1 gap-2.5 sm:grid-cols-2 xl:max-w-xl xl:flex-1">
             <form onSubmit={submitMachineSearch} className="min-w-0">
               <label htmlFor="inventory-machine-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">SN / 编号</label>
-              <MachineSearchInput<InventoryItem> inputId="inventory-machine-search" value={searchInput} onChange={setSearchInput} onClear={clearMachineSearch} endpoint={`/api/inventory/lookup?context=inventory&searchMode=machine${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`} onSelect={item => { serialSearchTokens.current = [item.sn]; setSerialSearchList([item.sn]); setSearchInput(item.sn); setSearch(item.sn); setPage(1); }} onSelectMany={(_items, serials) => { const tokens = uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]); serialSearchTokens.current = tokens; setSerialSearchList(tokens); const query = tokens.join(', '); setSearchInput(query); setSearch(query); setPage(1); return query; }} onSearch={query => { serialSearchTokens.current = []; setSerialSearchList([]); setSearchInput(query); setSearch(query.trim()); setPage(1); }} scanEnabled batchEnabled batchButtonPlacement="inline" searchOnEnter placeholder="搜索 SN 或编号，支持扫码" ariaLabel="按 SN 或编号搜索库存机器" />
+              <MachineSearchInput<InventoryItem>
+                inputId="inventory-machine-search"
+                value={searchInput}
+                onChange={setSearchInput}
+                onClear={() => searchMachines('')}
+                endpoint={`/api/inventory/lookup?context=inventory&searchMode=machine${filters.warehouseId ? `&warehouseId=${encodeURIComponent(filters.warehouseId)}` : ''}`}
+                onSelect={item => selectMachineSerials([item.sn])}
+                onSelectMany={(_items, serials) => selectMachineSerials(uniqueMachineScanTokens([...serialSearchTokens.current, ...serials]))}
+                onSearch={searchMachines}
+                scanEnabled
+                batchEnabled
+                batchButtonPlacement="inline"
+                searchOnEnter
+                placeholder="搜索 SN 或编号，支持扫码"
+                ariaLabel="按 SN 或编号搜索库存机器"
+              />
             </form>
             <form onSubmit={submitConfigSearch} className="min-w-0">
               <label htmlFor="inventory-config-search" className="mb-1.5 block text-[11px] font-medium text-ink-soft">品牌、型号与配置</label>

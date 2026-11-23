@@ -66,7 +66,7 @@ async function main() {
     assert.equal(groupedThreeMachines[0].items.length, 3);
     const legacyGroup = groupRentalsByOrder(threeMachines.map((rental) => ({ ...rental, rentalOrderId: null })));
     assert.equal(legacyGroup.length, 1, 'legacy rows with the same displayed order number should stay grouped');
-    const routes = Object.fromEntries(['purchase-orders', 'sales', 'sales-returns', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses', 'inventory']
+    const routes = Object.fromEntries(['purchase-orders', 'sales', 'sales-returns', 'after-sales', 'rentals', 'transfers', 'alerts', 'warehouses', 'inventory', 'inventory/edit']
       .map((name) => [name, load(`src/app/api/${name}/route.ts`, deps)]));
 
     async function call(name, method, body, expected = 200, query = '', fillRentalMetadata = true) {
@@ -96,6 +96,7 @@ async function main() {
     }
 
     db.prepare("INSERT INTO users(id, username, password, realName, role, status) VALUES ('flow-admin', 'flow-admin', 'test', '流程管理员', 'admin', 'active'), ('flow-manager', 'flow-manager', 'test', '分仓用户', 'warehouse_manager', 'active')").run();
+    db.prepare("UPDATE users SET canEditInventory = 1 WHERE id = 'flow-admin'").run();
     token = auth.createSession('flow-admin');
     db.prepare("INSERT INTO suppliers(id, supplierName) VALUES ('flow-supplier', '流程测试供应商')").run();
     db.prepare("INSERT INTO sales_channels(id, channelName) VALUES ('flow-channel', '流程测试渠道')").run();
@@ -105,7 +106,9 @@ async function main() {
     const chinaToday = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
     const shiftDate = (days) => new Date(Date.parse(`${chinaToday}T00:00:00Z`) + days * 86400000).toISOString().slice(0, 10);
 
-    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL', 'RTN-APPEND-BASE', 'RTN-APPEND-ADDED', 'RTN-APPEND-ROLLBACK', 'RTN-APPEND-ENDED'];
+    const originalSn = 'QA/SN-OLD';
+    const editedSn = 'QA/SN-CURRENT';
+    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL', 'RTN-APPEND-BASE', 'RTN-APPEND-ADDED', 'RTN-APPEND-ROLLBACK', 'RTN-APPEND-ENDED', originalSn];
     const purchase = await call('purchase-orders', 'POST', {
       supplierId: 'flow-supplier', supplierOrderNo: 'FLOW-PO', purchaseDate: chinaToday, purchasedBy: 'flow-admin',
       status: 'completed', warehouseId: mainWarehouse,
@@ -156,6 +159,34 @@ async function main() {
     assert.equal(returnedInWarehouse.total, 1, 'returned machine must remain visible in its receiving warehouse');
     const notInOriginalWarehouse = await call('inventory', 'GET', undefined, 200, `?status=current_stock&warehouseId=${encodeURIComponent(mainWarehouse)}&sn=${encodeURIComponent('RTN-RETURN')}`);
     assert.equal(notInOriginalWarehouse.total, 0, 'returned machine must leave its previous warehouse filter');
+
+    const renamedRental = await addRental(originalSn, shiftDate(4));
+    const machine = inventory(originalSn);
+    await call('rentals', 'PATCH', { id: renamedRental.id, action: 'return', returnDate: chinaToday, returnWarehouseId: targetWarehouse.id });
+    await call('inventory/edit', 'POST', {
+      inventoryId: machine.id, expectedSn: originalSn,
+      fields: {
+        sn: editedSn, productType: machine.productType, brand: machine.brand, model: machine.model, year: machine.year,
+        cpu: machine.cpu, ram: machine.ram, gpu: machine.gpu || '', storage: machine.storage || '', screen: machine.screen || '',
+        touchScreen: machine.touchScreen, purchasePrice: machine.purchasePrice,
+      },
+    });
+    await call('sales', 'POST', {
+      saleChannelId: 'flow-channel', saleOrderNo: 'FLOW-SALE-RENAMED-RETURN', saleDate: chinaToday,
+      items: [{ inventoryId: machine.id, sellingPrice: 1600 }],
+    }, 201);
+    const historicalRental = await call('rentals', 'GET', undefined, 200, `?search=${encodeURIComponent(originalSn)}`);
+    assert.equal(historicalRental.items[0].sn, originalSn, 'rental record keeps the original SN');
+    assert.equal(historicalRental.items[0].currentInventorySn, editedSn, 'rental details show the current SN');
+    assert.equal((await call('inventory', 'GET', undefined, 200, `?sn=${encodeURIComponent(originalSn)}`)).total, 0);
+    const machineLink = `?inventoryId=${encodeURIComponent(historicalRental.items[0].inventoryId)}`;
+    const linkedInventory = await call('inventory', 'GET', undefined, 200, machineLink);
+    assert.equal(linkedInventory.total, 1);
+    assert.deepEqual([linkedInventory.items[0].id, linkedInventory.items[0].sn, linkedInventory.items[0].status], [machine.id, editedSn, 'sold']);
+    token = auth.createSession('flow-manager');
+    assert.equal((await call('inventory', 'GET', undefined, 200, machineLink)).total, 0, 'direct links must respect warehouse scope');
+    token = auth.createSession('flow-admin');
+
     await call('rentals', 'PATCH', { id: returnedRental.id, action: 'return' }, 400);
     await call('rentals', 'PATCH', {
       id: returnedRental.id, action: 'edit_terms', rentalStartDate: shiftDate(-30), rentalEndDate: shiftDate(4),
