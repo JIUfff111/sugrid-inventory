@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ChevronDown, History } from 'lucide-react';
+import { formatMovementDateTime } from '@/lib/display-date-time';
 import { assetChangeLines } from '@/lib/asset-change';
 import { inventoryMovementLabel } from '@/lib/inventory-movement-labels';
 
@@ -84,7 +85,7 @@ export default function InventoryMovementTimeline({ inventoryId }: { inventoryId
                   <span className="absolute -left-[25px] top-1 h-2 w-2 rounded-full bg-primary ring-4 ring-paper" />
                   <div className="flex flex-wrap justify-between gap-1 text-xs">
                     <strong className="font-medium text-ink-deep">{inventoryMovementLabel(row.movementType)}</strong>
-                    <time className="text-[11px] text-ink-soft">{row.createdAt.replace('T', ' ').slice(0, 19)}</time>
+                    <time className="text-[11px] text-ink-soft">{formatMovementDateTime(row.id, row.createdAt)}</time>
                   </div>
                   <p className="mt-1 text-xs text-ink-soft">{[row.fromWarehouseName, row.toWarehouseName].filter(Boolean).join(' → ') || row.warehouseName || '未记录仓库'} · {row.actorName || row.actorUsername || '系统'}</p>
                   {row.referenceId && <p className="mt-1 break-all font-mono text-[10px] text-ink-soft">关联：{row.referenceId}</p>}

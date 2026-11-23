@@ -48,6 +48,7 @@ async function main() {
       '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
       '@/lib/rental-order-groups': load('src/lib/rental-order-groups.ts'),
       '@/lib/rental-duration': load('src/lib/rental-duration.ts'),
+      '@/lib/display-date-time': load('src/lib/display-date-time.ts'),
     };
     deps['@/lib/product-name'] = load('src/lib/product-name.ts', deps);
     deps['@/lib/inventory-status'] = load('src/lib/inventory-status.ts', deps);
@@ -490,6 +491,8 @@ async function main() {
     assert.match(afterSaleAlert.title, /SF-FLOW-AFTERSALE-001/);
     assert(!afterSaleAlert.title.includes(afterSale.afterSaleNo), 'alert title should use the customer return tracking number, not the generated after-sale number');
     assert.match(afterSaleAlert.detail, new RegExp(afterSale.afterSaleNo));
+    const localReceivedAt = new Date(new Date(oldReceivedAt.replace(' ', 'T') + 'Z').getTime() + 8 * 3600000).toISOString().slice(0, 19).replace('T', ' ');
+    assert(afterSaleAlert.detail.endsWith(localReceivedAt), 'alert should show China Standard Time in 24-hour format');
     db.prepare('UPDATE after_sale_records SET receivedAt=? WHERE id=?').run(new Date(Date.now() - 23 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '), afterSale.id);
     const notYetOverdue = await call('alerts', 'GET', undefined);
     assert(!notYetOverdue.items.some((item) => item.id === `after-sale:${afterSale.id}`), 'received after-sale machine under 24 hours must not alert');

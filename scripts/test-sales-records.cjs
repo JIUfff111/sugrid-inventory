@@ -37,14 +37,14 @@ async function main() {
   for(const [index,original] of [[50,4],[51,50]]) {
     const id=`after-${index}`,line={...snapshot(machines[index],index),itemType:'exchange',afterSaleId:id,originalInventoryId:machines[original].id};
     db.prepare("INSERT INTO after_sale_records (id,afterSaleNo,inventoryId,sn,salesRecordId,saleOrderNo,customerName,customerPhone,issueType,issueDescription,resolutionType,status,replacementInventoryId,refundAmount,createdBy,createdAt,updatedAt) VALUES (?,?,?,?,'order-2','EXT-order-2','','','质量问题','测试','exchange','resolved',?,200,?,'2026-10-22','2026-10-22')").run(id,`AS-${index}`,machines[original].id,machines[original].sn,machines[index].id,user);
-    db.prepare('INSERT INTO sales_record_items (id,salesRecordId,saleRecordId,inventoryId,sn,purchasePrice,sellingPrice,profit,warehouseId,snapshot,afterSaleId,itemType,originalInventoryId,createdAt) VALUES (?,\'order-2\',\'order-2\',?,?,?,?,?,?,?,?,?,?,\'2026-10-22\')').run(`exchange-${index}`,line.inventoryId,line.sn,100,200,100,line.warehouseId,JSON.stringify(line),id,'exchange',line.originalInventoryId);
+    db.prepare('INSERT INTO sales_record_items (id,salesRecordId,saleRecordId,inventoryId,sn,purchasePrice,sellingPrice,profit,warehouseId,snapshot,afterSaleId,itemType,originalInventoryId,createdAt) VALUES (?,\'order-2\',\'order-2\',?,?,?,?,?,?,?,?,?,?,?)').run(`exchange-${index}`,line.inventoryId,line.sn,100,200,100,line.warehouseId,JSON.stringify(line),id,'exchange',line.originalInventoryId,index===50?'2026-10-22 07:05:00':'2026-10-22T16:05:00.000Z');
     const record=db.prepare("SELECT items FROM sales_records WHERE id='order-2'").get();db.prepare("UPDATE sales_records SET items=? WHERE id='order-2'").run(JSON.stringify([...JSON.parse(record.items),line]));
   }
   // Several after-sales records for the same order must not amplify sales lines.
   db.prepare("INSERT INTO after_sale_records (id,afterSaleNo,inventoryId,sn,salesRecordId,saleOrderNo,customerName,customerPhone,issueType,issueDescription,resolutionType,status,refundAmount,createdBy) VALUES ('repair','AS-repair',?,?,'order-2','EXT-order-2','','','质量','维修','repair','resolved',200,?)").run(machines[5].id,machines[5].sn,user);
   const brand=load('src/lib/sku-brand.ts');
   const productName=load('src/lib/product-name.ts',{'@/lib/sku-brand':brand});
-  const service=load('src/lib/sales-records.ts',{'@/lib/product-name':productName,'@/lib/sku-display':load('src/lib/sku-display.ts')});
+  const service=load('src/lib/sales-records.ts',{'@/lib/display-date-time':load('src/lib/display-date-time.ts'),'@/lib/product-name':productName,'@/lib/sku-display':load('src/lib/sku-display.ts')});
   const blank={search:'',dateFrom:'',dateTo:'',channel:'',warehouseId:'',status:''};
   // Optional normalized metadata must not blank a complete historical JSON snapshot.
   db.prepare("UPDATE sales_record_items SET snapshot=? WHERE id='order-2-0'").run(JSON.stringify({brand:null,model:null,warehouseId:null}));
@@ -71,7 +71,11 @@ async function main() {
   assert.equal(withBuyout.byChannel.find(row=>row.name==='租赁买断').amount,200,'buyout revenue remains separately visible in channel summaries');
   assert.equal(service.querySalesRecords(db,{...blank,channel:'租赁买断'}).summary.amount,200,'buyouts remain filterable as their own transaction category');
   const detail=service.salesRecordDetail(db,'order-2');assert.equal(detail.order.items.length,4);assert.equal(detail.afterSales.length,3);assert.equal(detail.order.amount,400);
-  assert.equal(service.salesCsv(all,'machines').split('\r\n').length,54);assert.equal(service.salesCsv(all,'orders').split('\r\n').length,27);
+  const machineCsv=service.salesCsv(all,'machines').split('\r\n');
+  assert.equal(machineCsv.length,54);assert.equal(service.salesCsv(all,'orders').split('\r\n').length,27);
+  assert(machineCsv.find(line=>line.includes(`"${machines[50].sn}"`))?.startsWith('"2026-10-22 15:05:00",'));
+  assert(machineCsv.find(line=>line.includes(`"${machines[51].sn}"`))?.startsWith('"2026-10-23 00:05:00",'));
+  assert(machineCsv.some(line=>line.startsWith('"2026-10-20","XS-order-2",')));
   const escaped=service.salesCsv({...all,orders:[{...all.orders[0],saleOrderNo:'=HYPERLINK("x")'}]},'orders');assert(escaped.includes("'=HYPERLINK"));
   assert.throws(()=>service.readSalesFilters(new URLSearchParams('dateFrom=2026-10-20&dateTo=2026-10-01')),/不能晚于/);
   class AuthError extends Error {constructor(){super('权限不足');this.status=403;this.code='FORBIDDEN';}}

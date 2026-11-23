@@ -8,13 +8,14 @@ import ConfirmDialog from '@/components/ConfirmDialog';
 import Toast, { type ToastType } from '@/components/Toast';
 import { accountRequest, PasswordField } from '@/components/AuthControls';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
+import { formatDisplayDateTime } from '@/lib/display-date-time';
 import type { SessionUser } from '@/lib/access';
 
 type AccountSession = { id:string; browser:string|null; os:string|null; createdAt:string; lastActiveAt:string|null; expiresAt:string; current:boolean };
 type LoginEvent = { id:string; createdAt:string; success:boolean; browser:string|null; os:string|null; message:string|null };
 type Pagination = {page:number;pageSize:number;total:number;totalPages:number};
 type Confirm = {type:'discard'} | {type:'password'} | {type:'session';id:string;current:boolean} | {type:'others'};
-function time(value:string|null) { return value ? new Date(value).toLocaleString('zh-CN', {hour12:false}) : '未记录'; }
+function time(value:string|null) { return formatDisplayDateTime(value, '未记录'); }
 function accountRole(role: string) { return role === 'admin' ? '管理员' : role === 'viewer' ? '普通用户' : '分仓管'; }
 function accountWarehouseScope(user: SessionUser) { return user.role === 'admin' ? '全部仓库' : user.role === 'viewer' ? '全部仓库（只读）' : user.warehouses.map(w => w.name).join('、') || '未分配'; }
 

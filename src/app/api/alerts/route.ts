@@ -3,6 +3,7 @@ import db from '@/lib/db';
 import { errorResponse, ErrorCode, successResponse } from '@/lib/api-helpers';
 import { AuthError, requireRole } from '@/lib/auth';
 import { formatProductName } from '@/lib/product-name';
+import { formatDisplayDateTime } from '@/lib/display-date-time';
 
 export async function GET() {
   try {
@@ -13,7 +14,7 @@ export async function GET() {
       afterSales.forEach((row) => {
         const tracking = row.returnTrackingNo?.trim() || '未登记寄回快递号';
         const progress = row.status === 'processing' ? '处理中' : '待开始处理';
-        items.push({ id: `after-sale:${row.id}`, kind: 'after_sale', level: 'danger', title: `售后快递 ${tracking} 的机器签收超过 1 天仍${progress}`, detail: `售后单 ${row.afterSaleNo} · ${formatProductName(row)} · SN ${row.sn} · 签收于 ${row.receivedAt}`, href: `/after-sales?recordId=${encodeURIComponent(row.id)}` });
+        items.push({ id: `after-sale:${row.id}`, kind: 'after_sale', level: 'danger', title: `售后快递 ${tracking} 的机器签收超过 1 天仍${progress}`, detail: `售后单 ${row.afterSaleNo} · ${formatProductName(row)} · SN ${row.sn} · 签收于 ${formatDisplayDateTime(row.receivedAt)}`, href: `/after-sales?recordId=${encodeURIComponent(row.id)}` });
       });
       const transfers = db.prepare("SELECT COUNT(*) AS total FROM transfers WHERE status = 'pending'").get() as { total: number };
       if (Number(transfers.total)) items.push({ id: 'transfers:pending', kind: 'transfer', level: 'warning', title: '有调拨申请待审批', detail: `当前有 ${transfers.total} 条调拨申请等待管理员处理`, href: '/inventory?view=transfers' });

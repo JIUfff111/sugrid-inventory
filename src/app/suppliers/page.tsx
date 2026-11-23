@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { Plus, Search, Edit2, Trash2 } from 'lucide-react';
+import { formatDisplayDateTime } from '@/lib/display-date-time';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import Toast, { ToastType } from '@/components/Toast';
 
@@ -240,7 +241,7 @@ export default function SuppliersPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-[13px] text-ink-soft">
-                      {new Date(supplier.createdAt).toLocaleDateString()}
+                      {formatDisplayDateTime(supplier.createdAt)}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">

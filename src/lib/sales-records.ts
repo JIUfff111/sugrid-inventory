@@ -1,4 +1,5 @@
 import type Database from 'better-sqlite3';
+import { formatDisplayDateTime } from '@/lib/display-date-time';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
@@ -134,7 +135,7 @@ export function salesRecordDetail(db: Database.Database, id: string) {
 
 export function salesCsv(result: ReturnType<typeof querySalesRecords>, view: string) {
   const header = view === 'orders' ? ['销售日期','销售单号','平台单号','渠道','快递单号','状态','原始销售台数','原始售价合计','原始成本合计','原始毛利合计','换货交付台数','操作人','有效销售台数','计入销售额','计入出库成本','计入出库毛利'] : ['出库时间','销售单号','平台单号','渠道','快递单号','SN','机器','配置快照','出库仓库','交付类型','状态','售价快照','成本快照','毛利快照','操作人','有效销售台数','计入销售额','计入出库成本','计入出库毛利'];
-  const rows = view === 'orders' ? result.orders.map(row => {const effective=row.status==='completed';return [row.saleDate,row.recordNo,row.saleOrderNo,row.saleChannel,row.trackingNo,row.status === 'cancelled' ? '已撤销':'有效',row.quantity,row.amount,row.cost,row.profit,row.exchangeQuantity,row.actorName,effective?row.quantity:0,effective?row.amount:0,effective?row.cost:0,effective?row.profit:0];}) : result.machines.map(row => {const effective=row.status==='completed'&&row.itemType==='sale';return [row.outboundAt,row.recordNo,row.saleOrderNo,row.saleChannel,row.trackingNo,row.sn,row.product,row.config,row.warehouseName,row.itemType === 'exchange' ? '换货交付（不计销售额）':'销售出库',row.status === 'cancelled' ? '已撤销':'有效',row.sellingPrice,row.purchasePrice,row.profit,row.actorName,effective?1:0,effective?row.sellingPrice:0,effective?row.purchasePrice:0,effective?row.profit:0];});
+  const rows = view === 'orders' ? result.orders.map(row => {const effective=row.status==='completed';return [row.saleDate,row.recordNo,row.saleOrderNo,row.saleChannel,row.trackingNo,row.status === 'cancelled' ? '已撤销':'有效',row.quantity,row.amount,row.cost,row.profit,row.exchangeQuantity,row.actorName,effective?row.quantity:0,effective?row.amount:0,effective?row.cost:0,effective?row.profit:0];}) : result.machines.map(row => {const effective=row.status==='completed'&&row.itemType==='sale';return [formatDisplayDateTime(row.outboundAt, ''),row.recordNo,row.saleOrderNo,row.saleChannel,row.trackingNo,row.sn,row.product,row.config,row.warehouseName,row.itemType === 'exchange' ? '换货交付（不计销售额）':'销售出库',row.status === 'cancelled' ? '已撤销':'有效',row.sellingPrice,row.purchasePrice,row.profit,row.actorName,effective?1:0,effective?row.sellingPrice:0,effective?row.purchasePrice:0,effective?row.profit:0];});
   // Quoting alone does not stop spreadsheet formula execution.
   const cell = (value: unknown) => { let valueText = text(value); if (/^[=+@\-\t\r]/.test(valueText)) valueText = `'${valueText}`; return `"${valueText.replaceAll('"','""')}"`; };
   return '\ufeff' + [header,...rows].map(row => row.map(cell).join(',')).join('\r\n');

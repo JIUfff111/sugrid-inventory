@@ -13,6 +13,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - 开始处理问题前，先核对前提、逻辑链和缺失信息；保持独立判断，并明确区分已验证事实、预测和主观建议。
 - 以真实使用者的操作习惯和工作效率为优先；所有面向人的功能都应减少重复输入、明确当前状态、允许纠错和撤销，并在批量操作时清楚展示影响范围。
 - 同类业务尽量提供一致的搜索、选择、确认、反馈和错误恢复体验；避免默认假设用户只处理一条记录，支持批量的场景应支持批量并保留逐项控制。
+- 系统界面的事件时间统一按北京时间显示为 `YYYY-MM-DD HH:mm:ss`（24 小时制），复用 `src/lib/display-date-time.ts`；无法确认时区的历史补录保留原值，只有日期的业务字段不补时间，数据库及备份导入导出保留原格式。
 - 浏览器验收固定使用隔离测试账号 `experience-qa`，并确认服务连接独立 QA 数据库；禁止用正式账号或正式数据库做测试，也不要把测试密码写入项目规范文件。
 - After every code change, create a corresponding Git commit so the change can be traced and reverted.
 - After every code change, add or update the relevant tests. Before delivery, run the relevant test suite and confirm that all required checks pass.

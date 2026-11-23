@@ -20,6 +20,7 @@ import CustomSelect from '@/components/CustomSelect';
 import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
+import { formatDisplayDateTime } from '@/lib/display-date-time';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
 
@@ -94,8 +95,7 @@ function formatMoney(value: number | null | undefined) {
 }
 
 function formatDate(value: string | null | undefined) {
-  if (!value) return '-';
-  return value.replace('T', ' ').slice(0, 16);
+  return formatDisplayDateTime(value, '-');
 }
 
 async function requestJson<T>(url: string, init?: RequestInit): Promise<T> {
