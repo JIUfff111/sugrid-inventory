@@ -30,6 +30,7 @@ async function main() {
     const api=load('src/lib/api-helpers.ts');
     const auth=load('src/lib/auth.ts',{'@/lib/db':database,'@/lib/api-helpers':api,'next/headers':{cookies:async()=>({get:()=>token?{value:token}:undefined})}});
     const deps={'@/lib/db':database,'@/lib/api-helpers':api,'@/lib/auth':auth,'@/lib/sku-brand':load('src/lib/sku-brand.ts'),'@/lib/sku-display':load('src/lib/sku-display.ts'),'@/lib/machine-scan':machineScan,'@/lib/manual-sku-options':load('src/lib/manual-sku-options.ts'),'@/lib/inventory-movement-labels':load('src/lib/inventory-movement-labels.ts'),'@/lib/rental-duration':load('src/lib/rental-duration.ts')};deps['@/lib/inventory-status']=load('src/lib/inventory-status.ts',deps);deps['@/lib/inventory-purge']=load('src/lib/inventory-purge.ts',{'@/lib/db':database});deps['@/lib/inventory-query']=load('src/lib/inventory-query.ts',deps);
+    deps['@/lib/rental-workspace'] = load('src/lib/rental-workspace.ts', deps);
     const names=['purchase-orders','sales','rentals','returns','transfers','after-sales','inventory','inventory/lookup','inventory/status-definitions','inventory/status-records','inventory/status-records/batch','inventory/analysis','inventory/movements'];
     const routes=Object.fromEntries(names.map(name=>[name,load(`src/app/api/${name}/route.ts`,deps)]));
     async function call(name,method,body,expected=200,query='') {

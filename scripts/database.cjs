@@ -1191,6 +1191,46 @@ function applyVersionedMigrations(db) {
     add('rental_orders', 'platformName', 'TEXT');
     add('rental_orders', 'platformOrderNo', 'TEXT');
   });
+  migrate(35, 'support fixed total rental renewals', () => {
+    db.exec(`
+      CREATE TABLE rental_renewals_v35 (
+        id TEXT PRIMARY KEY,
+        batchId TEXT NOT NULL,
+        rentalRecordId TEXT NOT NULL REFERENCES rental_records(id),
+        rentalOrderId TEXT REFERENCES rental_orders(id),
+        periodStartDate TEXT NOT NULL,
+        previousEndDate TEXT NOT NULL,
+        newEndDate TEXT NOT NULL,
+        billingUnit TEXT NOT NULL CHECK (billingUnit IN ('day', 'month', 'fixed')),
+        duration REAL NOT NULL CHECK ((billingUnit = 'fixed' AND duration = 0) OR (billingUnit <> 'fixed' AND duration > 0)),
+        priceMode TEXT NOT NULL CHECK (priceMode IN ('original_unit', 'custom_unit', 'custom_total')),
+        unitPrice REAL NOT NULL CHECK (unitPrice >= 0),
+        totalAmount REAL NOT NULL CHECK (totalAmount >= 0),
+        depositBefore REAL NOT NULL CHECK (depositBefore >= 0),
+        depositDelta REAL NOT NULL DEFAULT 0,
+        depositAfter REAL NOT NULL CHECK (depositAfter >= 0),
+        depositChangeReason TEXT,
+        note TEXT,
+        actorId TEXT NOT NULL REFERENCES users(id),
+        createdAt TEXT NOT NULL DEFAULT (datetime('now', 'localtime')),
+        CHECK (billingUnit <> 'fixed' OR (priceMode = 'custom_total' AND unitPrice = 0))
+      );
+      INSERT INTO rental_renewals_v35 (
+        rowid, id, batchId, rentalRecordId, rentalOrderId, periodStartDate, previousEndDate, newEndDate,
+        billingUnit, duration, priceMode, unitPrice, totalAmount, depositBefore, depositDelta, depositAfter,
+        depositChangeReason, note, actorId, createdAt
+      )
+      SELECT rowid, id, batchId, rentalRecordId, rentalOrderId, periodStartDate, previousEndDate, newEndDate,
+        billingUnit, duration, priceMode, unitPrice, totalAmount, depositBefore, depositDelta, depositAfter,
+        depositChangeReason, note, actorId, createdAt
+      FROM rental_renewals;
+      DROP TABLE rental_renewals;
+      ALTER TABLE rental_renewals_v35 RENAME TO rental_renewals;
+      CREATE INDEX idx_rental_renewals_record_time ON rental_renewals(rentalRecordId, createdAt DESC);
+      CREATE INDEX idx_rental_renewals_order_time ON rental_renewals(rentalOrderId, createdAt DESC);
+      CREATE INDEX idx_rental_renewals_batch ON rental_renewals(batchId, createdAt);
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

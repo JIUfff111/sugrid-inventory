@@ -1,4 +1,11 @@
 export type RentalBillingUnit = 'day' | 'month';
+export type RentalPricingMode = RentalBillingUnit | 'fixed';
+
+export function normalizeRentalPricingMode(value: unknown): RentalPricingMode | undefined {
+  if (value === 'day' || value === 'daily') return 'day';
+  if (value === 'month' || value === 'monthly') return 'month';
+  if (value === 'fixed') return 'fixed';
+}
 
 type CalendarDate = { year: number; month: number; day: number };
 

@@ -22,6 +22,179 @@ function load(relative, deps = {}) {
   return loaded.exports;
 }
 
+async function testRentalWorkspace(call, fixtures) {
+  const { groupedAlertOrder, groupedAlertSns, batchRental, batchItems, originalSn, editedSn, chinaToday } = fixtures;
+  const get = (params) => call('rentals', 'GET', undefined, 200, `?${new URLSearchParams(params)}`);
+  const list = (params) => get({ resource: 'workspace', view: 'orders', ...params });
+  const orderDetail = (orderKey) => get({ resource: 'order-detail', orderKey });
+  const machineDetail = (id) => get({ resource: 'machine-detail', id });
+  const groupKey = `order:${groupedAlertOrder.rentalOrderId}`;
+  const groupSearch = { search: groupedAlertSns[0], due: 'today', status: 'renting' };
+
+  const today = await list(groupSearch);
+  assert.equal(today.total, 1);
+  assert.deepEqual(today.summary, { overdue: 1, today: 34, soon: 2 }, 'due totals count active machines across all orders');
+  const { key, totalCount, matchedCount, activeCount, nearestDueDate, totalPrice } = today.items[0];
+  assert.deepEqual(
+    { key, totalCount, matchedCount, activeCount, nearestDueDate, totalPrice },
+    { key: groupKey, totalCount: 33, matchedCount: 1, activeCount: 33, nearestDueDate: chinaToday, totalPrice: 9900 },
+    'searching for one machine must keep the complete order count and amount',
+  );
+  const group = await orderDetail(groupKey);
+  assert.equal(group.order.key, groupKey);
+  assert.deepEqual(group.items.map(({ sn }) => sn).sort(), groupedAlertSns);
+
+  const machineQuery = { view: 'machines', search: groupedAlertOrder.rentalNo, pageSize: '20' };
+  const pageOne = await list(machineQuery);
+  const pageTwo = await list({ ...machineQuery, page: '2' });
+  assert.deepEqual([pageOne.total, pageOne.totalPages, pageOne.page, pageOne.items.length], [33, 2, 1, 20]);
+  assert.deepEqual([pageTwo.total, pageTwo.totalPages, pageTwo.page, pageTwo.items.length], [33, 2, 2, 13]);
+  assert.deepEqual([...pageOne.items, ...pageTwo.items].map(({ sn }) => sn).sort(), groupedAlertSns);
+  for (const row of [...pageOne.items, ...pageTwo.items]) {
+    assert.equal(row.daysUntilDue, 0);
+    assert.equal(row.dueStatus, 'today');
+    assert.equal(row.cumulativeRentalAmount, 300);
+    assert(!('events' in row) && !('movements' in row) && !('renewals' in row), 'list rows defer detail history');
+  }
+
+  const overdue = await list({ view: 'machines', due: 'overdue' });
+  const soon = await list({ view: 'machines', due: 'soon' });
+  assert.deepEqual(overdue.items.map(({ sn, daysUntilDue, dueStatus }) => [sn, daysUntilDue, dueStatus]), [['RTN-OVERDUE', -1, 'overdue']]);
+  assert.deepEqual(soon.items.map(({ sn, daysUntilDue, dueStatus }) => [sn, daysUntilDue, dueStatus]), [['RTN-D1', 1, 'soon'], ['RTN-D3', 3, 'soon']]);
+  assert.deepEqual(soon.summary, today.summary, 'filtering does not change global due totals');
+
+  const { items: allOrders } = await list({ pageSize: '50' });
+  const firstClosedIndex = allOrders.findIndex(item => item.activeCount === 0);
+  assert(firstClosedIndex > 0, 'active orders are listed before closed ones');
+  assert(allOrders.slice(firstClosedIndex).every(item => item.activeCount === 0), 'closed orders do not hide orders needing action');
+  const activeDueDates = allOrders.slice(0, firstClosedIndex).map(item => item.nearestDueDate);
+  assert.deepEqual(activeDueDates, [...activeDueDates].sort(), 'active orders start with the earliest due date');
+
+  const mixedOrderQuery = { search: batchRental.rentalNo };
+  const closed = await list({ ...mixedOrderQuery, status: 'closed' });
+  assert.equal(closed.total, 1);
+  const { activeCount: active, returnedCount, boughtOutCount, totalPrice: mixedTotal } = closed.items[0];
+  assert.deepEqual([active, returnedCount, boughtOutCount, mixedTotal], [0, 1, 1, 420], 'mixed outcomes retain both original terms and all renewals exactly once');
+  for (const status of ['renting', 'returned', 'purchased']) {
+    assert.equal((await list({ ...mixedOrderQuery, status })).total, 0, `mixed closed order must not match ${status}`);
+  }
+  const mixedDetail = await orderDetail(closed.items[0].key);
+  assert.equal(mixedDetail.items.length, 2);
+  const returned = await machineDetail(batchItems[0].id);
+  assert.equal(returned.status, 'returned');
+  assert.equal(returned.cumulativeRentalAmount, 200);
+  assert.equal(returned.renewals.length, 2);
+  assert(returned.events.some(({ eventType }) => eventType === 'returned'));
+  assert(returned.movements.some(({ movementType }) => movementType === 'rental_return'));
+
+  const historicalMatch = await list({ search: originalSn });
+  const currentMatch = await list({ search: editedSn });
+  assert.equal(historicalMatch.total, 1);
+  assert.equal(currentMatch.total, 1);
+  assert.equal(historicalMatch.items[0].key, currentMatch.items[0].key, 'old and current SN resolve to the same order');
+  assert.equal((await list({ search: 'ONLINE-RENT-001', status: 'returned' })).total, 1, 'platform order number still finds the returned order');
+  const returnedMachine = group.items.find(({ sn }) => sn === groupedAlertSns[0]);
+  await call('rentals', 'PATCH', { id: returnedMachine.id, action: 'return', returnDate: chinaToday });
+  const partial = await list({ search: returnedMachine.sn, status: 'renting' });
+  assert.equal(partial.total, 1);
+  assert.deepEqual([partial.items[0].activeCount, partial.items[0].returnedCount, partial.items[0].totalPrice], [32, 1, 9900]);
+  assert.equal((await list(groupSearch)).total, 0, 'search and due filters must match the same machine');
+  assert.equal((await list({ search: returnedMachine.sn, status: 'returned' })).total, 0, 'a partially returned order stays in rent');
+  assert.equal((await list({ ...groupSearch, view: 'machines', due: 'all', status: 'returned' })).total, 1);
+  assert.equal(partial.summary.today, 33);
+}
+
+async function testFixedRentals(call, db, inventory, timedRental, timedNewEndDate) {
+  const sns = ['RTN-FIXED-BASE', 'RTN-FIXED-SECOND', 'RTN-FIXED-APPEND'];
+  const [baseAsset, secondAsset, appendedAsset] = sns.map(inventory);
+  const start = '2026-01-31';
+  const end = '2026-03-01';
+  const originalTerms = {
+    customerName: '固定总价客户', customerPhone: '10000000000', customerAddress: '测试地址',
+    rentalStartDate: start, rentalEndDate: end, rentalType: 'fixed',
+    items: [
+      { inventoryId: baseAsset.id, rentalTotalPrice: 475.53, deposit: 100 },
+      { inventoryId: secondAsset.id, rentalTotalPrice: 398.07, deposit: 0 },
+    ],
+  };
+  await call('rentals', 'POST', { ...originalTerms, rentalEndDate: start }, 400);
+  await call('rentals', 'POST', {
+    ...originalTerms,
+    items: [originalTerms.items[0], { ...originalTerms.items[1], rentalTotalPrice: 0.001 }],
+  }, 400);
+  assert.deepEqual(sns.map(sn => inventory(sn).status), ['in_stock', 'in_stock', 'in_stock'], 'an invalid line must not rent other machines');
+  const fixed = await call('rentals', 'POST', originalTerms, 201);
+  assert.equal(fixed.totalPrice, 873.60, 'fixed rent is negotiated per machine across a calendar boundary');
+  const row = (inventoryId) => db.prepare(`SELECT id, rentalType, rentalStartDate, rentalEndDate, rentalTotalPrice, status
+    FROM rental_records WHERE rentalOrderId = ? AND inventoryId = ?`).get(fixed.rentalOrderId, inventoryId);
+  const base = row(baseAsset.id);
+  assert.equal(base.rentalType, 'fixed');
+  assert.equal(base.rentalTotalPrice, 475.53);
+  assert.equal(row(secondAsset.id).rentalTotalPrice, 398.07);
+
+  const correctedDates = { rentalStartDate: '2026-01-30', rentalEndDate: '2026-04-10' };
+  const edit = { id: base.id, action: 'edit_terms', ...correctedDates };
+  await call('rentals', 'PATCH', { ...edit, items: [], note: '合同起止日期更正' });
+  assert.deepEqual(row(baseAsset.id), { ...base, ...correctedDates }, 'changing dates does not recalculate the original fixed total');
+  assert.equal(row(secondAsset.id).rentalTotalPrice, 398.07);
+  const amountEdit = { ...edit, items: [{ id: base.id, rentalTotalPrice: 480.25 }] };
+  await call('rentals', 'PATCH', amountEdit, 400);
+  assert.equal(row(baseAsset.id).rentalTotalPrice, 475.53);
+  const note = '双方协商更正首台固定租金';
+  await call('rentals', 'PATCH', { ...amountEdit, note });
+  assert.equal(row(baseAsset.id).rentalTotalPrice, 480.25);
+  assert.equal(row(secondAsset.id).rentalTotalPrice, 398.07, 'changing one machine does not change its sibling');
+  const event = db.prepare("SELECT note FROM rental_events WHERE rentalRecordId = ? AND eventType = 'terms_corrected' ORDER BY rowid DESC LIMIT 1").get(base.id);
+  assert.equal(event.note, note);
+
+  const appended = await call('rentals', 'POST', {
+    rentalOrderId: fixed.rentalOrderId, ...correctedDates,
+    items: [{ inventoryId: appendedAsset.id, rentalTotalPrice: 120.50 }],
+  }, 201);
+  assert.equal(appended.rentalOrderId, fixed.rentalOrderId);
+  assert.equal(appended.totalPrice, 120.50);
+  assert.equal(row(appendedAsset.id).rentalType, 'fixed');
+  assert.equal(row(appendedAsset.id).rentalTotalPrice, 120.50);
+  assert.equal(row(baseAsset.id).rentalTotalPrice, 480.25, 'adding a machine preserves original contract terms');
+
+  const renewal = { id: base.id, newEndDate: '2026-05-15', billingUnit: 'fixed', priceMode: 'custom_total', totalAmount: 56.78 };
+  const invalidRenewal = { ...renewal, id: row(secondAsset.id).id, totalAmount: 0 };
+  await call('rentals', 'PATCH', { action: 'renew_batch', items: [renewal, invalidRenewal] }, 400);
+  assert.equal(row(baseAsset.id).rentalEndDate, correctedDates.rentalEndDate);
+  assert.equal(db.prepare('SELECT COUNT(*) AS count FROM rental_renewals WHERE rentalRecordId = ?').get(base.id).count, 0);
+  await call('rentals', 'PATCH', { ...renewal, action: 'renew', priceMode: 'original_unit' }, 400);
+  const mixedRenewal = await call('rentals', 'PATCH', {
+    action: 'renew_batch',
+    items: [renewal, { ...renewal, id: timedRental.id, newEndDate: timedNewEndDate, totalAmount: 23.40 }],
+  });
+  const renewed = mixedRenewal.items.find(({ id }) => id === base.id);
+  assert.deepEqual([renewed.rentalEndDate, renewed.renewalAmount, renewed.cumulativeRentalAmount], ['2026-05-15', 56.78, 537.03]);
+  const timedRenewed = mixedRenewal.items.find(({ id }) => id === timedRental.id);
+  assert.equal(timedRenewed.renewalAmount, 23.40, 'a mixed selection can use per-machine fixed renewal amounts');
+  assert.deepEqual(
+    db.prepare('SELECT rentalType, rentalTotalPrice FROM rental_records WHERE id = ?').get(timedRental.id),
+    { rentalType: 'day', rentalTotalPrice: timedRental.totalPrice },
+    'fixed renewal billing preserves the daily original terms',
+  );
+  await call('rentals', 'PATCH', { ...renewal, action: 'renew' }, 400);
+  const freeRenewal = { ...renewal, action: 'renew', newEndDate: '2026-05-31', totalAmount: 0 };
+  await call('rentals', 'PATCH', freeRenewal, 400);
+  await call('rentals', 'PATCH', { ...freeRenewal, note: '协商免收本次续租费用' });
+  const history = db.prepare(`SELECT billingUnit, priceMode, totalAmount FROM rental_renewals
+    WHERE rentalRecordId = ? ORDER BY newEndDate`).all(base.id);
+  assert.deepEqual(history, [
+    { billingUnit: 'fixed', priceMode: 'custom_total', totalAmount: 56.78 },
+    { billingUnit: 'fixed', priceMode: 'custom_total', totalAmount: 0 },
+  ]);
+
+  const returned = await call('rentals', 'PATCH', { id: base.id, action: 'return', returnDate: '2026-03-15' });
+  assert.equal(returned.status, 'returned');
+  assert.equal(row(baseAsset.id).rentalTotalPrice, 480.25, 'early return does not reprice the negotiated rent');
+  const detail = await call('rentals', 'GET', undefined, 200, `?${new URLSearchParams({ resource: 'machine-detail', id: base.id })}`);
+  assert.equal(detail.cumulativeRentalAmount, 537.03, 'early return keeps both the original contract and renewals');
+  assert.equal(detail.renewals.length, 2);
+}
+
 async function main() {
   const scratchParent = path.join(root, '.tmp');
   fs.mkdirSync(scratchParent, { recursive: true });
@@ -55,6 +228,7 @@ async function main() {
     deps['@/lib/machine-scan'] = load('src/lib/machine-scan.ts', deps);
     deps['@/lib/inventory-query'] = load('src/lib/inventory-query.ts', deps);
     deps['@/lib/inventory-purge'] = load('src/lib/inventory-purge.ts', deps);
+    deps['@/lib/rental-workspace'] = load('src/lib/rental-workspace.ts', deps);
     const { groupRentalsByOrder } = deps['@/lib/rental-order-groups'];
     const threeMachines = [1, 2, 3].map((number) => ({
       id: `rental-${number}`,
@@ -109,7 +283,7 @@ async function main() {
 
     const originalSn = 'QA/SN-OLD';
     const editedSn = 'QA/SN-CURRENT';
-    const sns = ['RTN-RETURN', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL', 'RTN-APPEND-BASE', 'RTN-APPEND-ADDED', 'RTN-APPEND-ROLLBACK', 'RTN-APPEND-ENDED', originalSn];
+    const sns = ['RTN-RETURN', 'RTN-D1', 'RTN-D3', 'RTN-TODAY', 'RTN-OVERDUE', 'RTN-OUTSIDE', 'RTN-AFTERSALE', 'TRF-MACHINE', 'RTN-BATCH-1', 'RTN-BATCH-2', 'RTN-BUYOUT-REVERSAL', 'RTN-APPEND-BASE', 'RTN-APPEND-ADDED', 'RTN-APPEND-ROLLBACK', 'RTN-APPEND-ENDED', 'RTN-FIXED-BASE', 'RTN-FIXED-SECOND', 'RTN-FIXED-APPEND', originalSn];
     const purchase = await call('purchase-orders', 'POST', {
       supplierId: 'flow-supplier', supplierOrderNo: 'FLOW-PO', purchaseDate: chinaToday, purchasedBy: 'flow-admin',
       status: 'completed', warehouseId: mainWarehouse,
@@ -206,7 +380,7 @@ async function main() {
     const monthlyRental = await call('rentals', 'POST', {
       inventoryId: inventory('RTN-RETURN').id, customerName: '按月测试客户', customerPhone: '10000000000', customerAddress: '测试地址',
       handlerUserId: 'flow-admin', salespersonName: '李业务', sourceType: 'online', platformName: '测试租赁平台', platformOrderNo: 'ONLINE-RENT-001',
-      rentalStartDate: '2026-01-31', rentalEndDate: '2026-02-28', rentalType: 'month', rentalUnitPrice: 100, deposit: 0,
+      rentalStartDate: '2026-01-31', rentalEndDate: '2026-02-28', rentalType: 'monthly', rentalUnitPrice: 100, deposit: 0,
     }, 201);
     assert.deepEqual(
       db.prepare('SELECT handlerUserId,handlerName,salespersonName,sourceType,platformName,platformOrderNo FROM rental_orders WHERE id=?').get(monthlyRental.rentalOrderId),
@@ -215,6 +389,7 @@ async function main() {
     const onlineSearch = await call('rentals', 'GET', undefined, 200, '?search=ONLINE-RENT-001');
     assert.equal(onlineSearch.total, 1);
     assert.equal(onlineSearch.items[0].salespersonName, '李业务');
+    assert.equal(onlineSearch.items[0].rentalType, 'month');
     assert.equal(monthlyRental.duration, 1, 'month-end anniversary should be one completed month');
     assert.equal(monthlyRental.totalPrice, 100);
     await call('rentals', 'PATCH', { id: monthlyRental.id, action: 'return', returnDate: chinaToday, returnType: '测试归还', returnWarehouseId: mainWarehouse });
@@ -432,6 +607,7 @@ async function main() {
     }, 400);
 
     const dueThree = await addRental('RTN-D3', shiftDate(3), '王先生');
+    await addRental('RTN-D1', shiftDate(1));
     const dueToday = await addRental('RTN-TODAY', chinaToday, '李女士');
     const overdue = await addRental('RTN-OVERDUE', shiftDate(-1), '赵先生');
     await addRental('RTN-OUTSIDE', shiftDate(4));
@@ -502,7 +678,13 @@ async function main() {
     const resolvedAlerts = await call('alerts', 'GET', undefined);
     assert(!resolvedAlerts.items.some((item) => item.id === `after-sale:${afterSale.id}`), 'resolved after-sale must no longer alert');
 
+    await testRentalWorkspace(call, { groupedAlertOrder, groupedAlertSns, batchRental, batchItems, originalSn, editedSn, chinaToday });
+    await testFixedRentals(call, db, inventory, dueThree, shiftDate(4));
+
     token = auth.createSession('flow-manager');
+    await call('rentals', 'GET', undefined, 403, '?resource=workspace&view=machines');
+    await call('rentals', 'GET', undefined, 403, `?${new URLSearchParams({ resource: 'order-detail', orderKey: `order:${batchRental.rentalOrderId}` })}`);
+    await call('rentals', 'GET', undefined, 403, `?${new URLSearchParams({ resource: 'machine-detail', id: batchItems[0].id })}`);
     const ownTransfer = await call('transfers', 'POST', {
       sourceWarehouseId: mainWarehouse, targetWarehouseId: targetWarehouse.id, inventoryIds: [inventory('TRF-MACHINE').id],
     }, 201);
@@ -548,7 +730,7 @@ async function main() {
 
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
     assert.deepEqual(db.pragma('foreign_key_check'), []);
-    console.log('PASS real SQLite rental/transfer/alert regression: order grouping, legacy rental migration, multi-machine pricing, renewal, exception follow-up, buyout accounting and rollback, single-machine return, role checks, due alerts, transfer lifecycle, FK/integrity');
+    console.log('PASS real SQLite rental/transfer/alert regression: order and machine workspace, legacy migration and pricing, fixed rental lifecycle, renewals, exception follow-up, buyout accounting and rollback, single-machine return, role checks, due alerts, transfer lifecycle, FK/integrity');
   } finally {
     if (db?.open) db.close();
     if (oldPath === undefined) delete process.env.INVENTORY_DB_PATH;
