@@ -37,7 +37,9 @@ function stockEligibilitySql(alias: string, eligibleCustomStatusSql: string, exc
     SELECT 1 FROM inventory_status_records csr JOIN inventory_status_definitions csd ON csd.id = csr.definitionId
     WHERE csr.id = ${alias}.currentStatusRecordId AND csr.inventoryId = ${alias}.id AND csr.closedAt IS NULL AND (${eligibleCustomStatusSql})
   ))) AND NOT EXISTS (SELECT 1 FROM transfer_items ti JOIN transfers t ON t.id = ti.transferId
-    WHERE ti.inventoryId = ${alias}.id AND t.status IN ('pending','approved','in_transit')${transferExclusion}))`;
+    WHERE ti.inventoryId = ${alias}.id AND t.status IN ('pending','approved','in_transit')${transferExclusion})
+    AND NOT EXISTS (SELECT 1 FROM after_sale_records exchange_lock
+      WHERE exchange_lock.reservedReplacementId = ${alias}.id AND exchange_lock.deleted = 0))`;
 }
 
 export function stockEligibleSql(alias = 'i', excludeTransferId?: string) {
@@ -53,7 +55,7 @@ export function inventoryOperationEligibleSql(operation: InventoryBusinessOperat
 
 export function assertInventoryOperationEligible(inventoryId: string, operation: InventoryBusinessOperation, excludeTransferId?: string) {
   const row = db.prepare(`SELECT i.* FROM inventory i WHERE i.id = ? AND ${inventoryOperationEligibleSql(operation, 'i', excludeTransferId)}`).get(inventoryId) as { id: string; sn: string; status: string; warehouseId: string; currentStatusRecordId: string | null } | undefined;
-  if (!row) throw new Error('机器当前不可参与该项业务，状态、位置或调拨占用已变化，请刷新后重试');
+  if (!row) throw new Error('机器当前不可参与该项业务，状态、位置或业务占用已变化，请刷新后重试');
   return row;
 }
 
@@ -86,13 +88,15 @@ export function endCustomStatus(inventoryId: string, actorId: string, resultNote
 
 export function serializeInventoryStatus<T extends { id: string }>(row: T) {
   const record = statusDetails(row.id) as Record<string, unknown> | null;
+  const exchangeReservation = db.prepare('SELECT id, afterSaleNo FROM after_sale_records WHERE reservedReplacementId = ? AND deleted = 0').get(row.id) as { id: string; afterSaleNo: string } | undefined;
   const enabled = (field: string) => record?.[field] == null
     ? Boolean(record?.allowStockOperations)
     : Boolean(record[field]);
   const inStock = (row as T & { status?: string }).status === 'in_stock';
   return { ...row, customStatusId: record?.definitionId || null, customStatusName: record?.name || null,
     customStatusColor: record?.color || null, locationType: record?.locationType || 'warehouse',
-    allowSales: inStock || enabled('allowSales'), allowRentals: inStock || enabled('allowRentals'),
-    allowTransfers: inStock || enabled('allowTransfers'), allowSupplierReturns: inStock || enabled('allowSupplierReturns'),
-    allowStockOperations: inStock || Object.values(operationColumns).some(column => enabled(column)), statusRecord: record };
+    exchangeReservationId: exchangeReservation?.id || null, exchangeReservationNo: exchangeReservation?.afterSaleNo || null,
+    allowSales: !exchangeReservation && (inStock || enabled('allowSales')), allowRentals: !exchangeReservation && (inStock || enabled('allowRentals')),
+    allowTransfers: !exchangeReservation && (inStock || enabled('allowTransfers')), allowSupplierReturns: !exchangeReservation && (inStock || enabled('allowSupplierReturns')),
+    allowStockOperations: !exchangeReservation && (inStock || Object.values(operationColumns).some(column => enabled(column))), statusRecord: record };
 }

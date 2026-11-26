@@ -15,10 +15,24 @@ import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/s
 
 type SoldItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; gpu?: string | null; storage: string; screen?: string | null; sellingPrice: number | null; purchasePrice: number; saleOrderNo: string | null; salesRecordNo?: string | null; saleChannel?: string | null; saleDate?: string | null; warehouseId?: string | null };
 type ReplacementItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; gpu?: string | null; storage: string; screen?: string | null };
-type AfterSale = { id: string; afterSaleNo: string; inventoryId: string; sn: string; brand?: string | null; model?: string | null; year?: number | null; cpu?: string | null; ram?: string | null; gpu?: string | null; storage?: string | null; screen?: string | null; customerName?: string | null; customerPhone?: string | null; issueType: string; issueDescription: string | null; resolutionType: string; status: string; refundAmount?: number | null; resolutionNote: string | null; returnTrackingNo?: string | null; processingAt?: string | null; processingBy?: string | null; processingByName?: string | null; processingNote?: string | null; createdBy?: string | null; createdByName?: string | null; receivedBy?: string | null; receivedByName?: string | null; receivedCondition?: string | null; receivedNote?: string | null; stockNote?: string | null; stockCondition?: string | null; saleOrderNo: string | null; salesRecordNo?: string | null; saleChannel?: string | null; saleDate?: string | null; sellingPrice?: number | null; purchasePrice?: number | null; warehouseId?: string | null; replacementInventoryId: string | null; createdAt: string; receivedAt?: string; resolvedAt?: string | null; stockStatus?: string };
+type AfterSale = ExchangeDetails & { id: string; afterSaleNo: string; inventoryId: string; sn: string; brand?: string | null; model?: string | null; year?: number | null; cpu?: string | null; ram?: string | null; gpu?: string | null; storage?: string | null; screen?: string | null; customerName?: string | null; customerPhone?: string | null; issueType: string; issueDescription: string | null; resolutionType: string; status: string; refundAmount?: number | null; resolutionNote: string | null; returnTrackingNo?: string | null; processingAt?: string | null; processingBy?: string | null; processingByName?: string | null; processingNote?: string | null; createdBy?: string | null; createdByName?: string | null; receivedBy?: string | null; receivedByName?: string | null; receivedCondition?: string | null; receivedNote?: string | null; stockNote?: string | null; stockCondition?: string | null; saleOrderNo: string | null; salesRecordNo?: string | null; saleChannel?: string | null; saleDate?: string | null; sellingPrice?: number | null; purchasePrice?: number | null; warehouseId?: string | null; replacementInventoryId: string | null; createdAt: string; receivedAt?: string; resolvedAt?: string | null; stockStatus?: string };
+type ExchangeDetails = {
+  reservedReplacementId?: string | null;
+  reservedReplacementSn?: string | null;
+  replacementSn?: string | null;
+  shippedReplacementTrackingNo?: string | null;
+};
 type ToastMessage = { text: string; tone: 'success' | 'error' };
+type UpdateAction = 'receive' | 'start_processing' | 'repair_complete' | 'customer_return' | 'cancel' | 'update_progress' | 'update_condition' | 'reserve_exchange' | 'release_exchange' | 'ship_exchange' | 'restock';
 const DEFAULT_ISSUE_TYPE = '';
 const PAGE_SIZE = 15;
+const EXCHANGE_UPDATE_MESSAGES = {
+  reserve_exchange: '替换机已锁定，等待实际发货',
+  release_exchange: '替换机已解锁，售后单回到待备货',
+  ship_exchange: '换货发货已登记，原机仍留在售后暂存',
+  restock: '原机已转入正式库存',
+  update_condition: '机器状况和核验备注已保存',
+} as const;
 const WORK_QUEUES = [
   { value: 'active', label: '进行中' },
   { value: 'created', label: '待收机' },
@@ -39,16 +53,30 @@ function configText(item: Pick<SoldItem, 'cpu' | 'ram' | 'storage'> & { gpu?: st
 function statusClass(status: string) { return status === 'created' ? 'warn' : status === 'resolved' ? 'ok' : 'info'; }
 function resolutionLabel(type: string) { return ({ repair: '维修', exchange: '换货', customer_return: '退货退款' } as Record<string, string>)[type] || type || '未记录'; }
 function productName(item: { brand?: string | null; model?: string | null; year?: number | null }) { return formatProductName(item); }
+function needsOriginalDisposition(record: AfterSale) { return record.status === 'resolved' && record.resolutionType === 'exchange' && record.stockStatus === 'stored'; }
 
 function recordStage(record: AfterSale) {
   switch (record.status) {
     case 'created': return { label: '待收机', action: '登记收件', event: '登记', at: record.createdAt, by: record.createdByName };
     case 'received': return { label: '待处理', action: '开始处理', event: '签收', at: record.receivedAt, by: record.receivedByName };
-    case 'processing': return { label: '处理中', action: '继续处理', event: '开始处理', at: record.processingAt, by: record.processingByName };
-    case 'resolved': return { label: '已完成', action: '查看结果', event: '完成', at: record.resolvedAt };
+    case 'processing': {
+      const exchange = record.resolutionType === 'exchange';
+      const reserved = Boolean(record.reservedReplacementId);
+      return { label: exchange ? reserved ? '待发货' : '待备货' : '处理中', action: exchange ? reserved ? '登记发货' : '选择替换机' : '继续处理', event: '开始处理', at: record.processingAt, by: record.processingByName };
+    }
+    case 'resolved': return { label: needsOriginalDisposition(record) ? '原机待处置' : '已完成', action: needsOriginalDisposition(record) ? '处置原机' : '查看结果', event: record.resolutionType === 'exchange' && record.shippedReplacementTrackingNo ? '换货发出' : '完成', at: record.resolvedAt };
     case 'cancelled': return { label: '已取消', action: '查看记录', event: '取消', at: record.resolvedAt };
     default: return { label: record.status || '未记录', action: '查看记录', event: '登记', at: record.createdAt, by: record.createdByName };
   }
+}
+
+async function fetchRecord(id: string, signal?: AbortSignal): Promise<AfterSale> {
+  const response = await fetch('/api/after-sales?id=' + encodeURIComponent(id), { cache: 'no-store', signal });
+  const payload = await response.json();
+  if (!response.ok || !payload.success) throw new Error(payload.error?.message || '售后单加载失败');
+  const record = payload.data?.items?.[0];
+  if (!record) throw new Error('售后单已不存在');
+  return record;
 }
 
 function ModalShell({ title, subtitle, onClose, children, footer }: { title: string; subtitle?: string; onClose: () => void; children: ReactNode; footer?: ReactNode }) {
@@ -78,10 +106,14 @@ export default function AfterSalesPage() {
   const [remark, setRemark] = useState('');
   const [replacementId, setReplacementId] = useState('');
   const [replacementSearch, setReplacementSearch] = useState('');
+  const [changingReplacement, setChangingReplacement] = useState(false);
+  const [shippingTrackingNo, setShippingTrackingNo] = useState('');
+  const [dispositionCondition, setDispositionCondition] = useState('');
+  const [editingCondition, setEditingCondition] = useState(false);
   const [handlingNote, setHandlingNote] = useState('');
   const [receivedCondition, setReceivedCondition] = useState('');
   const [receivedNote, setReceivedNote] = useState('');
-  const [pendingAction, setPendingAction] = useState<string | null>(null);
+  const [pendingAction, setPendingAction] = useState<UpdateAction | null>(null);
   const [returnConfirmOpen, setReturnConfirmOpen] = useState(false);
   const [pendingPrint, setPendingPrint] = useState<string | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
@@ -94,6 +126,12 @@ export default function AfterSalesPage() {
 
   const notify = (text: string, tone: ToastMessage['tone'] = 'success') => setToast({ text, tone });
 
+  const openRecord = useCallback((record: AfterSale) => {
+    setSelectedRecord(record);
+    setReplacementId(''); setReplacementSearch(''); setChangingReplacement(false); setShippingTrackingNo(''); setDispositionCondition(''); setEditingCondition(false);
+    setHandlingNote(record.processingNote || ''); setReceivedCondition(record.receivedCondition || record.stockCondition || ''); setReceivedNote(record.receivedNote || record.stockNote || '');
+  }, []);
+
   useEffect(() => {
     setSearch(routeSearch);
     setStatus(routeView === 'stock' ? 'stored' : routeSearch ? 'all' : 'active');
@@ -103,17 +141,13 @@ export default function AfterSalesPage() {
   useEffect(() => {
     if (!active || !recordId || openedRecord.current === recordId) return;
     const controller = new AbortController();
-    void fetch('/api/after-sales?id=' + encodeURIComponent(recordId), { cache: 'no-store', signal: controller.signal }).then(async response => {
-      const payload = await response.json();
-      if (!response.ok || !payload.success) throw new Error(payload.error?.message || '关联售后单加载失败');
+    void fetchRecord(recordId, controller.signal).then(record => {
       if (controller.signal.aborted) return;
-      const record = payload.data?.items?.[0];
-      if (!record) throw new Error('关联售后单已不存在');
       openedRecord.current = recordId;
-      setSelectedRecord(record); setReplacementId(''); setReplacementSearch(''); setHandlingNote(record.processingNote || ''); setReceivedCondition(record.receivedCondition || record.stockCondition || ''); setReceivedNote(record.receivedNote || record.stockNote || '');
+      openRecord(record);
     }).catch(error => { if (!controller.signal.aborted) setToast({ text: error.message || '关联售后单加载失败', tone: 'error' }); });
     return () => controller.abort();
-  }, [active, recordId]);
+  }, [active, recordId, openRecord]);
 
   const loadController = useRef<AbortController | null>(null);
   const loadData = useCallback(async () => {
@@ -169,7 +203,8 @@ export default function AfterSalesPage() {
   const selectedReplacement = replacementItems.find(item => item.id === replacementId);
   const validity = useMachineEligibility(selectedMachine && createOpen ? [selectedMachine] : [], 'after-sale');
   const replacementValidity = useMachineEligibility(selectedReplacement && selectedRecord ? [selectedReplacement] : [], 'exchange');
-  useWorkspaceDirty(Boolean((createOpen && (selectedId || issueDescription || remark || returnTrackingNo || issueType !== DEFAULT_ISSUE_TYPE || resolutionType !== 'repair')) || (selectedRecord && (replacementId || handlingNote || receivedCondition || receivedNote))));
+  const conditionChanged = selectedRecord && (receivedCondition !== (selectedRecord.receivedCondition || selectedRecord.stockCondition || '') || receivedNote !== (selectedRecord.receivedNote || selectedRecord.stockNote || ''));
+  useWorkspaceDirty(Boolean((createOpen && (selectedId || issueDescription || remark || returnTrackingNo || issueType !== DEFAULT_ISSUE_TYPE || resolutionType !== 'repair')) || (selectedRecord && (replacementId || shippingTrackingNo || dispositionCondition || handlingNote !== (selectedRecord.processingNote || '') || conditionChanged))));
   const selectFilter = (filter: RecordFilter) => {
     if (filter === status) return;
     loadController.current?.abort(); setLoading(true); setStatus(filter); setPage(1);
@@ -181,11 +216,6 @@ export default function AfterSalesPage() {
   const changePage = (value: number) => {
     setLoading(true); setPage(value);
   };
-  const openRecord = (record: AfterSale) => {
-    setSelectedRecord(record); setReplacementId(''); setReplacementSearch('');
-    setHandlingNote(record.processingNote || ''); setReceivedCondition(record.receivedCondition || record.stockCondition || ''); setReceivedNote(record.receivedNote || record.stockNote || '');
-  };
-
   const resetCreateForm = () => {
     setSelectedId(''); setIssueType(DEFAULT_ISSUE_TYPE); setReturnTrackingNo(''); setIssueDescription(''); setResolutionType('repair'); setRemark(''); setMachineSearch(''); setReturnConfirmOpen(false);
   };
@@ -215,28 +245,61 @@ export default function AfterSalesPage() {
     void createAfterSale();
   };
 
-  const updateRecord = async (record: AfterSale, action: string) => {
-    if (action === 'exchange' && !replacementId) { notify('换机前请选择替换机器', 'error'); return; }
-    if (action === 'exchange' && (replacementValidity.checking || replacementValidity.error || replacementValidity.invalidIds.length)) { notify(replacementValidity.error || '替换机器状态已变化，请重新选择', 'error'); return; }
+  const updateRecord = async (record: AfterSale, action: UpdateAction) => {
+    if (action === 'reserve_exchange' && !selectedReplacement) { notify('请选择替换机器', 'error'); return; }
+    if (action === 'reserve_exchange' && (replacementValidity.checking || replacementValidity.error || replacementValidity.invalidIds.length)) {
+      notify(replacementValidity.error || '替换机器状态已变化，请重新选择', 'error'); return;
+    }
+    if (action === 'ship_exchange' && (!record.reservedReplacementId || !shippingTrackingNo.trim() || replacementId)) { notify('请先确认实际发出的替换机并填写寄出运单', 'error'); return; }
+    if (action === 'restock' && !dispositionCondition.trim()) { notify('请记录原机的入库检查结果', 'error'); return; }
     setUpdating(true);
     try {
-      const body = { id: record.id, action, replacementInventoryId: action === 'exchange' ? replacementId : undefined, condition: receivedCondition.trim() || null, note: receivedNote.trim() || null, processingNote: handlingNote.trim() || null, resolutionNote: handlingNote.trim() || (action === 'repair_complete' ? '维修完成并归还客户' : action === 'cancel' ? '取消售后' : '售后处理') };
+      const exchangeAction = ['reserve_exchange', 'release_exchange', 'ship_exchange'].includes(action);
+      const body = {
+        id: record.id,
+        action,
+        replacementInventoryId: action === 'reserve_exchange' ? replacementId : undefined,
+        expectedReplacementInventoryId: exchangeAction ? (record.reservedReplacementId ?? null) : undefined,
+        shippingTrackingNo: action === 'ship_exchange' ? shippingTrackingNo.trim() : undefined,
+        originalReturnedToCustomer: action === 'cancel' && record.resolutionType === 'exchange' && record.stockStatus === 'stored' ? true : undefined,
+        condition: (action === 'restock' ? dispositionCondition : receivedCondition).trim() || null,
+        note: action === 'restock' ? undefined : receivedNote.trim() || null,
+        processingNote: handlingNote.trim() || null,
+        resolutionNote: handlingNote.trim() || (action === 'repair_complete' ? '维修完成并归还客户' : action === 'cancel' ? '取消售后' : undefined),
+      };
       const response = await fetch('/api/after-sales', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error(payload.error?.message || '更新售后单失败');
+      setPendingAction(null);
       if (action === 'update_progress') {
         setSelectedRecord(current => current ? { ...current, processingNote: handlingNote.trim() } : current);
         notify(record.afterSaleNo + ' 当前进展已保存');
+      } else if (action === 'reserve_exchange' || action === 'release_exchange' || action === 'ship_exchange' || action === 'restock' || action === 'update_condition') {
+        try {
+          const refreshed = await fetchRecord(record.id);
+          if (action === 'update_condition') {
+            setSelectedRecord(refreshed);
+            setReceivedCondition(refreshed.receivedCondition || refreshed.stockCondition || '');
+            setReceivedNote(refreshed.receivedNote || refreshed.stockNote || '');
+            setEditingCondition(false);
+          } else {
+            setSelectedRecord(refreshed);
+            setReplacementId(''); setReplacementSearch(''); setChangingReplacement(false); setShippingTrackingNo(''); setDispositionCondition('');
+          }
+          notify(EXCHANGE_UPDATE_MESSAGES[action]);
+        } catch {
+          setSelectedRecord(null);
+          notify(`${EXCHANGE_UPDATE_MESSAGES[action]}；详情未能刷新，请重新打开售后单。`, 'error');
+        }
       } else {
-        setSelectedRecord(null); setPendingAction(null); setReplacementId(''); setHandlingNote(''); setReceivedCondition(''); setReceivedNote(''); notify(record.afterSaleNo + ' 已更新');
+        setSelectedRecord(null);
+        notify(record.afterSaleNo + ' 已更新');
       }
       await loadData();
-    } catch (updateError) { notify(updateError instanceof Error ? updateError.message : '更新售后单失败', 'error'); } finally { setUpdating(false); }
-  };
-
-  const beginReceiving = () => {
-    if (!receivedCondition.trim()) { notify('请先填写拆包后确认的机器状况', 'error'); return; }
-    setPendingAction('receive');
+    } catch (updateError) {
+      setPendingAction(null);
+      notify(updateError instanceof Error ? updateError.message : '更新售后单失败', 'error');
+    } finally { setUpdating(false); }
   };
 
   const resolutionOptions: SelectOption[] = [
@@ -246,8 +309,46 @@ export default function AfterSalesPage() {
   const historySelected = status === 'all' || status === 'resolved' || status === 'cancelled';
   const detailStage = selectedRecord ? recordStage(selectedRecord) : null;
   const canWork = selectedRecord?.status === 'received' || selectedRecord?.status === 'processing';
+  const exchangeProcessing = selectedRecord?.status === 'processing' && selectedRecord.resolutionType === 'exchange';
+  const originalNeedsDisposition = selectedRecord && needsOriginalDisposition(selectedRecord);
+  const hasReservation = Boolean(selectedRecord?.reservedReplacementId);
+  const cancelRequiresReturn = selectedRecord?.resolutionType === 'exchange' && selectedRecord.stockStatus === 'stored';
+  const reservationValid = Boolean(selectedReplacement && !replacementValidity.checking && !replacementValidity.error && replacementValidity.invalidIds.length === 0);
   const closeCreate = () => { if (!returnConfirmOpen && !submitting) setCreateOpen(false); };
   const closeRecord = () => { if (!pendingAction && !updating) setSelectedRecord(null); };
+  const actionConfirmation = pendingAction && selectedRecord ? {
+    receive: {
+      title: '确认收到售后机器',
+      message: receivedCondition.trim() || receivedNote.trim()
+        ? `机器将进入售后暂存。登记内容：${[receivedCondition.trim(), receivedNote.trim()].filter(Boolean).join(' · ')}。`
+        : '机器将进入售后暂存。机器状况暂未填写，可以稍后在原单补录。',
+    },
+    start_processing: { title: '开始售后处理', message: '确认开始处理此售后单？' },
+    repair_complete: { title: '维修完成并归还客户', message: '确认维修已完成，机器已归还客户并恢复已售状态？' },
+    customer_return: { title: '确认完成退货退款', message: '机器将沿用原采购成本和仓库恢复正式库存，销售来源记录保留。' },
+    reserve_exchange: {
+      title: hasReservation ? '更换锁定的替换机' : '锁定替换机',
+      message: hasReservation
+        ? `锁定 SN ${selectedReplacement?.sn || '—'}，并解除旧替换机的锁定。新替换机实际发货后才会出库。`
+        : `锁定 SN ${selectedReplacement?.sn || '—'}。锁定期间不能被其他订单占用；实际发货后才会出库。`,
+    },
+    release_exchange: { title: '解除替换机锁定', message: '当前替换机将恢复可用，售后单回到待备货。' },
+    ship_exchange: {
+      title: '确认替换机已发货',
+      message: `替换机 SN ${selectedRecord.reservedReplacementSn || '—'} · 寄出运单 ${shippingTrackingNo.trim()}。确认后替换机出库，原机继续留在售后暂存。`,
+    },
+    restock: { title: '确认原机检查合格并入库', message: `原机 SN ${selectedRecord.sn} 将转回正式库存并恢复可用。只有机器检查合格后才可确认。` },
+    cancel: {
+      title: cancelRequiresReturn ? '原机已归还客户并取消换货' : '取消售后',
+      message: cancelRequiresReturn
+        ? `仅在原机 SN ${selectedRecord.sn} 已实际归还客户后确认取消。${hasReservation ? '如果只想释放替换机，请返回并选择「解除锁定」。' : ''}`
+        : hasReservation
+        ? '原机器将恢复为已售状态，暂存记录保留；未发货的替换机会解除锁定。'
+        : '确认取消售后？原机器将恢复为已售状态，暂存记录保留。',
+    },
+    update_progress: { title: '保存进展', message: '' },
+    update_condition: { title: '保存机器状况', message: '' },
+  }[pendingAction] : null;
 
   return <div className="mx-auto max-w-[1400px] space-y-4 pb-8 page-transition-enter">
     <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
@@ -271,7 +372,7 @@ export default function AfterSalesPage() {
           <div className="relative min-w-0 basis-full sm:max-w-lg sm:flex-1">
             <Search aria-hidden="true" className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-ink-soft" />
             <input type="search" aria-label="搜索售后记录" value={search} onChange={event => changeSearch(event.target.value)}
-              placeholder="搜索寄回运单、SN、客户或单号" className="field w-full !pl-9" />
+              placeholder="搜索运单、SN、客户或售后单号" className="field w-full !pl-9" />
           </div>
           <label className="relative min-w-28">
             <select aria-label="历史记录" value={historySelected ? status : ''} onChange={event => selectFilter(event.target.value as RecordFilter)}
@@ -310,7 +411,7 @@ export default function AfterSalesPage() {
                 const tracking = record.returnTrackingNo?.trim();
                 return <li key={record.id} className={`grid min-w-0 grid-cols-2 items-start gap-x-3 gap-y-2 px-3 py-3 transition-colors hover:bg-slate-50/80 sm:px-5 lg:items-center lg:gap-4 ${gridColumns}`}>
                   <div className="col-span-2 flex min-w-0 flex-wrap items-center gap-1.5 lg:col-span-1">
-                    <span className={`status-pill ${statusClass(record.status)}`}>{stage.label}</span>
+                    <span className={`status-pill ${needsOriginalDisposition(record) || stage.label === '待发货' || stage.label === '待备货' ? 'warn' : statusClass(record.status)}`}>{stage.label}</span>
                     {overdue && <span className="text-[11px] font-medium whitespace-nowrap text-danger">签收超 24 小时</span>}
                   </div>
                   <div className="min-w-0">
@@ -364,16 +465,28 @@ export default function AfterSalesPage() {
       </form>
     </ModalShell>}
 
-    {selectedRecord && detailStage && <ModalShell title="售后单详情" subtitle={selectedRecord.afterSaleNo} onClose={closeRecord} footer={['created', 'received', 'processing'].includes(selectedRecord.status) ? <><button type="button" disabled={updating} onClick={() => setPendingAction('cancel')} className="btn-ghost mr-auto text-danger">取消售后</button>{selectedRecord.status === 'created' ? <button type="button" disabled={updating || !receivedCondition.trim()} onClick={beginReceiving} className="btn-primary">确认收到并登记核验</button> : <>{selectedRecord.status === 'received' && <button type="button" disabled={updating} onClick={() => setPendingAction('start_processing')} className="btn-primary">开始处理</button>}{selectedRecord.status === 'processing' && selectedRecord.resolutionType === 'repair' && <button type="button" disabled={updating} onClick={() => setPendingAction('repair_complete')} className="btn-primary">维修完成并归还</button>}{selectedRecord.status === 'processing' && selectedRecord.resolutionType === 'exchange' && <button type="button" disabled={updating || !replacementId || replacementValidity.checking || !!replacementValidity.error || replacementValidity.invalidIds.length > 0} onClick={() => setPendingAction('exchange')} className="btn-primary">确认换货</button>}{selectedRecord.status === 'processing' && selectedRecord.resolutionType === 'customer_return' && <button type="button" disabled={updating} onClick={() => setPendingAction('customer_return')} className="btn-primary">完成退货退款入库</button>}</>}</> : <button type="button" onClick={() => setSelectedRecord(null)} className="btn-primary">关闭</button>}>
+    {selectedRecord && detailStage && <ModalShell title="售后单详情" subtitle={selectedRecord.afterSaleNo} onClose={closeRecord} footer={<>
+      {['created', 'received', 'processing'].includes(selectedRecord.status) && <button type="button" disabled={updating} onClick={() => setPendingAction('cancel')} className="btn-ghost mr-auto text-danger">取消售后</button>}
+      {selectedRecord.status === 'created' && <button type="button" disabled={updating} onClick={() => setPendingAction('receive')} className="btn-primary">确认收件</button>}
+      {selectedRecord.status === 'received' && <button type="button" disabled={updating} onClick={() => setPendingAction('start_processing')} className="btn-primary">开始处理</button>}
+      {selectedRecord.status === 'processing' && selectedRecord.resolutionType === 'repair' && <button type="button" disabled={updating} onClick={() => setPendingAction('repair_complete')} className="btn-primary">维修完成并归还</button>}
+      {selectedRecord.status === 'processing' && selectedRecord.resolutionType === 'customer_return' && <button type="button" disabled={updating} onClick={() => setPendingAction('customer_return')} className="btn-primary">完成退货退款入库</button>}
+      {exchangeProcessing && (hasReservation
+        ? <button type="button" disabled={updating || !shippingTrackingNo.trim() || Boolean(replacementId)} onClick={() => setPendingAction('ship_exchange')} className="btn-primary">确认已发货</button>
+        : <button type="button" disabled={updating || !reservationValid} onClick={() => setPendingAction('reserve_exchange')} className="btn-primary">锁定替换机</button>)}
+      {originalNeedsDisposition && <button type="button" disabled={updating || !dispositionCondition.trim()} onClick={() => setPendingAction('restock')} className="btn-primary">检查合格并转入库存</button>}
+      {!['created', 'received', 'processing'].includes(selectedRecord.status) && !originalNeedsDisposition && <button type="button" onClick={closeRecord} className="btn-primary">关闭</button>}
+    </>}>
       <div className="space-y-5">
         <section className="space-y-3 rounded-xl border border-line bg-white/80 p-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className={`status-pill ${statusClass(selectedRecord.status)}`}>{detailStage.label}</span>
+            <span className={`status-pill ${originalNeedsDisposition || exchangeProcessing ? 'warn' : statusClass(selectedRecord.status)}`}>{detailStage.label}</span>
             <span className="text-xs text-ink-soft">{resolutionLabel(selectedRecord.resolutionType)}</span>
             {selectedRecord.stockStatus === 'stored' && <span className="text-xs text-ink-soft">· 售后暂存</span>}
             {canWork && isOverdue(selectedRecord.receivedAt, checkedAt) && <span className="status-pill danger">签收超 24 小时</span>}
           </div>
           <div>
+            {selectedRecord.resolutionType === 'exchange' && <p className="mb-1 text-xs text-ink-soft">客户退回的原机</p>}
             <h3 className="text-base font-semibold break-words text-ink-deep">{productName(selectedRecord)}</h3>
             <p className="mt-0.5 font-mono text-xs break-all text-ink-soft">SN {selectedRecord.sn}</p>
           </div>
@@ -384,28 +497,83 @@ export default function AfterSalesPage() {
         </section>
 
         {selectedRecord.status === 'created' && <section className="rounded-xl border border-primary/15 bg-primary/5 p-4">
-          <h3 className="text-sm font-semibold text-ink-deep">下一步：收件并拆包核验</h3>
+          <h3 className="text-sm font-semibold text-ink-deep">下一步：登记收件</h3>
+          <p className="mt-1 text-xs text-ink-soft">机器状况可在拆包后补录。</p>
           <div className="mt-3 grid gap-3">
-            <label className="text-xs text-ink-soft">机器状况 <span className="text-danger">*</span><input required value={receivedCondition} onChange={event => setReceivedCondition(event.target.value)} maxLength={160} className="field mt-1.5" placeholder="例如：外观完好、屏幕破损" /></label>
+            <label className="text-xs text-ink-soft">机器状况（选填）<input value={receivedCondition} onChange={event => setReceivedCondition(event.target.value)} maxLength={160} className="field mt-1.5" placeholder="例如：外观完好、屏幕破损" /></label>
             <label className="text-xs text-ink-soft">拆包核验备注<textarea value={receivedNote} onChange={event => setReceivedNote(event.target.value)} rows={2} maxLength={1000} className="field mt-1.5 resize-y" placeholder="记录配件、外观和通电检查情况" /></label>
           </div>
         </section>}
 
+        {exchangeProcessing && <section className="space-y-3 rounded-xl border border-primary/15 bg-primary/5 p-4">
+          <div>
+            <h3 className="text-sm font-semibold text-ink-deep">{hasReservation ? '换货交付：等待实际发货' : '换货备货：锁定替换机'}</h3>
+            <p className="mt-1 text-xs text-ink-soft">{hasReservation ? '实际寄出后再登记，原机仍留在售后暂存。' : '从可出库库存选择替换机。还没备好机器时，售后单可以保留在待备货。'}</p>
+          </div>
+          {hasReservation && <div className="rounded-lg border border-primary/15 bg-white/80 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p className="text-xs text-ink-soft">当前锁定的替换机</p>
+                <p className="mt-0.5 font-mono text-sm font-semibold break-all text-ink-deep">SN {selectedRecord.reservedReplacementSn || '未记录'}</p>
+              </div>
+              <button type="button" disabled={updating} onClick={() => setPendingAction('release_exchange')} className="btn-ghost text-xs">解除锁定</button>
+            </div>
+            <label className="mt-3 block text-xs text-ink-soft">寄出快递单号 <span className="text-danger">*</span>
+              <input value={shippingTrackingNo} onChange={event => setShippingTrackingNo(event.target.value)} maxLength={100} className="field mt-1.5 font-mono" placeholder="实际发货后填写运单号" />
+            </label>
+          </div>}
+          {hasReservation && <button type="button" disabled={updating} aria-expanded={changingReplacement} aria-controls="after-sales-replacement-picker"
+            className="btn-ghost flex w-full items-center justify-between gap-2 text-sm" onClick={() => {
+              setChangingReplacement(!changingReplacement);
+              if (changingReplacement) { setReplacementId(''); setReplacementSearch(''); }
+            }}>
+            更换替换机<ChevronDown aria-hidden="true" className={`h-4 w-4 text-ink-soft transition-transform motion-reduce:transition-none ${changingReplacement ? 'rotate-180' : ''}`} />
+          </button>}
+          {(!hasReservation || changingReplacement) &&
+            <div id="after-sales-replacement-picker" className={hasReservation ? 'space-y-2 rounded-lg border border-line bg-white/65 p-3 motion-safe:animate-fade-in' : 'space-y-2'}>
+              <p className="text-xs text-ink-soft">选择可出库的替换机</p>
+              <MachineSearchInput<ReplacementItem> value={replacementSearch} onChange={value => { setReplacementSearch(value); setReplacementId(''); }} endpoint="/api/inventory/lookup?context=exchange"
+                onSelect={item => { setReplacementItems(current => [item, ...current.filter(row => row.id !== item.id)]); setReplacementId(item.id); setReplacementSearch(item.sn); }}
+                scanEnabled placeholder="输入或扫描替换机 SN" ariaLabel="搜索换货替换机器" />
+              {selectedReplacement && <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-primary/15 bg-white/80 px-3 py-2">
+                <div className="min-w-0">
+                  <p className="text-xs font-medium break-words text-ink-deep">待锁定 · {productName(selectedReplacement)}</p>
+                  <p className="mt-0.5 font-mono text-xs break-all text-ink-soft">SN {selectedReplacement.sn}</p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button type="button" disabled={updating} className="btn-ghost text-xs" onClick={() => { setReplacementId(''); setReplacementSearch(''); }}>取消选择</button>
+                  {hasReservation && <button type="button" disabled={updating || !reservationValid} className="btn-primary text-xs" onClick={() => setPendingAction('reserve_exchange')}>确认更换并锁定</button>}
+                </div>
+              </div>}
+              {(replacementValidity.error || replacementValidity.invalidIds.length > 0) && <p role="alert" className="text-xs text-danger">{replacementValidity.error || '替换机器已不可用，请重新选择。'}</p>}
+            </div>}
+        </section>}
         {canWork && <section className="rounded-xl border border-primary/15 bg-primary/5 p-4">
           <h3 className="text-sm font-semibold text-ink-deep">{selectedRecord.status === 'received' ? '下一步：开始处理' : '处理进展'}</h3>
           <label className="mt-3 block text-xs text-ink-soft">{selectedRecord.status === 'received' ? '交接备注' : '当前处理进展'}<textarea value={handlingNote} onChange={event => setHandlingNote(event.target.value)} rows={2} maxLength={1000} className="field mt-1.5 resize-y" placeholder="记录已采取的处理、遇到的问题或交接事项" /></label>
           {selectedRecord.status === 'processing' && <button type="button" className="btn-ghost mt-2" disabled={updating || !handlingNote.trim()} onClick={() => void updateRecord(selectedRecord, 'update_progress')}>{updating ? '保存中…' : '保存当前进展'}</button>}
         </section>}
 
-        {['received', 'processing'].includes(selectedRecord.status) && selectedRecord.resolutionType === 'exchange' && <section className="rounded-xl border border-primary/15 bg-primary/5 p-4"><h3 className="text-sm font-semibold text-ink-deep">选择换货机器</h3><p className="mt-1 text-xs text-ink-soft">替换机器将按原销售渠道和售价关联到原销售记录。</p><label className="mt-3 block text-xs text-ink-soft">在库替换机器<div className="mt-1.5"><MachineSearchInput<ReplacementItem> value={replacementSearch} onChange={setReplacementSearch} endpoint="/api/inventory/lookup?context=exchange" onSelect={item => { setReplacementItems(current => [item, ...current.filter(row => row.id !== item.id)]); setReplacementId(item.id); setReplacementSearch(item.sn); }} scanEnabled ariaLabel="搜索换货替换机器" /></div></label>{selectedReplacement && <p className="mt-2 text-xs text-ink-deep">已选择：{productName(selectedReplacement)} · {selectedReplacement.sn}<button type="button" className="ml-2 text-primary" onClick={() => { setReplacementId(''); setReplacementSearch(''); }}>取消选择</button></p>}{(replacementValidity.error || replacementValidity.invalidIds.length > 0) && <p role="alert" className="mt-2 text-xs text-danger">{replacementValidity.error || '替换机器已不可用，请重新选择。'}</p>}</section>}
         {['received', 'processing'].includes(selectedRecord.status) && selectedRecord.resolutionType === 'customer_return' && <p className="rounded-xl border border-primary/15 bg-primary/5 p-4 text-xs leading-5 text-ink-soft">退货退款将沿用原销售记录、原采购成本和原仓库恢复正式库存，随后可打印库存标签。</p>}
         {(selectedRecord.status === 'resolved' || selectedRecord.status === 'cancelled') && <section className="rounded-xl border border-line bg-slate-50 p-4">
-          <h3 className="text-sm font-semibold text-ink-deep">处理结果</h3>
+          <h3 className="text-sm font-semibold text-ink-deep">{selectedRecord.shippedReplacementTrackingNo ? '换货交付已完成' : '处理结果'}</h3>
           <dl className="mt-3 grid gap-3 sm:grid-cols-2">
             <DetailValue label={detailStage.event + '时间'} value={formatDisplayDateTime(detailStage.at, '未记录')} />
+            {selectedRecord.replacementInventoryId && selectedRecord.resolutionType === 'exchange' && <>
+              <DetailValue label="已交付的替换机 SN" value={selectedRecord.replacementSn || '未记录'} />
+              <DetailValue label="寄出快递单号" value={selectedRecord.shippedReplacementTrackingNo || '历史未记录'} />
+              {selectedRecord.stockStatus === 'restocked' && <DetailValue label="原机去向" value="已转入正式库存" />}
+            </>}
             {selectedRecord.refundAmount != null && <DetailValue label="退款金额" value={money(selectedRecord.refundAmount)} />}
             <DetailValue label="结果备注" value={selectedRecord.resolutionNote || '未填写'} />
           </dl>
+        </section>}
+        {originalNeedsDisposition && <section className="rounded-xl border border-primary/15 bg-primary/5 p-4">
+          <h3 className="text-sm font-semibold text-ink-deep">原机处置</h3>
+          <p className="mt-1 text-xs text-ink-soft">原机仍在售后暂存。需要继续检修时可先保留，确认适合重新入库后再转入正式库存。</p>
+          <label className="mt-3 block text-xs text-ink-soft">入库检查结果 <span className="text-danger">*</span>
+            <input value={dispositionCondition} onChange={event => setDispositionCondition(event.target.value)} maxLength={160} className="field mt-1.5" placeholder="例如：已完成维修，通电及功能检查合格" />
+          </label>
         </section>}
 
         <section className="space-y-3">
@@ -416,9 +584,17 @@ export default function AfterSalesPage() {
             {selectedRecord.receivedAt && <DetailValue label="签收" value={`${selectedRecord.receivedByName || '未记录签收人'} · ${formatDisplayDateTime(selectedRecord.receivedAt)}`} />}
             {selectedRecord.processingAt && <DetailValue label="开始处理" value={`${selectedRecord.processingByName || '未记录处理人'} · ${formatDisplayDateTime(selectedRecord.processingAt)}`} />}
             {selectedRecord.issueDescription && <DetailValue wide label="问题描述" value={selectedRecord.issueDescription} />}
-            {selectedRecord.status !== 'created' && (selectedRecord.receivedCondition || selectedRecord.stockCondition) && <DetailValue wide label="拆包核验" value={[selectedRecord.receivedCondition || selectedRecord.stockCondition, selectedRecord.receivedNote || selectedRecord.stockNote].filter(Boolean).join('\n')} />}
+            {selectedRecord.receivedAt && <DetailValue wide label="拆包核验" value={[selectedRecord.receivedCondition || selectedRecord.stockCondition || '机器状况未记录', selectedRecord.receivedNote || selectedRecord.stockNote].filter(Boolean).join('\n')} />}
             {!canWork && selectedRecord.processingNote && <DetailValue wide label="处理进展" value={selectedRecord.processingNote} />}
           </dl>
+          {(canWork || originalNeedsDisposition) && (editingCondition ? <div className="grid gap-3 rounded-lg border border-line bg-white/70 p-3">
+            <label className="text-xs text-ink-soft">机器状况（选填）<input value={receivedCondition} onChange={event => setReceivedCondition(event.target.value)} maxLength={160} className="field mt-1.5" placeholder="例如：外观完好、屏幕破损" /></label>
+            <label className="text-xs text-ink-soft">拆包核验备注<textarea value={receivedNote} onChange={event => setReceivedNote(event.target.value)} rows={2} maxLength={1000} className="field mt-1.5 resize-y" /></label>
+            <div className="flex flex-wrap justify-end gap-2">
+              <button type="button" disabled={updating} className="btn-ghost text-xs" onClick={() => { setReceivedCondition(selectedRecord.receivedCondition || selectedRecord.stockCondition || ''); setReceivedNote(selectedRecord.receivedNote || selectedRecord.stockNote || ''); setEditingCondition(false); }}>取消修改</button>
+              <button type="button" disabled={updating || !conditionChanged} className="btn-primary text-xs" onClick={() => void updateRecord(selectedRecord, 'update_condition')}>保存核验记录</button>
+            </div>
+          </div> : <button type="button" disabled={updating} className="btn-ghost text-xs" onClick={() => setEditingCondition(true)}>补录机器状况</button>)}
         </section>
 
         <details className="group rounded-lg border border-line bg-white/70">
@@ -435,7 +611,7 @@ export default function AfterSalesPage() {
       </div>
     </ModalShell>}
 
-    <ConfirmDialog isOpen={!!pendingAction} title={({ receive: '确认收到售后机器', start_processing: '开始售后处理', repair_complete: '维修完成并归还客户', customer_return: '确认完成退货退款', exchange: '确认完成换货', cancel: '取消售后' } as Record<string, string>)[pendingAction || ''] || '确认处理'} message={pendingAction === 'receive' ? `机器将进入售后暂存；核验记录：${receivedCondition.trim() || '未填写机器状况'}${receivedNote.trim() ? ` · ${receivedNote.trim()}` : ''}。` : pendingAction === 'exchange' ? '原售后机器完成处理，选中的替换机器将沿用原销售记录出库给客户。' : pendingAction === 'customer_return' ? '机器将沿用原采购成本和仓库恢复正式库存，销售来源记录保留。' : pendingAction === 'repair_complete' ? '确认维修已完成，机器归还客户并恢复已售状态？' : pendingAction === 'cancel' ? '确认取消售后？原机器将恢复为已售状态，暂存记录保留。' : '确认开始处理此售后单？'} confirmText={updating ? '处理中...' : '确认'} cancelText="返回" danger={pendingAction === 'cancel'} onConfirm={() => { if (selectedRecord && pendingAction && !updating) void updateRecord(selectedRecord, pendingAction); }} onCancel={() => setPendingAction(null)} />
+    <ConfirmDialog isOpen={Boolean(actionConfirmation)} title={actionConfirmation?.title || '确认处理'} message={actionConfirmation?.message || ''} confirmText={updating ? '处理中…' : pendingAction === 'cancel' && cancelRequiresReturn ? '原机已归还，取消换货' : '确认'} cancelText="返回" danger={pendingAction === 'cancel'} onConfirm={() => { if (selectedRecord && pendingAction && !updating) void updateRecord(selectedRecord, pendingAction); }} onCancel={() => { if (!updating) setPendingAction(null); }} />
     <ConfirmDialog isOpen={returnConfirmOpen} title="确认退货退款并入库" message={selectedMachine ? `${productName(selectedMachine)}（SN ${selectedMachine.sn}）将沿用原销售记录和采购成本，直接恢复到原仓库。` : ''} confirmText={submitting ? '处理中...' : '确认退货退款'} cancelText="返回修改" onConfirm={() => { if (!submitting) void createAfterSale(); }} onCancel={() => { if (!submitting) setReturnConfirmOpen(false); }} />
     <ConfirmDialog isOpen={Boolean(pendingPrint)} title="打印库存标签" message="退货退款已入库，是否使用默认标签样式立即打印？" confirmText={printing ? '准备打印...' : '立即打印'} cancelText="稍后打印" onConfirm={() => { if (!printing && pendingPrint) void printLabels([pendingPrint]).then(() => setPendingPrint(null)).catch((error) => { notify(error instanceof Error ? error.message : '打印失败，请重试', 'error'); setPendingPrint(null); }); }} onCancel={() => { if (!printing) setPendingPrint(null); }} />
     {toast && <div role="status" aria-live="polite" className={'fixed bottom-5 right-5 z-[120] flex max-w-[calc(100vw-2.5rem)] items-center gap-3 rounded-xl border px-4 py-3 text-sm shadow-lg backdrop-blur-xl ' + (toast.tone === 'error' ? 'border-danger/20 bg-white/95 text-danger' : 'border-success/20 bg-white/95 text-success')}><span>{toast.text}</span><button type="button" onClick={() => setToast(null)} aria-label="关闭提示"><X className="h-4 w-4" /></button></div>}

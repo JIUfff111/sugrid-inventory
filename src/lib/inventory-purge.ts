@@ -59,7 +59,7 @@ export function getPurgeCandidate(id: string): PurgeCandidate | null {
   const references: PurgeReferenceCounts = {
     sales: Number((db.prepare('SELECT COUNT(*) AS count FROM sales_record_items WHERE inventoryId = ?').get(id) as { count: number }).count || 0),
     rentals: Number((db.prepare('SELECT COUNT(*) AS count FROM rental_records WHERE inventoryId = ?').get(id) as { count: number }).count || 0),
-    afterSales: Number((db.prepare(`SELECT COUNT(*) AS count FROM after_sale_records WHERE inventoryId = ? OR replacementInventoryId = ?`).get(id, id) as { count: number }).count || 0)
+    afterSales: Number((db.prepare(`SELECT COUNT(*) AS count FROM after_sale_records WHERE inventoryId = ? OR replacementInventoryId = ? OR reservedReplacementId = ?`).get(id, id, id) as { count: number }).count || 0)
       + Number((db.prepare('SELECT COUNT(*) AS count FROM after_sale_stock WHERE inventoryId = ?').get(id) as { count: number }).count || 0),
     returns: Number((db.prepare('SELECT COUNT(*) AS count FROM return_receipts WHERE inventoryId = ?').get(id) as { count: number }).count || 0),
     transfers: Number((db.prepare('SELECT COUNT(*) AS count FROM transfer_items WHERE inventoryId = ?').get(id) as { count: number }).count || 0),

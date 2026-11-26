@@ -104,8 +104,8 @@ export const DATA_RESOURCES: Record<string, DataResource> = {
   },
   after_sale_records: {
     key: 'after_sale_records', label: '售后记录', table: 'after_sale_records',
-    fields: ['id', 'afterSaleNo', 'inventoryId', 'sn', 'salesRecordId', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'issueDescription', 'resolutionType', 'replacementInventoryId', 'status', 'refundAmount', 'resolutionNote', 'resolvedAt', 'deleted', 'createdBy', 'createdAt', 'updatedAt', 'receivedAt', 'receivedBy', 'receivedCondition', 'receivedNote', 'returnTrackingNo', 'processingAt', 'processingBy', 'processingNote'],
-    writable: ['resolutionNote'], deletable: false, creatable: false, searchFields: ['afterSaleNo', 'returnTrackingNo', 'sn', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'status'], orderBy: 'createdAt DESC', required: ['afterSaleNo', 'inventoryId', 'sn', 'customerName', 'customerPhone', 'resolutionType'],
+    fields: ['id', 'afterSaleNo', 'inventoryId', 'sn', 'salesRecordId', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'issueDescription', 'resolutionType', 'replacementInventoryId', 'reservedReplacementId', 'reservedReplacementSn', 'shippedReplacementTrackingNo', 'status', 'refundAmount', 'resolutionNote', 'resolvedAt', 'deleted', 'createdBy', 'createdAt', 'updatedAt', 'receivedAt', 'receivedBy', 'receivedCondition', 'receivedNote', 'returnTrackingNo', 'processingAt', 'processingBy', 'processingNote'],
+    writable: ['resolutionNote'], deletable: false, creatable: false, searchFields: ['afterSaleNo', 'returnTrackingNo', 'shippedReplacementTrackingNo', 'reservedReplacementSn', 'sn', 'saleOrderNo', 'customerName', 'customerPhone', 'issueType', 'status'], orderBy: 'createdAt DESC', required: ['afterSaleNo', 'inventoryId', 'sn', 'customerName', 'customerPhone', 'resolutionType'],
   },
   after_sale_stock: {
     key: 'after_sale_stock', label: '售后暂存', table: 'after_sale_stock',
@@ -421,7 +421,7 @@ const IMPORT_FOREIGN_KEYS: Record<string, Record<string, { table: string; column
   rental_renewals: { rentalRecordId: { table: 'rental_records' }, rentalOrderId: { table: 'rental_orders' }, actorId: { table: 'users' } },
   after_sale_records: {
     inventoryId: { table: 'inventory' }, salesRecordId: { table: 'sales_records' },
-    replacementInventoryId: { table: 'inventory' }, createdBy: { table: 'users' },
+    replacementInventoryId: { table: 'inventory' }, reservedReplacementId: { table: 'inventory' }, createdBy: { table: 'users' },
   },
   after_sale_stock: {
     afterSaleId: { table: 'after_sale_records' }, afterSaleRecordId: { table: 'after_sale_records' },

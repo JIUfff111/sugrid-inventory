@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { assertInventoryView, authErrorResponse, requireUser, warehouseScope } from '@/lib/auth';
-import { inventoryOperationEligibleSql, serializeInventoryStatus, stockEligibleSql } from '@/lib/inventory-status';
+import { inventoryOperationEligibleSql, serializeInventoryStatus, stockEligibleSql, warehouseStockSql } from '@/lib/inventory-status';
 import { errorResponse, successResponse, createPaginatedResponse } from '@/lib/api-helpers';
 
 const contexts = ['inventory','sale','rental','after-sale','exchange','supplier-return','transfer','movements','status-register','status-restore'];
@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
     const scope = warehouseScope(user,query.get('warehouseId'),'i');
     const where = ['i.deleted = 0',scope.sql]; const params: Array<string|number> = [...scope.params];
     if (context in stockContextOperations) where.push(inventoryOperationEligibleSql(stockContextOperations[context as keyof typeof stockContextOperations], 'i'));
+    if (context === 'exchange') where.push(warehouseStockSql('i'));
     if (context === 'status-register') where.push("i.status = 'in_stock' AND i.currentStatusRecordId IS NULL",stockEligibleSql('i'));
     if (context === 'status-restore') where.push("i.status = 'custom' AND EXISTS (SELECT 1 FROM inventory_status_records current_record WHERE current_record.id=i.currentStatusRecordId AND current_record.inventoryId=i.id AND current_record.closedAt IS NULL)");
     if (context === 'after-sale') where.push("i.status = 'sold'", "NOT EXISTS (SELECT 1 FROM after_sale_records a WHERE a.inventoryId = i.id AND a.deleted = 0 AND a.status NOT IN ('resolved','cancelled'))");

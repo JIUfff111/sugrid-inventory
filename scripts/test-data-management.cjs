@@ -72,6 +72,7 @@ async function main() {
       '@/lib/manual-sku-options': load('src/lib/manual-sku-options.ts'),
       '@/lib/machine-scan': load('src/lib/machine-scan.ts'),
     };
+    routeDeps['@/lib/inventory-query'] = load('src/lib/inventory-query.ts', routeDeps);
     const previewImport = load('src/app/api/data-management/import/preview/route.ts', routeDeps);
     const routes = {
       resources: load('src/app/api/data-management/resources/route.ts', routeDeps),

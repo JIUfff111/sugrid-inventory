@@ -1231,6 +1231,32 @@ function applyVersionedMigrations(db) {
       CREATE INDEX idx_rental_renewals_batch ON rental_renewals(batchId, createdAt);
     `);
   });
+  migrate(36, 'reserve exchange replacements until shipment', () => {
+    add('after_sale_records', 'reservedReplacementId', 'TEXT REFERENCES inventory(id)');
+    add('after_sale_records', 'reservedReplacementSn', 'TEXT');
+    add('after_sale_records', 'shippedReplacementTrackingNo', 'TEXT');
+    db.exec(`
+      CREATE UNIQUE INDEX idx_after_sale_exchange_reservation ON after_sale_records(reservedReplacementId)
+        WHERE reservedReplacementId IS NOT NULL AND deleted = 0;
+      CREATE TRIGGER guard_exchange_reserved_inventory_update
+      BEFORE UPDATE OF status, deleted, warehouseId, currentStatusRecordId, sn, ram, storage, gpu, cpu, screen, touchScreen, productType, brand, model, year ON inventory
+      WHEN (NEW.status IS NOT OLD.status OR NEW.deleted IS NOT OLD.deleted OR NEW.warehouseId IS NOT OLD.warehouseId
+        OR NEW.currentStatusRecordId IS NOT OLD.currentStatusRecordId OR NEW.sn IS NOT OLD.sn
+        OR NEW.ram IS NOT OLD.ram OR NEW.storage IS NOT OLD.storage OR NEW.gpu IS NOT OLD.gpu
+        OR NEW.cpu IS NOT OLD.cpu OR NEW.screen IS NOT OLD.screen OR NEW.touchScreen IS NOT OLD.touchScreen
+        OR NEW.productType IS NOT OLD.productType OR NEW.brand IS NOT OLD.brand OR NEW.model IS NOT OLD.model OR NEW.year IS NOT OLD.year)
+        AND EXISTS (SELECT 1 FROM after_sale_records WHERE reservedReplacementId = OLD.id AND deleted = 0)
+      BEGIN
+        SELECT RAISE(ABORT, '机器已被售后换货预留，请先解除预留');
+      END;
+      CREATE TRIGGER guard_exchange_reserved_inventory_delete
+      BEFORE DELETE ON inventory
+      WHEN EXISTS (SELECT 1 FROM after_sale_records WHERE reservedReplacementId = OLD.id AND deleted = 0)
+      BEGIN
+        SELECT RAISE(ABORT, '机器已被售后换货预留，请先解除预留');
+      END;
+    `);
+  });
 }
 
 module.exports = { initDatabase, seedDatabase };

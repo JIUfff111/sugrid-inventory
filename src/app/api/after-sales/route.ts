@@ -1,4 +1,4 @@
-import { assertInventoryOperationEligible, endCustomStatus } from '@/lib/inventory-status';
+import { assertInventoryOperationEligible, endCustomStatus, warehouseStockSql } from '@/lib/inventory-status';
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { createPaginatedResponse, errorResponse, ErrorCode, formatDateTime, generateId, parsePaginationParams, successResponse } from '@/lib/api-helpers';
@@ -56,6 +56,44 @@ function normalizeTrackingNo(value: unknown) {
   return trackingNo || null;
 }
 
+function optionalText(value: unknown, label: string, maxLength: number) {
+  if (value == null) return null;
+  if (typeof value !== 'string') throw new Error(`${label}必须为文本`);
+  const text = value.trim();
+  if (text.length > maxLength) throw new Error(`${label}不能超过 ${maxLength} 个字符`);
+  return text || null;
+}
+
+function getAfterSale(id: string) {
+  return db.prepare('SELECT * FROM after_sale_records WHERE id = ? AND deleted = 0').get(id) as Row | undefined;
+}
+
+function getAfterSaleStock(id: string) {
+  return db.prepare('SELECT * FROM after_sale_stock WHERE afterSaleId = ?').get(id) as Row | undefined;
+}
+
+function activeExchange(id: string) {
+  const record = getAfterSale(id);
+  if (!record || record.status !== 'processing' || record.resolutionType !== 'exchange') throw new Error('当前售后单状态不能进行换货');
+  const original = inventory(record.inventoryId);
+  if (original?.status !== 'after_sale' || getAfterSaleStock(id)?.stockStatus !== 'stored') throw new Error('请先确认收到原机器且仍在售后暂存');
+  return { record, original };
+}
+
+function checkExpectedReservation(body: Row, record: Row) {
+  if (body.expectedReplacementInventoryId !== undefined && body.expectedReplacementInventoryId !== (record.reservedReplacementId ?? null)) {
+    throw new Error('替换机器的预留状态已变化，请刷新后重试');
+  }
+}
+
+function assertWarehouseReplacement(inventoryId: string) {
+  const replacement = assertInventoryOperationEligible(inventoryId, 'sales');
+  if (!db.prepare(`SELECT 1 FROM inventory i WHERE i.id = ? AND ${warehouseStockSql('i')}`).get(inventoryId)) {
+    throw new Error('替换机器必须在仓内且可销售，外部寄卖或售后暂存不能作为替换机');
+  }
+  return replacement;
+}
+
 type SaleSource = {
   salesRecordId: string | null;
   recordNo: string | null;
@@ -105,7 +143,7 @@ function saleDataSelect() {
       COALESCE(sri.sellingPrice, i.sellingPrice, 0) AS originalSellingPrice,
       COALESCE(sri.purchasePrice, i.purchasePrice, 0) AS originalPurchasePrice,
       COALESCE(sri.profit, 0) AS originalProfit,
-      s.stockStatus, s.receivedAt AS stockReceivedAt, s.receivedBy AS stockReceivedBy,
+      s.stockStatus, s.receivedAt AS stockReceivedAt, s.receivedBy AS stockReceivedBy, replacement.sn AS replacementSn,
       s.condition AS stockCondition, s.note AS stockNote,
       COALESCE(NULLIF(createdUser.realName, ''), createdUser.username) AS createdByName,
       COALESCE(NULLIF(receivedUser.realName, ''), receivedUser.username) AS receivedByName,
@@ -115,6 +153,7 @@ function saleDataSelect() {
     LEFT JOIN sales_record_items sri ON sri.inventoryId = a.inventoryId AND sri.salesRecordId = a.salesRecordId
     LEFT JOIN sales_records sr ON sr.id = a.salesRecordId
     LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
+    LEFT JOIN inventory replacement ON replacement.id = a.replacementInventoryId
     LEFT JOIN users createdUser ON createdUser.id = a.createdBy
     LEFT JOIN users receivedUser ON receivedUser.id = a.receivedBy
     LEFT JOIN users processingUser ON processingUser.id = a.processingBy`;
@@ -165,14 +204,15 @@ export async function GET(request: NextRequest) {
     else if (status === 'active') where.push(activeStatusCondition);
     else if (status && status !== 'all') { where.push('a.status = ?'); params.push(status); }
     if (search) {
-      where.push('(a.afterSaleNo LIKE ? OR a.returnTrackingNo LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
-      params.push(pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern, pattern);
+      where.push('(a.afterSaleNo LIKE ? OR a.returnTrackingNo LIKE ? OR a.shippedReplacementTrackingNo LIKE ? OR a.reservedReplacementSn LIKE ? OR replacement.sn LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
+      params.push(...Array<string>(15).fill(pattern));
     }
     if (searchParams.get('id')) { where.push('a.id = ?'); params.push(searchParams.get('id')!); }
     const from = `FROM after_sale_records a
       LEFT JOIN inventory i ON i.id = a.inventoryId
       LEFT JOIN sales_records sr ON sr.id = a.salesRecordId
-      LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id`;
+      LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
+      LEFT JOIN inventory replacement ON replacement.id = a.replacementInventoryId`;
     const clause = `WHERE ${where.join(' AND ')}`;
     const total = Number((db.prepare(`SELECT COUNT(*) AS total ${from} ${clause}`).get(...params) as { total: number }).total || 0);
     const rows = db.prepare(`${saleDataSelect()} ${clause} ORDER BY a.createdAt DESC, a.id DESC LIMIT ? OFFSET ?`).all(...params, pageSize, (page - 1) * pageSize) as Row[];
@@ -283,7 +323,7 @@ export async function PATCH(request: NextRequest) {
     const id = String(body.id || body.afterSaleId || '').trim();
     let action = String(body.action || '').trim();
     if (!id) return bad('售后单 ID 不能为空');
-    const record = db.prepare('SELECT * FROM after_sale_records WHERE id = ? AND deleted = 0').get(id) as Row | undefined;
+    const record = getAfterSale(id);
     if (!record) return NextResponse.json(errorResponse(ErrorCode.NOT_FOUND, '售后单不存在'), { status: 404 });
     const item = inventory(record.inventoryId);
     if (!item) return NextResponse.json(errorResponse(ErrorCode.INVENTORY_NOT_FOUND, '关联机器不存在'), { status: 404 });
@@ -296,12 +336,8 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'receive') {
       if (record.status !== 'created') return bad('当前售后单不能确认收到');
-      if (typeof body.condition !== 'string' || !body.condition.trim()) return bad('请填写拆包后确认的机器状况');
-      if (body.condition.length > 160) return bad('机器状况不能超过 160 个字符');
-      if (body.note !== undefined && body.note !== null && typeof body.note !== 'string') return bad('拆包核验备注必须为文本');
-      if (typeof body.note === 'string' && body.note.length > 1000) return bad('拆包核验备注不能超过 1000 个字符');
-      const condition = body.condition.trim();
-      const note = String(body.note || '').trim() || null;
+      const condition = optionalText(body.condition, '机器状况', 160);
+      const note = optionalText(body.note, '拆包核验备注', 1000);
       const result = db.transaction(() => {
         const changed = db.prepare("UPDATE after_sale_records SET status = 'received', receivedAt = COALESCE(receivedAt, ?), receivedBy = COALESCE(receivedBy, ?), receivedCondition = ?, receivedNote = ?, updatedAt = ? WHERE id = ? AND status = 'created'").run(now, user.id, condition, note, now, id).changes;
         if (changed !== 1) throw new Error('售后单状态已变化，请刷新后重试');
@@ -313,6 +349,27 @@ export async function PATCH(request: NextRequest) {
         move(record.inventoryId, 'after_sale_receive', id, user.id, '售后机器收到并进入暂存', item.warehouseId);
         return { id, status: 'received' };
       })();
+      return NextResponse.json(successResponse(result));
+    }
+
+    if (action === 'update_condition') {
+      if (body.condition === undefined && body.note === undefined) return bad('请提供机器状况或拆包核验备注');
+      const condition = optionalText(body.condition, '机器状况', 160);
+      const note = optionalText(body.note, '拆包核验备注', 1000);
+      const result = db.transaction(() => {
+        const current = getAfterSale(id);
+        const stock = getAfterSaleStock(id);
+        if (!current || stock?.stockStatus !== 'stored' || inventory(current.inventoryId)?.status !== 'after_sale'
+          || !(['received', 'processing'].includes(current.status) || (current.status === 'resolved' && current.resolutionType === 'exchange'))) {
+          throw new Error('当前机器状态不能补填核验信息');
+        }
+        const nextCondition = body.condition === undefined ? (current.receivedCondition ?? stock.condition ?? null) : condition;
+        const nextNote = body.note === undefined ? (current.receivedNote ?? stock.note ?? null) : note;
+        db.prepare('UPDATE after_sale_records SET receivedCondition = ?, receivedNote = ?, updatedAt = ? WHERE id = ?').run(nextCondition, nextNote, now, id);
+        db.prepare("UPDATE after_sale_stock SET condition = ?, note = ?, updatedAt = ? WHERE id = ? AND stockStatus = 'stored'").run(nextCondition, nextNote, now, stock.id);
+        move(current.inventoryId, 'after_sale_condition', id, user.id, [nextCondition, nextNote].filter(Boolean).join(' · ') || '清空机器状况和核验备注', item.warehouseId);
+        return { id, status: current.status, receivedCondition: nextCondition, receivedNote: nextNote };
+      }).immediate();
       return NextResponse.json(successResponse(result));
     }
 
@@ -341,19 +398,83 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json(successResponse({ id, status: 'processing', processingNote }));
     }
 
-    if (!['created', 'received', 'processing'].includes(record.status) || item.status !== 'after_sale') return bad('售后单已结束或机器状态已变化');
-    const stock = db.prepare('SELECT * FROM after_sale_stock WHERE afterSaleId = ?').get(id) as Row | undefined;
-    if (['repair_complete', 'customer_return', 'exchange', 'restock'].includes(action) && record.status !== 'processing') return bad('请先开始售后处理并登记处理人');
-    if ((!stock || stock.stockStatus !== 'stored') && ['repair_complete', 'customer_return', 'exchange', 'restock'].includes(action)) return bad('请先确认收到机器');
+    if (action === 'exchange') return bad('请先预留替换机器，实际寄出后登记寄出快递单号');
+
+    if (action === 'reserve_exchange' || action === 'release_exchange') {
+      const replacementId = action === 'reserve_exchange' ? optionalText(body.replacementInventoryId, '替换机器', 160) : null;
+      if (action === 'reserve_exchange' && !replacementId) return bad('换货必须选择替换机器');
+      const result = db.transaction(() => {
+        const { record: current } = activeExchange(id);
+        checkExpectedReservation(body, current);
+        const previousId = (current.reservedReplacementId ?? null) as string | null;
+        if (replacementId === previousId) {
+          return { id, status: current.status, reservedReplacementId: previousId, reservedReplacementSn: current.reservedReplacementSn };
+        }
+        if (replacementId === current.inventoryId) throw new Error('不能选择原机器作为替换机器');
+        let replacement: ReturnType<typeof assertInventoryOperationEligible> | null = null;
+        if (replacementId) {
+          const conflictingReservation = db.prepare('SELECT afterSaleNo FROM after_sale_records WHERE reservedReplacementId = ? AND deleted = 0').get(replacementId) as { afterSaleNo: string } | undefined;
+          if (conflictingReservation) throw new Error(`替换机器已被售后单 ${conflictingReservation.afterSaleNo} 预留，不能重复预留`);
+          replacement = assertWarehouseReplacement(replacementId);
+        }
+        db.prepare('UPDATE after_sale_records SET reservedReplacementId = ?, reservedReplacementSn = ?, updatedAt = ? WHERE id = ?')
+          .run(replacementId, replacement?.sn || null, now, id);
+        if (previousId) {
+          const previous = inventory(previousId);
+          move(previousId, 'after_sale_reservation_release', id, user.id, replacementId ? '更换替换机器并解除预留' : '解除换货预留', previous?.warehouseId);
+        }
+        if (replacement) move(replacement.id, 'after_sale_reserve', id, user.id, '替换机器已预留，等待寄出', replacement.warehouseId);
+        return { id, status: current.status, reservedReplacementId: replacementId, reservedReplacementSn: replacement?.sn || null };
+      }).immediate();
+      return NextResponse.json(successResponse(result));
+    }
+
+    if (action === 'restock') {
+      const condition = optionalText(body.condition, '原机检查结果', 160);
+      if (!condition) return bad('原机检查结果不能为空，请确认机器可转入正式库存');
+      const note = optionalText(body.note, '原机处置备注', 1000);
+      const result = db.transaction(() => {
+        const current = getAfterSale(id);
+        const stock = getAfterSaleStock(id);
+        if (!current || current.status !== 'resolved' || current.resolutionType !== 'exchange' || stock?.stockStatus !== 'stored') {
+          throw new Error('当前售后单状态不能办理原机入库，必须完成换货且原机仍在暂存');
+        }
+        if (db.prepare("UPDATE inventory SET status = 'in_stock', soldDate = NULL, sellingPrice = NULL, saleChannel = NULL, saleOrderNo = NULL, profit = NULL, updatedAt = ? WHERE id = ? AND status = 'after_sale' AND deleted = 0").run(now, current.inventoryId).changes !== 1) throw new Error('原机器状态已变化');
+        if (db.prepare("UPDATE after_sale_stock SET stockStatus = 'restocked', updatedAt = ? WHERE id = ? AND stockStatus = 'stored'").run(now, stock.id).changes !== 1) throw new Error('售后暂存状态已变化');
+        db.prepare('UPDATE after_sale_records SET updatedAt = ? WHERE id = ?').run(now, id);
+        move(current.inventoryId, 'after_sale_restock', id, user.id, `换货原机检查合格并转入正式库存：${[condition, note].filter(Boolean).join(' · ')}`, item.warehouseId, null, item.warehouseId);
+        return { id, status: 'resolved', resolutionType: 'exchange', stockStatus: 'restocked', inventoryId: current.inventoryId };
+      }).immediate();
+      return NextResponse.json(successResponse(result));
+    }
+
+    if (action !== 'ship_exchange') {
+      if (!['created', 'received', 'processing'].includes(record.status) || item.status !== 'after_sale') return bad('售后单已结束或机器状态已变化');
+    }
+    const stock = getAfterSaleStock(id);
+    if (['repair_complete', 'customer_return'].includes(action)) {
+      if (record.status !== 'processing') return bad('请先开始售后处理并登记处理人');
+      if (!stock || stock.stockStatus !== 'stored') return bad('请先确认收到机器');
+      if (record.resolutionType === 'exchange') return bad('换货售后不能直接办理维修归还或退货入库');
+    }
 
     if (action === 'cancel') {
       const result = db.transaction(() => {
+        const current = getAfterSale(id);
+        const currentStock = getAfterSaleStock(id);
+        if (current?.resolutionType === 'exchange' && currentStock?.stockStatus === 'stored' && body.originalReturnedToCustomer !== true) {
+          throw new Error('原机仍在售后暂存，必须确认原机已归还客户才能取消换货；只需释放替换机时，请解除锁定');
+        }
         if (db.prepare("UPDATE inventory SET status = 'sold', updatedAt = ? WHERE id = ? AND status = 'after_sale'").run(now, record.inventoryId).changes !== 1) throw new Error('机器状态已变化');
-        if (stock) db.prepare("UPDATE after_sale_stock SET stockStatus = 'released', updatedAt = ? WHERE id = ? AND stockStatus = 'stored'").run(now, stock.id);
-        if (db.prepare("UPDATE after_sale_records SET status = 'cancelled', resolvedAt = ?, resolutionNote = ?, updatedAt = ? WHERE id = ? AND status IN ('created','received','processing')").run(now, resolutionNote, now, id).changes !== 1) throw new Error('售后单状态已变化');
-        move(record.inventoryId, 'after_sale_cancel', id, user.id, '取消售后并恢复已售', item.warehouseId);
+        if (currentStock) db.prepare("UPDATE after_sale_stock SET stockStatus = 'released', updatedAt = ? WHERE id = ? AND stockStatus = 'stored'").run(now, currentStock.id);
+        if (db.prepare("UPDATE after_sale_records SET status = 'cancelled', reservedReplacementId = NULL, reservedReplacementSn = NULL, resolvedAt = ?, resolutionNote = ?, updatedAt = ? WHERE id = ? AND status IN ('created','received','processing') AND deleted = 0").run(now, resolutionNote, now, id).changes !== 1) throw new Error('售后单状态已变化');
+        if (current?.reservedReplacementId) {
+          const replacement = inventory(current.reservedReplacementId);
+          move(current.reservedReplacementId, 'after_sale_reservation_release', id, user.id, '取消售后并解除换货预留', replacement?.warehouseId);
+        }
+        move(record.inventoryId, 'after_sale_cancel', id, user.id, current?.resolutionType === 'exchange' && currentStock?.stockStatus === 'stored' ? '确认原机已归还客户，取消换货' : '取消售后并恢复已售', item.warehouseId);
         return { id, status: 'cancelled' };
-      })();
+      }).immediate();
       return NextResponse.json(successResponse(result));
     }
 
@@ -368,7 +489,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json(successResponse(result));
     }
 
-    if (action === 'customer_return' || action === 'restock') {
+    if (action === 'customer_return') {
       const source = saleSource(record.inventoryId, item);
       const result = db.transaction(() => {
         if (db.prepare("UPDATE inventory SET status = 'in_stock', soldDate = NULL, sellingPrice = NULL, saleChannel = NULL, saleOrderNo = NULL, profit = NULL, updatedAt = ? WHERE id = ? AND status = 'after_sale'").run(now, record.inventoryId).changes !== 1) throw new Error('原机器状态已变化');
@@ -383,47 +504,61 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json(successResponse(result));
     }
 
-    if (action === 'exchange') {
-      const replacementInventoryId = String(body.replacementInventoryId || '').trim();
-      if (!replacementInventoryId || replacementInventoryId === record.inventoryId) return bad('换机必须选择替换机器');
-      const replacement = inventory(replacementInventoryId);
-      if (!replacement) return bad('替换机器不存在');
-      assertInventoryOperationEligible(replacementInventoryId, 'sales');
-      const source = saleSource(record.inventoryId, item);
+    if (action === 'ship_exchange') {
+      const shippedReplacementTrackingNo = optionalText(body.shippingTrackingNo, '寄出快递单号', 100);
+      if (!shippedReplacementTrackingNo) return bad('寄出快递单号不能为空');
       const result = db.transaction(() => {
-        if (db.prepare("UPDATE inventory SET status = 'in_stock', soldDate = NULL, sellingPrice = NULL, saleChannel = NULL, saleOrderNo = NULL, profit = NULL, updatedAt = ? WHERE id = ? AND status = 'after_sale'").run(now, record.inventoryId).changes !== 1) throw new Error('原机器状态已变化');
-        assertInventoryOperationEligible(replacementInventoryId, 'sales');
+        const { record: current, original } = activeExchange(id);
+        checkExpectedReservation(body, current);
+        const replacementInventoryId = current.reservedReplacementId as string | null;
+        if (!replacementInventoryId || replacementInventoryId === current.inventoryId) throw new Error('必须先预留替换机器');
+        const replacement = inventory(replacementInventoryId);
+        if (!replacement) throw new Error('替换机器不存在，请解除预留后重新选择');
+        if (current.reservedReplacementSn && replacement.sn !== current.reservedReplacementSn) throw new Error('替换机器的 SN 已变化，请解除预留后重新选择');
+        const source = saleSource(current.inventoryId, original);
+        // Consume the reservation in the transaction before checking stock eligibility.
+        // Any subsequent error restores it, and no other writer can take the machine mid-shipment.
+        if (db.prepare(`UPDATE after_sale_records SET status = 'resolved', replacementInventoryId = ?,
+            reservedReplacementId = NULL, reservedReplacementSn = NULL, shippedReplacementTrackingNo = ?,
+            resolvedAt = ?, resolutionNote = ?, updatedAt = ?
+            WHERE id = ? AND status = 'processing' AND resolutionType = 'exchange' AND deleted = 0 AND reservedReplacementId = ?`)
+          .run(replacementInventoryId, shippedReplacementTrackingNo, now, resolutionNote || '换货机已寄出，原机待处置', now, id, replacementInventoryId).changes !== 1) {
+          throw new Error('售后单状态已变化');
+        }
+        assertWarehouseReplacement(replacementInventoryId);
         endCustomStatus(replacementInventoryId,user.id,'售后换机出库','after_sale',id,'sold');
         if (db.prepare("UPDATE inventory SET status = 'sold', soldDate = ?, sellingPrice = ?, saleChannel = ?, saleOrderNo = ?, profit = ?, updatedAt = ? WHERE id = ? AND status IN ('in_stock','custom') AND deleted = 0").run(now.slice(0, 10), source.sellingPrice, source.saleChannel, source.saleOrderNo, source.sellingPrice - Number(replacement.purchasePrice || 0), now, replacementInventoryId).changes !== 1) throw new Error('替换机器状态已变化');
-        if (db.prepare("UPDATE after_sale_stock SET stockStatus = 'exchanged_out', updatedAt = ? WHERE id = ? AND stockStatus = 'stored'").run(now, stock!.id).changes !== 1) throw new Error('售后暂存状态已变化');
-        if (db.prepare("UPDATE after_sale_records SET status = 'resolved', resolutionType = 'exchange', replacementInventoryId = ?, resolvedAt = ?, resolutionNote = ?, updatedAt = ? WHERE id = ? AND status IN ('received','processing')").run(replacementInventoryId, now, resolutionNote || '换货完成', now, id).changes !== 1) throw new Error('售后单状态已变化');
-        if (record.salesRecordId || source.salesRecordId) {
-          const columns = tableColumns('sales_record_items');
-          const recordColumn = columns.has('salesRecordId') ? 'salesRecordId' : 'saleRecordId';
+        const linkedSalesRecordId = current.salesRecordId || source.salesRecordId;
+        if (linkedSalesRecordId) {
+          const salesItem = {
+            inventoryId: replacementInventoryId, sn: replacement.sn, brand: replacement.brand,
+            model: replacement.model, year: replacement.year, cpu: replacement.cpu, ram: replacement.ram,
+            gpu: replacement.gpu, storage: replacement.storage, screen: replacement.screen,
+            purchasePrice: Number(replacement.purchasePrice || 0), sellingPrice: source.sellingPrice,
+            profit: source.sellingPrice - Number(replacement.purchasePrice || 0),
+            warehouseId: replacement.warehouseId || null, afterSaleId: id, itemType: 'exchange',
+            originalInventoryId: current.inventoryId, shippedReplacementTrackingNo,
+          };
           insertDynamic('sales_record_items', {
-            id: generateId('sale_item'), salesRecordId: source.salesRecordId, saleRecordId: source.salesRecordId,
-            inventoryId: replacementInventoryId, sn: replacement.sn, purchasePrice: Number(replacement.purchasePrice || 0),
-            sellingPrice: source.sellingPrice, profit: source.sellingPrice - Number(replacement.purchasePrice || 0),
-            warehouseId: replacement.warehouseId || null,
-            snapshot: JSON.stringify({ ...replacement, salesRecordId: source.salesRecordId, saleChannel: source.saleChannel, saleOrderNo: source.saleOrderNo, sellingPrice: source.sellingPrice, purchasePrice: replacement.purchasePrice }),
-            afterSaleId: id, itemType: 'exchange', originalInventoryId: record.inventoryId, createdAt: now,
+            ...salesItem, id: generateId('sale_item'), salesRecordId: linkedSalesRecordId, saleRecordId: linkedSalesRecordId,
+            snapshot: JSON.stringify({ ...replacement, ...salesItem, salesRecordId: linkedSalesRecordId, saleChannel: source.saleChannel, saleOrderNo: source.saleOrderNo, outboundAt: now }),
+            createdAt: now,
           });
-          if (source.salesRecordId && columns.has(recordColumn)) {
-            const sales = db.prepare('SELECT items FROM sales_records WHERE id = ?').get(source.salesRecordId) as { items: string } | undefined;
-            if (sales) {
-              let saleItems: Row[] = [];
-              try { saleItems = JSON.parse(sales.items) as Row[]; } catch { saleItems = []; }
-              if (Array.isArray(saleItems)) {
-                saleItems.push({ inventoryId: replacementInventoryId, sn: replacement.sn, brand: replacement.brand, model: replacement.model, year: replacement.year, cpu: replacement.cpu, ram: replacement.ram, gpu: replacement.gpu, storage: replacement.storage, screen: replacement.screen, purchasePrice: Number(replacement.purchasePrice || 0), sellingPrice: source.sellingPrice, profit: source.sellingPrice - Number(replacement.purchasePrice || 0), warehouseId: replacement.warehouseId || null, afterSaleId: id, itemType: 'exchange', originalInventoryId: record.inventoryId });
-                db.prepare('UPDATE sales_records SET items = ? WHERE id = ?').run(JSON.stringify(saleItems), source.salesRecordId);
-              }
+          const sales = db.prepare('SELECT items FROM sales_records WHERE id = ?').get(linkedSalesRecordId) as { items: string } | undefined;
+          if (sales) {
+            // Canonical item rows remain the source for actual exchange delivery.
+            // Keep the old embedded list in sync when it can be parsed, without wiping malformed historical data.
+            let saleItems: unknown;
+            try { saleItems = JSON.parse(sales.items); } catch { saleItems = null; }
+            if (Array.isArray(saleItems)) {
+              saleItems.push(salesItem);
+              db.prepare('UPDATE sales_records SET items = ? WHERE id = ?').run(JSON.stringify(saleItems), linkedSalesRecordId);
             }
           }
         }
-        move(record.inventoryId, 'exchange_in', id, user.id, '换货原机转正式库存', item.warehouseId, null, item.warehouseId);
-        move(replacementInventoryId, 'exchange_out', id, user.id, '替换机器按原销售渠道和价格交付', replacement.warehouseId, replacement.warehouseId, null);
-        return { id, status: 'resolved', resolutionType: 'exchange', replacementInventoryId, saleChannel: source.saleChannel, saleOrderNo: source.saleOrderNo, sellingPrice: source.sellingPrice };
-      })();
+        move(replacementInventoryId, 'exchange_out', id, user.id, `替换机器已寄出 · 运单 ${shippedReplacementTrackingNo}`, replacement.warehouseId, replacement.warehouseId, null);
+        return { id, status: 'resolved', resolutionType: 'exchange', stockStatus: 'stored', replacementInventoryId, replacementSn: replacement.sn, shippedReplacementTrackingNo, saleChannel: source.saleChannel, saleOrderNo: source.saleOrderNo, sellingPrice: source.sellingPrice };
+      }).immediate();
       return NextResponse.json(successResponse(result));
     }
 
@@ -432,7 +567,7 @@ export async function PATCH(request: NextRequest) {
     const response = authError(error);
     if (response) return response;
     const message = msg(error, '处理售后单失败');
-    const validation = /不能为空|不支持|不能|必须|无效|不存在|状态|已变化|已结束|请先确认|不能开始/.test(message);
+    const validation = /不能为空|不支持|不能|必须|无效|不存在|状态|已变化|已结束|请先确认|不能开始|请提供|预留/.test(message);
     return NextResponse.json(errorResponse(validation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: validation ? 400 : 500 });
   }
 }
