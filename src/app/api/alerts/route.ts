@@ -10,10 +10,15 @@ export async function GET() {
     const user = await requireRole('admin', 'warehouse_manager');
     const items: Array<{ id: string; kind: string; level: 'info' | 'warning' | 'danger'; title: string; detail: string; href: string }> = [];
     if (user.role === 'admin') {
-      const afterSales = db.prepare("SELECT a.id, a.afterSaleNo, a.returnTrackingNo, a.status, a.sn, a.receivedAt, i.brand, i.model FROM after_sale_records a LEFT JOIN inventory i ON i.id = a.inventoryId WHERE a.deleted = 0 AND a.status IN ('received', 'processing') AND a.receivedAt IS NOT NULL AND datetime(a.receivedAt) <= datetime('now', '-1 day') ORDER BY a.receivedAt ASC").all() as Array<{ id: string; afterSaleNo: string; returnTrackingNo?: string | null; status: string; sn: string; receivedAt: string; brand?: string; model?: string }>;
+      const afterSales = db.prepare(`SELECT a.id, a.afterSaleNo, a.returnTrackingNo, a.status, a.resolutionType, a.reservedReplacementId, a.sn, a.receivedAt, i.brand, i.model
+        FROM after_sale_records a LEFT JOIN inventory i ON i.id = a.inventoryId
+        WHERE a.deleted = 0 AND a.status IN ('received', 'processing') AND a.receivedAt IS NOT NULL AND datetime(a.receivedAt) <= datetime('now', '-1 day')
+        ORDER BY a.receivedAt ASC`).all() as Array<{ id: string; afterSaleNo: string; returnTrackingNo?: string | null; status: string; resolutionType: string; reservedReplacementId: string | null; sn: string; receivedAt: string; brand?: string; model?: string }>;
       afterSales.forEach((row) => {
         const tracking = row.returnTrackingNo?.trim() || '未登记寄回快递号';
-        const progress = row.status === 'processing' ? '处理中' : '待开始处理';
+        const progress = row.resolutionType === 'exchange'
+          ? (row.reservedReplacementId ? '待发替换机' : '待备货')
+          : (row.status === 'processing' ? '处理中' : '待开始处理');
         items.push({ id: `after-sale:${row.id}`, kind: 'after_sale', level: 'danger', title: `售后快递 ${tracking} 的机器签收超过 1 天仍${progress}`, detail: `售后单 ${row.afterSaleNo} · ${formatProductName(row)} · SN ${row.sn} · 签收于 ${formatDisplayDateTime(row.receivedAt)}`, href: `/after-sales?recordId=${encodeURIComponent(row.id)}` });
       });
       const transfers = db.prepare("SELECT COUNT(*) AS total FROM transfers WHERE status = 'pending'").get() as { total: number };

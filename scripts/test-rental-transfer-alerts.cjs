@@ -728,6 +728,21 @@ async function main() {
     assert.equal(db.prepare("SELECT COUNT(*) n FROM rental_records WHERE inventoryId=?").get(inventory('TRF-MACHINE').id).n, 0);
     db.exec('DROP TRIGGER flow_fail_rental');
 
+    const replacementAlertOrder = await call('after-sales', 'POST', {
+      inventoryId: inventory('RTN-AFTERSALE').id, resolutionType: 'exchange', returnTrackingNo: 'SF-FLOW-EXCHANGE-001',
+    }, 201);
+    await call('after-sales', 'PATCH', { id: replacementAlertOrder.id, action: 'receive' });
+    db.prepare('UPDATE after_sale_records SET receivedAt=? WHERE id=?').run(oldReceivedAt, replacementAlertOrder.id);
+    const exchangeAlertTitle = async () => (await call('alerts', 'GET', undefined)).items.find(
+      item => item.id === `after-sale:${replacementAlertOrder.id}`,
+    )?.title || '';
+    assert.match(await exchangeAlertTitle(), /SF-FLOW-EXCHANGE-001.*待备货/);
+    await call('after-sales', 'PATCH', {
+      id: replacementAlertOrder.id, action: 'reserve_exchange', replacementInventoryId: inventory('TRF-MACHINE').id,
+      expectedReplacementInventoryId: null,
+    });
+    assert.match(await exchangeAlertTitle(), /SF-FLOW-EXCHANGE-001.*待发替换机/);
+
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok');
     assert.deepEqual(db.pragma('foreign_key_check'), []);
     console.log('PASS real SQLite rental/transfer/alert regression: order and machine workspace, legacy migration and pricing, fixed rental lifecycle, renewals, exception follow-up, buyout accounting and rollback, single-machine return, role checks, due alerts, transfer lifecycle, FK/integrity');

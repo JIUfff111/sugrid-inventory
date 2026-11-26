@@ -10,6 +10,18 @@ export function hasMachineScanDelimiter(value: string) {
   return /[,，;；\t\r\n]/.test(value);
 }
 
+/** Match one full SN, allowing the terminator added by a keyboard-mode scanner. */
+export function matchesMachineScanSerial(input: string, expectedSn: string) {
+  const expected = expectedSn.trim().toLocaleLowerCase();
+  if (!expected) return false;
+  const scanned = input.trim().toLocaleLowerCase();
+  return scanned === expected || stripMachineScanSuffix(scanned) === expected;
+}
+
+export function stripMachineScanSuffix(input: string) {
+  return /[,，;；]+\s*$/u.test(input) ? input.replace(/[,，;；]+\s*$/u, '').trimEnd() : input;
+}
+
 export function shouldScanMachineSearchOnEnter(
   value: string,
   options: { batchEnabled: boolean; searchOnEnter?: boolean },

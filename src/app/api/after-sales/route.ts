@@ -3,12 +3,30 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { createPaginatedResponse, errorResponse, ErrorCode, formatDateTime, generateId, parsePaginationParams, successResponse } from '@/lib/api-helpers';
 import { AuthError, requireRole } from '@/lib/auth';
+import { matchesMachineScanSerial } from '@/lib/machine-scan';
 
 type Row = Record<string, any>;
 const authError = (error: unknown) => error instanceof AuthError ? NextResponse.json(errorResponse(error.code, error.message), { status: error.status }) : null;
 const msg = (error: unknown, fallback: string) => error instanceof Error ? error.message : fallback;
 const bad = (message: string) => NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, message), { status: 400 });
-const activeStatusCondition = "a.status IN ('created', 'received', 'processing')";
+const queueConditions = {
+  active: "a.status IN ('created', 'received', 'processing')",
+  other_active: "a.resolutionType <> 'exchange' AND a.status IN ('created', 'received', 'processing')",
+  created: "a.status = 'created'",
+  received: "a.status = 'received'",
+  processing: "a.status = 'processing'",
+  stored: "s.stockStatus = 'stored'",
+  resolved: "a.status = 'resolved'",
+  cancelled: "a.status = 'cancelled'",
+  exchange_receive: "a.resolutionType = 'exchange' AND a.status = 'created'",
+  exchange_reserve: "a.resolutionType = 'exchange' AND a.status IN ('received', 'processing') AND a.reservedReplacementId IS NULL",
+  exchange_ship: "a.resolutionType = 'exchange' AND a.status = 'processing' AND a.reservedReplacementId IS NOT NULL",
+  exchange_dispose: "a.resolutionType = 'exchange' AND a.status = 'resolved' AND s.stockStatus = 'stored'",
+};
+const queueFilters: Record<string, string> = {
+  ...queueConditions,
+  todo: `(${queueConditions.active} OR (${queueConditions.exchange_dispose}))`,
+};
 
 function tableColumns(table: string) {
   try { return new Set((db.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>).map((column) => column.name)); }
@@ -72,9 +90,12 @@ function getAfterSaleStock(id: string) {
   return db.prepare('SELECT * FROM after_sale_stock WHERE afterSaleId = ?').get(id) as Row | undefined;
 }
 
-function activeExchange(id: string) {
+function activeExchange(id: string, canStartFromReceived = false) {
   const record = getAfterSale(id);
-  if (!record || record.status !== 'processing' || record.resolutionType !== 'exchange') throw new Error('当前售后单状态不能进行换货');
+  if (!record || record.resolutionType !== 'exchange'
+    || (record.status !== 'processing' && !(canStartFromReceived && record.status === 'received'))) {
+    throw new Error('当前售后单状态不能进行换货，请先确认收到原机');
+  }
   const original = inventory(record.inventoryId);
   if (original?.status !== 'after_sale' || getAfterSaleStock(id)?.stockStatus !== 'stored') throw new Error('请先确认收到原机器且仍在售后暂存');
   return { record, original };
@@ -145,15 +166,38 @@ function saleDataSelect() {
       COALESCE(sri.profit, 0) AS originalProfit,
       s.stockStatus, s.receivedAt AS stockReceivedAt, s.receivedBy AS stockReceivedBy, replacement.sn AS replacementSn,
       s.condition AS stockCondition, s.note AS stockNote,
+      COALESCE(originalWarehouse.name, originalWarehouse.warehouseName, originalWarehouse.code) AS originalWarehouseName,
+      COALESCE(shipmentWarehouse.name, shipmentWarehouse.warehouseName, shipmentWarehouse.code,
+        replacementWarehouse.name, replacementWarehouse.warehouseName, replacementWarehouse.code) AS replacementWarehouseName,
+      activity.movementType AS latestActivityType, activity.createdAt AS latestActivityAt,
+      COALESCE(NULLIF(activityUser.realName, ''), activityUser.username) AS latestActivityByName,
       COALESCE(NULLIF(createdUser.realName, ''), createdUser.username) AS createdByName,
       COALESCE(NULLIF(receivedUser.realName, ''), receivedUser.username) AS receivedByName,
       COALESCE(NULLIF(processingUser.realName, ''), processingUser.username) AS processingByName
     FROM after_sale_records a
     LEFT JOIN inventory i ON i.id = a.inventoryId
-    LEFT JOIN sales_record_items sri ON sri.inventoryId = a.inventoryId AND sri.salesRecordId = a.salesRecordId
+    LEFT JOIN sales_record_items sri ON sri.id = (
+      SELECT sourceItem.id FROM sales_record_items sourceItem
+      WHERE sourceItem.inventoryId = a.inventoryId AND sourceItem.salesRecordId = a.salesRecordId
+      ORDER BY sourceItem.createdAt DESC, sourceItem.rowid DESC LIMIT 1
+    )
     LEFT JOIN sales_records sr ON sr.id = a.salesRecordId
     LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
     LEFT JOIN inventory replacement ON replacement.id = a.replacementInventoryId
+    LEFT JOIN inventory reservedReplacement ON reservedReplacement.id = a.reservedReplacementId
+    LEFT JOIN warehouses originalWarehouse ON originalWarehouse.id = i.warehouseId
+    LEFT JOIN warehouses replacementWarehouse ON replacementWarehouse.id = COALESCE(reservedReplacement.warehouseId, replacement.warehouseId)
+    LEFT JOIN inventory_movements shipment ON shipment.rowid = CASE WHEN a.replacementInventoryId IS NOT NULL THEN (
+      SELECT priorShipment.rowid FROM inventory_movements priorShipment WHERE priorShipment.referenceType = 'after_sale'
+        AND priorShipment.referenceId = a.id AND priorShipment.movementType = 'exchange_out'
+      ORDER BY priorShipment.createdAt DESC, priorShipment.rowid DESC LIMIT 1
+    ) END
+    LEFT JOIN warehouses shipmentWarehouse ON shipmentWarehouse.id = shipment.fromWarehouseId
+    LEFT JOIN inventory_movements activity ON activity.rowid = (
+      SELECT latest.rowid FROM inventory_movements latest WHERE latest.referenceType = 'after_sale' AND latest.referenceId = a.id
+      ORDER BY latest.createdAt DESC, latest.rowid DESC LIMIT 1
+    )
+    LEFT JOIN users activityUser ON activityUser.id = activity.actorId
     LEFT JOIN users createdUser ON createdUser.id = a.createdBy
     LEFT JOIN users receivedUser ON receivedUser.id = a.receivedBy
     LEFT JOIN users processingUser ON processingUser.id = a.processingBy`;
@@ -200,8 +244,7 @@ export async function GET(request: NextRequest) {
     const where = ['a.deleted = 0'];
     const params: Array<string | number> = [];
     const status = searchParams.get('status')?.trim() || '';
-    if (status === 'stored') where.push("s.stockStatus = 'stored'");
-    else if (status === 'active') where.push(activeStatusCondition);
+    if (Object.hasOwn(queueFilters, status)) where.push(queueFilters[status]);
     else if (status && status !== 'all') { where.push('a.status = ?'); params.push(status); }
     if (search) {
       where.push('(a.afterSaleNo LIKE ? OR a.returnTrackingNo LIKE ? OR a.shippedReplacementTrackingNo LIKE ? OR a.reservedReplacementSn LIKE ? OR replacement.sn LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
@@ -228,14 +271,8 @@ export async function GET(request: NextRequest) {
     const list = createPaginatedResponse(items, total, page, pageSize);
     if (searchParams.get('includeCounts') !== '1') return NextResponse.json(successResponse(list));
 
-    const queueCounts = db.prepare(`SELECT COUNT(*) AS "all",
-      COUNT(CASE WHEN ${activeStatusCondition} THEN 1 END) AS active,
-      COUNT(CASE WHEN a.status = 'created' THEN 1 END) AS created,
-      COUNT(CASE WHEN a.status = 'received' THEN 1 END) AS received,
-      COUNT(CASE WHEN a.status = 'processing' THEN 1 END) AS processing,
-      COUNT(CASE WHEN s.stockStatus = 'stored' THEN 1 END) AS stored,
-      COUNT(CASE WHEN a.status = 'resolved' THEN 1 END) AS resolved,
-      COUNT(CASE WHEN a.status = 'cancelled' THEN 1 END) AS cancelled
+    const countsSql = Object.entries(queueFilters).map(([name, condition]) => `COUNT(CASE WHEN ${condition} THEN 1 END) AS "${name}"`).join(',\n');
+    const queueCounts = db.prepare(`SELECT COUNT(*) AS "all", ${countsSql}
       FROM after_sale_records a
       LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
       WHERE a.deleted = 0`).get();
@@ -402,9 +439,10 @@ export async function PATCH(request: NextRequest) {
 
     if (action === 'reserve_exchange' || action === 'release_exchange') {
       const replacementId = action === 'reserve_exchange' ? optionalText(body.replacementInventoryId, '替换机器', 160) : null;
+      const processingNote = action === 'reserve_exchange' ? optionalText(body.processingNote, '交接备注', 1000) : null;
       if (action === 'reserve_exchange' && !replacementId) return bad('换货必须选择替换机器');
       const result = db.transaction(() => {
-        const { record: current } = activeExchange(id);
+        const { record: current, original } = activeExchange(id, action === 'reserve_exchange');
         checkExpectedReservation(body, current);
         const previousId = (current.reservedReplacementId ?? null) as string | null;
         if (replacementId === previousId) {
@@ -417,14 +455,23 @@ export async function PATCH(request: NextRequest) {
           if (conflictingReservation) throw new Error(`替换机器已被售后单 ${conflictingReservation.afterSaleNo} 预留，不能重复预留`);
           replacement = assertWarehouseReplacement(replacementId);
         }
-        db.prepare('UPDATE after_sale_records SET reservedReplacementId = ?, reservedReplacementSn = ?, updatedAt = ? WHERE id = ?')
-          .run(replacementId, replacement?.sn || null, now, id);
+        const startsProcessing = current.status === 'received';
+        if (startsProcessing) {
+          db.prepare(`UPDATE after_sale_records SET status = 'processing', processingAt = COALESCE(processingAt, ?),
+            processingBy = COALESCE(processingBy, ?), processingNote = COALESCE(?, processingNote),
+            reservedReplacementId = ?, reservedReplacementSn = ?, updatedAt = ? WHERE id = ?`)
+            .run(now, user.id, processingNote, replacementId, replacement?.sn || null, now, id);
+          move(original.id, 'after_sale_start_processing', id, user.id, processingNote || '预留替换机并开始换货处理', original.warehouseId);
+        } else {
+          db.prepare('UPDATE after_sale_records SET reservedReplacementId = ?, reservedReplacementSn = ?, updatedAt = ? WHERE id = ?')
+            .run(replacementId, replacement?.sn || null, now, id);
+        }
         if (previousId) {
           const previous = inventory(previousId);
           move(previousId, 'after_sale_reservation_release', id, user.id, replacementId ? '更换替换机器并解除预留' : '解除换货预留', previous?.warehouseId);
         }
         if (replacement) move(replacement.id, 'after_sale_reserve', id, user.id, '替换机器已预留，等待寄出', replacement.warehouseId);
-        return { id, status: current.status, reservedReplacementId: replacementId, reservedReplacementSn: replacement?.sn || null };
+        return { id, status: 'processing', reservedReplacementId: replacementId, reservedReplacementSn: replacement?.sn || null };
       }).immediate();
       return NextResponse.json(successResponse(result));
     }
@@ -507,6 +554,11 @@ export async function PATCH(request: NextRequest) {
     if (action === 'ship_exchange') {
       const shippedReplacementTrackingNo = optionalText(body.shippingTrackingNo, '寄出快递单号', 100);
       if (!shippedReplacementTrackingNo) return bad('寄出快递单号不能为空');
+      const confirmation = optionalText(body.confirmedReplacementSn, '实际发货的替换机 SN', 206);
+      if (!confirmation) return bad('请扫描或输入实际发货的替换机 SN');
+      if (typeof body.expectedReplacementInventoryId !== 'string' || !body.expectedReplacementInventoryId.trim()) {
+        return bad('缺少已预留替换机信息，请刷新工单后重试');
+      }
       const result = db.transaction(() => {
         const { record: current, original } = activeExchange(id);
         checkExpectedReservation(body, current);
@@ -515,6 +567,12 @@ export async function PATCH(request: NextRequest) {
         const replacement = inventory(replacementInventoryId);
         if (!replacement) throw new Error('替换机器不存在，请解除预留后重新选择');
         if (current.reservedReplacementSn && replacement.sn !== current.reservedReplacementSn) throw new Error('替换机器的 SN 已变化，请解除预留后重新选择');
+        if (!matchesMachineScanSerial(confirmation, String(replacement.sn))) {
+          throw new Error(`实际发货的替换机 SN「${confirmation}」与已预留 SN「${replacement.sn}」不一致，不能出库，请核对实物或更换预留`);
+        }
+        if (shippedReplacementTrackingNo.toLocaleLowerCase() === current.returnTrackingNo?.trim().toLocaleLowerCase()) {
+          throw new Error('寄给客户的运单号不能与客户寄回的运单号相同，请核对寄出面单');
+        }
         const source = saleSource(current.inventoryId, original);
         // Consume the reservation in the transaction before checking stock eligibility.
         // Any subsequent error restores it, and no other writer can take the machine mid-shipment.
@@ -567,7 +625,7 @@ export async function PATCH(request: NextRequest) {
     const response = authError(error);
     if (response) return response;
     const message = msg(error, '处理售后单失败');
-    const validation = /不能为空|不支持|不能|必须|无效|不存在|状态|已变化|已结束|请先确认|不能开始|请提供|预留/.test(message);
+    const validation = /不能为空|不支持|不能|必须|无效|不存在|状态|已变化|已结束|请先确认|请提供|预留/.test(message);
     return NextResponse.json(errorResponse(validation ? ErrorCode.VALIDATION_ERROR : ErrorCode.DATABASE_ERROR, message), { status: validation ? 400 : 500 });
   }
 }

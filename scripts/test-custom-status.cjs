@@ -9,6 +9,11 @@ const root = path.resolve(__dirname,'..');
 const machineScan=load('src/lib/machine-scan.ts');
 assert.deepEqual(machineScan.splitMachineScanTokens('CS-001,CS-002，CS-003;CS-004；CS-005\tCS-006'),['CS-001','CS-002','CS-003','CS-004','CS-005','CS-006']);
 assert.equal(machineScan.hasMachineScanDelimiter('CS-001,CS-002'),true);
+assert.equal(machineScan.matchesMachineScanSerial(' cs-001， ', 'CS-001'),true);
+assert.equal(machineScan.matchesMachineScanSerial('CS-001,CS-002,', 'CS-001'),false);
+assert.equal(machineScan.matchesMachineScanSerial('001,', 'CS-001'),false);
+assert.equal(machineScan.stripMachineScanSuffix('CS-001， '),'CS-001');
+assert.equal(machineScan.stripMachineScanSuffix('ThinkPad '),'ThinkPad ');
 assert.equal(machineScan.shouldScanMachineSearchOnEnter('10210U',{batchEnabled:true,searchOnEnter:true}),false);
 assert.equal(machineScan.shouldScanMachineSearchOnEnter('CS-001,CS-002',{batchEnabled:true,searchOnEnter:true}),true);
 assert.equal(machineScan.shouldScanMachineSearchOnEnter('CS-001',{batchEnabled:true}),true);
@@ -132,8 +137,10 @@ async function main() {
     await call('returns','POST',{inventoryIds:[machine(3).id],returnReason:'占用测试',refundAmount:1000},400);
     await call('rentals','POST',{inventoryId:machine(3).id,customerName:'测试',customerPhone:'10000',customerAddress:'地址',handlerUserId:admin,salespersonName:'测试业务员',sourceType:'offline',rentalStartDate:'2026-10-21',rentalEndDate:'2026-10-25',rentalType:'day',rentalUnitPrice:100},400);await call('inventory/status-records','PATCH',{inventoryId:machine(3).id,action:'restore',resultNote:'不应允许'},400);
     result=await call('inventory/lookup','GET',undefined,200,'?context=status-register&q='+encodeURIComponent(machine(3).sn));assert.equal(result.total,0);
-    await call('sales','POST',saleBody(9),201);const occupiedExchange=await call('after-sales','POST',{inventoryId:machine(9).id,issueType:'占用换机',resolutionType:'exchange'},201);await call('after-sales','PATCH',{id:occupiedExchange.id,action:'receive',condition:'外观完好'});await call('after-sales','PATCH',{id:occupiedExchange.id,action:'start_processing'});
-    await call('after-sales','PATCH',{id:occupiedExchange.id,action:'reserve_exchange',replacementInventoryId:machine(3).id},400);assert.equal(machine(9).status,'after_sale');await call('after-sales','PATCH',{id:occupiedExchange.id,action:'cancel',originalReturnedToCustomer:true});
+    await call('sales','POST',saleBody(9),201);const occupiedExchange=await call('after-sales','POST',{inventoryId:machine(9).id,issueType:'占用换机',resolutionType:'exchange'},201);await call('after-sales','PATCH',{id:occupiedExchange.id,action:'receive',condition:'外观完好'});
+    await call('after-sales','PATCH',{id:occupiedExchange.id,action:'reserve_exchange',replacementInventoryId:machine(3).id,expectedReplacementInventoryId:null},400);assert.equal(machine(9).status,'after_sale');
+    assert.equal(db.prepare('SELECT status FROM after_sale_records WHERE id=?').get(occupiedExchange.id).status,'received');
+    await call('after-sales','PATCH',{id:occupiedExchange.id,action:'cancel',originalReturnedToCustomer:true});
     await call('transfers','PATCH',{id:transfer.id,action:'complete'});assert.equal(machine(3).warehouseId,'cs-target');assert.equal(machine(3).status,'in_stock');assert.equal(machine(3).currentStatusRecordId,null);
     // A downstream log failure rolls back status closure, sale and inventory as one unit.
     db.exec("CREATE TRIGGER cs_force_failure BEFORE INSERT ON inventory_movements WHEN NEW.movementType='sale' BEGIN SELECT RAISE(ABORT,'forced test failure'); END");
@@ -142,9 +149,9 @@ async function main() {
     await call('sales','POST',saleBody(6),201);const afterSale=await call('after-sales','POST',{inventoryId:machine(6).id,issueType:'测试换货',resolutionType:'exchange'},201);
     await call('after-sales','PATCH',{id:afterSale.id,action:'receive',condition:'外观完好'});
     await call('after-sales','PATCH',{id:afterSale.id,action:'start_processing'});
-    await call('after-sales','PATCH',{id:afterSale.id,action:'reserve_exchange',replacementInventoryId:machine(5).id});
+    await call('after-sales','PATCH',{id:afterSale.id,action:'reserve_exchange',replacementInventoryId:machine(5).id,expectedReplacementInventoryId:null});
     assert.equal(machine(5).status,'custom');assert(machine(5).currentStatusRecordId);
-    await call('after-sales','PATCH',{id:afterSale.id,action:'ship_exchange',shippingTrackingNo:'CS-EXCHANGE-TRACKING',resolutionNote:'测试换机'});assert.equal(machine(5).status,'sold');assert.equal(machine(5).currentStatusRecordId,null);
+    await call('after-sales','PATCH',{id:afterSale.id,action:'ship_exchange',shippingTrackingNo:'CS-EXCHANGE-TRACKING',confirmedReplacementSn:machine(5).sn,expectedReplacementInventoryId:machine(5).id,resolutionNote:'测试换机'});assert.equal(machine(5).status,'sold');assert.equal(machine(5).currentStatusRecordId,null);
     const rollbackTransfer=await call('transfers','POST',{sourceWarehouseId:warehouse,targetWarehouseId:'cs-target',inventoryIds:[machine(4).id]},201);
     db.exec("CREATE TRIGGER cs_transfer_failure BEFORE INSERT ON inventory_movements WHEN NEW.movementType='transfer_in' BEGIN SELECT RAISE(ABORT,'forced transfer failure'); END");
     const activeBefore=machine(4).currentStatusRecordId;await call('transfers','PATCH',{id:rollbackTransfer.id,action:'complete'},400);
