@@ -8,6 +8,7 @@ type Row = Record<string, any>;
 const authError = (error: unknown) => error instanceof AuthError ? NextResponse.json(errorResponse(error.code, error.message), { status: error.status }) : null;
 const msg = (error: unknown, fallback: string) => error instanceof Error ? error.message : fallback;
 const bad = (message: string) => NextResponse.json(errorResponse(ErrorCode.VALIDATION_ERROR, message), { status: 400 });
+const activeStatusCondition = "a.status IN ('created', 'received', 'processing')";
 
 function tableColumns(table: string) {
   try { return new Set((db.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>).map((column) => column.name)); }
@@ -161,6 +162,7 @@ export async function GET(request: NextRequest) {
     const params: Array<string | number> = [];
     const status = searchParams.get('status')?.trim() || '';
     if (status === 'stored') where.push("s.stockStatus = 'stored'");
+    else if (status === 'active') where.push(activeStatusCondition);
     else if (status && status !== 'all') { where.push('a.status = ?'); params.push(status); }
     if (search) {
       where.push('(a.afterSaleNo LIKE ? OR a.returnTrackingNo LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
@@ -173,7 +175,7 @@ export async function GET(request: NextRequest) {
       LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id`;
     const clause = `WHERE ${where.join(' AND ')}`;
     const total = Number((db.prepare(`SELECT COUNT(*) AS total ${from} ${clause}`).get(...params) as { total: number }).total || 0);
-    const rows = db.prepare(`${saleDataSelect()} ${clause} ORDER BY a.createdAt DESC LIMIT ? OFFSET ?`).all(...params, pageSize, (page - 1) * pageSize) as Row[];
+    const rows = db.prepare(`${saleDataSelect()} ${clause} ORDER BY a.createdAt DESC, a.id DESC LIMIT ? OFFSET ?`).all(...params, pageSize, (page - 1) * pageSize) as Row[];
     const items = rows.map((row) => ({
       ...row,
       saleChannel: row.originalSaleChannel || row.currentSaleChannel || null,
@@ -183,7 +185,21 @@ export async function GET(request: NextRequest) {
       purchasePrice: Number(row.originalPurchasePrice || 0),
       profit: Number(row.originalProfit || 0),
     }));
-    return NextResponse.json(successResponse(createPaginatedResponse(items, total, page, pageSize)));
+    const list = createPaginatedResponse(items, total, page, pageSize);
+    if (searchParams.get('includeCounts') !== '1') return NextResponse.json(successResponse(list));
+
+    const queueCounts = db.prepare(`SELECT COUNT(*) AS "all",
+      COUNT(CASE WHEN ${activeStatusCondition} THEN 1 END) AS active,
+      COUNT(CASE WHEN a.status = 'created' THEN 1 END) AS created,
+      COUNT(CASE WHEN a.status = 'received' THEN 1 END) AS received,
+      COUNT(CASE WHEN a.status = 'processing' THEN 1 END) AS processing,
+      COUNT(CASE WHEN s.stockStatus = 'stored' THEN 1 END) AS stored,
+      COUNT(CASE WHEN a.status = 'resolved' THEN 1 END) AS resolved,
+      COUNT(CASE WHEN a.status = 'cancelled' THEN 1 END) AS cancelled
+      FROM after_sale_records a
+      LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
+      WHERE a.deleted = 0`).get();
+    return NextResponse.json(successResponse({ ...list, queueCounts }));
   } catch (error) {
     const response = authError(error);
     if (response) return response;

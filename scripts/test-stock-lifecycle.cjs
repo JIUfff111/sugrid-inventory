@@ -150,8 +150,46 @@ async function main() {
     const exchangeItem = db.prepare("SELECT * FROM sales_record_items WHERE salesRecordId=? AND itemType='exchange'").get(exchangeSale.id);
     assert.equal(exchangeItem.inventoryId, bySn('LIFE-D').id); assert.equal(exchangeItem.sellingPrice, 2100); assert.equal(exchangeItem.afterSaleId, exchange.id);
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE referenceId=? AND movementType='exchange_out'").get(exchange.id).n, 1);
+
+    // The work queue must paginate its filtered results without filtering the queue counters.
+    await call('sales', 'POST', saleBody('LIFE-A'), 201);
+    await call('sales', 'POST', saleBody('LIFE-E'), 201);
+    const queueRecord = async (sn) => call('after-sales', 'POST', {
+      inventoryId: bySn(sn).id, resolutionType: 'repair', returnTrackingNo: `QA-QUEUE-${sn}`,
+    }, 201);
+    const awaiting = await queueRecord('LIFE-C');
+    const received = await queueRecord('LIFE-E');
+    const processing = await queueRecord('LIFE-A');
+    const cancelled = await queueRecord('LIFE-D');
+    for (const id of [received.id, processing.id]) {
+      await call('after-sales', 'PATCH', { id, action: 'receive', condition: '外观完好' });
+    }
+    await call('after-sales', 'PATCH', { id: processing.id, action: 'start_processing' });
+    await call('after-sales', 'PATCH', { id: cancelled.id, action: 'cancel' });
+    const activeIds = [awaiting.id, received.id, processing.id];
+    db.prepare('UPDATE after_sale_records SET createdAt = ? WHERE id IN (?, ?, ?)').run('2026-11-25 09:30:00', ...activeIds);
+    const page1 = await call('after-sales', 'GET', undefined, 200, '?status=active&pageSize=2&includeCounts=1');
+    const page2 = await call('after-sales', 'GET', undefined, 200, '?status=active&pageSize=2&page=2');
+    assert.equal(page1.total, 3);
+    assert.equal(page1.totalPages, 2);
+    assert.deepEqual([...page1.items, ...page2.items].map(record => record.id), activeIds.sort().reverse());
+    assert.equal(Object.hasOwn(page2, 'queueCounts'), false);
+    const queueCounts = { all: 7, active: 3, created: 1, received: 1, processing: 1, stored: 2, resolved: 3, cancelled: 1 };
+    assert.deepEqual(page1.queueCounts, queueCounts);
+    const stored = await call('after-sales', 'GET', undefined, 200, '?status=stored&includeCounts=1');
+    assert.deepEqual(stored.items.map(record => record.id).sort(), [received.id, processing.id].sort());
+    const filtered = await call('after-sales', 'GET', undefined, 200, '?status=stored&search=QA-QUEUE-LIFE-E&includeCounts=1');
+    assert.deepEqual(filtered.items.map(record => record.id), [received.id]);
+    assert.equal(filtered.total, 1);
+    assert.deepEqual(filtered.queueCounts, queueCounts);
+    const history = await call('after-sales', 'GET', undefined, 200, '?status=cancelled');
+    assert.deepEqual(history.items.map(record => record.id), [cancelled.id]);
+    db.prepare('UPDATE after_sale_records SET deleted = 1 WHERE id = ?').run(cancelled.id);
+    const afterRemoval = await call('after-sales', 'GET', undefined, 200, '?status=cancelled&includeCounts=1');
+    assert.equal(afterRemoval.total, 0);
+    assert.deepEqual(afterRemoval.queueCounts, { ...queueCounts, all: 6, cancelled: 0 });
     assert.equal(db.pragma('integrity_check', { simple: true }), 'ok'); assert.deepEqual(db.pragma('foreign_key_check'), []);
-    console.log('PASS real SQLite lifecycle: route authorization, warehouse purchase/draft inbound, sale snapshots/cancel, customer refund return and receipt/movement, after-sales repair and exchange, supplier return preservation, rollback, FK/integrity');
+    console.log('PASS real SQLite lifecycle: route authorization, warehouse purchase/draft inbound, sale snapshots/cancel, customer refund return and receipt/movement, after-sales repair and exchange, paginated work queues and counts, supplier return preservation, rollback, FK/integrity');
   } finally {
     if (db?.open) db.close(); if (oldPath === undefined) delete process.env.INVENTORY_DB_PATH; else process.env.INVENTORY_DB_PATH = oldPath;
     assert(path.resolve(scratch).startsWith(path.resolve(scratchParent) + path.sep)); fs.rmSync(scratch, { recursive: true, force: true });

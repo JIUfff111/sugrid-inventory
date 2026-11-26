@@ -31,7 +31,7 @@ const workspaceRoutes: Record<string, { id: string; label: string; Component: Co
   '/settings/print': { id: 'settings-print', label: '标签设计', Component: dynamic(() => import('@/app/settings/print/page'), { loading: Loading }) },
   '/settings/print/preview': { id: 'settings-print-preview', label: '打印预览', Component: dynamic(() => import('@/app/settings/print/preview/page'), { loading: Loading }) },
 };
-const aliases: Record<string, string> = { '/transfers': '/inventory?view=transfers', '/inventory/movements': '/inventory?view=movements', '/after-sales/stock': '/after-sales', '/sales/customer-return': '/after-sales' };
+const aliases: Record<string, string> = { '/transfers': '/inventory?view=transfers', '/inventory/movements': '/inventory?view=movements', '/after-sales/stock': '/after-sales?view=stock', '/sales/customer-return': '/after-sales' };
 
 function WorkspaceSlot({ tab, active, user, onDirtyChange }: { tab: Tab; active: boolean; user: SessionUser; onDirtyChange: (id: string, source: string, dirty: boolean) => void }) {
   const route = workspaceRoutes[new URL(tab.href, 'http://workspace.local').pathname];
@@ -154,6 +154,7 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
   const [authError, setAuthError] = useState('');
   const [retryKey, setRetryKey] = useState(0);
   const href = pathname + (searchParams.size ? `?${searchParams.toString()}` : '');
+  const stockSearch = pathname === '/after-sales/stock' ? searchParams.get('search') : null;
   const returnHref = useRef(href);
   useEffect(() => { returnHref.current = href; }, [href]);
   useEffect(() => {
@@ -195,14 +196,15 @@ function AuthenticatedLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isPublic || !user) return;
     const alias = aliases[pathname];
-    if (alias && canVisit(user.role, new URL(alias, window.location.origin).pathname, user.canViewInventory ?? true)) router.replace(alias);
-    else if (alias || !canVisit(user.role, pathname, user.canViewInventory ?? true)) {
+    if (alias && canVisit(user.role, new URL(alias, window.location.origin).pathname, user.canViewInventory ?? true)) {
+      router.replace(stockSearch ? `${alias}&search=${encodeURIComponent(stockSearch)}` : alias);
+    } else if (alias || !canVisit(user.role, pathname, user.canViewInventory ?? true)) {
       const fallback = canVisit(user.role, '/', user.canViewInventory ?? true)
         ? '/'
         : canVisit(user.role, '/inventory', user.canViewInventory ?? true) ? '/inventory' : '/settings/account';
       router.replace(fallback);
     }
-  }, [isPublic, pathname, router, user]);
+  }, [isPublic, pathname, router, stockSearch, user]);
   if (isPublic) return <main className="min-h-screen px-4">{children}</main>;
   if (checking) return <div className="flex min-h-screen items-center justify-center text-ink-soft"><LoaderCircle className="mr-2 h-5 w-5 animate-spin" />正在验证登录…</div>;
   if (!user) return <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center text-ink-soft"><WifiOff className="h-8 w-8 text-primary" /><p>{authError || '正在连接登录服务…'}</p><button type="button" onClick={() => { setChecking(true); setRetryKey(key => key + 1); }} className="btn-primary inline-flex items-center gap-2"><RefreshCw className="h-4 w-4" />重新验证</button></div>;
