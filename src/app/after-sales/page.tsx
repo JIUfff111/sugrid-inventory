@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, KeyboardEvent, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowDownToLine, ArrowUpFromLine, Check, ChevronDown, ChevronLeft, ChevronRight, Ellipsis, RefreshCw, Search, Wrench, X } from 'lucide-react';
+import { ArrowDownToLine, ArrowUpFromLine, Check, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, Ellipsis, RefreshCw, Search, Wrench, X } from 'lucide-react';
 import CustomSelect, { SelectOption } from '@/components/CustomSelect';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import BusinessDialog from '@/components/BusinessDialog';
@@ -9,11 +9,13 @@ import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
 import { useInventoryLabelPrinter } from '@/components/InventoryLabelPrint';
+import { afterSalesTutorialKey, canAutoShowAfterSalesTutorial } from '@/lib/after-sales-tutorial-preference';
 import { formatDisplayDateTime, parseStoredTimestamp } from '@/lib/display-date-time';
 import { inventoryMovementLabel } from '@/lib/inventory-movement-labels';
 import { matchesMachineScanSerial, stripMachineScanSuffix } from '@/lib/machine-scan';
 import { formatProductName } from '@/lib/product-name';
 import { formatCPUDisplay, formatGPUDisplay, formatScreenDisplay } from '@/lib/sku-display';
+import AfterSalesTutorial from './AfterSalesTutorial';
 
 type SoldItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; gpu?: string | null; storage: string; screen?: string | null; sellingPrice: number | null; purchasePrice: number; saleOrderNo: string | null; salesRecordNo?: string | null; saleChannel?: string | null; saleDate?: string | null; warehouseId?: string | null };
 type ReplacementItem = { id: string; sn: string; brand: string; model: string; year: number | null; cpu: string; ram: string; gpu?: string | null; storage: string; screen?: string | null; warehouseName?: string | null };
@@ -107,7 +109,7 @@ function ModalShell({ title, subtitle, onClose, children, footer }: { title: str
 }
 
 export default function AfterSalesPage() {
-  const { active, searchParams } = useWorkspace();
+  const { active, searchParams, user } = useWorkspace();
   const recordId = searchParams.get('recordId') || '';
   const routeSearch = searchParams.get('search') || '';
   const routeView = searchParams.get('view');
@@ -150,7 +152,28 @@ export default function AfterSalesPage() {
   const [updating, setUpdating] = useState(false);
   const [detailError, setDetailError] = useState('');
   const [toast, setToast] = useState<ToastMessage | null>(null);
+  const [tutorialRequest, setTutorialRequest] = useState<{ key: string; manual: boolean } | null>(null);
+  const dismissedTutorialKeys = useRef(new Set<string>());
   const { printLabels, printing, printPortal } = useInventoryLabelPrinter();
+  const tutorialUserId = user?.id;
+  const tutorialKey = tutorialUserId ? afterSalesTutorialKey(tutorialUserId) : null;
+  const tutorialBlocked = Boolean(createOpen || selectedRecord || pendingAction || returnConfirmOpen || pendingPrint || submitting || updating || printing);
+  const tutorialOpen = active && !tutorialBlocked && tutorialRequest && tutorialRequest.key === tutorialKey &&
+    (tutorialRequest.manual || !recordId);
+
+  useEffect(() => {
+    if (!tutorialKey || dismissedTutorialKeys.current.has(tutorialKey) ||
+        !canAutoShowAfterSalesTutorial({ active, userId: tutorialUserId, linkedRecord: Boolean(recordId), busy: tutorialBlocked })) return;
+    try { if (window.localStorage.getItem(tutorialKey) === 'seen') return; } catch { /* Fall back to the current workspace session. */ }
+    setTutorialRequest(current => current?.key === tutorialKey ? current : { key: tutorialKey, manual: false });
+  }, [active, tutorialKey, tutorialUserId, recordId, tutorialBlocked]);
+
+  const closeTutorial = () => {
+    setTutorialRequest(null);
+    if (!tutorialKey) return;
+    dismissedTutorialKeys.current.add(tutorialKey);
+    try { window.localStorage.setItem(tutorialKey, 'seen'); } catch { /* Still dismiss for the current workspace. */ }
+  };
 
   const notify = (text: string, tone: ToastMessage['tone'] = 'success') => setToast({ text, tone });
 
@@ -412,9 +435,14 @@ export default function AfterSalesPage() {
   return <div className="mx-auto max-w-[1400px] space-y-4 pb-8 page-transition-enter">
     <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
       <h1 className="text-xl font-bold tracking-tight text-ink-deep">售后处理</h1>
-      <button type="button" onClick={() => { resetCreateForm(); setCreateOpen(true); }} className="btn-primary inline-flex items-center gap-2">
-        <Wrench aria-hidden="true" className="h-4 w-4" />登记售后
-      </button>
+      <div className="flex flex-wrap items-center gap-2">
+        <button type="button" onClick={() => { if (tutorialKey) setTutorialRequest({ key: tutorialKey, manual: true }); }} className="btn-ghost inline-flex items-center gap-2">
+          <CircleHelp aria-hidden="true" className="h-4 w-4" />流程教程
+        </button>
+        <button type="button" onClick={() => { resetCreateForm(); setCreateOpen(true); }} className="btn-primary inline-flex items-center gap-2">
+          <Wrench aria-hidden="true" className="h-4 w-4" />登记售后
+        </button>
+      </div>
     </header>
 
     <section aria-label="售后工作台" className="overflow-hidden rounded-2xl border border-line bg-white/95 shadow-sm">
@@ -511,6 +539,8 @@ export default function AfterSalesPage() {
         </nav>}
       </div>}
     </section>
+
+    {tutorialOpen && <AfterSalesTutorial onClose={closeTutorial} />}
 
     {createOpen && <ModalShell title="登记销售售后" subtitle="原销售渠道、售价和成本会随机器自动带入" onClose={closeCreate} footer={<><button type="button" onClick={closeCreate} className="btn-ghost">取消</button><button form="after-sale-create-form" type="submit" disabled={submitting || validity.checking || !!validity.error || validity.invalidIds.length > 0} className="btn-primary inline-flex items-center gap-2 disabled:opacity-60"><Check className="h-4 w-4" />{submitting ? '处理中...' : resolutionType === 'customer_return' ? '确认退货退款' : '创建售后单'}</button></>}>
       <form id="after-sale-create-form" onSubmit={submitAfterSale} className="space-y-5">
