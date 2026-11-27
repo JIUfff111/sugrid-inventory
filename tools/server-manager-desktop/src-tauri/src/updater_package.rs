@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use zip::{CompressionMethod, ZipArchive};
 
-pub const UPDATER_PROTOCOL: u32 = 1;
+pub const UPDATER_PROTOCOL: u32 = 2;
 const MAX_PACKAGE_BYTES: u64 = 1024 * 1024 * 1024;
 const MAX_MANIFEST_BYTES: u64 = 1024 * 1024;
 const MAX_ENTRY_COUNT: usize = 50_000;
@@ -33,6 +33,8 @@ pub struct ReleaseManifest {
     pub commit_sha: String,
     pub platform: String,
     pub min_updater_protocol: u32,
+    pub database_schema_version: u32,
+    pub min_supported_database_schema_version: u32,
     pub files: Vec<ReleaseFile>,
 }
 
@@ -55,17 +57,20 @@ fn package_path_valid(path: &str) -> bool {
         || lower == "inventory/backups"
         || lower.starts_with("inventory/backups/")
         || lower.rsplit('/').next().is_some_and(|name| {
-            name == ".env"
-                || name.starts_with(".env.")
-                || [".db", ".db-wal", ".db-shm", ".sqlite", ".sqlite3"]
-                    .iter()
-                    .any(|extension| name.ends_with(extension))
+            [".db", ".db-wal", ".db-shm", ".sqlite", ".sqlite3"]
+                .iter()
+                .any(|extension| name.ends_with(extension))
         })
     {
         return false;
     }
     path.split('/').all(|segment| {
-        if segment.is_empty() || segment == "." || segment == ".." || segment.ends_with(['.', ' '])
+        if segment.is_empty()
+            || segment == "."
+            || segment == ".."
+            || segment.ends_with(['.', ' '])
+            || segment.eq_ignore_ascii_case(".env")
+            || segment.to_ascii_lowercase().starts_with(".env.")
         {
             return false;
         }
@@ -98,6 +103,12 @@ fn validate_manifest(manifest: &ReleaseManifest) -> Result<(), String> {
     }
     if manifest.min_updater_protocol > UPDATER_PROTOCOL {
         return Err("The package requires a newer updater.".into());
+    }
+    if manifest.database_schema_version == 0
+        || manifest.database_schema_version > 1_000_000
+        || manifest.min_supported_database_schema_version > manifest.database_schema_version
+    {
+        return Err("The package database migration range is invalid.".into());
     }
     semver::Version::parse(&manifest.version).map_err(|_| "Invalid inventory package version.")?;
     if !fixed_lower_hex(&manifest.commit_sha, 40) {
@@ -335,6 +346,8 @@ mod tests {
             commit_sha: "a".repeat(40),
             platform: "windows-x64".into(),
             min_updater_protocol: 1,
+            database_schema_version: 36,
+            min_supported_database_schema_version: 0,
             files: files
                 .iter()
                 .map(|(path, bytes)| ReleaseFile {
@@ -406,6 +419,7 @@ mod tests {
             "inventory/app/records.db-wal",
             "inventory/app/records.db-shm",
             "inventory/.env.production",
+            "inventory/public/.ENV.local/secret.txt",
             "inventory/CON",
             "inventory/sub/con.txt",
             "inventory/sub/COM1.log",
@@ -432,5 +446,31 @@ mod tests {
                 "valid runtime path rejected: {path}"
             );
         }
+    }
+
+    #[test]
+    fn package_requires_a_valid_signed_database_migration_range() {
+        let root =
+            std::env::temp_dir().join(format!("sugrid-package-schema-test-{}", std::process::id()));
+        fs::create_dir_all(&root).unwrap();
+        let (package, key) = create_package(&root, false, false);
+        assert!(verify_and_extract(&package, &root.join("valid"), &key).is_ok());
+        let _ = fs::remove_dir_all(root);
+
+        let mut manifest = ReleaseManifest {
+            format_version: 1,
+            product: "sugrid-inventory".into(),
+            version: "1.2.3".into(),
+            commit_sha: "a".repeat(40),
+            platform: "windows-x64".into(),
+            min_updater_protocol: 2,
+            database_schema_version: 35,
+            min_supported_database_schema_version: 36,
+            files: vec![],
+        };
+        assert!(validate_manifest(&manifest).is_err());
+        manifest.min_supported_database_schema_version = 0;
+        manifest.database_schema_version = 0;
+        assert!(validate_manifest(&manifest).is_err());
     }
 }

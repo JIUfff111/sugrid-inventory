@@ -6,12 +6,22 @@ import path from 'node:path';
 export const INVENTORY_ASSET_NAME = 'sugrid-inventory-windows-x64.zip';
 export const INVENTORY_PRODUCT = 'sugrid-inventory';
 export const INVENTORY_PLATFORM = 'windows-x64';
-export const INVENTORY_PROTOCOL = 1;
+export const INVENTORY_PROTOCOL = 2;
+export const MIN_SUPPORTED_DATABASE_SCHEMA_VERSION = 0;
 const privateDatabaseFile = /\.(?:db|sqlite|sqlite3)(?:-(?:wal|shm))?$/i;
+const migrationCall = /\bmigrate(?:WithoutForeignKeys)?\(\s*(\d+)\s*,/g;
 
-function assertSafeRelativePath(value) {
-  if (!value || value.includes('\\') || value.startsWith('/') || value.includes('\0') || value.split('/').some(part => part === '' || part === '.' || part === '..')) {
+export function assertSafeRelativePath(value) {
+  const segments = value.split('/');
+  if (!value || value.includes('\\') || value.startsWith('/') || /[:<>"|?*\u0000-\u001f\u007f-\u009f]/u.test(value) || segments.some(part =>
+    part === '' || part === '.' || part === '..' || part.endsWith('.') || part.endsWith(' ') ||
+    /^(?:CON|PRN|AUX|NUL|COM[1-9¹²³]|LPT[1-9¹²³])(?:\.|$)/iu.test(part) ||
+    part.toLowerCase() === '.env' || part.toLowerCase().startsWith('.env.')
+  )) {
     throw new Error(`Unsafe inventory package path: ${value}`);
+  }
+  if (['data', 'backups'].includes(segments[0].toLowerCase())) {
+    throw new Error(`Private inventory directory cannot enter a release package: ${value}`);
   }
   if (privateDatabaseFile.test(value)) throw new Error(`SQLite data cannot enter a release package: ${value}`);
 }
@@ -38,15 +48,33 @@ export async function inventoryFiles(directory) {
   }
   await visit(directory, '');
   entries.sort((a, b) => Buffer.compare(Buffer.from(a.path), Buffer.from(b.path)));
-  if (!entries.some(item => item.path === 'inventory/server.js') || !entries.some(item => item.path === 'inventory/node.exe') || !entries.some(item => item.path === 'inventory/scripts/init-db.js')) {
-    throw new Error('The candidate is missing server.js, node.exe, or scripts/init-db.js.');
+  if (!entries.some(item => item.path === 'inventory/server.js') || !entries.some(item => item.path === 'inventory/node.exe') || !entries.some(item => item.path === 'inventory/scripts/init-db.js') || !entries.some(item => item.path === 'inventory/scripts/database.cjs')) {
+    throw new Error('The candidate is missing server.js, node.exe, scripts/init-db.js, or scripts/database.cjs.');
   }
   return entries;
 }
 
-export function candidateMetadata(commitSha, files) {
+export function databaseSchemaVersion(source) {
+  const versions = [...source.matchAll(migrationCall)].map(match => Number(match[1]));
+  if (versions.length === 0 || versions.some(version => !Number.isSafeInteger(version) || version < 1)) {
+    throw new Error('Candidate database migrations could not be identified.');
+  }
+  if (new Set(versions).size !== versions.length || versions.some((version, index) => index > 0 && version <= versions[index - 1])) {
+    throw new Error('Candidate database migration versions must be unique and increasing.');
+  }
+  return versions.at(-1);
+}
+
+async function candidateDatabaseSchemaVersion(destination) {
+  const source = await readFile(path.join(destination, 'inventory', 'scripts', 'database.cjs'), 'utf8');
+  return databaseSchemaVersion(source);
+}
+
+export function candidateMetadata(commitSha, files, schemaVersion, minSupportedSchemaVersion = MIN_SUPPORTED_DATABASE_SCHEMA_VERSION) {
   if (!/^[a-f0-9]{40}$/.test(commitSha)) throw new Error('Candidate must identify an exact 40-character Git commit SHA.');
-  return { formatVersion: 1, product: INVENTORY_PRODUCT, commitSha, platform: INVENTORY_PLATFORM, minUpdaterProtocol: INVENTORY_PROTOCOL, files };
+  if (!Number.isSafeInteger(schemaVersion) || schemaVersion < 1) throw new Error('Candidate database schema version is invalid.');
+  if (!Number.isSafeInteger(minSupportedSchemaVersion) || minSupportedSchemaVersion < 0 || minSupportedSchemaVersion > schemaVersion) throw new Error('Candidate minimum supported database schema version is invalid.');
+  return { formatVersion: 1, product: INVENTORY_PRODUCT, commitSha, platform: INVENTORY_PLATFORM, minUpdaterProtocol: INVENTORY_PROTOCOL, databaseSchemaVersion: schemaVersion, minSupportedDatabaseSchemaVersion: minSupportedSchemaVersion, files };
 }
 
 export async function verifyCandidate(candidate) {
@@ -55,14 +83,19 @@ export async function verifyCandidate(candidate) {
   const topLevel = (await readdir(candidate)).sort();
   if (JSON.stringify(topLevel) !== JSON.stringify(['candidate.json', 'inventory'])) throw new Error('Candidate contains unexpected top-level entries.');
   const metadata = JSON.parse(await readFile(path.join(candidate, 'candidate.json'), 'utf8'));
-  const actual = candidateMetadata(metadata.commitSha, await inventoryFiles(path.join(candidate, 'inventory')));
+  const actual = candidateMetadata(
+    metadata.commitSha,
+    await inventoryFiles(path.join(candidate, 'inventory')),
+    await candidateDatabaseSchemaVersion(candidate),
+    MIN_SUPPORTED_DATABASE_SCHEMA_VERSION,
+  );
   if (JSON.stringify(metadata) !== JSON.stringify(actual)) throw new Error('Candidate contents do not match candidate.json.');
   return actual;
 }
 
 export function releaseManifest(candidate, version) {
   if (!/^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(version)) throw new Error('Inventory release version must be X.Y.Z.');
-  return { formatVersion: 1, product: INVENTORY_PRODUCT, version, commitSha: candidate.commitSha, platform: INVENTORY_PLATFORM, minUpdaterProtocol: INVENTORY_PROTOCOL, files: candidate.files };
+  return { formatVersion: 1, product: INVENTORY_PRODUCT, version, commitSha: candidate.commitSha, platform: INVENTORY_PLATFORM, minUpdaterProtocol: INVENTORY_PROTOCOL, databaseSchemaVersion: candidate.databaseSchemaVersion, minSupportedDatabaseSchemaVersion: candidate.minSupportedDatabaseSchemaVersion, files: candidate.files };
 }
 
 export function signManifest(manifestBytes, privateDerBase64, expectedPublicHex) {
@@ -167,7 +200,11 @@ export async function writeStoredZip(destination, files) {
 }
 
 export async function saveCandidateMetadata(destination, commitSha) {
-  const metadata = candidateMetadata(commitSha, await inventoryFiles(path.join(destination, 'inventory')));
+  const metadata = candidateMetadata(
+    commitSha,
+    await inventoryFiles(path.join(destination, 'inventory')),
+    await candidateDatabaseSchemaVersion(destination),
+  );
   await writeFile(path.join(destination, 'candidate.json'), `${JSON.stringify(metadata)}\n`, { flag: 'wx' });
   return metadata;
 }

@@ -4,13 +4,13 @@ use serde_json::{Value, json};
 use std::{
     ffi::{OsStr, OsString, c_void},
     fs::{self, File, OpenOptions},
-    io::{Read, Write},
+    io::{Read, Seek, SeekFrom, Write},
     os::windows::{ffi::OsStrExt, fs::MetadataExt, io::FromRawHandle},
     path::{Path, PathBuf},
     ptr,
     sync::{
         Arc, Mutex,
-        atomic::{AtomicBool, Ordering},
+        atomic::{AtomicBool, AtomicU64, Ordering},
     },
     thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -33,17 +33,16 @@ use windows_sys::Win32::{
     Security::{
         Authorization::{
             ConvertSidToStringSidW, ConvertStringSecurityDescriptorToSecurityDescriptorW,
-            ConvertStringSidToSidW, GetNamedSecurityInfoW, SE_FILE_OBJECT,
-            SetNamedSecurityInfoW,
+            ConvertStringSidToSidW, GetNamedSecurityInfoW, SE_FILE_OBJECT, SetNamedSecurityInfoW,
         },
         CheckTokenMembership, DACL_SECURITY_INFORMATION, GetSecurityDescriptorControl,
         GetSecurityDescriptorDacl, GetTokenInformation, LookupAccountNameW,
-        PROTECTED_DACL_SECURITY_INFORMATION, RevertToSelf, SE_DACL_PROTECTED,
-        SECURITY_ATTRIBUTES, TOKEN_QUERY, TOKEN_USER, TokenUser,
+        PROTECTED_DACL_SECURITY_INFORMATION, RevertToSelf, SE_DACL_PROTECTED, SECURITY_ATTRIBUTES,
+        TOKEN_QUERY, TOKEN_USER, TokenUser,
     },
     Storage::FileSystem::{
-        MoveFileExW, FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_FIRST_PIPE_INSTANCE,
-        PIPE_ACCESS_DUPLEX, MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
+        FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_FIRST_PIPE_INSTANCE, MOVEFILE_REPLACE_EXISTING,
+        MOVEFILE_WRITE_THROUGH, MoveFileExW, PIPE_ACCESS_DUPLEX,
     },
     System::{
         Pipes::{
@@ -54,6 +53,8 @@ use windows_sys::Win32::{
     },
 };
 
+#[path = "updater_windows/backup_schedule.rs"]
+mod backup_schedule;
 #[path = "updater_windows/operations.rs"]
 mod operations;
 use operations::{
@@ -85,29 +86,38 @@ const REQUEST_TIMEOUT: Duration = Duration::from_secs(2);
 struct Operators {
     allowed_sids: Vec<String>,
 }
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(default)]
 pub struct Operation {
     pub operation_id: Option<String>,
+    pub kind: String,
     pub stage: String,
     pub state: String,
     pub error: Option<String>,
     pub inventory_version: Option<String>,
+    pub started_at: Option<u64>,
+    pub finished_at: Option<u64>,
 }
 impl Default for Operation {
     fn default() -> Self {
         Self {
             operation_id: None,
+            kind: "none".into(),
             stage: "idle".into(),
             state: "idle".into(),
             error: None,
             inventory_version: None,
+            started_at: None,
+            finished_at: None,
         }
     }
 }
 pub struct State {
     pub operation: Mutex<Operation>,
     pub cancel: AtomicBool,
+    operation_history_error: Mutex<Option<String>>,
+    operation_history_retry_after: AtomicU64,
     stop: AtomicBool,
 }
 impl State {
@@ -115,6 +125,8 @@ impl State {
         Self {
             operation: Mutex::new(Operation::default()),
             cancel: AtomicBool::new(false),
+            operation_history_error: Mutex::new(None),
+            operation_history_retry_after: AtomicU64::new(0),
             stop: AtomicBool::new(false),
         }
     }
@@ -126,6 +138,7 @@ struct Request {
     command: String,
     package_path: Option<String>,
     backup_name: Option<String>,
+    destination: Option<String>,
     operation_id: Option<String>,
 }
 #[derive(Serialize)]
@@ -163,11 +176,11 @@ pub fn root() -> Result<PathBuf, String> {
     }
     #[cfg(not(feature = "updater-qa"))]
     {
-    Ok(
-        PathBuf::from(std::env::var_os("PROGRAMDATA").ok_or("ProgramData is unavailable.")?)
-            .join("SUGRID")
-            .join("Inventory"),
-    )
+        Ok(
+            PathBuf::from(std::env::var_os("PROGRAMDATA").ok_or("ProgramData is unavailable.")?)
+                .join("SUGRID")
+                .join("Inventory"),
+        )
     }
 }
 pub fn updater_root() -> Result<PathBuf, String> {
@@ -234,7 +247,9 @@ fn set_exact_acl(path: &Path, sddl: &str) -> Result<(), String> {
                 &mut desired_acl,
                 &mut defaulted,
             )
-        } == 0 || present == 0 || desired_acl.is_null()
+        } == 0
+            || present == 0
+            || desired_acl.is_null()
         {
             return Err(win_err("Cannot extract updater ACL"));
         }
@@ -251,7 +266,9 @@ fn set_exact_acl(path: &Path, sddl: &str) -> Result<(), String> {
             )
         };
         if code != 0 {
-            return Err(format!("Cannot set exact updater ACL: Windows error {code}"));
+            return Err(format!(
+                "Cannot set exact updater ACL: Windows error {code}"
+            ));
         }
         let mut actual_acl = ptr::null_mut();
         let mut actual_descriptor = ptr::null_mut();
@@ -278,7 +295,8 @@ fn set_exact_acl(path: &Path, sddl: &str) -> Result<(), String> {
             let mut revision = 0;
             if unsafe {
                 GetSecurityDescriptorControl(actual_descriptor, &mut control, &mut revision)
-            } == 0 || control & SE_DACL_PROTECTED == 0
+            } == 0
+                || control & SE_DACL_PROTECTED == 0
             {
                 return Err("Updater ACL is not protected from inheritance.".into());
             }
@@ -346,10 +364,7 @@ fn validate_sid(value: &str) -> Result<(), String> {
     Ok(())
 }
 fn account_name_sid(name: &str) -> Result<String, String> {
-    if name.is_empty()
-        || name.len() > 256
-        || (!name.contains('\\') && !name.contains('@'))
-    {
+    if name.is_empty() || name.len() > 256 || (!name.contains('\\') && !name.contains('@')) {
         return Err("Pass an explicit DOMAIN\\user, .\\user, UPN, or Windows SID.".into());
     }
     let account = wide(OsStr::new(name));
@@ -513,7 +528,9 @@ fn pipe_security() -> Result<(SECURITY_ATTRIBUTES, *mut c_void), String> {
     // Users receive data read/write only. Generic write also grants FILE_CREATE_PIPE_INSTANCE and is unsafe here.
     // FILE_GENERIC_READ plus WRITE_DATA and WRITE_ATTRIBUTES. Do not grant
     // FILE_CREATE_PIPE_INSTANCE, which is included in generic write.
-    let sddl = wide(OsStr::new("D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x12018b;;;BU)S:(ML;;NW;;;ME)"));
+    let sddl = wide(OsStr::new(
+        "D:P(A;;GA;;;SY)(A;;GA;;;BA)(A;;0x12018b;;;BU)S:(ML;;NW;;;ME)",
+    ));
     let mut descriptor = ptr::null_mut();
     if unsafe {
         ConvertStringSecurityDescriptorToSecurityDescriptorW(
@@ -570,15 +587,197 @@ fn pipe_once(state: &Arc<State>) -> Result<(), String> {
 }
 fn handle_client(file: &mut File, pipe: HANDLE, state: &Arc<State>) -> Result<(), String> {
     let bytes = read_bounded_request(file, pipe)?;
-    let request: Request = serde_json::from_slice(&bytes)
-        .map_err(|_| "Malformed updater request.")?;
+    let request: Request =
+        serde_json::from_slice(&bytes).map_err(|_| "Malformed updater request.")?;
     let response = match token_identity(pipe) {
+        Ok((sid, admin)) if request.command == "export-backup" => {
+            let result = if can_manage(&sid, admin) {
+                match (
+                    request.backup_name.as_deref(),
+                    request.destination.as_deref(),
+                ) {
+                    (Some(name), Some(destination)) => {
+                        export_backup_for_client(pipe, name, destination)
+                    }
+                    _ => Err("Select a verified backup and a destination path.".into()),
+                }
+            } else {
+                Err("This Windows account cannot manage inventory service updates.".into())
+            };
+            match result {
+                Ok(value) => Response::ok(request.id, value),
+                Err(error) => Response::error(request.id, error),
+            }
+        }
         Ok((sid, admin)) => dispatch(request, &sid, admin, state),
         Err(error) => Response::error(request.id, error),
     };
     let mut output = serde_json::to_vec(&response).map_err(|error| error.to_string())?;
     output.push(b'\n');
     file.write_all(&output).map_err(|error| error.to_string())
+}
+
+struct ClientImpersonation;
+
+impl ClientImpersonation {
+    fn begin(pipe: HANDLE) -> Result<Self, String> {
+        if unsafe { ImpersonateNamedPipeClient(pipe) } == 0 {
+            Err(win_err(
+                "Cannot impersonate the authenticated backup export client",
+            ))
+        } else {
+            Ok(Self)
+        }
+    }
+}
+
+impl Drop for ClientImpersonation {
+    fn drop(&mut self) {
+        if unsafe { RevertToSelf() } == 0 {
+            // A service must never continue handling requests with a stale client token.
+            std::process::abort();
+        }
+    }
+}
+
+fn within_windows_directory(path: &Path, directory: &Path) -> bool {
+    let mut components = path.components();
+    directory.components().all(|expected| {
+        components.next().is_some_and(|actual| {
+            actual
+                .as_os_str()
+                .to_string_lossy()
+                .eq_ignore_ascii_case(&expected.as_os_str().to_string_lossy())
+        })
+    })
+}
+
+fn export_target_path(destination: &Path, protected_root: &Path) -> Result<PathBuf, String> {
+    if !destination.is_absolute()
+        || !destination
+            .extension()
+            .is_some_and(|extension| extension.to_string_lossy().eq_ignore_ascii_case("db"))
+    {
+        return Err("Select an absolute .db backup export path.".into());
+    }
+    let name = destination
+        .file_name()
+        .ok_or("Backup export destination has no filename.")?;
+    let parent = destination
+        .parent()
+        .ok_or("Backup export destination has no directory.")?;
+    let target = fs::canonicalize(parent)
+        .map_err(|error| format!("Cannot access backup export directory: {error}"))?
+        .join(name);
+    if within_windows_directory(&target, protected_root) {
+        return Err("Backup export cannot write inside managed inventory storage.".into());
+    }
+    match fs::symlink_metadata(&target) {
+        Ok(metadata) => {
+            if !metadata.is_file()
+                || metadata.file_type().is_symlink()
+                || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0
+            {
+                return Err("Backup export target must be an ordinary file.".into());
+            }
+            let existing = fs::canonicalize(&target)
+                .map_err(|error| format!("Cannot inspect backup export target: {error}"))?;
+            if within_windows_directory(&existing, protected_root) {
+                return Err("Backup export cannot overwrite managed inventory storage.".into());
+            }
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(error) => return Err(format!("Cannot inspect backup export target: {error}")),
+    }
+    Ok(target)
+}
+
+fn hash_open_file(file: &mut File) -> Result<String, String> {
+    use sha2::{Digest, Sha256};
+    let mut hash = Sha256::new();
+    file.seek(SeekFrom::Start(0))
+        .map_err(|error| error.to_string())?;
+    std::io::copy(file, &mut hash).map_err(|error| error.to_string())?;
+    file.seek(SeekFrom::Start(0))
+        .map_err(|error| error.to_string())?;
+    Ok(hex::encode(hash.finalize()))
+}
+
+fn copy_backup_as_client(
+    source: &mut File,
+    expected_sha256: &str,
+    destination: &Path,
+    protected_root: &Path,
+) -> Result<(), String> {
+    let target = export_target_path(destination, protected_root)?;
+    let parent = target
+        .parent()
+        .ok_or("Backup export directory is missing.")?;
+    let temporary = parent.join(format!(
+        ".sugrid-export-{}-{}-{}.tmp",
+        std::process::id(),
+        stamp(),
+        NEXT_EXPORT_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+    ));
+    let result = (|| {
+        let mut output = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&temporary)
+            .map_err(|error| format!("Cannot create backup export staging file: {error}"))?;
+        std::io::copy(source, &mut output)
+            .map_err(|error| format!("Cannot write backup export: {error}"))?;
+        output.sync_all().map_err(|error| error.to_string())?;
+        drop(output);
+        let copied = operations::file_sha256(&temporary)?;
+        if !copied.eq_ignore_ascii_case(expected_sha256) {
+            return Err(
+                "Backup changed while it was exported; destination was not replaced.".into(),
+            );
+        }
+        let source_wide = wide(temporary.as_os_str());
+        let target_wide = wide(target.as_os_str());
+        if unsafe {
+            MoveFileExW(
+                source_wide.as_ptr(),
+                target_wide.as_ptr(),
+                MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH,
+            )
+        } == 0
+        {
+            return Err(win_err("Cannot save backup export"));
+        }
+        Ok(())
+    })();
+    if result.is_err() {
+        let _ = fs::remove_file(temporary);
+    }
+    result
+}
+
+static NEXT_EXPORT_SEQUENCE: AtomicU64 = AtomicU64::new(1);
+
+fn export_backup_for_client(pipe: HANDLE, name: &str, destination: &str) -> Result<Value, String> {
+    if destination.len() > 4096 {
+        return Err("Backup export destination is too long.".into());
+    }
+    let source_path = operations::selected_backup_path(name)?;
+    let protected_root = fs::canonicalize(root()?)
+        .map_err(|error| format!("Cannot resolve inventory storage: {error}"))?;
+    // Open and verify the protected source while still running as the updater service.
+    let mut source = File::open(&source_path)
+        .map_err(|error| format!("Cannot open verified backup: {error}"))?;
+    let digest = hash_open_file(&mut source)?;
+    let _client = ClientImpersonation::begin(pipe)?;
+    // Everything that creates, replaces, or deletes the user-selected target
+    // now runs with the authenticated caller's Windows access token.
+    copy_backup_as_client(
+        &mut source,
+        &digest,
+        Path::new(destination),
+        &protected_root,
+    )?;
+    Ok(json!({ "sha256": digest }))
 }
 fn read_bounded_request(file: &mut File, pipe: HANDLE) -> Result<Vec<u8>, String> {
     let mode = PIPE_NOWAIT;
@@ -638,7 +837,8 @@ fn operator_for_install_at(path: &Path, operator: Option<&str>) -> Result<(Strin
         // the installer accidentally forwards a stale or empty account field.
         Ok(bytes) => Ok((saved_operator_sid(&bytes)?, false)),
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            let input = operator.ok_or("First install requires an explicit maintenance account.")?;
+            let input =
+                operator.ok_or("First install requires an explicit maintenance account.")?;
             let sid = if input.starts_with("S-1-") {
                 validate_sid(input)?;
                 input.to_owned()
@@ -647,7 +847,9 @@ fn operator_for_install_at(path: &Path, operator: Option<&str>) -> Result<(Strin
             };
             Ok((sid, true))
         }
-        Err(error) => Err(format!("Cannot read updater operator configuration: {error}")),
+        Err(error) => Err(format!(
+            "Cannot read updater operator configuration: {error}"
+        )),
     }
 }
 
@@ -657,8 +859,11 @@ fn operator_for_install(operator: Option<&str>) -> Result<(String, bool), String
 
 fn install_service(operator: Option<&str>) -> Result<(), String> {
     let (sid, first_install) = operator_for_install(operator)?;
-    let manager = service_manager(ServiceManagerAccess::CONNECT | ServiceManagerAccess::CREATE_SERVICE)
-        .map_err(|error| format!("Cannot open Windows Service Control Manager for updater install: {error}"))?;
+    let manager =
+        service_manager(ServiceManagerAccess::CONNECT | ServiceManagerAccess::CREATE_SERVICE)
+            .map_err(|error| {
+                format!("Cannot open Windows Service Control Manager for updater install: {error}")
+            })?;
     let info = ServiceInfo {
         name: OsString::from(SERVICE_NAME),
         display_name: OsString::from(SERVICE_DISPLAY_NAME),
@@ -678,9 +883,9 @@ fn install_service(operator: Option<&str>) -> Result<(), String> {
         | ServiceAccess::DELETE;
     let service = match manager.open_service(SERVICE_NAME, access) {
         Ok(service) => {
-            service
-                .change_config(&info)
-                .map_err(|error| format!("Cannot update existing updater service configuration: {error}"))?;
+            service.change_config(&info).map_err(|error| {
+                format!("Cannot update existing updater service configuration: {error}")
+            })?;
             service
         }
         Err(_) => manager
@@ -727,12 +932,10 @@ fn install_service(operator: Option<&str>) -> Result<(), String> {
 fn stop_service() -> Result<(), String> {
     ensure_no_pending_recovery()?;
     let manager = service_manager(ServiceManagerAccess::CONNECT)?;
-    let service = match manager
-        .open_service(
-            SERVICE_NAME,
-            ServiceAccess::QUERY_STATUS | ServiceAccess::STOP,
-        )
-    {
+    let service = match manager.open_service(
+        SERVICE_NAME,
+        ServiceAccess::QUERY_STATUS | ServiceAccess::STOP,
+    ) {
         Ok(service) => service,
         Err(windows_service::Error::Winapi(error)) if error.raw_os_error() == Some(1060) => {
             return Ok(());
@@ -747,15 +950,16 @@ fn stop_service() -> Result<(), String> {
     {
         return Ok(());
     }
-    let inventory_was_running = match manager.open_service(
-        INVENTORY_SERVICE_NAME,
-        ServiceAccess::QUERY_STATUS,
-    ) {
-        Ok(inventory) => inventory
-            .query_status()
-            .map_err(|error| error.to_string())?
-            .current_state
-            != ServiceState::Stopped,
+    let inventory_was_running = match manager
+        .open_service(INVENTORY_SERVICE_NAME, ServiceAccess::QUERY_STATUS)
+    {
+        Ok(inventory) => {
+            inventory
+                .query_status()
+                .map_err(|error| error.to_string())?
+                .current_state
+                != ServiceState::Stopped
+        }
         Err(windows_service::Error::Winapi(error)) if error.raw_os_error() == Some(1060) => false,
         Err(error) => return Err(error.to_string()),
     };
@@ -803,7 +1007,11 @@ fn start_service() -> Result<(), String> {
             .start::<OsString>(&[])
             .map_err(|error| format!("Cannot start updater service: {error}"))?,
         ServiceState::Running | ServiceState::StartPending | ServiceState::ContinuePending => {}
-        state => return Err(format!("Updater service cannot start from state {state:?}.")),
+        state => {
+            return Err(format!(
+                "Updater service cannot start from state {state:?}."
+            ));
+        }
     }
     Ok(())
 }
@@ -879,7 +1087,9 @@ fn run_service() -> Result<(), String> {
         .map_err(|error| error.to_string())?;
     match recover_interrupted_transaction() {
         Ok(true) => {
-            append_updater_log("Interrupted inventory transaction was rolled back before updater startup.");
+            append_updater_log(
+                "Interrupted inventory transaction was rolled back before updater startup.",
+            );
             if let Ok(mut operation) = state.operation.lock() {
                 operation.stage = "rolling_back".into();
                 operation.state = "recovered".into();
@@ -896,9 +1106,13 @@ fn run_service() -> Result<(), String> {
                     ..status(ServiceState::Stopped, ServiceControlAccept::empty())
                 })
                 .map_err(|status_error| status_error.to_string())?;
-            return Err(format!("Inventory recovery requires manual review: {error}"));
+            return Err(format!(
+                "Inventory recovery requires manual review: {error}"
+            ));
         }
     }
+    restore_operation_history(&state);
+    start_backup_scheduler(Arc::clone(&state));
     handler
         .set_service_status(status(
             ServiceState::Running,
@@ -918,6 +1132,51 @@ fn run_service() -> Result<(), String> {
         .set_service_status(status(ServiceState::Stopped, ServiceControlAccept::empty()))
         .map_err(|error| error.to_string())
 }
+
+fn start_backup_scheduler(state: Arc<State>) {
+    thread::spawn(move || {
+        loop {
+            if state.stop.load(Ordering::SeqCst) {
+                break;
+            }
+            let now = stamp();
+            let schedule_result = root().and_then(|base| {
+                let backups = base.join("backups");
+                backup_schedule::due_label(&backups, now).map(|label| (backups, label))
+            });
+            let retry_soon = match schedule_result {
+                Ok((directory, Some(label))) => {
+                    if let Err(error) = operations::run_scheduled_backup(&state, &label, &directory)
+                    {
+                        append_updater_log(&format!("Automatic backup failed: {error}"));
+                    }
+                    true
+                }
+                Ok((_, None)) => false,
+                Err(error) => {
+                    append_updater_log(&format!("Automatic backup schedule check failed: {error}"));
+                    true
+                }
+            };
+            let delay = if retry_soon {
+                backup_schedule::retry_check_delay()
+            } else {
+                backup_schedule::next_check_delay(now)
+            };
+            let deadline = std::time::Instant::now() + delay;
+            while !state.stop.load(Ordering::SeqCst) && std::time::Instant::now() < deadline {
+                thread::sleep(
+                    Duration::from_secs(1)
+                        .min(deadline.saturating_duration_since(std::time::Instant::now())),
+                );
+            }
+            if state.stop.load(Ordering::SeqCst) {
+                break;
+            }
+        }
+    });
+}
+
 fn dispatch(request: Request, sid: &str, admin: bool, state: &Arc<State>) -> Response {
     let permitted = can_manage(sid, admin);
     dispatch_permitted(request, permitted, state)
@@ -926,9 +1185,13 @@ fn dispatch_permitted(request: Request, permitted: bool, state: &Arc<State>) -> 
     let id = request.id;
     let result = match request.command.as_str() {
         "status" => status(state, permitted),
-        "install" | "backup" | "restore" | "cancel" | "start" | "stop" if !permitted => {
+        "install" | "backup" | "restore" | "cancel" | "start" | "stop" | "export-backup"
+        | "check-database"
+            if !permitted =>
+        {
             Err("This Windows account cannot manage inventory service updates.".into())
         }
+        "check-database" => operations::check_database_integrity(),
         "install" => start_install(state, request.package_path.as_deref()),
         "backup" => start_backup(state),
         "restore" => start_restore(state, request.backup_name.as_deref()),
@@ -950,21 +1213,66 @@ mod tests {
     #[test]
     fn non_maintainer_cannot_submit_system_operations() {
         let state = Arc::new(State::new());
-        for command in ["install", "backup", "restore", "cancel", "start", "stop"] {
+        for command in [
+            "install",
+            "backup",
+            "restore",
+            "cancel",
+            "start",
+            "stop",
+            "export-backup",
+            "check-database",
+        ] {
             let response = dispatch_permitted(
                 Request {
                     id: 7,
                     command: command.into(),
                     package_path: None,
                     backup_name: None,
+                    destination: None,
                     operation_id: None,
                 },
                 false,
                 &state,
             );
-            assert!(!response.ok, "{command} must require maintenance permission");
+            assert!(
+                !response.ok,
+                "{command} must require maintenance permission"
+            );
             assert!(response.error.unwrap().contains("cannot manage"));
         }
+    }
+
+    #[test]
+    fn backup_export_restricts_target_and_preserves_existing_file_on_hash_failure() {
+        let base = std::env::temp_dir().join(format!(
+            "sugrid-updater-export-test-{}-{}",
+            std::process::id(),
+            stamp()
+        ));
+        let protected = base.join("managed");
+        let exports = base.join("exports");
+        fs::create_dir_all(&protected).unwrap();
+        fs::create_dir_all(&exports).unwrap();
+        let protected = fs::canonicalize(protected).unwrap();
+        let source_path = protected.join("inventory.manual-1.db");
+        fs::write(&source_path, b"verified SQLite backup fixture").unwrap();
+        let mut source = File::open(&source_path).unwrap();
+        let digest = hash_open_file(&mut source).unwrap();
+
+        let target = exports.join("inventory-copy.db");
+        fs::write(&target, b"older copy").unwrap();
+        copy_backup_as_client(&mut source, &digest, &target, &protected).unwrap();
+        assert_eq!(fs::read(&target).unwrap(), fs::read(&source_path).unwrap());
+
+        fs::write(&target, b"keep this copy").unwrap();
+        assert!(copy_backup_as_client(&mut source, &"0".repeat(64), &target, &protected).is_err());
+        assert_eq!(fs::read(&target).unwrap(), b"keep this copy");
+        assert!(export_target_path(&protected.join("overwrite.db"), &protected).is_err());
+        assert!(export_target_path(&exports.join("wrong.txt"), &protected).is_err());
+        assert!(export_target_path(Path::new("relative.db"), &protected).is_err());
+
+        fs::remove_dir_all(base).unwrap();
     }
 
     #[test]
@@ -1000,8 +1308,171 @@ mod tests {
         fs::remove_file(&path).unwrap();
         assert_eq!(result.unwrap(), ("S-1-5-18".into(), false));
     }
+
+    #[test]
+    fn operation_history_is_atomic_bounded_and_updates_in_place() {
+        let path = std::env::temp_dir().join(format!(
+            "sugrid-operation-history-test-{}.json",
+            std::process::id()
+        ));
+        let _ = fs::remove_file(&path);
+        for index in 0..55 {
+            persist_operation_at(
+                &path,
+                &Operation {
+                    operation_id: Some(format!("20261127-100-{index}")),
+                    kind: "manual_backup".into(),
+                    stage: "complete".into(),
+                    state: "succeeded".into(),
+                    error: None,
+                    inventory_version: None,
+                    started_at: Some(index),
+                    finished_at: Some(index + 1),
+                },
+            )
+            .unwrap();
+        }
+        let updated = Operation {
+            operation_id: Some("20261127-100-54".into()),
+            kind: "manual_backup".into(),
+            stage: "complete".into(),
+            state: "failed".into(),
+            error: Some("verification failed".into()),
+            inventory_version: None,
+            started_at: Some(54),
+            finished_at: Some(56),
+        };
+        persist_operation_at(&path, &updated).unwrap();
+
+        let history = read_operation_history_at(&path).unwrap();
+        assert_eq!(history.len(), OPERATION_HISTORY_LIMIT);
+        assert_eq!(
+            history.first().unwrap().operation_id.as_deref(),
+            Some("20261127-100-5")
+        );
+        assert_eq!(history.last().unwrap().state, "failed");
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    fn interrupted_operation_is_marked_for_manual_state_reverification() {
+        let path = std::env::temp_dir().join(format!(
+            "sugrid-operation-recovery-test-{}.json",
+            std::process::id()
+        ));
+        let _ = fs::remove_file(&path);
+        persist_operation_at(
+            &path,
+            &Operation {
+                operation_id: Some("20261127-100-1".into()),
+                kind: "inventory_update".into(),
+                stage: "migrating".into(),
+                state: "running".into(),
+                error: None,
+                inventory_version: None,
+                started_at: Some(100),
+                finished_at: None,
+            },
+        )
+        .unwrap();
+        let state = Arc::new(State::new());
+
+        restore_operation_history_at(&state, &path).unwrap();
+
+        let restored = state.operation.lock().unwrap().clone();
+        assert_eq!(restored.state, "recovered");
+        assert_eq!(restored.stage, "rolling_back");
+        assert!(restored.error.as_deref().unwrap().contains("重新核实"));
+        assert_eq!(
+            read_operation_history_at(&path).unwrap()[0].state,
+            "recovered"
+        );
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    fn malformed_history_is_preserved_and_rejected() {
+        let path = std::env::temp_dir().join(format!(
+            "sugrid-operation-history-invalid-{}.json",
+            std::process::id()
+        ));
+        fs::write(&path, b"{malformed").unwrap();
+        let operation = Operation {
+            operation_id: Some("20261127-100-1".into()),
+            kind: "manual_backup".into(),
+            stage: "running".into(),
+            state: "running".into(),
+            error: None,
+            inventory_version: None,
+            started_at: Some(100),
+            finished_at: None,
+        };
+        assert!(persist_operation_at(&path, &operation).is_err());
+        assert_eq!(fs::read(&path).unwrap(), b"{malformed");
+        let (history, error) = read_operation_history_status_at(&path);
+        assert!(history.is_empty());
+        assert!(
+            error
+                .as_deref()
+                .is_some_and(|value| value.contains("malformed"))
+        );
+        assert_eq!(fs::read(&path).unwrap(), b"{malformed");
+        let state = Arc::new(State::new());
+        remember_operation_history_error(&state, "history is malformed".into());
+        fs::write(&path, serde_json::to_vec(&Vec::<Operation>::new()).unwrap()).unwrap();
+        retry_operation_history_write_at(&state, &path);
+        assert!(state.operation_history_error.lock().unwrap().is_none());
+        let _ = fs::remove_file(path);
+    }
+
+    #[test]
+    fn operation_history_write_failure_is_visible_and_retried() {
+        let root = std::env::temp_dir().join(format!(
+            "sugrid-operation-history-retry-{}",
+            std::process::id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(&root).unwrap();
+        let blocking_file = root.join("not-a-directory");
+        fs::write(&blocking_file, b"occupied").unwrap();
+        let history_path = blocking_file.join("operations.json");
+        let state = Arc::new(State::new());
+        let operation = Operation {
+            operation_id: Some("20261127-100-1".into()),
+            kind: "automatic_backup".into(),
+            stage: "complete".into(),
+            state: "succeeded".into(),
+            error: None,
+            inventory_version: None,
+            started_at: Some(100),
+            finished_at: Some(200),
+        };
+        *state.operation.lock().unwrap() = operation;
+        remember_operation_history_error(&state, "history write failed".into());
+
+        retry_operation_history_write_at(&state, &history_path);
+        assert!(
+            state
+                .operation_history_error
+                .lock()
+                .unwrap()
+                .as_deref()
+                .is_some()
+        );
+
+        fs::remove_file(&blocking_file).unwrap();
+        fs::create_dir(&blocking_file).unwrap();
+        retry_operation_history_write_at(&state, &history_path);
+        assert!(state.operation_history_error.lock().unwrap().is_none());
+        assert_eq!(
+            read_operation_history_at(&history_path).unwrap()[0].state,
+            "succeeded"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
 }
 fn status(state: &Arc<State>, permitted: bool) -> Result<Value, String> {
+    retry_operation_history_write(state);
     let operation = state
         .operation
         .lock()
@@ -1016,9 +1487,39 @@ fn status(state: &Arc<State>, permitted: bool) -> Result<Value, String> {
                 .and_then(Value::as_str)
                 .map(str::to_owned)
         });
-    Ok(
-        json!({"updaterProtocol":UPDATER_PROTOCOL,"canManage":permitted,"inventoryVersion":version,"operationId":operation.operation_id,"stage":operation.stage,"state":operation.state,"error":operation.error}),
-    )
+    let (history, disk_history_error) = read_operation_history_status();
+    let runtime_history_error = state
+        .operation_history_error
+        .lock()
+        .ok()
+        .and_then(|error| error.clone());
+    let history_error = disk_history_error.or(runtime_history_error);
+    let database = database_path()?;
+    let schema_version = operations::database_schema_version(&database)
+        .ok()
+        .flatten();
+    let next_backup_at = next_backup_at(stamp());
+    // Status is polled every few seconds. This is a manifest/metadata hint,
+    // not a fresh SQLite integrity or SHA-256 check. Operations that rely on
+    // a backup verify it fully at their execution boundary.
+    let last_automatic_backup_at = root()
+        .ok()
+        .and_then(|base| backup_schedule::latest_recorded_auto_backup_at(&base.join("backups")));
+    Ok(json!({
+        "updaterProtocol":UPDATER_PROTOCOL,
+        "canManage":permitted,
+        "inventoryVersion":version,
+        "databaseExists":database.is_file(),
+        "databaseSchemaVersion":schema_version,
+        "operationId":operation.operation_id,
+        "operationKind":operation.kind,
+        "stage":operation.stage,
+        "state":operation.state,
+        "error":operation.error,
+        "operationHistory":history,
+        "operationHistoryError":history_error,
+        "backupSchedule":{"time":"02:00","timeZone":"Asia/Shanghai","nextRunAt":next_backup_at,"lastRunAt":last_automatic_backup_at}
+    }))
 }
 fn service_command(state: &Arc<State>, command: &str) -> Result<Value, String> {
     if command == "start" {
@@ -1055,6 +1556,26 @@ fn cancel_operation(state: &Arc<State>, id: Option<&str>) -> Result<Value, Strin
     status(state, true)
 }
 pub fn begin(state: &Arc<State>, stage: &str) -> Result<String, String> {
+    let kind = match stage {
+        "copying" => "inventory_update",
+        "backing_up" => "manual_backup",
+        "verifying" => "database_restore",
+        _ => "maintenance",
+    };
+    begin_named(state, kind, stage)
+}
+pub fn begin_named(state: &Arc<State>, kind: &str, stage: &str) -> Result<String, String> {
+    retry_operation_history_write(state);
+    if state
+        .operation_history_error
+        .lock()
+        .map_err(|_| "Updater operation history state is unavailable.")?
+        .is_some()
+    {
+        return Err(
+            "Maintenance is paused because the previous operation could not be recorded.".into(),
+        );
+    }
     let mut operation = state
         .operation
         .lock()
@@ -1062,20 +1583,47 @@ pub fn begin(state: &Arc<State>, stage: &str) -> Result<String, String> {
     if operation.state == "running" {
         return Err("Another maintenance operation is running.".into());
     }
-    let id = format!("{}-{}", stamp(), std::process::id());
-    *operation = Operation {
+    static NEXT_OPERATION_SEQUENCE: AtomicU64 = AtomicU64::new(1);
+    let id = format!(
+        "{}-{}-{}",
+        stamp(),
+        std::process::id(),
+        NEXT_OPERATION_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+    );
+    let snapshot = Operation {
         operation_id: Some(id.clone()),
+        kind: kind.into(),
         stage: stage.into(),
         state: "running".into(),
         error: None,
         inventory_version: None,
+        started_at: Some(epoch_seconds()),
+        finished_at: None,
     };
+    if let Err(error) = persist_operation(&snapshot) {
+        let message =
+            format!("Operation was not started because its history could not be saved: {error}");
+        let failed = Operation {
+            stage: "complete".into(),
+            state: "failed".into(),
+            error: Some(message.clone()),
+            finished_at: Some(epoch_seconds()),
+            ..snapshot.clone()
+        };
+        *operation = failed;
+        remember_operation_history_error(state, message.clone());
+        append_updater_log(&format!("Could not persist operation start: {error}"));
+        return Err(message);
+    }
+    clear_operation_history_error(state);
+    *operation = snapshot;
     state.cancel.store(false, Ordering::SeqCst);
     Ok(id)
 }
 pub fn set_stage(state: &Arc<State>, stage: &str) {
     if let Ok(mut operation) = state.operation.lock() {
         operation.stage = stage.into();
+        persist_operation_for_state(state, &operation, "Could not persist operation progress");
     }
 }
 pub fn finish(state: &Arc<State>, result: Result<Option<String>, String>) {
@@ -1086,17 +1634,269 @@ pub fn finish(state: &Arc<State>, result: Result<Option<String>, String>) {
                 operation.state = "succeeded".into();
                 operation.inventory_version = version;
                 operation.error = None;
+                operation.finished_at = Some(epoch_seconds());
             }
             Err(error) if error == "cancelled" => {
                 operation.state = "cancelled".into();
                 operation.error = None;
+                operation.finished_at = Some(epoch_seconds());
             }
             Err(error) => {
                 operation.state = "failed".into();
                 operation.error = Some(error);
+                operation.finished_at = Some(epoch_seconds());
             }
         }
+        persist_operation_for_state(state, &operation, "Could not persist operation result");
     }
+}
+
+const OPERATION_HISTORY_LIMIT: usize = 50;
+static NEXT_HISTORY_TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(1);
+
+fn epoch_seconds() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs()
+}
+
+fn operation_history_path() -> Result<PathBuf, String> {
+    Ok(updater_root()?.join("operations.json"))
+}
+
+fn read_operation_history_at(path: &Path) -> Result<Vec<Operation>, String> {
+    match fs::read(path) {
+        Ok(bytes) => serde_json::from_slice(&bytes).map_err(|_| {
+            "Updater operation history is malformed; manual review is required.".into()
+        }),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(Vec::new()),
+        Err(error) => Err(format!("Cannot read updater operation history: {error}")),
+    }
+}
+
+fn read_operation_history_status_at(path: &Path) -> (Vec<Operation>, Option<String>) {
+    match read_operation_history_at(path) {
+        Ok(history) => (history, None),
+        Err(error) => (Vec::new(), Some(error)),
+    }
+}
+
+fn read_operation_history_status() -> (Vec<Operation>, Option<String>) {
+    match operation_history_path() {
+        Ok(path) => read_operation_history_status_at(&path),
+        Err(error) => (Vec::new(), Some(error)),
+    }
+}
+
+fn persist_operation_at(target: &Path, operation: &Operation) -> Result<(), String> {
+    if let Some(parent) = target.parent() {
+        fs::create_dir_all(parent)
+            .map_err(|error| format!("Cannot prepare updater operation history: {error}"))?;
+    }
+    let mut history = read_operation_history_at(target)?;
+    if let Some(existing) = history
+        .iter_mut()
+        .find(|item| item.operation_id == operation.operation_id)
+    {
+        *existing = operation.clone();
+    } else {
+        history.push(operation.clone());
+    }
+    if history.len() > OPERATION_HISTORY_LIMIT {
+        history.drain(..history.len() - OPERATION_HISTORY_LIMIT);
+    }
+    let temporary = target.with_extension(format!(
+        "{}.{}.{}.tmp",
+        std::process::id(),
+        stamp(),
+        NEXT_HISTORY_TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed)
+    ));
+    let bytes = serde_json::to_vec_pretty(&history).map_err(|error| error.to_string())?;
+    let mut file = OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&temporary)
+        .map_err(|error| format!("Cannot create updater history staging file: {error}"))?;
+    file.write_all(&bytes).map_err(|error| error.to_string())?;
+    file.sync_all().map_err(|error| error.to_string())?;
+    drop(file);
+    if let Err(error) = replace_file(&temporary, target) {
+        let _ = fs::remove_file(&temporary);
+        return Err(error);
+    }
+    Ok(())
+}
+
+fn persist_operation(operation: &Operation) -> Result<(), String> {
+    persist_operation_at(&operation_history_path()?, operation)
+}
+
+fn remember_operation_history_error(state: &Arc<State>, error: String) {
+    if let Ok(mut current) = state.operation_history_error.lock() {
+        *current = Some(error);
+    }
+}
+
+fn clear_operation_history_error(state: &Arc<State>) {
+    if let Ok(mut current) = state.operation_history_error.lock() {
+        *current = None;
+    }
+    state
+        .operation_history_retry_after
+        .store(0, Ordering::SeqCst);
+}
+
+fn persist_operation_for_state(state: &Arc<State>, operation: &Operation, context: &str) {
+    let result = operation_history_path().and_then(|path| persist_operation_at(&path, operation));
+    record_operation_history_write(state, result, context);
+}
+
+fn persist_operation_for_state_at(
+    state: &Arc<State>,
+    path: &Path,
+    operation: &Operation,
+    context: &str,
+) {
+    record_operation_history_write(state, persist_operation_at(path, operation), context);
+}
+
+fn record_operation_history_write(state: &Arc<State>, result: Result<(), String>, context: &str) {
+    match result {
+        Ok(()) => clear_operation_history_error(state),
+        Err(error) => {
+            let message = format!("{context}: {error}");
+            let changed = state
+                .operation_history_error
+                .lock()
+                .map(|mut current| {
+                    let changed = current.as_deref() != Some(message.as_str());
+                    *current = Some(message);
+                    changed
+                })
+                .unwrap_or(false);
+            state
+                .operation_history_retry_after
+                .store(epoch_seconds().saturating_add(30), Ordering::SeqCst);
+            #[cfg(not(test))]
+            if changed {
+                append_updater_log(&format!("{context}: {error}"));
+            }
+            #[cfg(test)]
+            let _ = changed;
+        }
+    }
+}
+
+fn retry_operation_history_write(state: &Arc<State>) {
+    let has_error = state
+        .operation_history_error
+        .lock()
+        .ok()
+        .is_some_and(|error| error.is_some());
+    if !has_error {
+        return;
+    }
+    let now = epoch_seconds();
+    let retry_after = state.operation_history_retry_after.load(Ordering::SeqCst);
+    if now < retry_after
+        || state
+            .operation_history_retry_after
+            .compare_exchange(
+                retry_after,
+                now.saturating_add(30),
+                Ordering::SeqCst,
+                Ordering::SeqCst,
+            )
+            .is_err()
+    {
+        return;
+    }
+    let path = match operation_history_path() {
+        Ok(path) => path,
+        Err(error) => {
+            remember_operation_history_error(state, error);
+            return;
+        }
+    };
+    retry_operation_history_write_at(state, &path);
+}
+
+fn retry_operation_history_write_at(state: &Arc<State>, path: &Path) {
+    let has_error = state
+        .operation_history_error
+        .lock()
+        .ok()
+        .is_some_and(|error| error.is_some());
+    if !has_error {
+        return;
+    }
+    let operation = match state.operation.lock() {
+        Ok(operation) if operation.operation_id.is_some() => operation,
+        Ok(_) => {
+            match read_operation_history_at(path) {
+                Ok(_) => clear_operation_history_error(state),
+                Err(error) => remember_operation_history_error(state, error),
+            }
+            return;
+        }
+        Err(_) => return,
+    };
+    persist_operation_for_state_at(
+        state,
+        path,
+        &operation,
+        "Could not retry updater operation history",
+    );
+}
+
+fn restore_operation_history_at(state: &Arc<State>, path: &Path) -> Result<(), String> {
+    let mut history = read_operation_history_at(path)?;
+    if let Some(latest) = history.last_mut() {
+        if latest.state == "running" {
+            latest.state = "recovered".into();
+            latest.stage = "rolling_back".into();
+            latest.error =
+                Some("更新服务重新启动；操作结果需要根据当前服务和数据库状态重新核实。".into());
+            latest.finished_at = Some(epoch_seconds());
+            if let Ok(mut current) = state.operation.lock() {
+                *current = latest.clone();
+            }
+            persist_operation_at(path, latest)?;
+        }
+    }
+    if let Ok(mut current) = state.operation.lock() {
+        *current = history.last().cloned().unwrap_or_default();
+    }
+    clear_operation_history_error(state);
+    Ok(())
+}
+
+fn restore_operation_history(state: &Arc<State>) {
+    match operation_history_path().and_then(|path| restore_operation_history_at(state, &path)) {
+        Ok(()) => {}
+        Err(error) => {
+            remember_operation_history_error(state, error.clone());
+            append_updater_log(&format!(
+                "Could not restore updater operation history: {error}"
+            ));
+        }
+    }
+}
+
+fn next_backup_at(now_ms: u64) -> u64 {
+    const DAY: u64 = 86_400_000;
+    const BEIJING_OFFSET: u64 = 8 * 60 * 60 * 1000;
+    const TARGET: u64 = 2 * 60 * 60 * 1000;
+    let shifted = now_ms.saturating_add(BEIJING_OFFSET);
+    let day_start = shifted / DAY * DAY;
+    let today_target = day_start.saturating_add(TARGET);
+    let target = if shifted < today_target {
+        today_target
+    } else {
+        today_target.saturating_add(DAY)
+    };
+    target.saturating_sub(BEIJING_OFFSET) / 1000
 }
 pub fn main() {
     let mut args = std::env::args().skip(1);
@@ -1106,40 +1906,42 @@ pub fn main() {
         Err("Unexpected trailing updater arguments.".into())
     } else {
         match command.as_str() {
-        "run" if argument.is_none() => windows_service::service_dispatcher::start(SERVICE_NAME, ffi_service_main)
-            .map_err(|error| error.to_string()),
-        "install-service" => install_service(argument.as_deref()),
-        "add-operator" => argument
-            .ok_or_else(|| "An operator SID is required.".to_string())
-            .and_then(|sid| update_operators(&sid, true)),
-        "remove-operator" => argument
-            .ok_or_else(|| "An operator SID is required.".to_string())
-            .and_then(|sid| update_operators(&sid, false)),
-        "start-service" if argument.is_none() => start_service(),
-        "stop-service" if argument.is_none() => stop_service(),
-        "uninstall-service" if argument.is_none() => uninstall_service(),
-        #[cfg(feature = "updater-qa")]
-        "verify-package" => (|| {
-            let source = argument.ok_or("QA verification requires a package path.")?;
-            let destination = std::env::temp_dir().join(format!(
-                "sugrid-qa-verify-{}-{}",
-                std::process::id(),
-                stamp()
-            ));
-            let verified = crate::updater_package::verify_and_extract(
-                Path::new(&source),
-                &destination,
-                crate::updater_package::embedded_public_key()?,
-            );
-            let _ = fs::remove_dir_all(&destination);
-            let verified = verified?;
-            println!(
-                "verified inventory {} commit {}",
-                verified.manifest.version, verified.manifest.commit_sha
-            );
-            Ok(())
-        })(),
-        _ => Err("Unsupported updater command.".into()),
+            "run" if argument.is_none() => {
+                windows_service::service_dispatcher::start(SERVICE_NAME, ffi_service_main)
+                    .map_err(|error| error.to_string())
+            }
+            "install-service" => install_service(argument.as_deref()),
+            "add-operator" => argument
+                .ok_or_else(|| "An operator SID is required.".to_string())
+                .and_then(|sid| update_operators(&sid, true)),
+            "remove-operator" => argument
+                .ok_or_else(|| "An operator SID is required.".to_string())
+                .and_then(|sid| update_operators(&sid, false)),
+            "start-service" if argument.is_none() => start_service(),
+            "stop-service" if argument.is_none() => stop_service(),
+            "uninstall-service" if argument.is_none() => uninstall_service(),
+            #[cfg(feature = "updater-qa")]
+            "verify-package" => (|| {
+                let source = argument.ok_or("QA verification requires a package path.")?;
+                let destination = std::env::temp_dir().join(format!(
+                    "sugrid-qa-verify-{}-{}",
+                    std::process::id(),
+                    stamp()
+                ));
+                let verified = crate::updater_package::verify_and_extract(
+                    Path::new(&source),
+                    &destination,
+                    crate::updater_package::embedded_public_key()?,
+                );
+                let _ = fs::remove_dir_all(&destination);
+                let verified = verified?;
+                println!(
+                    "verified inventory {} commit {}",
+                    verified.manifest.version, verified.manifest.commit_sha
+                );
+                Ok(())
+            })(),
+            _ => Err("Unsupported updater command.".into()),
         }
     };
     if let Err(error) = result {

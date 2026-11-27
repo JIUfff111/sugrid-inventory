@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge, Button } from "@fluentui/react-components";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
 import { ArrowDownToLine, CheckCircle2, CircleHelp, ExternalLink, LoaderCircle, RefreshCw, ShieldCheck, Upload, XCircle } from "lucide-react";
+import { maintenanceAccess } from "./manager-display";
 
 export interface InventoryCache {
   state: "idle" | "checking" | "cached" | "empty" | "offline" | "failed";
@@ -29,6 +30,7 @@ interface UpdaterStatus {
   state: string | null;
   backupName: string | null;
   error: string | null;
+  operationHistoryError?: string | null;
 }
 
 const STAGES: Record<string, string> = {
@@ -50,8 +52,9 @@ function errorText(value: unknown) {
   return typeof value === "string" ? value : value instanceof Error ? value.message : "操作失败，请查看更新服务日志。";
 }
 
-export function InventoryUpdates({ canManage, updaterAvailable, currentVersion, cache, prefetchBusy, onPrefetch }: {
+export function InventoryUpdates({ canManage, pollPaused, updaterAvailable, currentVersion, cache, prefetchBusy, onPrefetch }: {
   canManage: boolean;
+  pollPaused: boolean;
   updaterAvailable: boolean;
   currentVersion: string | null;
   cache: InventoryCache;
@@ -64,8 +67,13 @@ export function InventoryUpdates({ canManage, updaterAvailable, currentVersion, 
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [statusError, setStatusError] = useState("");
+  const pausedRef = useRef(pollPaused);
+  useEffect(() => {
+    pausedRef.current = pollPaused;
+  }, [pollPaused]);
 
   const refreshStatus = useCallback(async () => {
+    if (pausedRef.current) return;
     if (!updaterAvailable) {
       setStatus(null);
       setStatusError("");
@@ -73,10 +81,12 @@ export function InventoryUpdates({ canManage, updaterAvailable, currentVersion, 
     }
     try {
       const next = await invoke<UpdaterStatus>("integrated_updater_status");
+      if (pausedRef.current) return;
       setStatus(next);
       setStatusError("");
       if (next.state === "failed" || next.state === "cancelled" || next.state === "succeeded" || next.state === "recovered") setNotice("");
     } catch (reason) {
+      if (pausedRef.current) return;
       setStatus(null);
       setStatusError(errorText(reason));
     }
@@ -95,10 +105,11 @@ export function InventoryUpdates({ canManage, updaterAvailable, currentVersion, 
   }, [checkRelease]);
 
   useEffect(() => {
+    if (pollPaused) return;
     void refreshStatus();
     const timer = window.setInterval(() => void refreshStatus(), 1500);
     return () => window.clearInterval(timer);
-  }, [refreshStatus]);
+  }, [refreshStatus, pollPaused]);
 
   async function perform(label: string, command: () => Promise<UpdaterStatus>) {
     setBusy(label);
@@ -143,8 +154,8 @@ export function InventoryUpdates({ canManage, updaterAvailable, currentVersion, 
   const stageIndex = STAGE_ORDER.indexOf(status?.stage ?? "");
   const cancelAllowed = running && stageIndex >= 0 && stageIndex < STAGE_ORDER.indexOf("switching");
   const installedVersion = status?.inventoryVersion ?? currentVersion;
-  const serviceReady = updaterAvailable && !statusError && status?.available !== false;
-  const maintenanceAllowed = Boolean(status?.canManage ?? canManage);
+  const serviceReady = updaterAvailable && !statusError && status?.available === true;
+  const maintenanceAllowed = maintenanceAccess(canManage, status?.canManage, status?.operationHistoryError);
   const onlineUpdateAvailable = release?.updateAvailable && release.latestVersion !== installedVersion;
   const cachedUpdateAvailable = Boolean(cache.version && cache.version !== installedVersion);
   const cacheTitle = cache.state === "cached" ? "正式包已验签并缓存" : cache.state === "offline" ? "网络不可用" : cache.state === "failed" ? cache.version ? "最新包缓存失败 · 已有可用缓存" : "缓存失败" : cache.state === "empty" ? "尚无库存包缓存" : "正在查找正式库存包";
@@ -175,6 +186,6 @@ export function InventoryUpdates({ canManage, updaterAvailable, currentVersion, 
       {maintenanceAllowed ? <>{cachedUpdateAvailable ? <Button appearance="primary" icon={busy === "cached" ? <LoaderCircle className="spin" size={15}/> : <ShieldCheck size={15}/>} onClick={() => void installCached()} disabled={!serviceReady || Boolean(busy) || running || prefetchBusy}>安装已缓存版本</Button> : null}{onlineUpdateAvailable && release?.latestVersion !== cache.version ? <Button appearance="primary" icon={busy === "online" ? <LoaderCircle className="spin" size={15}/> : <ArrowDownToLine size={15}/>} onClick={() => void installOnline()} disabled={!serviceReady || Boolean(busy) || running || prefetchBusy}>{installedVersion ? "在线安装更新" : "在线安装库存系统"}</Button> : null}<Button appearance="secondary" icon={busy === "offline" ? <LoaderCircle className="spin" size={15}/> : <Upload size={15}/>} onClick={() => void importOffline()} disabled={!serviceReady || Boolean(busy) || running}>导入签名包</Button></> : null}
       {release?.releaseUrl ? <Button appearance="subtle" icon={<ExternalLink size={15}/>} onClick={() => window.open(release.releaseUrl, "_blank", "noopener,noreferrer")}>查看发布记录</Button> : null}
     </div>
-    {serviceReady && !maintenanceAllowed ? <div className="integrated-inline-help"><CircleHelp size={15}/><span>当前 Windows 账号只有查看权限；更新、备份和恢复需要指定维护账号或管理员。</span></div> : null}
+    {serviceReady && !maintenanceAllowed ? <div className="integrated-inline-help"><CircleHelp size={15}/><span>当前无法执行库存维护，请检查维护权限和操作记录状态。</span></div> : null}
   </section>;
 }

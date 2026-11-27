@@ -14,8 +14,22 @@ use windows_service::{
     service_manager::{ServiceManager, ServiceManagerAccess},
 };
 
+#[cfg(not(feature = "updater-qa"))]
 const SERVICE_NAME: &str = "SUGRIDInventory";
+#[cfg(feature = "updater-qa")]
+const SERVICE_NAME: &str = "SUGRIDInventoryQA";
+#[cfg(not(feature = "updater-qa"))]
 const PORT: u16 = 3000;
+#[cfg(feature = "updater-qa")]
+const PORT: u16 = 3300;
+#[cfg(not(feature = "updater-qa"))]
+const UPDATER_SERVICE_NAME: &str = "SUGRIDInventoryUpdater";
+#[cfg(feature = "updater-qa")]
+const UPDATER_SERVICE_NAME: &str = "SUGRIDInventoryUpdaterQA";
+#[cfg(not(feature = "updater-qa"))]
+const UPDATER_PIPE_NAME: &str = r"\\.\pipe\SUGRIDInventoryUpdater-v1";
+#[cfg(feature = "updater-qa")]
+const UPDATER_PIPE_NAME: &str = r"\\.\pipe\SUGRIDInventoryUpdaterQA-v1";
 
 type AppResult<T> = Result<T, String>;
 
@@ -26,6 +40,7 @@ pub struct BackupSummary {
     pub size: u64,
     pub modified_at: u64,
     pub verified: bool,
+    pub can_export: bool,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -40,14 +55,48 @@ pub struct IntegratedDashboard {
     pub service_state: String,
     pub service_pid: Option<u32>,
     pub healthy: bool,
+    pub service_name: String,
     pub service_url: String,
     pub port: u16,
     pub database_path: String,
     pub database_exists: bool,
     pub database_integrity: String,
+    pub operation_history: Vec<OperationSummary>,
+    pub operation_history_error: Option<String>,
+    pub backup_schedule: Option<BackupScheduleSummary>,
     pub backup_directory: String,
     pub backups: Vec<BackupSummary>,
     pub status_message: String,
+}
+
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct OperationSummary {
+    pub operation_id: Option<String>,
+    pub kind: String,
+    pub stage: String,
+    pub state: String,
+    pub error: Option<String>,
+    pub inventory_version: Option<String>,
+    pub started_at: Option<u64>,
+    pub finished_at: Option<u64>,
+}
+
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+pub struct BackupScheduleSummary {
+    pub time: String,
+    pub time_zone: String,
+    pub next_run_at: Option<u64>,
+    pub last_run_at: Option<u64>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct DatabaseCheck {
+    pub integrity: String,
+    pub foreign_key_violations: u64,
+    pub checked_at: u64,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -106,18 +155,41 @@ pub struct UpdaterStatus {
     pub can_manage: bool,
     pub updater_protocol: Option<u32>,
     pub inventory_version: Option<String>,
+    pub database_exists: Option<bool>,
     pub operation_id: Option<String>,
     pub stage: Option<String>,
     pub state: Option<String>,
     pub backup_name: Option<String>,
     pub error: Option<String>,
+    pub operation_history: Vec<OperationSummary>,
+    pub operation_history_error: Option<String>,
+    pub backup_schedule: Option<BackupScheduleSummary>,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", default)]
+struct BackupManifestRecord {
+    name: String,
+    size: u64,
+    modified_at: u64,
+    verified: bool,
+}
+impl Default for BackupManifestRecord {
+    fn default() -> Self {
+        Self {
+            name: String::new(),
+            size: 0,
+            modified_at: 0,
+            verified: false,
+        }
+    }
 }
 
 #[derive(Deserialize)]
 struct UpdaterResponse {
     id: u64,
     ok: bool,
-    result: Option<UpdaterStatus>,
+    result: Option<serde_json::Value>,
     error: Option<String>,
 }
 
@@ -130,7 +202,7 @@ fn open_updater_pipe() -> AppResult<fs::File> {
         System::Pipes::GetNamedPipeServerProcessId,
     };
 
-    let pipe_name: Vec<u16> = std::ffi::OsStr::new(r"\\.\pipe\SUGRIDInventoryUpdater-v1")
+    let pipe_name: Vec<u16> = std::ffi::OsStr::new(UPDATER_PIPE_NAME)
         .encode_wide()
         .chain(Some(0))
         .collect();
@@ -159,13 +231,10 @@ fn open_updater_pipe() -> AppResult<fs::File> {
         return Err("无法核实库存更新服务进程。".into());
     }
     let expected_pid = ServiceManager::local_computer(None::<&str>, ServiceManagerAccess::CONNECT)
-        .and_then(|manager| {
-            manager.open_service("SUGRIDInventoryUpdater", ServiceAccess::QUERY_STATUS)
-        })
+        .and_then(|manager| manager.open_service(UPDATER_SERVICE_NAME, ServiceAccess::QUERY_STATUS))
         .and_then(|service| service.query_status());
     if !expected_pid.is_ok_and(|status| {
-        status.current_state == ServiceState::Running
-            && status.process_id == Some(pipe_server_pid)
+        status.current_state == ServiceState::Running && status.process_id == Some(pipe_server_pid)
     }) {
         unsafe { windows_sys::Win32::Foundation::CloseHandle(handle) };
         return Err("库存更新管道不属于已启动的 Windows 更新服务。".into());
@@ -174,18 +243,23 @@ fn open_updater_pipe() -> AppResult<fs::File> {
 }
 
 #[cfg(windows)]
-fn read_updater_response(pipe: &mut fs::File) -> AppResult<Vec<u8>> {
+fn read_updater_response(pipe: &mut fs::File, timeout: Duration) -> AppResult<Vec<u8>> {
     use std::os::windows::io::AsRawHandle;
     use windows_sys::Win32::System::Pipes::{PIPE_NOWAIT, SetNamedPipeHandleState};
 
     let mode = PIPE_NOWAIT;
     if unsafe {
-        SetNamedPipeHandleState(pipe.as_raw_handle() as _, &mode, std::ptr::null(), std::ptr::null())
+        SetNamedPipeHandleState(
+            pipe.as_raw_handle() as _,
+            &mode,
+            std::ptr::null(),
+            std::ptr::null(),
+        )
     } == 0
     {
         return Err("无法设置库存更新服务响应超时。".into());
     }
-    let deadline = Instant::now() + Duration::from_secs(5);
+    let deadline = Instant::now() + timeout;
     let mut response = Vec::with_capacity(1024);
     let mut chunk = [0u8; 4096];
     loop {
@@ -220,7 +294,7 @@ fn read_updater_response(pipe: &mut fs::File) -> AppResult<Vec<u8>> {
 }
 
 #[cfg(windows)]
-fn updater_request(command: &str, fields: serde_json::Value) -> AppResult<UpdaterStatus> {
+fn updater_request_value(command: &str, fields: serde_json::Value) -> AppResult<serde_json::Value> {
     let mut request = serde_json::Map::new();
     request.insert("id".into(), serde_json::json!(1));
     request.insert("command".into(), serde_json::json!(command));
@@ -234,7 +308,12 @@ fn updater_request(command: &str, fields: serde_json::Value) -> AppResult<Update
         .map_err(|error| format!("无法向库存更新服务发送请求：{error}"))?;
     pipe.flush()
         .map_err(|error| format!("无法提交库存更新请求：{error}"))?;
-    let response_line = read_updater_response(&mut pipe)?;
+    let timeout = if matches!(command, "check-database" | "export-backup") {
+        Duration::from_secs(600)
+    } else {
+        Duration::from_secs(5)
+    };
+    let response_line = read_updater_response(&mut pipe, timeout)?;
     let response: UpdaterResponse = serde_json::from_slice(&response_line)
         .map_err(|error| format!("库存更新服务响应无效：{error}"))?;
     if response.id != 1 {
@@ -245,9 +324,24 @@ fn updater_request(command: &str, fields: serde_json::Value) -> AppResult<Update
             .error
             .unwrap_or_else(|| "库存更新服务拒绝此操作。".into()));
     }
-    let mut result = response.result.unwrap_or_default();
+    response.result.ok_or("库存更新服务未返回操作结果。".into())
+}
+
+#[cfg(windows)]
+fn updater_request(command: &str, fields: serde_json::Value) -> AppResult<UpdaterStatus> {
+    let value = updater_request_value(command, fields)?;
+    let mut result: UpdaterStatus =
+        serde_json::from_value(value).map_err(|error| format!("库存更新服务状态无效：{error}"))?;
     result.available = true;
     Ok(result)
+}
+
+#[cfg(not(windows))]
+fn updater_request_value(
+    _command: &str,
+    _fields: serde_json::Value,
+) -> AppResult<serde_json::Value> {
+    Err("库存更新服务仅支持 Windows。".into())
 }
 
 #[cfg(not(windows))]
@@ -260,10 +354,24 @@ fn updater_status() -> AppResult<UpdaterStatus> {
 }
 
 fn program_data_root() -> AppResult<PathBuf> {
-    let root = std::env::var_os("PROGRAMDATA")
-        .map(PathBuf::from)
-        .ok_or("Windows did not provide the ProgramData directory.")?;
-    Ok(root.join("SUGRID").join("Inventory"))
+    #[cfg(feature = "updater-qa")]
+    {
+        let root = option_env!("SUGRID_UPDATER_QA_ROOT")
+            .ok_or("QA build requires SUGRID_UPDATER_QA_ROOT at compile time.")?;
+        let path = PathBuf::from(root);
+        if !path.is_absolute() {
+            return Err("SUGRID_UPDATER_QA_ROOT must be an absolute path.".into());
+        }
+        return Ok(path);
+    }
+
+    #[cfg(not(feature = "updater-qa"))]
+    {
+        let root = std::env::var_os("PROGRAMDATA")
+            .map(PathBuf::from)
+            .ok_or("Windows did not provide the ProgramData directory.")?;
+        Ok(root.join("SUGRID").join("Inventory"))
+    }
 }
 
 fn database_path() -> AppResult<PathBuf> {
@@ -295,10 +403,20 @@ fn read_backup_manifest() -> Vec<BackupSummary> {
     };
     fs::read(path)
         .ok()
-        .and_then(|bytes| serde_json::from_slice::<Vec<BackupSummary>>(&bytes).ok())
+        .and_then(|bytes| serde_json::from_slice::<Vec<BackupManifestRecord>>(&bytes).ok())
         .unwrap_or_default()
         .into_iter()
         .filter(|backup| safe_backup_name(&backup.name))
+        .map(|backup| BackupSummary {
+            name: backup.name,
+            size: backup.size,
+            modified_at: backup.modified_at,
+            verified: backup.verified,
+            // Old service-host manifests did not record SHA-256. The updater
+            // rechecks size, timestamp, SQLite integrity and hashes the source
+            // before exporting such a backup.
+            can_export: backup.verified,
+        })
         .collect()
 }
 
@@ -309,6 +427,9 @@ fn safe_backup_name(name: &str) -> bool {
         .is_some_and(|stem| stem.starts_with("inventory.") && stem.len() > "inventory.".len());
     path.file_name().is_some_and(|file_name| file_name == name)
         && path.extension().is_some_and(|extension| extension == "db")
+        && name
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'-' | b'_'))
         && generated_backup
 }
 
@@ -393,11 +514,34 @@ fn read_dashboard() -> AppResult<IntegratedDashboard> {
         service_state,
         service_pid,
         healthy,
+        service_name: SERVICE_NAME.into(),
         service_url: format!("http://127.0.0.1:{PORT}"),
         port: PORT,
         database_path: database.display().to_string(),
-        database_exists: database.is_file(),
-        database_integrity: if healthy { "ok" } else { "unknown" }.into(),
+        database_exists: updater
+            .as_ref()
+            .and_then(|status| status.database_exists)
+            .unwrap_or_else(|| database.is_file()),
+        database_integrity: if updater
+            .as_ref()
+            .and_then(|status| status.database_exists)
+            .unwrap_or_else(|| database.is_file())
+        {
+            "unchecked"
+        } else {
+            "missing"
+        }
+        .into(),
+        operation_history: updater
+            .as_ref()
+            .map(|status| status.operation_history.clone())
+            .unwrap_or_default(),
+        operation_history_error: updater
+            .as_ref()
+            .and_then(|status| status.operation_history_error.clone()),
+        backup_schedule: updater
+            .as_ref()
+            .and_then(|status| status.backup_schedule.clone()),
         backup_directory: backups.display().to_string(),
         backups: read_backup_manifest(),
         status_message,
@@ -1044,6 +1188,29 @@ pub async fn integrated_dashboard() -> AppResult<IntegratedDashboard> {
 }
 
 #[tauri::command]
+pub async fn integrated_check_database() -> AppResult<DatabaseCheck> {
+    tauri::async_runtime::spawn_blocking(|| {
+        let result = updater_request_value("check-database", serde_json::json!({}))?;
+        serde_json::from_value(result).map_err(|error| format!("库存数据库检查结果无效：{error}"))
+    })
+    .await
+    .map_err(|error| format!("库存数据库检查任务失败：{error}"))?
+}
+
+#[tauri::command]
+pub async fn integrated_export_backup(name: String, destination: String) -> AppResult<()> {
+    tauri::async_runtime::spawn_blocking(move || {
+        updater_request_value(
+            "export-backup",
+            serde_json::json!({"backupName": name, "destination": destination}),
+        )?;
+        Ok(())
+    })
+    .await
+    .map_err(|error| format!("备份导出任务失败：{error}"))?
+}
+
+#[tauri::command]
 pub async fn integrated_open_inventory(app: AppHandle) -> AppResult<()> {
     let dashboard = read_dashboard()?;
     if !dashboard.healthy {
@@ -1102,6 +1269,7 @@ mod tests {
         assert!(!safe_backup_name("../../inventory.before-install-123.db"));
         assert!(!safe_backup_name("inventory.db"));
         assert!(!safe_backup_name("other.before-install-123.db"));
+        assert!(!safe_backup_name("inventory.auto-20261127-1.db:stream"));
     }
 
     #[test]

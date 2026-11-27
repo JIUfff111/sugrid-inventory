@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { createCandidate, createRelease } from './inventory-release-cli.mjs';
-import { candidateMetadata, inventoryFiles, signManifest, verifyCandidate } from './inventory-release-package.mjs';
+import { assertSafeRelativePath, candidateMetadata, databaseSchemaVersion, inventoryFiles, signManifest, verifyCandidate } from './inventory-release-package.mjs';
 
 const sha = 'a'.repeat(40);
 
@@ -17,6 +17,7 @@ async function fixture() {
   await writeFile(path.join(candidate, 'inventory/server.js'), 'server');
   await writeFile(path.join(candidate, 'inventory/node.exe'), 'node');
   await writeFile(path.join(candidate, 'inventory/scripts/init-db.js'), 'initializer');
+  await writeFile(path.join(candidate, 'inventory/scripts/database.cjs'), "migrate(1, 'start', () => {});\nmigrateWithoutForeignKeys(2, 'next', () => {});\n");
   await writeFile(path.join(candidate, 'inventory/.next/static/chunk.js'), 'static');
   return { root, candidate };
 }
@@ -61,7 +62,9 @@ test('candidate and signed ZIP contain exactly the approved runtime files', asyn
     const manifest = JSON.parse(manifestBytes);
     assert.equal(manifest.version, '1.2.3');
     assert.equal(manifest.commitSha, sha);
-    assert.equal(manifest.minUpdaterProtocol, 1);
+    assert.equal(manifest.minUpdaterProtocol, 2);
+    assert.equal(manifest.databaseSchemaVersion, 2);
+    assert.equal(manifest.minSupportedDatabaseSchemaVersion, 0);
     assert.deepEqual(manifest.files.map(file => file.path), [...entries.keys()].filter(name => name.startsWith('inventory/')));
     assert.equal(verify(null, manifestBytes, keys.publicKey, Buffer.from(entries.get('manifest.sig').toString(), 'base64')), true);
     for (const file of manifest.files) assert.equal(entries.get(file.path).length, file.size);
@@ -82,6 +85,34 @@ test('candidate rejects changed files and private SQLite data', async () => {
     await assert.rejects(verifyCandidate(candidate), /do not match/);
     await writeFile(path.join(candidate, 'inventory/data.db-wal'), 'private');
     await assert.rejects(inventoryFiles(path.join(candidate, 'inventory')), /SQLite data/);
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
+test('candidate rejects paths the Windows updater cannot safely install', () => {
+  for (const name of [
+    '.env', '.env.production', 'public/.ENV.local', 'data/private.txt',
+    'backups/manifest.json', 'public/NUL.txt', 'public/COM1.log',
+    'public/trailing.', 'public/trailing ', 'public/a:b.txt',
+    'public/secret.sqlite3', 'public/../server.js',
+  ]) {
+    assert.throws(() => assertSafeRelativePath(name), /Unsafe inventory package path|Private inventory directory|SQLite data/);
+  }
+  assert.doesNotThrow(() => assertSafeRelativePath('public/brand/logo.svg'));
+});
+
+test('candidate database compatibility follows the packaged migration source', async () => {
+  const { root, candidate } = await fixture();
+  try {
+    await createCandidate({ root: candidate, commitSha: sha });
+    const metadata = JSON.parse(await readFile(path.join(candidate, 'candidate.json'), 'utf8'));
+    assert.equal(metadata.databaseSchemaVersion, 2);
+    assert.equal(metadata.minSupportedDatabaseSchemaVersion, 0);
+    await writeFile(path.join(candidate, 'inventory/scripts/database.cjs'), "migrate(1, 'start', () => {});\nmigrate(3, 'next', () => {});\n");
+    await assert.rejects(verifyCandidate(candidate), /do not match/);
+    assert.throws(() => databaseSchemaVersion("migrate(2, 'later');\nmigrate(1, 'earlier');"), /unique and increasing/);
+    assert.throws(() => databaseSchemaVersion('no migrations'), /could not be identified/);
+    assert.throws(() => candidateMetadata(sha, [], 0), /schema version is invalid/);
+    assert.throws(() => candidateMetadata(sha, [], 2, 3), /minimum supported database schema version is invalid/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 

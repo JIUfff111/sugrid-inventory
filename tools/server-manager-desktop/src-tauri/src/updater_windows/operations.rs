@@ -1,5 +1,5 @@
 use super::{
-    State, begin, database_path, finish, hidden, metadata_path, replace_file, root,
+    State, begin, begin_named, database_path, finish, hidden, metadata_path, replace_file, root,
     secure_readable_manifest, set_exact_acl, set_stage, stamp, updater_root,
 };
 use crate::updater_package::{VerifiedPackage, embedded_public_key, verify_and_extract};
@@ -66,6 +66,10 @@ struct InstalledVersion {
     commit_sha: String,
     installed_at: u64,
     package_sha256: String,
+    #[serde(default)]
+    database_schema_version: Option<u32>,
+    #[serde(default)]
+    min_supported_database_schema_version: Option<u32>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -182,7 +186,165 @@ fn inspected_inventory_backup(path: &Path) -> Result<(), String> {
     Ok(())
 }
 
-fn file_sha256(path: &Path) -> Result<String, String> {
+pub(super) fn check_database_integrity_at(path: &Path) -> Result<Value, String> {
+    let checked_at = stamp() / 1000;
+    if !path.is_file() {
+        return Ok(json!({
+            "integrity": "missing",
+            "foreignKeyViolations": 0,
+            "checkedAt": checked_at,
+        }));
+    }
+    let database = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY)
+        .map_err(|error| format!("Cannot open inventory database read-only: {error}"))?;
+    database
+        .busy_timeout(Duration::from_secs(3))
+        .map_err(|error| error.to_string())?;
+    let mut integrity = database
+        .prepare("PRAGMA integrity_check")
+        .map_err(|error| error.to_string())?;
+    let mut rows = integrity
+        .query([])
+        .map_err(|error| format!("Cannot check SQLite integrity: {error}"))?;
+    let mut healthy = true;
+    while let Some(row) = rows.next().map_err(|error| error.to_string())? {
+        healthy &= row.get::<_, String>(0).map_err(|error| error.to_string())? == "ok";
+    }
+    for table in ["users", "inventory", "purchase_orders"] {
+        let exists: i64 = database
+            .query_row(
+                "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = ?1",
+                [table],
+                |row| row.get(0),
+            )
+            .map_err(|error| error.to_string())?;
+        healthy &= exists == 1;
+    }
+    let mut foreign_keys = database
+        .prepare("PRAGMA foreign_key_check")
+        .map_err(|error| error.to_string())?;
+    let mut foreign_rows = foreign_keys
+        .query([])
+        .map_err(|error| format!("Cannot check SQLite foreign keys: {error}"))?;
+    let mut violations = 0u64;
+    while foreign_rows
+        .next()
+        .map_err(|error| error.to_string())?
+        .is_some()
+    {
+        violations = violations.saturating_add(1);
+    }
+    healthy &= violations == 0;
+    Ok(json!({
+        "integrity": if healthy { "ok" } else { "failed" },
+        "foreignKeyViolations": violations,
+        "checkedAt": checked_at,
+    }))
+}
+
+pub(super) fn check_database_integrity() -> Result<Value, String> {
+    check_database_integrity_at(&database_path()?)
+}
+
+pub fn database_schema_version(path: &Path) -> Result<Option<u32>, String> {
+    if !path.is_file() {
+        return Ok(None);
+    }
+    let db = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY)
+        .map_err(|error| format!("Cannot inspect inventory database schema: {error}"))?;
+    let exists: i64 = db
+        .query_row(
+            "SELECT EXISTS(SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'schema_migrations')",
+            [],
+            |row| row.get(0),
+        )
+        .map_err(|error| error.to_string())?;
+    if exists == 0 {
+        return Ok(Some(0));
+    }
+    let version: Option<i64> = db
+        .query_row("SELECT MAX(version) FROM schema_migrations", [], |row| {
+            row.get(0)
+        })
+        .map_err(|error| format!("Cannot read inventory migration version: {error}"))?;
+    let version = version.unwrap_or(0);
+    if !(0..=1_000_000).contains(&version) {
+        return Err("Inventory database has an invalid migration version.".into());
+    }
+    Ok(Some(version as u32))
+}
+
+fn check_schema_compatibility(
+    existing: Option<u32>,
+    target: u32,
+    minimum: u32,
+) -> Result<(), String> {
+    let current = existing.unwrap_or(0);
+    if minimum > target {
+        return Err("The release database migration range is invalid.".into());
+    }
+    if current < minimum {
+        return Err(format!(
+            "Inventory database migration version {current} is older than this release supports ({minimum})."
+        ));
+    }
+    if current > target {
+        return Err(format!(
+            "Inventory database migration version {current} is newer than this release ({target}); refusing a schema downgrade."
+        ));
+    }
+    Ok(())
+}
+
+fn required_disk_space(package_bytes: u64, database_bytes: u64) -> Result<u64, String> {
+    package_bytes
+        .checked_mul(2)
+        .and_then(|bytes| {
+            database_bytes
+                .checked_mul(3)
+                .and_then(|database| bytes.checked_add(database))
+        })
+        .and_then(|bytes| bytes.checked_add(256 * 1024 * 1024))
+        .ok_or("Inventory update disk space estimate overflowed.".into())
+}
+
+fn check_disk_space(package_bytes: u64, database_bytes: u64) -> Result<(), String> {
+    use std::os::windows::ffi::OsStrExt;
+    use windows_sys::Win32::Storage::FileSystem::GetDiskFreeSpaceExW;
+
+    let required = required_disk_space(package_bytes, database_bytes)?;
+    let directory = root()?;
+    let wide = directory
+        .as_os_str()
+        .encode_wide()
+        .chain(Some(0))
+        .collect::<Vec<_>>();
+    let mut available = 0u64;
+    let success = unsafe {
+        GetDiskFreeSpaceExW(
+            wide.as_ptr(),
+            &mut available,
+            std::ptr::null_mut(),
+            std::ptr::null_mut(),
+        )
+    };
+    if success == 0 {
+        return Err(format!(
+            "Cannot check free space on the inventory volume: {}",
+            std::io::Error::last_os_error()
+        ));
+    }
+    if available < required {
+        return Err(format!(
+            "Insufficient disk space for a safe update: {} MiB available, {} MiB required.",
+            available / 1024 / 1024,
+            required.div_ceil(1024 * 1024)
+        ));
+    }
+    Ok(())
+}
+
+pub(super) fn file_sha256(path: &Path) -> Result<String, String> {
     let mut file = File::open(path).map_err(|error| error.to_string())?;
     let mut hasher = Sha256::new();
     let mut buffer = [0u8; 64 * 1024];
@@ -196,8 +358,39 @@ fn file_sha256(path: &Path) -> Result<String, String> {
     Ok(hex::encode(hasher.finalize()))
 }
 
-fn write_backup_manifest() -> Result<(), String> {
-    let directory = root()?.join("backups");
+pub(super) fn verify_backup_manifest_entry(
+    path: &Path,
+    expected_size: u64,
+    expected_modified_at: u64,
+    expected_sha256: Option<&str>,
+) -> Result<(), String> {
+    let metadata = fs::symlink_metadata(path)
+        .map_err(|error| format!("Cannot inspect backup file: {error}"))?;
+    if !metadata.is_file() || metadata.file_type().is_symlink() {
+        return Err("Backup entry is not a regular file.".into());
+    }
+    if metadata.len() != expected_size {
+        return Err("Backup file size no longer matches its manifest.".into());
+    }
+    let modified_at = metadata
+        .modified()
+        .map_err(|error| format!("Cannot inspect backup modification time: {error}"))?
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| error.to_string())?
+        .as_secs();
+    if modified_at != expected_modified_at {
+        return Err("Backup modification time no longer matches its manifest.".into());
+    }
+    inspected_inventory_backup(path)?;
+    let expected_sha256 =
+        expected_sha256.ok_or("Backup manifest does not contain a SHA-256 checksum.")?;
+    if file_sha256(path)? != expected_sha256 {
+        return Err("Backup SHA-256 no longer matches its manifest.".into());
+    }
+    Ok(())
+}
+
+fn write_backup_manifest(directory: &Path) -> Result<(), String> {
     let mut items = Vec::new();
     for entry in fs::read_dir(&directory).map_err(|error| error.to_string())? {
         let entry = entry.map_err(|error| error.to_string())?;
@@ -242,15 +435,73 @@ fn write_backup_manifest() -> Result<(), String> {
     secure_readable_manifest(&manifest)
 }
 
-fn recorded_backup(source: &Path, label: &str) -> Result<PathBuf, String> {
-    let target = backup_path(label)?;
+fn recorded_backup_at(source: &Path, directory: &Path, label: &str) -> Result<PathBuf, String> {
+    let target = backup_path_at(directory, label)?;
     if let Err(error) = online_backup(source, &target) {
         let _ = fs::remove_file(&target);
         return Err(error);
     }
-    inspected_inventory_backup(&target)?;
-    write_backup_manifest()?;
+    if let Err(error) = inspected_inventory_backup(&target) {
+        let _ = fs::remove_file(&target);
+        return Err(error);
+    }
+    let directory = target
+        .parent()
+        .ok_or("Inventory backup directory is unavailable.")?;
+    if let Err(error) = write_backup_manifest(directory) {
+        let _ = fs::remove_file(&target);
+        let _ = write_backup_manifest(directory);
+        return Err(error);
+    }
     Ok(target)
+}
+
+fn recorded_backup(source: &Path, label: &str) -> Result<PathBuf, String> {
+    recorded_backup_at(source, &root()?.join("backups"), label)
+}
+
+fn prune_automatic_backups_in(
+    directory: &Path,
+    expected: &Path,
+    now_ms: u64,
+) -> Result<(), String> {
+    let canonical_directory = fs::canonicalize(directory)
+        .map_err(|error| format!("Cannot verify automatic backup directory: {error}"))?;
+    let canonical_expected = fs::canonicalize(&expected)
+        .map_err(|error| format!("Cannot verify managed backup directory: {error}"))?;
+    if canonical_directory != canonical_expected {
+        return Err("Automatic backup directory is outside managed storage.".into());
+    }
+
+    let candidates = super::backup_schedule::pruning_candidates(&canonical_directory, now_ms)?;
+    remove_expired_auto_backups_in(&canonical_directory, candidates)
+}
+
+fn remove_expired_auto_backups_in(
+    directory: &Path,
+    candidates: Vec<super::backup_schedule::PruningCandidate>,
+) -> Result<(), String> {
+    for candidate in &candidates {
+        verify_backup_manifest_entry(
+            &candidate.path,
+            candidate.size,
+            candidate.modified_at,
+            Some(&candidate.sha256),
+        )?;
+    }
+    let removal = candidates.into_iter().try_for_each(|candidate| {
+        fs::remove_file(candidate.path)
+            .map_err(|error| format!("Cannot remove expired automatic backup: {error}"))
+    });
+    let manifest = write_backup_manifest(directory);
+    match (removal, manifest) {
+        (Ok(()), Ok(())) => Ok(()),
+        (Err(removal), Ok(())) => Err(removal),
+        (Ok(()), Err(manifest)) => Err(manifest),
+        (Err(removal), Err(manifest)) => Err(format!(
+            "{removal}; also could not update backup manifest: {manifest}"
+        )),
+    }
 }
 
 fn online_backup(source: &Path, target: &Path) -> Result<(), String> {
@@ -403,8 +654,7 @@ fn check_cancelled(state: &Arc<State>) -> Result<(), String> {
     }
 }
 
-fn backup_path(label: &str) -> Result<PathBuf, String> {
-    let directory = root()?.join("backups");
+fn backup_path_at(directory: &Path, label: &str) -> Result<PathBuf, String> {
     fs::create_dir_all(&directory).map_err(|error| error.to_string())?;
     Ok(directory.join(format!("inventory.{label}-{}.db", stamp())))
 }
@@ -521,6 +771,20 @@ fn prepare_install(source: &Path, operation_id: String) -> Result<Prepared, Stri
     if size == 0 || size > MAX_PACKAGE_BYTES {
         return Err("Inventory package size is outside the allowed range.".into());
     }
+    let database = database_path()?;
+    let database_bytes = match fs::metadata(&database) {
+        Ok(metadata) => {
+            inspected_inventory_backup(&database)?;
+            metadata.len()
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => 0,
+        Err(error) => {
+            return Err(format!(
+                "Cannot inspect inventory database before update: {error}"
+            ));
+        }
+    };
+    check_disk_space(size, database_bytes)?;
     let public_key = embedded_public_key()?;
     let job = updater_root()?.join("jobs").join(&operation_id);
     fs::create_dir_all(job.parent().ok_or("Invalid staging path.")?)
@@ -541,6 +805,12 @@ fn prepare_install(source: &Path, operation_id: String) -> Result<Prepared, Stri
         }
         let verified = verify_and_extract(&copied, &job.join("extracted"), public_key)?;
         ensure_newer_version(installed_version()?.as_ref(), &verified.manifest.version)?;
+        let existing = database_schema_version(&database_path()?)?;
+        check_schema_compatibility(
+            existing,
+            verified.manifest.database_schema_version,
+            verified.manifest.min_supported_database_schema_version,
+        )?;
         protect_runtime(&verified.runtime)?;
         Ok(Prepared {
             job: job.clone(),
@@ -909,6 +1179,13 @@ fn install_worker(state: &Arc<State>, prepared: &Prepared) -> Result<Option<Stri
         check_cancelled(state)?;
         set_stage(state, "migrating");
         migration_handshake(state, prepared, &stage_db)?;
+        let migrated = database_schema_version(&stage_db)?;
+        if migrated != Some(prepared.verified.manifest.database_schema_version) {
+            return Err(format!(
+                "Migrated database version {:?} differs from signed release version {}.",
+                migrated, prepared.verified.manifest.database_schema_version
+            ));
+        }
         check_cancelled(state)?;
         set_stage(state, "switching");
         if old_runtime_exists {
@@ -930,6 +1207,13 @@ fn install_worker(state: &Arc<State>, prepared: &Prepared) -> Result<Option<Stri
             commit_sha: prepared.verified.manifest.commit_sha.clone(),
             installed_at: stamp(),
             package_sha256: prepared.verified.package_sha256.clone(),
+            database_schema_version: Some(prepared.verified.manifest.database_schema_version),
+            min_supported_database_schema_version: Some(
+                prepared
+                    .verified
+                    .manifest
+                    .min_supported_database_schema_version,
+            ),
         };
         write_atomic(
             &metadata,
@@ -996,7 +1280,58 @@ pub fn start_backup(state: &Arc<State>) -> Result<Value, String> {
     Ok(json!({ "operationId": operation_id }))
 }
 
-fn selected_backup_path(name: &str) -> Result<PathBuf, String> {
+pub fn run_scheduled_backup(
+    state: &Arc<State>,
+    label: &str,
+    directory: &Path,
+) -> Result<(), String> {
+    if !label
+        .strip_prefix("auto-")
+        .is_some_and(|date| date.len() == 8 && date.bytes().all(|byte| byte.is_ascii_digit()))
+    {
+        return Err("Automatic backup label is invalid.".into());
+    }
+    let expected = root()?.join("backups");
+    fs::create_dir_all(&expected).map_err(|error| error.to_string())?;
+    let canonical_directory = fs::canonicalize(directory)
+        .map_err(|error| format!("Cannot verify automatic backup directory: {error}"))?;
+    let canonical_expected = fs::canonicalize(&expected)
+        .map_err(|error| format!("Cannot verify managed backup directory: {error}"))?;
+    if canonical_directory != canonical_expected {
+        return Err("Automatic backup directory is outside managed storage.".into());
+    }
+
+    let _operation_id = begin_named(state, "automatic_backup", "backing_up")?;
+    let worker = Arc::clone(state);
+    let label = label.to_owned();
+    let directory = directory.to_owned();
+    thread::spawn(move || {
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            check_cancelled(&worker)?;
+            let source = database_path()?;
+            if !source.is_file() {
+                return Err("Inventory database is unavailable for automatic backup.".into());
+            }
+            recorded_backup_at(&source, &directory, &label)?;
+            set_stage(&worker, "retaining");
+            if let Err(error) = prune_automatic_backups_in(&directory, &directory, stamp()) {
+                super::append_updater_log(&format!(
+                    "Automatic backup retention cleanup failed: {error}"
+                ));
+            }
+            Ok(None)
+        }))
+        .unwrap_or_else(|_| Err("Automatic inventory backup failed unexpectedly.".into()));
+        finish(&worker, result);
+    });
+    Ok(())
+}
+
+pub(super) fn selected_backup_path(name: &str) -> Result<PathBuf, String> {
+    selected_backup_path_at(&root()?.join("backups"), name)
+}
+
+fn selected_backup_path_at(directory: &Path, name: &str) -> Result<PathBuf, String> {
     if name.len() < 14
         || name.len() > 160
         || !name.starts_with("inventory.")
@@ -1007,7 +1342,6 @@ fn selected_backup_path(name: &str) -> Result<PathBuf, String> {
     {
         return Err("Select a named SUGRID SQLite backup from the backup list.".into());
     }
-    let directory = root()?.join("backups");
     let source = directory.join(name);
     if !fs::symlink_metadata(&source)
         .map_err(|_| "Selected SQLite backup does not exist.")?
@@ -1030,12 +1364,18 @@ fn selected_backup_path(name: &str) -> Result<PathBuf, String> {
         .iter()
         .find(|item| item.name == name && item.verified)
         .ok_or("Selected backup is not listed as verified.")?;
-    if fs::metadata(&source)
-        .map_err(|error| error.to_string())?
-        .len()
-        != item.size
-    {
+    let metadata = fs::metadata(&source).map_err(|error| error.to_string())?;
+    if metadata.len() != item.size {
         return Err("Selected backup size no longer matches its manifest.".into());
+    }
+    let modified_at = metadata
+        .modified()
+        .map_err(|error| error.to_string())?
+        .duration_since(UNIX_EPOCH)
+        .map_err(|error| error.to_string())?
+        .as_secs();
+    if modified_at != item.modified_at {
+        return Err("Selected backup modification time no longer matches its manifest.".into());
     }
     inspected_inventory_backup(&source)?;
     if let Some(expected) = &item.sha256 {
@@ -1061,6 +1401,15 @@ fn restore_worker(
     set_stage(state, "verifying");
     online_backup(source, &staged)?;
     finalize_database(&staged)?;
+    if let Some(installed) = installed_version()? {
+        if let Some(target) = installed.database_schema_version {
+            check_schema_compatibility(
+                database_schema_version(&staged)?,
+                target,
+                installed.min_supported_database_schema_version.unwrap_or(0),
+            )?;
+        }
+    }
     check_cancelled(state)?;
     let old_exists = database.is_file();
     let old_database = job.join("old-inventory.db");
@@ -1250,12 +1599,229 @@ mod tests {
     }
 
     #[test]
+    fn legacy_manifest_without_digest_is_rechecked_before_export_selection() {
+        let base = test_root();
+        let backups = base.join("backups");
+        fs::create_dir_all(&backups).unwrap();
+        let name = "inventory.manual-20261127-1.db";
+        let source = backups.join(name);
+        Connection::open(&source)
+            .unwrap()
+            .execute_batch(
+                "CREATE TABLE users(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE inventory(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE purchase_orders(id INTEGER PRIMARY KEY);",
+            )
+            .unwrap();
+        let metadata = fs::metadata(&source).unwrap();
+        let entry = BackupManifestItem {
+            name: name.into(),
+            size: metadata.len(),
+            modified_at: metadata
+                .modified()
+                .unwrap()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_secs(),
+            verified: true,
+            sha256: None,
+        };
+        let manifest = backups.join("manifest.json");
+        fs::write(&manifest, serde_json::to_vec(&[&entry]).unwrap()).unwrap();
+        assert_eq!(selected_backup_path_at(&backups, name).unwrap(), source);
+
+        fs::write(&source, vec![0u8; metadata.len() as usize]).unwrap();
+        assert!(selected_backup_path_at(&backups, name).is_err());
+
+        fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
+    fn schema_compatibility_rejects_newer_or_out_of_range_databases() {
+        assert!(check_schema_compatibility(Some(36), 37, 0).is_ok());
+        assert!(check_schema_compatibility(Some(36), 35, 0).is_err());
+        assert!(check_schema_compatibility(Some(1), 37, 2).is_err());
+        assert!(check_schema_compatibility(Some(1), 2, 3).is_err());
+    }
+
+    #[test]
+    fn schema_inspection_supports_legacy_databases_and_reads_migration_version() {
+        let base = test_root();
+        let database = base.join("inventory.db");
+        Connection::open(&database)
+            .unwrap()
+            .execute_batch("CREATE TABLE records(id INTEGER PRIMARY KEY);")
+            .unwrap();
+        assert_eq!(database_schema_version(&database).unwrap(), Some(0));
+        Connection::open(&database)
+            .unwrap()
+            .execute_batch("CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY); INSERT INTO schema_migrations(version) VALUES (35), (36);")
+            .unwrap();
+        assert_eq!(database_schema_version(&database).unwrap(), Some(36));
+        fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
+    fn database_check_reports_foreign_key_failures_without_writing_data() {
+        let base = test_root();
+        let database_path = base.join("inventory.db");
+        assert_eq!(
+            check_database_integrity_at(&database_path).unwrap()["integrity"],
+            "missing"
+        );
+        let database = Connection::open(&database_path).unwrap();
+        database
+            .execute_batch(
+                "CREATE TABLE users(id INTEGER PRIMARY KEY);
+                 CREATE TABLE inventory(id INTEGER PRIMARY KEY);
+                 CREATE TABLE purchase_orders(id INTEGER PRIMARY KEY);
+                 CREATE TABLE parent(id INTEGER PRIMARY KEY);
+                 CREATE TABLE child(parent_id INTEGER REFERENCES parent(id));
+                 PRAGMA foreign_keys=OFF;
+                 INSERT INTO child(parent_id) VALUES(42);",
+            )
+            .unwrap();
+        drop(database);
+        let result = check_database_integrity_at(&database_path).unwrap();
+        assert_eq!(result["integrity"], "failed");
+        assert_eq!(result["foreignKeyViolations"], 1);
+        assert_eq!(result["checkedAt"].as_u64().is_some(), true);
+        fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
+    fn disk_space_estimate_accounts_for_staging_database_and_margin() {
+        assert_eq!(
+            required_disk_space(10, 20).unwrap(),
+            256 * 1024 * 1024 + 20 + 60
+        );
+        assert!(required_disk_space(u64::MAX, 1).is_err());
+    }
+
+    #[test]
+    fn backup_manifest_records_verified_online_backup() {
+        let base = test_root();
+        let source = base.join("inventory.db");
+        let backups = base.join("backups");
+        Connection::open(&source)
+            .unwrap()
+            .execute_batch(
+                "CREATE TABLE users(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE inventory(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE purchase_orders(id INTEGER PRIMARY KEY);",
+            )
+            .unwrap();
+
+        let created = recorded_backup_at(&source, &backups, "auto-20261127").unwrap();
+        assert!(created.is_file());
+        let manifest: Vec<BackupManifestItem> =
+            serde_json::from_slice(&fs::read(backups.join("manifest.json")).unwrap()).unwrap();
+        assert_eq!(manifest.len(), 1);
+        assert!(manifest[0].verified);
+        let expected_hash = file_sha256(&created).unwrap();
+        assert_eq!(manifest[0].sha256.as_deref(), Some(expected_hash.as_str()));
+        fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
+    fn automatic_retention_removes_only_expired_verified_auto_backups_and_rebuilds_manifest() {
+        let base = test_root();
+        let backups = base.join("backups");
+        fs::create_dir_all(&backups).unwrap();
+        let source = base.join("inventory.db");
+        Connection::open(&source)
+            .unwrap()
+            .execute_batch(
+                "CREATE TABLE users(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE inventory(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE purchase_orders(id INTEGER PRIMARY KEY);",
+            )
+            .unwrap();
+
+        let names = [
+            "inventory.auto-20261127-100.db",
+            "inventory.auto-20261126-90.db",
+            "inventory.auto-20261120-80.db",
+            "inventory.auto-20260701-70.db",
+            "inventory.manual-60.db",
+            "inventory.before-update-50.db",
+        ];
+        for name in names {
+            online_backup(&source, &backups.join(name)).unwrap();
+        }
+        write_backup_manifest(&backups).unwrap();
+
+        let now =
+            ((super::super::backup_schedule::days_from_civil(2026, 11, 27) as u64 * 24 * 60 * 60
+                + 3 * 60 * 60
+                - 8 * 60 * 60)
+                * 1000) as u64;
+        prune_automatic_backups_in(&backups, &backups, now).unwrap();
+
+        assert!(!backups.join("inventory.auto-20260701-70.db").exists());
+        assert!(backups.join("inventory.manual-60.db").exists());
+        assert!(backups.join("inventory.before-update-50.db").exists());
+        let manifest: Vec<BackupManifestItem> =
+            serde_json::from_slice(&fs::read(backups.join("manifest.json")).unwrap()).unwrap();
+        assert!(
+            manifest
+                .iter()
+                .all(|item| item.name != "inventory.auto-20260701-70.db")
+        );
+        assert!(
+            manifest
+                .iter()
+                .any(|item| item.name == "inventory.manual-60.db" && item.verified)
+        );
+        fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
+    fn automatic_retention_rechecks_all_candidates_before_removing_any_file() {
+        let base = test_root();
+        let backups = base.join("backups");
+        fs::create_dir_all(&backups).unwrap();
+        let source = base.join("inventory.db");
+        Connection::open(&source)
+            .unwrap()
+            .execute_batch(
+                "CREATE TABLE users(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE inventory(id INTEGER PRIMARY KEY); \
+                 CREATE TABLE purchase_orders(id INTEGER PRIMARY KEY);",
+            )
+            .unwrap();
+        let first = backups.join("inventory.auto-20260701-70.db");
+        let second = backups.join("inventory.auto-20260702-71.db");
+        online_backup(&source, &first).unwrap();
+        online_backup(&source, &second).unwrap();
+        write_backup_manifest(&backups).unwrap();
+
+        let now =
+            ((super::super::backup_schedule::days_from_civil(2026, 11, 27) as u64 * 24 * 60 * 60
+                + 3 * 60 * 60
+                - 8 * 60 * 60)
+                * 1000) as u64;
+        let candidates = super::super::backup_schedule::pruning_candidates(&backups, now).unwrap();
+        assert_eq!(candidates.len(), 2);
+        Connection::open(&second)
+            .unwrap()
+            .execute("INSERT INTO users(id) VALUES (1)", [])
+            .unwrap();
+        assert!(remove_expired_auto_backups_in(&backups, candidates).is_err());
+        assert!(first.exists());
+        assert!(second.exists());
+        fs::remove_dir_all(base).unwrap();
+    }
+
+    #[test]
     fn installed_versions_cannot_repeat_or_downgrade() {
         let current = InstalledVersion {
             version: "1.2.3".into(),
             commit_sha: "a".repeat(40),
             installed_at: 0,
             package_sha256: "b".repeat(64),
+            database_schema_version: Some(36),
+            min_supported_database_schema_version: Some(0),
         };
         assert!(ensure_newer_version(Some(&current), "1.2.3").is_err());
         assert!(ensure_newer_version(Some(&current), "1.2.2").is_err());
@@ -1336,6 +1902,8 @@ mod tests {
             commit_sha: "a".repeat(40),
             installed_at: 0,
             package_sha256: "b".repeat(64),
+            database_schema_version: Some(36),
+            min_supported_database_schema_version: Some(0),
         };
         fs::write(
             base.join("inventory-version.json"),

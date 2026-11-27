@@ -39,7 +39,7 @@ jobs:
           "sha=$($run.head_sha)" >> $env:GITHUB_OUTPUT
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ steps.candidate.outputs.sha }}
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:

@@ -27,6 +27,8 @@ jobs:
         run: |
           node scripts/prepare-integrated-server.mjs --output .tmp/inventory-release/candidate/inventory
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node scripts/smoke-inventory-runtime.mjs --runtime .tmp/inventory-release/candidate/inventory
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node scripts/inventory-release-cli.mjs candidate --root .tmp/inventory-release/candidate --commit $env:GITHUB_SHA
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v4
