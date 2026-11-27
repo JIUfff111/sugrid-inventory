@@ -308,6 +308,13 @@ async function main() {
     assert((await call('after-sales', 'GET', undefined, 200, '?status=stored')).items.some(record => record.id === exchange.id));
     assert(!(await call('after-sales', 'GET', undefined, 200, '?status=active')).items.some(record => record.id === exchange.id));
     await assertExchangeQueue('exchange_dispose');
+    const workspaceList = (filters = {}) => call('after-sales', 'GET', undefined, 200, `?${new URLSearchParams(filters)}`);
+    const pendingDisposition = await workspaceList({
+      scope: 'todo', resolutionType: 'exchange', progress: 'awaiting_original_disposition', location: 'stored', includeCounts: '1',
+    });
+    assert.deepEqual(pendingDisposition.items.map(record => record.id), [exchange.id]);
+    assert.equal(pendingDisposition.workspaceCounts.resolutionType.exchange, 1);
+    assert(!(await workspaceList({ scope: 'history', resolutionType: 'exchange' })).items.some(record => record.id === exchange.id), 'shipping B does not close the original-machine task');
     const exchangeItem = db.prepare("SELECT * FROM sales_record_items WHERE salesRecordId=? AND itemType='exchange'").get(exchangeSale.id);
     assert.equal(exchangeItem.inventoryId, nextId); assert.equal(exchangeItem.sellingPrice, 2100); assert.equal(exchangeItem.afterSaleId, exchange.id);
     assert.equal(exchangeItem.originalInventoryId, oldId);
@@ -331,6 +338,8 @@ async function main() {
     assert.equal(shipmentMovements('exchange_out'), 1);
     assert(!(await call('after-sales', 'GET', undefined, 200, '?status=stored')).items.some(record => record.id === exchange.id));
     await assertExchangeQueue(null);
+    assert.deepEqual((await workspaceList({ scope: 'history', resolutionType: 'exchange', progress: 'resolved' })).items.map(record => record.id), [exchange.id]);
+    assert.deepEqual((await workspaceList({ scope: 'history', resolutionType: 'customer_return', progress: 'resolved' })).items.map(record => record.id), [refund.id], 'immediate refund belongs only in history');
 
     // The work queue must paginate its filtered results without filtering the queue counters.
     await call('sales', 'POST', saleBody('LIFE-A'), 201);
@@ -368,6 +377,37 @@ async function main() {
     assert.deepEqual(filtered.queueCounts, queueCounts);
     const history = await call('after-sales', 'GET', undefined, 200, '?status=cancelled');
     assert.deepEqual(history.items.map(record => record.id).sort(), [cancelled.id, anotherExchange.id].sort());
+    const todoWorkspace = await workspaceList({ scope: 'todo', includeCounts: '1' });
+    const historyWorkspace = await workspaceList({ scope: 'history', includeCounts: '1' });
+    assert.equal(todoWorkspace.total + historyWorkspace.total, queueCounts.all);
+    assert(!todoWorkspace.items.some(record => historyWorkspace.items.some(other => other.id === record.id)));
+    assert.deepEqual(todoWorkspace.workspaceCounts, {
+      scope: { todo: 3, history: 5, all: 8 },
+      resolutionType: { repair: 3, exchange: 0, customer_return: 0 },
+    });
+    assert.deepEqual(historyWorkspace.workspaceCounts, {
+      scope: { todo: 3, history: 5, all: 8 },
+      resolutionType: { repair: 2, exchange: 2, customer_return: 1 },
+    });
+    const matchingRepair = await workspaceList({
+      scope: 'todo', resolutionType: 'repair', progress: 'awaiting_repair', location: 'stored',
+      search: 'QA-QUEUE-LIFE-E', includeCounts: '1',
+    });
+    assert.deepEqual(matchingRepair.items.map(record => record.id), [received.id]);
+    assert.deepEqual(matchingRepair.workspaceCounts, todoWorkspace.workspaceCounts, 'filters do not alter the scope or type totals');
+    assert.deepEqual((await workspaceList({ scope: 'todo', resolutionType: 'repair', progress: 'repairing' })).items.map(record => record.id), [processing.id]);
+    assert.equal((await workspaceList({ scope: 'todo', progress: 'awaiting_receipt', location: 'stored' })).total, 0, 'waiting for receipt and physical storage are separate filters');
+    for (const param of ['scope', 'resolutionType', 'progress', 'location']) {
+      await call('after-sales', 'GET', undefined, 400, `?${param}=constructor`);
+    }
+
+    // Older databases can contain refund work registered before the current direct-completion entry.
+    db.prepare("UPDATE after_sale_records SET resolutionType = 'customer_return' WHERE id IN (?, ?)").run(received.id, processing.id);
+    assert.deepEqual((await workspaceList({ scope: 'todo', resolutionType: 'customer_return', progress: 'awaiting_refund_review', location: 'stored' })).items.map(record => record.id), [received.id]);
+    assert.deepEqual((await workspaceList({ scope: 'todo', resolutionType: 'customer_return', progress: 'awaiting_refund_completion', location: 'stored' })).items.map(record => record.id), [processing.id]);
+    assert.equal((await workspaceList({ scope: 'todo', resolutionType: 'repair', progress: 'awaiting_repair' })).total, 0);
+    db.prepare("UPDATE after_sale_records SET resolutionType = 'repair' WHERE id IN (?, ?)").run(received.id, processing.id);
+
     db.prepare('UPDATE after_sale_records SET deleted = 1 WHERE id = ?').run(cancelled.id);
     const afterRemoval = await call('after-sales', 'GET', undefined, 200, '?status=cancelled&includeCounts=1');
     assert.deepEqual(afterRemoval.items.map(record => record.id), [anotherExchange.id]);

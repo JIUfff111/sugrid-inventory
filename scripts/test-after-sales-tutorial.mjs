@@ -3,10 +3,13 @@ import test from 'node:test';
 import { afterSalesTutorialKey, canAutoShowAfterSalesTutorial } from '../src/lib/after-sales-tutorial-preference.ts';
 
 test('dismissing one account and version does not suppress another account or version', () => {
-  const preferences = new Map([[afterSalesTutorialKey('qa-a'), 'seen']]);
+  const legacyKey = afterSalesTutorialKey('qa-a', 1);
+  assert.notEqual(afterSalesTutorialKey('qa-a'), legacyKey, 'the new overview must open for a user who saw the exchange-only tutorial');
+  const preferences = new Map([[legacyKey, 'seen']]);
+  assert.equal(preferences.has(afterSalesTutorialKey('qa-a')), false);
+  preferences.set(afterSalesTutorialKey('qa-a'), 'seen');
   assert.equal(preferences.get(afterSalesTutorialKey('qa-a')), 'seen');
   assert.equal(preferences.has(afterSalesTutorialKey('qa-b')), false);
-  assert.equal(preferences.has(afterSalesTutorialKey('qa-a', 2)), false);
 });
 
 test('auto-opening only applies to the active workspace, without a linked order or another dialog', () => {

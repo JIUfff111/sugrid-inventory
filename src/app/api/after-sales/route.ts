@@ -28,6 +28,29 @@ const queueFilters: Record<string, string> = {
   todo: `(${queueConditions.active} OR (${queueConditions.exchange_dispose}))`,
 };
 
+// Workspace GET filters combine independently: scope, resolutionType, progress and location.
+// All four accept "all" or omission. includeCounts=1 adds workspaceCounts with global scope
+// totals and resolutionType totals for the requested scope, before search/progress/location.
+const completedWork = `a.status = 'resolved' AND NOT COALESCE((${queueConditions.exchange_dispose}), 0)`;
+const workspaceScopes: Readonly<Record<string, string>> = {
+  todo: queueFilters.todo,
+  history: `((${completedWork}) OR (${queueConditions.cancelled}))`,
+  all: '1 = 1',
+};
+const workspaceTypes = ['repair', 'exchange', 'customer_return'] as const;
+const workspaceProgress: Readonly<Record<string, string>> = {
+  awaiting_receipt: queueConditions.created,
+  awaiting_repair: "a.resolutionType = 'repair' AND a.status = 'received'",
+  repairing: "a.resolutionType = 'repair' AND a.status = 'processing'",
+  awaiting_replacement: queueConditions.exchange_reserve,
+  awaiting_shipment: "a.resolutionType = 'exchange' AND a.status IN ('received', 'processing') AND a.reservedReplacementId IS NOT NULL",
+  awaiting_original_disposition: queueConditions.exchange_dispose,
+  awaiting_refund_review: "a.resolutionType = 'customer_return' AND a.status = 'received'",
+  awaiting_refund_completion: "a.resolutionType = 'customer_return' AND a.status = 'processing'",
+  resolved: completedWork,
+  cancelled: queueConditions.cancelled,
+};
+
 function tableColumns(table: string) {
   try { return new Set((db.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>).map((column) => column.name)); }
   catch { return new Set<string>(); }
@@ -246,6 +269,18 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status')?.trim() || '';
     if (Object.hasOwn(queueFilters, status)) where.push(queueFilters[status]);
     else if (status && status !== 'all') { where.push('a.status = ?'); params.push(status); }
+    const scope = searchParams.get('scope')?.trim() || 'all';
+    const resolutionType = searchParams.get('resolutionType')?.trim() || 'all';
+    const progress = searchParams.get('progress')?.trim() || 'all';
+    const location = searchParams.get('location')?.trim() || 'all';
+    if (!Object.hasOwn(workspaceScopes, scope)) return bad('售后显示范围不正确');
+    if (resolutionType !== 'all' && !workspaceTypes.some((type) => type === resolutionType)) return bad('售后类型筛选不正确');
+    if (progress !== 'all' && !Object.hasOwn(workspaceProgress, progress)) return bad('售后进度筛选不正确');
+    if (location !== 'all' && location !== 'stored') return bad('机器去向筛选不正确');
+    if (scope !== 'all') where.push(workspaceScopes[scope]);
+    if (resolutionType !== 'all') { where.push('a.resolutionType = ?'); params.push(resolutionType); }
+    if (progress !== 'all') where.push(`(${workspaceProgress[progress]})`);
+    if (location === 'stored') where.push(queueConditions.stored);
     if (search) {
       where.push('(a.afterSaleNo LIKE ? OR a.returnTrackingNo LIKE ? OR a.shippedReplacementTrackingNo LIKE ? OR a.reservedReplacementSn LIKE ? OR replacement.sn LIKE ? OR a.sn LIKE ? OR i.brand LIKE ? OR i.model LIKE ? OR CAST(i.year AS TEXT) LIKE ? OR a.customerName LIKE ? OR a.customerPhone LIKE ? OR a.issueType LIKE ? OR a.saleOrderNo LIKE ? OR sr.saleOrderNo LIKE ? OR sr.saleChannel LIKE ?)');
       params.push(...Array<string>(15).fill(pattern));
@@ -271,12 +306,24 @@ export async function GET(request: NextRequest) {
     const list = createPaginatedResponse(items, total, page, pageSize);
     if (searchParams.get('includeCounts') !== '1') return NextResponse.json(successResponse(list));
 
-    const countsSql = Object.entries(queueFilters).map(([name, condition]) => `COUNT(CASE WHEN ${condition} THEN 1 END) AS "${name}"`).join(',\n');
-    const queueCounts = db.prepare(`SELECT COUNT(*) AS "all", ${countsSql}
+    const countConditions = {
+      ...queueFilters,
+      history: workspaceScopes.history,
+      ...Object.fromEntries(workspaceTypes.map((type) => [type, `(${workspaceScopes[scope]}) AND a.resolutionType = '${type}'`])),
+    };
+    const countsSql = Object.entries(countConditions).map(([name, condition]) => `COUNT(CASE WHEN ${condition} THEN 1 END) AS "${name}"`).join(',\n');
+    const counts = db.prepare(`SELECT COUNT(*) AS "all", ${countsSql}
       FROM after_sale_records a
       LEFT JOIN after_sale_stock s ON s.afterSaleId = a.id
-      WHERE a.deleted = 0`).get();
-    return NextResponse.json(successResponse({ ...list, queueCounts }));
+      WHERE a.deleted = 0`).get() as Record<string, number>;
+    const { history, repair, exchange, customer_return, ...queueCounts } = counts;
+    return NextResponse.json(successResponse({
+      ...list, queueCounts,
+      workspaceCounts: {
+        scope: { todo: queueCounts.todo, history, all: queueCounts.all },
+        resolutionType: { repair, exchange, customer_return },
+      },
+    }));
   } catch (error) {
     const response = authError(error);
     if (response) return response;

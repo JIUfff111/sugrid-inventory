@@ -1,4 +1,4 @@
-const tutorialVersion = 1;
+const tutorialVersion = 2;
 
 export function afterSalesTutorialKey(userId: string, version = tutorialVersion) {
   return `sugrid:after-sales:tutorial:v${version}:${userId}`;
