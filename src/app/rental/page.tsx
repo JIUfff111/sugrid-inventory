@@ -49,6 +49,8 @@ function validMoney(value: string, allowZero = false) { return /^\d+(?:\.\d{1,2}
 function sumMoney(values: number[]) { return values.reduce((sum, value) => sum + Math.round(value * 100), 0) / 100; }
 const BLANK_TERMS: RentalTerms = { rentalUnitPrice: '', rentalTotalPrice: '', deposit: '' };
 const EMPTY_SUMMARY: Summary = { overdue: 0, today: 0, soon: 0 };
+const PAGE_SIZE_OPTIONS = [10, 20, 50].map(size => ({ value: String(size), label: String(size) }));
+const RENEWAL_UNIT_OPTIONS = [{ value: 'day', label: '天' }, { value: 'month', label: '月' }];
 
 function money(value: number) { return '¥' + Number(value || 0).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 function configText(item: Pick<InventoryItem, 'cpu' | 'ram' | 'storage'>) { return [formatCPUDisplay(item.cpu), item.ram, item.storage].filter(Boolean).join(' · ') || '配置待补充'; }
@@ -277,6 +279,20 @@ export default function RentalPage() {
   const customRenewalPriceMissing = renewalPriceMode === 'custom_total'
     ? renewalTargets.some(rental => !(renewalTotalPrices[rental.id] ?? '').trim())
     : renewalPriceMode === 'custom_unit' && renewalTargets.some(rental => !(renewalUnitPrices[rental.id] ?? '').trim());
+  const renewalPriceOptions: SelectOption[] = [
+    ...(renewalTargets.every(item => billingOf(item.rentalType) === renewalBillingUnit)
+      ? [{ value: 'original_unit', label: '沿用每台原单价' }]
+      : []),
+    { value: 'custom_unit', label: '自定义每台单价' },
+    { value: 'custom_total', label: '填写每台约定金额' },
+  ];
+  const changeRenewalBillingUnit = (unit: string) => {
+    if (unit !== 'day' && unit !== 'month') return;
+    setRenewalBillingUnit(unit);
+    if (renewalPriceMode === 'original_unit' && renewalTargets.some(item => billingOf(item.rentalType) !== unit)) {
+      setRenewalPriceMode('custom_unit');
+    }
+  };
 
   const resetCreateForm = () => {
     setAppendTarget(null); setSelectedIds([]); setRentalTerms({}); setCustomerName(''); setCustomerPhone(''); setCustomerAddress('');
@@ -626,7 +642,8 @@ export default function RentalPage() {
           {search && <button type="button" aria-label="清空搜索" onClick={() => { setSearch(''); setPage(1); setLoading(true); }} className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-ink-soft hover:bg-slate-100"><X className="h-4 w-4" /></button>}
         </div>
         <div className="ml-auto flex items-center gap-1">
-          <select aria-label="租赁状态" value={status} onChange={event => { setStatus(event.target.value); setDue('all'); setPage(1); setLoading(true); }} className="field !w-auto !px-2 text-xs sm:text-sm">{statusOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
+          <CustomSelect aria-label="租赁状态" value={status} options={statusOptions} highlighted={status !== 'all'}
+            onChange={value => { if (value !== status) { setStatus(value); setDue('all'); setPage(1); setLoading(true); } }} />
           <button type="button" aria-label="刷新租赁列表" title="刷新" disabled={loading} onClick={() => void loadData()} className="btn-ghost !p-2 text-ink-soft"><RotateCcw className={`h-4 w-4 ${loading ? 'motion-safe:animate-spin' : ''}`} /></button>
         </div>
       </div>
@@ -649,7 +666,18 @@ export default function RentalPage() {
         </li>)}</ul>
       </>}
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line bg-slate-50/80 px-3 py-2 text-xs text-ink-soft sm:px-4"><span>{loading || listError ? '租赁记录' : `共 ${listMeta.total} ${view === 'orders' ? '笔订单' : '条机器租赁记录'}`}</span><div className="flex items-center gap-2"><label className="flex items-center gap-1">每页<select aria-label="租赁每页显示条数" value={pageSize} onChange={event => { setPageSize(Number(event.target.value)); setPage(1); setLoading(true); }} className="field !w-auto !p-1.5">{[10, 20, 50].map(size => <option key={size} value={size}>{size}</option>)}</select></label><button type="button" aria-label="上一页" disabled={loading || listMeta.page <= 1} className="rounded-md p-1.5 hover:bg-white disabled:opacity-40" onClick={() => { setPage(listMeta.page - 1); setLoading(true); }}><ChevronLeft className="h-4 w-4" /></button><span>{listMeta.page} / {listMeta.totalPages}</span><button type="button" aria-label="下一页" disabled={loading || listMeta.page >= listMeta.totalPages} className="rounded-md p-1.5 hover:bg-white disabled:opacity-40" onClick={() => { setPage(listMeta.page + 1); setLoading(true); }}><ChevronRight className="h-4 w-4" /></button></div></div>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line bg-slate-50/80 px-3 py-2 text-xs text-ink-soft sm:px-4">
+        <span>{loading || listError ? '租赁记录' : `共 ${listMeta.total} ${view === 'orders' ? '笔订单' : '条机器租赁记录'}`}</span>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1"><span>每页</span>
+            <CustomSelect aria-label="租赁每页显示条数" compact value={String(pageSize)} options={PAGE_SIZE_OPTIONS}
+              onChange={value => { if (Number(value) !== pageSize) { setPageSize(Number(value)); setPage(1); setLoading(true); } }} />
+          </div>
+          <button type="button" aria-label="上一页" disabled={loading || listMeta.page <= 1} className="rounded-md p-1.5 hover:bg-white disabled:opacity-40" onClick={() => { setPage(listMeta.page - 1); setLoading(true); }}><ChevronLeft className="h-4 w-4" /></button>
+          <span>{listMeta.page} / {listMeta.totalPages}</span>
+          <button type="button" aria-label="下一页" disabled={loading || listMeta.page >= listMeta.totalPages} className="rounded-md p-1.5 hover:bg-white disabled:opacity-40" onClick={() => { setPage(listMeta.page + 1); setLoading(true); }}><ChevronRight className="h-4 w-4" /></button>
+        </div>
+      </div>
     </section>
 
     {openedOrder && !selectedRental && !createOpen && <ModalShell wide title={openedOrder.order.customerName || '租赁订单'} subtitle={`租赁单 ${openedOrder.order.rentalNo}`} onClose={() => { setOpenedOrder(null); setSelectedRenewalIds(new Set()); }} footer={<><button type="button" onClick={() => setOpenedOrder(null)} className="btn-ghost">关闭</button>{selectedOrderCanEditTerms && <button type="button" onClick={orderEdit} className="btn-secondary">更正条款</button>}{orderRenewalTargets.length > 0 && <button type="button" className="btn-secondary" onClick={() => { listActionRef.current = 'order'; setBackToOrder(true); beginRenewal(orderRenewalTargets); }}>续租所选 {orderRenewalTargets.length} 台</button>}{canAppend && <button type="button" onClick={() => openAppendMachines(openedOrder)} className="btn-primary">追加机器</button>}</>}>
@@ -753,8 +781,20 @@ export default function RentalPage() {
         {rentalAction === 'renew' && <form id="rental-action-form" onSubmit={submitRentalAction} className="space-y-4">
           <p className="text-sm text-ink-soft">续租从各台机器当前到期日的次日开始，原租金保留。{renewingFixed && '请填写每台机器本次另谈的金额。'}</p>
           {!renewingFixed && <fieldset><legend className="mb-1 text-sm">延长方式</legend><div className="flex gap-2"><button type="button" aria-pressed={renewalMode === 'duration'} onClick={() => setRenewalMode('duration')} className={`btn-secondary ${renewalMode === 'duration' ? 'border-primary text-primary' : ''}`}>延长时长</button><button type="button" aria-pressed={renewalMode === 'date'} onClick={() => setRenewalMode('date')} className={`btn-secondary ${renewalMode === 'date' ? 'border-primary text-primary' : ''}`}>指定到期日</button></div></fieldset>}
-          {renewalMode === 'duration' ? <div className="grid grid-cols-2 gap-3"><label className="text-sm">延长数量<input type="number" min="1" step="1" value={renewalDuration} onChange={event => setRenewalDuration(event.target.value)} className="field mt-1" required /></label><label className="text-sm">时间单位<select value={renewalBillingUnit} onChange={event => { const unit = event.target.value as 'day' | 'month'; setRenewalBillingUnit(unit); if (renewalPriceMode === 'original_unit' && renewalTargets.some(item => billingOf(item.rentalType) !== unit)) setRenewalPriceMode('custom_unit'); }} className="field mt-1"><option value="day">天</option><option value="month">月</option></select></label></div> : <label className="block text-sm">新到期日<input type="date" value={newEndDate} min={addRentalDays(renewalTargets.map(item => item.rentalEndDate).sort().at(-1) || selectedRental.rentalEndDate, 1) || undefined} onChange={event => setNewEndDate(event.target.value)} className="field mt-1" required /></label>}
-          {!renewingFixed && <section className="grid gap-3 sm:grid-cols-2"><label className="text-sm">本次计费方式<select value={renewalPriceMode} onChange={event => setRenewalPriceMode(event.target.value as RenewalPriceMode)} className="field mt-1">{renewalTargets.every(item => billingOf(item.rentalType) === renewalBillingUnit) && <option value="original_unit">沿用每台原单价</option>}<option value="custom_unit">自定义每台单价</option><option value="custom_total">填写每台约定金额</option></select></label>{renewalMode === 'date' && renewalPriceMode !== 'custom_total' && <label className="text-sm">计费单位<select value={renewalBillingUnit} onChange={event => { const unit = event.target.value as 'day' | 'month'; setRenewalBillingUnit(unit); if (renewalPriceMode === 'original_unit' && renewalTargets.some(item => billingOf(item.rentalType) !== unit)) setRenewalPriceMode('custom_unit'); }} className="field mt-1"><option value="day">天</option><option value="month">月</option></select></label>}</section>}
+          {renewalMode === 'duration' ? <div className="grid grid-cols-2 gap-3">
+            <label className="text-sm">延长数量<input type="number" min="1" step="1" value={renewalDuration} onChange={event => setRenewalDuration(event.target.value)} className="field mt-1" required /></label>
+            <div className="min-w-0 space-y-1 text-sm"><p>时间单位</p>
+              <CustomSelect aria-label="时间单位" value={renewalBillingUnit} options={RENEWAL_UNIT_OPTIONS} onChange={changeRenewalBillingUnit} />
+            </div>
+          </div> : <label className="block text-sm">新到期日<input type="date" value={newEndDate} min={addRentalDays(renewalTargets.map(item => item.rentalEndDate).sort().at(-1) || selectedRental.rentalEndDate, 1) || undefined} onChange={event => setNewEndDate(event.target.value)} className="field mt-1" required /></label>}
+          {!renewingFixed && <section className="grid gap-3 sm:grid-cols-2">
+            <div className="min-w-0 space-y-1 text-sm"><p>本次计费方式</p>
+              <CustomSelect aria-label="本次计费方式" value={renewalPriceMode} options={renewalPriceOptions} onChange={value => setRenewalPriceMode(value as RenewalPriceMode)} />
+            </div>
+            {renewalMode === 'date' && renewalPriceMode !== 'custom_total' && <div className="min-w-0 space-y-1 text-sm"><p>计费单位</p>
+              <CustomSelect aria-label="计费单位" value={renewalBillingUnit} options={RENEWAL_UNIT_OPTIONS} onChange={changeRenewalBillingUnit} />
+            </div>}
+          </section>}
           {renewalPriceMode === 'custom_total' && renewalTargets.length > 1 && <div className="flex flex-wrap items-end gap-2 rounded-lg border border-line bg-white p-3"><label className="flex-1 text-sm">批量填每台续租金额<input type="number" min="0" step="0.01" value={bulkRenewalPrice} onChange={event => setBulkRenewalPrice(event.target.value)} className="field mt-1" /></label><button type="button" className="btn-secondary" disabled={!validMoney(bulkRenewalPrice, true)} onClick={() => setRenewalTotalPrices(Object.fromEntries(renewalTargets.map(item => [item.id, bulkRenewalPrice])))}>应用到所选</button></div>}
           <ul className="divide-y divide-line rounded-lg border border-line bg-white">{renewalTargets.map(item => <li key={item.id} className="grid grid-cols-2 items-center gap-2 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(100px,.65fr)_minmax(100px,.65fr)]"><div className="col-span-2 min-w-0 sm:col-auto"><p className="text-sm font-medium">{productName(item)}</p><p className="break-all font-mono text-xs text-ink-soft">{item.sn}</p><p className="mt-1 text-xs text-ink-soft">{item.rentalEndDate} → {renewalEndFor(item) || '请选择'}</p></div>
             {renewalPriceMode === 'custom_total' ? <label className="min-w-0 text-xs">本次约定租金<input aria-label={`${item.sn} 本次续租总额`} type="number" min="0" step="0.01" value={renewalTotalPrices[item.id] ?? ''} onChange={event => setRenewalTotalPrices(current => ({ ...current, [item.id]: event.target.value }))} className="field mt-1" required /></label> : renewalPriceMode === 'custom_unit' ? <label className="min-w-0 text-xs">续租单价<input type="number" min="0" step="0.01" value={renewalUnitPrices[item.id] ?? ''} onChange={event => setRenewalUnitPrices(current => ({ ...current, [item.id]: event.target.value }))} className="field mt-1" required /></label> : <div className="text-xs">本次租金 <b>{money(renewalAmountFor(item))}</b></div>}

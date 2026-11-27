@@ -4,6 +4,7 @@ import { FormEvent, KeyboardEvent, ReactNode, useCallback, useEffect, useMemo, u
 import { ArrowDownToLine, ArrowUpFromLine, Check, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, Ellipsis, RefreshCw, Search, Wrench, X } from 'lucide-react';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import BusinessDialog from '@/components/BusinessDialog';
+import CustomSelect from '@/components/CustomSelect';
 import MachineSearchInput from '@/components/MachineSearchInput';
 import { useWorkspace, useWorkspaceDirty } from '@/components/WorkspaceContext';
 import { useMachineEligibility } from '@/components/useMachineEligibility';
@@ -488,22 +489,16 @@ export default function AfterSalesPage() {
                 placeholder="搜索运单、SN、客户或售后单号" className="field w-full !pl-9" />
             </div>
             <div className="grid min-w-0 grid-cols-2 gap-2 sm:flex">
-              <label className="relative min-w-0 sm:max-w-54">
-                <select aria-label="处理进度" value={filters.progress} onChange={event => updateFilters({ progress: event.target.value })}
-                  className={`field w-full truncate appearance-none !pr-8 ${filters.progress ? '!text-primary' : ''}`}>
-                  <option value="">全部进度</option>
-                  {progressOptions.map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
-                </select>
-                <ChevronDown aria-hidden="true" className="pointer-events-none absolute top-1/2 right-3 h-3.5 w-3.5 -translate-y-1/2 text-ink-soft" />
-              </label>
-              <label className="relative min-w-0">
-                <select aria-label="机器去向" value={filters.stored ? 'stored' : ''} onChange={event => updateFilters({ stored: event.target.value === 'stored' })}
-                  className={`field w-full truncate appearance-none !pr-8 ${filters.stored ? '!text-primary' : ''}`}>
-                  <option value="">机器去向：全部</option>
-                  <option value="stored">仅看售后暂存</option>
-                </select>
-                <ChevronDown aria-hidden="true" className="pointer-events-none absolute top-1/2 right-3 h-3.5 w-3.5 -translate-y-1/2 text-ink-soft" />
-              </label>
+              <div className="min-w-0 sm:w-40">
+                <CustomSelect aria-label="处理进度" value={filters.progress} highlighted={Boolean(filters.progress)}
+                  onChange={progress => updateFilters({ progress })}
+                  options={[{ value: '', label: '全部进度' }, ...progressOptions]} />
+              </div>
+              <div className="min-w-0 sm:w-40">
+                <CustomSelect aria-label="机器去向" value={filters.stored ? 'stored' : ''} highlighted={filters.stored}
+                  onChange={value => updateFilters({ stored: value === 'stored' })}
+                  options={[{ value: '', label: '机器去向：全部' }, { value: 'stored', label: '仅看售后暂存' }]} />
+              </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               {search.trim() && filters.scope !== 'all' && <button type="button" onClick={() => updateFilters({ scope: 'all', type: '', progress: '', stored: false })} className="btn-ghost min-h-9 text-xs">搜索全部记录</button>}
