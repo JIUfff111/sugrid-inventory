@@ -206,11 +206,21 @@ async function main() {
     db.prepare(`INSERT INTO purchase_orders
       (id,purchaseNo,supplierOrderNo,supplierId,supplierName,purchaseDate,purchasedBy,createdBy)
       VALUES ('dm-return-order','DM-RETURN','', 'dm-supplier','数据管理供应商','2026-10-30',?,?)`).run(adminId, adminId);
+    db.prepare(`INSERT INTO purchase_orders
+      (id,purchaseNo,supplierOrderNo,supplierId,supplierName,purchaseDate,purchasedBy,createdBy)
+      VALUES ('dm-source-only-order','DM-SOURCE-ONLY','', 'dm-supplier','数据管理供应商','2026-10-30',?,?)`).run(adminId, adminId);
     db.prepare(`INSERT INTO return_orders
       (id,returnNo,items,purchaseOrderId,purchaseOrderNo,supplierId,supplierName,returnReason,refundAmount,createdBy)
-      VALUES ('dm-return','DM-RETURN-001','[]','dm-return-order','DM-RETURN','dm-supplier','数据管理供应商','test',0,?)`).run(adminId);
+      VALUES ('dm-return','DM-RETURN-001',?,'dm-return-order','DM-RETURN','dm-supplier','数据管理供应商','test',0,?)`)
+      .run(JSON.stringify([{ inventoryId: 'dm-source-machine', purchaseOrderId: 'dm-source-only-order', purchaseOrderNo: 'DM-SOURCE-ONLY', sn: 'DM-SOURCE-SN' }]), adminId);
     await call(routes.resource.DELETE, '/api/data-management/purchase_orders?id=dm-return-order', 'DELETE', undefined, 409, { params: Promise.resolve({ resource: 'purchase_orders' }) });
     assert.equal(db.prepare("SELECT deleted FROM purchase_orders WHERE id='dm-return-order'").get().deleted, 0);
+    const sourceOnlyPurchasePreview = await call(routes.resource.GET, '/api/data-management/purchase_orders?id=dm-source-only-order', 'GET', undefined, 200, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert(sourceOnlyPurchasePreview.references.some(reference => reference.label === '供应商退货明细' && reference.count === 1),
+      'purchase sources referenced only inside return item snapshots must be visible as deletion blockers');
+    await call(routes.resource.DELETE, '/api/data-management/purchase_orders?id=dm-source-only-order', 'DELETE', undefined, 409, { params: Promise.resolve({ resource: 'purchase_orders' }) });
+    assert.equal(db.prepare("SELECT deleted FROM purchase_orders WHERE id='dm-source-only-order'").get().deleted, 0,
+      'a purchase order referenced by a non-header return item must not be deleted');
 
     const exportResponse = await routes.export.GET(request('/api/data-management/export?resource=inventory&format=json&search=PURGE-SN-001'));
     assert.equal(exportResponse.status, 200);

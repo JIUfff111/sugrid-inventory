@@ -116,7 +116,12 @@ function parseItems(value: string): ReturnItem[] {
 }
 
 function serializeOrder(row: ReturnOrderRow) {
-  const items = parseItems(row.items);
+  const items = parseItems(row.items).map((item) => ({
+    ...item,
+    // Older return records may not contain per-machine purchase snapshots.
+    purchaseOrderId: item.purchaseOrderId || row.purchaseOrderId,
+    purchaseOrderNo: item.purchaseOrderNo || row.purchaseOrderNo,
+  }));
   return {
     ...row,
     items,
@@ -245,8 +250,10 @@ export async function GET(request: NextRequest) {
       params.push(status);
     }
     if (search) {
-      conditions.push('(ro.returnNo LIKE ? OR ro.purchaseOrderNo LIKE ? OR ro.supplierName LIKE ? OR ro.returnReason LIKE ?)');
-      params.push(pattern, pattern, pattern, pattern);
+      // Per-machine snapshots include purchase numbers and SNs from every source
+      // order on a mixed-order return, not only the legacy header order.
+      conditions.push('(ro.returnNo LIKE ? OR ro.purchaseOrderNo LIKE ? OR ro.supplierName LIKE ? OR ro.returnReason LIKE ? OR ro.items LIKE ?)');
+      params.push(pattern, pattern, pattern, pattern, pattern);
     }
     const where = `WHERE ${conditions.join(' AND ')}`;
     const rows = db.prepare(`
@@ -289,10 +296,11 @@ export async function POST(request: NextRequest) {
     if (rows.length !== ids.length) return jsonError(ErrorCode.INVENTORY_NOT_FOUND, '部分机器不存在或已从库存移除');
     for (const row of rows) assertInventoryOperationEligible(row.id, 'supplierReturns');
 
-    // return_orders 的采购信息是单值，因此一张退货单必须属于同一采购单。
+    // 订单头继续保留首台机器的采购来源以兼容旧页面和旧数据；
+    // 退货明细快照分别保留每台机器的采购来源。
     const first = rows[0];
-    if (rows.some((row) => row.purchaseOrderId !== first.purchaseOrderId || row.supplierId !== first.supplierId)) {
-      return jsonError(ErrorCode.VALIDATION_ERROR, '一次退货申请只能选择同一采购单的机器');
+    if (!first.supplierId || rows.some((row) => row.supplierId !== first.supplierId)) {
+      return jsonError(ErrorCode.VALIDATION_ERROR, '一次退货申请只能选择同一供应商的机器');
     }
 
     const now = formatDateTime();

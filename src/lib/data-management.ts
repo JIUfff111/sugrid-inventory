@@ -831,6 +831,26 @@ export function deletionReferences(resource: DataResource, id: string) {
     const count = Number((db.prepare(`SELECT COUNT(*) AS total FROM ${relation.table} WHERE ${relation.field} = ?${condition}`).get(id) as { total: number }).total || 0);
     if (count) found.push({ label: relation.label, count });
   }
+  if (resource.key === 'purchase_orders') {
+    // Mixed-order supplier returns keep the first purchase order in the legacy
+    // header and store every machine's actual source order in the items snapshot.
+    // Check only snapshots whose header points elsewhere to avoid counting the
+    // same return order twice.
+    const snapshots = db.prepare('SELECT items FROM return_orders WHERE purchaseOrderId <> ?').all(id) as Array<{ items: string | null }>;
+    const count = snapshots.filter(({ items }) => {
+      if (!items) return false;
+      try {
+        const parsed: unknown = JSON.parse(items);
+        return Array.isArray(parsed) && parsed.some((item) =>
+          item && typeof item === 'object' && 'purchaseOrderId' in item &&
+          String((item as { purchaseOrderId?: unknown }).purchaseOrderId || '') === id
+        );
+      } catch {
+        return false;
+      }
+    }).length;
+    if (count) found.push({ label: '供应商退货明细', count });
+  }
   return found;
 }
 

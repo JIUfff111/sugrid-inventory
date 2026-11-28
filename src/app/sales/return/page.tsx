@@ -49,6 +49,8 @@ type InventoryItem = {
 
 type ReturnItem = {
   inventoryId: string;
+  purchaseOrderId: string;
+  purchaseOrderNo: string | null;
   sn: string;
   brand: string;
   model: string;
@@ -114,6 +116,19 @@ function productName(item: Pick<InventoryItem | ReturnItem, 'brand' | 'model' | 
   return formatProductName(item);
 }
 
+function returnOrderPurchaseNumbers(order: ReturnOrder) {
+  const numbers = [...new Set(order.items
+    .map((item) => item.purchaseOrderNo?.trim())
+    .filter((value): value is string => Boolean(value)))];
+  return numbers.length ? numbers : [order.purchaseOrderNo];
+}
+
+function returnOrderPurchaseSummary(order: ReturnOrder) {
+  const numbers = returnOrderPurchaseNumbers(order);
+  if (numbers.length <= 2) return numbers.join('、');
+  return `${numbers.slice(0, 2).join('、')} 等 ${numbers.length} 单`;
+}
+
 export default function SalesReturnPage() {
   const { active, user } = useWorkspace();
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
@@ -162,9 +177,9 @@ export default function SalesReturnPage() {
   function addReturnMachines(items: InventoryItem[]) {
     const first = selectedInventory[0] || items[0];
     if (!first) return;
-    const accepted = items.filter(item => item.supplierId === first.supplierId && item.purchaseOrderId === first.purchaseOrderId);
+    const accepted = items.filter(item => item.supplierId === first.supplierId);
     const rejected = items.filter(item => !accepted.includes(item));
-    setError(rejected.length ? `一次退货只能选择同一供应商、同一采购单；已跳过 ${rejected.length} 台不符合的机器` : '');
+    setError(rejected.length ? `一次退货只能选择同一供应商的机器；已跳过 ${rejected.length} 台其他供应商的机器` : '');
     setInventory(current => [...accepted, ...current.filter(row => !accepted.some(item => item.id === row.id))]);
     setSelectedIds(current => [...new Set([...current, ...accepted.map(item => item.id)])]);
     setSearchInput('');
@@ -201,9 +216,9 @@ export default function SalesReturnPage() {
 
   function toggleSelected(id: string) {
     const candidate = inventory.find((item) => item.id === id);
-    const selectedOrder = selectedInventory[0];
-    if (!selectedIds.includes(id) && candidate && selectedOrder && (candidate.purchaseOrderId !== selectedOrder.purchaseOrderId || candidate.supplierId !== selectedOrder.supplierId)) {
-      setError('一张退货单只能选择同一供应商、同一采购单的机器');
+    const selectedSupplier = selectedInventory[0];
+    if (!selectedIds.includes(id) && candidate && selectedSupplier && candidate.supplierId !== selectedSupplier.supplierId) {
+      setError('一张退货单只能选择同一供应商的机器');
       return;
     }
     setSelectedIds((current) => current.includes(id) ? current.filter((value) => value !== id) : [...current, id]);
@@ -313,7 +328,7 @@ export default function SalesReturnPage() {
             {returns.map((order) => (
               <button key={order.id} type="button" onClick={() => setDetailOrder(order)} className="grid w-full gap-3 px-5 py-4 text-left transition-colors hover:bg-white/45 md:grid-cols-[minmax(160px,1fr)_minmax(150px,1fr)_120px_110px_120px] md:items-center">
                 <span className="min-w-0"><span className="block truncate font-mono text-sm font-semibold text-ink-deep">{order.returnNo}</span><span className="mt-1 block truncate text-xs text-ink-soft">{formatDate(order.createdAt)}</span></span>
-                <span className="min-w-0"><span className="block truncate text-sm text-ink-deep">{order.supplierName}</span><span className="mt-1 block truncate text-xs text-ink-soft">采购单 {order.purchaseOrderNo}</span></span>
+                <span className="min-w-0"><span className="block truncate text-sm text-ink-deep">{order.supplierName}</span><span className="mt-1 block truncate text-xs text-ink-soft" title={`采购单 ${returnOrderPurchaseNumbers(order).join('、')}`}>采购单 {returnOrderPurchaseSummary(order)}</span></span>
                 <span className="text-sm text-ink-deep">{order.itemCount} 台 · {formatMoney(order.refundAmount)}</span>
                 <span className={`status-pill w-fit ${order.status === 'returning' ? 'warn' : 'ok'}`}>{order.status === 'returning' ? '退货中' : '已完成'}</span>
                 <span className="text-xs text-ink-soft">{order.returnReason}</span>
@@ -328,7 +343,7 @@ export default function SalesReturnPage() {
         <div style={{ top: user ? 100 : 0 }} className="fixed inset-0 z-[80] flex items-center justify-center bg-ink-deep/25 p-3 backdrop-blur-sm sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) closeCreate(); }}>
           <section role="dialog" aria-modal="true" aria-labelledby="return-create-title" className="glass flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl shadow-2xl">
             <header className="flex items-start justify-between border-b border-line/70 px-5 py-4 sm:px-6">
-              <div><h2 id="return-create-title" className="text-base font-semibold text-ink-deep">新建供应商退货</h2><p className="mt-1 text-xs text-ink-soft">一次申请只能包含同一采购单、同一供应商的在库机器</p></div>
+              <div><h2 id="return-create-title" className="text-base font-semibold text-ink-deep">新建供应商退货</h2><p className="mt-1 text-xs text-ink-soft">可选择同一供应商的多笔采购单机器；不同供应商请分开创建</p></div>
               <button type="button" onClick={closeCreate} title="关闭" aria-label="关闭" className="rounded-lg p-2 text-ink-soft hover:bg-white/70"><X className="h-4 w-4" /></button>
             </header>
 
@@ -336,7 +351,7 @@ export default function SalesReturnPage() {
               <section className="min-h-[300px] border-b border-line/70 p-4 sm:p-5 lg:border-b-0 lg:border-r">
                 <div className="mb-3 flex items-center justify-between gap-2"><div><h3 className="text-sm font-semibold text-ink-deep">选择在库机器</h3><p className="mt-1 text-xs text-ink-soft">已选 {selectedIds.length} 台</p></div><span className="text-xs text-ink-soft">{inventory.length} 台可选</span></div>
                 <form onSubmit={submitInventorySearch} className="relative mb-3">
-                  <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={"/api/inventory/lookup?context=supplier-return" + (selectedInventory[0] ? "&supplierId=" + encodeURIComponent(selectedInventory[0].supplierId) + "&purchaseOrderId=" + encodeURIComponent(selectedInventory[0].purchaseOrderId) : "")} onSelect={item => addReturnMachines([item])} onSelectMany={addReturnMachines} onSearch={query => { setInventorySearch(query); void loadInventory(query); }} scanEnabled batchEnabled ariaLabel="搜索在库机器" />
+                  <MachineSearchInput<InventoryItem> value={searchInput} onChange={setSearchInput} endpoint={"/api/inventory/lookup?context=supplier-return" + (selectedInventory[0] ? "&supplierId=" + encodeURIComponent(selectedInventory[0].supplierId) : "")} onSelect={item => addReturnMachines([item])} onSelectMany={addReturnMachines} onSearch={query => { setInventorySearch(query); void loadInventory(query); }} scanEnabled batchEnabled ariaLabel="搜索在库机器" />
                 </form>
                 <div className="max-h-[50vh] divide-y divide-line overflow-y-auto rounded-xl border border-line/70 bg-white/35">
                   {loadingInventory ? <div className="px-4 py-10 text-center text-sm text-ink-soft">加载在库机器...</div> : inventory.length === 0 ? <div className="flex flex-col items-center gap-2 px-4 py-10 text-center text-sm text-ink-soft"><PackageOpen className="h-7 w-7" />暂无符合条件的机器</div> : inventory.map((item) => {
@@ -371,10 +386,10 @@ export default function SalesReturnPage() {
       {active && detailOrder && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center bg-ink-deep/25 p-3 backdrop-blur-sm sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) setDetailOrder(null); }}>
           <section role="dialog" aria-modal="true" aria-labelledby="return-detail-title" className="glass flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl shadow-2xl">
-            <header className="flex items-start justify-between border-b border-line/70 px-5 py-4"><div><div className="flex flex-wrap items-center gap-2"><h2 id="return-detail-title" className="font-mono text-base font-semibold text-ink-deep">{detailOrder.returnNo}</h2><span className={`status-pill ${detailOrder.status === 'returning' ? 'warn' : 'ok'}`}>{detailOrder.status === 'returning' ? '退货中' : '已完成'}</span></div><p className="mt-1 text-xs text-ink-soft">{detailOrder.supplierName} · 采购单 {detailOrder.purchaseOrderNo}</p></div><button type="button" onClick={() => setDetailOrder(null)} title="关闭" aria-label="关闭" className="rounded-lg p-2 text-ink-soft hover:bg-white/70"><X className="h-4 w-4" /></button></header>
+            <header className="flex items-start justify-between border-b border-line/70 px-5 py-4"><div><div className="flex flex-wrap items-center gap-2"><h2 id="return-detail-title" className="font-mono text-base font-semibold text-ink-deep">{detailOrder.returnNo}</h2><span className={`status-pill ${detailOrder.status === 'returning' ? 'warn' : 'ok'}`}>{detailOrder.status === 'returning' ? '退货中' : '已完成'}</span></div><p className="mt-1 text-xs text-ink-soft">{detailOrder.supplierName} · 采购单 {returnOrderPurchaseNumbers(detailOrder).join('、')}</p></div><button type="button" onClick={() => setDetailOrder(null)} title="关闭" aria-label="关闭" className="rounded-lg p-2 text-ink-soft hover:bg-white/70"><X className="h-4 w-4" /></button></header>
             <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-5">
               <div className="grid gap-3 sm:grid-cols-3"><DetailTile icon={<CalendarDays className="h-4 w-4" />} label="申请时间" value={formatDate(detailOrder.createdAt)} /><DetailTile icon={<RotateCcw className="h-4 w-4" />} label="退货原因" value={detailOrder.returnReason} /><DetailTile icon={<CircleDollarSign className="h-4 w-4" />} label="退款金额" value={formatMoney(detailOrder.refundAmount)} /></div>
-              <div className="overflow-x-auto rounded-xl border border-line/70 bg-white/35"><table className="data-table w-full min-w-[620px]"><thead><tr><th>机器</th><th>SN / IMEI</th><th>配置</th><th className="text-right">原采购价</th></tr></thead><tbody>{detailOrder.items.map((item) => <tr key={`${detailOrder.id}-${item.inventoryId || item.sn}`}><td className="font-medium text-ink-deep">{productName(item)}</td><td className="font-mono text-xs">{item.sn}</td><td className="text-xs text-ink-soft">{machineSummary(item)}</td><td className="text-right font-mono">{formatMoney(item.purchasePrice)}</td></tr>)}</tbody></table></div>
+              <div className="overflow-x-auto rounded-xl border border-line/70 bg-white/35"><table className="data-table w-full min-w-[720px]"><thead><tr><th>机器</th><th>SN / IMEI</th><th>来源采购单</th><th>配置</th><th className="text-right">原采购价</th></tr></thead><tbody>{detailOrder.items.map((item) => <tr key={`${detailOrder.id}-${item.inventoryId || item.sn}`}><td className="font-medium text-ink-deep">{productName(item)}</td><td className="font-mono text-xs">{item.sn}</td><td className="font-mono text-xs">{item.purchaseOrderNo || item.purchaseOrderId || '-'}</td><td className="text-xs text-ink-soft">{machineSummary(item)}</td><td className="text-right font-mono">{formatMoney(item.purchasePrice)}</td></tr>)}</tbody></table></div>
               {detailOrder.returnDescription && <div className="rounded-xl border border-line/70 bg-white/40 px-4 py-3 text-sm text-ink-soft">{detailOrder.returnDescription}</div>}
               {detailOrder.completedAt && <p className="text-xs text-ink-soft">完成时间：{formatDate(detailOrder.completedAt)}</p>}
             </div>

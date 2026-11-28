@@ -132,6 +132,44 @@ async function main() {
     await call('returns', 'PATCH', { id: returnOrder.id, action: 'complete' });
     assert.equal(bySn('LIFE-B').status, 'returned');
     assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='supplier_return' AND referenceId=? AND actorId='lifecycle-handler'").get(returnOrder.id).n, 1);
+
+    // One supplier return can include eligible stock from multiple purchase orders,
+    // while mixing suppliers remains blocked and each machine keeps its source.
+    db.prepare("INSERT INTO suppliers(id,supplierName) VALUES ('supplier-life-other','另一家供应商')").run();
+    const sameSupplierOrderA = await call('purchase-orders', 'POST', purchase([item('LIFE-H')]), 201);
+    const sameSupplierOrderB = await call('purchase-orders', 'POST', purchase([item('LIFE-I')]), 201);
+    const otherSupplierOrder = await call('purchase-orders', 'POST', {
+      ...purchase([item('LIFE-J')]), supplierId: 'supplier-life-other',
+    }, 201);
+    assert.notEqual(sameSupplierOrderA.id, sameSupplierOrderB.id);
+    const supplierCandidates = await call('inventory/lookup', 'GET', undefined, 200, '?context=supplier-return&supplierId=supplier-life');
+    assert(supplierCandidates.items.some(candidate => candidate.sn === 'LIFE-H'));
+    assert(supplierCandidates.items.some(candidate => candidate.sn === 'LIFE-I'));
+    assert(!supplierCandidates.items.some(candidate => candidate.sn === 'LIFE-J'));
+
+    await call('returns', 'POST', {
+      inventoryIds: [bySn('LIFE-H').id, bySn('LIFE-J').id], returnReason: '质量问题', refundAmount: 2000,
+    }, 400);
+    assert.equal(bySn('LIFE-H').status, 'in_stock');
+    assert.equal(bySn('LIFE-J').status, 'in_stock');
+
+    const mixedPurchaseReturn = await call('returns', 'POST', {
+      inventoryIds: [bySn('LIFE-H').id, bySn('LIFE-I').id], returnReason: '多余库存', refundAmount: 2000,
+    }, 201);
+    assert.equal(mixedPurchaseReturn.itemCount, 2);
+    assert.deepEqual(mixedPurchaseReturn.items.map(entry => entry.purchaseOrderId).sort(), [sameSupplierOrderA.id, sameSupplierOrderB.id].sort());
+    assert.deepEqual(mixedPurchaseReturn.items.map(entry => entry.purchaseOrderNo).sort(), [sameSupplierOrderA.purchaseNo, sameSupplierOrderB.purchaseNo].sort());
+    assert.equal(mixedPurchaseReturn.purchaseOrderId, sameSupplierOrderA.id, 'legacy header fields still point to the first selected machine');
+    const bySecondaryPurchase = await call('returns', 'GET', undefined, 200, `?search=${encodeURIComponent(sameSupplierOrderB.purchaseNo)}`);
+    assert(bySecondaryPurchase.items.some(entry => entry.id === mixedPurchaseReturn.id), 'return search must match a non-header purchase order');
+    const byReturnedSn = await call('returns', 'GET', undefined, 200, '?search=LIFE-I');
+    assert(byReturnedSn.items.some(entry => entry.id === mixedPurchaseReturn.id), 'return search must match an item SN');
+    await call('returns', 'PATCH', { id: mixedPurchaseReturn.id, action: 'complete' });
+    assert.equal(bySn('LIFE-H').status, 'returned');
+    assert.equal(bySn('LIFE-I').status, 'returned');
+    assert.equal(db.prepare("SELECT COUNT(*) n FROM inventory_movements WHERE movementType='supplier_return' AND referenceId=?").get(mixedPurchaseReturn.id).n, 2);
+    assert.equal(db.prepare("SELECT purchaseOrderId FROM inventory WHERE sn='LIFE-J'").get().purchaseOrderId, otherSupplierOrder.id);
+
     // A movement failure must roll back inventory and its sale record together.
     db.exec("CREATE TRIGGER lifecycle_fail BEFORE INSERT ON inventory_movements WHEN NEW.movementType='sale' BEGIN SELECT RAISE(ABORT, 'forced lifecycle movement failure'); END");
     const before = db.prepare('SELECT COUNT(*) n FROM sales_records').get().n;
