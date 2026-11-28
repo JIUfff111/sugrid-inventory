@@ -1,9 +1,32 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import test from 'node:test';
+import { prepareTauriResourceDirectories } from '../scripts/prepare-tauri-resources.mjs';
 
 const page = readFileSync(new URL('../src-tauri/installer-safe-upgrade.nsi', import.meta.url), 'utf8');
 const hooks = readFileSync(new URL('../src-tauri/installer-hooks.nsh', import.meta.url), 'utf8');
+
+test('a clean checkout prepares both Tauri resource folders without changing staged binaries', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'sugrid-tauri-resources-'));
+  try {
+    const service = path.join(root, 'src-tauri', 'resources', 'service-host');
+    const updater = path.join(root, 'src-tauri', 'resources', 'updater');
+    await prepareTauriResourceDirectories(root);
+    assert.equal(existsSync(service), true);
+    assert.equal(existsSync(updater), true);
+    const binary = path.join(service, 'sugrid-inventory-service.exe');
+    await writeFile(binary, 'existing binary');
+    await prepareTauriResourceDirectories(root);
+    assert.equal(await readFile(binary, 'utf8'), 'existing binary');
+  } finally {
+    assert.equal(path.dirname(path.resolve(root)), path.resolve(tmpdir()));
+    assert.match(path.basename(root), /^sugrid-tauri-resources-/);
+    await rm(root, { recursive: true, force: true });
+  }
+});
 
 test('NSIS upgrades and same-version repairs skip the old uninstaller', () => {
   const reinstall = page.split('Function PageReinstall\n')[1]?.split('FunctionEnd')[0];

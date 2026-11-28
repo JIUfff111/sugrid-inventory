@@ -13,7 +13,7 @@
     "test:sites": "node --test tests/sites-worker.test.mjs",
     "test:installer": "node --test tests/installer-contract.test.mjs",
     "desktop:dev": "tauri dev",
-    "build:service-host": "cargo build --release --bin sugrid-inventory-service --manifest-path src-tauri/Cargo.toml && node scripts/prepare-service-host.mjs",
+    "build:service-host": "node scripts/prepare-tauri-resources.mjs && cargo build --release --bin sugrid-inventory-service --manifest-path src-tauri/Cargo.toml && node scripts/prepare-service-host.mjs",
     "build:updater": "cargo build --release --bin sugrid-inventory-updater --manifest-path src-tauri/Cargo.toml && node scripts/prepare-updater.mjs",
     "desktop:build": "npm run build:service-host && npm run build:updater && tauri build"
   },

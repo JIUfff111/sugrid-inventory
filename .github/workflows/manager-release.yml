@@ -96,6 +96,10 @@ jobs:
       - name: Test manager Rust code
         shell: pwsh
         run: |
+          node tools/server-manager-desktop/scripts/prepare-tauri-resources.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          npm run test:installer --prefix tools/server-manager-desktop
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           cargo test --locked --manifest-path tools/server-manager-desktop/src-tauri/Cargo.toml
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build standalone manager installer
