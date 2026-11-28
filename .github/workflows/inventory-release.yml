@@ -35,7 +35,7 @@ jobs:
           if ($env:INVENTORY_VERSION -notmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$') { throw 'Version must be X.Y.Z.' }
           $headers = @{ Authorization = "Bearer $env:GH_TOKEN"; 'User-Agent' = 'SUGRID inventory release'; Accept = 'application/vnd.github+json' }
           $run = Invoke-RestMethod -Uri "https://api.github.com/repos/$env:GITHUB_REPOSITORY/actions/runs/$env:CANDIDATE_RUN_ID" -Headers $headers
-          if ($run.event -ne 'push' -or $run.head_branch -ne 'main' -or $run.conclusion -ne 'success' -or $run.head_repository.full_name -ne $env:GITHUB_REPOSITORY -or $run.path -notlike '*.github/workflows/inventory-candidate.yml@*') { throw 'Only a successful main-branch inventory-candidate run from this repository can be released.' }
+          if ($run.event -ne 'push' -or $run.head_branch -ne 'main' -or $run.conclusion -ne 'success' -or $run.head_repository.full_name -ne $env:GITHUB_REPOSITORY -or $run.path -cnotmatch '^\.github/workflows/inventory-candidate\.yml(?:@.+)?$') { throw 'Only a successful main-branch inventory-candidate run from this repository can be released.' }
           "sha=$($run.head_sha)" >> $env:GITHUB_OUTPUT
       - uses: actions/checkout@v4
         with:
